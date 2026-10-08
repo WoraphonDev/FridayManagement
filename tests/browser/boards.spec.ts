@@ -100,7 +100,7 @@ async function setBoardStatus(page: Page, id: number, status: string) {
   await page.getByRole('combobox', { name: label, exact: true }).press('Enter');
   await page
     .getByRole('listbox', { name: `Options for ${label}`, exact: true })
-    .getByRole('option', { name: optionLabels[status], exact: true })
+    .getByRole('option', { name: optionLabels[status]!, exact: true })
     .click();
 }
 async function setupCards(page: Page) {

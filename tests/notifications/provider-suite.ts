@@ -56,7 +56,7 @@ export function notificationAcceptance(
         n.map((r) => r.recipient_id),
         [5],
       );
-      assert.match(n[0]!.message, /^New comment: /);
+      assert.match(String(n[0]!.message), /^New comment: /);
     },
   );
   check(

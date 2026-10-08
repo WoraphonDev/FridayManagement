@@ -2332,3 +2332,45 @@ section[aria-label='Gantt'] .gantt-bar {
   min-height: 0;
   line-height: 1;
 }
+/* An open row menu must sit above the sticky cells of the rows below it. */
+.main-table td:has(.task-row-menu[open]) {
+  z-index: 50 !important;
+  overflow: visible;
+}
+/* Row menu: one floating panel (View / Rename / Move to group) instead of stacked buttons. */
+.main-table .task-row-menu[open] {
+  position: absolute;
+  z-index: 60;
+  top: 4px;
+  left: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 200px;
+  padding: 6px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 8px 24px #292f4c33;
+  text-align: left;
+}
+.main-table .task-row-menu[open] > button,
+.main-table .task-row-menu[open] > label {
+  position: static !important;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  width: 100%;
+  min-height: 30px;
+  padding: 4px 8px;
+  border: 0;
+  background: none;
+  white-space: nowrap;
+  font-size: 13px;
+  color: #323338;
+}
+.main-table .task-row-menu[open] > button:hover {
+  background: #f0f3fb;
+}
+.main-table .row-select {
+  position: relative;
+}
