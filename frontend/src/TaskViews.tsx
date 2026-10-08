@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { formatPlanDate } from './shared/formatPlanDate';
 import { statusLabel, type Task } from './task-api';
 import { calendarDays, dateAdd, ganttPlacement, monthAdd } from './task-dates';
 function PagedTasks({
@@ -16,16 +17,17 @@ function PagedTasks({
   return (
     <section className="date-list" aria-label={title}>
       <h3>
-        {title} · {tasks.length}  Tasks
+        {title} <span className="count-badge">{tasks.length}</span>
       </h3>
       <ul>
         {tasks.slice((current - 1) * 50, current * 50).map((t) => (
           <li key={t.id}>
-            <button onClick={() => open(t)}>
-              #{t.id} {t.title}
-            </button>{' '}
+            <button onClick={() => open(t)} aria-label={`Open task #${t.id} ${t.title}`}>
+              {t.title}
+            </button>
             <span>
-              {t.start_date ?? "No start date"} → {t.due_date ?? "No due date"}
+              {t.start_date ? formatPlanDate(t.start_date) : 'No start date'} →{' '}
+              {t.due_date ? formatPlanDate(t.due_date) : 'No due date'}
             </span>
           </li>
         ))}
@@ -48,6 +50,12 @@ function PagedTasks({
     </section>
   );
 }
+const monthTitle = (month: string) =>
+  new Date(`${month}T00:00:00Z`).toLocaleDateString('en-GB', {
+    month: 'long',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
 export function CalendarView({
   tasks,
   today,
@@ -71,19 +79,29 @@ export function CalendarView({
   );
   return (
     <section aria-label="Calendar">
-      <div className="toolbar">
-        <button disabled={month === '0001-01-01'} onClick={() => setMonth(monthAdd(month, -1))}>
-          
-          Previous month
+      <div className="calendar-toolbar">
+        <button
+          className="icon-button"
+          aria-label="Previous month"
+          disabled={month === '0001-01-01'}
+          onClick={() => setMonth(monthAdd(month, -1))}
+        >
+          ‹
         </button>
+        <strong className="calendar-month">{monthTitle(month)}</strong>
+        <button
+          className="icon-button"
+          aria-label="Next month"
+          disabled={month === '9999-12-01'}
+          onClick={() => setMonth(monthAdd(month, 1))}
+        >
+          ›
+        </button>
+        <span className="calendar-hint" title="Tasks are placed by End Plan (Asia/Bangkok)">
+          Uses End Plan
+        </span>
         <button onClick={() => setMonth(today.slice(0, 7) + '-01')}>Today</button>
-        <button disabled={month === '9999-12-01'} onClick={() => setMonth(monthAdd(month, 1))}>
-          
-          Next month
-        </button>
-        <strong>{month.slice(0, 7)} · Asia/Bangkok</strong>
       </div>
-      <p>Tasks are placed by End Plan. Open a task to change its dates.</p>
       <div className="calendar-scroll" tabIndex={0} aria-label="Calendar month">
         <div className="calendar-grid">
           {["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"].map((d) => (
@@ -97,25 +115,29 @@ export function CalendarView({
               key={d}
             >
               <time dateTime={d}>{Number(d.slice(8))}</time>
-              {(events.get(d) ?? []).slice(0, 5).map((t) => (
+              {(events.get(d) ?? []).slice(0, 3).map((t) => (
                 <button
                   key={t.id}
                   className={`calendar-event status-${t.status}`}
                   onClick={() => open(t)}
                   title={t.title}
+                  aria-label={`Open task #${t.id} ${t.title}`}
                 >
-                  #{t.id} {t.title}
+                  {t.title}
                 </button>
               ))}
-              {(events.get(d)?.length ?? 0) > 5 && (
-                <span>More {(events.get(d)?.length ?? 0) - 5}   tasks · See the list below</span>
+              {(events.get(d)?.length ?? 0) > 3 && (
+                <span className="calendar-more">+{(events.get(d)?.length ?? 0) - 3} more</span>
               )}
             </div>
           ))}
         </div>
       </div>
-      <PagedTasks tasks={inMonth} title="Tasks with End Plan in this calendar range" open={open} />
       <PagedTasks tasks={tasks.filter((t) => !t.due_date)} title="Tasks without End Plan" open={open} />
+      <details className="calendar-all">
+        <summary>All tasks in this calendar range · {inMonth.length}</summary>
+        <PagedTasks tasks={inMonth} title="Tasks with End Plan in this calendar range" open={open} />
+      </details>
     </section>
   );
 }
