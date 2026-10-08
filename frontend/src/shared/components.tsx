@@ -10,11 +10,19 @@ import {
 import { useWritable } from './connection';
 import type { ApiError } from '../api';
 import { Button, LayerProvider } from '@vibe/core';
+/** AN-08: shimmer skeleton; the text stays for screen readers and reduced motion. */
 export function Loading() {
   return (
-    <p role="status" aria-live="polite">
-      Loading…
-    </p>
+    <div className="loading-block">
+      <p role="status" aria-live="polite">
+        Loading…
+      </p>
+      <div className="skeleton" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </div>
+    </div>
   );
 }
 export function EmptyState({ title, children }: { title: string; children?: ReactNode }) {
@@ -38,6 +46,7 @@ export function Toast({ children }: { children: ReactNode }) {
   return (
     <div role="status" aria-live="polite" className="toast">
       {children}
+      <i className="toast-progress" aria-hidden="true" />
     </div>
   );
 }

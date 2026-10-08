@@ -13,6 +13,9 @@ import { Pwa } from './Pwa';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { MyOverview } from './MyOverview';
 import { useFavorites } from './favorites-api';
+import { usePreferences } from './preferences';
+import { motionAllowed } from './motion';
+import { MotionSettings } from './MotionSettings';
 import { apiClient, ApiError, selfSchema, metaSchema, type Self } from './api';
 import { Login, Password } from './Auth';
 import { AdminCenter, MyPermissions } from './AdminCenter';
@@ -312,6 +315,8 @@ export function App() {
   const orgSession =
     self && !self.must_change_password && !self.user.must_change_password ? self.csrf : undefined;
   const favorites = useFavorites(orgSession, online);
+  // T-089: applies .reduce-motion on <html> from the user's saved preference.
+  usePreferences(orgSession);
   useEffect(() => {
     if (!orgSession || !online) return;
     const read = async (signal: AbortSignal) => {
@@ -350,7 +355,7 @@ export function App() {
     return () => controller.abort();
   }, [orgSession, online, self?.view_revision]);
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    if (!motionAllowed()) return;
     const page = document.querySelector('.content > section');
     const motion = page?.animate(
       [
@@ -647,6 +652,7 @@ export function App() {
                   onFailure={failure}
                   onChange={() => setOrganizationReload((n) => n + 1)}
                 />
+                <MotionSettings self={self} online={online} onFailure={failure} />
                 <h2>Profile</h2>
                 <dl>
                   <dt>Username</dt>

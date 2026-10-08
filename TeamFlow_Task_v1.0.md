@@ -1,12 +1,16 @@
 # TeamFlow — Task.md: แผนพัฒนาและตรวจความครบถ้วน
 
-**Version:** 1.59 · **วันที่:** 8 ตุลาคม 2026\
+**Version:** 1.60 · **วันที่:** 8 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
-**จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 83 API routes ที่ล็อก (contract 1.6.0) + planned routes SRS §12.6
+**จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 85 API routes ที่ล็อก (contract 1.7.0) + planned routes SRS §12.6
 **ต้นทาง:** `TeamFlow_Requirements_v1.0.md` และ `TeamFlow_SRS_v1.0.md` รุ่นปัจจุบันที่อ่านเมื่อ 5 ตุลาคม 2026
 
 
 
+
+## T-079 owner approval + T-089 Motion/preferences — 8 October 2026
+
+เจ้าของอนุมัติ mock T-079 ในแชท (ไม่มีข้อแก้) → T-079 DONE. T-089: migration 0010 `user_preferences`, contract 1.7.0 (85 routes/110 schemas) GET/PATCH `/api/me/preferences`, motion.css/motion.ts AN-01–AN-12 (AN-02 รอ T-087), reduced motion จาก Settings และ OS (ย่อ duration แทน none), Settings Motion. แก้ regression ของ T-090 (ดาวอยู่ใน h1). ผล: preferences HTTP 1/1, Chromium motion 1/1 (3/3), frame timing headless 60fps/p95 17ms, Node 451/451 + frontend 47/47, schema 18/18, typecheck/lint/build/contract PASS. vibe-integration row-height (38 vs 39.78) fail มาก่อนตั้งแต่ 3a76fd7. Evidence: TeamFlow_T089_Test_Report.md / reports/T-089-motion-results.json. DONE7/91, IN_PROGRESS80, IN_REVIEW1, TODO3, remaining84. Declared Medium; actual model/effort NOT_VERIFIED. Next: T-086 High (Main table) แล้ว T-087 Medium.
 
 ## T-090 Favorites — 8 October 2026
 
@@ -291,7 +295,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-076 | UAT และ acceptance sign-off record | T-068, T-069, T-070, T-071, T-072, T-073, T-074, T-075 | Medium | IN_PROGRESS | Codex / 2026-10-07 | Local subset: TeamFlow_T075_T077_Test_Report.md; native SQL/Windows/full acceptance/UAT pending |
 | T-077 | Source ZIP และ release completeness audit | T-076, T-066 | High | IN_PROGRESS | Codex / 2026-10-07 | Local subset: TeamFlow_T075_T077_Test_Report.md; native SQL/Windows/full acceptance/UAT pending |
 | T-078 | อนุมัติ addendum และรวมเข้า Requirements/SRS/Test Plan/Test Cases | T-003, T-004 | Medium | IN_REVIEW | Claude / 2026-10-08 | TeamFlow_T078_Addendum_Merge_Report.md; batch TeamFlow_T078_T082_Test_Report.md: build/check/test:test-plan PASS 17/17, check/test:contract PASS 64/64; owner review pending |
-| T-079 | Mock UI monday-style ใหม่ (ทุกหน้า + animation) ให้เจ้าของรีวิว | T-078 | Medium | IN_REVIEW | Claude / 2026-10-08 | TeamFlow_UI_Monday_Mock.html; TeamFlow_T079_Mock_Report.md; batch 13 views×360/768/1440 no h-scroll, N/Esc, reduce toggle PASS; owner review/AT-39 pending |
+| T-079 | Mock UI monday-style ใหม่ (ทุกหน้า + animation) ให้เจ้าของรีวิว | T-078 | Medium | DONE | Claude / 2026-10-08 | TeamFlow_UI_Monday_Mock.html; TeamFlow_T079_Mock_Report.md; batch 13 views×360/768/1440 no h-scroll, N/Esc, reduce toggle PASS; owner review/AT-39 pending; owner approved mock in chat 2026-10-08 with no change requests (app AT-39 stays with T-089/T-091) |
 | T-080 | Job titles: schema/API/Admin UI/filter/report/CSV | T-078 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; reports/T-078-T-082-batch-results.json; SQLite AT-31 HTTP + combined474 + browser PASS; SQL2022/Windows/UAT NOT_RUN |
 | T-081 | Permission catalog + checkbox รายคน + project role manager + authorization matrix | T-078 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; SQLite AT-32 HTTP + combined474 PASS; SQL2022 NOT_RUN; full P-key×role×endpoint matrix and two-process race pending |
 | T-082 | Admin center + Permission matrix (checkbox/bulk/preset) | T-080, T-081 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; SQLite AT-33 HTTP + browser preset/summary/409/375px/Settings PASS; SQL2022/Windows/UAT NOT_RUN |
@@ -301,7 +305,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-086 | Main table monday upgrade (inline/batch/drag/sticky/resize) | T-079 | High | TODO | ยังไม่มอบหมาย | — |
 | T-087 | Task side panel (Updates/@mention/Files/Activity) | T-079 | Medium | TODO | ยังไม่มอบหมาย | — |
 | T-088 | Workload + Project overview | T-080 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T088_Test_Report.md; reports/T-088-workload-results.json: contract1.5.0 80 routes + migration0008 + AT-37 HTTP1/1 + Node449 + frontend47 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
-| T-089 | Motion system AN-01–AN-12 + reduced-motion + Settings toggle | T-079 | Medium | TODO | ยังไม่มอบหมาย | — |
+| T-089 | Motion system AN-01–AN-12 + reduced-motion + Settings toggle | T-079 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T089_Test_Report.md; reports/T-089-motion-results.json + motion-trace: contract1.7.0 85 routes + migration0010 + preferences HTTP + Chromium motion 1/1 (60fps headless) + Node451 + frontend47 PASS; GPU trace/owner AT-39/SQL2022/UAT NOT_RUN |
 | T-090 | Favorites (Updates feed เลื่อนไปรอบถัดไป) | T-083 | Low | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T090_Test_Report.md; reports/T-090-favorites-results.json: contract1.6.0 83 routes + migration0009 + AT-40 HTTP1/1 + Node450 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-091 | Regression รวม addendum, SQL Server 2022 native, Windows, UAT | T-079, T-080, T-081, T-082, T-083, T-084, T-085, T-086, T-087, T-088, T-089, T-090 | High | TODO | ยังไม่มอบหมาย | — |
 
@@ -1877,11 +1881,11 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 - [x] mock Personal/Workspace/Admin/Docs/Files/Workload/Overview/side panel
 - [x] แสดง AN-01–AN-13 และ reduced motion
 - [x] ตรวจ 360/768/1440px และคีย์บอร์ด
-- [ ] บันทึกผลรีวิวของเจ้าของ ไม่ติ๊กแทน
+- [x] บันทึกผลรีวิวของเจ้าของ ไม่ติ๊กแทน — เจ้าของอนุมัติในแชท 8 ต.ค. 2026 ไม่มีข้อแก้
 
 **เกณฑ์รับงาน:** เจ้าของรีวิว mock แล้วและบันทึกข้อแก้; ยังไม่แก้แอปจริง
 
-**Status:** IN_REVIEW · **Evidence:** TeamFlow_UI_Monday_Mock.html, TeamFlow_T079_Mock_Report.md, TeamFlow_T078_T082_Test_Report.md; รอเจ้าของรีวิว (ไม่ติ๊กแทน)
+**Status:** DONE · **Evidence:** TeamFlow_UI_Monday_Mock.html, TeamFlow_T079_Mock_Report.md, TeamFlow_T078_T082_Test_Report.md; เจ้าของอนุมัติ mock ในแชทเมื่อ 8 ต.ค. 2026 โดยไม่มีข้อแก้ (AT-39 ของแอปจริงยังรอ T-089/T-091)
 
 **หลักฐานเมื่อปิดงาน:** บันทึกใน Task Register; สำหรับการทดสอบระบุผลและ environment ไม่ใช้คำว่า “ผ่าน” โดยไม่มีการรัน
 
@@ -2069,14 +2073,14 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 **Trace:** NFR-09, UX-01–UX-06 · **SRS:** §13.6
 **Acceptance:** AT-39
 
-- [ ] AN-01–AN-12 ด้วย transform/opacity
-- [ ] preference Reduce animations/confetti + prefers-reduced-motion
-- [ ] ยืนยัน action ไม่ถูกบล็อก
-- [ ] performance trace 60fps
+- [x] AN-01–AN-12 ด้วย transform/opacity (AN-02 เปิดใช้ใน T-087)
+- [x] preference Reduce animations/confetti + prefers-reduced-motion
+- [x] ยืนยัน action ไม่ถูกบล็อก
+- [ ] performance trace 60fps — headless rAF 60fps/p95 17ms บันทึกแล้ว; trace บน GPU จริงยัง NOT_RUN
 
 **เกณฑ์รับงาน:** AT-39 ส่วน motion ผ่านจริงพร้อม trace
 
-**Status:** TODO
+**Status:** IN_PROGRESS · **Local evidence:** TeamFlow_T089_Test_Report.md. Motion + preferences local SQLite/Chromium PASS; GPU trace, owner AT-39 comparison, SQL Server 2022/Windows/UAT NOT_RUN; actual model/effort NOT_VERIFIED.
 
 **หลักฐานเมื่อปิดงาน:** บันทึกใน Task Register; สำหรับการทดสอบระบุผลและ environment ไม่ใช้คำว่า “ผ่าน” โดยไม่มีการรัน
 
@@ -2292,6 +2296,8 @@ FR-46 Updates feed: DEFERRED ไปรอบถัดไปตามเจ้า
 | GET /api/projects/{id}/workload | T-088 |
 | GET /api/teams/{id}/workload | T-088 |
 | GET /api/projects/{id}/overview | T-088 |
+| GET /api/me/preferences | T-089, T-086 |
+| PATCH /api/me/preferences | T-089, T-086 |
 | GET /api/me/favorites | T-090 |
 | PUT /api/me/favorites/{id} | T-090 |
 | DELETE /api/me/favorites/{id} | T-090 |

@@ -1,10 +1,14 @@
-# TeamFlow — API/DTO contract 1.6.0
+# TeamFlow — API/DTO contract 1.7.0
 
 วันที่: 5 ตุลาคม 2026 · Task: T-003 · Business baseline1.1 + RD-01–RD-08
 
 Machine contract: [contracts/openapi.json](contracts/openapi.json) (OpenAPI3.1.1/JSON Schema2020-12). Authoring source: [scripts/build-contract.mjs](scripts/build-contract.mjs). Contract tests: [tests/contracts/contract.test.mjs](tests/contracts/contract.test.mjs).
 
 เอกสารนี้ล็อกสัญญา frontend/backend สำหรับ Node22 + SQLite local และ SQL2022 ปลายทางร่วมกัน ไม่ใช่ HTTP server, authorization implementation หรือหลักฐานว่า database transactions ผ่าน หากเปลี่ยน field/status/policy ต้องแก้ SRS/contract/tests พร้อมกัน และ regenerate JSON ก่อนปิดงาน
+
+## Addendum API 1.7.0 — T-089 (8 October 2026)
+
+Contract 1.7.0 has 85 routes/110 schemas. `GET /api/me/preferences` returns `{item: Preferences}` with defaults `{reduce_motion:false, confetti:true, column_widths:{}, hidden_tabs:[]}`; `PATCH /api/me/preferences` (self, CSRF, ≥1 allowlisted key) merges `reduce_motion`, `confetti`, `column_widths` (keys `^[a-z_]{1,40}$`, 60–800 px, ≤30) and `hidden_tabs` (unique of kanban/calendar/gantt/docs/files/workload/overview). Unknown keys → 422; stored JSON ≤ 4,000 characters (migration 0010 `user_preferences`).
 
 ## Addendum API 1.6.0 — T-090 (8 October 2026)
 
@@ -256,6 +260,8 @@ Node22; `npm ci --ignore-scripts`, `npm run check:contract`, `npm run test:contr
 | GET /api/projects/{id}/workload | — | 200 / Workload | none | T-088 |
 | GET /api/teams/{id}/workload | — | 200 / Workload | none | T-088 |
 | GET /api/projects/{id}/overview | — | 200 / ProjectOverview | none | T-088 |
+| GET /api/me/preferences | — | 200 / Preferences item | none | T-089, T-086 |
+| PATCH /api/me/preferences | PatchPreferences | 200 / Preferences item | none | T-089, T-086 |
 | GET /api/me/favorites | — | 200 / Favorites | none | T-090 |
 | PUT /api/me/favorites/{id} | — | 200 / Favorites | none | T-090 |
 | DELETE /api/me/favorites/{id} | — | 200 / Favorites | none | T-090 |

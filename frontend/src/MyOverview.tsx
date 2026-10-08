@@ -5,6 +5,7 @@ import { apiClient, ApiError, type Self } from './api';
 import { statusLabel, statuses, taskSchema } from './task-api';
 import { useSharedRefresh } from './shared/refresh';
 import { dateAdd } from './task-dates';
+import { Count } from './shared/Count';
 import { EmptyState, ErrorNotice, Loading } from './shared/components';
 const client = apiClient();
 const count = z.number().int().min(0);
@@ -110,7 +111,9 @@ export function OverviewBody({ self, data }: { self: Self; data: Overview }) {
             to={`/my-tasks?${query}#my-group-${group}`}
           >
             <span>{label}</span>
-            <strong>{value}</strong>
+            <strong>
+              <Count value={value} />
+            </strong>
           </Link>
         ))}
       </div>

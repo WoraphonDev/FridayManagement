@@ -1,0 +1,195 @@
+/* T-089 motion system AN-01–AN-12 (NFR-09): transform/opacity only; never pointer-blocking. */
+:root {
+  --motion-ease: cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+@keyframes motion-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+@keyframes motion-slide-in-right {
+  from {
+    transform: translateX(100%);
+  }
+}
+@keyframes motion-backdrop-in {
+  from {
+    opacity: 0;
+  }
+}
+@keyframes motion-pulse {
+  50% {
+    transform: scale(1.06);
+  }
+}
+@keyframes motion-row-new {
+  from {
+    background-color: #cce5ff;
+  }
+}
+@keyframes motion-shimmer {
+  to {
+    background-position: -200% 0;
+  }
+}
+@keyframes motion-pop {
+  50% {
+    transform: scale(1.35);
+  }
+}
+@keyframes motion-bar {
+  from {
+    transform: scaleX(0);
+  }
+}
+@keyframes motion-toast-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+@keyframes motion-toast-progress {
+  from {
+    transform: scaleX(1);
+  }
+  to {
+    transform: scaleX(0);
+  }
+}
+/* AN-01 view switch (page change uses WAAPI in App.tsx). */
+.task-workspace
+  > :is(.kanban, .project-docs, .project-files, .workload-view, .project-overview, .task-filters) {
+  animation: motion-fade-in 200ms var(--motion-ease);
+}
+/* AN-02 side panel (T-087) */
+.side-panel {
+  animation: motion-slide-in-right 260ms var(--motion-ease);
+}
+.side-panel-backdrop {
+  animation: motion-backdrop-in 260ms ease-out;
+}
+/* AN-03 status change */
+.status-picker.status-pulse {
+  animation: motion-pulse 240ms var(--motion-ease);
+}
+/* AN-04 confetti pieces (created by motion.ts) */
+.confetti-piece {
+  position: fixed;
+  z-index: 70;
+  width: 7px;
+  height: 10px;
+  border-radius: 2px;
+  pointer-events: none;
+  will-change: transform, opacity;
+}
+/* AN-05 Kanban lift while dragging; dnd-kit owns the card transform, so tilt the content. */
+.kanban-card {
+  transition: box-shadow 220ms var(--motion-ease);
+}
+.kanban-card[data-dragging] {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+}
+.kanban-card .card-content-motion {
+  transition: transform 220ms var(--motion-ease);
+}
+.kanban-card[data-dragging] .card-content-motion {
+  transform: rotate(2deg);
+}
+/* AN-06 group collapse */
+.group-heading .chev {
+  display: inline-block;
+  transition: transform 200ms var(--motion-ease);
+}
+.group-heading button[aria-expanded='false'] .chev {
+  transform: rotate(0deg);
+}
+.task-group > div:not([hidden]) {
+  animation: motion-fade-in 200ms var(--motion-ease);
+}
+/* AN-07 new rows */
+tr.row-new > * {
+  animation: motion-row-new 300ms ease-out;
+}
+/* AN-08 skeleton */
+.loading-block .skeleton {
+  display: grid;
+  gap: 6px;
+  margin-top: 6px;
+}
+.loading-block .skeleton span {
+  display: block;
+  height: 28px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #eef0f6 25%, #f8f9fb 50%, #eef0f6 75%);
+  background-size: 200% 100%;
+  animation: motion-shimmer 1.2s linear infinite;
+}
+/* AN-09 notification badge */
+.notification-badge.badge-pop {
+  display: inline-block;
+  animation: motion-pop 400ms var(--motion-ease);
+}
+/* AN-10 overview bars */
+.overview-bar .bar,
+.project-overview-body progress {
+  transform-origin: left center;
+  animation: motion-bar 600ms var(--motion-ease);
+}
+/* AN-11 hover/press */
+button:not(:disabled):active,
+.overview-tile:active {
+  transform: scale(0.98);
+}
+button,
+.overview-tile,
+.project-card {
+  transition:
+    transform 120ms ease-out,
+    box-shadow 120ms ease-out;
+}
+.overview-tile:hover,
+.project-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+/* AN-12 toast */
+.toast {
+  position: relative;
+  overflow: hidden;
+  animation: motion-toast-in 220ms var(--motion-ease);
+}
+.toast .toast-progress {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 3px;
+  background: #00c875;
+  transform-origin: left center;
+  animation: motion-toast-progress 3s linear forwards;
+}
+/* Reduced motion: user preference (html.reduce-motion) or OS setting. Durations collapse to
+   ~0 instead of "none" so components that wait for animationend/transitionend (Vibe menus)
+   still open and close; colour changes stay. */
+html.reduce-motion *,
+html.reduce-motion *::before,
+html.reduce-motion *::after {
+  animation-duration: 0.01ms !important;
+  animation-iteration-count: 1 !important;
+  animation-delay: 0s !important;
+  transition-duration: 0.01ms !important;
+  transition-delay: 0s !important;
+  scroll-behavior: auto !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+    scroll-behavior: auto !important;
+  }
+}

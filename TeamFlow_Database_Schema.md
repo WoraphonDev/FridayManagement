@@ -68,3 +68,7 @@ SQLite0004 and SQL Server0004 add `project_groups(id,project_id,name,color,posit
 ## Migration 0009 — T-090 (8 October 2026)
 
 `user_favorites(user_id, project_id, created_at)` PK(user_id, project_id), FKs to users/projects (NO ACTION), index on project_id. Private per user; read filtered by current access; rows removed by `cleanupFavorites()` inside every access-change transaction. SQLite fresh migration verified; SQL Server NOT_RUN.
+
+## Migration 0010 — T-089 (8 October 2026)
+
+`user_preferences(user_id PK, data JSON object ≤ 4,000 chars, updated_at)`, FK users (NO ACTION). Allowlisted keys only (validated by the API); unknown stored keys are ignored on read. SQLite fresh migration verified; SQL Server NOT_RUN.

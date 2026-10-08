@@ -28,6 +28,7 @@ import {
 import { myWorkGroup, myWorkGroups } from './task-dates';
 import { useSharedRefresh } from './shared/refresh';
 import { useFavorites } from './favorites-api';
+import { motionAllowed } from './motion';
 import { TaskEditor } from './TaskEditor';
 import { DataTable, Dialog, ErrorNotice, Field, Loading } from './shared/components';
 import { CalendarView, GanttView } from './TaskViews';
@@ -89,6 +90,13 @@ export function TaskWorkspace({
   onBack?: () => void;
 }) {
   const [project, setProject] = useState(initialProject);
+  const knownRows = useRef<{ key: string; ids: Set<number> }>(undefined),
+    [newRows, setNewRows] = useState<number[]>([]);
+  useEffect(() => {
+    if (!newRows.length) return;
+    const timer = setTimeout(() => setNewRows([]), 400);
+    return () => clearTimeout(timer);
+  }, [newRows]);
   const favorites = useFavorites(project ? self.csrf : undefined, online),
     starred = !!project && favorites.items.some((f) => f.project_id === project.id);
   const closeScope = useRef(onScopeRemoved);
@@ -413,6 +421,14 @@ export function TaskWorkspace({
                 });
               }, signal);
         if (!signal.aborted && at === generation.current) {
+          // AN-07: rows that appear in an otherwise unchanged list are briefly highlighted.
+          const key = `${filterKey}|${page}|${view}|${created}|${projectId ?? ''}`;
+          const before = knownRows.current;
+          if (before?.key === key && motionAllowed()) {
+            const fresh = result.items.filter((t) => !before.ids.has(t.id)).map((t) => t.id);
+            if (fresh.length) setNewRows(fresh);
+          }
+          knownRows.current = { key, ids: new Set(result.items.map((t) => t.id)) };
           setData(result);
           setTaskTotal(result.total);
           setLoading(false);
@@ -539,8 +555,8 @@ export function TaskWorkspace({
             <span aria-hidden="true">›</span>
             <span>{project?.owner_team_name ?? 'My work'}</span>
           </nav>
-          <h1>
-            {project?.name ?? (mode === 'my' ? 'My work' : 'Work calendar')}
+          <div className="title-row">
+            <h1>{project?.name ?? (mode === 'my' ? 'My work' : 'Work calendar')}</h1>
             {project && (
               <button
                 type="button"
@@ -557,7 +573,7 @@ export function TaskWorkspace({
                 {starred ? '★' : '☆'}
               </button>
             )}
-          </h1>
+          </div>
           <p>{project?.description || 'Plan work and follow your team’s progress'}</p>
           {project && (
             <div className="header-meta">
@@ -1071,7 +1087,8 @@ export function TaskWorkspace({
                                 )
                               }
                             >
-                              {collapsed.includes(g) ? '›' : '⌄'} {groupLabel[g]}
+                              <span className="chev">{collapsed.includes(g) ? '›' : '⌄'}</span>{' '}
+                              {groupLabel[g]}
                             </button>
                             <span>{tasks.length} Tasks</span>
                             {project &&
@@ -1142,16 +1159,20 @@ export function TaskWorkspace({
                               }
                               className={project ? 'main-table' : undefined}
                               {...(project ? { widths, onResize: resizeColumn } : {})}
-                              rowProps={(i) =>
-                                project && writableProject && groupBy === 'groups'
+                              rowProps={(i) => {
+                                const fresh = newRows.includes(tasks[i]!.id) ? 'row-new' : '';
+                                return project && writableProject && groupBy === 'groups'
                                   ? {
                                       draggable: true,
                                       onDragStart: () => setDragging(tasks[i]!.id),
                                       onDragEnd: () => setDragging(undefined),
-                                      className: dragging === tasks[i]!.id ? 'dragging' : undefined,
+                                      className:
+                                        [dragging === tasks[i]!.id ? 'dragging' : '', fresh]
+                                          .filter(Boolean)
+                                          .join(' ') || undefined,
                                     }
-                                  : {}
-                              }
+                                  : { className: fresh || undefined };
+                              }}
                               rows={tasks.map((t) =>
                                 project
                                   ? [

@@ -32,6 +32,7 @@ import {
   type Status,
 } from './task-api';
 import { ErrorNotice, Field, Loading, Toast } from './shared/components';
+import { motionAllowed } from './motion';
 const client = apiClient();
 async function currentProject(id: number, signal?: AbortSignal) {
   for (let page = 1; ; page++) {
@@ -97,6 +98,7 @@ function Card({
   return (
     <article
       className="kanban-card"
+      data-dragging={isDragging || undefined}
       ref={setNodeRef}
       style={{
         transform: CSS.Transform.toString(transform),
@@ -233,7 +235,7 @@ export function Kanban({
     if (!cards) return;
     motions.current.forEach((a) => a.cancel());
     motions.current = [];
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const reduced = !motionAllowed();
     const next = new Map<string, DOMRect>();
     cards.forEach((card) => {
       const id = card.dataset.taskId!,

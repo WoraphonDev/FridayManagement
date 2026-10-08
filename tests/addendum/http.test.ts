@@ -848,6 +848,49 @@ test('AT-40 Favorites are private, never widen access and vanish when access is 
     r = await call(base, admin, '/api/me/favorites/2', 'PUT');
     assert.deepEqual([r.status, r.body.error.code], [422, 'VALIDATION_FAILED']);
   }));
+test('T-089 preferences: defaults, allowlisted merge, bounds, self only', () =>
+  fixture(async (base) => {
+    const admin = await login(base),
+      member = await login(base, 'Member');
+    let r = await call(base, member, '/api/me/preferences');
+    assert.deepEqual(r.body.item, {
+      reduce_motion: false,
+      confetti: true,
+      column_widths: {},
+      hidden_tabs: [],
+    });
+    r = await call(base, member, '/api/me/preferences', 'PATCH', {
+      reduce_motion: true,
+      column_widths: { task: 320, status: 140 },
+    });
+    assert.deepEqual(
+      [r.status, r.body.item.reduce_motion, r.body.item.confetti, r.body.item.column_widths],
+      [200, true, true, { task: 320, status: 140 }],
+    );
+    r = await call(base, member, '/api/me/preferences', 'PATCH', {
+      hidden_tabs: ['gantt', 'files'],
+    });
+    assert.deepEqual(
+      [r.body.item.reduce_motion, r.body.item.hidden_tabs],
+      [true, ['gantt', 'files']],
+    );
+    // Other users keep their own defaults.
+    assert.equal((await call(base, admin, '/api/me/preferences')).body.item.reduce_motion, false);
+    for (const bad of [
+      {},
+      { theme: 'dark' },
+      { column_widths: { task: 20 } },
+      { column_widths: { 'Bad-Key': 100 } },
+      { hidden_tabs: ['table'] },
+      { hidden_tabs: ['gantt', 'gantt'] },
+      { confetti: 'yes' },
+    ])
+      assert.equal(
+        (await call(base, member, '/api/me/preferences', 'PATCH', bad)).status,
+        422,
+        JSON.stringify(bad),
+      );
+  }));
 test('AT-38 batch: per-item outcomes without silent partial updates; @mention notifies only project users', () =>
   fixture(async (base, f) => {
     const admin = await login(base),

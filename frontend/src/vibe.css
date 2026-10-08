@@ -1206,3 +1206,13 @@ img.file-preview {
   text-align: center;
   color: #fdab3d;
 }
+.task-workspace .title-row {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+.task-workspace .title-row h1 {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}

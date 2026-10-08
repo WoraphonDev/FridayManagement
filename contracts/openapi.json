@@ -3,8 +3,8 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "FridayManagement API",
-    "version": "1.6.0",
-    "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-090 favorites. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
+    "version": "1.7.0",
+    "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
   },
   "servers": [
     {
@@ -5362,6 +5362,219 @@
                   "type": "string",
                   "pattern": "^[1-9][0-9]*$"
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/preferences": {
+      "get": {
+        "operationId": "get_api_me_preferences",
+        "summary": "GET /api/me/preferences",
+        "security": [
+          {
+            "cookieSession": []
+          }
+        ],
+        "parameters": [],
+        "x-permission": "authenticated",
+        "x-owner-tasks": [
+          "T-089",
+          "T-086"
+        ],
+        "x-idempotency": "none",
+        "x-query-schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "x-business-rules": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "item": {
+                      "$ref": "#/components/schemas/Preferences"
+                    }
+                  },
+                  "required": [
+                    "item"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error; HTTP status/code mapping is in TeamFlow_API_Contract.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]*$"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch": {
+        "operationId": "patch_api_me_preferences",
+        "summary": "PATCH /api/me/preferences",
+        "security": [
+          {
+            "cookieSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 128,
+              "x-utf16MaxLength": 128
+            }
+          }
+        ],
+        "x-permission": "authenticated",
+        "x-owner-tasks": [
+          "T-089",
+          "T-086"
+        ],
+        "x-idempotency": "none",
+        "x-query-schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "x-business-rules": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "item": {
+                      "$ref": "#/components/schemas/Preferences"
+                    }
+                  },
+                  "required": [
+                    "item"
+                  ],
+                  "additionalProperties": false
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error; HTTP status/code mapping is in TeamFlow_API_Contract.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]*$"
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PatchPreferences"
               }
             }
           }
@@ -14183,6 +14396,96 @@
           "recent_activity"
         ],
         "additionalProperties": false
+      },
+      "Preferences": {
+        "type": "object",
+        "properties": {
+          "reduce_motion": {
+            "type": "boolean"
+          },
+          "confetti": {
+            "type": "boolean"
+          },
+          "column_widths": {
+            "type": "object",
+            "propertyNames": {
+              "pattern": "^[a-z_]{1,40}$"
+            },
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 60,
+              "maximum": 800
+            },
+            "maxProperties": 30
+          },
+          "hidden_tabs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "kanban",
+                "calendar",
+                "gantt",
+                "docs",
+                "files",
+                "workload",
+                "overview"
+              ]
+            },
+            "maxItems": 7,
+            "uniqueItems": true
+          }
+        },
+        "required": [
+          "reduce_motion",
+          "confetti",
+          "column_widths",
+          "hidden_tabs"
+        ],
+        "additionalProperties": false
+      },
+      "PatchPreferences": {
+        "type": "object",
+        "properties": {
+          "reduce_motion": {
+            "type": "boolean"
+          },
+          "confetti": {
+            "type": "boolean"
+          },
+          "column_widths": {
+            "type": "object",
+            "propertyNames": {
+              "pattern": "^[a-z_]{1,40}$"
+            },
+            "additionalProperties": {
+              "type": "integer",
+              "minimum": 60,
+              "maximum": 800
+            },
+            "maxProperties": 30
+          },
+          "hidden_tabs": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "kanban",
+                "calendar",
+                "gantt",
+                "docs",
+                "files",
+                "workload",
+                "overview"
+              ]
+            },
+            "maxItems": 7,
+            "uniqueItems": true
+          }
+        },
+        "required": [],
+        "additionalProperties": false,
+        "minProperties": 1
       },
       "Favorites": {
         "type": "object",

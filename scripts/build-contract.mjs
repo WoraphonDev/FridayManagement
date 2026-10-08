@@ -128,6 +128,15 @@ export function buildContract() {
     by_job_title: array(object({ job_title: nullable(nonblank(50)), open: integer(0), done: integer(0) }), 1000),
     recent_activity: array(object({ task_id: ref('Id'), task_title: nonblank(200), actor: ref('Person'), action: text(100, 1), created_at: ref('Timestamp') }), 10),
   });
+  // T-089 NFR-09/UX-03/FR-52 per-user UI preferences; allowlisted keys only, stored ≤ 4,000 chars.
+  const prefFields = {
+    reduce_motion: boolean,
+    confetti: boolean,
+    column_widths: { type: 'object', propertyNames: { pattern: '^[a-z_]{1,40}$' }, additionalProperties: integer(60, 800), maxProperties: 30 },
+    hidden_tabs: { ...array(enumeration(['kanban', 'calendar', 'gantt', 'docs', 'files', 'workload', 'overview']), 7), uniqueItems: true },
+  };
+  schemas.Preferences = object(prefFields);
+  schemas.PatchPreferences = object(prefFields, [], { minProperties: 1 });
   // T-090 FR-47 private project favorites (current-access filtered, max 100).
   schemas.Favorites = object({ items: array(object({ project_id: ref('Id'), project_name: nonblank(100), owner_team_name: nonblank(100), archived: boolean, created_at: ref('Timestamp') }), 100) });
   // T-084 FR-48 project docs; body_html is server-sanitized (SRS §9.7).
@@ -251,6 +260,8 @@ export function buildContract() {
   add('GET', '/api/projects/{id}/board', 'project_read', 200, ref('Board'));
   add('POST', '/api/tasks/batch', 'authenticated', 200, ref('TaskBatchResult'), ref('TaskBatch'), undefined, 'required', { 'x-business-rules': ['per_item_savepoint', 'per_item_authorization', 'no_silent_partial'] });
   add('GET', '/api/me/overview', 'authenticated', 200, ref('MyOverview'));
+  add('GET', '/api/me/preferences', 'authenticated', 200, item('Preferences'));
+  add('PATCH', '/api/me/preferences', 'authenticated', 200, item('Preferences'), ref('PatchPreferences'));
   add('GET', '/api/me/favorites', 'authenticated', 200, ref('Favorites'));
   add('PUT', '/api/me/favorites/{id}', 'authenticated', 200, ref('Favorites'));
   add('DELETE', '/api/me/favorites/{id}', 'authenticated', 200, ref('Favorites'));
@@ -304,7 +315,7 @@ export function buildContract() {
   for (const { method, path, op } of operations) paths[path] = { ...paths[path], [method]: op };
   return {
     openapi: '3.1.1', jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema',
-    info: { title: 'FridayManagement API', version: '1.6.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-090 favorites. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
+    info: { title: 'FridayManagement API', version: '1.7.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
     servers: [{ url: '/' }], paths,
     components: { securitySchemes: { cookieSession: { type: 'apiKey', in: 'cookie', name: 'friday_session' } }, schemas },
   };

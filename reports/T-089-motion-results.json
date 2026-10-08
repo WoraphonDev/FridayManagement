@@ -1,0 +1,25 @@
+{
+  "task": "T-089",
+  "date": "2026-10-08",
+  "environment": { "os": "macOS (Darwin 24.6.0)", "node": "22.23.3", "provider": "sqlite (local temporary)", "browser": "Playwright headless Chromium" },
+  "declaredEffort": "Medium",
+  "actualModelEffort": "NOT_VERIFIED",
+  "ownerApproval": "T-079 mock approved in chat 2026-10-08, no change requests",
+  "contract": { "version": "1.7.0", "routes": 85, "schemas": 110 },
+  "migration": "0010_user_preferences (SQLite fresh PASS; SQL Server NOT_RUN)",
+  "frameTiming": "see reports/T-089-motion-trace.json (60 fps, p95 17 ms, headless rAF)",
+  "results": {
+    "preferences HTTP": "1/1 PASS",
+    "browser motion.spec.ts": "1/1 PASS (3/3 repeat)",
+    "schema+foundation": "18/18 PASS",
+    "npm test": "node 451/451 + frontend 47/47 PASS",
+    "browser addendum + vibe": "9/10 PASS (vibe row-height 38 vs 39.78 pre-existing since 3a76fd7)",
+    "typecheck": "PASS",
+    "lint": "PASS (1 pre-existing react-refresh warning)",
+    "build": "PASS",
+    "check:contract": "PASS"
+  },
+  "fixedDuringTest": ["motion follows the user's status choice (list remounts after save)", "favorite star moved out of the heading (T-090 regression)", "reduced motion collapses durations instead of none"],
+  "notRun": ["GPU performance trace", "owner visual comparison with mock (AT-39)", "SQL Server 2022", "Windows", "UAT"],
+  "status": "IN_PROGRESS"
+}

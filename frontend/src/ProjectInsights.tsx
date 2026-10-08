@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { apiClient, ApiError, type Self } from './api';
 import { statusLabel, statuses } from './task-api';
 import { dateAdd } from './task-dates';
+import { Count } from './shared/Count';
 import { useSharedRefresh } from './shared/refresh';
 import { Dialog, EmptyState, ErrorNotice, Loading } from './shared/components';
 import {
@@ -191,7 +192,9 @@ export function OverviewBody({ data }: { data: ProjectOverviewData }) {
       <div className="overview-tiles">
         <div className="overview-tile">
           <span>Progress</span>
-          <strong>{data.progress_percent}%</strong>
+          <strong>
+            <Count value={data.progress_percent} suffix="%" />
+          </strong>
           <progress max={100} value={data.progress_percent} aria-label="Progress" />
           <small>
             {data.done} of {data.total} tasks done
@@ -199,7 +202,9 @@ export function OverviewBody({ data }: { data: ProjectOverviewData }) {
         </div>
         <div className={`overview-tile ${data.overdue ? 'tile-overdue' : ''}`}>
           <span>Overdue</span>
-          <strong>{data.overdue}</strong>
+          <strong>
+            <Count value={data.overdue} />
+          </strong>
         </div>
       </div>
       <div className="overview-panels">

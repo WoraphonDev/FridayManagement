@@ -19,6 +19,7 @@ import { permissionService } from '../services/permissions.js';
 import { docService } from '../services/docs.js';
 import { insightService } from '../services/insights.js';
 import { favoriteService } from '../services/favorites.js';
+import { preferenceService } from '../services/preferences.js';
 import { taskBatchService } from '../services/task-batch.js';
 export async function sessionHooks(
   database: Database,
@@ -42,7 +43,8 @@ export async function sessionHooks(
     permissions = permissionService(options),
     docs = docService(options),
     insights = insightService(options),
-    favorites = favoriteService(options);
+    favorites = favoriteService(options),
+    preferences = preferenceService(options);
   const accounts = accountService(database, service, {
     ...options,
     checkVersions: async (tx, request) => {
@@ -112,6 +114,14 @@ export async function sessionHooks(
     post_api_docs_id_restore: async (c) => ({
       status: 200,
       body: await docs.trash(tx(c), proof(c), c.params.id!, c.body, true, requestId(c)),
+    }),
+    get_api_me_preferences: async (c) => ({
+      status: 200,
+      body: await preferences.get(tx(c), proof(c)),
+    }),
+    patch_api_me_preferences: async (c) => ({
+      status: 200,
+      body: await preferences.patch(tx(c), proof(c), c.body),
     }),
     get_api_me_favorites: async (c) => ({
       status: 200,

@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { replay } from './motion';
 import { apiClient, ApiError, type Self } from './api';
 import { notificationsPage } from './report-api';
 import { useSharedRefresh } from './shared/refresh';
@@ -13,6 +14,14 @@ export function NotificationBadge({
   onFailure: (e: ApiError) => void;
 }) {
   const [unread, setUnread] = useState<number>();
+  const badge = useRef<HTMLSpanElement>(null),
+    seen = useRef<number>(undefined);
+  // AN-09: pop only when the unread count grows, never on first load.
+  useEffect(() => {
+    if (unread !== undefined && seen.current !== undefined && unread > seen.current)
+      replay(badge.current, 'badge-pop');
+    if (unread !== undefined) seen.current = unread;
+  }, [unread]);
   const read = async (signal: AbortSignal) => {
     try {
       const r = await client.request('/api/notifications?pageSize=1', {
@@ -37,7 +46,7 @@ export function NotificationBadge({
   }, [self.csrf, online]); // eslint-disable-line react-hooks/exhaustive-deps
   useSharedRefresh(read, online, self.csrf);
   return unread === undefined ? null : (
-    <span className="notification-badge" aria-label={`unread ${unread} items`}>
+    <span className="notification-badge" ref={badge} aria-label={`unread ${unread} items`}>
       {unread}
     </span>
   );

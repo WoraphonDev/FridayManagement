@@ -8,6 +8,7 @@ import './vibe.css';
 import './approved-design.css';
 import '../../design-preview/vibe/workspace-theme.css';
 import './login-design.css';
+import './motion.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
