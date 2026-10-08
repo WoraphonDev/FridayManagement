@@ -606,8 +606,8 @@ export async function fileService(
           tx,
           r.task_id,
           proof.userId,
-          `${r.deleted_at ? 'ลบแล้ว' : 'ใช้งาน'}: ${r.original_name} (#${id})`,
-          `${restore ? 'ใช้งาน' : 'ลบแล้ว'}: ${r.original_name} (#${id})`,
+          `${r.deleted_at ? 'Deleted' : 'Active'}: ${r.original_name} (#${id})`,
+          `${restore ? 'Active' : 'Deleted'}: ${r.original_name} (#${id})`,
           request,
         );
       }

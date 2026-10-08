@@ -3,13 +3,13 @@ import { sql } from '../repository/access-scope.js';
 export type NotificationType =
   'assignment' | 'comment' | 'status' | 'access_cleanup' | 'due_tomorrow' | 'due_today' | 'overdue';
 const messages: Record<NotificationType, string> = {
-  assignment: 'คุณได้รับมอบหมายงาน',
-  comment: 'มีความคิดเห็นใหม่ในงาน',
-  status: 'สถานะงานเปลี่ยนแล้ว',
-  access_cleanup: 'ยกเลิกผู้รับผิดชอบเนื่องจากสถานะหรือสิทธิ์บัญชีเปลี่ยนแปลง',
-  due_tomorrow: 'งานมีกำหนดส่งพรุ่งนี้',
-  due_today: 'งานมีกำหนดส่งวันนี้',
-  overdue: 'งานเกินกำหนดส่ง',
+  assignment: 'You were assigned a task',
+  comment: 'New comment',
+  status: 'Task status changed',
+  access_cleanup: 'Assignee removed after an account or access change',
+  due_tomorrow: 'Task due tomorrow',
+  due_today: 'Task due today',
+  overdue: 'Task overdue',
 };
 /** Current logical project read access; password gates are enforced when reading notifications. */
 export async function notificationRecipient(tx: Transaction, task: number, user: number) {
@@ -36,11 +36,15 @@ export async function persistNotification(
 ) {
   if (input.user === input.actor || !(await notificationRecipient(tx, input.task, input.user)))
     return false;
+  // The task title is snapshotted into the message so the list reads without another lookup.
+  const [task] = await tx.query<{ title: string }>(
+    sql('SELECT title FROM dbo.tasks WHERE id=@task', { task: input.task }),
+  );
   const parameters = {
     task: input.task,
     user: input.user,
     type: input.type,
-    message: messages[input.type],
+    message: task ? `${messages[input.type]}: ${task.title}` : messages[input.type],
     key: input.key,
     now: input.now,
   };

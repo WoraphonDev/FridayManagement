@@ -56,7 +56,7 @@ export function notificationAcceptance(
         n.map((r) => r.recipient_id),
         [5],
       );
-      assert.equal(n[0]!.message, 'มีความคิดเห็นใหม่ในงาน');
+      assert.match(n[0]!.message, /^New comment: /);
     },
   );
   check(

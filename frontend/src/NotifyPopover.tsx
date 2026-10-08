@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 import { useNavigate } from 'react-router-dom';
 import { apiClient, ApiError, type Self } from './api';
-import { notificationsPage } from './report-api';
+import { notificationsPage, notificationText } from './report-api';
 const client = apiClient();
 type Page = z.infer<typeof notificationsPage>;
 const taskProject = z
@@ -121,7 +121,7 @@ export function NotifyPopover({
           {data.items.map((n) => (
             <li key={n.id} className={n.read_at ? '' : 'unread'}>
               <button className="notify-item" disabled={!online} onClick={() => void open(n)}>
-                <span>{n.message}</span>
+                <span>{notificationText(n)}</span>
                 <small>{ago(n.created_at)}</small>
               </button>
               {n.read_at ? (

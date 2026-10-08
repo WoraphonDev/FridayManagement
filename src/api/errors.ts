@@ -65,18 +65,18 @@ export function sendError(
   const status = codes[code];
   const message =
     status === 500
-      ? 'เกิดข้อผิดพลาด กรุณาแจ้งผู้ดูแลพร้อมรหัสอ้างอิง'
+      ? 'Something went wrong. Contact your administrator with the reference ID.'
       : status === 503
-        ? 'ระบบยังไม่พร้อมทำรายการ กรุณาลองใหม่'
+        ? 'The service is not ready. Please try again.'
         : status === 401
-          ? 'กรุณาเข้าสู่ระบบอีกครั้ง'
+          ? 'Please sign in again.'
           : status === 404
-            ? 'ไม่พบข้อมูลที่ต้องการ'
+            ? 'The requested item was not found.'
             : status === 409
-              ? 'ข้อมูลเปลี่ยนแปลงแล้ว กรุณาโหลดใหม่'
+              ? 'This item changed. Reload and try again.'
               : status === 403
-                ? 'ไม่อนุญาตให้ทำรายการนี้'
-                : 'คำขอไม่ถูกต้อง กรุณาตรวจข้อมูล';
+                ? 'You are not allowed to do this.'
+                : 'The request is invalid. Check the details and try again.';
   if (status === 503 || status === 429)
     response.set(
       'Retry-After',

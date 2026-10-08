@@ -105,3 +105,17 @@ export async function visibleProjects(signal?: AbortSignal, includeArchived = fa
     if (page * r.pageSize >= r.total) return items;
   }
 }
+const notificationLabels: Record<z.infer<typeof notificationSchema>['type'], string> = {
+  assignment: 'You were assigned a task',
+  comment: 'New comment',
+  status: 'Task status changed',
+  access_cleanup: 'Assignee removed after an account or access change',
+  due_tomorrow: 'Task due tomorrow',
+  due_today: 'Task due today',
+  overdue: 'Task overdue',
+};
+/** Rows stored before English server copy keep their old text; show the English label instead. */
+export function notificationText(n: z.infer<typeof notificationSchema>) {
+  const label = notificationLabels[n.type];
+  return n.message.startsWith(label) ? n.message : label;
+}

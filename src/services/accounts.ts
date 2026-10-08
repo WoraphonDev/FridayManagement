@@ -174,7 +174,7 @@ export function accountService(
         )
           throw new ApiFault('INVALID_CREDENTIALS', undefined, undefined, {
             [kind === 'password' ? 'current_password' : 'admin_password']: [
-              'รหัสผ่านปัจจุบันไม่ถูกต้อง',
+              'Current password is incorrect',
             ],
           });
       }
@@ -235,7 +235,7 @@ export function accountService(
       });
       if (existing.length)
         throw new ApiFault('VALIDATION_FAILED', undefined, undefined, {
-          username: ['ชื่อผู้ใช้นี้มีอยู่แล้ว'],
+          username: ['This username is already taken'],
         });
       const now = utcNow(options.clock);
       const inserted = await tx.query<{ id: number }>({

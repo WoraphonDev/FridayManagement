@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';
-import { notificationsPage, notificationSchema, visibleProjects } from './report-api';
+import { notificationsPage, notificationSchema, notificationText, visibleProjects } from './report-api';
 import { detailReply } from './task-api';
 import { TaskEditor } from './TaskEditor';
 import type { Project } from './workspace-api';
@@ -179,7 +179,7 @@ export function Notifications({
             {data.items.map((n) => (
               <li key={n.id} className={n.read_at ? '' : 'unread'}>
                 <div>
-                  <p>{n.message}</p>
+                  <p>{notificationText(n)}</p>
                   <time dateTime={n.created_at}>
                     {new Date(n.created_at).toLocaleString('en-GB', { timeZone: 'Asia/Bangkok' })}
                   </time>

@@ -131,7 +131,7 @@ test('generic login errors, strict ingress, duplicate/malformed cookies and call
           assert.equal(response.status, 401);
           const error = (await response.json()).error;
           assert.equal(error.code, 'INVALID_CREDENTIALS');
-          assert.equal(error.message, 'กรุณาเข้าสู่ระบบอีกครั้ง');
+          assert.equal(error.message, 'Please sign in again.');
           assert(!response.headers.has('set-cookie'));
         }
         await f.db.transaction((tx) => tx.execute(sql('UPDATE dbo.users SET active=0 WHERE id=1')));
