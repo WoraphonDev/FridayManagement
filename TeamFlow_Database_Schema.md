@@ -60,3 +60,7 @@ Technical references: [Microsoft FK/NO ACTION](https://learn.microsoft.com/en-us
 SQLite0003 and SQL Server0003 add `task_assignees(task_id,user_id)` with composite primary key, user index and backfill of non-null legacy `tasks.assignee_id`; add nullable `subtasks.assignee_id`. Service keeps legacy Task scalar synchronized to smallest owner ID, or null when empty. Retention explicitly removes relation rows before tasks; foreign keys use NO ACTION. SQLite relation is STRICT.
 
 SQLite0004 and SQL Server0004 add `project_groups(id,project_id,name,color,position,version,created_at)` and nullable `tasks.group_id` with index. SQLite UTC timestamps remain validated text; SQL Server uses DATETIME2(3) under the existing UTC codec. Name/color/position/version checks match provider contracts. Same-project group references and active effective-write assignee eligibility are enforced by service transaction guards. Separate native SQL migration/integration acceptance remains NOT_RUN; local SQLite evidence cannot close T006/T007. API wire additions are documented in TeamFlow_API_Contract.md1.2.0.
+
+## Migration 0008 — T-088 (8 October 2026)
+
+`organizations.workload_threshold` INTEGER/INT NOT NULL DEFAULT 10, CHECK 1–1000 (SQLite `0008_workload_threshold.sql`, SQL Server `0008_workload_threshold.sql`). FR-50 highlight threshold for open tasks per person per Monday-start Bangkok week; Admin edits it via `PATCH /api/organization`. SQLite fresh migration verified; SQL Server NOT_RUN.

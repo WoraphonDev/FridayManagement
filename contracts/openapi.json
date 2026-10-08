@@ -3,8 +3,8 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "FridayManagement API",
-    "version": "1.4.0",
-    "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
+    "version": "1.5.0",
+    "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
   },
   "servers": [
     {
@@ -5368,6 +5368,319 @@
         }
       }
     },
+    "/api/projects/{id}/workload": {
+      "get": {
+        "operationId": "get_api_projects_id_workload",
+        "summary": "GET /api/projects/{id}/workload",
+        "security": [
+          {
+            "cookieSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/Date"
+            }
+          },
+          {
+            "name": "weeks",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12,
+              "default": 6
+            }
+          }
+        ],
+        "x-permission": "project_read",
+        "x-owner-tasks": [
+          "T-088"
+        ],
+        "x-idempotency": "none",
+        "x-query-schema": {
+          "$ref": "#/components/schemas/WorkloadQuery"
+        },
+        "x-business-rules": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workload"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error; HTTP status/code mapping is in TeamFlow_API_Contract.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]*$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/teams/{id}/workload": {
+      "get": {
+        "operationId": "get_api_teams_id_workload",
+        "summary": "GET /api/teams/{id}/workload",
+        "security": [
+          {
+            "cookieSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/Date"
+            }
+          },
+          {
+            "name": "weeks",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 12,
+              "default": 6
+            }
+          }
+        ],
+        "x-permission": "team_workload",
+        "x-owner-tasks": [
+          "T-088"
+        ],
+        "x-idempotency": "none",
+        "x-query-schema": {
+          "$ref": "#/components/schemas/WorkloadQuery"
+        },
+        "x-business-rules": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Workload"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error; HTTP status/code mapping is in TeamFlow_API_Contract.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]*$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/projects/{id}/overview": {
+      "get": {
+        "operationId": "get_api_projects_id_overview",
+        "summary": "GET /api/projects/{id}/overview",
+        "security": [
+          {
+            "cookieSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          }
+        ],
+        "x-permission": "project_read",
+        "x-owner-tasks": [
+          "T-088"
+        ],
+        "x-idempotency": "none",
+        "x-query-schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "x-business-rules": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectOverview"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error; HTTP status/code mapping is in TeamFlow_API_Contract.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]*$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/projects/{id}/docs": {
       "get": {
         "operationId": "get_api_projects_id_docs",
@@ -10446,6 +10759,11 @@
             "const": "Asia/Bangkok",
             "type": "string"
           },
+          "workload_threshold": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
           "version": {
             "$ref": "#/components/schemas/Version"
           }
@@ -10454,6 +10772,7 @@
           "id",
           "name",
           "timezone",
+          "workload_threshold",
           "version"
         ],
         "additionalProperties": false
@@ -13158,6 +13477,411 @@
         ],
         "additionalProperties": false
       },
+      "Workload": {
+        "type": "object",
+        "properties": {
+          "scope": {
+            "type": "string",
+            "enum": [
+              "project",
+              "team"
+            ]
+          },
+          "scope_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "threshold": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
+          "weeks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Date"
+            },
+            "maxItems": 12,
+            "minItems": 1
+          },
+          "rows": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Person"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "job_title": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 50,
+                      "x-utf16MaxLength": 50,
+                      "pattern": "\\S"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "counts": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 2147483647
+                  },
+                  "maxItems": 12
+                },
+                "no_date": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2147483647
+                },
+                "tasks": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "$ref": "#/components/schemas/Id"
+                      },
+                      "project_id": {
+                        "$ref": "#/components/schemas/Id"
+                      },
+                      "title": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 200,
+                        "x-utf16MaxLength": 200,
+                        "pattern": "\\S"
+                      },
+                      "start_date": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/Date"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      },
+                      "due_date": {
+                        "anyOf": [
+                          {
+                            "$ref": "#/components/schemas/Date"
+                          },
+                          {
+                            "type": "null"
+                          }
+                        ]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "project_id",
+                      "title",
+                      "start_date",
+                      "due_date"
+                    ],
+                    "additionalProperties": false
+                  },
+                  "maxItems": 1000
+                }
+              },
+              "required": [
+                "user",
+                "job_title",
+                "counts",
+                "no_date",
+                "tasks"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 1000
+          },
+          "truncated": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "scope",
+          "scope_id",
+          "threshold",
+          "weeks",
+          "rows",
+          "truncated"
+        ],
+        "additionalProperties": false
+      },
+      "WorkloadQuery": {
+        "type": "object",
+        "properties": {
+          "from": {
+            "$ref": "#/components/schemas/Date"
+          },
+          "weeks": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 12,
+            "default": 6
+          }
+        },
+        "required": [],
+        "additionalProperties": false
+      },
+      "ProjectOverview": {
+        "type": "object",
+        "properties": {
+          "project_id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "bangkok_today": {
+            "$ref": "#/components/schemas/Date"
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647
+          },
+          "done": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647
+          },
+          "progress_percent": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "by_status": {
+            "type": "object",
+            "properties": {
+              "todo": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "doing": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "review": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              },
+              "done": {
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 2147483647
+              }
+            },
+            "required": [
+              "todo",
+              "doing",
+              "review",
+              "done"
+            ],
+            "additionalProperties": false
+          },
+          "overdue": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647
+          },
+          "overdue_tasks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "x-utf16MaxLength": 200,
+                  "pattern": "\\S"
+                },
+                "due_date": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Date"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "status": {
+                  "$ref": "#/components/schemas/Status"
+                }
+              },
+              "required": [
+                "id",
+                "title",
+                "due_date",
+                "status"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 10
+          },
+          "by_assignee": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "user": {
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/Person"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "job_title": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 50,
+                      "x-utf16MaxLength": 50,
+                      "pattern": "\\S"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "open": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2147483647
+                },
+                "done": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2147483647
+                }
+              },
+              "required": [
+                "user",
+                "job_title",
+                "open",
+                "done"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 1000
+          },
+          "by_job_title": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "job_title": {
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 50,
+                      "x-utf16MaxLength": 50,
+                      "pattern": "\\S"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "open": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2147483647
+                },
+                "done": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 2147483647
+                }
+              },
+              "required": [
+                "job_title",
+                "open",
+                "done"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 1000
+          },
+          "recent_activity": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "task_id": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "task_title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "x-utf16MaxLength": 200,
+                  "pattern": "\\S"
+                },
+                "actor": {
+                  "$ref": "#/components/schemas/Person"
+                },
+                "action": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "x-utf16MaxLength": 100
+                },
+                "created_at": {
+                  "$ref": "#/components/schemas/Timestamp"
+                }
+              },
+              "required": [
+                "task_id",
+                "task_title",
+                "actor",
+                "action",
+                "created_at"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 10
+          }
+        },
+        "required": [
+          "project_id",
+          "bangkok_today",
+          "total",
+          "done",
+          "progress_percent",
+          "by_status",
+          "overdue",
+          "overdue_tasks",
+          "by_assignee",
+          "by_job_title",
+          "recent_activity"
+        ],
+        "additionalProperties": false
+      },
       "DocSummary": {
         "type": "object",
         "properties": {
@@ -14353,15 +15077,20 @@
             "x-utf16MaxLength": 100,
             "pattern": "\\S"
           },
+          "workload_threshold": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000
+          },
           "version": {
             "$ref": "#/components/schemas/Version"
           }
         },
         "required": [
-          "name",
           "version"
         ],
-        "additionalProperties": false
+        "additionalProperties": false,
+        "minProperties": 2
       },
       "BoardMove": {
         "type": "object",

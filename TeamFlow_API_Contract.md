@@ -1,10 +1,21 @@
-# TeamFlow — API/DTO contract 1.3.0
+# TeamFlow — API/DTO contract 1.5.0
 
 วันที่: 5 ตุลาคม 2026 · Task: T-003 · Business baseline1.1 + RD-01–RD-08
 
 Machine contract: [contracts/openapi.json](contracts/openapi.json) (OpenAPI3.1.1/JSON Schema2020-12). Authoring source: [scripts/build-contract.mjs](scripts/build-contract.mjs). Contract tests: [tests/contracts/contract.test.mjs](tests/contracts/contract.test.mjs).
 
 เอกสารนี้ล็อกสัญญา frontend/backend สำหรับ Node22 + SQLite local และ SQL2022 ปลายทางร่วมกัน ไม่ใช่ HTTP server, authorization implementation หรือหลักฐานว่า database transactions ผ่าน หากเปลี่ยน field/status/policy ต้องแก้ SRS/contract/tests พร้อมกัน และ regenerate JSON ก่อนปิดงาน
+
+## Addendum API 1.5.0 — T-088 (8 October 2026)
+
+Contract 1.5.0 has 80 routes/107 schemas. `Organization` adds `workload_threshold` (integer 1–1000, default 10, migration 0008); `PatchOrganization` makes `name` optional and accepts `workload_threshold` (≥1 field besides `version`; Admin only; audit `organization_updated` records both before/after values).
+
+- `GET /api/projects/{id}/workload` (project read) and `GET /api/teams/{id}/workload` (Admin, team Lead, or a team member holding P-09; unknown team 404, others 403) return `Workload{scope,scope_id,threshold,weeks[],rows[],truncated}`. Query `from` (any date; normalized to its Monday) and `weeks` 1–12 (default 6). Each row is one assignee (or `user:null` for unassigned, sorted last) with `job_title`, `counts[]` per Monday-start Bangkok week, `no_date` and up to 1,000 `tasks`. Only todo/doing/review tasks count; a task counts in every week its start–due range overlaps (single date → that week; none → `no_date`); multi-assignee tasks count for each assignee. Rows use the same visibility filter as `/api/tasks` (BR-16), so team workload only includes projects the viewer can access. Highlight is client-side when a count is greater than `threshold`.
+- `GET /api/projects/{id}/overview` (project read; P-07 adds nothing beyond read today) returns `ProjectOverview{project_id,bangkok_today,total,done,progress_percent,by_status,overdue,overdue_tasks[≤10],by_assignee[],by_job_title[],recent_activity[≤10]}`. `progress_percent = round(done/total×100)` (0 when empty); overdue = open with due before Bangkok today; activity is the latest task events with a human actor in non-deleted tasks.
+
+## Addendum API 1.4.0 — T-083–T-086 (8 October 2026; recorded with T-088)
+
+Contract 1.4.0 added 14 routes: `GET /api/me/overview` (T-083, self scope via the My work filter), Project Docs (`GET/POST /api/projects/{id}/docs`, `GET/PATCH/DELETE /api/docs/{id}`, `POST /api/docs/{id}/restore`, `GET /api/docs/{id}/versions`; T-084, server allowlist sanitizer, 409 stale version, own/P-05 delete/restore audited), Project Files (`GET/POST /api/projects/{id}/files`, `GET /api/project-files/{id}/download`, `DELETE /api/project-files/{id}`, `POST /api/project-files/{id}/restore`; T-085, same quota/validation/download headers as attachments, own/P-06 delete/restore audited) and `POST /api/tasks/batch` (T-086).
 
 ## Addendum API 1.3.0 — T-080–T-082 (8 October 2026)
 
@@ -224,6 +235,23 @@ Node22; `npm ci --ignore-scripts`, `npm run check:contract`, `npm run test:contr
 | GET /api/job-titles | — | 200 / JobTitles | none | T-080, T-082 |
 | POST /api/job-titles | CreateJobTitle | 201 / inline | required | T-080, T-082 |
 | PATCH /api/job-titles/{id} | PatchJobTitle | 200 / inline | none | T-080, T-082 |
+| GET /api/me/overview | — | 200 / MyOverview | none | T-083 |
+| POST /api/tasks/batch | TaskBatch | 200 / TaskBatchResult | required | T-086 |
+| GET /api/projects/{id}/docs | — | 200 / DocsPage | none | T-084 |
+| POST /api/projects/{id}/docs | CreateDoc | 201 / Doc item | required | T-084 |
+| GET /api/docs/{id} | — | 200 / Doc item | none | T-084 |
+| PATCH /api/docs/{id} | PatchDoc | 200 / Doc item | none | T-084 |
+| DELETE /api/docs/{id} | VersionBody | 200 / Doc item | none | T-084 |
+| POST /api/docs/{id}/restore | VersionBody | 200 / Doc item | none | T-084 |
+| GET /api/docs/{id}/versions | — | 200 / DocVersions | none | T-084 |
+| GET /api/projects/{id}/files | — | 200 / ProjectFilePage | none | T-085 |
+| POST /api/projects/{id}/files | multipart | 201 / ProjectFile item | required | T-085 |
+| GET /api/project-files/{id}/download | — | 200 / binary | none | T-085 |
+| DELETE /api/project-files/{id} | — | 200 / ProjectFile item | serialized_state | T-085 |
+| POST /api/project-files/{id}/restore | — | 200 / ProjectFile item | serialized_state | T-085 |
+| GET /api/projects/{id}/workload | — | 200 / Workload | none | T-088 |
+| GET /api/teams/{id}/workload | — | 200 / Workload | none | T-088 |
+| GET /api/projects/{id}/overview | — | 200 / ProjectOverview | none | T-088 |
 
 ## T-009 runtime integration note - 2026-10-06
 

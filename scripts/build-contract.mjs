@@ -51,7 +51,7 @@ export function buildContract() {
   schemas.PutUserPermissions = object({ keys: ref('PermissionKeys'), permissions_version: ref('Version') });
   schemas.PermissionMatrix = object({ changes: { ...array(object({ user_id: ref('Id'), keys: ref('PermissionKeys'), permissions_version: ref('Version') }), 100), minItems: 1 } });
   schemas.PermissionMatrixResult = object({ items: array(ref('UserPermissions'), 100) });
-  schemas.Organization = object({ id: { const: 1, type: 'integer' }, name: nonblank(100), timezone: { const: 'Asia/Bangkok', type: 'string' }, version: ref('Version') });
+  schemas.Organization = object({ id: { const: 1, type: 'integer' }, name: nonblank(100), timezone: { const: 'Asia/Bangkok', type: 'string' }, workload_threshold: integer(1, 1000), version: ref('Version') });
   schemas.TeamMember = object({ user: ref('Person'), team_role: enumeration(['lead', 'member']), joined_at: ref('Timestamp') });
   schemas.Team = object({ id: ref('Id'), name: nonblank(100), description: text(1000), archived_at: nullable(ref('Timestamp')), version: ref('Version'), own_role: nullable(enumeration(['lead', 'member'])) });
   schemas.AdminTeam = object({ ...schemas.Team.properties, members: array(ref('TeamMember'), 10000) });
@@ -116,6 +116,18 @@ export function buildContract() {
     bangkok_today: ref('Date'), by_status: statusCounts, open_total: integer(0), overdue: integer(0), due_today: integer(0), due_this_week: integer(0), no_date: integer(0), done_last_7_days: integer(0),
     by_project: array(object({ project_id: ref('Id'), project_name: nonblank(100), open_count: integer(0) }), 1000), next_up: array(ref('Task'), 5),
   });
+  // T-088 FR-50/FR-51 workload (open tasks per person per Monday-start Bangkok week) and project overview.
+  const workloadTask = object({ id: ref('Id'), project_id: ref('Id'), title: nonblank(200), start_date: nullable(ref('Date')), due_date: nullable(ref('Date')) });
+  const workloadRow = object({ user: nullable(ref('Person')), job_title: nullable(nonblank(50)), counts: array(integer(0), 12), no_date: integer(0), tasks: array(workloadTask, 1000) });
+  schemas.Workload = object({ scope: enumeration(['project', 'team']), scope_id: ref('Id'), threshold: integer(1, 1000), weeks: { ...array(ref('Date'), 12), minItems: 1 }, rows: array(workloadRow, 1000), truncated: boolean });
+  schemas.WorkloadQuery = object({ from: ref('Date'), weeks: { ...integer(1, 12), default: 6 } }, []);
+  const overviewTask = object({ id: ref('Id'), title: nonblank(200), due_date: nullable(ref('Date')), status: ref('Status') });
+  schemas.ProjectOverview = object({
+    project_id: ref('Id'), bangkok_today: ref('Date'), total: integer(0), done: integer(0), progress_percent: integer(0, 100), by_status: statusCounts, overdue: integer(0), overdue_tasks: array(overviewTask, 10),
+    by_assignee: array(object({ user: nullable(ref('Person')), job_title: nullable(nonblank(50)), open: integer(0), done: integer(0) }), 1000),
+    by_job_title: array(object({ job_title: nullable(nonblank(50)), open: integer(0), done: integer(0) }), 1000),
+    recent_activity: array(object({ task_id: ref('Id'), task_title: nonblank(200), actor: ref('Person'), action: text(100, 1), created_at: ref('Timestamp') }), 10),
+  });
   // T-084 FR-48 project docs; body_html is server-sanitized (SRS §9.7).
   const docBase = { id: ref('Id'), project_id: ref('Id'), title: nonblank(200), version: ref('Version'), created_by: ref('Person'), updated_by: ref('Person'), created_at: ref('Timestamp'), updated_at: ref('Timestamp'), deleted_at: nullable(ref('Timestamp')), text_length: integer(0, 200000), can_edit: boolean, can_delete: boolean, can_restore: boolean };
   schemas.DocSummary = object(docBase);
@@ -155,7 +167,7 @@ export function buildContract() {
   schemas.CreateComment = object({ body: nonblank(5000) });
   // File bytes are streamed; this schema describes one multipart part, not a JSON/base64 upload.
   schemas.Upload = object({ file: { type: 'string', format: 'binary' } });
-  schemas.PatchOrganization = object({ name: nonblank(100), version: ref('Version') });
+  schemas.PatchOrganization = object({ name: nonblank(100), workload_threshold: integer(1, 1000), version: ref('Version') }, ['version'], { minProperties: 2 });
   schemas.BoardMove = object({ task_id: ref('Id'), task_version: ref('Version'), from_status: ref('Status'), to_status: ref('Status'), source_column_version: ref('Version'), target_column_version: ref('Version'), before_task_id: nullable(ref('Id')) });
 
   const page = { page: { ...integer(), default: 1 }, pageSize: { ...integer(1, 100), default: 50 } };
@@ -237,6 +249,9 @@ export function buildContract() {
   add('GET', '/api/projects/{id}/board', 'project_read', 200, ref('Board'));
   add('POST', '/api/tasks/batch', 'authenticated', 200, ref('TaskBatchResult'), ref('TaskBatch'), undefined, 'required', { 'x-business-rules': ['per_item_savepoint', 'per_item_authorization', 'no_silent_partial'] });
   add('GET', '/api/me/overview', 'authenticated', 200, ref('MyOverview'));
+  add('GET', '/api/projects/{id}/workload', 'project_read', 200, ref('Workload'), null, ref('WorkloadQuery'));
+  add('GET', '/api/teams/{id}/workload', 'team_workload', 200, ref('Workload'), null, ref('WorkloadQuery'));
+  add('GET', '/api/projects/{id}/overview', 'project_read', 200, ref('ProjectOverview'));
   add('GET', '/api/projects/{id}/docs', 'project_read', 200, ref('DocsPage'), null, object({ includeDeleted: { ...boolean, default: false } }, []));
   add('POST', '/api/projects/{id}/docs', 'project_write_active', 201, item('Doc'), ref('CreateDoc'), undefined, 'required', { 'x-business-rules': ['sanitize_html', 'text_length_200000'] });
   add('GET', '/api/docs/{id}', 'project_read', 200, item('Doc'));
@@ -284,7 +299,7 @@ export function buildContract() {
   for (const { method, path, op } of operations) paths[path] = { ...paths[path], [method]: op };
   return {
     openapi: '3.1.1', jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema',
-    info: { title: 'FridayManagement API', version: '1.4.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
+    info: { title: 'FridayManagement API', version: '1.5.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
     servers: [{ url: '/' }], paths,
     components: { securitySchemes: { cookieSession: { type: 'apiKey', in: 'cookie', name: 'friday_session' } }, schemas },
   };

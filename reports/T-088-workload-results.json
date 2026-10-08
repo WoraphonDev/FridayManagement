@@ -1,0 +1,24 @@
+{
+  "task": "T-088",
+  "date": "2026-10-08",
+  "environment": { "os": "macOS (Darwin 24.6.0)", "node": "22.23.3", "provider": "sqlite (local temporary)", "browser": "Playwright Chromium" },
+  "declaredEffort": "Medium",
+  "actualModelEffort": "NOT_VERIFIED",
+  "trace": ["FR-50", "FR-51", "BR-16", "AT-37", "TC-095", "UT-23"],
+  "contract": { "version": "1.5.0", "routes": 80, "schemas": 107 },
+  "migration": "0008_workload_threshold (SQLite fresh PASS; SQL Server NOT_RUN)",
+  "results": {
+    "helpers workload.test.ts": "2/2 PASS",
+    "AT-37 HTTP": "1/1 PASS",
+    "frontend insights.test.tsx": "3/3 PASS",
+    "browser workload-overview.spec.ts": "1/1 PASS",
+    "npm test": "node 449/449 + frontend 47/47 PASS",
+    "typecheck": "PASS",
+    "lint": "PASS (1 pre-existing react-refresh warning)",
+    "build": "PASS",
+    "check:contract": "PASS",
+    "test:contract": "64/64 PASS"
+  },
+  "notRun": ["SQL Server 2022", "Windows", "UAT", "performance at scale", "separate owner-team Lead role", "formal TC-095/AT-37 run register"],
+  "status": "IN_PROGRESS"
+}

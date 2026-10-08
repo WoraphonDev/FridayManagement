@@ -10,11 +10,17 @@ import { operations, requestBody } from '../api/contract.js';
 import { ApiFault } from '../api/errors.js';
 import { requireVersion } from '../domain/lifecycle.js';
 import { utcNow } from '../domain/dates.js';
-type Organization = { id: number; name: string; timezone: string; version: number };
+type Organization = {
+  id: number;
+  name: string;
+  timezone: string;
+  workload_threshold: number;
+  version: number;
+};
 export function organizationService(options: AccessOptions = {}) {
   const read = async (tx: Transaction) => {
     const rows = await tx.query<Organization>(
-      sql('SELECT id,name,timezone,version FROM dbo.organizations WHERE id=1'),
+      sql('SELECT id,name,timezone,workload_threshold,version FROM dbo.organizations WHERE id=1'),
     );
     if (!rows[0]) throw new ApiFault('SERVICE_NOT_READY');
     return rows[0];
@@ -36,16 +42,18 @@ export function organizationService(options: AccessOptions = {}) {
       const b = requestBody(
         operations.find((o) => o.operation.operationId === 'patch_api_organization')!.operation,
         input,
-      ) as { name: string; version: number };
+      ) as { name?: string; workload_threshold?: number; version: number };
       const before = await read(tx),
+        name = b.name ?? before.name,
+        threshold = b.workload_threshold ?? before.workload_threshold,
         version = requireVersion(before.version, b.version),
         now = utcNow(options.clock);
       const rows = await tx.query<{ version: number }>({
         sqlite:
-          'UPDATE organizations SET name=$name,version=$version,updated_at=$now WHERE id=1 AND version=$expected RETURNING version',
+          'UPDATE organizations SET name=$name,workload_threshold=$threshold,version=$version,updated_at=$now WHERE id=1 AND version=$expected RETURNING version',
         sqlserver:
-          'UPDATE dbo.organizations SET name=@name,version=@version,updated_at=@now OUTPUT INSERTED.version WHERE id=1 AND version=@expected',
-        parameters: { name: b.name, version, now, expected: b.version },
+          'UPDATE dbo.organizations SET name=@name,workload_threshold=@threshold,version=@version,updated_at=@now OUTPUT INSERTED.version WHERE id=1 AND version=@expected',
+        parameters: { name, threshold, version, now, expected: b.version },
       });
       if (rows[0]?.version !== version) {
         requireVersion((await read(tx)).version, b.version);
@@ -58,7 +66,10 @@ export function organizationService(options: AccessOptions = {}) {
             actor: actor.id,
             action: 'organization_updated',
             type: 'organization',
-            changes: JSON.stringify({ before: { name: before.name }, after: { name: b.name } }),
+            changes: JSON.stringify({
+              before: { name: before.name, workload_threshold: before.workload_threshold },
+              after: { name, workload_threshold: threshold },
+            }),
             request,
             now,
           },

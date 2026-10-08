@@ -60,10 +60,16 @@ const widthKey = (user: number) => `friday:main-table-widths:${user}`;
 const client = apiClient();
 const Kanban = lazy(() => import('./Kanban').then((m) => ({ default: m.Kanban })));
 const ProjectDocs = lazy(() => import('./ProjectDocs').then((m) => ({ default: m.ProjectDocs })));
+const WorkloadView = lazy(() =>
+  import('./ProjectInsights').then((m) => ({ default: m.WorkloadView })),
+);
+const ProjectOverview = lazy(() =>
+  import('./ProjectInsights').then((m) => ({ default: m.ProjectOverview })),
+);
 const ProjectFiles = lazy(() =>
   import('./ProjectFiles').then((m) => ({ default: m.ProjectFiles })),
 );
-type View = 'table' | 'calendar' | 'gantt' | 'kanban' | 'docs' | 'files';
+type View = 'table' | 'calendar' | 'gantt' | 'kanban' | 'docs' | 'files' | 'workload' | 'overview';
 export function TaskWorkspace({
   project: initialProject,
   self,
@@ -568,7 +574,7 @@ export function TaskWorkspace({
             ...(project ? ['kanban'] : []),
             'calendar',
             'gantt',
-            ...(project ? ['docs', 'files'] : []),
+            ...(project ? ['docs', 'files', 'workload', 'overview'] : []),
           ] as View[]
         ).map((v) => (
           <button
@@ -588,6 +594,8 @@ export function TaskWorkspace({
                 kanban: 'Kanban',
                 docs: 'Docs',
                 files: 'Files',
+                workload: 'Workload',
+                overview: 'Overview',
               }[v]
             }
           </button>
@@ -623,6 +631,14 @@ export function TaskWorkspace({
       {view === 'docs' && project ? (
         <Suspense fallback={<Loading />}>
           <ProjectDocs {...{ project, self, online, onFailure }} />
+        </Suspense>
+      ) : view === 'workload' && project ? (
+        <Suspense fallback={<Loading />}>
+          <WorkloadView scope="project" id={project.id} {...{ self, online, onFailure }} />
+        </Suspense>
+      ) : view === 'overview' && project ? (
+        <Suspense fallback={<Loading />}>
+          <ProjectOverview projectId={project.id} {...{ self, online, onFailure }} />
         </Suspense>
       ) : view === 'files' && project ? (
         <Suspense fallback={<Loading />}>

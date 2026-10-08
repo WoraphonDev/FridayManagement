@@ -23,6 +23,8 @@ const paths: Record<string, string> = {
     'M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M2 21v-3a6 6 0 0 1 12 0v3m3-16a4 4 0 0 1 0 8m1 3a5 5 0 0 1 4 5',
   gantt: 'M4 4v16h16M8 8h6M10 12h8M7 16h5',
   team: 'M4 8h16v12H4zM9 8V5h6v3M4 13h16',
+  workload: 'M4 20V10m6 10V4m6 16v-7m4 7H2',
+  overview: 'M12 3a9 9 0 1 0 9 9h-9z M14 3.3A9 9 0 0 1 20.7 10H14z',
 };
 export function UiIcon({ name }: { name: string }) {
   return (

@@ -19,6 +19,7 @@ export function OrganizationSettings({
 }) {
   const [item, setItem] = useState<Organization>(),
     [name, setName] = useState(''),
+    [threshold, setThreshold] = useState(''),
     [error, setError] = useState<ApiError>(),
     [pending, setPending] = useState(false),
     [saved, setSaved] = useState(false),
@@ -37,6 +38,7 @@ export function OrganizationSettings({
         if (!controller.signal.aborted) {
           setItem(v.item);
           setName(v.item.name);
+          setThreshold(String(v.item.workload_threshold));
           setError(undefined);
         }
       })
@@ -48,10 +50,10 @@ export function OrganizationSettings({
       });
     return () => controller.abort();
   }, [reload, onFailure]);
-  const current = useRef({ item, name, pending });
+  const current = useRef({ item, name, threshold, pending });
   useEffect(() => {
-    current.current = { item, name, pending };
-  }, [item, name, pending]);
+    current.current = { item, name, threshold, pending };
+  }, [item, name, threshold, pending]);
   useSharedRefresh(
     async (signal) => {
       if (current.current.pending) return;
@@ -63,10 +65,15 @@ export function OrganizationSettings({
         const state = current.current;
         if (signal.aborted || state.pending || !state.item || r.item.version <= state.item.version)
           return;
-        if (state.name !== state.item.name) setChanged(true);
+        if (
+          state.name !== state.item.name ||
+          state.threshold !== String(state.item.workload_threshold)
+        )
+          setChanged(true);
         else {
           setItem(r.item);
           setName(r.item.name);
+          setThreshold(String(r.item.workload_threshold));
           setChanged(false);
         }
       } catch (e) {
@@ -85,12 +92,13 @@ export function OrganizationSettings({
       const result = await client.request('/api/organization', {
         method: 'PATCH',
         csrf: self.csrf,
-        body: { name: name.trim(), version: item.version },
+        body: { name: name.trim(), workload_threshold: Number(threshold), version: item.version },
         parse: (v) => organizationReply.parse(v),
       });
       setChanged(false);
       setItem(result.item);
       setName(result.item.name);
+      setThreshold(String(result.item.workload_threshold));
       setConflict(false);
       setReviewed(false);
       setSaved(true);
@@ -126,7 +134,7 @@ export function OrganizationSettings({
         <ErrorNotice error={error} retry={!item ? () => setReload((n) => n + 1) : undefined} />
       )}
       {changed && <Toast>Data changed. Your draft is preserved.</Toast>}
-      {saved && <Toast>Organization name saved</Toast>}
+      {saved && <Toast>Organization settings saved</Toast>}
       {!item ? (
         !error && <Loading />
       ) : self.user.org_role !== 'admin' ? (
@@ -135,20 +143,21 @@ export function OrganizationSettings({
           <dd>{item.name}</dd>
           <dt>Time zone</dt>
           <dd>{item.timezone}</dd>
+          <dt>Workload threshold</dt>
+          <dd>{item.workload_threshold} open tasks per person per week</dd>
         </dl>
       ) : (
         <>
           <p>Time zone: {item.timezone}</p>
           {conflict && (
             <>
-              <p>Current name: {item.name}  · Your draft is preserved</p>
+              <p>Current name: {item.name} · Your draft is preserved</p>
               <label>
                 <input
                   type="checkbox"
                   checked={reviewed}
                   onChange={(e) => setReviewed(e.target.checked)}
                 />
-                
                 Latest data reviewed
               </label>
             </>
@@ -158,8 +167,14 @@ export function OrganizationSettings({
             pending={pending}
             offline={!online}
             blocked={self.maintenance}
-            submitDisabled={!name.trim() || name.trim().length > 100 || (conflict && !reviewed)}
-            submitLabel="Save organization name"
+            submitDisabled={
+              !name.trim() ||
+              name.trim().length > 100 ||
+              !/^[1-9][0-9]{0,3}$/.test(threshold) ||
+              Number(threshold) > 1000 ||
+              (conflict && !reviewed)
+            }
+            submitLabel="Save organization settings"
           >
             <Field
               label="Organization name"
@@ -168,6 +183,20 @@ export function OrganizationSettings({
               required
               onChange={(e) => {
                 setName(e.target.value);
+                setSaved(false);
+              }}
+            />
+            <Field
+              label="Workload threshold"
+              hint="Workload highlights a person when open tasks in a week exceed this number (1–1000)."
+              type="number"
+              inputMode="numeric"
+              min={1}
+              max={1000}
+              required
+              value={threshold}
+              onChange={(e) => {
+                setThreshold(e.target.value);
                 setSaved(false);
               }}
             />

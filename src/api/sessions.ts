@@ -17,6 +17,7 @@ import { reportService } from '../services/reports.js';
 import { jobTitleService } from '../services/job-titles.js';
 import { permissionService } from '../services/permissions.js';
 import { docService } from '../services/docs.js';
+import { insightService } from '../services/insights.js';
 import { taskBatchService } from '../services/task-batch.js';
 export async function sessionHooks(
   database: Database,
@@ -38,7 +39,8 @@ export async function sessionHooks(
     organization = organizationService(options),
     jobTitles = jobTitleService(options),
     permissions = permissionService(options),
-    docs = docService(options);
+    docs = docService(options),
+    insights = insightService(options);
   const accounts = accountService(database, service, {
     ...options,
     checkVersions: async (tx, request) => {
@@ -108,6 +110,18 @@ export async function sessionHooks(
     post_api_docs_id_restore: async (c) => ({
       status: 200,
       body: await docs.trash(tx(c), proof(c), c.params.id!, c.body, true, requestId(c)),
+    }),
+    get_api_projects_id_workload: async (c) => ({
+      status: 200,
+      body: await insights.workload(tx(c), proof(c), 'project', c.params.id!, c.query),
+    }),
+    get_api_teams_id_workload: async (c) => ({
+      status: 200,
+      body: await insights.workload(tx(c), proof(c), 'team', c.params.id!, c.query),
+    }),
+    get_api_projects_id_overview: async (c) => ({
+      status: 200,
+      body: await insights.overview(tx(c), proof(c), c.params.id!),
     }),
     get_api_docs_id_versions: async (c) => ({
       status: 200,

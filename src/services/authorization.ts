@@ -244,6 +244,7 @@ export async function authorizeOperation(
     'own_recipient_current_parent_access',
     'admin_or_self',
     'admin_not_self',
+    'team_workload',
   ]);
   if (!knownPermissions.has(permission)) throw new ApiFault('SERVICE_NOT_READY');
   const stateRules: Array<() => void> = [];
@@ -251,7 +252,24 @@ export async function authorizeOperation(
   let attachment:
     | (Row & { id: number; task_id: number; uploader_id: number; deleted_at: string | null })
     | undefined;
-  if (permission === 'admin_or_self' || permission === 'admin_not_self') {
+  if (permission === 'team_workload') {
+    // FR-50: Admin, the team's Lead, or a team member holding P-09 (rows stay BR-16 scoped).
+    const team = (
+      await tx.query<{ lead: number }>(
+        sql(
+          "SELECT CASE WHEN EXISTS(SELECT 1 FROM dbo.team_members m WHERE m.team_id=t.id AND m.user_id=@viewer AND m.team_role='lead') THEN 1 ELSE 0 END AS lead FROM dbo.teams t WHERE t.id=@team",
+          { viewer: actor.id, team: params.id! },
+        ),
+      )
+    )[0];
+    if (!team) throw new ApiFault('NOT_FOUND');
+    if (
+      actor.orgRole !== 'admin' &&
+      !team.lead &&
+      !(await teamGrant(tx, actor.id, params.id!, 'P-09'))
+    )
+      throw new ApiFault('FORBIDDEN');
+  } else if (permission === 'admin_or_self' || permission === 'admin_not_self') {
     if (actor.orgRole !== 'admin' && !(permission === 'admin_or_self' && params.id === actor.id))
       throw new ApiFault('FORBIDDEN');
     // BR-23: nobody edits their own permissions, including a sole Admin (use the admin CLI).

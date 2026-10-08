@@ -643,6 +643,146 @@ test('AT-36 Files: Viewer, quota boundary, type filter, deleted task hidden, P-0
       ['project_file_deleted', 'project_file_restored', 'project_file_deleted'],
     );
   }));
+test('AT-37 Workload weeks/threshold/P-09 scope and project overview numbers', () =>
+  fixture(async (base, f) => {
+    // Wed 7 Oct 2026 Bangkok; weeks Mon 5, 12, 19 Oct.
+    f.setTime('2026-10-07T03:00:00.000Z');
+    const admin = await login(base);
+    await call(base, admin, '/api/projects/1/members/2', 'PUT', { access: 'editor', version: 1 });
+    await db(
+      f,
+      "UPDATE dbo.users SET job_title_id=(SELECT id FROM dbo.job_titles WHERE name='PM') WHERE id=2",
+    );
+    await db(f, "INSERT INTO dbo.team_members(team_id,user_id,team_role) VALUES(1,2,'member')");
+    await db(f, "UPDATE dbo.tasks SET due_date='2026-10-06' WHERE id=1");
+    await db(f, "UPDATE dbo.tasks SET due_date='2026-10-20' WHERE id=2");
+    // Project 3 in team 1 that Member cannot access.
+    await db(f, "INSERT INTO dbo.projects(owner_team_id,name,created_by) VALUES(1,'ลับ',1)");
+    const rows: [number, string, string | null, string | null, string, string | null, number][] = [
+      [1, 'span', '2026-10-11', '2026-10-12', 'doing', null, 2],
+      [1, 'due-only', null, '2026-10-13', 'todo', null, 2],
+      [1, 'start-only', '2026-10-19', null, 'review', null, 2],
+      [1, 'undated', null, null, 'todo', null, 2],
+      [1, 'finished', null, '2026-10-06', 'done', '2026-10-06T01:00:00.000Z', 2],
+      [3, 'hidden', null, '2026-10-08', 'todo', null, 1],
+    ];
+    for (const [project, title, start, due, status, completed] of rows)
+      await db(
+        f,
+        'INSERT INTO dbo.tasks(project_id,title,creator_id,start_date,due_date,status,completed_at) VALUES(@project,@title,1,@start,@due,@status,@completed)',
+        { project, title, start, due, status, completed },
+      );
+    await f.db.transaction(async (tx) => {
+      for (const [task, user] of [
+        [1, 2],
+        [3, 2],
+        [4, 2],
+        [5, 2],
+        [6, 2],
+        [7, 2],
+        [8, 1],
+      ])
+        await tx.execute(
+          sql('INSERT INTO dbo.task_assignees(task_id,user_id) VALUES(@task,@user)', {
+            task,
+            user,
+          }),
+        );
+    });
+    let member = await login(base, 'Member');
+    // from= any day normalizes to that week's Monday.
+    const w = (await call(base, member, '/api/projects/1/workload?from=2026-10-11&weeks=3')).body;
+    assert.deepEqual(w.weeks, ['2026-10-05', '2026-10-12', '2026-10-19']);
+    assert.equal(w.threshold, 10);
+    const mine = w.rows.find((r: { user: { id: number } | null }) => r.user?.id === 2);
+    assert.equal(mine.job_title, 'PM');
+    // week0: task1 (6 Oct) + span; week1: span + due-only; week2: start-only; done excluded.
+    assert.deepEqual(mine.counts, [2, 2, 1]);
+    assert.equal(mine.no_date, 1);
+    assert.deepEqual(mine.tasks.map((t: { id: number }) => t.id).sort(), [1, 3, 4, 5, 6]);
+    const unassigned = w.rows.find((r: { user: unknown }) => r.user === null);
+    assert.deepEqual(unassigned.counts, [0, 0, 1]);
+    assert.equal(w.rows.at(-1).user, null);
+    // Threshold is Admin-only and bounded; highlight is > threshold (10 vs 11 in UI tests).
+    assert.equal(
+      (
+        await call(base, member, '/api/organization', 'PATCH', {
+          workload_threshold: 1,
+          version: 1,
+        })
+      ).status,
+      403,
+    );
+    for (const bad of [0, 1001])
+      assert.equal(
+        (
+          await call(base, admin, '/api/organization', 'PATCH', {
+            workload_threshold: bad,
+            version: 1,
+          })
+        ).status,
+        422,
+      );
+    const set = await call(base, admin, '/api/organization', 'PATCH', {
+      workload_threshold: 2,
+      version: 1,
+    });
+    assert.deepEqual(
+      [set.status, set.body.item.workload_threshold, set.body.item.name],
+      [200, 2, 'องค์กรทดสอบ'],
+    );
+    assert.equal((await call(base, member, '/api/projects/1/workload')).body.threshold, 2);
+    // Team workload: member without P-09 is refused; with P-09 sees only accessible projects.
+    assert.equal((await call(base, member, '/api/teams/1/workload')).status, 403);
+    assert.equal((await call(base, member, '/api/teams/2/workload')).status, 403);
+    assert.equal((await call(base, member, '/api/teams/99/workload')).status, 404);
+    await call(base, admin, '/api/users/2/permissions', 'PUT', {
+      keys: ['P-09'],
+      permissions_version: 1,
+    });
+    member = await login(base, 'Member');
+    const team = (await call(base, member, '/api/teams/1/workload?weeks=1')).body;
+    assert.equal(team.scope, 'team');
+    assert.equal(
+      team.rows.some((r: { user: { id: number } | null }) => r.user?.id === 1),
+      false,
+    );
+    assert.equal((await call(base, member, '/api/teams/2/workload')).status, 403);
+    const adminTeam = (await call(base, admin, '/api/teams/1/workload?weeks=1')).body;
+    assert.deepEqual(
+      adminTeam.rows.find((r: { user: { id: number } | null }) => r.user?.id === 1).counts,
+      [1],
+    );
+    // Overview numbers match the data; one activity row by Member on task 3.
+    await db(
+      f,
+      "INSERT INTO dbo.task_events(task_id,actor_id,action,field_changes,request_id,created_at) VALUES(3,2,'updated','[]',@request,'2026-10-07T03:00:00.000Z')",
+      { request: randomUUID() },
+    );
+    const o = (await call(base, member, '/api/projects/1/overview')).body;
+    assert.deepEqual(
+      [o.total, o.done, o.progress_percent, o.overdue, o.by_status],
+      [7, 1, 14, 1, { todo: 4, doing: 1, review: 1, done: 1 }],
+    );
+    assert.deepEqual(
+      o.overdue_tasks.map((t: { id: number }) => t.id),
+      [1],
+    );
+    const pm = o.by_assignee.find((a: { user: { id: number } | null }) => a.user?.id === 2);
+    assert.deepEqual([pm.open, pm.done, pm.job_title], [5, 1, 'PM']);
+    assert.deepEqual(o.by_job_title, [
+      { job_title: 'PM', open: 5, done: 1 },
+      { job_title: null, open: 1, done: 0 },
+    ]);
+    assert.equal(o.recent_activity[0].task_id, 3);
+    assert.equal(o.recent_activity[0].actor.id, 2);
+    // Viewer still reads the overview; outsiders get 404 for overview and workload.
+    await call(base, admin, '/api/projects/1/members/2', 'PUT', { access: 'viewer', version: 2 });
+    member = await login(base, 'Member');
+    assert.equal((await call(base, member, '/api/projects/1/overview')).status, 200);
+    assert.equal((await call(base, member, '/api/projects/3/overview')).status, 404);
+    assert.equal((await call(base, member, '/api/projects/3/workload')).status, 404);
+  }));
 test('AT-38 batch: per-item outcomes without silent partial updates; @mention notifies only project users', () =>
   fixture(async (base, f) => {
     const admin = await login(base),

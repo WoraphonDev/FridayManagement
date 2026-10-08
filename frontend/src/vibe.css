@@ -1081,3 +1081,108 @@ img.file-preview {
   height: auto;
   margin: 0 auto;
 }
+
+/* T-088 Workload (FR-50) and Project overview (FR-51). */
+.workload-table th,
+.workload-table td {
+  text-align: center;
+  white-space: nowrap;
+}
+.workload-table tbody th {
+  text-align: left;
+}
+.workload-table td button {
+  min-width: 36px;
+}
+.workload-table td.workload-over {
+  background: #ffd6d9;
+  font-weight: 700;
+}
+.workload-table td.workload-over button {
+  color: #a3001b;
+}
+.project-overview-body progress {
+  width: 100%;
+}
+.project-overview-body .compact-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.project-overview-body .compact-table td {
+  text-align: right;
+}
+/* Shared overview widgets: Home (T-083 FR-44) and Project overview (T-088 FR-51). */
+.overview-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin: 12px 0;
+}
+.overview-tile {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid var(--ui-border-color, #c3c6d4);
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+.overview-tile strong {
+  font-size: 24px;
+  line-height: 1.2;
+}
+.overview-tile.tile-overdue strong {
+  color: #d83a52;
+}
+.overview-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+}
+.overview-bar {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr) 40px;
+  align-items: center;
+  gap: 8px;
+  margin: 4px 0;
+}
+.overview-bar .bar {
+  display: block;
+  height: 10px;
+  min-width: 2px;
+  border-radius: 5px;
+  background: #579bfc;
+}
+.overview-bar .bar.status-doing {
+  background: #fdab3d;
+}
+.overview-bar .bar.status-review {
+  background: #a25ddc;
+}
+.overview-bar .bar.status-done {
+  background: #00c875;
+}
+.overview-list {
+  margin: 0;
+  padding-left: 18px;
+}
+.overview-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 0;
+  overflow-wrap: anywhere;
+}
+.overview-list .overdue {
+  color: #d83a52;
+}
+.job-title-badge {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: #e6e9ef;
+  font-size: 11px;
+  font-weight: 500;
+}

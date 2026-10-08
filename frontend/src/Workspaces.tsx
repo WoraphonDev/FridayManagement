@@ -16,6 +16,7 @@ import {
 } from './workspace-api';
 import { failureMessage } from './auth-policy';
 import { DataTable, Dialog, Field, Form, Loading, Toast } from './shared/components';
+import { WorkloadView } from './ProjectInsights';
 const client = apiClient();
 type Entity = Team | Project;
 type Props = {
@@ -25,7 +26,10 @@ type Props = {
   onSelfChange: () => void;
   onBoardChange?: (project?: Project) => void;
 };
-type Action = { kind: 'create' | 'edit' | 'archive' | 'members' | 'tasks'; entity?: Entity };
+type Action = {
+  kind: 'create' | 'edit' | 'archive' | 'members' | 'tasks' | 'workload';
+  entity?: Entity;
+};
 const isProject = (e: Entity): e is Project => 'owner_team_id' in e;
 const manage = (e: Entity, self: Self) =>
   isProject(e) ? ['admin', 'lead'].includes(e.effective_access) : self.user.org_role === 'admin';
@@ -190,6 +194,15 @@ export function Workspaces({
           Members
         </button>
       )}
+      {/* FR-50 team workload: Admin, team Lead, or a member holding P-09 (server enforces). */}
+      {!isProject(e) &&
+        (self.user.org_role === 'admin' ||
+          e.own_role === 'lead' ||
+          (!!e.own_role && self.user.permission_keys.includes('P-09'))) && (
+          <button disabled={!online} onClick={() => setAction({ kind: 'workload', entity: e })}>
+            Workload
+          </button>
+        )}
     </div>
   );
   if (
@@ -329,8 +342,14 @@ export function Workspaces({
           </>
         )
       )}
+      {action?.kind === 'workload' && action.entity && (
+        <Dialog title={`Workload · ${action.entity.name}`} onClose={() => setAction(undefined)}>
+          <WorkloadView scope="team" id={action.entity.id} {...{ self, online, onFailure }} />
+        </Dialog>
+      )}
       {action &&
         action.kind !== 'tasks' &&
+        action.kind !== 'workload' &&
         (action.kind === 'members' ? (
           <MembershipDialog
             key={action.entity!.id}
