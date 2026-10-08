@@ -151,11 +151,26 @@ export function WorkloadView({
       className="workload-view"
       aria-label={scope === 'project' ? 'Project workload' : 'Team workload'}
     >
-      <div className="toolbar">
-        <button onClick={() => setFrom(dateAdd(data?.weeks[0] ?? from, -7))}>Previous week</button>
+      <div className="calendar-toolbar">
+        <button
+          className="icon-button"
+          aria-label="Previous week"
+          onClick={() => setFrom(dateAdd(data?.weeks[0] ?? from, -7))}
+        >
+          ‹
+        </button>
+        <strong className="calendar-month">Open tasks per week</strong>
+        <button
+          className="icon-button"
+          aria-label="Next week"
+          onClick={() => setFrom(dateAdd(data?.weeks[0] ?? from, 7))}
+        >
+          ›
+        </button>
+        {data && (
+          <span className="calendar-hint">Highlighted above {data.threshold} open tasks</span>
+        )}
         <button onClick={() => setFrom(self.bangkok_today)}>This week</button>
-        <button onClick={() => setFrom(dateAdd(data?.weeks[0] ?? from, 7))}>Next week</button>
-        {data && <span className="hint">Threshold: more than {data.threshold} open tasks</span>}
       </div>
       {error && !data ? (
         <ErrorNotice error={error} />

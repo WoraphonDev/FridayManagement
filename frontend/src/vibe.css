@@ -2253,3 +2253,26 @@ section[aria-label='Gantt'] .calendar-month {
     display: none;
   }
 }
+
+/* Workload: counts read as numbers; only over-threshold cells stand out. */
+.workload-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+.workload-table th,
+.workload-table td {
+  padding: 8px;
+  border-bottom: 1px solid #f0f1f5;
+}
+.workload-table td button {
+  min-height: 24px;
+  border: 0;
+  background: transparent;
+  color: #323338;
+  font-weight: 600;
+}
+.workload-table td button:hover:not(:disabled) {
+  background: #e7f0fd;
+  color: #0073ea;
+}

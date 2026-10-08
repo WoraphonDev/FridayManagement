@@ -308,7 +308,7 @@ export function ProjectDocs({
           </p>
         )}
         {!selected ? (
-          <EmptyState title="Select a doc" />
+          !!items?.length && <EmptyState title="Select a doc" />
         ) : (
           <>
             <header className="doc-head">
