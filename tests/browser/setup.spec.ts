@@ -51,14 +51,17 @@ test('real setup form validates, rejects wrong token, clears secrets, completes 
   page.on('pageerror', (e) => errors.push(e.message));
   try {
     await page.goto(f.env.APP_ORIGIN);
-    await expect(
-      page.getByRole('form', { name: 'First-time setup', exact: true }),
-    ).toBeVisible();
+    await expect(page.getByRole('form', { name: 'First-time setup', exact: true })).toBeVisible();
     await fill(page, 'x'.repeat(64));
     await page.getByLabel('New password', { exact: true }).fill('😀'.repeat(5));
-    const submit = page.getByRole('button', { name: 'Create administrator and finish setup', exact: true });
+    const submit = page.getByRole('button', {
+      name: 'Create administrator and finish setup',
+      exact: true,
+    });
     await submit.click();
-    await expect(page.getByText('Password must contain 6–128 characters', { exact: true })).toBeVisible();
+    await expect(
+      page.getByText('Password must contain 6–128 characters', { exact: true }),
+    ).toBeVisible();
     await page.getByLabel('New password', { exact: true }).fill(fixturePassword);
     await submit.click();
     await expect(page.getByRole('alert')).toContainText('Invalid token');
@@ -124,7 +127,9 @@ test('pending setup blocks double submit; lost success response checks meta with
   try {
     await page.goto(f.env.APP_ORIGIN);
     await fill(page, token);
-    await page.getByRole('button', { name: 'Create administrator and finish setup', exact: true }).click();
+    await page
+      .getByRole('button', { name: 'Create administrator and finish setup', exact: true })
+      .click();
     await seen;
     await expect(page.getByRole('button', { name: 'Setting up…', exact: true })).toBeDisabled();
     await page.getByRole('form', { name: 'First-time setup' }).evaluate((form) => {

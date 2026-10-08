@@ -75,6 +75,7 @@ async function projectFixture(page: Page) {
 }
 async function tasks(page: Page) {
   await page.getByRole('link', { name: 'All projects', exact: true }).click();
+  await page.locator('summary[aria-label^="Project actions"]').first().click();
   await page.getByRole('button', { name: 'Tasks', exact: true }).click();
   return page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
 }
@@ -119,9 +120,7 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
     await expect(create).toHaveCount(0);
     await jobs.getByRole('button', { name: 'Open task #1', exact: true }).click();
     let d = detail(page);
-    await expect(d.getByLabel('Details', { exact: true })).toHaveValue(
-      '<script>literal</script>',
-    );
+    await expect(d.getByLabel('Details', { exact: true })).toHaveValue('<script>literal</script>');
     await expect(d.getByText('Workspace Admin', { exact: true }).first()).toBeVisible();
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await d.getByLabel('Add checklist item', { exact: true }).fill('Review');
@@ -134,7 +133,9 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
     await d.getByRole('tab', { name: 'Details', exact: true }).click();
     await d.getByLabel('Status', { exact: true }).selectOption('done');
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
-    await expect(d.getByText('Complete every checklist item before marking Done', { exact: true })).toBeVisible();
+    await expect(
+      d.getByText('Complete every checklist item before marking Done', { exact: true }),
+    ).toBeVisible();
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await d.getByLabel('Review final', { exact: true }).click();
     await expect(d.getByRole('heading', { name: 'Checklist 1/1', exact: true })).toBeVisible();
@@ -153,7 +154,9 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await d.getByLabel('Review final', { exact: true }).click();
     await expect(d.getByRole('heading', { name: 'Checklist 0/1', exact: true })).toBeVisible();
-    await d.getByRole('button', { name: 'Delete checklist item Review final', exact: true }).click();
+    await d
+      .getByRole('button', { name: 'Delete checklist item Review final', exact: true })
+      .click();
     await page
       .getByRole('dialog', { name: 'Confirm checklist deletion', exact: true })
       .getByRole('button', { name: 'Delete this checklist item', exact: true })
@@ -167,7 +170,9 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
     await expect(d).toHaveCount(0);
     await expect(jobs.getByRole('button', { name: 'Open task #1', exact: true })).toHaveCount(0);
     await page.getByRole('link', { name: 'Trash', exact: true }).click();
-    await expect(page.getByRole('columnheader', { name: 'Restore before', exact: true })).toBeVisible();
+    await expect(
+      page.getByRole('columnheader', { name: 'Restore before', exact: true }),
+    ).toBeVisible();
     await page.getByRole('button', { name: 'Restore task #1', exact: true }).click();
     await page
       .getByRole('dialog', { name: 'Confirm task restore', exact: true })
@@ -230,9 +235,7 @@ test('T032 actual 409 draft review, unsaved close/route cancellation, offline an
     await d.getByLabel('Task title', { exact: true }).focus();
     await page.keyboard.press('Tab');
     expect(
-      await d
-        .getByLabel('Details', { exact: true })
-        .evaluate((e) => e === document.activeElement),
+      await d.getByLabel('Details', { exact: true }).evaluate((e) => e === document.activeElement),
     ).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
@@ -290,8 +293,12 @@ test('T032 Viewer detail and archived Admin are read-only; managed archived dele
     expect(archived.status).toBe(200);
     await page.getByRole('link', { name: 'All projects', exact: true }).click();
     await page.getByLabel('Include archived').check();
+    await page.locator('summary[aria-label^="Project actions"]').first().click();
     await page.getByRole('button', { name: 'Tasks', exact: true }).click();
-    const adminJobs = page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
+    const adminJobs = page.getByRole('region', {
+      name: 'Project tasks · Task project',
+      exact: true,
+    });
     await expect(adminJobs.getByRole('button', { name: 'New task', exact: true })).toHaveCount(0);
     await adminJobs.getByRole('button', { name: 'Open task #1', exact: true }).click();
     const admin = detail(page);

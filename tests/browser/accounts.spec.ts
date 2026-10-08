@@ -138,7 +138,9 @@ test('T018 actual edit/last-admin/deactivate/reactivate/reset confirmations and 
     await create(page);
     await page.getByRole('button', { name: 'Deactivate BatchAdmin', exact: true }).click();
     await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
-    await expect(page.getByRole('dialog').getByRole('alert')).toContainText('At least one active administrator');
+    await expect(page.getByRole('dialog').getByRole('alert')).toContainText(
+      'At least one active administrator',
+    );
     await page.getByRole('button', { name: 'Close dialog', exact: true }).click();
     await page.getByRole('button', { name: 'Edit BatchMember', exact: true }).click();
     await page.getByRole('dialog').getByLabel('Display name').fill('Draft name');
@@ -202,6 +204,10 @@ test('T017 passive polling never renews idle; trusted interaction does; logout c
   try {
     const second = await context.newPage();
     await second.goto(f.env.APP_ORIGIN + '/settings');
+    await second
+      .getByRole('navigation', { name: 'Settings sections' })
+      .getByRole('button', { name: 'Change password', exact: true })
+      .click();
     await expect(second.getByLabel('Current password')).toBeVisible();
     await second.getByLabel('New password', { exact: true }).fill('Unsaved-secret-fixture');
     const seen = async () =>
@@ -246,7 +252,7 @@ test('T018 literal search/filter/paging and dialog keyboard/mobile 200% reflow',
     await expect(page.getByText('Page 2 · Total 12 people', { exact: true })).toBeVisible();
     await page.getByLabel('Search users').fill('%');
     await page.getByRole('button', { name: 'Search', exact: true }).click();
-    await expect(page.getByText('Page 1 · Total 0 people', { exact: true })).toBeVisible();
+    await expect(page.getByText('No users match these filters', { exact: true })).toBeVisible();
     await page.getByLabel('Search users').fill('Page10');
     await page.getByRole('button', { name: 'Search', exact: true }).click();
     await expect(page.getByRole('cell', { name: 'Page10', exact: true })).toBeVisible();

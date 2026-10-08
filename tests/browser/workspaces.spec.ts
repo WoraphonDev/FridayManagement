@@ -59,6 +59,13 @@ async function mutate(page: Page, path: string, body: unknown, method = 'POST') 
     { path, body, method },
   );
 }
+/** Card actions (Edit/Archive/Members/Workload) live behind the ••• menu on Projects and Teams. */
+async function openCardMenu(page: Page) {
+  await page
+    .locator('summary[aria-label^="Project actions"], summary[aria-label^="Team actions"]')
+    .first()
+    .click();
+}
 async function createTeam(page: Page, name = 'ทีมตัวอย่าง') {
   await page.getByRole('link', { name: 'Teams & members', exact: true }).click();
   await page.getByRole('button', { name: 'Create team', exact: true }).click();
@@ -67,7 +74,7 @@ async function createTeam(page: Page, name = 'ทีมตัวอย่าง'
   await dialog.getByLabel('Details', { exact: true }).fill('Design team');
   await dialog.getByRole('button', { name: 'Save', exact: true }).click();
   await expect(dialog).toHaveCount(0);
-  await expect(page.getByRole('cell').filter({ hasText: name }).first()).toBeVisible();
+  await expect(page.locator('.team-card').filter({ hasText: name }).first()).toBeVisible();
 }
 test('T023/024 actual create/edit/archive/project membership UI and active-project guard', async ({
   page,
@@ -82,6 +89,7 @@ test('T023/024 actual create/edit/archive/project membership UI and active-proje
     await dialog.getByLabel('Owner team', { exact: true }).selectOption({ label: 'ทีมตัวอย่าง' });
     await dialog.getByRole('button', { name: 'Save', exact: true }).click();
     await expect(dialog).toHaveCount(0);
+    await openCardMenu(page);
     await page.getByRole('button', { name: 'Members', exact: true }).click();
     dialog = page.getByRole('dialog');
     await expect(dialog.getByRole('cell', { name: 'Workspace Admin', exact: true })).toBeVisible();
@@ -95,22 +103,27 @@ test('T023/024 actual create/edit/archive/project membership UI and active-proje
     await expect(dialog.getByRole('cell', { name: 'admin', exact: true })).toBeVisible();
     await dialog.getByRole('button', { name: 'Close dialog' }).click();
     await page.getByRole('link', { name: 'Teams & members', exact: true }).click();
+    await openCardMenu(page);
     await page.getByRole('button', { name: 'Archive', exact: true }).click();
     dialog = page.getByRole('dialog');
     await dialog.getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(dialog.getByRole('alert')).toBeVisible();
     await dialog.getByRole('button', { name: 'Close dialog' }).click();
     await page.getByRole('link', { name: 'All projects', exact: true }).click();
+    await openCardMenu(page);
     await page.getByRole('button', { name: 'Archive', exact: true }).click();
     await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(page.getByRole('dialog')).toHaveCount(0);
     await page.getByLabel('Include archived').check();
+    await openCardMenu(page);
     await expect(page.getByRole('button', { name: 'Unarchive', exact: true })).toBeVisible();
     await page.getByRole('link', { name: 'Teams & members', exact: true }).click();
+    await openCardMenu(page);
     await page.getByRole('button', { name: 'Archive', exact: true }).click();
     await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(page.getByRole('dialog')).toHaveCount(0);
     await page.getByLabel('Include archived').check();
+    await openCardMenu(page);
     await expect(page.getByRole('button', { name: 'Unarchive', exact: true })).toBeVisible();
   } finally {
     await f.close();
@@ -128,6 +141,7 @@ test('T023 real Lead/member flows, confirmation and version conflict preserve dr
       temp_password: password,
     });
     expect(made.status).toBe(201);
+    await openCardMenu(page);
     await page.getByRole('button', { name: 'Members', exact: true }).click();
     let dialog = page.getByRole('dialog');
     await dialog
@@ -136,7 +150,9 @@ test('T023 real Lead/member flows, confirmation and version conflict preserve dr
     await dialog.getByLabel('Role', { exact: true }).selectOption('lead');
     await dialog.getByRole('button', { name: 'Set membership', exact: true }).click();
     await dialog.getByRole('button', { name: 'Confirm access change', exact: true }).click();
-    await expect(dialog.getByRole('button', { name: 'Remove Lead role', exact: true })).toBeVisible();
+    await expect(
+      dialog.getByRole('button', { name: 'Remove Lead role', exact: true }),
+    ).toBeVisible();
     await dialog.getByRole('button', { name: 'Remove Lead role', exact: true }).click();
     await dialog.getByRole('button', { name: 'Confirm access change', exact: true }).click();
     await expect(dialog.getByRole('button', { name: 'Make Lead', exact: true })).toBeVisible();
@@ -144,6 +160,7 @@ test('T023 real Lead/member flows, confirmation and version conflict preserve dr
     await dialog.getByRole('button', { name: 'Cancel action', exact: true }).click();
     await expect(dialog.getByRole('cell', { name: 'สมาชิกต่างทีม', exact: true })).toBeVisible();
     await dialog.getByRole('button', { name: 'Close dialog' }).click();
+    await openCardMenu(page);
     await page.getByRole('button', { name: 'Edit', exact: true }).click();
     dialog = page.getByRole('dialog');
     await dialog.getByLabel('Name', { exact: true }).fill('Your draft');
@@ -163,7 +180,7 @@ test('T023 real Lead/member flows, confirmation and version conflict preserve dr
     await dialog.getByLabel('I have reviewed the latest data and my draft').check();
     await dialog.getByRole('button', { name: 'Save', exact: true }).click();
     await expect(dialog).toHaveCount(0);
-    await expect(page.getByRole('cell').filter({ hasText: 'Your draft' })).toBeVisible();
+    await expect(page.locator('.team-card').filter({ hasText: 'Your draft' })).toBeVisible();
   } finally {
     await f.close();
   }
@@ -212,11 +229,16 @@ test('T024 cross-team Viewer reads only shared project, revoke hides modal and l
       member.locator('.project-directory-card').filter({ hasText: 'Shared private project' }),
     ).toBeVisible();
     await expect(member.getByText('Hidden project', { exact: true })).toHaveCount(0);
-    await expect(member.getByRole('button', { name: 'Create project', exact: true })).toHaveCount(0);
+    await expect(member.getByRole('button', { name: 'Create project', exact: true })).toHaveCount(
+      0,
+    );
     await expect(member.getByRole('button', { name: 'Edit', exact: true })).toHaveCount(0);
+    await openCardMenu(member);
     await member.getByRole('button', { name: 'Members', exact: true }).click();
     await expect(
-      member.getByRole('dialog').getByText('Only an administrator or owner team lead can change access', { exact: false }),
+      member
+        .getByRole('dialog')
+        .getByText('Only an administrator or owner team lead can change access', { exact: false }),
     ).toBeVisible();
     await expect(
       member.getByRole('dialog').getByRole('button', { name: 'Set membership', exact: true }),

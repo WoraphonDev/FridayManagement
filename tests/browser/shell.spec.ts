@@ -11,7 +11,9 @@ test('Member navigation and direct admin URL fail closed; shell survives deep-li
   await page.route('**/api/me', (route) => route.fulfill({ json: selfFixture() }));
   await page.goto('/users');
   await expect(page.getByRole('link', { name: 'Admin', exact: true })).toHaveCount(0);
-  await expect(page.getByRole('heading', { name: 'You do not have access to this page' })).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'You do not have access to this page' }),
+  ).toBeVisible();
   await page.getByRole('link', { name: 'My work', exact: true }).click();
   await expect(page).toHaveURL(/my-tasks$/);
   await page.reload();
@@ -40,8 +42,16 @@ test('Admin and Lead privileged navigation comes only from validated Self; force
 test('Native help dialog traps focus, closes with Escape, returns focus; 200% text reflows at mobile width', async ({
   page,
 }) => {
+  await page.route('**/api/me', (route) =>
+    route.fulfill({
+      status: 401,
+      json: {
+        error: { code: 'UNAUTHENTICATED', message: 'Please sign in again.', requestId: 'r' },
+      },
+    }),
+  );
   await page.goto('/');
-  const help = page.getByRole('button', { name: 'วิธีใช้งาน', exact: true });
+  const help = page.getByRole('button', { name: 'Need help signing in?', exact: true });
   await help.click();
   await expect(page.getByRole('dialog')).toBeVisible();
   const close = page.getByRole('button', { name: 'Close dialog' });
@@ -56,7 +66,7 @@ test('Native help dialog traps focus, closes with Escape, returns focus; 200% te
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(
     true,
   );
-  await expect(page.getByRole('heading', { name: 'Team workspace' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Welcome back' })).toBeVisible();
   await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/favicon.svg');
 });
 test('Invalid Self and offline state never expose privileged navigation', async ({
@@ -67,8 +77,8 @@ test('Invalid Self and offline state never expose privileged navigation', async 
     route.fulfill({ json: { ...selfFixture('admin'), extra: 'invalid' } }),
   );
   await page.goto('/');
-  await expect(page.getByRole('alert')).toContainText('ข้อมูลที่ไม่ถูกต้อง');
+  await expect(page.getByRole('alert')).toContainText('Invalid server response');
   await expect(page.getByRole('link', { name: 'Admin', exact: true })).toHaveCount(0);
   await context.setOffline(true);
-  await expect(page.getByRole('status')).toContainText('ต้องเชื่อมต่อ');
+  await expect(page.getByRole('status')).toContainText('Connect to');
 });

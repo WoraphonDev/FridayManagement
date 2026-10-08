@@ -69,6 +69,10 @@ test('T025 actual settings rename, sidebar, competing version preserves draft, o
   const f = await fixture(page);
   try {
     await page.getByRole('link', { name: 'Settings', exact: true }).click();
+    await page
+      .getByRole('navigation', { name: 'Settings sections' })
+      .getByRole('button', { name: 'Organization', exact: true })
+      .click();
     const org = page.getByRole('region', { name: 'Organization settings' });
     await org.getByLabel('Organization name', { exact: true }).fill('ฝ่ายวางแผน Friday');
     await org.getByRole('button', { name: 'Save organization settings' }).click();
@@ -141,6 +145,10 @@ test('T025 actual member settings read-only and public page does not disclose or
       .fill('Org-member-changed-password');
     await member.getByRole('button', { name: 'Change password', exact: true }).click();
     await member.getByRole('link', { name: 'Settings', exact: true }).click();
+    await member
+      .getByRole('navigation', { name: 'Settings sections' })
+      .getByRole('button', { name: 'Organization', exact: true })
+      .click();
     const org = member.getByRole('region', { name: 'Organization settings' });
     await expect(org.getByText('Workspace fixture', { exact: true })).toBeVisible();
     await expect(org.getByRole('textbox')).toHaveCount(0);

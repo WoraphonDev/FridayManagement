@@ -161,6 +161,7 @@ test('Owner Vibe: compact mobile menu and reduced-motion drawer', async ({ page 
     await expect(page.getByRole('link', { name: 'All projects', exact: true })).toBeVisible();
     await page.getByRole('link', { name: 'All projects', exact: true }).click();
     await expect(menu).toHaveAttribute('aria-expanded', 'false');
+    await page.locator('summary[aria-label^="Project actions"]').first().click();
     await page.getByRole('button', { name: 'Tasks', exact: true }).click();
     await page.getByRole('button', { name: 'New task', exact: true }).click();
     const drawer = page.getByRole('dialog', { name: 'Create task' });

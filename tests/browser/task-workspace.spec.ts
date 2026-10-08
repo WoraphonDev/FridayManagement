@@ -53,9 +53,13 @@ test('T045 actual My tasks default assignee, created view, Bangkok groups, AND/O
     await page.getByRole('link', { name: 'My work', exact: true }).click();
     const workspace = page.getByRole('region', { name: 'My work', exact: true });
     await expect(workspace.getByText('รวม 5 งาน', { exact: false })).toBeVisible();
-    await expect(workspace.getByRole('button', { name: 'Open task #5', exact: true })).toHaveCount(0);
+    await expect(workspace.getByRole('button', { name: 'Open task #5', exact: true })).toHaveCount(
+      0,
+    );
     await workspace.getByRole('button', { name: 'ฉันสร้าง', exact: true }).click();
-    await expect(workspace.getByRole('button', { name: 'Open task #5', exact: true })).toBeVisible();
+    await expect(
+      workspace.getByRole('button', { name: 'Open task #5', exact: true }),
+    ).toBeVisible();
     await workspace.getByRole('button', { name: 'มอบหมายให้ฉัน', exact: true }).click();
     for (const [group, id] of [
       ['future', 6],
@@ -70,18 +74,26 @@ test('T045 actual My tasks default assignee, created view, Bangkok groups, AND/O
       await expect(workspace.getByRole('button', { name: /^Open task #/ })).toHaveCount(1);
     }
     await workspace.getByLabel('Due range', { exact: true }).selectOption('today');
-    await expect(workspace.getByRole('button', { name: 'Open task #1', exact: true })).toBeVisible();
-    await expect(workspace.getByRole('button', { name: 'Open task #2', exact: true })).toHaveCount(0);
+    await expect(
+      workspace.getByRole('button', { name: 'Open task #1', exact: true }),
+    ).toBeVisible();
+    await expect(workspace.getByRole('button', { name: 'Open task #2', exact: true })).toHaveCount(
+      0,
+    );
     await workspace.locator('summary').filter({ hasText: 'ตัวกรองงาน' }).click();
     await workspace.getByLabel('Working on it', { exact: true }).check();
     await expect(workspace.getByText('No tasks match these filters')).toBeVisible();
     await workspace.getByLabel('Not started', { exact: true }).check();
-    await expect(workspace.getByRole('button', { name: 'Open task #1', exact: true })).toBeVisible();
+    await expect(
+      workspace.getByRole('button', { name: 'Open task #1', exact: true }),
+    ).toBeVisible();
     await workspace.getByLabel('High', { exact: true }).check();
     await workspace.getByLabel('Search tasks', { exact: true }).fill('No match');
     await expect(workspace.getByText('No tasks match these filters')).toBeVisible();
     await workspace.getByLabel('Search tasks', { exact: true }).fill('Today');
-    await expect(workspace.getByRole('button', { name: 'Open task #1', exact: true })).toBeVisible();
+    await expect(
+      workspace.getByRole('button', { name: 'Open task #1', exact: true }),
+    ).toBeVisible();
   } finally {
     await f.close();
   }
@@ -199,7 +211,9 @@ test('T046 loads all 205 API rows, bounded Gantt pages and accessible Calendar o
       await g.getByRole('button', { name: 'Next Gantt page', exact: true }).click();
     await expect(g.locator('.gantt-bar')).toHaveCount(5);
     await g.getByRole('button', { name: /เปิดงาน #205 / }).click();
-    await expect(detail(page).getByLabel('Task title', { exact: true })).toHaveValue('Timeline 205');
+    await expect(detail(page).getByLabel('Task title', { exact: true })).toHaveValue(
+      'Timeline 205',
+    );
     await closeDetail(page);
     await jobs.getByRole('button', { name: 'Calendar', exact: true }).click();
     const c = jobs.getByRole('region', { name: 'Calendar', exact: true });

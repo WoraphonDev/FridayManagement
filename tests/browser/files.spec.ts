@@ -75,6 +75,7 @@ async function projectFixture(page: Page) {
 }
 async function tasks(page: Page) {
   await page.getByRole('link', { name: 'All projects', exact: true }).click();
+  await page.locator('summary[aria-label^="Project actions"]').first().click();
   await page.getByRole('button', { name: 'Tasks', exact: true }).click();
   return page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
 }
@@ -86,9 +87,7 @@ async function openTask(page: Page) {
   ).toBe(201);
   const jobs = await tasks(page);
   await jobs.getByRole('button', { name: 'Open task #1', exact: true }).click();
-  await expect(
-    detail(page).getByRole('heading', { name: 'Comments', exact: true }),
-  ).toBeVisible();
+  await expect(detail(page).getByRole('heading', { name: 'Comments', exact: true })).toBeVisible();
   return f;
 }
 test('T044 actual comments plaintext/pagination/dirty refresh and file upload/download/delete/restore/history with mobile layout', async ({
@@ -107,7 +106,9 @@ test('T044 actual comments plaintext/pagination/dirty refresh and file upload/do
     ).toBeVisible();
     expect(await page.evaluate(() => 'fixtureXSS' in window)).toBe(false);
     await d.getByLabel('Write a comment', { exact: true }).fill('ร่างที่ต้องอยู่');
-    await d.getByRole('button', { name: 'Refresh comments, files and history', exact: true }).click();
+    await d
+      .getByRole('button', { name: 'Refresh comments, files and history', exact: true })
+      .click();
     await expect(d.getByLabel('Write a comment', { exact: true })).toHaveValue('ร่างที่ต้องอยู่');
     page.once('dialog', (dialog) => dialog.dismiss());
     await d.getByRole('button', { name: 'Close dialog', exact: true }).click();
@@ -116,7 +117,9 @@ test('T044 actual comments plaintext/pagination/dirty refresh and file upload/do
       expect(
         (await mutate(page, '/api/tasks/1/comments', { body: `Page comment ${i}` })).status,
       ).toBe(201);
-    await d.getByRole('button', { name: 'Refresh comments, files and history', exact: true }).click();
+    await d
+      .getByRole('button', { name: 'Refresh comments, files and history', exact: true })
+      .click();
     await expect(d.getByRole('button', { name: 'Next comments', exact: true })).toBeEnabled();
     await d.getByRole('button', { name: 'Next comments', exact: true }).click();
     await expect(d.getByText('Page comment 9', { exact: true })).toBeVisible();
@@ -224,7 +227,9 @@ test('T044 actual upload progress/pending acknowledgment, uncertain response sam
       }),
     ).toBe(1);
     await f.restart();
-    await d.getByRole('button', { name: 'Refresh comments, files and history', exact: true }).click();
+    await d
+      .getByRole('button', { name: 'Refresh comments, files and history', exact: true })
+      .click();
     await expect(d.getByRole('button', { name: 'ดาวน์โหลด retry.txt', exact: true })).toBeVisible();
   } finally {
     await f.close();
@@ -289,7 +294,9 @@ test('T044 invalid type/size/quota errors retain drafts; current permission fail
         },
       }),
     );
-    await d.getByRole('button', { name: 'Refresh comments, files and history', exact: true }).click();
+    await d
+      .getByRole('button', { name: 'Refresh comments, files and history', exact: true })
+      .click();
     await expect(d).toHaveCount(0);
     await expect(page.getByLabel('Write a comment', { exact: true })).toHaveCount(0);
   } finally {

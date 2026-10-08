@@ -9,7 +9,7 @@ import {
   type AdminUser,
 } from './api';
 import { currentPassword, newPassword, username, displayName, failureMessage } from './auth-policy';
-import { Field, Form, DataTable, Dialog, Loading, Toast } from './shared/components';
+import { Field, Form, DataTable, Dialog, EmptyState, Loading, Toast } from './shared/components';
 import { loadJobTitles, type JobTitle } from './admin-api';
 const client = apiClient();
 type Action = 'create' | 'edit' | 'active' | 'reset';
@@ -143,6 +143,7 @@ export function Users({
       ) : (
         data && (
           <>
+            {!data.items.length && <EmptyState title="No users match these filters" />}
             <DataTable
               caption="User directory"
               columns={['Username', 'Display name', 'Job title', 'Access', 'Status', 'Management']}

@@ -75,6 +75,7 @@ async function projectFixture(page: Page) {
 }
 async function tasks(page: Page) {
   await page.getByRole('link', { name: 'All projects', exact: true }).click();
+  await page.locator('summary[aria-label^="Project actions"]').first().click();
   await page.getByRole('button', { name: 'Tasks', exact: true }).click();
   return page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
 }

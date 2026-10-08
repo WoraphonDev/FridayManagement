@@ -86,7 +86,9 @@ test('T051 stale notification opens current detail and deleted-task 404 clears s
     await center(page);
     await page.getByRole('button', { name: 'Open task #1', exact: true }).click();
     const modal = page.getByRole('dialog', { name: 'Task details #1', exact: true });
-    await expect(modal.getByLabel('Task title', { exact: true })).toHaveValue('Report synthetic task');
+    await expect(modal.getByLabel('Task title', { exact: true })).toHaveValue(
+      'Report synthetic task',
+    );
     await modal.getByRole('button', { name: 'Close dialog', exact: true }).click();
     await page.route('**/api/notifications?**', async (route) => {
       const r = await route.fetch();

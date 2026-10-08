@@ -78,8 +78,12 @@ test('T046/047 actual Gantt/Calendar Viewer and archive read-only; demotion pres
     await expect(member.getByText('Scoped timeline', { exact: false })).toHaveCount(0);
     await page.getByRole('link', { name: 'All projects', exact: true }).click();
     await page.getByLabel('Include archived', { exact: true }).check();
+    await page.locator('summary[aria-label^="Project actions"]').first().click();
     await page.getByRole('button', { name: 'Tasks', exact: true }).click();
-    const adminJobs = page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
+    const adminJobs = page.getByRole('region', {
+      name: 'Project tasks · Task project',
+      exact: true,
+    });
     await adminJobs.getByRole('button', { name: 'Gantt', exact: true }).click();
     await adminJobs.getByRole('button', { name: /เปิดงาน #1 Scoped timeline/ }).click();
     await expect(
