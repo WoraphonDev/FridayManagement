@@ -30,3 +30,17 @@
 
 ## ข้อจำกัดของการตรวจ
 ยังไม่ได้ตรวจ Kanban/Gantt/Docs/Files/Workload/Overview ในโปรเจกต์, Trash, มือถือ 375px และ dark mode. ข้อมูลทดสอบมีงานซ้ำ 3 ชุดจาก seed script (ไม่ใช่บั๊กแอป).
+
+## รอบ 2 — หน้าที่ยังไม่ได้ตรวจ (2026-10-09, port 5000, demo data)
+| หน้า | ระดับ | ปัญหา |
+|---|---|---|
+| P1 ทุกแท็บในโปรเจกต์ยกเว้น Main table/Kanban | M | Gantt, Docs, Files, Workload, Overview ชิดขอบซ้ายไม่มี padding (แบบที่ Calendar เคยเป็น) |
+| Kanban | M | การ์ดแน่นเกิน: FR-id + กลุ่ม + priority + checklist + Start/End + avatar + dropdown สถานะ + ลิงก์ "Manage task #n" ในการ์ดเดียว; ปุ่ม "Board filters/Refresh board" เป็นปุ่มพื้น |
+| Gantt | M | ปุ่ม "Previous period/Today/Next period" แบบข้อความยาว; ป้าย "#2 Weekly…" มี id; bar สั้นตัดชื่อ "Week…"; ข้อความอธิบายยาว; มี Groups/New Group ที่ไม่เกี่ยวกับ Gantt |
+| Docs | L | หน้าว่างโล่ง "Select a doc" ลอย; ปุ่ม "+ New doc" เล็ก; ไม่มี empty state แบบ Vibe |
+| Files | L | ใช้ได้; empty state เรียบเกิน |
+| Workload | L | ปุ่ม Previous/This/Next week แบบพื้น; ตัวเลขในกรอบดูเป็นปุ่ม |
+| Overview | M | layout บีบ: Recent activity คอลัมน์แคบมากจนข้อความหักหลายบรรทัด; วันที่แบบ 2026-10-06; ตาราง By assignee/By job title แคบ |
+| Trash | L | หัว "Task trash" ซ้ำกับ h1 "Trash"; ตารางว่างไม่มี empty state |
+| มือถือ 375px | M | ไม่มี scroll แนวนอนทั้งหน้า (ผ่าน) แต่ Main table เห็นแค่คอลัมน์ Task ต้องเลื่อนในตาราง; ปุ่ม Install app + toast Update ready บังเนื้อหาครึ่งล่าง; แท็บมุมมองถูกตัด |
+| Dark mode | — | แอปไม่มี dark mode (ไม่ตอบสนอง prefers-color-scheme) แต่ไม่อยู่ใน Requirements/SRS/mock จึงไม่ถือเป็น defect |
