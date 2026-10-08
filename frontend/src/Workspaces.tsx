@@ -17,6 +17,7 @@ import {
 import { failureMessage } from './auth-policy';
 import { DataTable, Dialog, Field, Form, Loading, Toast } from './shared/components';
 import { WorkloadView } from './ProjectInsights';
+import { overviewSchema, type ProjectOverviewData } from './insights-api';
 const client = apiClient();
 type Entity = Team | Project;
 type Props = {
@@ -30,6 +31,37 @@ type Action = {
   kind: 'create' | 'edit' | 'archive' | 'members' | 'tasks' | 'workload';
   entity?: Entity;
 };
+/** Card progress from the project overview API; hidden when the viewer lacks P-07. */
+function CardProgress({ id, online }: { id: number; online: boolean }) {
+  const [data, setData] = useState<ProjectOverviewData | null>();
+  useEffect(() => {
+    const c = new AbortController();
+    if (online)
+      client
+        .request(`/api/projects/${id}/overview`, {
+          signal: c.signal,
+          parse: (v) => overviewSchema.parse(v),
+        })
+        .then(setData, () => !c.signal.aborted && setData(null));
+    return () => c.abort();
+  }, [id, online]);
+  if (!data) return <div className="card-progress" aria-hidden="true" />;
+  const { todo, doing, review, done } = data.by_status;
+  const part = (n: number) => `${data.total ? (n / data.total) * 100 : 0}%`;
+  return (
+    <>
+      <div className="card-progress" role="img" aria-label={`${data.progress_percent}% done`}>
+        <i className="s-done" style={{ width: part(done) }} />
+        <i className="s-doing" style={{ width: part(doing) }} />
+        <i className="s-review" style={{ width: part(review) }} />
+        <i className="s-todo" style={{ width: part(todo) }} />
+      </div>
+      <small className="card-count">
+        {data.total ? `${data.total} Tasks · ${data.done} Done` : 'No tasks yet'}
+      </small>
+    </>
+  );
+}
 const isProject = (e: Entity): e is Project => 'owner_team_id' in e;
 const manage = (e: Entity, self: Self) =>
   isProject(e) ? ['admin', 'lead'].includes(e.effective_access) : self.user.org_role === 'admin';
@@ -260,31 +292,57 @@ export function Workspaces({
         data && (
           <>
             {kind === 'projects' ? (
-              <div className="project-card-grid" role="region" aria-label="Projects">
-                {data.items.filter(isProject).map((e) => (
-                  <article
-                    key={e.id}
-                    className={`project-directory-card ${e.archived_at ? 'archived' : ''}`}
-                  >
-                    <span className="project-state">{e.archived_at ? 'Archived' : 'Active'}</span>
-                    <button
-                      className="project-card-title"
-                      disabled={!online}
-                      onClick={() => {
-                        setAction({ kind: 'tasks', entity: e });
-                        navigate(`/projects?project=${e.id}`);
-                      }}
-                    >
-                      {e.name}
-                    </button>
-                    <p>{e.description || 'Plan, organize and track your team’s work.'}</p>
-                    <div className="project-card-meta">
-                      <span>{e.owner_team_name}</span>
-                      <span>Access {e.effective_access}</span>
-                    </div>
-                    {actionsFor(e)}
-                  </article>
-                ))}
+              <div role="region" aria-label="Projects">
+                {(
+                  [
+                    ['Active projects', data.items.filter(isProject).filter((e) => !e.archived_at)],
+                    [
+                      'Archived projects',
+                      data.items.filter(isProject).filter((e) => e.archived_at),
+                    ],
+                  ] as const
+                ).map(
+                  ([title, list]) =>
+                    list.length > 0 && (
+                      <section key={title} className="project-card-section">
+                        <h2>{title}</h2>
+                        <div className="project-card-grid">
+                          {list.map((e) => (
+                            <article
+                              key={e.id}
+                              className={`project-directory-card ${e.archived_at ? 'archived' : ''}`}
+                            >
+                              <div className="project-card-band">
+                                <span className="project-card-icon" aria-hidden="true">
+                                  ▣
+                                </span>
+                                <span className="project-state">
+                                  {e.archived_at ? 'Archived' : 'Active'}
+                                </span>
+                              </div>
+                              <button
+                                className="project-card-title"
+                                disabled={!online}
+                                onClick={() => {
+                                  setAction({ kind: 'tasks', entity: e });
+                                  navigate(`/projects?project=${e.id}`);
+                                }}
+                              >
+                                {e.name}
+                              </button>
+                              <p>{e.description || 'Plan, organize and track your team’s work.'}</p>
+                              <small className="card-team">{e.owner_team_name}</small>
+                              <CardProgress id={e.id} online={online} />
+                              <details className="card-menu">
+                                <summary aria-label={`Project actions ${e.name}`}>•••</summary>
+                                {actionsFor(e)}
+                              </details>
+                            </article>
+                          ))}
+                        </div>
+                      </section>
+                    ),
+                )}
                 {!data.items.length && <p>No projects to show</p>}
               </div>
             ) : (

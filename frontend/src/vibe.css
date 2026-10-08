@@ -1561,3 +1561,110 @@ button.notify-link {
 .notify-popover .notify-unread {
   color: #0060b9;
 }
+
+/* All projects cards (Vibe Preview). */
+.project-card-section h2 {
+  margin: 18px 0 10px;
+  font-size: 14px;
+}
+.project-card-section .project-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.project-card-section .project-directory-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 14px 14px;
+  border: 1px solid #e6e9ef;
+  border-top: 1px solid #e6e9ef;
+  border-radius: 8px;
+  background: #fff;
+}
+.project-card-band {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 -4px 8px;
+  padding: 8px 10px;
+  border-radius: 6px;
+  background: #f0eafb;
+}
+.project-directory-card.archived .project-card-band {
+  background: #eef0f4;
+}
+.project-card-icon {
+  color: #a25ddc;
+  font-size: 16px;
+}
+.project-card-band .project-state {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #ffffffb3;
+  font-size: 11px;
+  color: #676879;
+}
+.project-card-section .project-card-title {
+  border: 0;
+  padding: 0;
+  background: none;
+  text-align: left;
+  font-weight: 600;
+  font-size: 14px;
+  min-height: 0;
+}
+.project-card-section .project-directory-card > p {
+  margin: 0;
+  color: #676879;
+  font-size: 12px;
+}
+.card-team {
+  margin-top: 8px;
+  color: #676879;
+  font-size: 11px;
+}
+.card-progress {
+  display: flex;
+  height: 4px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: #e6e9ef;
+}
+.card-progress .s-done { background: #00c875; }
+.card-progress .s-doing { background: #fdab3d; }
+.card-progress .s-review { background: #a25ddc; }
+.card-progress .s-todo { background: #c4c4c4; }
+.card-count {
+  color: #676879;
+  font-size: 11px;
+}
+.card-menu {
+  position: absolute;
+  right: 12px;
+  bottom: 10px;
+}
+.card-menu summary {
+  list-style: none;
+  cursor: pointer;
+  color: #676879;
+  padding: 2px 6px;
+}
+.card-menu[open] .row-actions {
+  position: absolute;
+  right: 0;
+  bottom: 24px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  min-width: 140px;
+  padding: 6px;
+  background: #fff;
+  border-radius: 6px;
+  box-shadow: 0 8px 24px #292f4c26;
+}
+.card-menu .row-actions button {
+  border: 0;
+  text-align: left;
+}
