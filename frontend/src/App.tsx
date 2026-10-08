@@ -41,7 +41,10 @@ export function App() {
   const [organizationName, setOrganizationName] = useState<string>();
   const [notifyOpen, setNotifyOpen] = useState(false);
   const [settingsSection, setSettingsSectionState] = useState<SettingsSection>(() => {
-    const s = new URLSearchParams(window.location.search).get('section');
+    const s =
+      typeof window === 'undefined'
+        ? null
+        : new URLSearchParams(window.location.search).get('section');
     return settingsSections.some(([k]) => k === s) ? (s as SettingsSection) : 'profile';
   });
   // Keep the open Settings section in the URL so reload and links return to it.
