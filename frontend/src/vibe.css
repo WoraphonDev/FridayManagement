@@ -2121,3 +2121,23 @@ select[aria-label='Sort by'] {
     grid-template-columns: 1fr;
   }
 }
+.gantt-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+section[aria-label='Gantt'] .calendar-month {
+  min-width: 190px;
+  text-align: center;
+}
+.date-list li button {
+  border: 0;
+  padding: 0;
+  min-height: 0;
+  background: none;
+  color: #323338;
+}
+.date-list li button:hover {
+  color: #0073ea;
+  text-decoration: underline;
+}

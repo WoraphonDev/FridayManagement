@@ -156,7 +156,7 @@ export function GanttView({
   today: string;
   open: (t: Task) => void;
 }) {
-  const [first, setFirst] = useState(today),
+  const [first, setFirst] = useState(dateAdd(today, -3)),
     [scale, setScale] = useState<'day' | 'week' | 'month'>('day'),
     [page, setPage] = useState(1);
   const length = { day: 14, week: 42, month: 90 }[scale],
@@ -182,60 +182,69 @@ export function GanttView({
   };
   return (
     <section aria-label="Gantt">
-      <div className="toolbar">
-        <button disabled={first === '0001-01-01'} onClick={() => move(-length)}>
-          Previous range
+      <div className="calendar-toolbar">
+        <button
+          className="icon-button"
+          aria-label="Previous range"
+          disabled={first === '0001-01-01'}
+          onClick={() => move(-length)}
+        >
+          ‹
         </button>
+        <strong className="calendar-month">
+          {formatPlanDate(first)} – {formatPlanDate(end)} {end.slice(0, 4)}
+        </strong>
+        <button
+          className="icon-button"
+          aria-label="Next period"
+          disabled={end === '9999-12-31'}
+          onClick={() => move(length)}
+        >
+          ›
+        </button>
+        <select
+          aria-label="Range"
+          value={scale}
+          onChange={(e) => {
+            setScale(e.target.value as typeof scale);
+            setPage(1);
+          }}
+        >
+          <option value="day">Days</option>
+          <option value="week">Weeks</option>
+          <option value="month">Months</option>
+        </select>
+        <span
+          className="calendar-hint"
+          title="Bars run from Start Plan to End Plan; ◆ marks tasks with End Plan only (Asia/Bangkok)"
+        >
+          Start Plan → End Plan
+        </span>
         <button
           onClick={() => {
-            setFirst(today);
+            setFirst(dateAdd(today, -3));
             setPage(1);
           }}
         >
           Today
         </button>
-        <button disabled={end === '9999-12-31'} onClick={() => move(length)}>
-          Next period
-        </button>
-        <label>
-          Range
-          <select
-            aria-label="Range"
-            value={scale}
-            onChange={(e) => {
-              setScale(e.target.value as typeof scale);
-              setPage(1);
-            }}
-          >
-            <option value="day">Daily</option>
-            <option value="week">Weekly</option>
-            <option value="month">Monthly</option>
-          </select>
-        </label>
-        <strong>
-          {first} – {end} · Asia/Bangkok
-        </strong>
       </div>
-      <p>
-        Includes Start Plan and End Plan. ◆ marks tasks with End Plan only. Open a bar to view or
-        edit dates.
-      </p>
       <div className="gantt-scroll" tabIndex={0} aria-label="Task timeline">
         <div className="gantt-canvas" style={{ width: 260 + days.length * width }}>
           <div className="gantt-heading">
-            <strong>Tasks · {bars.length} in this range</strong>
+            <strong>Task</strong>
             <div className="gantt-axis">
               {groups.map((g) => (
                 <span key={g.label} style={{ width: g.span * width }}>
-                  {scale === 'day' ? g.label.slice(5) : g.label}
+                  {scale === 'month' ? g.label : formatPlanDate(g.label)}
                 </span>
               ))}
             </div>
           </div>
           {bars.slice((current - 1) * 50, current * 50).map(({ task: t, placement: p }) => (
             <div className="gantt-row" key={t.id}>
-              <button className="gantt-title" onClick={() => open(t)}>
-                #{t.id} {t.title}
+              <button className="gantt-title" onClick={() => open(t)} title={t.title}>
+                {t.title}
               </button>
               <div className="gantt-track" style={{ backgroundSize: `${width}px 100%` }}>
                 {p && (
@@ -246,7 +255,7 @@ export function GanttView({
                     aria-label={`Open task #${t.id} ${t.title} · ${p.marker ? 'No Start Plan · ' : ''}${t.start_date ?? ''} To ${t.due_date} · ${statusLabel[t.status]}`}
                     title={`${t.title} · ${t.start_date ?? 'No start date'} → ${t.due_date}`}
                   >
-                    {p.marker ? '◆' : t.title}
+                    {p.marker ? '◆' : p.span * width >= 72 ? t.title : ''}
                   </button>
                 )}
               </div>
@@ -260,8 +269,7 @@ export function GanttView({
           Previous Gantt page
         </button>
         <span>
-          Page {current}/{last} · {bars.length} Tasks in range · Fully loaded {tasks.length}{' '}
-          Filtered tasks
+          Page {current}/{last} · {bars.length} of {tasks.length} tasks in range
         </span>
         <button disabled={current === last} onClick={() => setPage(current + 1)}>
           Next Gantt page

@@ -972,7 +972,7 @@ export function TaskWorkspace({
                 ))}
               </select>
             </label>
-            {project && (
+            {project && view === 'table' && (
               <label>
                 <select
                   aria-label="Group by"
@@ -988,15 +988,18 @@ export function TaskWorkspace({
               </label>
             )}
             <span className="board-task-count">{data?.total ?? 0} Tasks</span>
-            {project && project.effective_access !== 'viewer' && !project.archived_at && (
-              <button
-                className="new-group-trigger"
-                disabled={!online || self.maintenance}
-                onClick={startGroup}
-              >
-                <UiIcon name="plus" /> New Group
-              </button>
-            )}
+            {project &&
+              view === 'table' &&
+              project.effective_access !== 'viewer' &&
+              !project.archived_at && (
+                <button
+                  className="new-group-trigger"
+                  disabled={!online || self.maintenance}
+                  onClick={startGroup}
+                >
+                  <UiIcon name="plus" /> New Group
+                </button>
+              )}
             <button className="refresh-board" disabled={!online} onClick={refresh}>
               Refresh tasks
             </button>
