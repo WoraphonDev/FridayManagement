@@ -1,12 +1,16 @@
 # TeamFlow — Task.md: แผนพัฒนาและตรวจความครบถ้วน
 
-**Version:** 1.61 · **วันที่:** 8 ตุลาคม 2026\
+**Version:** 1.62 · **วันที่:** 8 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
 **จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 85 API routes ที่ล็อก (contract 1.7.0) + planned routes SRS §12.6
 **ต้นทาง:** `TeamFlow_Requirements_v1.0.md` และ `TeamFlow_SRS_v1.0.md` รุ่นปัจจุบันที่อ่านเมื่อ 5 ตุลาคม 2026
 
 
 
+
+## T-087 Task side panel — 8 October 2026
+
+ตรวจ side panel ที่มีอยู่ (drawer ขวา/แท็บ/focus trap/Esc/deep link) แล้วเพิ่ม UI @mention (เฉพาะสมาชิกโปรเจกต์, คีย์บอร์ด, Esc ปิดเฉพาะรายการ, แสดงเป็นข้อความ) และเปลี่ยนชื่อแท็บเป็น Updates/Activity. ผล: AT-38 HTTP 1/1, mentions 2/2, Chromium side-panel 1/1 (3/3), Node 451/451 + frontend 49/49, addendum browser 8/8, typecheck/lint/build PASS. SQL Server 2022/Windows/UAT NOT_RUN. Evidence: TeamFlow_T087_Test_Report.md / reports/T-087-side-panel-results.json. DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84. Declared Medium; actual model/effort NOT_VERIFIED. Next: T-091 High ต้องมี SQL Server 2022/Windows/UAT จริง.
 
 ## T-086 Main table — 8 October 2026
 
@@ -307,7 +311,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-084 | Project Docs (schema/API/editor/sanitize/version/trash) | T-081 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T084_Test_Report.md; reports/T-084-docs-results.json: XSS corpus47 + AT-35 HTTP2/2 + Node445 + frontend44 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-085 | Project Files tab + project-level upload | T-081 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T085_Test_Report.md; reports/T-085-files-results.json: AT-36 HTTP2/2 + Node446 + frontend44 + Chromium1/1 PASS SQLite+temp FS; SQL2022/Windows/UAT NOT_RUN |
 | T-086 | Main table monday upgrade (inline/batch/drag/sticky/resize) | T-079 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T086_Test_Report.md; reports/T-086-main-table-results.json: AT-38 HTTP + Chromium main-table 1/1 (3/3) + Node451 + frontend47 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
-| T-087 | Task side panel (Updates/@mention/Files/Activity) | T-079 | Medium | TODO | ยังไม่มอบหมาย | — |
+| T-087 | Task side panel (Updates/@mention/Files/Activity) | T-079 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T087_Test_Report.md; reports/T-087-side-panel-results.json: AT-38 HTTP + mentions2/2 + Chromium side-panel 1/1 (3/3) + Node451 + frontend49 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-088 | Workload + Project overview | T-080 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T088_Test_Report.md; reports/T-088-workload-results.json: contract1.5.0 80 routes + migration0008 + AT-37 HTTP1/1 + Node449 + frontend47 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-089 | Motion system AN-01–AN-12 + reduced-motion + Settings toggle | T-079 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T089_Test_Report.md; reports/T-089-motion-results.json + motion-trace: contract1.7.0 85 routes + migration0010 + preferences HTTP + Chromium motion 1/1 (60fps headless) + Node451 + frontend47 PASS; GPU trace/owner AT-39/SQL2022/UAT NOT_RUN |
 | T-090 | Favorites (Updates feed เลื่อนไปรอบถัดไป) | T-083 | Low | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T090_Test_Report.md; reports/T-090-favorites-results.json: contract1.6.0 83 routes + migration0009 + AT-40 HTTP1/1 + Node450 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
@@ -2039,14 +2043,14 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 **Trace:** FR-53 · **SRS:** §9.10
 **Acceptance:** AT-38
 
-- [ ] panel ขวา + แท็บ Updates/Files/Activity/Details
-- [ ] @mention เฉพาะผู้เข้าถึง + notification เดิม
-- [ ] Esc/focus trap/deep link ตรวจสิทธิ์
-- [ ] มือถือเต็มจอ
+- [x] panel ขวา + แท็บ Updates/Files/Activity/Details
+- [x] @mention เฉพาะผู้เข้าถึง + notification เดิม
+- [x] Esc/focus trap/deep link ตรวจสิทธิ์
+- [x] มือถือเต็มจอ
 
 **เกณฑ์รับงาน:** AT-38 ส่วน side panel ผ่านจริง
 
-**Status:** TODO
+**Status:** IN_PROGRESS · **Local evidence:** TeamFlow_T087_Test_Report.md. AT-38 side panel local SQLite HTTP + Chromium PASS; SQL Server 2022/Windows/UAT NOT_RUN; actual model/effort NOT_VERIFIED.
 
 **หลักฐานเมื่อปิดงาน:** บันทึกใน Task Register; สำหรับการทดสอบระบุผลและ environment ไม่ใช้คำว่า “ผ่าน” โดยไม่มีการรัน
 

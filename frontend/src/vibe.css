@@ -1247,3 +1247,31 @@ img.file-preview {
 .main-table tr.dragging > * {
   opacity: 0.5;
 }
+
+/* T-087 FR-53 @mentions in Updates. */
+.task-collaboration .mention {
+  padding: 0 2px;
+  border-radius: 3px;
+  background: #cce5ff;
+  color: #0060b9;
+  font-weight: 500;
+}
+.mention-suggestions {
+  list-style: none;
+  margin: 4px 0;
+  padding: 4px;
+  max-height: 220px;
+  overflow: auto;
+  border: 1px solid var(--ui-border-color, #c3c6d4);
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+}
+.mention-suggestions li {
+  padding: 6px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.mention-suggestions li[aria-selected='true'] {
+  background: #e6f0ff;
+}

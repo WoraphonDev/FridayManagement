@@ -13,6 +13,8 @@ import {
 } from './collaboration-api';
 import { Dialog, ErrorNotice, Loading, Toast } from './shared/components';
 import { statusLabel, statuses } from './task-api';
+import { projectMembers } from './workspace-api';
+import { mentionQuery, mentionToken, splitMentions } from './mentions';
 const client = apiClient();
 const thaiTime = (s: string) => new Date(s).toLocaleString('en-GB', { timeZone: 'Asia/Bangkok' });
 const actions: Record<string, string> = {
@@ -102,6 +104,7 @@ function value(field: string, v: string | number | boolean | null) {
 }
 export function TaskCollaboration({
   task,
+  project,
   pane,
   self,
   write,
@@ -111,6 +114,7 @@ export function TaskCollaboration({
 }: {
   pane?: string;
   task: number;
+  project: number;
   self: Self;
   write: boolean;
   online: boolean;
@@ -118,6 +122,8 @@ export function TaskCollaboration({
   onFailure: (e: unknown) => void;
 }) {
   const [draft, setDraft] = useState(''),
+    [people, setPeople] = useState<{ id: number; name: string; job: string | null }[]>(),
+    [suggest, setSuggest] = useState<{ start: number; query: string; active: number }>(),
     [file, setFile] = useState<File>(),
     [cp, setCp] = useState(1),
     [fp, setFp] = useState(1),
@@ -237,6 +243,49 @@ export function TaskCollaboration({
       setProgress(undefined);
     }
   };
+  const composer = useRef<HTMLTextAreaElement>(null);
+  // FR-53: suggestions come from the project's current member list (same access as the task).
+  const loadPeople = async () => {
+    if (people) return people;
+    try {
+      const r = await client.request(`/api/projects/${project}/members`, {
+        parse: (v) => projectMembers.parse(v),
+      });
+      const list = r.items
+        .filter((m) => m.user.active && m.user.id !== self.user.id)
+        .map((m) => ({ id: m.user.id, name: m.user.display_name, job: m.job_title }));
+      setPeople(list);
+      return list;
+    } catch (e) {
+      onFailure(e);
+      return [];
+    }
+  };
+  const matches = (
+    suggest && people
+      ? people.filter((p) => p.name.toLowerCase().includes(suggest.query.toLowerCase()))
+      : []
+  ).slice(0, 8);
+  const typed = (value: string, caret: number) => {
+    setDraft(value);
+    const q = mentionQuery(value, caret);
+    if (!q) return setSuggest(undefined);
+    void loadPeople();
+    setSuggest({ ...q, active: 0 });
+  };
+  const pick = (person: { id: number; name: string }) => {
+    if (!suggest) return;
+    const caret = composer.current?.selectionStart ?? draft.length;
+    const token = mentionToken(person.name, person.id) + ' ';
+    const next = draft.slice(0, suggest.start) + token + draft.slice(caret);
+    setDraft(next.slice(0, 5000));
+    setSuggest(undefined);
+    requestAnimationFrame(() => {
+      const at = suggest.start + token.length;
+      composer.current?.focus();
+      composer.current?.setSelectionRange(at, at);
+    });
+  };
   const sendComment = () =>
     act(async () => {
       if (!write || !draft.trim()) return;
@@ -334,7 +383,17 @@ export function TaskCollaboration({
           {c?.items.map((a) => (
             <li key={a.id}>
               <strong>{a.author.display_name}</strong> · <time>{thaiTime(a.created_at)}</time>
-              <p className="plain-text">{a.body}</p>
+              <p className="plain-text">
+                {splitMentions(a.body).map((part, i) =>
+                  'mention' in part ? (
+                    <span className="mention" key={i}>
+                      @{part.mention.name}
+                    </span>
+                  ) : (
+                    <span key={i}>{part.text}</span>
+                  ),
+                )}
+              </p>
             </li>
           ))}
         </ul>
@@ -351,13 +410,59 @@ export function TaskCollaboration({
         <label>
           Write a comment
           <textarea
+            ref={composer}
             aria-label="Write a comment"
+            aria-autocomplete="list"
+            aria-expanded={!!suggest && matches.length > 0}
+            aria-controls="mention-suggestions"
             maxLength={5000}
             value={draft}
             disabled={!write || pending}
-            onChange={(e) => setDraft(e.target.value)}
+            onChange={(e) => typed(e.target.value, e.target.selectionStart)}
+            onKeyDown={(e) => {
+              if (!suggest || !matches.length) return;
+              if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                const step = e.key === 'ArrowDown' ? 1 : -1;
+                setSuggest({
+                  ...suggest,
+                  active: (suggest.active + step + matches.length) % matches.length,
+                });
+              } else if (e.key === 'Enter' || e.key === 'Tab') {
+                e.preventDefault();
+                pick(matches[suggest.active] ?? matches[0]!);
+              } else if (e.key === 'Escape') {
+                // Close the suggestions only; the panel stays open.
+                e.preventDefault();
+                e.stopPropagation();
+                setSuggest(undefined);
+              }
+            }}
           />
         </label>
+        {suggest && matches.length > 0 && (
+          <ul
+            className="mention-suggestions"
+            id="mention-suggestions"
+            role="listbox"
+            aria-label="Mention suggestions"
+          >
+            {matches.map((p, i) => (
+              <li
+                key={p.id}
+                role="option"
+                aria-selected={i === suggest.active}
+                onMouseDown={(e) => {
+                  e.preventDefault();
+                  pick(p);
+                }}
+              >
+                {p.name}
+                {p.job && <span className="job-title-badge">{p.job}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
         <button disabled={!write || pending || !draft.trim()} onClick={() => void sendComment()}>
           Post comment
         </button>

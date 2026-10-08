@@ -558,7 +558,9 @@ export function TaskEditor({
                     }[t] ?? 'table'
                   }
                 />
-                {t.charAt(0).toUpperCase() + t.slice(1)}
+                {/* FR-53 side panel names: comments are Updates, history is Activity. */}
+                {{ comments: 'Updates', history: 'Activity' }[t] ??
+                  t.charAt(0).toUpperCase() + t.slice(1)}
               </button>
             ))}
           </div>
@@ -818,6 +820,7 @@ export function TaskEditor({
             <TaskCollaboration
               pane={tab}
               task={base.id}
+              project={base.project_id}
               self={self}
               write={write}
               online={online}
