@@ -1297,3 +1297,30 @@ img.file-preview {
 .toolbar:has(> button:first-child:disabled):has(> button:last-child:disabled):has(> span:nth-child(2)):has(> :nth-child(3):last-child) {
   display: none;
 }
+
+/* My work: scope picker sits under the view tabs like the mock's "Assigned to me ▾". */
+.my-work-scope {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0 24px;
+  color: #676879;
+  font-size: 12px;
+}
+.my-work-scope select {
+  min-height: 32px;
+  font-size: 13px;
+}
+
+.my-work-table {
+  table-layout: fixed;
+  width: 100%;
+}
+.my-work-table th:nth-child(1) { width: auto; }
+.my-work-table th:nth-child(2) { width: 110px; }
+.my-work-table th:nth-child(3) { width: 150px; }
+.my-work-table th:nth-child(4) { width: 110px; }
+.my-work-table th:nth-child(5),
+.my-work-table th:nth-child(6) { width: 120px; }
+.my-work-table td { color: #323338; }

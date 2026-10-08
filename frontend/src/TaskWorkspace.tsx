@@ -660,25 +660,18 @@ export function TaskWorkspace({
         ))}
       </div>
       {mode === 'my' && (
-        <div className="toolbar">
-          <button
-            aria-pressed={!created}
-            onClick={() => {
-              setCreated(false);
+        <div className="my-work-scope">
+          <select
+            aria-label="Show tasks"
+            value={created ? 'created' : 'assigned'}
+            onChange={(e) => {
+              setCreated(e.target.value === 'created');
               setPage(1);
             }}
           >
-            Assigned to me
-          </button>
-          <button
-            aria-pressed={created}
-            onClick={() => {
-              setCreated(true);
-              setPage(1);
-            }}
-          >
-            Created by me
-          </button>
+            <option value="assigned">Assigned to me</option>
+            <option value="created">Created by me</option>
+          </select>
           <span>
             {created
               ? 'Tasks you created, including those assigned to others'
@@ -1173,19 +1166,9 @@ export function TaskWorkspace({
                                       'Start Plan',
                                       'End Plan',
                                     ]
-                                  : [
-                                      'Tasks',
-                                      'Project / Team',
-                                      'Assignees',
-                                      'Status',
-                                      'Priority',
-                                      'Start Plan',
-                                      'End Plan',
-                                      'Checklist',
-                                      'Details',
-                                    ]
+                                  : ['Task', 'Assignee', 'Status', 'Priority', 'Start Plan', 'End Plan']
                               }
-                              className={project ? 'main-table' : undefined}
+                              className={project ? 'main-table' : 'main-table my-work-table'}
                               {...(project ? { widths, onResize: resizeColumn } : {})}
                               rowProps={(i) => {
                                 const fresh = newRows.includes(tasks[i]!.id) ? 'row-new' : '';
@@ -1391,12 +1374,21 @@ export function TaskWorkspace({
                                       ),
                                     ]
                                   : [
-                                      <span key={t.id}>
-                                        #{t.id} {t.title}
-                                      </span>,
-                                      `${t.project_name} / ${t.owner_team_name}`,
+                                      <div className="task-name" key={t.id}>
+                                        <button
+                                          aria-label={`Open task #${t.id}`}
+                                          disabled={!online}
+                                          onClick={() => void open(t)}
+                                        >
+                                          {t.title}
+                                          <small>
+                                            FR-{String(t.id).padStart(3, '0')} · {t.project_name}
+                                          </small>
+                                        </button>
+                                      </div>,
                                       <Assignees
                                         key={t.id}
+                                        compact
                                         people={t.assignees ?? (t.assignee ? [t.assignee] : [])}
                                       />,
                                       <StatusPicker
@@ -1406,27 +1398,18 @@ export function TaskWorkspace({
                                         disabled={!online || groupPending || self.maintenance}
                                         onChange={(status) => void changeStatus(t, status)}
                                       />,
-                                      <span className={`priority-${t.priority}`} key={t.id}>
+                                      <span key={t.id} className={`priority-pill ${t.priority}`}>
                                         {priorityLabel[t.priority]}
                                       </span>,
-                                      t.start_date ?? '—',
-                                      <span key={t.id} className={t.overdue ? 'overdue' : ''}>
-                                        {t.due_date ?? '—'}
+                                      <span key={t.id} className="plan-date">
+                                        {t.start_date ? formatPlanDate(t.start_date) : 'Not scheduled'}
                                       </span>,
-                                      `${t.subtask_done_count}/${t.subtask_count}`,
-                                      <div key={t.id} className="task-actions">
-                                        <button disabled={!online} onClick={() => void open(t)}>
-                                          Open task #{t.id}
-                                        </button>
-                                        <details>
-                                          <summary aria-label={`Task status menu #${t.id}`}>
-                                            •••
-                                          </summary>
-                                          <button disabled={!online} onClick={() => void open(t)}>
-                                            View / Change status
-                                          </button>
-                                        </details>
-                                      </div>,
+                                      <span
+                                        key={t.id}
+                                        className={`plan-date ${t.overdue ? 'overdue' : ''}`}
+                                      >
+                                        {t.due_date ? formatPlanDate(t.due_date) : 'Not scheduled'}
+                                      </span>,
                                     ],
                               )}
                             />
