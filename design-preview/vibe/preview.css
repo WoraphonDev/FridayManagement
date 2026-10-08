@@ -1,0 +1,144 @@
+:root {
+  --primary-color: #0073ea;
+  --primary-hover-color: #0060b9;
+  --font-family:
+    -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Leelawadee UI', Thonburi, sans-serif;
+  --blue: var(--primary-color);
+}
+.vibe-button-host {
+  display: contents;
+}
+.vibe-field-host {
+  width: 100%;
+  min-width: 0;
+}
+.vibe-button-content {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+}
+.sidebar .vibe-button.nav-item {
+  height: auto;
+  justify-content: flex-start;
+}
+.sidebar .vibe-button-content {
+  width: 100%;
+  gap: 11px;
+  white-space: normal;
+}
+.field:has(.vibe-calendar-panel) {
+  grid-column: 1 / -1;
+}
+.vibe-button.full {
+  width: 100%;
+}
+.vibe-button {
+  flex-shrink: 0;
+}
+.vibe-button.icon-button {
+  padding: 6px;
+  min-width: 32px;
+  width: 32px;
+}
+.vibe-select-host {
+  min-width: 145px;
+}
+.studio select {
+  width: auto;
+}
+.vibe-field-host input[data-vibe] {
+  padding: 0 12px;
+  border: 0;
+  background: transparent;
+  border-radius: 4px;
+}
+.vibe-field-host input[data-vibe]:focus {
+  border: 0;
+}
+.search-wrap .vibe-field-host {
+  max-width: 260px;
+}
+.topbar .vibe-button {
+  color: #fff;
+}
+.topbar .notify-trigger {
+  min-width: 105px;
+}
+.vibe-date-host {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  width: 100%;
+}
+.vibe-date-host > input {
+  flex: 1;
+  min-width: 0;
+}
+.vibe-calendar-panel {
+  width: min(320px, calc(100vw - 48px));
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 8px 28px #292f4c20;
+  padding: 12px;
+  margin-top: 8px;
+}
+.vibe-calendar-host:has(.vibe-calendar-panel) {
+  width: 100%;
+}
+.vibe-date-host:has(.vibe-calendar-panel) {
+  flex-wrap: wrap;
+}
+.vibe-avatar-host {
+  display: inline-flex;
+  vertical-align: middle;
+}
+.task-table .vibe-button.add-row {
+  justify-content: flex-start;
+  width: 100%;
+}
+.task-card .vibe-select-host {
+  min-width: 135px;
+  max-width: 170px;
+}
+.toolbar .vibe-select-host {
+  width: 160px;
+}
+.sidebar-profile .vibe-avatar-host {
+  flex: none;
+}
+.vibe-field-host [role='listbox'] {
+  text-align: left;
+}
+.vibe-field-host [role='option'] {
+  cursor: pointer;
+}
+@media (max-width: 600px) {
+  .toolbar .vibe-select-host {
+    width: calc(50% - 8px);
+    min-width: 130px;
+  }
+  .vibe-field-host {
+    max-width: 100%;
+  }
+  .notify-head {
+    flex-wrap: wrap;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-vibe],
+  [data-vibe] * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+.no-motion [data-vibe],
+.no-motion [data-vibe] * {
+  animation: none !important;
+  transition: none !important;
+}
+
+.vibe-avatar-text {
+  color: #394467;
+  font-weight: 600;
+}

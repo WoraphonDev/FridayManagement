@@ -1,0 +1,7 @@
+{
+  "scripts/sqlserver-readiness.ts": "308d3b221b6e66a905ed7b6a4c251979f5c3c538fec1316747b8029223e87483",
+  "scripts/check-sqlserver.ts": "ef4ea7aa38f51528cd018331e5814c10c8deae24bd2f80a0b9e03c8c0b733f1e",
+  "tests/config/sql-readiness.test.ts": "a73e78fc548ca7da4f832bb4aa6890c1e104b4d556e17ce3885cb98d8b4ad788",
+  "TeamFlow_SQLServer_Foundation_Runbook.md": "52271a6255dcabdc67be73851f09116a32608bd5b3fba32d3d1d5a31fe3cd2b5",
+  "package.json": "0e51c6cbfa25d257e023c424d3cb353de24670beb9f2788a9e02b56d3ffe7a84"
+}

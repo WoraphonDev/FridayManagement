@@ -1,0 +1,113 @@
+{
+  "parameterEvidence": {
+    "drawer": 590,
+    "fields": [
+      {
+        "family": "Inter, \"Segoe UI\", Arial, \"Leelawadee UI\", sans-serif",
+        "font": "13px",
+        "name": "title",
+        "value": "Typography preview"
+      },
+      {
+        "family": "Inter, \"Segoe UI\", Arial, \"Leelawadee UI\", sans-serif",
+        "font": "13px",
+        "name": "description",
+        "value": ""
+      },
+      {
+        "family": "Inter, \"Segoe UI\", Arial, \"Leelawadee UI\", sans-serif",
+        "font": "13px",
+        "name": "category",
+        "value": "Design"
+      },
+      {
+        "family": "Inter, \"Segoe UI\", Arial, \"Leelawadee UI\", sans-serif",
+        "font": "13px",
+        "name": "start",
+        "value": ""
+      },
+      {
+        "family": "Inter, \"Segoe UI\", Arial, \"Leelawadee UI\", sans-serif",
+        "font": "13px",
+        "name": "due",
+        "value": ""
+      }
+    ],
+    "options": [
+      {
+        "font": "13px",
+        "text": "Unassigned"
+      },
+      {
+        "font": "13px",
+        "text": "Mina"
+      },
+      {
+        "font": "13px",
+        "text": "Ton"
+      },
+      {
+        "font": "13px",
+        "text": "Prae"
+      },
+      {
+        "font": "13px",
+        "text": "Kan"
+      }
+    ],
+    "selected": [
+      {
+        "font": "13px",
+        "text": "Phase 1 · Planning"
+      },
+      {
+        "font": "13px",
+        "text": "Unassigned"
+      },
+      {
+        "font": "13px",
+        "text": "Medium"
+      },
+      {
+        "font": "13px",
+        "text": "Not started"
+      },
+      {
+        "font": "13px",
+        "text": "Does not repeat"
+      }
+    ],
+    "titleHeight": 32
+  },
+  "parameterSelection": {
+    "label": "Mina",
+    "selects": [
+      {
+        "name": "group",
+        "value": "g1"
+      },
+      {
+        "name": "assignee",
+        "value": "1"
+      },
+      {
+        "name": "priority",
+        "value": "medium"
+      },
+      {
+        "name": "status",
+        "value": "todo"
+      },
+      {
+        "name": "recurrence",
+        "value": "none"
+      }
+    ],
+    "value": "1"
+  },
+  "parameterMobile": {
+    "overflow": false,
+    "titleFont": "13px",
+    "width": 360
+  }
+}

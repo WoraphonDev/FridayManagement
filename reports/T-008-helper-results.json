@@ -1,0 +1,258 @@
+{
+  "task": "T-008",
+  "date": "2026-10-06",
+  "timezone": "Asia/Bangkok",
+  "status": "IN_PROGRESS",
+  "result": "LOCAL_PASS_SQL_AND_FEATURE_INTEGRATION_PENDING",
+  "declared": {
+    "model": "GPT-6.1 Sol",
+    "effort": "High",
+    "speed": "Standard"
+  },
+  "actualRuntimeSettings": "NOT_VERIFIED",
+  "dependencies": {
+    "T-003": "DONE",
+    "T-007": "IN_PROGRESS"
+  },
+  "localAuthorization": "Owner-approved SRS5.2/16 allows SQLite local implementation while SQL unavailable; full dependency graph/sign-off unchanged",
+  "environment": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "host": "macOS arm64",
+    "database": "actual SQLite file fixtures; SQL unavailable/unconfigured"
+  },
+  "checks": {
+    "helpers": {
+      "result": "PASS",
+      "passed": 25,
+      "total": 25,
+      "pureDatesLifecycle": 10,
+      "syntheticRetryDriver": 10,
+      "actualSqlite": 5
+    },
+    "combined": {
+      "result": "PASS",
+      "passed": 174,
+      "total": 174,
+      "suites": {
+        "config": 37,
+        "foundation": 5,
+        "schema": 13,
+        "helpers": 25,
+        "frontend": 16,
+        "contract": 61,
+        "planning": 17
+      }
+    },
+    "sqlserver": {
+      "result": "NOT_RUN",
+      "passed": 0,
+      "skipped": 18,
+      "cases": {
+        "foundation": 1,
+        "guard": 1,
+        "schema": 11,
+        "helpers": 5
+      }
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "checkContract": {
+      "result": "PASS",
+      "routes": 52,
+      "schemas": 75
+    },
+    "checkTestPlan": "PASS",
+    "diffCheck": "PASS",
+    "previousMigrationChecksums": {
+      "result": "PASS",
+      "unchanged": 4
+    }
+  },
+  "trace": {
+    "suite": "UT-02",
+    "partialCases": [
+      "TC-030",
+      "TC-033",
+      "TC-034",
+      "TC-035",
+      "TC-036",
+      "TC-037",
+      "TC-059",
+      "TC-079"
+    ],
+    "fullCasesAcceptanceStatus": "NOT_RUN"
+  },
+  "resolvedIssues": [
+    "Legacy blocked status contradicted locked review; provider-specific 0002 corrective migration preserves previous checksums/data/identity",
+    "Populated SQLite rebuild requires actual FK assertion before resetting deferred counters; invalid references roll back",
+    "Notification fixture corrected to actual schema/dedupe fields; rollback test requires injected missing-table error"
+  ],
+  "notRun": [
+    "Real SQL2022 migration/trusted constraints/locks/deadlocks/concurrency",
+    "HTTP binding and feature use of helpers",
+    "Completion/recurrence/permission feature acceptance",
+    "Full TC/AT/Windows/UAT/browser matrix"
+  ],
+  "progress": {
+    "done": 6,
+    "total": 77,
+    "inProgress": 3,
+    "todo": 68,
+    "remaining": 71
+  },
+  "nextLocal": {
+    "task": "T-009",
+    "effort": "High",
+    "fullDependencyPending": "T-006"
+  },
+  "commands": [
+    "npm test",
+    "npm run typecheck",
+    "npm run lint",
+    "npm run build",
+    "npm run test:sqlserver",
+    "npm run check:contract",
+    "npm run check:test-plan",
+    "git diff --check"
+  ],
+  "artifacts": [
+    {
+      "path": "src/domain/failure.ts",
+      "sha256": "998ea2925df971761a86a51ece6552e9659d571d2de8728823283102fe158f7f"
+    },
+    {
+      "path": "src/domain/transaction.ts",
+      "sha256": "44e11364aa80adc97eef7d13dd843fca632a583c849bfb1797e88becc9b4b8bc"
+    },
+    {
+      "path": "src/domain/dates.ts",
+      "sha256": "a30f68aef71fa719de3116d061794cfe8b4a7145efd862ac95307dbdd6b1a507"
+    },
+    {
+      "path": "src/domain/lifecycle.ts",
+      "sha256": "ab697475df860a47c1d6ef330d65498d6f4ff5d9ba7d33ffd1400e7217890e02"
+    },
+    {
+      "path": "src/domain/atomic-effects.ts",
+      "sha256": "701fe502c7e6b6270bcd36b9ca1cef4871610b930419803837393e08bcc521d6"
+    },
+    {
+      "path": "src/repository/board-helpers.ts",
+      "sha256": "e96f6f3e860c32276837f80318e5e801adb08620dc52b9499c37e82d4d019d25"
+    },
+    {
+      "path": "src/repository/migrate.ts",
+      "sha256": "3fb5e9a161d09cd6787c0e049e0c879a8e65d5e808d815931ee798fd7441d3e5"
+    },
+    {
+      "path": "src/repository/sqlite/database.ts",
+      "sha256": "7fa0898409cb26386542e08a074df15012b17b6a6cea1f115c7c5eec665a095e"
+    },
+    {
+      "path": "src/repository/sqlserver/database.ts",
+      "sha256": "57baa136855cebe256ca87baf9c137c1ca25d4fbf9ce8ff002b8cc161b61ed9d"
+    },
+    {
+      "path": "migrations/sqlite/0002_review_status.sql",
+      "sha256": "aedae021085c3cd40242227eeed2bad38618038f0c1af865094610eecff38d52"
+    },
+    {
+      "path": "migrations/sqlserver/0002_review_status.sql",
+      "sha256": "f2710463521d43142bb12e8c234fcae3691504dc89a471c910a31f117fa941b1"
+    },
+    {
+      "path": "tests/schema/fixtures.ts",
+      "sha256": "3fab3b8fa2a3a69708b51a38bbd4342c5c55dc0995be22e40b966d85e6b477df"
+    },
+    {
+      "path": "tests/schema/suite.ts",
+      "sha256": "f7b492c38d680c2624ff9d823515cc8fbb9b90bb9958cd498b5f107a567d7a4c"
+    },
+    {
+      "path": "tests/foundation/database.test.ts",
+      "sha256": "2e97d383ba2b3cffa8fb7eb0b87f2cb4e3a066036a3a3b0ded2d73f9c05f7657"
+    },
+    {
+      "path": "tests/sqlserver/helpers.test.ts",
+      "sha256": "ee90f3ef0f46bac33d90d1544df20b0853a6a9eda801cf9c06ccad963aff50a8"
+    },
+    {
+      "path": "package.json",
+      "sha256": "824b5b3541a56679d60b4f736c0bec085ba868c9ddd2218c2abf4f5054981978"
+    },
+    {
+      "path": "tsconfig.tools.json",
+      "sha256": "e3147b24651a1f4f601cea53f78e67d2e58daf3a046738f5f89c9548c05e5a66"
+    },
+    {
+      "path": "TeamFlow_T008_Test_Report.md",
+      "sha256": "986c1aeb36152865cf3389f42538242a899e865b94223bf064eb71d4cb4bd80b"
+    },
+    {
+      "path": "TeamFlow_Task_v1.0.md",
+      "sha256": "ab64a067276555c796e744c90b7be2d4fe5affff7f631dbd861b3cb26d2aa31d"
+    },
+    {
+      "path": "TeamFlow_Test_Plan_v1.0.md",
+      "sha256": "6bc7918a9b46182f057d460bb7d00748e273fe134319f854bf9667672a028417"
+    },
+    {
+      "path": "TeamFlow_Test_Cases_v1.0.md",
+      "sha256": "fa6126d7afe27639e38746459cde06a3d81728b740337edec3176e039d1c5c39"
+    },
+    {
+      "path": "TeamFlow_Database_Schema.md",
+      "sha256": "5d04b98b7991e1a4e6090539648a85fceb4fc4fd555fcfcfc73ef21317f5413e"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "1202b2327d1b5ed129d34e8ed35c4f4f5bb3b6b95472cf79fbdc1e76e9d33001"
+    },
+    {
+      "path": "README.md",
+      "sha256": "b65236c532ca617778e30ae3f6199362f3dc123a08ff38439bca2a2a3ff1a415"
+    },
+    {
+      "path": "tests/helpers/dates.test.ts",
+      "sha256": "2a681935f0b3ee30da3688d031d1364678a44e6cc04a35be01694e850c1f0bad"
+    },
+    {
+      "path": "tests/helpers/lifecycle.test.ts",
+      "sha256": "3797f74f1466456345084df11e540f461ed7f030234a2a13a4f855d4588223e1"
+    },
+    {
+      "path": "tests/helpers/provider-suite.ts",
+      "sha256": "a62544b1329f289ab238a90231980b71a58b291b1e8bfc3b9e33b4f255c22bc5"
+    },
+    {
+      "path": "tests/helpers/provider.test.ts",
+      "sha256": "127747f1eaccf06da1c938af9e584f90927ccaf81e25e998be2d4d0e1c1d3413"
+    },
+    {
+      "path": "tests/helpers/sql-adapter.test.ts",
+      "sha256": "8ced11f95b1391a7c957d14e670430e26dd45c3ecdcd90b0562ed45e90a6f85d"
+    },
+    {
+      "path": "tests/helpers/transaction.test.ts",
+      "sha256": "c698cec7dc9d4925417e8b03a335969906ed8bff2cd5abc8de360bdd582f66fe"
+    },
+    {
+      "path": "migrations/sqlite/0000_foundation.sql",
+      "sha256": "d32ff3f76660a86fdb000f18acdf36f7a38ed9a4192deaf62551230aa7eb4bb5"
+    },
+    {
+      "path": "migrations/sqlserver/0000_foundation.sql",
+      "sha256": "dc1835cea9302f6a6e31e3b5026b80c5ded897fd039dd715f4122f5c28d28e05"
+    },
+    {
+      "path": "migrations/sqlite/0001_business_schema.sql",
+      "sha256": "57a78f8c16c5273834ff56d1a0e90559612c372ae1770baaad8b27064e15ae89"
+    },
+    {
+      "path": "migrations/sqlserver/0001_business_schema.sql",
+      "sha256": "eaf34a8ea7ccd82ebd67b8c4cb7b4dea672485f2a1907730827ff77ba7ee6668"
+    }
+  ]
+}

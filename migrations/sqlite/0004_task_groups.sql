@@ -1,0 +1,12 @@
+CREATE TABLE project_groups (
+ id INTEGER PRIMARY KEY AUTOINCREMENT,
+ project_id INTEGER NOT NULL REFERENCES projects(id),
+ name TEXT NOT NULL CHECK(friday_utf16_units(trim(name)) BETWEEN 1 AND 100),
+ color TEXT NOT NULL DEFAULT '#579bfc' CHECK(length(color)=7 AND substr(color,1,1)='#' AND substr(color,2) NOT GLOB '*[^0-9a-fA-F]*'),
+ position INTEGER NOT NULL CHECK(position>=0),
+ version INTEGER NOT NULL DEFAULT 1 CHECK(version BETWEEN 1 AND 2147483647),
+ created_at TEXT NOT NULL CHECK(friday_valid_utc(created_at)=1)
+) STRICT;
+CREATE INDEX ix_project_groups_project ON project_groups(project_id,position,id);
+ALTER TABLE tasks ADD COLUMN group_id INTEGER NULL REFERENCES project_groups(id);
+CREATE INDEX ix_tasks_group ON tasks(group_id);

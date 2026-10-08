@@ -1,0 +1,1158 @@
+
+> friday-management@0.1.0 test:sqlserver
+> node --import tsx --test tests/sqlserver/*.test.ts
+
+TAP version 13
+# (node:52859) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL Server 2022: T015 rotates token/CSRF, revokes others, preserves absolute lifetime and clears forced gate
+ok 1 - SQL Server 2022: T015 rotates token/CSRF, revokes others, preserves absolute lifetime and clears forced gate # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.846292
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T015 rejects wrong current, short/long passwords and client-controlled fields without mutation
+ok 2 - SQL Server 2022: T015 rejects wrong current, short/long passwords and client-controlled fields without mutation # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.049791
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T015 credential attempt limit survives business rollback and expires at15min
+ok 3 - SQL Server 2022: T015 credential attempt limit survives business rollback and expires at15min # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.039375
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T015 prepared credentials recheck revocation before commit
+ok 4 - SQL Server 2022: T015 prepared credentials recheck revocation before commit # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.036
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T016 create forces change, defaults member, username CI duplicate, immutable username and no secrets
+ok 5 - SQL Server 2022: T016 create forces change, defaults member, username CI duplicate, immutable username and no secrets # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.100542
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T016 search is literal, pages stable, active filter and no privileged member reads
+ok 6 - SQL Server 2022: T016 search is literal, pages stable, active filter and no privileged member reads # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.035792
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T016 optimistic version, no-op and last active Admin guard preserve state/audit
+ok 7 - SQL Server 2022: T016 optimistic version, no-op and last active Admin guard preserve state/audit # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.08425
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T015/016 reset confirms actor password, rejects stale version, revokes and forces target only
+ok 8 - SQL Server 2022: T015/016 reset confirms actor password, rejects stale version, revokes and forces target only # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.030334
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T016 deactivation cleans all unfinished including archived/deleted; done/history survive; notifications/revisions atomic
+ok 9 - SQL Server 2022: T016 deactivation cleans all unfinished including archived/deleted; done/history survive; notifications/revisions atomic # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.280792
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T016 Admin demotion retains independent ownerLead/editor even archived; viewer/private loses assignee
+ok 10 - SQL Server 2022: T016 Admin demotion retains independent ownerLead/editor even archived; viewer/private loses assignee # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.305041
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T016 demotion preserves explicit editor but removes viewer-only assignment and leaves unrelated revision private
+ok 11 - SQL Server 2022: T016 demotion preserves explicit editor but removes viewer-only assignment and leaves unrelated revision private # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.091708
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T015 exact12 scalars accepted, wrong-current request does not alter last-seen
+ok 12 - SQL Server 2022: T015 exact12 scalars accepted, wrong-current request does not alter last-seen # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.030625
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T016 rollback prevents partial account/task/audit/notification changes
+ok 13 - SQL Server 2022: T016 rollback prevents partial account/task/audit/notification changes # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.023875
+  type: 'test'
+  ...
+# (node:52860) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL2022: role matrix: admin/owner lead/editor/viewer; team/foreign lead/creator/assignee do not grant project access
+ok 14 - SQL2022: role matrix: admin/owner lead/editor/viewer; team/foreign lead/creator/assignee do not grant project access # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 2.490125
+  type: 'test'
+  ...
+# Subtest: SQL2022: DB scopes hide private rows/counts/search/export; owner-team and literal search filters are bound
+ok 15 - SQL2022: DB scopes hide private rows/counts/search/export; owner-team and literal search filters are bound # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.141833
+  type: 'test'
+  ...
+# Subtest: SQL2022: current membership revocation and role downgrade affect every descendant; independent lead/editor grants preserved
+ok 16 - SQL2022: current membership revocation and role downgrade affect every descendant; independent lead/editor grants preserved # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.936
+  type: 'test'
+  ...
+# Subtest: SQL2022: session hash/user/version/revocation/active/absolute and idle cutoffs revalidated without extending activity
+ok 17 - SQL2022: session hash/user/version/revocation/active/absolute and idle cutoffs revalidated without extending activity # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.06125
+  type: 'test'
+  ...
+# Subtest: SQL2022: forced password allows exactly me/password/logout/activity; current DB CSRF checked; GET never touches session
+ok 18 - SQL2022: forced password allows exactly me/password/logout/activity; current DB CSRF checked; GET never touches session # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.130792
+  type: 'test'
+  ...
+# Subtest: SQL2022: archived/deleted lifecycle and RD01 exceptions; version hook precedes state errors; expired restore denied
+ok 19 - SQL2022: archived/deleted lifecycle and RD01 exceptions; version hook precedes state errors; expired restore denied # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.118292
+  type: 'test'
+  ...
+# Subtest: SQL2022: attachment ownership/read visibility/deleted listing/restore cutoff; Viewer never writes
+ok 20 - SQL2022: attachment ownership/read visibility/deleted listing/restore cutoff; Viewer never writes # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.104333
+  type: 'test'
+  ...
+# Subtest: SQL2022: notification read-one/read-all SQL enforces recipient and current parent access
+ok 21 - SQL2022: notification read-one/read-all SQL enforces recipient and current parent access # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.102166
+  type: 'test'
+  ...
+# Subtest: SQL2022: team/directory privacy and create/unarchive parent invariant; all protected contract operations covered
+ok 22 - SQL2022: team/directory privacy and create/unarchive parent invariant; all protected contract operations covered # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 1.370083
+  type: 'test'
+  ...
+# Subtest: SQL2022: idempotent replay rechecks real session/rights and cached child existence; archived readable replay allowed
+ok 23 - SQL2022: idempotent replay rechecks real session/rights and cached child existence; archived readable replay allowed # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 1.428708
+  type: 'test'
+  ...
+# (node:52861) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL Server 2022: T035 same-column before/append stable contiguous ranks and one version bump persists restart
+ok 24 - SQL Server 2022: T035 same-column before/append stable contiguous ranks and one version bump persists restart # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.780417
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T035 cross-column insertion/reopen/completion uses shared rules; done reorder never regenerates
+ok 25 - SQL Server 2022: T035 cross-column insertion/reopen/completion uses shared rules; done reorder never regenerates # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.052917
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T035 checklist gate/recurrence three columns and reset copy are atomic locked DTOs
+ok 26 - SQL Server 2022: T035 checklist gate/recurrence three columns and reset copy are atomic locked DTOs # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.09475
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T035 wrong/self/missing/other-column anchors, mismatched source and stale versions leave snapshot intact
+ok 27 - SQL Server 2022: T035 wrong/self/missing/other-column anchors, mismatched source and stale versions leave snapshot intact # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.036542
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T035 Viewer/hidden/archived/deleted/maintenance enforce current rights
+ok 28 - SQL Server 2022: T035 Viewer/hidden/archived/deleted/maintenance enforce current rights # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.038291
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T035 move effect failure rolls task/status/board/recurrence back together
+ok 29 - SQL Server 2022: T035 move effect failure rolls task/status/board/recurrence back together # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.035584
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T039 comments plaintext/validation/page scope/author/version immutable
+ok 30 - SQL Server 2022: T039 comments plaintext/validation/page scope/author/version immutable # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.034542
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T039 recipient dedup/no-self/current access and atomic comment/event/notification rollback
+ok 31 - SQL Server 2022: T039 recipient dedup/no-self/current access and atomic comment/event/notification rollback # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.02825
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T035 maintenance blocks move/comments; archived comments readable but no new write
+ok 32 - SQL Server 2022: T035 maintenance blocks move/comments; archived comments readable but no new write # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.240792
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T035 large-column response stays bounded/incomplete and paginated fallback remains available
+ok 33 - SQL Server 2022: T035 large-column response stays bounded/incomplete and paginated fallback remains available # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.314583
+  type: 'test'
+  ...
+# (node:52862) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL Server 2022: T050 own/current-parent scope, page50, unread independent of filter, no GET changes or idle renewal
+ok 34 - SQL Server 2022: T050 own/current-parent scope, page50, unread independent of filter, no GET changes or idle renewal # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 2.25325
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T050 read one/noop/read all persisted, only own visible rows, revoked parents hidden
+ok 35 - SQL Server 2022: T050 read one/noop/read all persisted, only own visible rows, revoked parents hidden # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.171667
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T050 90 UTC day cutoff, just-before retained, maintenance pauses actual cleanup function
+ok 36 - SQL Server 2022: T050 90 UTC day cutoff, just-before retained, maintenance pauses actual cleanup function # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.118667
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T052 totals/status6/overdue/unassigned/33.33%, owner team vs assignee team, zero and hidden/deleted/archived
+ok 37 - SQL Server 2022: T052 totals/status6/overdue/unassigned/33.33%, owner team vs assignee team, zero and hidden/deleted/archived # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.187541
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T052 Bangkok created/completed boundaries, due inclusive, default month, reopen clears done-period, inactive history
+ok 38 - SQL Server 2022: T052 Bangkok created/completed boundaries, due inclusive, default month, reopen clears done-period, inactive history # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.141125
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T053 CSV120+ rows UTF8 BOM RFC4180, formula neutralization, all shared filters and no secret columns
+ok 39 - SQL Server 2022: T053 CSV120+ rows UTF8 BOM RFC4180, formula neutralization, all shared filters and no secret columns # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.036833
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T053 cap50001 rejects before streaming; exactly50000 streams bounded batches, disconnect releases transaction
+ok 40 - SQL Server 2022: T053 cap50001 rejects before streaming; exactly50000 streams bounded batches, disconnect releases transaction # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.0945
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T053 authorization rechecked before headers and export startup; changed access produces no CSV
+ok 41 - SQL Server 2022: T053 authorization rechecked before headers and export startup; changed access produces no CSV # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.033042
+  type: 'test'
+  ...
+# Subtest: Real SQL2022 Session application guard excludes another connection, releases on close and reports held session loss
+ok 42 - Real SQL2022 Session application guard excludes another connection, releases on close and reports held session loss # SKIP NOT_RUN: isolated SQL2022 configuration required
+  ---
+  duration_ms: 0.670917
+  type: 'test'
+  ...
+# (node:52864) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL Server 2022: T040 paginated current-scope task history/legacy structured values/admin recursive redaction and mutation actor/time/request
+ok 43 - SQL Server 2022: T040 paginated current-scope task history/legacy structured values/admin recursive redaction and mutation actor/time/request # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 1.785583
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T041 streamed fingerprint/name/UUID storage/exact bytes and private download DTO
+ok 44 - SQL Server 2022: T041 streamed fingerprint/name/UUID storage/exact bytes and private download DTO # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.10875
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T041 allowlist magic bounded ZIP/Office directory and fatal UTF8
+ok 45 - SQL Server 2022: T041 allowlist magic bounded ZIP/Office directory and fatal UTF8 # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.327917
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T041 actual 1byte/10MiB/max+1/empty and multipart single-file/unknown-field rejection releases temps
+ok 46 - SQL Server 2022: T041 actual 1byte/10MiB/max+1/empty and multipart single-file/unknown-field rejection releases temps # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.0565
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T042 concurrent quota reservation cannot exceed remaining space; failure releases bytes
+ok 47 - SQL Server 2022: T042 concurrent quota reservation cannot exceed remaining space; failure releases bytes # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.061667
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T041 finalize rechecks demotion/revocation/archived/deleted parent and failed metadata transaction leaves no effects
+ok 48 - SQL Server 2022: T041 finalize rechecks demotion/revocation/archived/deleted parent and failed metadata transaction leaves no effects # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.050042
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T043 uploader/owner Lead/Admin vs other Editor/Viewer; deleted metadata scope; active restore and repeated delete no-op
+ok 49 - SQL Server 2022: T043 uploader/owner Lead/Admin vs other Editor/Viewer; deleted metadata scope; active restore and repeated delete no-op # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.042
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T043 exact UTC30day cutoff/current archived/deleted parent/private download/missing disk safely logged
+ok 50 - SQL Server 2022: T043 exact UTC30day cutoff/current archived/deleted parent/private download/missing disk safely logged # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.034
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T042 restart recovery receiving/finalizing/orphan preserves referenced file and accounts reservation release
+ok 51 - SQL Server 2022: T042 restart recovery receiving/finalizing/orphan preserves referenced file and accounts reservation release # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.2925
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T041 file move failure remains tracked until repair/recovery, without metadata or audit
+ok 52 - SQL Server 2022: T041 file move failure remains tracked until repair/recovery, without metadata or audit # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.339625
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T043 purge queues before disk removal; cleanup retries retain bytes and metadata-only loss never double releases
+ok 53 - SQL Server 2022: T043 purge queues before disk removal; cleanup retries retain bytes and metadata-only loss never double releases # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.09525
+  type: 'test'
+  ...
+# Subtest: Real SQL Server2022 foundation transaction/effect rollback
+ok 54 - Real SQL Server2022 foundation transaction/effect rollback # SKIP NOT_RUN: explicitly configured isolated SQL2022 test database required
+  ---
+  duration_ms: 0.632958
+  type: 'test'
+  ...
+# (node:52866) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL2022: two-phase rank swap, canonical locks, one column version increment and reopen persistence
+ok 55 - SQL2022: two-phase rank swap, canonical locks, one column version increment and reopen persistence # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.648542
+  type: 'test'
+  ...
+# Subtest: SQL2022: effect failure rolls back ranks, versions and persisted audit/notification together
+ok 56 - SQL2022: effect failure rolls back ranks, versions and persisted audit/notification together # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.048417
+  type: 'test'
+  ...
+# Subtest: SQL2022: stale/missing task and stale/incomplete/duplicate column orders cannot leave partial state
+ok 57 - SQL2022: stale/missing task and stale/incomplete/duplicate column orders cannot leave partial state # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.038459
+  type: 'test'
+  ...
+# Subtest: SQL2022: source/target column versions, task status/version, audit and notification commit atomically
+ok 58 - SQL2022: source/target column versions, task status/version, audit and notification commit atomically # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.035042
+  type: 'test'
+  ...
+# Subtest: SQL2022: legacy blocked upgrades to review with children, ledger, identity high-water and repeat/reopen intact
+ok 59 - SQL2022: legacy blocked upgrades to review with children, ledger, identity high-water and repeat/reopen intact # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.100458
+  type: 'test'
+  ...
+# (node:52867) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL2022: replay survives reopen; case-insensitive UUID; different body conflicts; user/concrete path isolated
+ok 60 - SQL2022: replay survives reopen; case-insensitive UUID; different body conflicts; user/concrete path isolated # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.785
+  type: 'test'
+  ...
+# Subtest: SQL2022: current rights and resource visibility checked before replay/hash conflict; archive allows readable replay
+ok 61 - SQL2022: current rights and resource visibility checked before replay/hash conflict; archive allows readable replay # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.055084
+  type: 'test'
+  ...
+# Subtest: SQL2022: TTL anchored after mutation; exact cutoff expired; failed replacement restores old cache
+ok 62 - SQL2022: TTL anchored after mutation; exact cutoff expired; failed replacement restores old cache # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.09825
+  type: 'test'
+  ...
+# Subtest: SQL2022: effect failure and response sensitive-field rejection roll back business/effects/cache
+ok 63 - SQL2022: effect failure and response sensitive-field rejection roll back business/effects/cache # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.035375
+  type: 'test'
+  ...
+# Subtest: SQL2022: cache insert failure atomically rolls back business, audit and notification
+ok 64 - SQL2022: cache insert failure atomically rolls back business, audit and notification # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.0375
+  type: 'test'
+  ...
+# Subtest: SQL2022: parallel same key replays; conflicting parallel body creates one set of effects
+ok 65 - SQL2022: parallel same key replays; conflicting parallel body creates one set of effects # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.033875
+  type: 'test'
+  ...
+# Subtest: SQL2022: bounded cleanup expires at cutoff and preserves live keys; job has no automatic timer
+ok 66 - SQL2022: bounded cleanup expires at cutoff and preserves live keys; job has no automatic timer # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.034333
+  type: 'test'
+  ...
+# Subtest: SQL2022: create defaults normalized; credential commands rejected before hashing/persistence
+ok 67 - SQL2022: create defaults normalized; credential commands rejected before hashing/persistence # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.028792
+  type: 'test'
+  ...
+# Subtest: SQL2022: ambiguous outcome after commit returns busy; retry replays committed result without effects duplication
+ok 68 - SQL2022: ambiguous outcome after commit returns busy; retry replays committed result without effects duplication # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.25025
+  type: 'test'
+  ...
+# Subtest: SQL2022: upload fingerprint permits validated metadata only; file bytes and headers never reach storage
+ok 69 - SQL2022: upload fingerprint permits validated metadata only; file bytes and headers never reach storage # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 1.9855
+  type: 'test'
+  ...
+# (node:52868) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL2022: T019 recovers existing inactive member as active forced Admin, revokes sessions, preserves history and redacts installer audit
+ok 70 - SQL2022: T019 recovers existing inactive member as active forced Admin, revokes sessions, preserves history and redacts installer audit # SKIP NOT_RUN: native SQL2022 installer integration required
+  ---
+  duration_ms: 0.788542
+  type: 'test'
+  ...
+# Subtest: SQL2022: T019 force logout advances auth version only, revokes all target sessions and leaves other users/password/resource version intact
+ok 71 - SQL2022: T019 force logout advances auth version only, revokes all target sessions and leaves other users/password/resource version intact # SKIP NOT_RUN: native SQL2022 installer integration required
+  ---
+  duration_ms: 0.052875
+  type: 'test'
+  ...
+# Subtest: SQL2022: T019 target confirmation/shape/policy guards refuse before writes or audit
+ok 72 - SQL2022: T019 target confirmation/shape/policy guards refuse before writes or audit # SKIP NOT_RUN: native SQL2022 installer integration required
+  ---
+  duration_ms: 0.043625
+  type: 'test'
+  ...
+# Subtest: SQL2022: T019 audit failure rolls back recovered role/password/version, sessions and revisions
+ok 73 - SQL2022: T019 audit failure rolls back recovered role/password/version, sessions and revisions # SKIP NOT_RUN: native SQL2022 installer integration required
+  ---
+  duration_ms: 0.038541
+  type: 'test'
+  ...
+# Subtest: SQL2022: T019 aborting installer authority after password hashing cannot apply mutation
+ok 74 - SQL2022: T019 aborting installer authority after password hashing cannot apply mutation # SKIP NOT_RUN: native SQL2022 installer integration required
+  ---
+  duration_ms: 0.101333
+  type: 'test'
+  ...
+# Subtest: SQL2022: T019 stale auth snapshot cannot overwrite a concurrent administrative action
+ok 75 - SQL2022: T019 stale auth snapshot cannot overwrite a concurrent administrative action # SKIP NOT_RUN: native SQL2022 installer integration required
+  ---
+  duration_ms: 0.034334
+  type: 'test'
+  ...
+# Subtest: SQL2022: T019 force logout keeps unrelated view revisions private and recovery does not resurrect assignments
+ok 76 - SQL2022: T019 force logout keeps unrelated view revisions private and recovery does not resurrect assignments # SKIP NOT_RUN: native SQL2022 installer integration required
+  ---
+  duration_ms: 0.09175
+  type: 'test'
+  ...
+# Subtest: SQL2022: T019 maintenance freeze prevents recovery/logout and never steals its lease
+ok 77 - SQL2022: T019 maintenance freeze prevents recovery/logout and never steals its lease # SKIP NOT_RUN: native SQL2022 installer integration required
+  ---
+  duration_ms: 0.033583
+  type: 'test'
+  ...
+# (node:52869) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL Server 2022: T048 dispatch unique recipients, self/inactive/no access suppressed, safe message
+ok 78 - SQL Server 2022: T048 dispatch unique recipients, self/inactive/no access suppressed, safe message # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 3.980667
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T048 actual assignment/comment/status share task events; creator and assignee deduped
+ok 79 - SQL Server 2022: T048 actual assignment/comment/status share task events; creator and assignee deduped # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.08425
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T048 notification write failure rolls back task, audit and event atomically
+ok 80 - SQL Server 2022: T048 notification write failure rolls back task, audit and event atomically # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.044833
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T048 actual permission cleanup notifies owner Admin/Leads except actor
+ok 81 - SQL Server 2022: T048 actual permission cleanup notifies owner Admin/Leads except actor # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.038125
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T048 actual reopen and restore clear historical ineligible assignee and alert owner leads
+ok 82 - SQL Server 2022: T048 actual reopen and restore clear historical ineligible assignee and alert owner leads # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.197875
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T049 tomorrow/today/overdue Bangkok, repeated run and restart deduped
+ok 83 - SQL Server 2022: T049 tomorrow/today/overdue Bangkok, repeated run and restart deduped # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.034084
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T049 exclusions done/deleted/archived team/project/unassigned/inactive/no access/viewer
+ok 84 - SQL Server 2022: T049 exclusions done/deleted/archived team/project/unassigned/inactive/no access/viewer # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.089583
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T049 midnight/leap/year boundaries and current-day-only catch-up
+ok 85 - SQL Server 2022: T049 midnight/leap/year boundaries and current-day-only catch-up # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.032791
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T049 DB tuple dedupe per recipient/type/day, reassignment and changed due date
+ok 86 - SQL Server 2022: T049 DB tuple dedupe per recipient/type/day, reassignment and changed due date # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.285583
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T049 keyset batches process every eligible row beyond 100
+ok 87 - SQL Server 2022: T049 keyset batches process every eligible row beyond 100 # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.30475
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T049 maintenance pauses business reminders; resume catches up current day only
+ok 88 - SQL Server 2022: T049 maintenance pauses business reminders; resume catches up current day only # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.094291
+  type: 'test'
+  ...
+# (node:52870) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL Server 2022 T067 fixture roles/project topology, generated hashes, independent reset and Bangkok clock
+ok 89 - SQL Server 2022 T067 fixture roles/project topology, generated hashes, independent reset and Bangkok clock # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.758041
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T068 real login hash-only sessions, polling idle boundary and absolute expiry despite activity
+ok 90 - SQL Server 2022 T068 real login hash-only sessions, polling idle boundary and absolute expiry despite activity # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.10575
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T068 last Admin guard, role/deactivate revocation and history retention
+ok 91 - SQL Server 2022 T068 last Admin guard, role/deactivate revocation and history retention # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.039333
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T068 password rotation/reset revokes old cookie and keeps audit secret-free
+ok 92 - SQL Server 2022 T068 password rotation/reset revokes old cookie and keeps audit secret-free # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.035417
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T069 exact role/project read matrix and byte-authorized file IDOR
+ok 93 - SQL Server 2022 T069 exact role/project read matrix and byte-authorized file IDOR # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.038125
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T069 Viewer write matrix preserves DB/attachment bytes across all task actions
+ok 94 - SQL Server 2022 T069 Viewer write matrix preserves DB/attachment bytes across all task actions # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.033917
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T069 scope across search/count/report/CSV/notification and directory
+ok 95 - SQL Server 2022 T069 scope across search/count/report/CSV/notification and directory # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.030375
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T069 revoke open detail prevents new reads/write/replay and cleans open assignment
+ok 96 - SQL Server 2022 T069 revoke open detail prevents new reads/write/replay and cleans open assignment # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.028792
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T069 archived project rejects normal writes, owner lifecycle exception and unarchive
+ok 97 - SQL Server 2022 T069 archived project rejects normal writes, owner lifecycle exception and unarchive # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.241209
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T069 CSRF/no Origin/spoofed proxy, parameterized SQLi and plaintext XSS
+ok 98 - SQL Server 2022 T069 CSRF/no Origin/spoofed proxy, parameterized SQLi and plaintext XSS # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.305625
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T070 HTTP validation/checklist/leap monthly/concurrent same-key retry/reopen one successor
+ok 99 - SQL Server 2022 T070 HTTP validation/checklist/leap monthly/concurrent same-key retry/reopen one successor # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.091458
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T070 real HTTP trash/restore/cutoff/purge removes referenced bytes and keeps purge audit
+ok 100 - SQL Server 2022 T070 real HTTP trash/restore/cutoff/purge removes referenced bytes and keeps purge audit # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.030875
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T071 HTTP >500 board fallback, complete paginated rows and Bangkok midnight/null dates
+ok 101 - SQL Server 2022 T071 HTTP >500 board fallback, complete paginated rows and Bangkok midnight/null dates # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.023458
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T072 comment same-key concurrency immutable history, recipients/no-self/read scope and90day cutoff
+ok 102 - SQL Server 2022 T072 comment same-key concurrency immutable history, recipients/no-self/read scope and90day cutoff # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.021583
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T072 real multipart10MiB/+1/invalid magic preserves quota and cleans reservations/temp
+ok 103 - SQL Server 2022 T072 real multipart10MiB/+1/invalid magic preserves quota and cleans reservations/temp # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.021
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022 T073 HTTP report owner-team/date/reopen and parsed Thai/formula/newline CSV all121rows
+ok 104 - SQL Server 2022 T073 HTTP report owner-team/date/reopen and parsed Thai/formula/newline CSV all121rows # SKIP Native SQL2022 not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.023958
+  type: 'test'
+  ...
+# (node:52871) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL Server 2022: cutoff purge is atomic with audit/bytes queue and retains recurrence tombstones
+ok 105 - SQL Server 2022: cutoff purge is atomic with audit/bytes queue and retains recurrence tombstones # SKIP Native SQL2022 not configured; local SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.655
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: maintenance blocks retention, drains admitted work and owner loss never unlocks
+ok 106 - SQL Server 2022: maintenance blocks retention, drains admitted work and owner loss never unlocks # SKIP Native SQL2022 not configured; local SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.049625
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: a failed parent deletion rolls audit/child/byte-queue changes back
+ok 107 - SQL Server 2022: a failed parent deletion rolls audit/child/byte-queue changes back # SKIP Native SQL2022 not configured; local SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.038834
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: expired sessions/idempotency/rate limits clean at the exact deadline
+ok 108 - SQL Server 2022: expired sessions/idempotency/rate limits clean at the exact deadline # SKIP Native SQL2022 not configured; local SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.036834
+  type: 'test'
+  ...
+# (node:52872) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL2022: All dictionary tables, enabled/trusted NO ACTION FKs and required indexes exist
+ok 109 - SQL2022: All dictionary tables, enabled/trusted NO ACTION FKs and required indexes exist # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 1.30975
+  type: 'test'
+  ...
+# Subtest: SQL2022: Case-insensitive username/team uniqueness, Thai/Unicode and memberships enforce boundaries
+ok 110 - SQL2022: Case-insensitive username/team uniqueness, Thai/Unicode and memberships enforce boundaries # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.094375
+  type: 'test'
+  ...
+# Subtest: SQL2022: UTF16 text storage matches DTO limits including emoji and Thai trailing spaces
+ok 111 - SQL2022: UTF16 text storage matches DTO limits including emoji and Thai trailing spaces # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.108375
+  type: 'test'
+  ...
+# Subtest: SQL2022: Subtask/comment/attachment/admin records enforce FK, JSON, UUID, byte and version boundaries
+ok 112 - SQL2022: Subtask/comment/attachment/admin records enforce FK, JSON, UUID, byte and version boundaries # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.036125
+  type: 'test'
+  ...
+# Subtest: SQL2022: Date-only leap boundaries and UTC millisecond timestamps serialize as provider-independent primitives
+ok 113 - SQL2022: Date-only leap boundaries and UTC millisecond timestamps serialize as provider-independent primitives # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.038417
+  type: 'test'
+  ...
+# Subtest: SQL2022: Task enums, recurrence links/anchor, optional UNIQUE, completion and trash pairs enforce consistency
+ok 114 - SQL2022: Task enums, recurrence links/anchor, optional UNIQUE, completion and trash pairs enforce consistency # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.032959
+  type: 'test'
+  ...
+# Subtest: SQL2022: Board uniqueness is immediate; negative ranks support two-phase swaps and status/project FKs
+ok 115 - SQL2022: Board uniqueness is immediate; negative ranks support two-phase swaps and status/project FKs # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.031375
+  type: 'test'
+  ...
+# Subtest: SQL2022: Explicit purge retains recurrence tombstones and cleanup snapshots, with no identity reuse
+ok 116 - SQL2022: Explicit purge retains recurrence tombstones and cleanup snapshots, with no identity reuse # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.028417
+  type: 'test'
+  ...
+# Subtest: SQL2022: Quota, reservations, cleanup, idempotency, sessions and maintenance survive reopen
+ok 117 - SQL2022: Quota, reservations, cleanup, idempotency, sessions and maintenance survive reopen # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.243917
+  type: 'test'
+  ...
+# Subtest: SQL2022: Actual task/audit/notification writes commit atomically and roll back when an effect fails
+ok 118 - SQL2022: Actual task/audit/notification writes commit atomically and roll back when an effect fails # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.307833
+  type: 'test'
+  ...
+# Subtest: SQL2022: Fresh/repeat/legacy upgrade preserve data; changed, missing and partial-failure migrations are rejected atomically
+ok 119 - SQL2022: Fresh/repeat/legacy upgrade preserve data; changed, missing and partial-failure migrations are rejected atomically # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.094042
+  type: 'test'
+  ...
+# (node:52873) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL2022: case-insensitive login creates independent256-bit tokens/hash-only sessions and minimal scoped Self
+ok 120 - SQL2022: case-insensitive login creates independent256-bit tokens/hash-only sessions and minimal scoped Self # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 1.31575
+  type: 'test'
+  ...
+# Subtest: SQL2022: wrong/unknown/inactive/corrupt and short CurrentPassword failures are generic; spaces are significant
+ok 121 - SQL2022: wrong/unknown/inactive/corrupt and short CurrentPassword failures are generic; spaces are significant # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.067542
+  type: 'test'
+  ...
+# Subtest: SQL2022: strict login allowlist and scalar CurrentPassword bounds validate before attempts or hashing
+ok 122 - SQL2022: strict login allowlist and scalar CurrentPassword bounds validate before attempts or hashing # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.103417
+  type: 'test'
+  ...
+# Subtest: SQL2022: username limit10 ignores case/IP; successes and restart preserve limits; exact15min boundary resets
+ok 123 - SQL2022: username limit10 ignores case/IP; successes and restart preserve limits; exact15min boundary resets # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.281584
+  type: 'test'
+  ...
+# Subtest: SQL2022: IP limit30 spans usernames and successful login; mapped IPv4 shares bucket; expired buckets reset
+ok 124 - SQL2022: IP limit30 spans usernames and successful login; mapped IPv4 shares bucket; expired buckets reset # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.040625
+  type: 'test'
+  ...
+# Subtest: SQL2022: reads do not renew idle; CSRF activity renews only before exact60min expiry
+ok 125 - SQL2022: reads do not renew idle; CSRF activity renews only before exact60min expiry # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.035583
+  type: 'test'
+  ...
+# Subtest: SQL2022: activity never extends12h absolute expiry; lowered configured lifetimes and clock regression fail safely
+ok 126 - SQL2022: activity never extends12h absolute expiry; lowered configured lifetimes and clock regression fail safely # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.034625
+  type: 'test'
+  ...
+# Subtest: SQL2022: forced gate limits Self summaries; scoped grants are current, archived Lead survives; logout revokes one session
+ok 127 - SQL2022: forced gate limits Self summaries; scoped grants are current, archived Lead survives; logout revokes one session # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.030709
+  type: 'test'
+  ...
+# Subtest: SQL2022: auth-version/deactivation/role/reset revocation compose atomically and rollback preserves sessions
+ok 128 - SQL2022: auth-version/deactivation/role/reset revocation compose atomically and rollback preserves sessions # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.244708
+  type: 'test'
+  ...
+# Subtest: SQL2022: login replaces presented old session without fixation; revocation race never creates a session
+ok 129 - SQL2022: login replaces presented old session without fixation; revocation race never creates a session # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.320541
+  type: 'test'
+  ...
+# (node:52874) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL2022: setup token is 256-bit, changes with service restart, never stored or exposed by meta
+ok 130 - SQL2022: setup token is 256-bit, changes with service restart, never stored or exposed by meta # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.801292
+  type: 'test'
+  ...
+# Subtest: SQL2022: valid setup creates one active Admin/organization/audit/revision; scrypt salt/cost/no-trim; safe DTO
+ok 131 - SQL2022: valid setup creates one active Admin/organization/audit/revision; scrypt salt/cost/no-trim; safe DTO # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.051208
+  type: 'test'
+  ...
+# Subtest: SQL2022: wrong token403 and strict field/password rules reject without business rows; configured setup409 even wrong token
+ok 132 - SQL2022: wrong token403 and strict field/password rules reject without business rows; configured setup409 even wrong token # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.039125
+  type: 'test'
+  ...
+# Subtest: SQL2022: audit failure rolls back organization/user/revision; rate attempts survive business rollback
+ok 133 - SQL2022: audit failure rolls back organization/user/revision; rate attempts survive business rollback # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.03725
+  type: 'test'
+  ...
+# Subtest: SQL2022: parallel setup commands create exactly one complete set and the loser409
+ok 134 - SQL2022: parallel setup commands create exactly one complete set and the loser409 # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.1055
+  type: 'test'
+  ...
+# Subtest: SQL2022: persisted setup IP limit10/15min survives restart; equivalent mapped IPv4 buckets match; cutoff resets
+ok 135 - SQL2022: persisted setup IP limit10/15min survives restart; equivalent mapped IPv4 buckets match; cutoff resets # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.032541
+  type: 'test'
+  ...
+# Subtest: SQL2022: pre-existing organization without accounts updated atomically rather than duplicated
+ok 136 - SQL2022: pre-existing organization without accounts updated atomically rather than duplicated # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.086875
+  type: 'test'
+  ...
+# Subtest: SQL2022: simulated lost commit acknowledgement returns busy; authoritative meta false and further setup409
+ok 137 - SQL2022: simulated lost commit acknowledgement returns busy; authoritative meta false and further setup409 # SKIP NOT_RUN: isolated SQL2022 required
+  ---
+  duration_ms: 0.0335
+  type: 'test'
+  ...
+# (node:52875) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL Server 2022: T030 delete excludes active queries/board/notifications/attachment scope; restore appends/version, children intact
+ok 138 - SQL Server 2022: T030 delete excludes active queries/board/notifications/attachment scope; restore appends/version, children intact # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.846292
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T030 creator Editor vs noncreator/Viewer; Admin/Lead archived deletion and read-only restore RD01
+ok 139 - SQL Server 2022: T030 creator Editor vs noncreator/Viewer; Admin/Lead archived deletion and read-only restore RD01 # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.056208
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T030 exact UTC 30-day cutoff; stale version first, no partial expired restore
+ok 140 - SQL Server 2022: T030 exact UTC 30-day cutoff; stale version first, no partial expired restore # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.042625
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T030 restore current eligible assignee, done history retained, soft-delete series does not regenerate
+ok 141 - SQL Server 2022: T030 restore current eligible assignee, done history retained, soft-delete series does not regenerate # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.040458
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T030 managed trash only owning scopes, revoked read hidden and children blocked
+ok 142 - SQL Server 2022: T030 managed trash only owning scopes, revoked read hidden and children blocked # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.147667
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T030 deletion/restore effect failure rolls back task/ordering/column/events atomically
+ok 143 - SQL Server 2022: T030 deletion/restore effect failure rolls back task/ordering/column/events atomically # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.038917
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T031 scoped count before pagination, hidden search and explicit archived project only
+ok 144 - SQL Server 2022: T031 scoped count before pagination, hidden search and explicit archived project only # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.08925
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T031 AND fields/OR values, assignee null vs omitted, creator/has_due and exact category
+ok 145 - SQL Server 2022: T031 AND fields/OR values, assignee null vs omitted, creator/has_due and exact category # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.035
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T031 literal wildcard/Unicode case search in title/description/category and bound SQL injection
+ok 146 - SQL Server 2022: T031 literal wildcard/Unicode case search in title/description/category and bound SQL injection # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.286792
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T031 all seven sorts, due null-last both directions and ID ties
+ok 147 - SQL Server 2022: T031 all seven sorts, due null-last both directions and ID ties # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.30425
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T031 inclusive due and Bangkok timestamp [start,end), completed excludes reopened tasks
+ok 148 - SQL Server 2022: T031 inclusive due and Bangkok timestamp [start,end), completed excludes reopened tasks # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.097792
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T034 consistent four-column snapshot/versions persist after restart; corrupt rank fails closed
+ok 149 - SQL Server 2022: T034 consistent four-column snapshot/versions persist after restart; corrupt rank fails closed # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.034584
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T034 500 boundary vs501 list_required returns no partial array; pagination still complete
+ok 150 - SQL Server 2022: T034 500 boundary vs501 list_required returns no partial array; pagination still complete # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.028458
+  type: 'test'
+  ...
+# (node:52876) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL Server 2022: T025 organization admin-only, UTF16/trim/version, persisted reopen and atomic audit
+ok 151 - SQL Server 2022: T025 organization admin-only, UTF16/trim/version, persisted reopen and atomic audit # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.851833
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T026 create defaults/nullable fields/plain text DTO and atomic board/event
+ok 152 - SQL Server 2022: T026 create defaults/nullable fields/plain text DTO and atomic board/event # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.049084
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T026 every field rejects invalid lengths/enums/real dates/ranges/unknown/immutable fields
+ok 153 - SQL Server 2022: T026 every field rejects invalid lengths/enums/real dates/ranges/unknown/immutable fields # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.041542
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T026 merged patch preserves omitted fields/conflict no overwrite/updated timestamp
+ok 154 - SQL Server 2022: T026 merged patch preserves omitted fields/conflict no overwrite/updated timestamp # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.035958
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T026 current roles/active assignee, cross-project invisibility, archived/deleted writes
+ok 155 - SQL Server 2022: T026 current roles/active assignee, cross-project invisibility, archived/deleted writes # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.105834
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T027 all twelve transitions maintain completion/append board/version and noop
+ok 156 - SQL Server 2022: T027 all twelve transitions maintain completion/append board/version and noop # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.032625
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T028 checklist create/edit/toggle/delete versions, no auto-done and parent guard
+ok 157 - SQL Server 2022: T028 checklist create/edit/toggle/delete versions, no auto-done and parent guard # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.087709
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T028 unknown child dates/invalid titles and viewer cannot mutate
+ok 158 - SQL Server 2022: T028 unknown child dates/invalid titles and viewer cannot mutate # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.031291
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T029 daily/weekly uses old due + offset; no overdue catchup, defaults and copied eligible fields
+ok 159 - SQL Server 2022: T029 daily/weekly uses old due + offset; no overdue catchup, defaults and copied eligible fields # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.28175
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T029 monthly Jan31-Feb28-Mar31 retains anchor and checklist resets
+ok 160 - SQL Server 2022: T029 monthly Jan31-Feb28-Mar31 retains anchor and checklist resets # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.329917
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T029 monthly Jan31-Feb29-Mar31 retains anchor and checklist resets
+ok 161 - SQL Server 2022: T029 monthly Jan31-Feb29-Mar31 retains anchor and checklist resets # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.095792
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T029 due edit resets monthly anchor, leaving monthly clears; later source edits preserve successor
+ok 162 - SQL Server 2022: T029 due edit resets monthly anchor, leaving monthly clears; later source edits preserve successor # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.03025
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T029 reopen/recomplete and purged successor tombstone do not regenerate; none cancels
+ok 163 - SQL Server 2022: T029 reopen/recomplete and purged successor tombstone do not regenerate; none cancels # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.026667
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T029 does not clone comments/files/audit; recurrence successor has own creation event
+ok 164 - SQL Server 2022: T029 does not clone comments/files/audit; recurrence successor has own creation event # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.022041
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T016/022/027/029 member demotion and account deactivation preserve done history and unassign reopen/successor
+ok 165 - SQL Server 2022: T016/022/027/029 member demotion and account deactivation preserve done history and unassign reopen/successor # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.021125
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T027 notifications current recipients/dedupe/no-self, and rollback at every atomic effect
+ok 166 - SQL Server 2022: T027 notifications current recipients/dedupe/no-self, and rollback at every atomic effect # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.020625
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T025/T028 rollback failed audit leaves organization/checklist/parent unchanged
+ok 167 - SQL Server 2022: T025/T028 rollback failed audit leaves organization/checklist/parent unchanged # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.019875
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T026 owner Lead overrides explicit Viewer and eligible admin is assignable without membership
+ok 168 - SQL Server 2022: T026 owner Lead overrides explicit Viewer and eligible admin is assignable without membership # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.021291
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: Owner Vibe: multi-assignees, secondary filtering, independent Checklist, notifications and recurrence
+ok 169 - SQL Server 2022: Owner Vibe: multi-assignees, secondary filtering, independent Checklist, notifications and recurrence # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.020792
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: Owner Vibe: persisted groups, cross-project rejection, versions and audit rollback
+ok 170 - SQL Server 2022: Owner Vibe: persisted groups, cross-project rejection, versions and audit rollback # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.019
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: Owner Vibe: removal cleans secondary and Checklist assignments without removing the primary
+ok 171 - SQL Server 2022: Owner Vibe: removal cleans secondary and Checklist assignments without removing the primary # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.019417
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: Owner Vibe: secondary-assignee workload, CSV, reminders and pagination dedupe
+ok 172 - SQL Server 2022: Owner Vibe: secondary-assignee workload, CSV, reminders and pagination dedupe # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.020959
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: Owner Vibe: idempotent multi-assignee create replays reordered sets and preserves explicit alias conflicts
+ok 173 - SQL Server 2022: Owner Vibe: idempotent multi-assignee create replays reordered sets and preserves explicit alias conflicts # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.021042
+  type: 'test'
+  ...
+# (node:52877) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQL Server 2022: T020 team create, UTF16/trim/CI uniqueness, no unauthorized or duplicate composite writes
+ok 174 - SQL Server 2022: T020 team create, UTF16/trim/CI uniqueness, no unauthorized or duplicate composite writes # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 1.318709
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T020/21 active-project archive guard, archived team create/unarchive guard, no cascade
+ok 175 - SQL Server 2022: T020/21 active-project archive guard, archived team create/unarchive guard, no cascade # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.125458
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T020/21 version conflict rejects all effects and owner team remains immutable
+ok 176 - SQL Server 2022: T020/21 version conflict rejects all effects and owner team remains immutable # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.053625
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T021 team-only membership excludes projects/total; explicit sharing and owner Lead are scoped
+ok 177 - SQL Server 2022: T021 team-only membership excludes projects/total; explicit sharing and owner Lead are scoped # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.044416
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T021 directory privacy/no usernames/secrets and active-only search/pagination
+ok 178 - SQL Server 2022: T021 directory privacy/no usernames/secrets and active-only search/pagination # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.116583
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T022 Editor->Viewer atomically unassigns open/deleted but preserves done, versions, audit and scoped notification
+ok 179 - SQL Server 2022: T022 Editor->Viewer atomically unassigns open/deleted but preserves done, versions, audit and scoped notification # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.035583
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T022 removing/reducing Lead preserves explicit Editor and cleanup only losing effective write
+ok 180 - SQL Server 2022: T022 removing/reducing Lead preserves explicit Editor and cleanup only losing effective write # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.091042
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T022 reducing explicit Editor does not cleanup an owner Lead
+ok 181 - SQL Server 2022: T022 reducing explicit Editor does not cleanup an owner Lead # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.032708
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T022 deactivate uses shared cleanup, revokes live sessions and preserves done history
+ok 182 - SQL Server 2022: T022 deactivate uses shared cleanup, revokes live sessions and preserves done history # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.293208
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T022 cleanup notification/audit failure rolls back membership/task/version/revisions together
+ok 183 - SQL Server 2022: T022 cleanup notification/audit failure rolls back membership/task/version/revisions together # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.325458
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T020/21 stale/revoked sessions and maintenance reject mutation
+ok 184 - SQL Server 2022: T020/21 stale/revoked sessions and maintenance reject mutation # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.102167
+  type: 'test'
+  ...
+# Subtest: SQL Server 2022: T021 archived projects remain readable and real authorization forbids normal writes
+ok 185 - SQL Server 2022: T021 archived projects remain readable and real authorization forbids normal writes # SKIP Native SQL Server integration not configured; SQLite cannot close SQL acceptance
+  ---
+  duration_ms: 0.037459
+  type: 'test'
+  ...
+1..185
+# tests 185
+# suites 0
+# pass 0
+# fail 0
+# cancelled 0
+# skipped 185
+# todo 0
+# duration_ms 1386.502541

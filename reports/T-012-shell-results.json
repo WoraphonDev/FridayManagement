@@ -1,0 +1,104 @@
+{
+  "task": "T-012",
+  "date": "2026-10-06",
+  "status": "DONE",
+  "scope": "frontend shell/navigation/shared states only",
+  "declared_effort": "Medium",
+  "actual_runtime_settings": "NOT_VERIFIED",
+  "environment": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "browser": "Chromium 153.0.8010.12 headless",
+    "playwright": "1.63.0",
+    "provider": "temporary local SQLite",
+    "loopback_port": 43171
+  },
+  "checks": {
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "frontend": {
+      "result": "PASS",
+      "passed": 16,
+      "total": 16
+    },
+    "browser": {
+      "result": "PASS",
+      "passed": 5,
+      "total": 5
+    },
+    "http_regression": {
+      "result": "PASS",
+      "passed": 1,
+      "total": 1
+    },
+    "check_contract": {
+      "result": "PASS",
+      "routes": 52,
+      "schemas": 75
+    },
+    "self_fixture_contract": {
+      "result": "PASS",
+      "passed": 4,
+      "total": 4
+    },
+    "check_test_plan": "PASS",
+    "diff_check": "PASS"
+  },
+  "trace": {
+    "requirements": [
+      "FR-35",
+      "NFR-05",
+      "NFR-06"
+    ],
+    "partial_evidence": [
+      "TC-073 shell keyboard/focus/mobile 200% text"
+    ],
+    "full_acceptance_status": "NOT_RUN"
+  },
+  "limitations": [
+    "HTTP role fixtures are synthetic, not backend authentication or ACL proof",
+    "Business pages are placeholders; real /api/me remains SERVICE_NOT_READY",
+    "Full TC/browser-device matrix/AT/SQL2022/Windows/UAT NOT_RUN"
+  ],
+  "resolved_defects": [
+    "Mobile 200% text overflow fixed; all five browser cases rerun PASS"
+  ],
+  "progress": {
+    "completed": 6,
+    "total": 77,
+    "in_progress": 2,
+    "todo": 69,
+    "remaining": 71,
+    "new_todo_ready": []
+  },
+  "next": {
+    "tasks": [
+      "T-006",
+      "T-007"
+    ],
+    "effort": "High",
+    "pending": "real SQL2022 integration evidence"
+  },
+  "sha256": {
+    "frontend/src/App.tsx": "5efacd168d1df049f086721b083b898230aea1f91a2e81a4b0612ea56408a0d0",
+    "frontend/src/api.ts": "a673d7666bde5a0bf752b91bdf5ba9dc5e0bbd24f90ec6f00c6bc363f78f139d",
+    "frontend/src/navigation.ts": "1699bb6ad15eadd71c2483210c9c1b6d2386759b6ad9df2b400f7569bef65419",
+    "frontend/src/style.css": "fa8d047fbf994c71930a4fb346d59b8ec3c5e9859ca27f53c7acc736c60b50d7",
+    "frontend/src/shared/components.tsx": "a3064ace502e59cc4be3d0048330ac257d93245f6b2f07c64a6fc35258d060f7",
+    "frontend/src/test-fixtures.ts": "29124d343ee0f1dafaf64aa78660edaffb2de6f6ee0e4fb9131aadfa3d9fa3fa",
+    "frontend/src/App.test.tsx": "5dc6b86eb0a77f7e51f84f924351ff223c0a729d71f512df04b27d29528ba4bb",
+    "frontend/src/api.test.tsx": "0124a0a8d032e65f6bc0903814072a8ecbc04406de2d7f48d9ea2ffb5ba41027",
+    "frontend/src/shared/components.test.tsx": "6b482afc2d1edaa80931f34384f899e3425088f727080f7c3c2157cb40d623f6",
+    "frontend/public/favicon.svg": "eb3c385bb67b6e8b7e1b0d30f5b493027e91b94d9c8d997c5cab815e4970ef53",
+    "frontend/index.html": "c3583d27c71d4ec2434325a49ce3e28808409b20b0b2736cccec78322b914892",
+    "src/api/app.ts": "f98320392deb0c7ce5d3cb08cc8b2b2b3b225d99090724a3d0b06c873f45f4b1",
+    "tests/browser/shell.spec.ts": "fbae21fffaae7407d9b30f6b29715cd4e58688aa57872eb738cd0d326d59f533",
+    "TeamFlow_T012_Test_Report.md": "05ee84d7f381acff92ed84643a73f59c683067ef3975432dd172f2f03698afd0",
+    "TeamFlow_Task_v1.0.md": "4df138b9b2b2cc3bcc983b1c55c96d97785b0d9506612fb044696af3ecfe6d2f",
+    "TeamFlow_Test_Plan_v1.0.md": "f570194f2ece2ca4f8206039f5e8989c778cbfffabb6357098521e6aa24bd71d",
+    "TeamFlow_Test_Cases_v1.0.md": "3e660f619f0ef2a2b8156d3a136823e3a61275773e780d206da5b566ee8bd821",
+    "AGENTS.md": "a73027b8d676a5768737a82a3a75b58a9c2d0fe207c2e38a305afab9d023e70c",
+    "README.md": "641121284b6f149b4f667900cf911f7a53845d912948d709df89950353b9f227"
+  }
+}

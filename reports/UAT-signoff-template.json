@@ -1,0 +1,1268 @@
+{
+  "formatVersion": 1,
+  "scope": "Human sign-off template; no formal execution evidence",
+  "baseline": "1.1",
+  "candidateArchive": null,
+  "candidateSHA256": null,
+  "build": null,
+  "sourceManifestSHA256": "9af145a9bef83dadf3d30abc79d2fc3df4b1e80c0ca4437568acba2e497571ca",
+  "environment": "Windows / SQL Server 2022 required; NOT_RUN",
+  "reviewer": null,
+  "date": null,
+  "formalRecords": "tests/execution-records.json (unchanged; append only evidence satisfying release policy)",
+  "defectPolicy": "Record severity, affected criteria, reproduction, redacted evidence, owner, fix build and retest. Empty registry does not prove no Critical/Major defects.",
+  "acceptance": [
+    {
+      "id": "AT-01",
+      "title": "เปิดระบบใหม่/setup token ผิด/ถูก/ใช้ซ้ำ",
+      "expected": "ผิด403;ถูก201;ใช้ซ้ำ409;ไม่มี default account",
+      "trace": "FR-01",
+      "tasks": [
+        "T-013",
+        "T-068"
+      ],
+      "cases": [
+        "TC-001",
+        "TC-002"
+      ],
+      "result": "NOT_RUN",
+      "variants": [],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-02",
+      "title": "Login ผิด, rate limit, logout, cookie reuse",
+      "expected": "ข้อความกลาง;429 ตาม limit;logout แล้ว401",
+      "trace": "FR-02,NFR-02",
+      "tasks": [
+        "T-014",
+        "T-017",
+        "T-068"
+      ],
+      "cases": [
+        "TC-003",
+        "TC-004",
+        "TC-005",
+        "TC-006",
+        "TC-010",
+        "TC-011"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-16"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-03",
+      "title": "Admin สร้าง/reset user แล้วเรียก task API ก่อนเปลี่ยนรหัส",
+      "expected": "บังคับเปลี่ยน;เปลี่ยนแล้วใช้ได้;session เก่าถูก revoke",
+      "trace": "FR-03–04",
+      "tasks": [
+        "T-014",
+        "T-015",
+        "T-016",
+        "T-017",
+        "T-018",
+        "T-068"
+      ],
+      "cases": [
+        "TC-007",
+        "TC-008",
+        "TC-009",
+        "TC-021"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-02"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-04",
+      "title": "demote/deactivate Admin คนสุดท้ายรวม concurrent requests",
+      "expected": "อย่างน้อยหนึ่ง active Admin;transaction ไม่เปิดช่องว่าง",
+      "trace": "FR-03,BR-02",
+      "tasks": [
+        "T-016",
+        "T-018",
+        "T-068"
+      ],
+      "cases": [
+        "TC-012"
+      ],
+      "result": "NOT_RUN",
+      "variants": [],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-05",
+      "title": "M1 ดู Pprivate/P2 ผ่าน ID,search,report,CSV,fileURL",
+      "expected": "ไม่เห็นรายการ;resource404;ไม่มีข้อมูลรั่ว",
+      "trace": "FR-05,FR-10",
+      "tasks": [
+        "T-011",
+        "T-043",
+        "T-053",
+        "T-069"
+      ],
+      "cases": [
+        "TC-014",
+        "TC-056",
+        "TC-066"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-08"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-06",
+      "title": "เพิ่ม M1 หลายทีม/Lead เฉพาะทีม1",
+      "expected": "สิทธิ์แต่ละทีมไม่ยกระดับข้ามทีม",
+      "trace": "FR-06–08",
+      "tasks": [
+        "T-020",
+        "T-023",
+        "T-069"
+      ],
+      "cases": [
+        "TC-013",
+        "TC-015",
+        "TC-020",
+        "TC-023"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-04",
+        "RV-20"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-07",
+      "title": "L1 เพิ่ม M2 ใน Pshared เป็น Editor และ V เป็น Viewer",
+      "expected": "M2 เขียนได้เฉพาะ Pshared;V อ่านได้แต่ write403",
+      "trace": "FR-09–10",
+      "tasks": [
+        "T-011",
+        "T-021",
+        "T-024",
+        "T-069"
+      ],
+      "cases": [
+        "TC-015",
+        "TC-016",
+        "TC-017",
+        "TC-023"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-04",
+        "RV-08"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-08",
+      "title": "ถอน M2 จาก Pshared ขณะเปิด detail และมีงานค้าง",
+      "expected": "request ใหม่404;UI ถัดไปปิด access;งานค้าง unassign;notifications ไม่รั่ว",
+      "trace": "FR-11",
+      "tasks": [
+        "T-011",
+        "T-022",
+        "T-024",
+        "T-043",
+        "T-069"
+      ],
+      "cases": [
+        "TC-018",
+        "TC-019",
+        "TC-020",
+        "TC-021",
+        "TC-063"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-02",
+        "RV-08",
+        "RV-17"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-09",
+      "title": "สร้างงานข้อมูลผิด/ไม่มีผู้รับ/ผู้รับ Viewer/วันเริ่มเกินวันส่ง",
+      "expected": "validate field ชัด;ไม่มีผู้รับได้;Viewer/วันผิด422",
+      "trace": "FR-12–14",
+      "tasks": [
+        "T-026",
+        "T-032",
+        "T-070"
+      ],
+      "cases": [
+        "TC-024",
+        "TC-025",
+        "TC-026"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-20"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-10",
+      "title": "งาน checklist ไม่ครบ→done;ติ๊กครบ→done;untick ตอน done",
+      "expected": "ครั้งแรก422 ไม่มี partial;ครบสำเร็จ;untick ถูกบล็อกจน reopen",
+      "trace": "FR-15",
+      "tasks": [
+        "T-002",
+        "T-027",
+        "T-028",
+        "T-033",
+        "T-070"
+      ],
+      "cases": [
+        "TC-027",
+        "TC-028",
+        "TC-038"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-03",
+        "RV-09"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-11",
+      "title": "งานซ้ำ daily/weekly/monthly,Jan31→Feb→Mar",
+      "expected": "+1/+7;monthly กลับ Mar31 ตาม anchor;ไม่ copyfiles/comments",
+      "trace": "FR-16",
+      "tasks": [
+        "T-029",
+        "T-033",
+        "T-070"
+      ],
+      "cases": [
+        "TC-029",
+        "TC-030",
+        "TC-032"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-07"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-12",
+      "title": "done งานซ้ำพร้อมกัน/retry/reopen แล้ว done ใหม่",
+      "expected": "successor เพียงหนึ่ง;ไม่มี duplicate หรือ half transaction",
+      "trace": "FR-16,FR-18",
+      "tasks": [
+        "T-002",
+        "T-010",
+        "T-029",
+        "T-070"
+      ],
+      "cases": [
+        "TC-031",
+        "TC-032",
+        "TC-033",
+        "TC-079"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-05",
+        "RV-06",
+        "RV-07",
+        "RV-09",
+        "RV-13",
+        "RV-14",
+        "RV-15"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-13",
+      "title": "delete/restore/retentionpurge และ parentfiles",
+      "expected": "activehidden;คืนลำดับท้าย;purge ลบ bytes+DB สัมพันธ์",
+      "trace": "FR-17",
+      "tasks": [
+        "T-002",
+        "T-030",
+        "T-033",
+        "T-060",
+        "T-070"
+      ],
+      "cases": [
+        "TC-034",
+        "TC-059",
+        "TC-079"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-01",
+        "RV-03",
+        "RV-05",
+        "RV-06"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-14",
+      "title": "สองคนแก้ task version เดียวกัน",
+      "expected": "คนหนึ่งสำเร็จ อีกคน409 ไม่ทับเงียบ",
+      "trace": "FR-18",
+      "tasks": [
+        "T-026",
+        "T-027",
+        "T-032",
+        "T-070"
+      ],
+      "cases": [
+        "TC-033",
+        "TC-035",
+        "TC-082"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-09",
+        "RV-12",
+        "RV-13",
+        "RV-14",
+        "RV-15"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-15",
+      "title": "My tasks วันนี้/overdue/null และ Bangkok ใกล้เที่ยงคืน",
+      "expected": "วันไม่เลื่อนจาก UTC;วันนี้ไม่ overdue;null อยู่กลุ่มตน",
+      "trace": "FR-19–20",
+      "tasks": [
+        "T-031",
+        "T-045",
+        "T-046",
+        "T-071"
+      ],
+      "cases": [
+        "TC-026",
+        "TC-046",
+        "TC-047",
+        "TC-048"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-17"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-16",
+      "title": "ลากข้ามคอลัมน์/จัดลำดับ/refresh",
+      "expected": "status+rank บันทึกและคงหลัง reload;versions เพิ่ม",
+      "trace": "FR-21–22",
+      "tasks": [
+        "T-034",
+        "T-035",
+        "T-036",
+        "T-071"
+      ],
+      "cases": [
+        "TC-036",
+        "TC-037",
+        "TC-038"
+      ],
+      "result": "NOT_RUN",
+      "variants": [],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-17",
+      "title": "boardmove ขณะ offline/403/409 และ samecolumnconcurrent",
+      "expected": "rollbackUI;โหลดล่าสุด;DB ไม่ partial;ไม่มี rank ซ้ำ",
+      "trace": "FR-18,FR-21–22",
+      "tasks": [
+        "T-010",
+        "T-035",
+        "T-038",
+        "T-071"
+      ],
+      "cases": [
+        "TC-039",
+        "TC-040",
+        "TC-041",
+        "TC-044",
+        "TC-084"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-10",
+        "RV-13",
+        "RV-15",
+        "RV-19"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-18",
+      "title": "filteredboard drag + keyboard/touchalternative",
+      "expected": "filter ปิด reorder;menu/keyboard ใช้ได้;touchscroll ไม่เสีย",
+      "trace": "FR-23,NFR-05",
+      "tasks": [
+        "T-037",
+        "T-055",
+        "T-058",
+        "T-071"
+      ],
+      "cases": [
+        "TC-042",
+        "TC-043",
+        "TC-045",
+        "TC-073",
+        "TC-074"
+      ],
+      "result": "NOT_RUN",
+      "variants": [],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-19",
+      "title": "Table/Calendar/Gantt มีวันส่ง/ไม่มีวันส่ง/filter หลายตัว",
+      "expected": "รายการ/ปฏิทิน/Gantt สอดคล้อง;วันที่ว่างไม่ถูกเติม;ช่วงวันและขอบเขตถูกต้อง",
+      "trace": "FR-24–25",
+      "tasks": [
+        "T-031",
+        "T-045",
+        "T-046",
+        "T-071"
+      ],
+      "cases": [
+        "TC-045",
+        "TC-048",
+        "TC-049"
+      ],
+      "result": "NOT_RUN",
+      "variants": [],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-20",
+      "title": "คนอื่นแก้งานขณะ user มี dirtyform",
+      "expected": "เห็น update≤10s;ร่างไม่หาย;saveconflict ชัด",
+      "trace": "FR-26",
+      "tasks": [
+        "T-032",
+        "T-038",
+        "T-047",
+        "T-071"
+      ],
+      "cases": [
+        "TC-050",
+        "TC-072"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-16",
+        "RV-17"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-21",
+      "title": "commentHTML/script/กดซ้ำ/ลองแก้ audit",
+      "expected": "rendertext;key ซ้ำไม่เพิ่ม;แก้ audit ไม่ได้",
+      "trace": "FR-27,FR-29",
+      "tasks": [
+        "T-010",
+        "T-039",
+        "T-040",
+        "T-044",
+        "T-072"
+      ],
+      "cases": [
+        "TC-051",
+        "TC-052",
+        "TC-069"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-19",
+        "RV-20"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-22",
+      "title": "upload10MiB/เกิน/extension ปลอม/pathtraversal/quota race",
+      "expected": "valid ได้;เกิน413;invalid422;quota ไม่เกิน;ไม่หนี data directory",
+      "trace": "FR-28,NFR-02",
+      "tasks": [
+        "T-002",
+        "T-041",
+        "T-042",
+        "T-043",
+        "T-044",
+        "T-060",
+        "T-072"
+      ],
+      "cases": [
+        "TC-053",
+        "TC-054",
+        "TC-055",
+        "TC-056",
+        "TC-057",
+        "TC-058",
+        "TC-059",
+        "TC-079"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-05",
+        "RV-06",
+        "RV-11",
+        "RV-14",
+        "RV-19"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-23",
+      "title": "notificationassignment/comment/status/remindertwice/readone/all",
+      "expected": "recipient ถูก;ไม่แจ้ง self;dedupe;read เฉพาะตน;ไม่ใช้อีเมล",
+      "trace": "FR-30–31",
+      "tasks": [
+        "T-048",
+        "T-049",
+        "T-050",
+        "T-051",
+        "T-072"
+      ],
+      "cases": [
+        "TC-060",
+        "TC-061",
+        "TC-062",
+        "TC-063"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-08",
+        "RV-20"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-24",
+      "title": "reportdatebasis/reopen/CSV ไทยและ formula",
+      "expected": "metric ตามนิยาม;reopen ไม่ done;filtermatch;CSV ไม่รัน formula",
+      "trace": "FR-32–34",
+      "tasks": [
+        "T-052",
+        "T-053",
+        "T-054",
+        "T-073"
+      ],
+      "cases": [
+        "TC-028",
+        "TC-064",
+        "TC-065",
+        "TC-066",
+        "TC-067"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-03",
+        "RV-08"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-25",
+      "title": "backup ระหว่างมีงาน/restore เครื่องทดสอบ/restart",
+      "expected": "snapshotDB/files ตรง;checksums ผ่าน;sessionsrevoke;ข้อมูลอยู่หลัง restart",
+      "trace": "FR-38,NFR-03–04",
+      "tasks": [
+        "T-061",
+        "T-062",
+        "T-063",
+        "T-064",
+        "T-074"
+      ],
+      "cases": [
+        "TC-075",
+        "TC-076",
+        "TC-077",
+        "TC-078",
+        "TC-082"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-11",
+        "RV-12",
+        "RV-13",
+        "RV-14",
+        "RV-15",
+        "RV-18"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-26",
+      "title": "เปิด PWAoffline/logout แล้วเปิด cache",
+      "expected": "static shell ได้;ไม่เห็น task/API/filecache;บอกต้อง online",
+      "trace": "FR-35–36",
+      "tasks": [
+        "T-055",
+        "T-056",
+        "T-057",
+        "T-058",
+        "T-073"
+      ],
+      "cases": [
+        "TC-071",
+        "TC-072",
+        "TC-073",
+        "TC-074"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-16"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-27",
+      "title": "performancefixture/loadtest ตาม§13.3",
+      "expected": "ผล p95/error/update ผ่านหรือระบุสิ่งที่ไม่ผ่านพร้อมสเปกจริง",
+      "trace": "NFR-01",
+      "tasks": [
+        "T-075"
+      ],
+      "cases": [
+        "TC-083",
+        "TC-084"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-10",
+        "RV-17"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-28",
+      "title": "freshWindowsinstall จาก ZIP/env/one-timesetup",
+      "expected": "run ได้ตามคู่มือ;ไม่มี secret;service/HTTPS ตามสิทธิ์ที่มี",
+      "trace": "FR-37,FR-39–40",
+      "tasks": [
+        "T-006",
+        "T-019",
+        "T-025",
+        "T-059",
+        "T-064",
+        "T-065",
+        "T-066",
+        "T-074",
+        "T-077"
+      ],
+      "cases": [
+        "TC-052",
+        "TC-058",
+        "TC-075",
+        "TC-078",
+        "TC-080",
+        "TC-081",
+        "TC-082",
+        "TC-084"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-06",
+        "RV-10",
+        "RV-11",
+        "RV-12",
+        "RV-13",
+        "RV-14",
+        "RV-15",
+        "RV-18",
+        "RV-20"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-29",
+      "title": "archivedproject ลองแก้ task/comment/upload/recur",
+      "expected": "อ่านได้;normal writes ถูกปฏิเสธ;Admin/owner Lead task delete/restore exception ตาม RD-01;unarchive คืนใช้งาน",
+      "trace": "FR-09,BR-14",
+      "tasks": [
+        "T-021",
+        "T-024",
+        "T-069"
+      ],
+      "cases": [
+        "TC-022"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-01"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "AT-30",
+      "title": "CSRF/noOrigin/spoofproxy/XSS/SQLi/fileIDOR",
+      "expected": "requests ไม่ปลอดภัยถูกบล็อก;ไม่มี secret/ข้ามสิทธิ์",
+      "trace": "FR-05,NFR-02",
+      "tasks": [
+        "T-009",
+        "T-011",
+        "T-043",
+        "T-059",
+        "T-069"
+      ],
+      "cases": [
+        "TC-056",
+        "TC-068",
+        "TC-069",
+        "TC-070",
+        "TC-081"
+      ],
+      "result": "NOT_RUN",
+      "variants": [
+        "RV-16",
+        "RV-18"
+      ],
+      "evidence": [
+        "all mapped case/variant results on required profiles",
+        "explicit AT steps/expected/actual review; case mapping alone is insufficient"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    }
+  ],
+  "journeys": [
+    {
+      "id": "UAT-01",
+      "owner": "Owner/Admin/Lead/Member",
+      "cases": [
+        "TC-001",
+        "TC-007",
+        "TC-013",
+        "TC-016",
+        "TC-017"
+      ],
+      "title": "Setup, temporary password, team/project sharing and scope",
+      "level": "uat",
+      "profiles": [
+        "windows-sqlserver2022"
+      ],
+      "result": "NOT_RUN",
+      "evidence": [
+        "named human tester/role/date",
+        "steps/expected/actual",
+        "candidate build/hash",
+        "redacted result and owner sign-off"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "UAT-02",
+      "owner": "Lead/Member",
+      "cases": [
+        "TC-024",
+        "TC-027",
+        "TC-036",
+        "TC-051",
+        "TC-053",
+        "TC-060",
+        "TC-064",
+        "TC-066"
+      ],
+      "title": "Assignment, notification, board/checklist/file, done and report",
+      "level": "uat",
+      "profiles": [
+        "windows-sqlserver2022"
+      ],
+      "result": "NOT_RUN",
+      "evidence": [
+        "named human tester/role/date",
+        "steps/expected/actual",
+        "candidate build/hash",
+        "redacted result and owner sign-off"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "UAT-03",
+      "owner": "Lead/Editor/Viewer",
+      "cases": [
+        "TC-016",
+        "TC-017",
+        "TC-018",
+        "TC-056",
+        "TC-063"
+      ],
+      "title": "Cross-team Editor/Viewer and revoke all channels",
+      "level": "uat",
+      "profiles": [
+        "windows-sqlserver2022"
+      ],
+      "result": "NOT_RUN",
+      "evidence": [
+        "named human tester/role/date",
+        "steps/expected/actual",
+        "candidate build/hash",
+        "redacted result and owner sign-off"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "UAT-04",
+      "owner": "Two Members",
+      "cases": [
+        "TC-035",
+        "TC-040",
+        "TC-041"
+      ],
+      "title": "Concurrent edit/move and explicit conflict recovery",
+      "level": "uat",
+      "profiles": [
+        "windows-sqlserver2022"
+      ],
+      "result": "NOT_RUN",
+      "evidence": [
+        "named human tester/role/date",
+        "steps/expected/actual",
+        "candidate build/hash",
+        "redacted result and owner sign-off"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    },
+    {
+      "id": "UAT-05",
+      "owner": "Owner/installer/Member",
+      "cases": [
+        "TC-076",
+        "TC-077",
+        "TC-080"
+      ],
+      "title": "Clean restore, permissions/files/checksums and new login",
+      "level": "uat",
+      "profiles": [
+        "windows-sqlserver2022"
+      ],
+      "result": "NOT_RUN",
+      "evidence": [
+        "named human tester/role/date",
+        "steps/expected/actual",
+        "candidate build/hash",
+        "redacted result and owner sign-off"
+      ],
+      "tester": null,
+      "role": null,
+      "date": null,
+      "build": null,
+      "sourceHash": null,
+      "steps": [],
+      "actual": null,
+      "evidenceFiles": [],
+      "signoff": null
+    }
+  ],
+  "defects": [],
+  "localReferences": [
+    "TeamFlow_T070_T074_Test_Report.md",
+    "TeamFlow_T075_T077_Test_Report.md"
+  ]
+}

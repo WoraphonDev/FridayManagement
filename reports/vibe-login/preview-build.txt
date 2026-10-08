@@ -1,0 +1,5 @@
+
+> friday-vibe-design-preview@0.6.0 build
+> node build.mjs
+
+{"result":"BUILT","library":"@vibe/core@4.5.34","htmlBytes":912315,"jsBytes":656976,"cssBytes":46388}

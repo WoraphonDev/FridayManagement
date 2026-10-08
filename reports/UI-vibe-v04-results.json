@@ -1,0 +1,485 @@
+{
+  "date": "2026-10-07",
+  "scope": "Interactive mockup only; React/API production integration NOT_RUN",
+  "result": "PASS_FOCUSED_PREVIEW",
+  "cases": [
+    {
+      "id": "V01",
+      "description": "Actual Vibe buttons rendered on Board",
+      "result": "PASS"
+    },
+    {
+      "id": "V02",
+      "description": "Create Group with Vibe fields and chosen color",
+      "result": "PASS"
+    },
+    {
+      "id": "V03",
+      "description": "Vibe DatePicker sets Start Plan as date-only",
+      "result": "PASS"
+    },
+    {
+      "id": "V04",
+      "description": "Independent Vibe DatePicker sets End Plan",
+      "result": "PASS"
+    },
+    {
+      "id": "V05",
+      "description": "Create Task from Vibe fields preserves Group and starts todo",
+      "result": "PASS"
+    },
+    {
+      "id": "V06",
+      "description": "Created task appears as Kanban Card with plans and Group",
+      "result": "PASS"
+    },
+    {
+      "id": "V07",
+      "description": "Cancel Card delete retains task",
+      "result": "PASS"
+    },
+    {
+      "id": "V08",
+      "description": "Confirm Card soft-delete removes card",
+      "result": "PASS"
+    },
+    {
+      "id": "V09",
+      "description": "Read one Notify updates unread badge",
+      "result": "PASS"
+    },
+    {
+      "id": "V10",
+      "description": "Read all Notify updates panel and badge",
+      "result": "PASS"
+    },
+    {
+      "id": "V11",
+      "description": "Admin restores Card with its Group and plans",
+      "result": "PASS"
+    },
+    {
+      "id": "V12",
+      "description": "Vibe status Dropdown moves Card to proper column",
+      "result": "PASS"
+    },
+    {
+      "id": "V13",
+      "description": "Vibe Group Dropdown moves task while preserving status",
+      "result": "PASS"
+    },
+    {
+      "id": "V14",
+      "description": "Reject Start Plan after End Plan through preserved validation",
+      "result": "PASS"
+    },
+    {
+      "id": "V15",
+      "description": "Escape closes Vibe dropdown without losing task drawer",
+      "result": "PASS"
+    },
+    {
+      "id": "V16",
+      "description": "Viewer cannot create Group with Vibe buttons",
+      "result": "PASS"
+    },
+    {
+      "id": "V17",
+      "description": "Viewer cannot move Group or edit plan using Vibe controls",
+      "result": "PASS"
+    },
+    {
+      "id": "V18",
+      "description": "Offline write controls remain disabled",
+      "result": "PASS"
+    },
+    {
+      "id": "V19",
+      "description": "Vibe Group filter updates task table",
+      "result": "PASS"
+    },
+    {
+      "id": "V20",
+      "description": "Keyboard selects Group by status in Vibe Dropdown",
+      "result": "PASS"
+    },
+    {
+      "id": "V360-table",
+      "description": "Vibe Board 360px contains overflow",
+      "result": "PASS"
+    },
+    {
+      "id": "V360-group",
+      "description": "Vibe Group modal 360px fits viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "V360-notify",
+      "description": "Vibe Notify 360px fits viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "V768-table",
+      "description": "Vibe Board 768px contains overflow",
+      "result": "PASS"
+    },
+    {
+      "id": "V768-group",
+      "description": "Vibe Group modal 768px fits viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "V768-notify",
+      "description": "Vibe Notify 768px fits viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "V1440-table",
+      "description": "Vibe Board 1440px contains overflow",
+      "result": "PASS"
+    },
+    {
+      "id": "V1440-group",
+      "description": "Vibe Group modal 1440px fits viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "V1440-notify",
+      "description": "Vibe Notify 1440px fits viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "V360-date",
+      "description": "Vibe DatePicker in drawer 360px has no horizontal overflow",
+      "result": "PASS"
+    },
+    {
+      "id": "V768-date",
+      "description": "Vibe DatePicker in drawer 768px has no horizontal overflow",
+      "result": "PASS"
+    },
+    {
+      "id": "V-page-home",
+      "description": "Main screen home renders with Vibe controls",
+      "result": "PASS"
+    },
+    {
+      "id": "V-page-my",
+      "description": "Main screen my renders with Vibe controls",
+      "result": "PASS"
+    },
+    {
+      "id": "V-page-projects",
+      "description": "Main screen projects renders with Vibe controls",
+      "result": "PASS"
+    },
+    {
+      "id": "V-page-calendar",
+      "description": "Main screen calendar renders with Vibe controls",
+      "result": "PASS"
+    },
+    {
+      "id": "V-page-reports",
+      "description": "Main screen reports renders with Vibe controls",
+      "result": "PASS"
+    },
+    {
+      "id": "V-page-teams",
+      "description": "Main screen teams renders with Vibe controls",
+      "result": "PASS"
+    },
+    {
+      "id": "V-page-users",
+      "description": "Main screen users renders with Vibe controls",
+      "result": "PASS"
+    },
+    {
+      "id": "V-page-trash",
+      "description": "Main screen trash renders with Vibe controls",
+      "result": "PASS"
+    },
+    {
+      "id": "V-page-settings",
+      "description": "Main screen settings renders with Vibe controls",
+      "result": "PASS"
+    },
+    {
+      "id": "V21",
+      "description": "Calendar task events and view preserved",
+      "result": "PASS"
+    },
+    {
+      "id": "V22",
+      "description": "Gantt task plan view preserved",
+      "result": "PASS"
+    },
+    {
+      "id": "V23",
+      "description": "Login password toggle with Vibe field",
+      "result": "PASS"
+    },
+    {
+      "id": "V-lifecycle-home",
+      "description": "Expected heading หน้าแรก and aria-current on selected menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-my",
+      "description": "Expected heading งานของฉัน and aria-current on selected menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-projects",
+      "description": "Expected heading โปรเจกต์ and aria-current on selected menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-calendar",
+      "description": "Expected heading ปฏิทินงาน and aria-current on selected menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-reports",
+      "description": "Expected heading ภาพรวมการทำงาน and aria-current on selected menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-teams",
+      "description": "Expected heading ทีมในองค์กร and aria-current on selected menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-users",
+      "description": "Expected heading จัดการผู้ใช้ and aria-current on selected menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-trash",
+      "description": "Expected heading ถังขยะ and aria-current on selected menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-settings",
+      "description": "Expected heading โปรไฟล์และการตั้งค่า and aria-current on selected menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-board",
+      "description": "Expected heading Website Relaunch and aria-current on selected menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V24",
+      "description": "Create Group via Vibe form after lifecycle fix",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V25",
+      "description": "Create Task using separate Vibe date pickers",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-view-Kanban",
+      "description": "Task view Kanban remains visible",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-view-Calendar",
+      "description": "Task view Calendar remains visible",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-view-Gantt",
+      "description": "Task view Gantt remains visible",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V-lifecycle-view-ตารางงาน",
+      "description": "Task view ตารางงาน remains visible",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V26",
+      "description": "Notify read-all gives zero unread",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V27",
+      "description": "Admin management section shown",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V28",
+      "description": "Viewer management section absent",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V29",
+      "description": "Mobile menu sets main inert attribute",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V30",
+      "description": "Mobile Shift+Tab wraps to logout",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V31",
+      "description": "Mobile Tab wraps to close button",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V32",
+      "description": "Mobile Escape closes and returns focus",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V33",
+      "description": "Mobile navigation closes menu and focuses heading",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V34",
+      "description": "Backdrop closes mobile menu",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V35",
+      "description": "Tablet 768px sidebar visible",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V36",
+      "description": "Exactly one selected sidebar item",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V37",
+      "description": "Final sidebar build selected project remains correct",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V38",
+      "description": "Desktop sidebar including footer fits viewport",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V39",
+      "description": "Final mobile drawer fits 360px viewport",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    },
+    {
+      "id": "V40",
+      "description": "Sidebar navigation from scrolled board resets page top and focuses destination heading",
+      "result": "PASS",
+      "phase": "final-lifecycle-and-sidebar-build"
+    }
+  ],
+  "counts": {
+    "pass": 74,
+    "fail": 0
+  },
+  "evidenceMode": "Cumulative focused checks; first43 before final lifecycle/sidebar changes, 27 lifecycle/sidebar follow-ups, 3 final CSS checks, 1 final navigation focus/scroll check. Not a full suite rerun on final SHA.",
+  "browser": {
+    "name": "Codex In-app Browser",
+    "version": "NOT_VERIFIED",
+    "viewports": [
+      360,
+      768,
+      1440
+    ]
+  },
+  "library": "@vibe/core@4.5.34",
+  "react": "19.3.0",
+  "node": "v22.23.3",
+  "htmlSHA256": "c2d23f67f5388652df75428671b81ca01449cf8bb68df28bbbfe2dc80c44df80",
+  "htmlBytes": 924046,
+  "build": "PASS",
+  "typecheck": "PASS",
+  "htmlScriptSyntax": "PASS",
+  "testPlan": "PASS_PLAN_ONLY",
+  "legacyRunner": "NOT_RUN_V04",
+  "finalBrowserLogCutoff": "2026-10-07T09:58:32.030Z",
+  "finalBrowserErrors": [],
+  "screenshots": [
+    "reports/UI-vibe-v04-board.jpg",
+    "reports/UI-vibe-v04-menu-mobile.jpg"
+  ],
+  "repairedDefects": [
+    "Vibe dropdown portals inside native dialog require LayerProvider",
+    "Escape in Vibe dropdown must prevent native dialog cancellation",
+    "Native disabled and label attributes preserved on bridge controls",
+    "Native DOM replacements must synchronously unmount React roots and portals; historical NotFoundError logs retained",
+    "Unbraced legacy else was affected by initial build transform; removed unsafe main rewrite and rechecked actual destination headings"
+  ],
+  "reviewHarnessCorrections": [
+    "Restore task uses data-restore then confirmation",
+    "Calendar checked via actual tabpanel/events, not nonexistent calendar-grid",
+    "Page heading assertions corrected to actual labels; earlier main-visible probe discarded",
+    "Read-only DOM inert property unavailable; assert actual inert attribute",
+    "Wait for stable visible Notify panel after view rendering",
+    "768px uses desktop sidebar; drawer breakpoint <=760px"
+  ],
+  "audit": {
+    "result": "OPEN_NOT_PRODUCTION_SIGNOFF",
+    "moderate": 53,
+    "high": 6,
+    "critical": 0,
+    "highPackages": [
+      "braces",
+      "fast-glob",
+      "globby",
+      "micromatch",
+      "postcss",
+      "stylelint"
+    ],
+    "highPackagesBundled": [],
+    "report": "reports/UI-vibe-dependency-audit-final.json"
+  },
+  "notRun": [
+    "Production React/API integration",
+    "Full legacy M01-M21 suite on V04",
+    "Actual auth/ACL/transactions/security acceptance",
+    "SQL Server2022",
+    "Windows",
+    "Physical device/browser matrix",
+    "Full WCAG/screen reader/zoom",
+    "Formal TC/AT/UAT/release gates"
+  ],
+  "tasks": {
+    "done": 6,
+    "total": 77,
+    "remaining": 71,
+    "inProgress": 71
+  }
+}

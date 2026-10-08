@@ -1,0 +1,53 @@
+{
+  "date": "2026-10-08",
+  "declared_effort": "Medium",
+  "actual_model_effort": "NOT_VERIFIED",
+  "framework": "@vibe/core4.5.34 in preview and actual app",
+  "before": "Separate app overrides; mock minimal/colorful files were not directly imported",
+  "after": "workspace-theme.css imported directly in both preview adapter and actual entry point",
+  "actual_live_metrics": {
+    "viewport": "1440x900",
+    "body": "13px /18.85px",
+    "heading": "600 20px /28px",
+    "task_title": "500 12px /16.2px",
+    "selected_project_nav_count": 1,
+    "drawer_title": "600 17px /23.8px",
+    "drawer_label": "500 12px /17.4px",
+    "drawer_input": "13px /18px",
+    "drawer_textarea_min_height": "92px"
+  },
+  "checks": {
+    "frontend": {
+      "passed": 38,
+      "failed": 0
+    },
+    "chromium_final": {
+      "passed": 4,
+      "failed": 0
+    },
+    "initial_added_assertion": "FAIL: drawer title20 instead of17 due older more-specific selector; corrected and rerun",
+    "typecheck": "PASS",
+    "changed_file_lint": "PASS",
+    "build": "PASS; existing bundle-size warning",
+    "preview_build": "PASS"
+  },
+  "images": [
+    "reports/UI-workspace-details-live.png",
+    "reports/UI-workspace-details-table.png",
+    "reports/UI-workspace-details-drawer.png",
+    "reports/UI-workspace-details-live-drawer.png"
+  ],
+  "limits": [
+    "Not pixel-identity or owner UAT",
+    "Native form controls remain styled native; Vibe Dropdown/Avatar/Button remain actual Vibe",
+    "No backend or contract changes",
+    "Native SQL2022/Windows/full browser matrix NOT_RUN"
+  ],
+  "task_register": {
+    "completed": 6,
+    "total": 77,
+    "remaining": 71,
+    "in_progress": 71,
+    "todo": 0
+  }
+}

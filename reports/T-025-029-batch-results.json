@@ -1,0 +1,123 @@
+{
+  "date": "2026-10-06",
+  "scope": "T-025–T-029 local SQLite implementation/checks; not full provider/TC/AT sign-off",
+  "declaredEffort": {
+    "T-025": "Medium",
+    "T-026": "High",
+    "T-027": "High",
+    "T-028": "High",
+    "T-029": "High"
+  },
+  "actualModelEffort": "NOT_VERIFIED",
+  "runtime": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "provider": "temporary local SQLite",
+    "OS": "macOS",
+    "browser": "Chromium 153; 360px emulation subset"
+  },
+  "checks": {
+    "typecheck": "PASS",
+    "lint": "PASS (0 warnings)",
+    "build": "PASS",
+    "contract": "PASS 52routes/75schemas;61 tests included in combined",
+    "testPlan": "PASS inventories;17 policy tests included in combined",
+    "test:tasks": "PASS 26/26 (provider18 + HTTP4 + actual two-process races4)",
+    "npm test": "PASS 331/331 (310 Node +21 frontend)",
+    "test:ui": "PASS 19/19 (organization2 +regression17)",
+    "freshSource": "PASS reports/T-029-fresh-checkout.json (331 tests/offline ci/build/migrate/seed/omit-dev runtime)",
+    "SQL2022": "NOT_RUN; native harness107 SKIP",
+    "Windows": "NOT_RUN",
+    "fullBrowserDeviceMatrix": "NOT_RUN",
+    "UAT": "NOT_RUN",
+    "fullTC_AT": "NOT_RUN"
+  },
+  "progress": {
+    "localBatchImplementedAndVerified": 5,
+    "localBatchTotal": 5,
+    "done": 6,
+    "total": 77,
+    "inProgress": 23,
+    "todo": 48,
+    "remaining": 71
+  },
+  "trace": {
+    "FR": [
+      "FR-12",
+      "FR-13",
+      "FR-14",
+      "FR-15",
+      "FR-16",
+      "FR-18",
+      "FR-37"
+    ],
+    "NFR": [
+      "NFR-02",
+      "NFR-03"
+    ],
+    "partialTC": [
+      "TC-024",
+      "TC-025",
+      "TC-026",
+      "TC-027",
+      "TC-028",
+      "TC-029",
+      "TC-030",
+      "TC-031",
+      "TC-032",
+      "TC-033",
+      "TC-064",
+      "TC-065",
+      "TC-075"
+    ],
+    "partialAT": [
+      "AT-09",
+      "AT-10",
+      "AT-11",
+      "AT-12",
+      "AT-14",
+      "AT-28"
+    ],
+    "formalExecutionRecords": "unchanged; no full PASS fabricated"
+  },
+  "limits": [
+    "Task/checklist/recurrence UI awaits T-032/T-033",
+    "Delete/restore/purge is a controlled fixture, not T-030/T-060 service acceptance",
+    "Attachment copying test uses metadata, not actual uploaded bytes",
+    "Notification-center/scheduler and full cleanup/file integration remain pending",
+    "Real SQL2022/Windows/HTTPS/UAT acceptance remains required",
+    "Readiness503; production startup guarded"
+  ],
+  "nextBatch": {
+    "T-030": "High",
+    "T-031": "High",
+    "T-032": "Medium",
+    "T-033": "Medium",
+    "T-034": "High"
+  },
+  "sourceSHA256": {
+    "src/services/tasks.ts": "59282f4476f0f38a665f2b38ebc84a66d0b4b14be74cd6e300f8865936b05370",
+    "src/services/organization.ts": "1cf8993678ba3e7754307f0573a44d7db314b70340d865af4789546d1b5a0817",
+    "src/api/tasks.ts": "33ffdb540ecd2ab657f98b34051ebe2bfe2140006becb839d3980ea26e1c6f12",
+    "src/api/sessions.ts": "a3a1311b89202ea96acb527e8c2c945ac8326f60c3513b75f8e2ecce43d09ca9",
+    "frontend/src/Organization.tsx": "95afe3925afd14904c8b0f8bfb68e21724232816228c51d8716573e2d9151e5b",
+    "frontend/src/organization-api.ts": "fc25e808c1259ec2a6cacc54e2a5c8d30d52344284b3f334a33a9f8d541c98b7",
+    "frontend/src/App.tsx": "c5eca200addb926c2ff6ea2fd24783cf0bb4a885e84c562bceb729fce7d0465a",
+    "package.json": "d6d3564fddbbf919fc877e95c3a9d314eac090c32e1afc13aea505f1b05fd995",
+    "package-lock.json": "10f79334d87869757661acb9ddffb412a14606496457df5eadd592403eb56a65",
+    "tsconfig.tools.json": "9d5fa3dddfe761571ee7cd8bd59e9f0966abb03ee80bbfb977d760ca1b4f82d0",
+    "tests/tasks/provider-suite.ts": "6b7b6acba35333017ca7d9552d1f371b9f2169c334045727584d465c76a74c90",
+    "tests/tasks/sqlite.test.ts": "d1aec29c5b64a87bb7146fb9165d08eed484b14f15170d732ca9a20fad8e299b",
+    "tests/tasks/http.test.ts": "39bfcef8eb03a5c9b093642677894e50c7d84e8410f7ff2ac2fb50e85163aa28",
+    "tests/tasks/concurrency.test.ts": "fadc85b6f20d22896a84d1ad0cf88d4aa91543dfcb0bfff2b8f123c49747d83c",
+    "tests/tasks/worker.ts": "08b3de927cf9cf8052e0d3da6a41df2292bb2b0a71d102ca078e9df97e2daf67",
+    "tests/sqlserver/tasks.test.ts": "cb233d9aa81f3d64d2278aa64ac5397f9a6144e95adce319ad67177e52034635",
+    "tests/browser/organization.spec.ts": "4acd9b6383a1e62c0cd4590c823e44899ef09a83653c77aa55dde53d0561d713",
+    "contracts/openapi.json": "539d47cab765ea23d4bfa061b82a7970c068c8623b3ce1a133b95ad6445c2664",
+    "tests/test-manifest.json": "9af145a9bef83dadf3d30abc79d2fc3df4b1e80c0ca4437568acba2e497571ca",
+    "TeamFlow_Task_v1.0.md": "d2d3ae42820208bb26ae54d50f2c011f55257c849b4c0e2e12809d96778795c9",
+    "TeamFlow_Test_Plan_v1.0.md": "211f27f6049d1017bf1c6b77cca74c2167228fb373bdfa1239d01a81dc2766b1",
+    "TeamFlow_Test_Cases_v1.0.md": "49d4c5d098c4554a2cb79ac3bb55ed3b1f815df1fef9cd4b1c1d5a6a9d992c61",
+    "TeamFlow_T025_T029_Test_Report.md": "bc25281198831b574aeb23493ada3dd0e48e113f889d37197de1f6c44e5192f2"
+  }
+}

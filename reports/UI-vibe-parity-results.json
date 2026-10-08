@@ -1,0 +1,51 @@
+{
+  "date": "2026-10-07",
+  "scope": "Approved V06 design fidelity correction in actual application",
+  "reference": "TeamFlow_UI_Vibe_Preview.html",
+  "declared_effort": "Medium",
+  "actual_model_effort": "NOT_VERIFIED",
+  "verification": {
+    "typecheck": "PASS",
+    "lint": "PASS (0 errors/warnings)",
+    "build": "PASS (existing >500 kB main chunk warning)",
+    "frontend": {
+      "status": "PASS",
+      "passed": 38,
+      "failed": 0
+    },
+    "chromium": {
+      "status": "PASS",
+      "passed": 3,
+      "failed": 0,
+      "cases": [
+        "API multi-assignees/checklist/groups/centered status/CSP/native drag animation",
+        "360x800 mobile menu/reduced motion/no document overflow",
+        "1440x900 sidebar216/table38/7columns/drawer590/fixed footer/group PATCH/status grouping/footer create persistence/sidebar return/deep link reload"
+      ]
+    }
+  },
+  "native_sqlserver": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "human_uat": "NOT_RUN",
+  "full_legacy_browser_matrix": "NOT_RUN",
+  "task_register": {
+    "completed": 6,
+    "total": 77,
+    "in_progress": 71,
+    "todo": 0,
+    "remaining": 71
+  },
+  "contracts_backend_migrations": "Unchanged this correction",
+  "traceability": [
+    "T-045/TC-046 list and project UI",
+    "T-055 responsive/accessibility partial",
+    "TC-027/028/029 task creation/update/assignment partial",
+    "TC-031 checklist partial",
+    "TC-073 board move partial"
+  ],
+  "limitations": [
+    "Manual screenshots compare approved mock and actual with different synthetic data and roles; not pixel-identical or human UAT approval.",
+    "Actual app retains role-based admin/manage, version/conflict safeguards and pagination.",
+    "Dependency audit findings62 and bundle warning remain open from integration report."
+  ]
+}

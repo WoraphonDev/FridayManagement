@@ -1,0 +1,227 @@
+{
+  "version": "03",
+  "date": "2026-10-07",
+  "scope": "Standalone HTML mockup only; cumulative focused interaction checks",
+  "browser": "Codex In-app Browser (version NOT_VERIFIED)",
+  "cases": [
+    {
+      "id": "P03-01",
+      "description": "Start Plan หลัง End Plan ถูกปฏิเสธ",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-02",
+      "description": "Start/End แก้แยกกันแล้วอัปเดตตาราง",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-03",
+      "description": "Notify อ่านรายตัวและคงแผงเปิดพร้อม badge ใหม่",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-04",
+      "description": "อ่านทั้งหมดไม่ซ้อน toast ทับแผง Notify",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-05",
+      "description": "Editor ลบ Card ของคนอื่นไม่ได้ตามสิทธิ์",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-06",
+      "description": "เพิ่ม Card พร้อม Start/End และ dropdown แล้วแสดงใน Kanban",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-07",
+      "description": "ยกเลิกการลบแล้ว Card ยังอยู่",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-08",
+      "description": "ยืนยันลบ Card ออกจาก Kanban",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-09",
+      "description": "เพิ่ม Card หลังลบไม่ใช้ ID ของงานใน Trash ซ้ำ",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-10",
+      "description": "Admin คืน Card แล้วกลับเข้าบอร์ดพร้อมวันที่เดิม",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-11",
+      "description": "End Plan แสดงใน Calendar หลังคืนงาน",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-12",
+      "description": "Gantt ใช้ Start/End ชุดเดียวกับ Card",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-13",
+      "description": "Escape ปิด Notify และอัปเดต expanded state",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-14",
+      "description": "Table defaults to three named Groups independent of status",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-15",
+      "description": "Create colored empty Group and show Add Task",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-16",
+      "description": "Add Task in empty Group preselects that Group",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-17",
+      "description": "New Task saved inside chosen Group",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-18",
+      "description": "Moving Task preserves in-progress status",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-19",
+      "description": "Rename and recolor Group retains tasks",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-20",
+      "description": "Collapsed Group persists after sorting",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-21",
+      "description": "Group by status remains available",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-22",
+      "description": "Reject whitespace Group name",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-23",
+      "description": "Reject duplicate Group name",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-24",
+      "description": "Viewer cannot create Group",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-25",
+      "description": "Viewer cannot move Group or edit plans",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-26",
+      "description": "Offline prevents Group writes",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-27",
+      "description": "Archived prevents Group writes",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-28",
+      "description": "Filter by Group returns only matching tasks",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-29",
+      "description": "Kanban displays Group while keeping status columns",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-30",
+      "description": "Group filter disables reordering",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-360-layout",
+      "description": "Board 360px contains horizontal scrolling",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-360-notify",
+      "description": "Notify 360px remains inside viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-768-layout",
+      "description": "Board 768px contains horizontal scrolling",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-768-notify",
+      "description": "Notify 768px remains inside viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-1440-layout",
+      "description": "Board 1440px contains horizontal scrolling",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-1440-notify",
+      "description": "Notify 1440px remains inside viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-360-group",
+      "description": "Group dialog 360px fits viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-360-drawer",
+      "description": "Task Group and plans drawer 360px fits viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-768-group",
+      "description": "Group dialog 768px fits viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-768-drawer",
+      "description": "Task Group and plans drawer 768px fits viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "P03-41",
+      "description": "Notify anchors below sticky header after scrolling to new Group",
+      "result": "PASS"
+    }
+  ],
+  "pass": 41,
+  "fail": 0,
+  "notes": [
+    "Prior cases P03-01..13 were verified before adding Group; Group/shared flows and responsive cases were verified after Group changes. No claim of a full final rerun.",
+    "Raw debugging encountered a form name=id clobbering form.id; renamed groupId and rechecked creation. Initial save assertion ran before async render; corrected to wait for visible task.",
+    "Legacy M01..M21 suite not rerun for V03. V02 evidence retained.",
+    "No React/API integration, actual ACL/security, SQL Server, Windows or UAT acceptance."
+  ],
+  "htmlSHA256": "4897329f05403e7c12906a0cb137768df0180f826bc9cd949551d644f0406efb",
+  "node": "22.23.3",
+  "screenshots": [
+    "reports/UI-redesign-v03-board.jpg",
+    "reports/UI-redesign-v03-new-group.jpg"
+  ]
+}

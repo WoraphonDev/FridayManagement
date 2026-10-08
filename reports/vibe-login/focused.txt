@@ -1,0 +1,17 @@
+
+> friday-management@0.1.0 test:ui
+> playwright test tests/browser/vibe-integration.spec.ts --grep Approved Login
+
+[WebServer] (node:59084) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:59083) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:59098) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:59098) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+  ✓  1 tests/browser/vibe-integration.spec.ts:241:1 › Approved Login: larger logo, eye inside password, install panel, motion and real authentication (3.2s)
+
+  1 passed (5.1s)

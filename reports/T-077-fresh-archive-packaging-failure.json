@@ -1,0 +1,8 @@
+{
+  "status": "FAIL_PACKAGING",
+  "stage": "Fresh ZIP typecheck after offline ci succeeded",
+  "cause": "Archive policy incorrectly excluded tests/sessions source fixture modules",
+  "archiveSHA256": "67ec1a7bed8b84de38bd0239ca7127759bff86a42171ea744c5e4676bf47c52f",
+  "fix": "Preserve source code under sessions paths, exclude stored state; regression assertions added",
+  "rawLog": "/private/tmp/friday-T077-fresh-archive-final.log"
+}

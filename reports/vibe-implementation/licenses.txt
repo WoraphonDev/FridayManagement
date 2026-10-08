@@ -1,0 +1,5 @@
+
+> friday-management@0.1.0 licenses
+> node scripts/licenses.mjs
+
+{"packages":629,"missingLicenses":0,"result":"PASS"}

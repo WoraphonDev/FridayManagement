@@ -1,0 +1,259 @@
+{
+  "task": "T-010",
+  "date": "2026-10-06",
+  "timezone": "Asia/Bangkok",
+  "status": "IN_PROGRESS",
+  "result": "LOCAL_IDEMPOTENCY_PASS_SQL_AUTH_FEATURES_SCHEDULER_PENDING",
+  "declared": {
+    "model": "GPT-6.1 Sol",
+    "effort": "High",
+    "speed": "Standard"
+  },
+  "actualRuntimeSettings": "NOT_VERIFIED",
+  "dependencies": {
+    "T-007": "IN_PROGRESS",
+    "T-009": "IN_PROGRESS",
+    "T-008": "IN_PROGRESS"
+  },
+  "localAuthorization": "SRS5.2/16 approved temporary SQLite profile; dependency graph/full sign-off unchanged",
+  "environment": {
+    "host": "macOS arm64",
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "database": "actual temporary SQLite files",
+    "http": "ephemeral loopback; synthetic principal/policy; real inactive-user row check",
+    "concurrency": "three synchronized Node processes with IPC barrier; first mutation holds 100ms"
+  },
+  "checks": {
+    "idempotency": {
+      "result": "PASS",
+      "passed": 13,
+      "total": 13,
+      "providerCases": 10,
+      "canonicalCases": 1,
+      "httpCases": 1,
+      "separateProcessCases": 1
+    },
+    "combined": {
+      "result": "PASS",
+      "passed": 199,
+      "total": 199,
+      "suites": {
+        "config": 37,
+        "foundation": 5,
+        "schema": 13,
+        "helpers": 25,
+        "api": 12,
+        "idempotency": 13,
+        "contract": 61,
+        "planning": 17,
+        "frontend": 16
+      }
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "checkContract": {
+      "result": "PASS",
+      "routes": 52,
+      "schemas": 75,
+      "wireChanged": false
+    },
+    "checkTestPlan": "PASS",
+    "postDocumentPlanningTests": {
+      "result": "PASS",
+      "passed": 17,
+      "total": 17
+    },
+    "sqlserver": {
+      "result": "NOT_RUN",
+      "harness": "SKIP",
+      "passed": 0,
+      "skipped": 28,
+      "newIdempotencyCases": 10,
+      "reason": "isolated SQL2022 not configured"
+    },
+    "diffCheck": "PASS",
+    "browser": {
+      "result": "NOT_RUN",
+      "reason": "UI/headers unchanged; historical T-009 evidence not a new result"
+    },
+    "freshCheckout": {
+      "result": "NOT_RUN",
+      "reason": "runtime dependencies unchanged; historical T-009 packaging evidence not a new result"
+    }
+  },
+  "implemented": [
+    "per-user/concrete-route/UUID normalized SHA256 claim",
+    "schema-checked business response replay with current access callback before hash conflict",
+    "single DB transaction for business/audit/notification/result",
+    "unknown outcome503 then safe same-key retry",
+    "24h TTL stamped at finalization and exact expiry",
+    "credential exclusion and strict upload metadata only",
+    "bounded callable expiry cleanup without timers",
+    "HTTP handler receives existing transaction; missing engine fails closed"
+  ],
+  "trace": {
+    "suite": "UT-09",
+    "partialCases": [
+      "TC-031",
+      "TC-033",
+      "TC-041",
+      "TC-050"
+    ],
+    "partialAcceptance": [
+      "AT-12",
+      "AT-17",
+      "AT-21"
+    ],
+    "fullAcceptance": "NOT_RUN"
+  },
+  "fixtures": {
+    "actual": [
+      "SQLite persistence/reopen/rollback",
+      "three-process claims",
+      "HTTP transaction hook",
+      "inactive/deleted/archive row checks",
+      "cleanup cutoff/batch"
+    ],
+    "synthetic": [
+      "identity and operation permission",
+      "lost commit acknowledgement after actual SQLite commit",
+      "upload metadata DTO; no actual attachment or file"
+    ]
+  },
+  "notRun": [
+    "SQL2022 key-range locks, deadlocks/timeouts/network commit ambiguity and physical commit clock",
+    "real current session/auth-version/forced-password/ACL/child-resource visibility service",
+    "recurrence/board/comment/upload feature acceptance",
+    "actual upload validation/reservations",
+    "T-050 scheduler and T-060 integration",
+    "full TC/AT/Windows/UAT"
+  ],
+  "ttl": "Timestamp after mutation at successful transaction finalization before result insert/commit; SQL physical timing NOT_RUN",
+  "progress": {
+    "done": 6,
+    "total": 77,
+    "inProgress": 5,
+    "todo": 66,
+    "remaining": 71
+  },
+  "nextLocal": {
+    "task": "T-011",
+    "effort": "High",
+    "fullDependenciesPending": [
+      "T-007",
+      "T-009"
+    ]
+  },
+  "resolvedIssues": [
+    "fixture double-close corrected",
+    "UUID helper parameter explicitly string for CLI input"
+  ],
+  "commands": [
+    "npm run test:idempotency",
+    "npm test",
+    "npm run typecheck",
+    "npm run lint",
+    "npm run build",
+    "npm run test:sqlserver",
+    "npm run check:contract",
+    "npm run check:test-plan",
+    "npm run test:test-plan (post-doc update)",
+    "git diff --check"
+  ],
+  "artifacts": [
+    {
+      "path": "src/repository/idempotency.ts",
+      "sha256": "11704a1d1cea87e803d3e122eb1d28b92cf99397429aadc768bc9715ec77e518"
+    },
+    {
+      "path": "src/api/idempotency.ts",
+      "sha256": "49ee78ec445c671ecc07fd201b791078b211e5031c85dfb6f3b86b047a7c40da"
+    },
+    {
+      "path": "src/api/middleware.ts",
+      "sha256": "cce70dd2fc6758cd31e44e13e13da5680522f353cd00ec0b90ae1c0e9256fa56"
+    },
+    {
+      "path": "src/jobs/idempotency-cleanup.ts",
+      "sha256": "4bd185dc227a6d4343948d6b3efce337c47212520d40d43e457de501b2f1672f"
+    },
+    {
+      "path": "src/jobs/README.md",
+      "sha256": "a917c63a52c60e84d0ba3326085d707b3896173ca7f74792440068b5b0567089"
+    },
+    {
+      "path": "tests/idempotency/canonical.test.ts",
+      "sha256": "2b7f0b8390ca4841360988abe2cb47155f29d22d651f0aa6e22a96bf8489770e"
+    },
+    {
+      "path": "tests/idempotency/concurrency.test.ts",
+      "sha256": "7708fe5b11525ff8124946adf38599e770ef07b770f85d2cd9059d74ec1ca121"
+    },
+    {
+      "path": "tests/idempotency/http.test.ts",
+      "sha256": "319e748115020096d74aca27e092ff16fb805f5ce790d6aa37befbdb014a3f06"
+    },
+    {
+      "path": "tests/idempotency/provider-suite.ts",
+      "sha256": "bcaaa1b35fca50b8a9ff42dbd0a53aa9354de5360b5416f5c7fed7122a230fdd"
+    },
+    {
+      "path": "tests/idempotency/sqlite.test.ts",
+      "sha256": "aca8b94a0ac85acb2a96e4790938cf76ae72278acd2d4c34cc5e7c3c898ee592"
+    },
+    {
+      "path": "tests/idempotency/worker.ts",
+      "sha256": "959b8bd951e07d0fa5361b4a4e0a8301af5cf5a7b6049189d2a81107621112df"
+    },
+    {
+      "path": "tests/sqlserver/idempotency.test.ts",
+      "sha256": "f95bfb091d003ded954816462c053e83970a7d80d88187d6a39b114b48e853c4"
+    },
+    {
+      "path": "tests/api/http.test.ts",
+      "sha256": "daae363b57447dac2c8ea91b3e23e5a5d862e20edc92232488d563a74e78d10b"
+    },
+    {
+      "path": "package.json",
+      "sha256": "ba01fe7e9b5ca0cabe904576048c1e2866bd3d099d64451dbeada0529f4cdc6b"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "10f79334d87869757661acb9ddffb412a14606496457df5eadd592403eb56a65"
+    },
+    {
+      "path": "tsconfig.tools.json",
+      "sha256": "640f3407e320f8a32fc0644f25c40be3cdbe955a16a5d5407a790eddcf165ae1"
+    },
+    {
+      "path": "contracts/openapi.json",
+      "sha256": "539d47cab765ea23d4bfa061b82a7970c068c8623b3ce1a133b95ad6445c2664"
+    },
+    {
+      "path": "TeamFlow_T010_Test_Report.md",
+      "sha256": "312c2ff62fedd98c91653c61280bf97dc700d3ca7956797b12ab7f9cfce10e25"
+    },
+    {
+      "path": "TeamFlow_Task_v1.0.md",
+      "sha256": "6a5b95c20dc243692c78294dd2e7994ca27cf053bcd9e9722b38cbf8e9e816ae"
+    },
+    {
+      "path": "TeamFlow_Test_Plan_v1.0.md",
+      "sha256": "3f5e7ac09767b5cf9c524452bf7609c3d454c4d23478a95c9119e1384b69917d"
+    },
+    {
+      "path": "TeamFlow_Test_Cases_v1.0.md",
+      "sha256": "8a207c538479bd7c4affb447aaf1007cffab651d6cf1f86d274f4ab5d70a9996"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "3a9f1dd34b2d9dce148342fecbb90a0c5f8d5e50c5dd97d5b807da316d55318c"
+    },
+    {
+      "path": "tests/execution-records.json",
+      "sha256": "54b44045fb97134e974d188f074462f0a336acab3ec261f8ca7e109fa3447390"
+    }
+  ]
+}

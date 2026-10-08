@@ -1,0 +1,223 @@
+{
+  "task": "T-005",
+  "date": "2026-10-05",
+  "timezone": "Asia/Bangkok",
+  "result": "PASS",
+  "scope": "Foundation bootstrap only",
+  "declaredSettings": {
+    "model": "GPT-6.1 Sol",
+    "effort": "Medium",
+    "speed": "Standard"
+  },
+  "actualSettings": "NOT_VERIFIED: metadata unavailable; no model/effort/speed/runtime defaults changed",
+  "environment": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "os": "darwin",
+    "sqlite": "Node22 built-in experimental",
+    "chromium": "153.0.8010.12"
+  },
+  "checks": {
+    "freshCheckout": {
+      "scope": "Fresh source copy bootstrap only",
+      "ci": "PASS",
+      "typecheck": "PASS",
+      "build": "PASS",
+      "tests": "PASS: 84 tests (5 foundation + 1 frontend + 61 contract + 17 planning)",
+      "migrate": "PASS: apply once, repeat no-op",
+      "seed": "PASS: explicit synthetic fixture only",
+      "start": "PASS: built HTML/live200/ready503"
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "tests": {
+      "foundation": {
+        "tests": 5,
+        "pass": 5,
+        "fail": 0
+      },
+      "frontend": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0
+      },
+      "contract": {
+        "tests": 61,
+        "pass": 61,
+        "fail": 0
+      },
+      "planning": {
+        "tests": 17,
+        "pass": 17,
+        "fail": 0
+      },
+      "combined": {
+        "tests": 84,
+        "pass": 84,
+        "fail": 0
+      },
+      "browser": {
+        "tests": 1,
+        "pass": 1,
+        "fail": 0
+      },
+      "sqlserver": {
+        "tests": 1,
+        "pass": 0,
+        "skipped": 1,
+        "result": "NOT_RUN"
+      }
+    },
+    "licenseInventory": {
+      "entries": 390,
+      "missing": 0,
+      "result": "PASS"
+    },
+    "npmRegistryAudit": {
+      "vulnerabilities": 0,
+      "result": "PASS",
+      "note": "Installation snapshot only"
+    },
+    "manifest": {
+      "tasks": 77,
+      "suites": 20,
+      "cases": 84,
+      "acceptance": 30,
+      "variants": 20,
+      "uat": 5,
+      "smoke": 30,
+      "FR": 40,
+      "NFR": 8,
+      "BR": 18,
+      "result": "PASS"
+    }
+  },
+  "progress": {
+    "done": 5,
+    "total": 77,
+    "remaining": 72
+  },
+  "ready": [
+    {
+      "id": "T-006",
+      "status": "TODO",
+      "effort": "High",
+      "readiness": "READY",
+      "pendingDependencies": []
+    },
+    {
+      "id": "T-007",
+      "status": "TODO",
+      "effort": "High",
+      "readiness": "READY",
+      "pendingDependencies": []
+    },
+    {
+      "id": "T-012",
+      "status": "TODO",
+      "effort": "Medium",
+      "readiness": "READY",
+      "pendingDependencies": []
+    }
+  ],
+  "next": {
+    "task": "T-006",
+    "effort": "High"
+  },
+  "artifacts": [
+    {
+      "path": "package.json",
+      "sha256": "a3ccce624b886179f48d44907a9127ef4a19ccb6ef3e7642fb10befd4a576943"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "ab4903681a53e588c690d5f08a3cb3295dc77b18439442e2594aca81587ce6bc"
+    },
+    {
+      "path": ".nvmrc",
+      "sha256": "6d07ac247e81cd42c2c20abf8dfe504413d6b2422e4aba9b2c975a776f155921"
+    },
+    {
+      "path": ".npmrc",
+      "sha256": "3b88d1057add6f92ec23dc22dd017e312ded13a042deb0ba6f08bad85d936456"
+    },
+    {
+      "path": "src/domain/atomic-effects.ts",
+      "sha256": "5c1c348051dddcee02ddb8d8e686042b72e0b73aa270c9a1d4f4e75ceb9ab0a8"
+    },
+    {
+      "path": "src/repository/sqlite/database.ts",
+      "sha256": "fb169e9f600f9c9f543b79f606e948786f388b75735c5668bbcfe6f517c30d64"
+    },
+    {
+      "path": "src/repository/sqlserver/database.ts",
+      "sha256": "d1732535b7210baf429a50d61fc540d753eac8f19f4741b35f44d599fc064737"
+    },
+    {
+      "path": "migrations/sqlite/0000_foundation.sql",
+      "sha256": "d32ff3f76660a86fdb000f18acdf36f7a38ed9a4192deaf62551230aa7eb4bb5"
+    },
+    {
+      "path": "migrations/sqlserver/0000_foundation.sql",
+      "sha256": "dc1835cea9302f6a6e31e3b5026b80c5ded897fd039dd715f4122f5c28d28e05"
+    },
+    {
+      "path": "reports/T-005-fresh-checkout.json",
+      "sha256": "2a2c38e955310211a70ca8254eef4e4576bd7759fe6a3b24ecf3a8a8c9b8cce4"
+    },
+    {
+      "path": "dependencies/license-inventory.json",
+      "sha256": "dd8dca057deda344dccc51dda01c2489c68d0edd2a3bf7295d8d80d92c0f1e1e"
+    },
+    {
+      "path": "README.md",
+      "sha256": "0cc618b10bb48f24363bf429340565bde37f085970d35be0363f0aad3c5df65d"
+    },
+    {
+      "path": "tests/foundation/database.test.ts",
+      "sha256": "8f0163d258f8cc419373a21ca2b6a3a0aa5bb334e9dcb235d3db2281deb1cb62"
+    },
+    {
+      "path": "tests/foundation/http.test.ts",
+      "sha256": "30cb10e293b3c9d6337deb8e1378973765d520d68d6cddf0cb278fde2d5bdb66"
+    },
+    {
+      "path": "tests/sqlserver/foundation.test.ts",
+      "sha256": "59e374f7c84e549a36f78e2560c750d44175f71f16339ee17ee6bc375c1cfa61"
+    },
+    {
+      "path": "tests/browser/foundation.spec.ts",
+      "sha256": "838fe684d21bd55c6c0a743c8e5e9d4e8bb81ac3ab25ee5e9df4540544a5c8e5"
+    }
+  ],
+  "commands": [
+    "npm install --ignore-scripts (project-local; exact pins)",
+    "npm run typecheck",
+    "npm run build",
+    "npm run lint",
+    "npm run licenses",
+    "npm run test:sqlserver",
+    "PLAYWRIGHT_BROWSERS_PATH=[isolated temporary cache] npm run test:ui",
+    "FRIDAY_NPM_CACHE=[isolated npm cache] npm run verify:checkout"
+  ],
+  "notRun": [
+    "Actual SQL2022 integration/constraints/concurrency/faults/migration/backup-restore",
+    "Windows/HTTPS/service/ACL/scheduler",
+    "Full browser matrix/performance/UAT",
+    "84 full TC/30 AT/20 RV/5 UAT/4 release reviews",
+    "Candidate ZIP/final source/deployment"
+  ],
+  "limitations": [
+    "Only foundation ledger migrated; full business schema T-007",
+    "Auth/ACL/task APIs absent; ready503/API SERVICE_NOT_READY",
+    "Full config/paths/instance validation T-006",
+    "Node SQLite API experimental/synchronous/local only"
+  ],
+  "resolvedIssues": [
+    "Normalized SQLite row representation",
+    "Whole SQLite migration scripts execute atomically",
+    "Browser smoke port separated from existing project; no unrelated processes changed"
+  ],
+  "note": "Source delivery only; no commits/deploy/DNS/server changes or real data/credentials added. Foundation test records do not close full AT/TC."
+}

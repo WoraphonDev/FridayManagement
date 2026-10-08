@@ -1,0 +1,25 @@
+# T-065–T-069 grouped source and local regression delivery
+
+2026-10-07. Declared effort T065/T066 Medium; T067/T068/T069 High. Actual model/effort NOT_VERIFIED. Node22.23.3/npm10.9.9/macOS, synthetic SQLite fixtures only. Dependencies remain partially open for SQL/Windows/browser/UAT; SRS local continuation does not close their acceptance.
+
+## Delivered
+
+- T065: `scripts/windows/Start-Friday.ps1` foreground launcher checks absolute Node/env paths, exact runtime and built frontend/server, preserves exit code and project working directory. Existing backup wrapper retained. `TeamFlow_Windows_Installation.md` provides clean-build, private service identity/DACL, separate DB runtime/migration/backup identities, exact origin/IIS ARR/HTTPS/trusted peer handling, service-wrapper/reboot/scheduler/log/update/restore steps and owner evidence sheet. No wrapper installed; Control Panel unknown. Production startup guard remains in place; this is isolated rehearsal/source preparation.
+- T066: `TeamFlow_User_Developer_Guide.md` covers Admin/Lead/Member/Viewer, setup/forced password/reset/revocation, scope, all four views, Kanban alternatives/conflicts, monthly anchor, file limits/quota/trash/archive, notifications/offline/PWA, developer architecture/contracts/config/migrations/test commands. User-newcomer walkthrough/sign-off remains NOT_RUN.
+- T067: exact A/L1/L2/M1/M2/V/Inactive plus P1/P2/Pshared/Pprivate fixture, generated in-memory password and real scrypt hashes, isolated fresh DB/random SQL schema, private real TXT bytes/SHA256, per-role real login jars, deterministic internal clock, HTTP Origin/CSRF/key helper and cleanup. No public clock/reset endpoint, no real users/data. `TeamFlow_Regression_Harness.md` separates providers/transport and trace. Native SQL wrapper validates existing SQL2022/_test guards; no SQLite result substituted for SQL.
+- T068: controlled-clock idle cutoff/poll neutrality/absolute cutoff after activity, secure cookie-header/hash-only sessions, last Admin refusal, password rotation/reset/forced gate/logout and role/deactivation session revocation/audit. Existing setup/token/rate-window/two-process last-Admin/recovery suites included in full grouped regression.
+- T069: 6roles ×4projects detail and actual file-byte authorization; Viewer create/edit/move/checklist/comment/upload/delete/restore denial with unchanged DB/key/event/attachment bytes; search/count/report/CSV/notification/directory scope; revoke after opened detail denies fresh download/read/old-key replay and unassigns open task; archive/read/write/lifecycle/unarchive; CSRF/noOrigin/forwarded-spoof/parameterized SQLi/JSON plaintext XSS. Browser DOM/TLS/open-tab refresh, all endpoints/archived/concurrency variants still require full acceptance.
+
+## Actual checks
+
+Grouped `npm test`: **PASS449/449** (Node411 + frontend38), exit0. Typecheck/lint/build PASS. Final environment-isolation hardening of the new fixture was followed by **PASS10/10**, plus final type/lint validation; unchanged feature suites were not repeated. Contract inventory remains53routes/77schemas/API1.1.0; contract and test-plan checks PASS. Test-plan checks inventory/policy only; formal records remain0.
+
+Native SQL wrapper: **174SKIP/0executed**, NOT_RUN. Windows PowerShell is not available on this macOS environment: actual syntax/runtime/service/IIS/HTTPS/Task Scheduler/DACL/reboot NOT_RUN. UI/browser tests were not rerun in this batch because frontend/runtime product source did not change; previous results are historical evidence, not current full browser sign-off. No fresh Windows/source ZIP/performance/UAT claimed.
+
+Initial new harness **0PASS/10FAIL** because seeded users lacked user_view_revisions required by Self/login; fixed fixture. Next **7PASS/3FAIL**: activity schedule touched exactly60min idle boundary; task restore concealed unavailable/unauthorized state as404; archived write returns PROJECT_ARCHIVED422 per locked contract. Tests corrected without product/contract changes. Next **9PASS/1FAIL** from wrong subtask request fields; corrected to task_version/version/done. Then **10PASS/0FAIL**, grouped449PASS, and final tightened configuration10PASS. Raw logs preserved separately. Viewer restore specifically expects404; other tested writes403. JSON XSS test proves plaintext API serialization, not browser rendering.
+
+## Limits and handoff
+
+Partial TC003/006/008/009/010/011/012/014–019/021/022/056/062/063/066/068–070 plus prior setup/race groundwork. Full AT01–08/28/29/30, all required RVs, native SQL2022/Windows/real TLS/browser matrix/UAT remain NOT_RUN; tests/execution-records.json unchanged. No release approval inferred from tests. Windows guide references verified primary Node/Microsoft documentation; does not claim local execution of Windows commands.
+
+All five IN_PROGRESS; **DONE6/77, IN_PROGRESS63, TODO8, remaining71**. Next five-task batch T070 High/T071 Medium/T072 High/T073 Medium/T074 High. No commit/push/deploy/DNS/service installation/shared runtime change. Machine results contain immutable source/evidence hashes in reports/T-065-069-batch-results.json; older snapshots/reports left intact.

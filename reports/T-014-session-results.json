@@ -1,0 +1,184 @@
+{
+  "task": "T-014",
+  "date": "2026-10-06",
+  "timezone": "Asia/Bangkok",
+  "status": "IN_PROGRESS",
+  "result": "LOCAL_SESSION_PASS_NATIVE_SQL_HTTPS_WINDOWS_UI_PENDING",
+  "declared": {
+    "model": "GPT-6.1 Sol",
+    "effort": "High",
+    "speed": "Standard"
+  },
+  "actualRuntimeSettings": "NOT_VERIFIED",
+  "dependencies": {
+    "T-011": "IN_PROGRESS",
+    "T-006": "IN_PROGRESS",
+    "T-008": "IN_PROGRESS"
+  },
+  "localAuthorization": "SRS5.2/16 owner-approved Node22 temporary SQLite; full dependencies/SQL acceptance unchanged",
+  "environment": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "host": "macOS arm64",
+    "provider": "actual isolated SQLite files",
+    "http": "ephemeral loopback; browser shell43173",
+    "browser": "Playwright1.63.0 Chromium153.0.8010.12",
+    "secureCookiePolicy": "configured HTTPS-origin attributes over HTTP fixture transport; actual local browser HTTP Secure=false",
+    "actualHTTPS": "NOT_RUN",
+    "operatorConsole": "synthetic callback capture; no tokens/passwords in report"
+  },
+  "checks": {
+    "sessions": {
+      "result": "PASS",
+      "passed": 19,
+      "total": 19,
+      "provider": 10,
+      "http": 4,
+      "security": 2,
+      "separateProcess": 2,
+      "startup": 1
+    },
+    "combined": {
+      "result": "PASS",
+      "passed": 252,
+      "total": 252,
+      "suites": {
+        "config": 37,
+        "foundation": 5,
+        "schema": 13,
+        "helpers": 25,
+        "api": 12,
+        "idempotency": 13,
+        "authorization": 14,
+        "setup": 17,
+        "sessions": 19,
+        "frontend": 19,
+        "contract": 61,
+        "planning": 17
+      }
+    },
+    "browser": {
+      "result": "PASS",
+      "passed": 9,
+      "total": 9,
+      "realSessionCases": 2,
+      "realSetupCases": 2,
+      "syntheticSelfShellCases": 4,
+      "foundationSmoke": 1,
+      "supportedMatrix": "NOT_RUN",
+      "loginMethod": "actual same-origin browser fetch; login UI pending T-017"
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "checkContract": {
+      "result": "PASS",
+      "routes": 52,
+      "schemas": 75,
+      "wireChanged": false
+    },
+    "checkTestPlan": "PASS",
+    "postDocumentPlanningTests": {
+      "result": "PASS",
+      "passed": 17,
+      "total": 17
+    },
+    "sqlserver": {
+      "result": "NOT_RUN",
+      "harness": "SKIP",
+      "passed": 0,
+      "skipped": 56,
+      "newSessionCases": 10,
+      "reason": "isolated SQL2022 not configured"
+    },
+    "freshCheckout": {
+      "result": "PASS",
+      "report": "reports/T-014-fresh-checkout.json",
+      "firstAttempt": "FAIL: checker wrongly expected account creation from account-free sample-data; assertion corrected to setupRequired true",
+      "rerun": "PASS: account-free meta200/setupRequired true, me401, generic login401 with no cookie in omit-dev runtime"
+    },
+    "diffCheck": "PASS",
+    "taskRegisterConsistency": {
+      "result": "PASS",
+      "counts": {
+        "DONE": 6,
+        "IN_PROGRESS": 8,
+        "TODO": 63
+      },
+      "total": 77,
+      "remaining": 71
+    }
+  },
+  "fixtureCorrections": [
+    "API validation error predicate and controlled-clock assertions corrected; final sessions19 PASS",
+    "fresh checker account-free sample-data assertion/README corrected"
+  ],
+  "traceability": {
+    "unit": [
+      "UT-04",
+      "UT-05"
+    ],
+    "partialLocal": [
+      "TC-003",
+      "TC-004",
+      "TC-005",
+      "TC-006",
+      "TC-007",
+      "TC-010",
+      "TC-011",
+      "TC-021",
+      "AT-02",
+      "AT-03"
+    ],
+    "fullExecutionRecordsAdded": 0,
+    "fullAcceptance": "NOT_RUN"
+  },
+  "faultInjection": [
+    "actual rollback after session INSERT; independent rate attempt persists",
+    "simulated lost login/logout COMMIT acknowledgement; no success cookie",
+    "controlled snapshot pause in separate process before crypto; subsequent committed revocation rejects stale login"
+  ],
+  "remaining": [
+    "Native SQL2022 serialization/counter/revoke/rollback/current-state/guard/TLS",
+    "T-015 password rotation/gate; T-016 actual role/reset/deactivate/unassign/audit APIs",
+    "T-017 login/activity/expiry/cross-tab UI; scheduler cleanup/maintenance freeze-drain",
+    "Actual HTTPS/Windows/browser matrix/UAT/full acceptance; ready503/production refused"
+  ],
+  "progress": {
+    "completed": 6,
+    "total": 77,
+    "inProgress": 8,
+    "todo": 63,
+    "remaining": 71
+  },
+  "next": {
+    "task": "T-015",
+    "effort": "High",
+    "dependency": "T-014 IN_PROGRESS; approved local continuation only"
+  },
+  "sourceSha256": {
+    "src/services/sessions.ts": "023002634f0d240eb7544bff93a9063d293b9c6808cdc410eefcd5e88e279d80",
+    "src/api/sessions.ts": "d082b5058a88ef7c9a90fc38fab35d489d897d18ba092ad998d466674a2e4ff7",
+    "src/security/session-cookie.ts": "c2c2d806ffae8635200748dc9c91556ad9869ee5ffb40cfe95edaf188fb43b02",
+    "src/security/passwords.ts": "4e26a9fa98742cefc416c0d6803bcaf03f22e46d68f7fe646ce6ceddcd35b83f",
+    "src/security/rate-limit.ts": "0291fc7f301641a4abab9f4f8fab7843ee6335a54869ce15afde319b8378eb76",
+    "src/api/middleware.ts": "de63151fc92e7c55bd263dee5f4f9540b6b4d973525f6d534ce739d293efe5c5",
+    "src/api/authorization.ts": "8cb2cc28b0f5295ad55beb75c77be3ced79b876f592d7fbe00caed4534063b9c",
+    "src/api/errors.ts": "b8584c2acd44a57b33db7690de8458d7ef04172e13e1f0b2e99e770f28a38d3f",
+    "src/api/app.ts": "7b707f009c9bec069f55b65e854d7716b40e6ac3cb64b0785d2fd87b1fdc07bb",
+    "src/api/start.ts": "aea86e804d6dd015fca350e564f7ae1a83c77aafe3b3b78013d74d4b7090f179",
+    "scripts/verify-fresh-checkout.mjs": "c5a482a64615a7cda6726f4603644bd6a39760c5cc18487d6454bd1e4d7c23e6",
+    "package.json": "17f4fc0a8afca998fba0930256073966ecf49da015c2eff9776a97dec181035a",
+    "tsconfig.tools.json": "23bc6bb000f0e88dd1189de092919c8a0f8b3f4898079718177c131e2405eaa6",
+    "tests/sqlserver/sessions.test.ts": "4b8715d804c3378e2ffc48d67c700f82c13cc807ae55f0434e1493bc47f2c8f7",
+    "tests/browser/sessions.spec.ts": "e84ad72ba84d7d4cede3fe3514fa16c894f96366e91bc831981308621719be9f",
+    "tests/sessions/concurrency.test.ts": "8268e2d2b8e8136bfc7a31092f1a7243d12234242a753d93a8634bfcef0d4ff5",
+    "tests/sessions/fixtures.ts": "8c4c9beac415dfeac04e77bbdcc5f5dcae5ffab58de43a39b862f7c56bd5523b",
+    "tests/sessions/http.test.ts": "8ae3cd9db5095a57cedafc2e56c5c132dd6d0573058d0cf0e6856a4371aefdff",
+    "tests/sessions/provider-suite.ts": "ad1178ad1ea1aff3781139b9cee3c626a0c61b264d95356c086b4f8165300f78",
+    "tests/sessions/security.test.ts": "9a788979d9b099a398f3fb3ac11f385a7fa7c98d0edd272b02f3b14bcdb59765",
+    "tests/sessions/sqlite.test.ts": "9f79634bb3b39e469617bb8b525435196ab6a53108a78cfa8957abb5367f7bc5",
+    "tests/sessions/startup.test.ts": "9fe19e5931726e6bfcd3e37a1601e63efa17aad0668dd74a202558d70878dc2d",
+    "tests/sessions/worker.ts": "e4862a0df32cd0156613951d4a74f48f9352a0e0d004eee6159b4dbf07f6d5ba"
+  }
+}

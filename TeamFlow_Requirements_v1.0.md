@@ -1,10 +1,36 @@
 # TeamFlow — Business & Functional Requirements
 
-**เวอร์ชัน:** 1.1 · **วันที่:** 5 ตุลาคม 2026  
+**เวอร์ชัน:** 1.9 · **วันที่:** 8 ตุลาคม 2026\
 **สถานะ:** Baseline ยืนยันแล้ว; รอพัฒนา  
 **เอกสารคู่กัน:** `TeamFlow_SRS_v1.0.md`  
 **ชื่อ TeamFlow:** ชื่อทำงานชั่วคราว ยังไม่ใช่ชื่อที่เจ้าของระบบเลือก
 
+
+## Owner-approved Monday-style addendum — 8 ตุลาคม 2026 (T-078)
+
+เจ้าของอนุมัติ `TeamFlow_Requirements_Addendum_Monday_Draft.md` (8 ต.ค. 2026) ด้วยคำสั่งให้ทำ T-078 ต่อ: เพิ่ม Personal/Workspace/Admin แบบ monday, แยก job title ออกจากสิทธิ์, project role `manager` + permission checkbox รายคน P-01–P-10, Docs/Files/Workload/Overview/Favorites, Main table/side panel ใหม่ และ motion AN-01–AN-13. FR-46 Updates feed เลื่อนไปรอบถัดไป; exclusion เดิม (custom fields/status, dependencies, time tracking, automations, integrations, chat, real-time co-editing, email/AI) คงอยู่. เป็นการเปลี่ยนเอกสารเท่านั้น ยังไม่มี code/schema/API ของ addendum และ FR/AT ใหม่ทั้งหมด NOT_RUN. รายละเอียดอยู่ใน §3, §4, §5.7–§5.9, NFR-09, BR-19–BR-23 และ §7A ของเอกสารนี้; SRS 1.11 ระบุพฤติกรรม/สิทธิ์ และ Task T-079–T-091 เป็นงานลงมือ
+
+## Owner-approved Vibe implementation — 7 ตุลาคม 2026
+
+เจ้าของอนุมัติให้นำแบบ `TeamFlow_UI_Vibe_Preview.html` มาใช้กับโปรเจกต์จริง ใช้ Monday Vibe 4.5.34, compact layout, English เป็นภาษาหลัก, สีสถานะชัดเจน และ animation ที่เคารพ reduced motion. ข้อมูลที่ผู้ใช้กรอกยังรองรับ Unicode/ภาษาไทย. ข้อกำหนดล่าสุดนี้แทนข้อจำกัดเดิมเรื่องผู้รับผิดชอบ Task คนเดียวและ Thai เป็นภาษาหลักในส่วนที่ขัดกัน; business rules และ permission boundaries อื่นคงเดิม.
+
+Task มีผู้รับผิดชอบ 0–30 คนที่ active และมี effective project write; Checklist แต่ละข้อมีผู้รับผิดชอบ 0–1 คนแยกจาก Task. การมอบหมายไม่เพิ่มสิทธิ์เข้าถึง. ถอนสิทธิ์ต้องล้าง assignment ของงานที่ยังไม่ Done แบบ atomic พร้อม audit/notification; Done เก็บประวัติ. Recurrence คัดลอกเฉพาะผู้รับผิดชอบที่ยังมีสิทธิ์ และ reset checklist completion. My work/filter/report/CSV/reminders รองรับผู้รับผิดชอบรองด้วย.
+
+Project สร้าง named/color Group ได้ไม่เกิน 1,000 กลุ่ม; Task อยู่ได้หนึ่งกลุ่มหรือไม่มีกลุ่ม. การย้าย Group ไม่เปลี่ยน status. Start Plan/End Plan ใช้ `start_date`/`due_date` เดิม. Inline status ไม่มีปุ่มลูกศรแยก ข้อความอยู่กลาง; Done ยังต้องมี checklist ครบ. Kanban ใช้ motion 320ms เมื่อข้ามคอลัมน์/220ms เมื่อขยับในคอลัมน์ และปิด motion เมื่อ reduced motion. Notify อยู่มุมขวาบน. รายละเอียดผลจริง/ข้อจำกัดอยู่ `TeamFlow_UI_Vibe_Implementation_Report.md`; native SQL2022/Windows/full TC-AT/UAT ยังไม่ถือว่าผ่าน.
+
+## เพิ่ม Gantt และดีไซน์ตามคำสั่งเจ้าของ — 6 ตุลาคม 2026
+
+เจ้าของเลือกปรับแผนและตัวอย่างดีไซน์ก่อน เพิ่ม Gantt เข้าเวอร์ชันแรก และใช้แนว Monday Project Management: sidebar, project header, view tabs Table/Gantt/Calendar/Kanban, grouped table, status สีพร้อมข้อความ, owner avatars และ task detail. ใช้ข้อมูล/สิทธิ์เดียวกันทุกมุมมอง; ไม่เพิ่ม AI/email/custom fields/dependencies/critical path/automatic scheduling. Mock ใช้ข้อมูลสมมติ ไม่ใช่ระบบบันทึกงานจริง. เพิ่มเกณฑ์ FR-25/T-046 High/AT-19/TC-049; ดีไซน์ Table อยู่ T-045 และ review T-055. API/schema เดิมใช้ start_date/due_date; หากภายหลังเปลี่ยน contract ต้องรัน checks ของ T-003.
+
+## การปรับ runtime ตามคำสั่งเจ้าของระบบ — 5 ตุลาคม 2026
+
+ใช้ **Node.js 22** แทน Node.js 24 เพื่อให้ตรงกับโปรเจกต์อื่นในเครื่อง; ไม่อัปเกรดหรือเปลี่ยน runtime ส่วนกลาง แพ็กเกจต้องเลือกรุ่นที่รองรับ Node22 และ pin patch/lockfile ใน T-005 ก่อนปิดงาน การเปลี่ยนนี้ไม่เปลี่ยน business rules ของ Baseline1.1 และไม่ใช่ผลว่ารันทดสอบแล้ว
+
+เจ้าของระบบยืนยันใช้ **SQLite สำหรับพัฒนา local ชั่วคราว** ร่วมกับ Node.js22; ฐานข้อมูลปลายทางสำหรับ Windows ยังคง SQL Server2022 ต้องแยก adapter/migrations/configuration และรายงานผลทดสอบตาม database provider ผล SQLite ไม่ใช้แทน SQL Server integration/concurrency/backup-restore sign-off
+
+## ข้อยืนยันจาก readiness review — 5 ตุลาคม 2026
+
+เจ้าของระบบยืนยัน “ok ตามที่แนะนำ” สำหรับรายการ22ประเด็นในบทสนทนา: กติกา8ข้อถือว่ายืนยันแล้วตาม SRS §18; รายละเอียดสัญญา10ข้อและแผนงาน4ข้อเป็นงานที่ต้องทำใน T-003/T-004/T-005 และ task ที่เกี่ยวข้อง ไม่ใช่ผลว่า implementation หรือ tests ผ่านแล้ว ใช้ Baseline1.1 พร้อมข้อยืนยันเพิ่มเติมนี้เมื่อข้อความเดิมกำกวม; ไม่ต้องขออนุมัติกติกาเดิมซ้ำ
 
 ## บันทึกการยืนยัน — Baseline 1.1
 
@@ -14,10 +40,10 @@
 - R-02: Archive ระดับโปรเจกต์; งานใช้ soft delete/restore 30 วัน ไม่มี task archive แยก
 - R-03: ไฟล์แนบที่ลบเก็บในถังขยะ 30 วัน ยังนับ quota จน purge; uploader/owner Lead/Admin คืนไฟล์ได้ในช่วงนี้หากยังมี write access และโปรเจกต์ active
 - R-04: คง recurrence tombstone หลัง purge เพื่อกันสร้างรอบซ้ำ; technical design ใช้ source/generated ID snapshots ที่ไม่ผูก FK ถึง task ที่อาจถูกลบ
-- Stack: React + TypeScript + Vite, Node.js 24 LTS + Express 5 + `mssql`/Tedious, SQL Server 2022; เครื่องมือหน้าจอ/ตรวจข้อมูล/ทดสอบตาม SRS §3.4
+- Stack: React + TypeScript + Vite, Node.js 22 + Express 5 + `mssql`/Tedious, SQL Server 2022; เครื่องมือหน้าจอ/ตรวจข้อมูล/ทดสอบตาม SRS §3.4
 - Edition ของ SQL Server, patch/runtime/package versions และสิทธิ์ติดตั้งยังต้องตรวจตอนติดตั้ง ไม่มีข้อสรุปว่าเป็น Express/Developer หรือพร้อม production แล้ว
 
-การยืนยันนี้เป็น baseline สำหรับพัฒนา ไม่ใช่ผลว่าพัฒนาหรือทดสอบแล้ว งาน coding/test ยัง TODO/NOT_RUN ยกเว้น T-001/T-002 ซึ่งปิดได้ด้วยการยืนยันและแก้เอกสารนี้ **ชื่อไฟล์คงเดิมเพื่อรักษา references; ให้ดู version 1.1 ในส่วนหัวเป็นรุ่นเนื้อหาปัจจุบัน**
+การยืนยัน baseline ไม่ใช่ผลทดสอบระบบ สถานะปัจจุบัน: T-001/T-002 DONE ด้านเอกสาร และ T-003 DONE เฉพาะ API contract/schema tests ตามหลักฐานใน Task Register; application/ฐานข้อมูล/Windows/UAT และ TC/AT เต็มกรณียัง NOT_RUN **ชื่อไฟล์คงเดิมเพื่อรักษา references; ให้ดู version 1.6 ในส่วนหัวเป็นรุ่นเนื้อหาปัจจุบัน**
 
 
 ## 1. จุดประสงค์และสถานะของข้อมูล
@@ -59,15 +85,18 @@
 
 ### 3.1 รวมในเวอร์ชันแรก
 
-บัญชีผู้ใช้ที่ผู้ดูแลสร้าง, หลายทีม, สมาชิกอยู่ได้หลายทีม, สิทธิ์ระดับองค์กร/ทีม/โปรเจกต์, โปรเจกต์ร่วมข้ามทีม, งานและการมอบหมาย, งานย่อย, งานซ้ำ, หมวดหมู่, วันเริ่ม/กำหนดส่ง, Kanban ลากวาง, รายการงาน, ปฏิทิน, ความคิดเห็น, ไฟล์แนบ, ประวัติ, การแจ้งเตือนในเว็บ, สรุปผลงานตามสิทธิ์, CSV, หน้าเว็บรองรับมือถือ, PWA แบบติดตั้งทางลัด, การสำรองและกู้คืน, และชุดโค้ดสำหรับ deploy เอง
+บัญชีผู้ใช้ที่ผู้ดูแลสร้าง, หลายทีม, สมาชิกอยู่ได้หลายทีม, สิทธิ์ระดับองค์กร/ทีม/โปรเจกต์, โปรเจกต์ร่วมข้ามทีม, งานและการมอบหมาย, งานย่อย, งานซ้ำ, หมวดหมู่, วันเริ่ม/กำหนดส่ง, Kanban ลากวาง, รายการงาน, ปฏิทิน, Gantt, ความคิดเห็น, ไฟล์แนบ, ประวัติ, การแจ้งเตือนในเว็บ, สรุปผลงานตามสิทธิ์, CSV, หน้าเว็บรองรับมือถือ, PWA แบบติดตั้งทางลัด, การสำรองและกู้คืน, และชุดโค้ดสำหรับ deploy เอง
+
+เพิ่มตาม addendum 1.9: ตำแหน่งงาน (job title), project role `manager` และ permission checkbox รายคน, หน้า Admin รวมศูนย์/Permission matrix, My overview, My work แบบ grouped table, Favorites, Project Docs (rich text ไม่ co-edit), Project Files, Workload, Project overview, Main table/Task side panel แบบ monday และ motion ที่ปิดได้
 
 ### 3.2 ไม่รวมในเวอร์ชันแรก
 
 - อีเมล, AI, การสมัครเองจากบุคคลภายนอก, ลูกค้าภายนอกองค์กร และหลายองค์กรในระบบเดียว
 - LINE/Telegram, SMS, Web Push เมื่อปิดเว็บ, SSO/AD/OAuth และการซิงก์ Google/Outlook Calendar
-- แอป native iOS/Android, การแก้ไขข้อมูลแบบ offline, Gantt, dependencies ระหว่างงาน และ time tracking
+- แอป native iOS/Android, การแก้ไขข้อมูลแบบ offline, dependencies ระหว่างงาน และ time tracking
 - แชตแยกจากงาน, การคิดเงิน/เงินเดือน, workflow อนุมัติหลายชั้น, custom fields หรือ custom status
 - การเก็บไฟล์บน cloud แบบบังคับ, การติดตั้งบน Server จริง และการรับรองว่า Control Panel ปัจจุบันรองรับระบบโดยไม่ตรวจสอบ
+- (addendum 1.9) Updates feed FR-46 เลื่อนไปรอบถัดไป; real-time co-editing ของ Docs, automations, integrations, dependencies/critical path/auto-scheduling ใน Gantt และ custom columns ยังไม่รวม ต้องเปิด scope change แยก
 
 ## 4. ผู้ใช้และสิทธิ์ทางธุรกิจ
 
@@ -78,6 +107,7 @@
 | สมาชิก (Member) | ใช้งานโปรเจกต์ที่ได้รับสิทธิ์เท่านั้น สมาชิกทีมไม่ได้เห็นทุกโปรเจกต์ของทีมโดยอัตโนมัติ |
 | ผู้แก้ไขโปรเจกต์ (Editor) | สิทธิ์เพิ่มเติมของสมาชิกในแต่ละโปรเจกต์: สร้าง/แก้ไขงาน แสดงความคิดเห็นและแนบไฟล์ |
 | ผู้ดูโปรเจกต์ (Viewer) | ดูงานและดาวน์โหลดไฟล์ในโปรเจกต์ ไม่แก้ไขงานหรือเพิ่มความคิดเห็น |
+| ผู้จัดการโปรเจกต์ (Project Manager, role `manager`) | สิทธิ์รายโปรเจกต์ที่ Admin/Lead ทีมเจ้าของแต่งตั้ง ทำได้เท่า Editor และเพิ่มเฉพาะ permission P-01–P-07 ที่ Admin ติ๊กให้รายคน (FR-42/FR-42A) |
 
 Admin มีสิทธิ์ระดับองค์กร; Team Lead ผูกกับทีมและอาจเป็นสมาชิกปกติในอีกทีมหนึ่ง; Editor/Viewer ผูกกับโปรเจกต์ ข้อมูลอื่นที่ไม่อยู่ในสิทธิ์ต้องไม่ปรากฏทั้งในหน้าจอ API การค้นหา รายงาน การแจ้งเตือน และ export
 
@@ -113,9 +143,9 @@ Admin มีสิทธิ์ระดับองค์กร; Team Lead ผ�
 | ID | ความต้องการ | ผลลัพธ์ที่ต้องยอมรับได้ |
 |---|---|---|
 | FR-12 | สร้างและแก้ไขงาน | เก็บชื่อ รายละเอียด โปรเจกต์ หมวดหมู่ ผู้รับผิดชอบ ความสำคัญ วันเริ่ม วันครบกำหนด |
-| FR-13 | มอบหมายงาน | งานมีผู้รับผิดชอบหลักหนึ่งคนหรือยังไม่มอบหมาย ผู้รับต้อง active และมีสิทธิ์ Editor/ดูแลโปรเจกต์ |
+| FR-13 | มอบหมายงาน | งานมีผู้รับผิดชอบหลายคนหรือยังไม่มอบหมายได้ (เจ้าของแก้กติกา 7 ต.ค. 2026) ผู้รับต้อง active และมีสิทธิ์ Editor/ดูแลโปรเจกต์ |
 | FR-14 | จัดการสถานะและความสำคัญ | มีสถานะและระดับความสำคัญที่กำหนดไว้; ทุกการเปลี่ยนมีประวัติ |
-| FR-15 | งานย่อย | Checklist อยู่ใต้งานหลัก เพิ่ม แก้ชื่อ ลบ และติ๊กเสร็จได้; ผู้ใช้กดเสร็จเองได้เมื่อ checklist ครบ; ไม่เสร็จอัตโนมัติ |
+| FR-15 | งานย่อย | Checklist อยู่ใต้งานหลัก เพิ่ม แก้ชื่อ ลบ และติ๊กเสร็จได้; แต่ละข้อเลือกผู้รับผิดชอบหนึ่งคนหรือยังไม่มอบหมายได้จากผู้ใช้ active ที่มีสิทธิ์เขียนในโปรเจกต์ โดยไม่จำกัดเฉพาะผู้รับผิดชอบ Task; ผู้ใช้กดเสร็จเองได้เมื่อ checklist ครบ; ไม่เสร็จอัตโนมัติ |
 | FR-16 | งานซ้ำ | รองรับรายวัน รายสัปดาห์ รายเดือน; สร้างรอบถัดไปเมื่อปิดงาน โดยไม่สร้างซ้ำเมื่อส่งคำสั่งซ้ำ |
 | FR-17 | ลบงานแบบกู้คืนและคืนงาน | งาน soft delete/restore 30 วัน; ไม่มี task archive แยก; project archive ตาม FR-09 |
 | FR-18 | รับมือแก้ไขพร้อมกัน | ไม่ทับข้อมูลสมาชิกอื่นเงียบ ๆ แจ้ง conflict และให้โหลดข้อมูลล่าสุด |
@@ -130,7 +160,7 @@ Admin มีสิทธิ์ระดับองค์กร; Team Lead ผ�
 | FR-22 | Kanban จัดลำดับด้วยการลาก | ลากขึ้นลงแล้วเก็บลำดับต่อโปรเจกต์/สถานะ; โหลดใหม่แล้วยังเรียงเดิม |
 | FR-23 | ทางเลือกแทนการลาก | เปลี่ยนสถานะและเลื่อนลำดับได้ด้วยปุ่ม/เมนูสำหรับมือถือและคีย์บอร์ด |
 | FR-24 | มุมมองรายการ | เห็นชื่อ ผู้รับ วันส่ง สถานะ ความสำคัญ และเปิดรายละเอียดงานได้ |
-| FR-25 | ปฏิทิน | มุมมองเดือนตามวันครบกำหนด เปิดงานจากวันได้; ไม่ตีความงานไม่มีวันส่งเป็นวันนี้ |
+| FR-25 | ปฏิทินและ Gantt | มุมมองเดือนตามวันครบกำหนด เปิดงานจากวันได้; ไม่ตีความงานไม่มีวันส่งเป็นวันนี้; Gantt แสดงช่วง start–due รวมวันปลายและแยกรายการวันที่ไม่ครบตาม SRS9.3.1 |
 | FR-26 | อัปเดตการเปลี่ยนแปลงทีม | ข้อมูลที่สมาชิกอื่นบันทึกแสดงภายในเวลาที่กำหนด โดยไม่ล้างร่างที่กำลังแก้ไข |
 
 ### 5.5 การร่วมงาน
@@ -150,12 +180,42 @@ Admin มีสิทธิ์ระดับองค์กร; Team Lead ผ�
 | FR-32 | ภาพรวมองค์กร/ทีม/โปรเจกต์ | แสดงจำนวนงานตามสถานะ งานเกินกำหนด และงานยังไม่มอบหมายตามสิทธิ์ |
 | FR-33 | รายงานตามสมาชิกและช่วงเวลา | ระบุฐานวันที่ที่ใช้คำนวณและนิยามงานเสร็จ ไม่จัดอันดับด้วยข้อมูลที่ไม่ได้เก็บ |
 | FR-34 | Export CSV | Export ตามตัวกรองและสิทธิ์ที่ดู; รองรับภาษาไทยและป้องกันสูตรใน CSV |
-| FR-35 | Responsive และภาษาไทย | ใช้งานบนคอมพิวเตอร์/มือถือได้; ข้อความหลักภาษาไทย; เวลา Asia/Bangkok |
+| FR-35 | Responsive และ English base | ใช้งานบนคอมพิวเตอร์/มือถือได้; ข้อความหลัก English ตาม owner approval 7 ต.ค. 2026; ข้อมูลรองรับไทย/Unicode; เวลา Asia/Bangkok |
 | FR-36 | PWA แบบออนไลน์ | เพิ่มทางลัดบนหน้าจอได้ตาม browser; ไม่เก็บข้อมูลทีมอ่อนไหวไว้ใน offline cache |
 | FR-37 | ตั้งค่าระบบที่จำเป็น | Admin ตั้งชื่อองค์กร; ค่าติดตั้ง/พื้นที่/สำรองตั้งผ่าน configuration ที่มีคู่มือ |
 | FR-38 | สำรองและกู้คืน | มีเครื่องมือสำรองฐานข้อมูลและไฟล์ให้สัมพันธ์กัน พร้อมขั้นตอนทดสอบ restore |
 | FR-39 | สุขภาพระบบและ log | ตรวจ readiness ได้โดยไม่เผยข้อมูล; log ข้อผิดพลาดและ admin actions โดยไม่เก็บรหัสผ่าน |
 | FR-40 | ชุดโค้ดติดตั้งเอง | ส่ง source, lockfile เมื่อมี dependency, migrations, env template, scripts, test และคู่มือ Windows |
+
+### 5.7 Admin ตำแหน่ง และสิทธิ์ (addendum 1.9)
+
+| ID | ความต้องการ | ผลลัพธ์ที่ต้องยอมรับได้ |
+|---|---|---|
+| FR-41 | ตำแหน่งงานของผู้ใช้ | Admin กำหนดตำแหน่งให้ผู้ใช้ในหน้า Users และจัดการรายการตำแหน่งได้; แสดงป้ายตำแหน่งถัดจากชื่อใน People picker, Members, Workload และรายงาน; กรองงาน/สมาชิกตามตำแหน่งได้; CSV มีคอลัมน์ตำแหน่ง; การเปลี่ยนบันทึก admin audit |
+| FR-42 | Project role `manager` | เพิ่ม role `manager` นอกจาก Editor/Viewer; แต่งตั้งได้เฉพาะผู้มี permission กลุ่มโปรเจกต์ P-01–P-07 อย่างน้อยหนึ่งข้อ; Manager ทำได้เฉพาะข้อที่ถูกติ๊กและเฉพาะโปรเจกต์ที่ตนเป็น manager; แต่งตั้ง/ถอดโดย Admin/Lead ทีมเจ้าของเท่านั้น (ผู้มี P-03 ตั้งได้แค่ Editor/Viewer); ตรวจสิทธิ์ที่ server ทุกช่องทาง |
+| FR-42A | Permission checkbox รายคน | Admin ติ๊ก P-01–P-10 (§7A.1) ทีละข้อในแท็บ Permissions ของผู้ใช้; preset “PM/SM” ติ๊ก P-01–P-10 และ “Clear”; มีคำอธิบายแต่ละข้อ; บันทึกแบบ version กันทับ; audit เก็บรายการเพิ่ม/เอาออก ผู้ทำ เวลา; มีผลทันทีไม่ต้อง login ใหม่; ไม่ขึ้นกับตำแหน่ง (UI แนะนำ preset ได้แต่ Admin ต้องยืนยันเอง); ข้อมูลยังจำกัดตาม BR-16 |
+| FR-43 | หน้า Admin รวมศูนย์ | เมนู Admin มี Members, Teams, Job titles และ Permission matrix (แถวสมาชิก × คอลัมน์ P-01–P-10) ติ๊กได้เฉพาะ Admin, กรองตามทีม/ตำแหน่ง, เลือกหลายคนแล้วใช้ preset, สรุปการเปลี่ยนแปลงก่อนยืนยัน; ผู้ใช้ทั่วไปเห็นสิทธิ์ของตนใน Settings แบบอ่านอย่างเดียว |
+
+### 5.8 Personal (addendum 1.9)
+
+| ID | ความต้องการ | ผลลัพธ์ที่ต้องยอมรับได้ |
+|---|---|---|
+| FR-44 | My overview | Home แสดงจำนวนงานของฉันตามสถานะ, เกินกำหนด/วันนี้/สัปดาห์นี้, งานตามโปรเจกต์, งานเสร็จ 7 วันล่าสุด และ “ต้องทำต่อไป” 5 รายการ; คลิกแล้วไป My work ด้วยตัวกรองตรงกัน; ตัวเลขใช้ API/สิทธิ์เดียวกับรายงาน |
+| FR-45 | My work แบบ monday | Grouped table Overdue/Today/This week/Next week/Later/No date/Done พร้อมคอลัมน์ Project และลิงก์; เปลี่ยนสถานะ inline ตามสิทธิ์; สลับ “ได้รับมอบหมาย/ฉันสร้าง” |
+| FR-47 | Favorites | ติดดาวโปรเจกต์แบบส่วนตัว แสดงบนสุดของ sidebar; ถอนสิทธิ์แล้ว favorite หายตาม |
+
+FR-46 Updates feed **DEFERRED** ไปรอบถัดไปตามคำตอบเจ้าของ (ไม่อยู่ใน coverage ของรุ่นนี้)
+
+### 5.9 Workspace / Project (addendum 1.9)
+
+| ID | ความต้องการ | ผลลัพธ์ที่ต้องยอมรับได้ |
+|---|---|---|
+| FR-48 | Project Docs | แท็บ Docs สร้างหลายหน้า (ชื่อ ≤200, เนื้อหา ≤200,000 ตัวอักษร) ด้วย rich text พื้นฐาน (หัวข้อ, ตัวหนา/เอียง, list, checklist, ลิงก์, code, ตาราง, รูปจาก Files ของโปรเจกต์); Viewer อ่าน, Editor/Manager แก้; version กัน conflict; ประวัติผู้แก้/เวลา; soft delete/restore 30 วัน; sanitize HTML ฝั่ง server; ไม่มี real-time co-editing |
+| FR-49 | Project Files | แท็บ Files รวมไฟล์ระดับโปรเจกต์และไฟล์แนบทุกงาน แสดงชื่อ ขนาด ผู้อัปโหลด เวลา งานต้นทาง; Editor/Manager อัปโหลดระดับโปรเจกต์; ค้นหา/กรองชนิด; preview รูป/PDF; ใช้กติกา quota/ตรวจชนิด/ลบ/กู้คืนของ FR-28 |
+| FR-50 | Workload view | มุมมองในโปรเจกต์ (และระดับทีมสำหรับ Lead/Admin/ผู้มี P-09): จำนวนงานต่อคนต่อสัปดาห์จาก start/due พร้อมป้ายตำแหน่ง, ไฮไลต์เกินเกณฑ์ (ค่าเริ่มต้น 10 งานยังไม่เสร็จ/สัปดาห์, Admin ปรับได้); คลิกดูรายการ; ไม่ใช่ time tracking |
+| FR-51 | Project overview | แท็บ Overview: % ความคืบหน้าจากงาน done, กราฟสถานะ, งานเกินกำหนด, งานตามผู้รับผิดชอบ/ตำแหน่ง, กิจกรรมล่าสุด |
+| FR-52 | Main table แบบ monday | sticky header ต่อกลุ่ม, คอลัมน์ Task sticky ซ้าย, ปรับความกว้างคอลัมน์ (จำต่อผู้ใช้), inline edit ชื่อ/วันที่/priority/ผู้รับ, เพิ่มงานท้ายกลุ่มด้วยพิมพ์แล้ว Enter, เลือกหลายแถวแล้วเปลี่ยนสถานะ/ผู้รับ/กลุ่ม/ลบแบบ batch, ลากแถวย้ายกลุ่ม, แถบสรุปท้ายกลุ่ม |
+| FR-53 | Task side panel แบบ monday | panel ขวามีแท็บ Updates (comments + @mention เฉพาะผู้เข้าถึงโปรเจกต์), Files, Activity log, Details/Checklist; ปิดด้วย Esc; deep link ไปงานได้ |
 
 ## 6. Non-functional Requirements
 
@@ -169,6 +229,7 @@ Admin มีสิทธิ์ระดับองค์กร; Team Lead ผ�
 | NFR-06 | ความเข้ากันได้ | Chrome/Edge/Firefox และ Safari รุ่นปัจจุบัน/ก่อนหน้าหนึ่งรุ่น ณวันทดสอบ; responsive ตั้งแต่ 360px |
 | NFR-07 | ดูแลและย้ายระบบ | configuration แยกจาก code, migrations มี version, backup/restore มีคู่มือ, ไม่ผูก provider |
 | NFR-08 | ต้นทุน | app/runtime/library ไม่บังคับ subscription; ใช้ SQL Server 2022 ที่องค์กรมี; ตรวจ Edition/สิทธิ์ใช้งานก่อน production; ค่าเครื่อง domain พื้นที่และดูแลเป็นต้นทุนองค์กร |
+| NFR-09 | Motion | ใช้ transform/opacity, 60fps บนเครื่องสำนักงาน; `prefers-reduced-motion` และ toggle “Reduce animations” ปิด motion ที่ไม่จำเป็น; animation ไม่บล็อก action/การบันทึก; ไม่สื่อความหมายด้วย motion อย่างเดียว; ไม่เพิ่ม library/CDN โดยไม่ผ่าน license/audit |
 
 ค่าประสิทธิภาพเป็น **เป้าหมายทดสอบ** ไม่ใช่คำรับรองว่า Server ที่ยังไม่ทราบสเปกจะทำได้ตามนั้น
 
@@ -189,11 +250,64 @@ Admin มีสิทธิ์ระดับองค์กร; Team Lead ผ�
 | BR-11 | ย้ายเป็นเสร็จแล้วได้เมื่อ checklist ครบ; เปิดงานเสร็จแล้วกลับได้ตามสิทธิ์ |
 | BR-12 | งานซ้ำใช้วันส่งเดิมเป็นฐาน สร้างรอบถัดไปเมื่อเสร็จครั้งแรก; การเปิดกลับและปิดซ้ำไม่สร้างรอบเพิ่ม |
 | BR-13 | ลำดับ Kanban แยกตามโปรเจกต์และสถานะ; อนุญาตจัดลำดับเฉพาะบอร์ดที่ไม่เปิดตัวกรองอื่น |
-| BR-14 | งานในโปรเจกต์ archived อ่านได้ตามสิทธิ์ แต่แก้ไข แสดงความคิดเห็น อัปโหลดหรือสร้างงานซ้ำไม่ได้ |
+| BR-14 | งานในโปรเจกต์ archived อ่านได้ตามสิทธิ์ แต่แก้ไข แสดงความคิดเห็น อัปโหลดหรือสร้างงานซ้ำไม่ได้; Admin/owner Lead ลบและคืนงานผ่าน endpoint เฉพาะได้ โดยงานที่คืนยัง read-only |
 | BR-15 | เมื่อถอน project access ให้ unassign งานค้างของคนที่หมดสิทธิ์; งานเสร็จเก็บผู้รับเดิมเป็นประวัติ |
 | BR-16 | การแจ้งเตือนและ export ไม่ขยายสิทธิ์; สมาชิกเห็นรายงานสมาชิกอื่นเฉพาะโปรเจกต์ที่ตนเข้าถึง |
 | BR-17 | “เสร็จในช่วงเวลา” นับงานที่สถานะปัจจุบัน done และ completed_at อยู่ในช่วง; reopen ล้าง completed_at แต่เก็บ event history |
 | BR-18 | ความคิดเห็นแก้หรือลบไม่ได้ใน v1; ถ้าจำเป็นแก้ข้อมูลส่วนบุคคลให้ทำผ่าน admin maintenance ที่มี audit |
+| BR-19 | Job title เป็นข้อมูลแสดงผล/กรอง/รายงานเท่านั้น ห้ามใช้ตัดสินสิทธิ์ใน server |
+| BR-20 | ผู้ใช้มีตำแหน่งหลักหนึ่งตำแหน่งหรือไม่มี; ตั้งต้น PM, SM, BA, SA, Dev, Tester; Admin เพิ่ม/เปลี่ยนชื่อ/ปิดใช้งานได้ ไม่ลบถาวรถ้ายังมีผู้ใช้อ้างถึง |
+| BR-21 | สิทธิ์มาจากการตั้งค่าของ Admin รายบุคคล/รายโปรเจกต์ ไม่ได้มาจากตำแหน่ง; PM/SM ไม่ได้สิทธิ์อัตโนมัติ และตำแหน่งอื่นได้สิทธิ์แบบ PM/SM เมื่อ Admin กำหนด; การเปลี่ยนตำแหน่งไม่เพิ่มหรือลดสิทธิ์ |
+| BR-22 | เอา permission ออกแล้วหมดผลทันทีทั้ง UI/API; ถ้าไม่เหลือ P-01–P-07 ให้ลด role `manager` ทั้งหมดของผู้ใช้นั้นเป็น Editor ใน transaction เดียวพร้อม audit และ refresh view |
+| BR-23 | เฉพาะ Organization Admin ติ๊ก/เอาออก permission ได้; แก้ของตนเองหรือมอบต่อไม่ได้; สิทธิ์เฉพาะ Admin (ผู้ใช้/ทีม/ตำแหน่ง/permission, archive/ลบโปรเจกต์, ตั้งค่าระบบ, Trash ทั้งองค์กร) ไม่อยู่ใน checkbox |
+
+## 7A. UX/UI, permission catalog และ animation (addendum 1.9)
+
+### 7A.1 Permission checkbox
+
+| Key | Checkbox | ขอบเขต | PM/SM preset |
+|---|---|---|---|
+| P-01 | แก้ชื่อ/รายละเอียดโปรเจกต์ | โปรเจกต์ที่เป็น manager | ✓ |
+| P-02 | จัดการ Group (สร้าง/แก้ชื่อ/สี/ลบ) | โปรเจกต์ที่เป็น manager | ✓ |
+| P-03 | เพิ่ม/ถอดสมาชิกโปรเจกต์ (Editor/Viewer) | โปรเจกต์ที่เป็น manager | ✓ |
+| P-04 | ลบและคืนงานของผู้อื่น | โปรเจกต์ที่เป็น manager | ✓ |
+| P-05 | จัดการ Docs ของผู้อื่น (แก้/ลบ/คืน) | โปรเจกต์ที่เป็น manager | ✓ |
+| P-06 | ลบ/คืนไฟล์ของผู้อื่นใน Files | โปรเจกต์ที่เป็น manager | ✓ |
+| P-07 | ดู Project overview / Reports / Export CSV ของโปรเจกต์ | โปรเจกต์ที่เป็น manager | ✓ |
+| P-08 | สร้างโปรเจกต์ใหม่ (ผู้สร้างเป็น manager อัตโนมัติ) | ทีมที่ตนเป็นสมาชิก | ✓ |
+| P-09 | ดู Workload ระดับทีม | ทีมที่ตนเป็นสมาชิก เห็นเฉพาะงานในโปรเจกต์ที่ตนเข้าถึง | ✓ |
+| P-10 | ดู Reports ระดับทีม | ทีมที่ตนเป็นสมาชิก ตาม BR-16 | ✓ |
+
+สิทธิ์พื้นฐาน Editor/Viewer ยังมาจาก project membership เดิม; Team Lead และ Admin มีสิทธิ์ตามเดิมโดยไม่ต้องติ๊ก. ตำแหน่ง PM/SM เป็นกลุ่ม Management, BA/SA/Dev/Tester เป็นกลุ่ม Dev และเป็นป้ายเท่านั้น
+
+### 7A.2 UX/UI
+
+| ID | ความต้องการ | เกณฑ์วัด |
+|---|---|---|
+| UX-01 | Visual language | Vibe `@vibe/core` ทุกหน้า: navy top bar, sidebar ขาว-เทา, การ์ดมุม 8px, status pill เต็มช่อง, group แถบสีซ้าย, avatar วงกลม, ฟอนต์ระบบ (ไม่ดึงจาก internet) |
+| UX-02 | Navigation | Sidebar Personal (Home, My work) / Workspace (All projects, Favorites, Your projects) / Admin (เฉพาะผู้มีสิทธิ์); ค้นหาโปรเจกต์; ยุบได้ |
+| UX-03 | Project header | ชื่อ + ดาว + คำอธิบาย + avatar stack + Members + เมนู; แท็บ Main table/Kanban/Calendar/Gantt/Workload/Docs/Files/Overview พร้อมซ่อน/แสดงแท็บ (จำต่อผู้ใช้) |
+| UX-04 | Empty states | ทุก view มี empty state และปุ่ม action หลัก |
+| UX-05 | Responsive | ตั้งแต่ 360px ไม่มี horizontal scroll ของเอกสาร; ตารางเลื่อนในกรอบ; side panel เต็มจอบนมือถือ |
+| UX-06 | Keyboard | ทุก action ใช้คีย์บอร์ดได้; `N` งานใหม่, `/` ค้นหา, `Esc` ปิด panel |
+
+### 7A.3 Animation
+
+| ID | จุด | พฤติกรรม | ระยะเวลา |
+|---|---|---|---|
+| AN-01 | เปลี่ยนหน้า/แท็บ view | fade + slide 6px | 180–220ms |
+| AN-02 | Task side panel | slide-in จากขวา + backdrop fade | 260ms |
+| AN-03 | เปลี่ยนสถานะ | crossfade + scale 1→1.06→1 | 240ms |
+| AN-04 | งานเป็น Done | confetti เล็ก ไม่มีเสียง ≤1 ครั้ง/2 วินาที; เปิดเป็นค่าเริ่มต้น ปิดได้ใน Settings และปิดเมื่อ reduced motion | 700ms |
+| AN-05 | Kanban drag | การ์ดยก shadow + rotate 2°, FLIP เมื่อวาง | 220–320ms |
+| AN-06 | ย่อ/ขยาย group | height + chevron rotate | 200ms |
+| AN-07 | เพิ่ม/ลบงาน | แถวใหม่ highlight แล้ว fade; ลบแล้วยุบ | 300ms |
+| AN-08 | Loading | skeleton shimmer ใน table/kanban/cards | ต่อเนื่อง |
+| AN-09 | Notify | กระดิ่งสั่นเบา ๆ + badge pop | 400ms |
+| AN-10 | Overview | count-up และ bar เติบโตจาก 0 | 600ms |
+| AN-11 | Hover/press | hover elevation, press scale 0.98 | 120ms |
+| AN-12 | Toast | slide-up + auto dismiss พร้อม progress | 220ms |
+| AN-13 | Login | ภาพประกอบเคลื่อนไหวเดิม | — |
 
 ## 8. User Journeys
 
@@ -238,3 +352,20 @@ Lead ทีมเจ้าของเปิดโปรเจกต์ → เ�
 |---|---|---|
 | 1.0 | 2026-10-05 | ร่างแรกจากบทสนทนาองค์กรหลายทีม 30 คน; ไม่มีอีเมล/AI; ส่งโค้ด deploy เอง |
 | 1.1 | 2026-10-05 | เจ้าของระบบยืนยันกติกา; R-01–R-04 resolved; SQL Server2022/mssql; filetrash/restore30วัน; coding/testsยังไม่ผ่าน |
+| 1.2 | 2026-10-05 | เจ้าของระบบกำหนด Node.js22 แทน24; ขอ SQL อื่นชั่วคราวและรอเลือกชนิด/ขอบเขต; คง business baseline1.1 และผลทดสอบเดิม |
+| 1.3 | 2026-10-05 | ยืนยัน SQLite สำหรับพัฒนา local ชั่วคราว; SQL2022 ยังคงปลายทาง; ผลทดสอบแยก provider และไม่เปลี่ยน NOT_RUN เป็น PASS |
+| 1.4 | 2026-10-05 | เจ้าของระบบยืนยันข้อเสนอ readiness22ประเด็น; ล็อก8กติกา/แผนปิด10contracts+4planning gaps; ไม่มีผล application tests ใหม่ |
+| 1.5 | 2026-10-05 | T-003 เพิ่มmachine API/DTO contractและUT-01/T-003 schema checks; relatedAT/TCยังNOT_RUN; ไม่เปลี่ยนbusinessscope |
+| 1.9 | 2026-10-08 | T-078 รวม Monday-style addendum ที่เจ้าของอนุมัติ: FR-41–FR-53 (FR-42A, FR-46 deferred), NFR-09, BR-19–BR-23, UX-01–06, AN-01–13, permission P-01–P-10; ยังไม่มี implementation/ผลทดสอบ |
+
+## ข้อยืนยันเพิ่มเติมด้าน lifecycle/release
+
+ใช้ RD-01–RD-08 ใน SRS §18: cleanup assignee เมื่อ reopen/restore/demote, team ต้อง active ก่อนเปิด project, cutoff30วันตาม timestampUTC, monthly anchor เมื่อผู้ใช้แก้วันส่ง, purge job/CLI กลไกเดียวกัน และแยก source candidate จาก final source/production sign-off; approved scope ยังคงไม่มี SMTP/AI/offline writes และไม่ deploy โดยผู้พัฒนา
+
+## Contract implementation reference — T-003
+
+รายละเอียดภายในscopeเดิม: TeamFlow_API_Contract.md และ contracts/openapi.json ล็อก52routes/DTO/request schema/error/version/idempotency/query; การทดสอบcontractเป็นหลักฐานFR-05/18/40เฉพาะshape/contract ยังไม่พิสูจน์serverpermissions/SQLtransactionsหรือAT/TCผ่าน
+
+## Owner assignment change — 7 ตุลาคม 2026
+
+เจ้าของเปลี่ยน FR-13 ให้ Task มีผู้รับผิดชอบหลายคน และ FR-15 ให้ Checklist แต่ละข้อ assign คนอื่นได้; คงสิทธิ์โปรเจกต์เดิมและกติกาทำ Checklist ครบก่อนกด Done. Preview Vibe รองรับการเลือกหลายคน/ล้างรายชื่อ และ Checklist assignment ในข้อมูลสมมติแล้ว. แอปจริง/API/database ยังใช้ contract เดิม ต้องทำ change review/schema/migration/notification/withdrawal/recurrence และ test traceability ก่อน implementation; ผล mock ไม่ปิด acceptance. การเลือกผู้รับผิดชอบไม่ให้สิทธิ์โปรเจกต์เพิ่ม.

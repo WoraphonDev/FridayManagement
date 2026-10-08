@@ -1,0 +1,231 @@
+{
+  "task": "T-006",
+  "date": "2026-10-06",
+  "timezone": "Asia/Bangkok",
+  "status": "IN_PROGRESS",
+  "result": "PASS local/config; NOT_RUN real SQL2022 guard integration",
+  "declared": {
+    "model": "GPT-6.1 Sol",
+    "effort": "High",
+    "speed": "Standard"
+  },
+  "actualRuntimeSettings": "NOT_VERIFIED",
+  "environment": {
+    "os": "Darwin",
+    "arch": "arm64",
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "localProvider": "node:sqlite (Node22 bundled; experimental/local only)",
+    "browser": "Chromium 153.0.8010.12"
+  },
+  "checks": {
+    "config": {
+      "pass": 37,
+      "fail": 0,
+      "pure": 19,
+      "filesystem": 8,
+      "httpProcess": 6,
+      "syntheticSqlLifecycle": 4,
+      "latestEvidence": "Fresh copy npm test after acquisition-loss race fix"
+    },
+    "freshCheckout": {
+      "scope": "Fresh source copy bootstrap only",
+      "ci": "PASS",
+      "typecheck": "PASS",
+      "build": "PASS",
+      "tests": "PASS: 121 tests (configuration + foundation + frontend + contract + planning)",
+      "migrate": "PASS: apply once, repeat no-op",
+      "seed": "PASS: explicit synthetic fixture only",
+      "start": "PASS: built HTML/live200/ready503"
+    },
+    "combinedTests": {
+      "pass": 121,
+      "fail": 0,
+      "breakdown": {
+        "config": 37,
+        "foundation": 5,
+        "frontend": 1,
+        "contract": 61,
+        "planning": 17
+      }
+    },
+    "browser": {
+      "pass": 1,
+      "fail": 0,
+      "port": 43171
+    },
+    "sqlserver": {
+      "result": "NOT_RUN",
+      "skipped": 2,
+      "reason": "Isolated SQL2022 not configured; mock lifecycle is not integration evidence"
+    },
+    "lint": "PASS",
+    "contract": {
+      "result": "PASS",
+      "routes": 52,
+      "schemas": 75
+    },
+    "testPlan": "PASS (plan only; zero full application execution records)",
+    "license": {
+      "result": "PASS",
+      "entries": 390,
+      "missing": 0
+    },
+    "typecheck": "PASS: fresh copy plus current SQL harness",
+    "build": "PASS: fresh copy",
+    "diffWhitespace": "PASS"
+  },
+  "progress": {
+    "done": 5,
+    "total": 77,
+    "inProgress": 1,
+    "todo": 71,
+    "remaining": 72
+  },
+  "readyIndependent": [
+    {
+      "id": "T-007",
+      "effort": "High"
+    },
+    {
+      "id": "T-012",
+      "effort": "Medium"
+    }
+  ],
+  "next": {
+    "task": "T-007",
+    "effort": "High"
+  },
+  "notRun": [
+    "Real SQL2022 guard exclusion/release/session-loss and transaction integration",
+    "Windows/HTTPS/proxy/ACL/service/backup/restore",
+    "Full TC84/AT30/RV20/UAT5/REL4",
+    "Full browser matrix and production readiness"
+  ],
+  "commands": [
+    "npm run typecheck",
+    "npm run build",
+    "npm run lint",
+    "npm run licenses",
+    "npm run test:config",
+    "npm run test:sqlserver (2 skipped)",
+    "PLAYWRIGHT_BROWSERS_PATH=[isolated cache] npm run test:ui",
+    "FRIDAY_NPM_CACHE=[isolated cache] FRIDAY_CHECKOUT_REPORT=reports/T-006-fresh-checkout.json npm run verify:checkout",
+    "npm run check:contract",
+    "npm run check:test-plan"
+  ],
+  "artifacts": [
+    {
+      "path": "src/config/config.ts",
+      "sha256": "23dc6c6e6660b1af0dc742fb1271cc0246d98f6b0e104e638a07e83938f81cac"
+    },
+    {
+      "path": "src/config/paths.ts",
+      "sha256": "c3c38bb92b2718e3fa2ac6c44b49a457ed92cc63864e7ddceb7702e08defff7c"
+    },
+    {
+      "path": "src/config/instance.ts",
+      "sha256": "9121e9ae7a30acbddfbba6845f6948dcc208c7bc740d4c968566b5ff8df190aa"
+    },
+    {
+      "path": "src/config/sql-instance.ts",
+      "sha256": "66b964be142c8f7884bd1b1a001b96660e178b434999f5f0672e9c0b9cb46c27"
+    },
+    {
+      "path": "src/config/sql-options.ts",
+      "sha256": "7395b294fc0494234003800bd062c680aaf547c6f124efdae252f113572e6cc7"
+    },
+    {
+      "path": "src/config/load.ts",
+      "sha256": "2bea474c2dc2e22992c3252f68c6bcdb3df7941733a7a43c36ba95303ce4c32a"
+    },
+    {
+      "path": "src/api/start.ts",
+      "sha256": "0870e2cdf02ab904e2af39134676b60e1d9525c605147fd114e7e04e8bf8eecf"
+    },
+    {
+      "path": "src/api/main.ts",
+      "sha256": "217323f0f59687c977b1a329ab1adc3f5f3cfa715efef231fb83825e0b06d914"
+    },
+    {
+      "path": "src/api/app.ts",
+      "sha256": "232bd18482c679ff612a2606b87b8755cbdaa832b4a66d8122a510992641bc33"
+    },
+    {
+      "path": "src/repository/open.ts",
+      "sha256": "2ba4f2c84fc08970816235a7c39a840edef0ea5619af982fc4e103f07c68babe"
+    },
+    {
+      "path": "src/repository/sqlserver/database.ts",
+      "sha256": "321b604d2fc90b9a5b7f1dc91c17f70535a49c14fb09f38253bc2c64f2f5438b"
+    },
+    {
+      "path": "tests/config/config.test.ts",
+      "sha256": "56a2711b4a04e7dea20931a0bf6224905cf3dcaf839510436b87025de67a32a0"
+    },
+    {
+      "path": "tests/config/paths.test.ts",
+      "sha256": "a1a801e2919447e84e5e1be10ee6b923a7c96ec3a5afec07c866c322450e617e"
+    },
+    {
+      "path": "tests/config/startup.test.ts",
+      "sha256": "743c4f87992497e8ea8da855ad053811010555f8417acf2fa341d2380d1d3116"
+    },
+    {
+      "path": "tests/config/sql-guard.test.ts",
+      "sha256": "1f48fb63cc1508692af8569798495d9964ca15912e9309cf5e3b9bcdd381963d"
+    },
+    {
+      "path": "tests/sqlserver/config.test.ts",
+      "sha256": "bb29632c58d4d07408a11d4928df76a0c94fbab26f6f10d8588b3231049cdd0d"
+    },
+    {
+      "path": "playwright.config.ts",
+      "sha256": "a9e021d83609dd9990c767d13790b33d5f0bc0d1dd7b81f8451c68fc0095eebe"
+    },
+    {
+      "path": "tests/browser/teardown.ts",
+      "sha256": "f66bd538724f762d199dbda31bb3984feed3c56df4021d45e098a10db510cbe3"
+    },
+    {
+      "path": "scripts/verify-fresh-checkout.mjs",
+      "sha256": "831f05cbeb117eeaf4fba50338b0e28e9d056f02e8ee6943bd0c417afdbba3fe"
+    },
+    {
+      "path": "package.json",
+      "sha256": "d6c9676bfa6569077fd44362b15a4ae48dd61d17daff2d19afc35d0fbd471f0b"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "838a38c3962cacb0a4faf362ab5517b82ff278aad2dc90b9492a7d133eacde0d"
+    },
+    {
+      "path": ".env.example",
+      "sha256": "b9f7336e29a3d71bf1f5566e53b7e004b011c82a408ac60316275eb92aee771b"
+    },
+    {
+      "path": "README.md",
+      "sha256": "10f216bd470cc993f5ccc6a2a81e101af0b2ff0b9ce8ab2630b177277599b086"
+    },
+    {
+      "path": "TeamFlow_Configuration.md",
+      "sha256": "8f8358ba21e599f04dbe79482f231ca59e827d89449114723fd4513621fd6687"
+    },
+    {
+      "path": "TeamFlow_T006_Test_Report.md",
+      "sha256": "68986e4a4b815f98ec63f2c9d9a45d22a26b698d5a05539891209644b9a4a8ee"
+    },
+    {
+      "path": "TeamFlow_Task_v1.0.md",
+      "sha256": "94fa59b27fbf4c16e1524e096ac19b150a146cf138b97f60e2bd8a80a2de59ac"
+    },
+    {
+      "path": "reports/T-006-fresh-checkout.json",
+      "sha256": "2e7c3a7c04129b6b6ee2e15d71272c8927c10893b806f0f195db6dd80aba9a7e"
+    },
+    {
+      "path": "dependencies/license-inventory.json",
+      "sha256": "9770f1109e633158a99d7739d647510bcc06e2e20b4b45b346fc576f1951f55b"
+    }
+  ]
+}

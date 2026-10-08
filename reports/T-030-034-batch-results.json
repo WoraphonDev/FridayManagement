@@ -1,0 +1,142 @@
+{
+  "date": "2026-10-06",
+  "scope": "T-030–T-034 local SQLite implementation/checks; not full provider/TC/AT sign-off",
+  "declaredEffort": {
+    "T-030": "High",
+    "T-031": "High",
+    "T-032": "Medium",
+    "T-033": "Medium",
+    "T-034": "High"
+  },
+  "actualModelEffort": "NOT_VERIFIED",
+  "runtime": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "provider": "temporary local SQLite",
+    "OS": "macOS",
+    "browser": "Chromium153;360px emulation subset"
+  },
+  "checks": {
+    "typecheck": "PASS",
+    "lint": "PASS(0 warnings)",
+    "build": "PASS",
+    "contract": "PASS52routes/75schemas;61 tests in combined",
+    "testPlan": "PASS inventory/policy;17 tests in combined",
+    "test:task-views": "PASS18/18(provider13+HTTP2+two-process races3)",
+    "npm test": "PASS349/349(Node328+frontend21)",
+    "test:ui": "PASS22/22(task3+regression19)",
+    "freshSource": "PASS reports/T-034-fresh-checkout.json(349 tests/offline ci/build/migrate/seed/omit-dev runtime)",
+    "SQL2022": "NOT_RUN;native harness120 SKIP",
+    "Windows": "NOT_RUN",
+    "fullBrowserDeviceMatrix": "NOT_RUN",
+    "UAT": "NOT_RUN",
+    "fullTC_AT": "NOT_RUN"
+  },
+  "progress": {
+    "localBatchImplementedAndVerified": 5,
+    "localBatchTotal": 5,
+    "done": 6,
+    "total": 77,
+    "inProgress": 28,
+    "todo": 43,
+    "remaining": 71
+  },
+  "trace": {
+    "FR": [
+      "FR-12",
+      "FR-13",
+      "FR-14",
+      "FR-15",
+      "FR-16",
+      "FR-17",
+      "FR-18",
+      "FR-19",
+      "FR-20",
+      "FR-21",
+      "FR-22"
+    ],
+    "NFR": [
+      "NFR-02",
+      "NFR-03",
+      "NFR-05",
+      "NFR-06"
+    ],
+    "partialTC": [
+      "TC-024",
+      "TC-026",
+      "TC-027",
+      "TC-028",
+      "TC-030",
+      "TC-031",
+      "TC-034",
+      "TC-035",
+      "TC-045",
+      "TC-047",
+      "TC-048",
+      "TC-065",
+      "TC-075"
+    ],
+    "partialAT": [
+      "AT-09",
+      "AT-10",
+      "AT-11",
+      "AT-13",
+      "AT-14",
+      "AT-15",
+      "AT-16",
+      "AT-19",
+      "AT-20"
+    ],
+    "formalExecutionRecords": "unchanged;no full PASS fabricated"
+  },
+  "limits": [
+    "Native SQL2022 collation/locking/rollback/Windows acceptance requires actual execution",
+    "Calendar/Gantt/Report/Export consumers and Kanban move/fallback UI remain pending",
+    "Retention/reminder/file-byte/notification-center integration pending",
+    "T016/T022/T027 full acceptance remains partial",
+    "Polling T047 pending; manual latest review preserves drafts",
+    "Readiness503;production startup guarded"
+  ],
+  "nextBatch": {
+    "T-035": "High",
+    "T-036": "Medium",
+    "T-037": "Medium",
+    "T-038": "High",
+    "T-039": "Medium"
+  },
+  "sourceSHA256": {
+    "src/repository/task-query.ts": "a2b34ad360042260ab9e658f53b71567389c6048bbe27c93bceeedccc3e5f0b1",
+    "src/repository/access-scope.ts": "74f254edae92df02b7485150d42919a639002c17fb925964f345d6acf2c12ce1",
+    "src/services/tasks.ts": "967a388b65f103b0e378d01756fbd42b0f17b10b18e2ce2c72fe89f0540e7331",
+    "src/services/authorization.ts": "1e8c0cd3904449a39f12fd053c22ce99b9a71420918156b092a917e42fa44ef1",
+    "src/api/tasks.ts": "6181273de902f0f8a944749bd1e8beec3c15b275979d7c30a66a9323044dc3b2",
+    "src/api/sessions.ts": "9579d1a200f8f484f637d38dcd1565987fbe2c06905cf86087a9e9d49c12fc94",
+    "frontend/src/TaskEditor.tsx": "66934f5c89b75da721c1ff0ad047aece20c939d795fd953183dda1f9d888a2d0",
+    "frontend/src/ProjectTasks.tsx": "7a81fe2b64711a436a0de5a5a6c681149d91183453c417a3205810f34d8b4511",
+    "frontend/src/Trash.tsx": "4abeaca1fe1940cd94e097cb0ae22a031dc1e2a14217e65300e17ea0410851db",
+    "frontend/src/task-api.ts": "116227e3213b3300865c6a3dc67fbb1d9ffefba5cf5f064cd12c12a5b8465681",
+    "frontend/src/shared/components.tsx": "8ba26a49b4248424287de942fdc5f1fe9898ad72cbc063ff339b7ad14fca90e4",
+    "frontend/src/Organization.tsx": "64846d277523da1bf7f812ae50ca3236ac46c1021c8db975adaa60f4c7f4a5d7",
+    "frontend/src/Workspaces.tsx": "a932473af4df7d3b290e24eb6a1ea75d4cec9cbdd1e82f7457b7fd7384ebc5ec",
+    "frontend/src/App.tsx": "61af316fc2352252b63fa5d4093837fec0218ec138c777e1af9f4d19fddbbc56",
+    "frontend/src/main.tsx": "d3941003aab4c0a239703f2bc61c089418cadd1c248e5ada507c19dfb247efb8",
+    "frontend/src/style.css": "10692ffa04dc95b285ab3f11463eeeef021f05301a36e740945c5eae372ddc7b",
+    "package.json": "b47fa13904f79ff8185c06bffc94837ef03f44f4aaa8670a258dc76e9da8b66d",
+    "package-lock.json": "10f79334d87869757661acb9ddffb412a14606496457df5eadd592403eb56a65",
+    "tsconfig.tools.json": "04239ce2f598eae5b1e4c5ec5d925bf4b195ae8375f249cc0bff22daf6cc17d4",
+    "tests/browser/tasks.spec.ts": "8f8ddcb14fa90fbb5b385f33687fab191ed64f287a636928bf54d999ff47da36",
+    "tests/sqlserver/task-views.test.ts": "0ab799da23e283082daafaeaca2daf22dcc1fb510580c77b57d476a3f2e9b366",
+    "contracts/openapi.json": "539d47cab765ea23d4bfa061b82a7970c068c8623b3ce1a133b95ad6445c2664",
+    "tests/test-manifest.json": "9af145a9bef83dadf3d30abc79d2fc3df4b1e80c0ca4437568acba2e497571ca",
+    "tests/execution-records.json": "54b44045fb97134e974d188f074462f0a336acab3ec261f8ca7e109fa3447390",
+    "TeamFlow_Task_v1.0.md": "385772d8d583f4c5f3886c572d4ed191f6b3dd8743c1b6d9135ae93d18fd9780",
+    "TeamFlow_Test_Plan_v1.0.md": "33c68e7700356738f1ee11a8c6152f282ef5cde4786038ab179266c4eed7f2e3",
+    "TeamFlow_Test_Cases_v1.0.md": "4348f8de9f8677a0fae7501aa3efc5b3731b30be08a2471ae837eb7e55645bdb",
+    "TeamFlow_T030_T034_Test_Report.md": "6f2e617f2d2f9c1a537f7b8fe3ef6ef2bab3f212679cfdee93a99346892879f8",
+    "tests/task-views/concurrency.test.ts": "4bdcf332294b925b7a8574dc0a824549e88758b4323babb21d7198f67507bcbf",
+    "tests/task-views/http.test.ts": "33fb087a3217a0f5593cd17af887c315ac82f7bbfbada2aca6d3a1355b4df39e",
+    "tests/task-views/provider-suite.ts": "f6e74491a13367c919bca2fd772b9b083cd09a8b595063e65026412500019c6a",
+    "tests/task-views/sqlite.test.ts": "eb0fe98915603d9a7e975eda5f7a4a4ed103ed58a794898f08b5dadfe2fe486f",
+    "tests/task-views/worker.ts": "671a08323351d38cae7408d3e4d5e83aefff732630b297ef417e29e43d139b81"
+  }
+}

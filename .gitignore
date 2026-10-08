@@ -1,0 +1,29 @@
+node_modules/
+.env
+.env.*
+!.env.example
+*.sqlite
+*.sqlite3
+*.db
+*-wal
+*-shm
+*.bak
+uploads/
+logs/
+coverage/
+test-results/
+dist/
+playwright-report/
+blob-report/
+*.log
+
+__pycache__/
+*.pyc
+
+# Private runtime staging and random-key attachment storage
+attachments/
+upload-temp/
+
+# OS metadata and packaged release archives
+.DS_Store
+deliverables/*.zip

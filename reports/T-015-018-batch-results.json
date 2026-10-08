@@ -1,0 +1,103 @@
+{
+  "batch": [
+    "T-015",
+    "T-016",
+    "T-017",
+    "T-018"
+  ],
+  "date": "2026-10-06",
+  "environment": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "provider": "SQLite temporary local",
+    "browser": "Chromium153/local HTTP"
+  },
+  "declaredEffort": {
+    "T-015": "High",
+    "T-016": "High",
+    "T-017": "Medium",
+    "T-018": "Medium"
+  },
+  "actualRuntimeModelEffort": "NOT_VERIFIED",
+  "final": {
+    "accounts": {
+      "result": "PASS",
+      "tests": 19
+    },
+    "combined": {
+      "result": "PASS",
+      "tests": 273
+    },
+    "browser": {
+      "result": "PASS",
+      "tests": 14,
+      "actualNewAuthAdminCases": 5,
+      "previousRegressionCases": 9
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "contract": "PASS:52 routes/75 schemas; contract61 tests included",
+    "testPlan": "PASS:plan validation only",
+    "freshCheckout": "PASS: reports/T-018-fresh-checkout.json; offline ci/build/typecheck273tests/migrations/sample fixture/omit-dev runtime",
+    "sqlserver": {
+      "result": "NOT_RUN",
+      "skipped": 69,
+      "newProviderCases": 13
+    },
+    "release": "NOT_RUN: final gate143 pending; health/ready503; no production delivery"
+  },
+  "initialFailuresResolved": [
+    "SQLite done-task fixture violated existing board-position FK; corrected delete/reinsert position inside fixture transaction",
+    "React purity lint1error/dependency2warnings repaired",
+    "Dialog focus in React StrictMode made explicit and regression verified",
+    "Rate-limit cooldown originally reused pending label; separated blocked state",
+    "Foundation assertion updated for new auth capability notice; fail-closed unmigrated behavior retained",
+    "New stylesheet merged into existing imported style.css before final browser reflow verification"
+  ],
+  "taskStatuses": {
+    "T-015": "IN_PROGRESS",
+    "T-016": "IN_PROGRESS",
+    "T-017": "IN_PROGRESS",
+    "T-018": "IN_PROGRESS"
+  },
+  "register": {
+    "done": 6,
+    "total": 77,
+    "inProgress": 12,
+    "todo": 59,
+    "remaining": 71,
+    "localBatchImplementedVerified": 4
+  },
+  "pending": [
+    "Native SQL2022 integration/concurrency/backup-restore",
+    "Actual HTTPS/Windows deployment environment",
+    "Full browser matrix/UAT/T-068 acceptance",
+    "Real task workflows and T-022/T-027 cleanup/recurrence integration"
+  ],
+  "sourceSha256": {
+    "src/services/accounts.ts": "b79b638f2ad129b3bef860a46ebd7e93af406a1c74042583cf9e45e211fdb6a5",
+    "src/services/sessions.ts": "a390eea78dae0ac0ee75a77515fd6443e09a1bfb8e06770edefce7abe5a33ae5",
+    "src/security/rate-limit.ts": "f0d2ce1eed747f4177c8fc0a26c5a2dc662c80d2056e35d76c35cc50f73b3c8d",
+    "src/api/sessions.ts": "72ff089410bead5ffc4beffeea22e70ff6b384565fc7d24fea47410a75ce867e",
+    "src/api/errors.ts": "bc8f94ac36925f86107363f10d439cae78373c552b98c0e11f87752ee5165194",
+    "src/api/middleware.ts": "de02b8a281184297dda05498cc8e5d20b593ba6a9348f288ac5cc478c2edeca9",
+    "frontend/src/App.tsx": "94ac71ef02b4e791e34aa0c7910368928659cbeebfcbdb82ae593b8be1ffa906",
+    "frontend/src/Auth.tsx": "4d5cb6e1099fb01c3d3bec7c9b9df6f06e773bdfb461549e6be7dc033b20c378",
+    "frontend/src/Users.tsx": "039194d12cf2d4de20a247d69f3b8c32d0b4b229135bdfe80b6479757553b3ca",
+    "frontend/src/api.ts": "4bd05bd9b260219c65720aeb5f11e0dce4ef302848aef6c414bc1c0a5225d5a0",
+    "frontend/src/auth-policy.ts": "2657eccfb2b2e40d29bb68fecc843176ee35ad87662c24c9a7584944a1ae1a34",
+    "frontend/src/shared/components.tsx": "e44e84f8f626be120a33ffa0ffb9eb427aa127d5b5bf3dc1d1dbc4b541364247",
+    "frontend/src/style.css": "315f8e623a1af00c694acaec711c0769d08d0c93dd4b5f07606409f0ce437583",
+    "tests/accounts/provider-suite.ts": "5820e1e2e229bf3a7bea8c6f22e37faea17290b3b48a0d0253e805f9a6a02016",
+    "tests/accounts/http.test.ts": "9c4af71cd859114e0e578e6c117ddb7dfceb9830d2a5c4920d7d097d56f9efb4",
+    "tests/accounts/concurrency.test.ts": "dbcf752e39f3a73210732c50ce606e8fd6f2c7fe336af91dcc8758242fc42f6d",
+    "tests/accounts/worker.ts": "7d7dbca1076697e32f36c0067afff18210ed59cd9c577b943ce4d9402d124634",
+    "tests/browser/accounts.spec.ts": "54f38f140c0054033c2e1377ecd9d964b321e85523732b6f2909cddeb2955b56",
+    "tests/sqlserver/accounts.test.ts": "7fe74f71b4ad72649913829beb2060ec9ed02120e248e1beb6e78004d06a29a8",
+    "package.json": "5f864eda2dc1f12e742109d5525874e1acc2833e6eaca05fbeb80c2736c6f804",
+    "vitest.config.ts": "51b6d3446006ec6eaa967deaa82b13aef647ae9b47e3d2280801f1c57527162c"
+  },
+  "fullExecutionRecords": "UNCHANGED / no inferred full TC/AT PASS",
+  "delivery": "Workspace only; no commit/push/merge/deploy/runtime change"
+}

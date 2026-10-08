@@ -1,0 +1,28 @@
+{
+  "before": {
+    "apiBaselineMiB": 49.90644073486328,
+    "apiPostLoadGCMiB": 183.00604248046875,
+    "apiIdleGCMiB": 178.30093383789062,
+    "apiRetainedDeltaMiB": 128.39449310302734,
+    "apiPeakSampledRSSMiB": 350.0250244140625,
+    "harnessIdleGCMiB": 69.01093292236328,
+    "requests": 4500,
+    "errorRate": 0,
+    "readP95Ms": 155.30395800000406,
+    "writeP95Ms": 133.1257079999923
+  },
+  "after": {
+    "apiBaselineMiB": 29.745811462402344,
+    "apiPostLoadGCMiB": 28.50096893310547,
+    "apiIdleGCMiB": 28.46802520751953,
+    "apiRetainedDeltaMiB": -1.2777862548828125,
+    "apiPeakSampledRSSMiB": 147.4564208984375,
+    "harnessIdleGCMiB": 69.00431823730469,
+    "requests": 4500,
+    "errorRate": 0,
+    "readP95Ms": 119.43366700000479,
+    "writeP95Ms": 93.42233299999498
+  },
+  "scope": "matched5minute local diagnostic; no global leak/nativeSQL/full acceptance claim",
+  "postIdleHeapReductionPercent": 84.03372063468699
+}

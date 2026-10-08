@@ -1,0 +1,12 @@
+{
+  "scope": "Fresh source copy runtime/config/schema checks; readiness remains503",
+  "ci": "PASS",
+  "typecheck": "PASS",
+  "build": "PASS",
+  "tests": "PASS: 331 tests (all npm test suites)",
+  "migrate": "PASS: foundation + business + review correction apply once, repeat no-op",
+  "seed": "PASS: explicit synthetic fixture only",
+  "start": "PASS: built HTML/live200/ready503/meta200 setupRequired true/me401/generic login401 (omit-dev runtime)",
+  "runtimeInstall": "PASS: omit-dev dependencies for built server",
+  "installerCli": "PASS: compiled help loads with omit-dev runtime dependencies; mutation/hidden terminal checks in test:admin-cli"
+}

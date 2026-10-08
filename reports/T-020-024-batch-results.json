@@ -1,0 +1,112 @@
+{
+  "date": "2026-10-06",
+  "scope": "T-020–T-024 local SQLite batch; not full provider/TC/AT sign-off",
+  "declaredEffort": {
+    "T-020": "High",
+    "T-021": "High",
+    "T-022": "High",
+    "T-023": "Medium",
+    "T-024": "Medium"
+  },
+  "actualModelEffort": "NOT_VERIFIED",
+  "runtime": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "database": "temporary local SQLite",
+    "browser": "Chromium 153 (macOS; 360px emulation only)"
+  },
+  "checks": {
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "check:contract": "PASS",
+    "test:contract": "PASS (61 included in combined)",
+    "check:test-plan": "PASS",
+    "test:test-plan": "PASS (17 included in combined)",
+    "test:workspaces": "PASS 17/17 (12 provider + 3 HTTP + 2 actual two-process races)",
+    "npm test": "PASS 305/305 (284 Node + 21 frontend)",
+    "test:ui": "PASS 17/17 (3 new workspaces + 14 regression)",
+    "freshSource": "PASS reports/T-024-fresh-checkout.json; offline ci/typecheck/build/305 tests/migrate/seed/omit-dev runtime",
+    "realSQL2022": "NOT_RUN; harness89 SKIP",
+    "Windows": "NOT_RUN",
+    "fullBrowserMatrix": "NOT_RUN",
+    "UAT": "NOT_RUN",
+    "fullTC_AT": "NOT_RUN"
+  },
+  "progress": {
+    "localBatchImplementedAndVerified": 5,
+    "localBatchTotal": 5,
+    "done": 6,
+    "total": 77,
+    "inProgress": 18,
+    "todo": 53,
+    "remaining": 71
+  },
+  "trace": {
+    "requirements": [
+      "FR-05",
+      "FR-06",
+      "FR-07",
+      "FR-08",
+      "FR-09",
+      "FR-10",
+      "FR-11",
+      "FR-13",
+      "NFR-02",
+      "NFR-03"
+    ],
+    "partialCases": [
+      "TC-013",
+      "TC-014",
+      "TC-015",
+      "TC-016",
+      "TC-017",
+      "TC-018",
+      "TC-019",
+      "TC-020",
+      "TC-021",
+      "TC-022",
+      "TC-023"
+    ],
+    "acceptanceStillNotRun": [
+      "AT-05",
+      "AT-06",
+      "AT-07",
+      "AT-08",
+      "AT-29"
+    ]
+  },
+  "remaining": [
+    "native SQL2022 locking/migration/transaction/revocation evidence",
+    "Windows/full supported browser/device/UAT",
+    "real tasks/recurrence/download/notification center feature workflows pending their tasks; fixtures cannot close them",
+    "T-016 cleanup acceptance remains partial pending recurrence/status feature integration"
+  ],
+  "sourceSHA256": {
+    "src/services/workspaces.ts": "a6ba4e63ae33ab57e01a28d6b6821162cf546ebe78ce850cc11cc43554bfc020",
+    "src/services/access-effects.ts": "4b3be9dca27fa020761b0045dbd0260329084f0643d8a75f91649a9b4c719ba4",
+    "src/services/accounts.ts": "be44ac778fde6eec243d401dc8f593cdf19cc21344ce24099aea4ae7d6247a3c",
+    "src/api/workspaces.ts": "5a11eb2861a64cdce6f61980fd83c532da52653630012f9342b0dacd9c62239a",
+    "src/api/sessions.ts": "b15b8a6698225870cff737dc8ba8e97b1047ad60033c495a39c4d3345eb2c63a",
+    "frontend/src/Workspaces.tsx": "c042c2e579715e945d13862998727f5945835d0f1b9f34df3977e961656cde48",
+    "frontend/src/workspace-api.ts": "7db306ea78356452b03851b15ce7e80564a5b70b89c078752724e872645f3545",
+    "frontend/src/api.ts": "9d0a6fa0b454c8eaa7b3894ddae65e99c687984ea2fcef277a9d3d7eadced738",
+    "frontend/src/App.tsx": "5a0af0a8775fd9a4b437e850ca7f6dbff66f1894fad5f50902da033fdd4ad81c",
+    "frontend/src/style.css": "0b82cc3b53542ea3be087ceccf781ffcd9db74815eb3f52bed4588f85f104e67",
+    "package.json": "7c7974ff135613c1d092166e2842f77d747a44d19a8cd92eaa8d591ebaf8a220",
+    "package-lock.json": "10f79334d87869757661acb9ddffb412a14606496457df5eadd592403eb56a65",
+    "tsconfig.tools.json": "3dead5f1168995f655bdf04e506f2cb11eab05ed1132a675f1eca8098859d087",
+    "tests/workspaces/provider-suite.ts": "0cdcbbd1943613f8b7e3ac35b03d9d4463a88b60da43b504b1086b26484a08ea",
+    "tests/workspaces/http.test.ts": "e77f8b748b3c848af9939c7d63922182b8aceeaeda1fffa7d56138c70a99e77c",
+    "tests/workspaces/concurrency.test.ts": "c5b9c0c039e3f2a8dce5a0101602cd081d94b94572caa3607b9ac38fd87e6c7f",
+    "tests/workspaces/worker.ts": "a1c141a784e8f11be917127b4b606d10fca5c1bb0d15dd024dec45d02498dcdb",
+    "tests/workspaces/sqlite.test.ts": "d98451c5e3484b4b239057bf16081cb388f91d45fdf54ee65be284358445aaf9",
+    "tests/sqlserver/workspaces.test.ts": "95a53e747ae9c53859642c496c4109b6bd471f39c933a367032225f35e74bc53",
+    "tests/browser/workspaces.spec.ts": "d5a47bfc92afe880ef39bec874d71204c1b0371c21effc474475d9f2181a84e2"
+  },
+  "logSHA256": {
+    "reports/T-020-024-tests.log": "4aa76d5066a2ab74b6280553a2fcc75e07917184a7f5c91bb080b9e27f4935d9",
+    "reports/T-020-024-ui.log": "a8fffe0f91f4c304672bf9c4d8fab73d85ccedb40a73c4e83caf2afe544d2b92",
+    "reports/T-020-024-sqlserver.log": "9c012a5d0f8e73e58026b05cecf5d3f99d7500e9934c954627f4d757c2aab699"
+  }
+}

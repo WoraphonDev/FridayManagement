@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-07",
+  "scope": "Login fidelity, larger Friday wordmark, password eye icon, install panel and entrance motion",
+  "declared_effort": "Medium",
+  "actual_model_effort": "NOT_VERIFIED",
+  "verification": {
+    "frontend": {
+      "status": "PASS",
+      "passed": 38,
+      "failed": 0,
+      "note": "Before final cosmetic logo size follow-up; application TSX unchanged by that cosmetic follow-up"
+    },
+    "chromium": {
+      "status": "PASS",
+      "passed": 4,
+      "failed": 0
+    },
+    "login_image_followup": {
+      "status": "PASS",
+      "passed": 1,
+      "failed": 0
+    },
+    "geometry": {
+      "desktop_viewport": "1440x900",
+      "auth_columns_px": [
+        720,
+        720
+      ],
+      "form_width_px": 340,
+      "logo_font_px": 40,
+      "mobile_logo_font_px": 34,
+      "workspace_logo_font_px": 26
+    },
+    "login_checks": [
+      "Eye toggle fully inside password input; click and keyboard show/hide",
+      "Help dialog Escape and focus",
+      "Install guidance panel opens/closes without installing",
+      "Invalid credentials show alert, password cleared; valid synthetic credentials authenticate; logout",
+      "360px no horizontal overflow; artwork hidden; reduced-motion animations none",
+      "Desktop board entrance animation retained"
+    ],
+    "build": "PASS (existing main bundle >500kB warning)",
+    "preview_build": "PASS @vibe/core4.5.34",
+    "typecheck": "PASS",
+    "lint": "PASS (0 errors/warnings)"
+  },
+  "images": {
+    "source": "Actual built frontend with isolated synthetic API fixture in Chromium, no credentials shown",
+    "files": [
+      "reports/UI-vibe-login-final.png",
+      "reports/UI-vibe-install-panel.png",
+      "reports/UI-vibe-login-mobile.png"
+    ]
+  },
+  "manual_review": "Local app at43193 and approved mock at43191 both report40px auth logo. Browser preview screenshot export required animation-settled Chromium capture for reliable full-page artwork rendering.",
+  "task_register": {
+    "completed": 6,
+    "total": 77,
+    "in_progress": 71,
+    "todo": 0,
+    "remaining": 71
+  },
+  "not_run": [
+    "Native SQLServer",
+    "Windows",
+    "Human UAT",
+    "Actual OS PWA installation",
+    "Full regression466/browser matrix/performance"
+  ],
+  "unchanged": [
+    "Backend/contract/migrations",
+    "Credential and rate-limit rules"
+  ],
+  "remaining": [
+    "Existing dependency audit62",
+    "Existing bundle warning",
+    "Formal provider/device/UAT acceptance"
+  ]
+}

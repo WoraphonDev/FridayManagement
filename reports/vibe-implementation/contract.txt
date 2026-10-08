@@ -1,0 +1,5 @@
+
+> friday-management@0.1.0 check:contract
+> node scripts/check-contract.mjs
+
+{"routes":56,"schemas":81,"result":"PASS"}

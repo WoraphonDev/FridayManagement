@@ -1,13 +1,31 @@
-# TeamFlow — Test Cases หลังพัฒนา v1.1
+# TeamFlow — Test Cases หลังพัฒนา v1.34
 
-**วันที่:** 5 ตุลาคม 2026 · **สถานะ:** ชุดทดสอบที่ออกแบบไว้ ยังไม่รัน  
-**จำนวน:** 84 Test Cases · 12 หมวด · ครอบคลุม FR-01–FR-40 และ AT-01–AT-30  
+**วันที่:** 7 ตุลาคม 2026 · **สถานะ:** ชุดทดสอบที่ออกแบบไว้ ยังไม่รัน
+**จำนวน:** 99 Test Cases · 13 หมวด · ครอบคลุม FR-01–FR-53 (FR-46 deferred) และ AT-01–AT-40  
 **ใช้คู่กับ:** `TeamFlow_Test_Plan_v1.0.md` และต้นทาง Requirements/SRS/Task v1.0
 
 เอกสารนี้มีทั้งกรณีให้ผู้ใช้ทดสอบผ่านหน้าเว็บและกรณีที่ต้องให้ผู้พัฒนาหรือผู้ติดตั้งช่วยตรวจ API/DB/เครื่อง ไม่อ้างว่าผู้ใช้ต้องเขียนหรือรัน Unit Tests เอง การมี testcase ไม่เท่ากับมี testcode และไม่ได้ยืนยันว่าระบบผ่านแล้ว
 
 P0=critical ก่อนใช้ข้อมูลจริง; P1=ต้องผ่านก่อน fullrelease. Kind ระบุวิธีตรวจ: UI, Unit, Integration, Operations หรือ Performance. คำว่า Unit+Integration เป็นแผนสองระดับ ไม่ใช่ unit test ที่เขียนแล้ว
 
+
+## Monday-style addendum — 8 ตุลาคม 2026 (T-078)
+
+เจ้าของอนุมัติ `TeamFlow_Requirements_Addendum_Monday_Draft.md` (8 ต.ค. 2026) ด้วยคำสั่งให้ทำ T-078 ต่อ: เพิ่ม Personal/Workspace/Admin แบบ monday, แยก job title ออกจากสิทธิ์, project role `manager` + permission checkbox รายคน P-01–P-10, Docs/Files/Workload/Overview/Favorites, Main table/side panel ใหม่ และ motion AN-01–AN-13. FR-46 Updates feed เลื่อนไปรอบถัดไป; exclusion เดิม (custom fields/status, dependencies, time tracking, automations, integrations, chat, real-time co-editing, email/AI) คงอยู่. เป็นการเปลี่ยนเอกสารเท่านั้น ยังไม่มี code/schema/API ของ addendum และ FR/AT ใหม่ทั้งหมด NOT_RUN. เพิ่มหมวด M (TC-085–TC-099) และ AT-31–AT-40 ทั้งหมด NOT_RUN
+
+## เพิ่ม Gantt และดีไซน์ตามคำสั่งเจ้าของ — 6 ตุลาคม 2026
+
+เจ้าของเลือกปรับแผนและตัวอย่างดีไซน์ก่อน เพิ่ม Gantt เข้าเวอร์ชันแรก และใช้แนว Monday Project Management: sidebar, project header, view tabs Table/Gantt/Calendar/Kanban, grouped table, status สีพร้อมข้อความ, owner avatars และ task detail. ใช้ข้อมูล/สิทธิ์เดียวกันทุกมุมมอง; ไม่เพิ่ม AI/email/custom fields/dependencies/critical path/automatic scheduling. Mock ใช้ข้อมูลสมมติ ไม่ใช่ระบบบันทึกงานจริง. เพิ่มเกณฑ์ FR-25/T-046 High/AT-19/TC-049; ดีไซน์ Table อยู่ T-045 และ review T-055. API/schema เดิมใช้ start_date/due_date; หากภายหลังเปลี่ยน contract ต้องรัน checks ของ T-003.
+
+## การปรับ runtime ตามคำสั่งเจ้าของระบบ — 5 ตุลาคม 2026
+
+ใช้ **Node.js 22** แทน Node.js 24 เพื่อให้ตรงกับโปรเจกต์อื่นในเครื่อง; ไม่อัปเกรดหรือเปลี่ยน runtime ส่วนกลาง แพ็กเกจต้องเลือกรุ่นที่รองรับ Node22 และ pin patch/lockfile ใน T-005 ก่อนปิดงาน การเปลี่ยนนี้ไม่เปลี่ยน business rules ของ Baseline1.1 และไม่ใช่ผลว่ารันทดสอบแล้ว
+
+เจ้าของระบบยืนยันใช้ **SQLite สำหรับพัฒนา local ชั่วคราว** ร่วมกับ Node.js22; ฐานข้อมูลปลายทางสำหรับ Windows ยังคง SQL Server2022 ต้องแยก adapter/migrations/configuration และรายงานผลทดสอบตาม database provider ผล SQLite ไม่ใช้แทน SQL Server integration/concurrency/backup-restore sign-off
+
+## ข้อยืนยันจาก readiness review — 5 ตุลาคม 2026
+
+เจ้าของระบบยืนยัน “ok ตามที่แนะนำ” สำหรับรายการ22ประเด็นในบทสนทนา: กติกา8ข้อถือว่ายืนยันแล้วตาม SRS §18; รายละเอียดสัญญา10ข้อและแผนงาน4ข้อเป็นงานที่ต้องทำใน T-003/T-004/T-005 และ task ที่เกี่ยวข้อง ไม่ใช่ผลว่า implementation หรือ tests ผ่านแล้ว ใช้ Baseline1.1 พร้อมข้อยืนยันเพิ่มเติมนี้เมื่อข้อความเดิมกำกวม; ไม่ต้องขออนุมัติกติกาเดิมซ้ำ
 
 ## บันทึกการยืนยัน — Baseline 1.1
 
@@ -17,10 +35,10 @@ P0=critical ก่อนใช้ข้อมูลจริง; P1=ต้อง
 - R-02: Archive ระดับโปรเจกต์; งานใช้ soft delete/restore 30 วัน ไม่มี task archive แยก
 - R-03: ไฟล์แนบที่ลบเก็บในถังขยะ 30 วัน ยังนับ quota จน purge; uploader/owner Lead/Admin คืนไฟล์ได้ในช่วงนี้หากยังมี write access และโปรเจกต์ active
 - R-04: คง recurrence tombstone หลัง purge เพื่อกันสร้างรอบซ้ำ; technical design ใช้ source/generated ID snapshots ที่ไม่ผูก FK ถึง task ที่อาจถูกลบ
-- Stack: React + TypeScript + Vite, Node.js 24 LTS + Express 5 + `mssql`/Tedious, SQL Server 2022; เครื่องมือหน้าจอ/ตรวจข้อมูล/ทดสอบตาม SRS §3.4
+- Stack: React + TypeScript + Vite, Node.js 22 + Express 5 + `mssql`/Tedious, SQL Server 2022; เครื่องมือหน้าจอ/ตรวจข้อมูล/ทดสอบตาม SRS §3.4
 - Edition ของ SQL Server, patch/runtime/package versions และสิทธิ์ติดตั้งยังต้องตรวจตอนติดตั้ง ไม่มีข้อสรุปว่าเป็น Express/Developer หรือพร้อม production แล้ว
 
-การยืนยันนี้เป็น baseline สำหรับพัฒนา ไม่ใช่ผลว่าพัฒนาหรือทดสอบแล้ว งาน coding/test ยัง TODO/NOT_RUN ยกเว้น T-001/T-002 ซึ่งปิดได้ด้วยการยืนยันและแก้เอกสารนี้ **ชื่อไฟล์คงเดิมเพื่อรักษา references; ให้ดู version 1.1 ในส่วนหัวเป็นรุ่นเนื้อหาปัจจุบัน**
+การยืนยัน baseline ไม่ใช่ผลทดสอบระบบ สถานะปัจจุบัน: T-001/T-002 DONE ด้านเอกสาร และ T-003 DONE เฉพาะ API contract/schema tests และ T-004 DONE เฉพาะ test/release plan validation ตามหลักฐานใน Task Register; application/ฐานข้อมูล/Windows/UAT และ TC/AT เต็มกรณียัง NOT_RUN **ชื่อไฟล์คงเดิมเพื่อรักษา references; ให้ดู version 1.33 ในส่วนหัวเป็นรุ่นเนื้อหาปัจจุบัน**
 
 
 ## ข้อมูลตั้งต้นและวิธี reset
@@ -84,7 +102,7 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 | TC-019 | P0 | ลด Editor เป็น Viewer และยกเว้นคนที่ยังมีสิทธิ์จาก Lead | Integration | NOT_RUN | — | — |
 | TC-020 | P0 | ถอนสมาชิกทีมคง explicit project access | Integration | NOT_RUN | — | — |
 | TC-021 | P0 | Deactivate user ตัด session และ unassign งานค้าง | UI + Integration | NOT_RUN | — | — |
-| TC-022 | P0 | Archive project อ่านได้แต่ห้ามทุก mutation | UI + Integration | NOT_RUN | — | — |
+| TC-022 | P0 | Archive project read-only พร้อม Admin/Lead lifecycle exceptions | UI + Integration | NOT_RUN | — | — |
 | TC-023 | P1 | Archive team และ directory privacy | UI + Integration | NOT_RUN | — | — |
 | TC-024 | P0 | สร้าง แก้ และมอบหมายงานพร้อมทุก field | UI + Integration | NOT_RUN | — | — |
 | TC-025 | P0 | Validation task และ unknown fields | Integration | NOT_RUN | — | — |
@@ -111,7 +129,7 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 | TC-046 | P0 | My Tasks วันนี้/เกินกำหนด/ถัดไป/ไม่มีวันส่ง | UI + Integration | NOT_RUN | — | — |
 | TC-047 | P0 | Bangkok midnight และวันที่จริง | Unit + Integration | NOT_RUN | — | — |
 | TC-048 | P1 | Search/filter/sort/pagination ครบและ scope | UI + Integration | NOT_RUN | — | — |
-| TC-049 | P1 | Calendar due-only และ no-due | UI + Integration | NOT_RUN | — | — |
+| TC-049 | P1 | Calendar/Gantt และวันที่ไม่ครบ | UI + Integration | NOT_RUN | — | — |
 | TC-050 | P0 | Polling และ dirty draft ไม่หาย | UI + Integration | NOT_RUN | — | — |
 | TC-051 | P0 | Comment ไทย plain text และ idempotency | UI + Integration | NOT_RUN | — | — |
 | TC-052 | P0 | Audit fields/actor/time และ immutability | UI + Integration | NOT_RUN | — | — |
@@ -147,6 +165,21 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 | TC-082 | P0 | DB busy/maintenance readiness/cleanup jobs | Integration | NOT_RUN | — | — |
 | TC-083 | P1 | Load test และ update latency | Performance | NOT_RUN | — | — |
 | TC-084 | P1 | Cold startup/CSV memory/board concurrency stress | Performance | NOT_RUN | — | — |
+| TC-085 | P0 | Job title CRUD/assign/disable ไม่เปลี่ยนสิทธิ์ | UI + Integration | NOT_RUN | — | — |
+| TC-086 | P1 | Job title ป้าย/filter/report/CSV | UI + Integration | NOT_RUN | — | — |
+| TC-087 | P0 | P-key ทีละข้อให้ทำได้เฉพาะข้อนั้น | Integration | NOT_RUN | — | — |
+| TC-088 | P0 | เอา permission ออกมีผลทันทีและ demote manager | Integration | NOT_RUN | — | — |
+| TC-089 | P0 | กันยกระดับสิทธิ์และกติกาแต่งตั้ง manager | Integration | NOT_RUN | — | — |
+| TC-090 | P1 | Admin center + Permission matrix bulk/preset/conflict | UI + Integration | NOT_RUN | — | — |
+| TC-091 | P1 | My overview ตัวเลขตรง My work และ grouped table | UI + Integration | NOT_RUN | — | — |
+| TC-092 | P0 | Docs CRUD/version conflict/Viewer/trash | UI + Integration | NOT_RUN | — | — |
+| TC-093 | P0 | Docs sanitize XSS ฝั่ง server | Unit + Integration | NOT_RUN | — | — |
+| TC-094 | P1 | Project Files รวม/อัปโหลด/preview/สิทธิ์/quota | UI + Integration | NOT_RUN | — | — |
+| TC-095 | P1 | Workload และ Project overview ตัวเลข/เกณฑ์/สิทธิ์ | UI + Integration | NOT_RUN | — | — |
+| TC-096 | P1 | Main table inline/batch/drag/sticky/resize | UI + Integration | NOT_RUN | — | — |
+| TC-097 | P1 | Task side panel แท็บ/@mention/Esc/deep link | UI + Integration | NOT_RUN | — | — |
+| TC-098 | P1 | UX/motion reduced motion/toggle/360px/keyboard | UI | NOT_RUN | — | — |
+| TC-099 | P1 | Favorites ส่วนตัวและถอนสิทธิ์ | UI + Integration | NOT_RUN | — | — |
 
 ## A. Setup / login / account / session
 
@@ -559,7 +592,7 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 
 **Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
 
-### TC-022 — Archive project อ่านได้แต่ห้ามทุก mutation
+### TC-022 — Archive project read-only พร้อม Admin/Lead lifecycle exceptions
 
 **Priority:** P0 · **Role:** L1/M1 · **Method:** UI + Integration  
 **Trace:** FR-09 · **Acceptance:** AT-29  
@@ -573,7 +606,7 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 
 **Expected Results:**
 
-- อ่านตามสิทธิ์ได้;writes ทั้งหมดปฏิเสธไม่มี successor
+- M1 อ่านตามสิทธิ์ได้; writes งาน/move/comment/upload/subtask/complete ถูกปฏิเสธไม่มี successor; Admin/owner Lead ลบ/คืนงานได้ผ่าน endpoint เฉพาะตาม RD-01
 - unarchive คืนใช้งานตามสิทธิ์
 
 **Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
@@ -1102,23 +1135,33 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 
 **Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
 
-### TC-049 — Calendar due-only และ no-due
+### TC-049 — Calendar/Gantt และวันที่ไม่ครบ
 
-**Priority:** P1 · **Role:** M1 · **Method:** UI + Integration  
+**Priority:** P1 · **Role:** M1/Viewer · **Method:** UI + Integration\
 **Trace:** FR-24, FR-25 · **Acceptance:** AT-19  
-**Preconditions / Test Data:** taskdueOct31/Nov1/null และมี start หลายวัน
+**Preconditions / Test Data:** taskdueOct31/Nov1/null, start-only, both-null, start=due, cross-year, leapday และ ≥120tasks; Viewer/archived/private fixtures
 
 **ขั้นตอน:**
 
 1. เลื่อนเดือน Oct/Nov
 2. ใช้ filter เดียวกับ tasklist
 3. คลิก task และดู no-duelist
+4. สลับ Gantt; ตรวจ inclusive start–due, due-only marker, incomplete-date list
+5. เลื่อนช่วง/วันนี้/day-week-month; ตรวจ cross-month/year/leapday/Bangkok midnight
+6. ตรวจ overlap viewport, pagination ข้าม first page และ filters/search/scope เทียบ Table
+7. Keyboard/Enter/detail; Viewer/archived ไม่มี write; private tasks ไม่อยู่ bars/list/count
+8. แก้วันผ่านฟอร์มเดิมด้วย version ล่าสุด/เก่า และ refresh ขณะมี draft; ตรวจ atomic audit/notifications และ rollback
 
 **Expected Results:**
 
 - task วางวัน due เท่านั้นไม่ durationbar
 - list/calendar ผลเทียบตรง
 - null อยู่แยกไม่กลายเป็นวันนี้;เปิด detail ถูก
+- Gantt bar รวมวันปลายและ start=due หนึ่งวัน; due-only ไม่สมมติ start; start-only/both-null อยู่รายการแยก
+- วันนี้/ช่วง/zoom ข้ามปี/leapday ถูก; pagination ไม่ตกข้อมูล
+- ทั้ง4 views ใช้ filter/สิทธิ์ชุดเดียวกัน; viewport เปลี่ยนเฉพาะพื้นที่เวลา
+- keyboard/mobile อ่านได้; Viewer/archived ไม่มี write; conflict ไม่ทับข้อมูลและ draft ไม่หาย
+- ไม่มี drag scheduling/dependency arrows/invented progress; full UI/provider checks มีหลักฐานจริง
 
 **Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
 
@@ -1843,6 +1886,323 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 
 **Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
 
+## M. Monday-style addendum (T-078)
+
+### TC-085 — Job title CRUD/assign/disable ไม่เปลี่ยนสิทธิ์
+
+**Priority:** P0 · **Role:** Admin · **Method:** UI + Integration
+**Trace:** FR-41, BR-19, BR-20, BR-21 · **Acceptance:** AT-31
+**Preconditions / Test Data:** Admin A, M1 Editor P1, ตำแหน่งตั้งต้น
+
+**ขั้นตอน:**
+
+1. สร้าง/เปลี่ยนชื่อ/ปิดตำแหน่งและพยายามลบตำแหน่งที่ถูกอ้าง
+2. ตั้ง M1 เป็น PM แล้วเรียก endpoint ที่ต้องใช้ P-key
+3. เปลี่ยน M1 เป็น Dev แล้วเรียกซ้ำ
+
+**Expected Results:**
+
+- ชื่อซ้ำ/ลบที่ถูกอ้างถูกปฏิเสธ
+- สิทธิ์ M1 เหมือนเดิมทุกครั้ง (ไม่ได้ P-key จากตำแหน่ง)
+- admin audit บันทึกการเปลี่ยน
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-086 — Job title ป้าย/filter/report/CSV
+
+**Priority:** P1 · **Role:** Lead · **Method:** UI + Integration
+**Trace:** FR-41, BR-16 · **Acceptance:** AT-31
+**Preconditions / Test Data:** ผู้ใช้หลายตำแหน่งในโปรเจกต์ที่ L1 เข้าถึงและไม่เข้าถึง
+
+**ขั้นตอน:**
+
+1. ดูป้ายใน picker/members/workload/report
+2. กรองงานและสมาชิกตามตำแหน่ง
+3. Export CSV
+
+**Expected Results:**
+
+- ป้ายและตัวกรองถูก
+- CSV มีคอลัมน์ตำแหน่งและ formula neutralization เดิม
+- ไม่เห็นข้อมูลนอกสิทธิ์
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-087 — P-key ทีละข้อให้ทำได้เฉพาะข้อนั้น
+
+**Priority:** P0 · **Role:** Admin / Manager · **Method:** Integration
+**Trace:** FR-42, FR-42A, BR-21 · **Acceptance:** AT-32
+**Preconditions / Test Data:** SA เป็น manager ใน P1 ไม่ใช่ใน P2
+
+**ขั้นตอน:**
+
+1. ติ๊กทีละ P-01–P-07 แล้วเรียกทุก endpoint ที่เกี่ยวข้องใน P1 และ P2
+2. ติ๊ก P-08–P-10 แล้วสร้างโปรเจกต์/ดู workload/report ทีม
+3. ใช้ preset PM/SM กับ SA และเทียบกับ PM
+
+**Expected Results:**
+
+- ทำได้เฉพาะข้อที่ติ๊กและเฉพาะโปรเจกต์ที่เป็น manager
+- P2 ถูกปฏิเสธ 403/404 ตาม policy
+- SA preset ทำได้เท่า PM preset; PM ไม่ติ๊กทำไม่ได้
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-088 — เอา permission ออกมีผลทันทีและ demote manager
+
+**Priority:** P0 · **Role:** Admin · **Method:** Integration
+**Trace:** FR-42A, BR-22 · **Acceptance:** AT-32
+**Preconditions / Test Data:** U เป็น manager ในสองโปรเจกต์ มี P-01, P-04
+
+**ขั้นตอน:**
+
+1. เปิด session ของ U ค้างไว้
+2. Admin เอา P-04 ออกแล้ว U ลองลบงานผู้อื่น
+3. เอา P-01 ออก (ไม่เหลือ P-01–P-07)
+4. จำลอง failure ระหว่าง demote
+
+**Expected Results:**
+
+- request ถัดไปถูกปฏิเสธโดยไม่ต้อง login ใหม่
+- manager→editor ทุกโปรเจกต์ใน transaction เดียว พร้อม audit และ view revision
+- failure rollback ทั้งหมด ไม่เหลือสถานะครึ่งเดียว
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-089 — กันยกระดับสิทธิ์และกติกาแต่งตั้ง manager
+
+**Priority:** P0 · **Role:** Member / Manager / Admin · **Method:** Integration
+**Trace:** FR-42, BR-23 · **Acceptance:** AT-32, AT-30
+**Preconditions / Test Data:** Manager มี P-03, Member ทั่วไป, Admin
+
+**ขั้นตอน:**
+
+1. non-Admin เรียก PUT permissions ของตนและผู้อื่น
+2. Admin แก้ permission ของตนเอง
+3. ผู้มี P-03 ตั้ง manager
+4. ตั้ง manager ให้ผู้ไม่มี P-01–P-07
+5. ส่ง key ที่ไม่รู้จัก
+
+**Expected Results:**
+
+- non-Admin/self 403
+- P-03 ตั้งได้แค่ Editor/Viewer
+- ไม่มี key 422; unknown key ถูกปฏิเสธ
+- ไม่มีการเปลี่ยนข้อมูล
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-090 — Admin center + Permission matrix bulk/preset/conflict
+
+**Priority:** P1 · **Role:** Admin · **Method:** UI + Integration
+**Trace:** FR-43 · **Acceptance:** AT-33
+**Preconditions / Test Data:** สมาชิกหลายทีม/ตำแหน่ง
+
+**ขั้นตอน:**
+
+1. กรองตามทีม/ตำแหน่ง เลือกหลายคนแล้วใช้ preset
+2. ตรวจสรุปก่อนยืนยัน
+3. อีกแท็บแก้ผู้ใช้เดียวกันก่อนบันทึก
+4. ผู้ใช้ทั่วไปเปิด Settings
+
+**Expected Results:**
+
+- สรุปตรงกับที่จะเปลี่ยน
+- stale แจ้ง 409 รายผู้ใช้ ไม่ทับเงียบ
+- matrix หลัง reload ตรงกับ server
+- ผู้ใช้ทั่วไปเห็นสิทธิ์ตนอ่านอย่างเดียว
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-091 — My overview ตัวเลขตรง My work และ grouped table
+
+**Priority:** P1 · **Role:** Member · **Method:** UI + Integration
+**Trace:** FR-44, FR-45 · **Acceptance:** AT-34
+**Preconditions / Test Data:** งานหลายสถานะ/วัน/โปรเจกต์ รวมโปรเจกต์ที่ถูกถอนสิทธิ์
+
+**ขั้นตอน:**
+
+1. เปิด Home เทียบ widget กับ My work/รายงาน
+2. คลิก widget
+3. ข้ามเที่ยงคืน Bangkok
+4. สลับ “ได้รับมอบหมาย/ฉันสร้าง” และเปลี่ยนสถานะ inline
+
+**Expected Results:**
+
+- ตัวเลขตรงกันและไม่รวมโปรเจกต์ที่หมดสิทธิ์
+- ไป My work พร้อมตัวกรองตรงกัน
+- กลุ่ม Overdue/Today/… ถูกตามวัน Bangkok
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-092 — Docs CRUD/version conflict/Viewer/trash
+
+**Priority:** P0 · **Role:** Editor / Viewer / Manager · **Method:** UI + Integration
+**Trace:** FR-48, NFR-03 · **Acceptance:** AT-35
+**Preconditions / Test Data:** P1 มี Editor E1/E2, Viewer V, Manager มี P-05
+
+**ขั้นตอน:**
+
+1. E1 สร้าง doc ที่ boundary ชื่อ 200/เนื้อหา 200,000
+2. E1 และ E2 แก้พร้อมกัน
+3. V ลองแก้
+4. ลบ/คืน doc ของผู้อื่นด้วยและไม่ด้วย P-05
+5. ทดสอบ 29/30/31 วัน
+
+**Expected Results:**
+
+- เกิน boundary ถูกปฏิเสธ
+- คนที่สอง 409 ไม่ทับ และมีประวัติ version
+- V อ่านอย่างเดียว
+- ลบ/คืนตามสิทธิ์และกำหนด 30 วัน
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-093 — Docs sanitize XSS ฝั่ง server
+
+**Priority:** P0 · **Role:** Editor · **Method:** Unit + Integration
+**Trace:** FR-48, NFR-02 · **Acceptance:** AT-35, AT-30
+**Preconditions / Test Data:** XSS corpus (script, on*, javascript:, data URI, svg, iframe, style, encoded)
+
+**ขั้นตอน:**
+
+1. บันทึกผ่าน API โดยตรงข้าม UI
+2. อ่านกลับและ render ใน browser
+
+**Expected Results:**
+
+- payload อันตรายถูกตัดฝั่ง server
+- tag ใน allowlist คงอยู่
+- ไม่มี script ทำงานและ CSP ไม่มี violation
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-094 — Project Files รวม/อัปโหลด/preview/สิทธิ์/quota
+
+**Priority:** P1 · **Role:** Editor / Viewer · **Method:** UI + Integration
+**Trace:** FR-49, FR-28 · **Acceptance:** AT-36
+**Preconditions / Test Data:** ไฟล์ระดับโปรเจกต์และจากหลายงาน รวมงานที่ถูกลบ
+
+**ขั้นตอน:**
+
+1. เปิดแท็บ Files ค้นหา/กรอง
+2. อัปโหลดระดับโปรเจกต์ที่ quota boundary
+3. preview รูป/PDF และไฟล์ชนิดอื่น
+4. ลบ/คืนไฟล์ผู้อื่นด้วยและไม่ด้วย P-06
+
+**Expected Results:**
+
+- แสดงเฉพาะไฟล์ที่เข้าถึงพร้อมงานต้นทาง
+- quota/ตรวจชนิดตามเดิม
+- preview ปลอดภัย
+- ลบ/คืนตามสิทธิ์
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-095 — Workload และ Project overview ตัวเลข/เกณฑ์/สิทธิ์
+
+**Priority:** P1 · **Role:** Lead / Manager · **Method:** UI + Integration
+**Trace:** FR-50, FR-51, BR-16 · **Acceptance:** AT-37
+**Preconditions / Test Data:** งานข้ามสัปดาห์, start-only, due-only, no date, done; threshold 10
+
+**ขั้นตอน:**
+
+1. ดู workload โปรเจกต์และทีม (มี/ไม่มี P-09)
+2. ตั้ง threshold แล้วตรวจไฮไลต์ที่ 10/11
+3. ดู Overview (มี/ไม่มี P-07)
+
+**Expected Results:**
+
+- จำนวนต่อคน/สัปดาห์ถูกตาม §9.9
+- ไฮไลต์เมื่อ > threshold
+- Overview ตรงข้อมูล; ไม่มีสิทธิ์ถูกปฏิเสธ/ไม่รั่ว
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-096 — Main table inline/batch/drag/sticky/resize
+
+**Priority:** P1 · **Role:** Editor · **Method:** UI + Integration
+**Trace:** FR-52, FR-45 · **Acceptance:** AT-38
+**Preconditions / Test Data:** กลุ่มหลายกลุ่ม งาน >50 แถว
+
+**ขั้นตอน:**
+
+1. inline edit ชื่อ/วันที่/priority/ผู้รับ และเพิ่มงานท้ายกลุ่มด้วย Enter
+2. เลือกหลายแถวที่มีงานหนึ่ง stale และหนึ่งไม่มีสิทธิ์ แล้ว batch
+3. ลากแถวย้ายกลุ่ม
+4. scroll แนวนอน/ตั้ง column width แล้ว reload
+
+**Expected Results:**
+
+- batch คืนผลรายข้อ 200/409/403 ไม่ทำบางส่วนเงียบ
+- drag persist หลัง reload
+- sticky ทำงานและ width จำต่อผู้ใช้
+- มีทางเลือกคีย์บอร์ด
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-097 — Task side panel แท็บ/@mention/Esc/deep link
+
+**Priority:** P1 · **Role:** Editor · **Method:** UI + Integration
+**Trace:** FR-53 · **Acceptance:** AT-38
+**Preconditions / Test Data:** P1 มีสมาชิกและผู้ที่ไม่มีสิทธิ์
+
+**ขั้นตอน:**
+
+1. เปิด panel ผ่านแถวและ deep link
+2. พิมพ์ @ ใน Updates
+3. สลับแท็บ Files/Activity/Details แล้วกด Esc
+4. เปิด deep link ด้วยผู้ไม่มีสิทธิ์
+
+**Expected Results:**
+
+- @mention แนะนำเฉพาะผู้เข้าถึง และแจ้งเตือนตามเดิม
+- Esc ปิดและคืน focus
+- ผู้ไม่มีสิทธิ์ไม่เห็นข้อมูลงาน
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-098 — UX/motion reduced motion/toggle/360px/keyboard
+
+**Priority:** P1 · **Role:** Member · **Method:** UI
+**Trace:** NFR-09, NFR-05, NFR-06 · **Acceptance:** AT-39
+**Preconditions / Test Data:** mock ที่เจ้าของรีวิวแล้วจาก T-079
+
+**ขั้นตอน:**
+
+1. เทียบหน้าหลักกับ mock ที่ 360/768/1440px
+2. เปิด prefers-reduced-motion และ toggle Reduce animations/ปิด confetti
+3. ทำงาน Done ติดกันภายใน 2 วินาที
+4. ใช้ N, /, Esc และบันทึก performance trace
+
+**Expected Results:**
+
+- ไม่มี horizontal scroll ของเอกสาร
+- reduced motion ปิด motion ที่ไม่จำเป็น
+- confetti ≤1 ครั้ง/2 วินาที
+- action ไม่ถูกบล็อกและ trace ~60fps
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+### TC-099 — Favorites ส่วนตัวและถอนสิทธิ์
+
+**Priority:** P1 · **Role:** Member · **Method:** UI + Integration
+**Trace:** FR-47 · **Acceptance:** AT-40
+**Preconditions / Test Data:** M1/M2 เข้าถึง P1
+
+**ขั้นตอน:**
+
+1. M1 ติดดาว P1
+2. M2 เปิด sidebar
+3. ถอนสิทธิ์ M1 จาก P1
+
+**Expected Results:**
+
+- P1 อยู่บนสุดของ M1 เท่านั้น
+- ถอนสิทธิ์แล้ว favorite หายและไม่เผยชื่อโปรเจกต์
+
+**Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
 ## Traceability — Acceptance Tests
 
 การจับคู่ครบเป็น coverage ของแผน ไม่ได้ยืนยันว่าทุก subscenario ใน AT ผ่านจนตรวจ steps/results จริง
@@ -1879,6 +2239,16 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 | AT-28 | TC-052, TC-058, TC-075, TC-078, TC-080, TC-081, TC-082, TC-084 | NOT_RUN |
 | AT-29 | TC-022 | NOT_RUN |
 | AT-30 | TC-056, TC-068, TC-069, TC-070, TC-081 | NOT_RUN |
+| AT-31 | TC-085, TC-086 | NOT_RUN |
+| AT-32 | TC-087, TC-088, TC-089 | NOT_RUN |
+| AT-33 | TC-090 | NOT_RUN |
+| AT-34 | TC-091 | NOT_RUN |
+| AT-35 | TC-092, TC-093 | NOT_RUN |
+| AT-36 | TC-094 | NOT_RUN |
+| AT-37 | TC-095 | NOT_RUN |
+| AT-38 | TC-096, TC-097 | NOT_RUN |
+| AT-39 | TC-098 | NOT_RUN |
+| AT-40 | TC-099 | NOT_RUN |
 
 ## Traceability — Functional Requirements
 
@@ -1924,6 +2294,19 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 | FR-38 | TC-076, TC-077, TC-082 |
 | FR-39 | TC-052, TC-058, TC-069, TC-070, TC-075, TC-080, TC-081, TC-082, TC-084 |
 | FR-40 | TC-077, TC-078, TC-080, TC-081 |
+| FR-41 | TC-085, TC-086 |
+| FR-42 | TC-087, TC-089 |
+| FR-42A | TC-087, TC-088 |
+| FR-43 | TC-090 |
+| FR-44 | TC-091 |
+| FR-45 | TC-091, TC-096 |
+| FR-47 | TC-099 |
+| FR-48 | TC-092, TC-093 |
+| FR-49 | TC-094 |
+| FR-50 | TC-095 |
+| FR-51 | TC-095 |
+| FR-52 | TC-096 |
+| FR-53 | TC-097 |
 
 ## UAT Journeys ของเจ้าของระบบ
 
@@ -1933,12 +2316,24 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 - [ ] สองคนแก้/ลากงานเดียวกัน → conflict ชัดไม่สูญข้อมูล → reload/retry ตามเจตนา
 - [ ] ผู้ติดตั้ง backup → cleanrestore → permissions/files/checksums ตรง → ผู้ใช้ login ใหม่และทำงานต่อ
 
+- [ ] (addendum) Admin ติ๊ก preset PM/SM ให้ SA → SA จัดการโปรเจกต์ที่เป็น manager → Admin เอาสิทธิ์ออก → SA ถูกลดเป็น Editor ทันที; ทุกคนใช้ My overview/Docs/Files/Main table ตามสิทธิ์ (รวมใน T-091 UAT)
+
 ## Change Log
 
 | Version | วันที่ | รายละเอียด |
 |---|---|---|
 | 1.0 | 2026-10-05 | สร้าง Test Cases จาก Task/SRS; ทุกกรณี NOT_RUN; ไม่แก้ sourceTask หรืออนุมัติ baseline แทนผู้ใช้ |
 | 1.1 | 2026-10-05 | เจ้าของระบบยืนยันกติกา; R-01–R-04 resolved; SQL Server2022/mssql; filetrash/restore30วัน; coding/testsยังไม่ผ่าน |
+| 1.2 | 2026-10-05 | เจ้าของระบบกำหนด Node.js22 แทน24; ขอ SQL อื่นชั่วคราวและรอเลือกชนิด/ขอบเขต; คง business baseline1.1 และผลทดสอบเดิม |
+| 1.3 | 2026-10-05 | ยืนยัน SQLite สำหรับพัฒนา local ชั่วคราว; SQL2022 ยังคงปลายทาง; ผลทดสอบแยก provider และไม่เปลี่ยน NOT_RUN เป็น PASS |
+| 1.4 | 2026-10-05 | เจ้าของระบบยืนยันข้อเสนอ readiness22ประเด็น; ล็อก8กติกา/แผนปิด10contracts+4planning gaps; ไม่มีผล application tests ใหม่ |
+| 1.5 | 2026-10-05 | T-003 เพิ่มmachine API/DTO contractและUT-01/T-003 schema checks; relatedAT/TCยังNOT_RUN; ไม่เปลี่ยนbusinessscope |
+| 1.6 | 2026-10-05 | T-004 manifest/20requiredvariants/evidence/release gates; planning tests17/17PASS; actual84TC/30AT/Windows/SQL/UATยังNOT_RUN |
+| 1.7 | 2026-10-05 | T-005 foundation SQLite/HTTP/frontend/Chromium/fresh-copy evidence; 84fullTC/30AT/SQL2022/Windows/UATยังNOT_RUN |
+| 1.8 | 2026-10-06 | T-006 config/local startup/synthetic SQL guard evidence; real SQL2022/Windows/TC/AT NOT_RUN; Task IN_PROGRESS |
+| 1.9 | 2026-10-06 | T-007 SQLite schema/legacy migration/atomic persistence evidence; real SQL2022/full TC/AT/Windows/UAT NOT_RUN |
+| 1.13 | 2026-10-06 | T-010 local idempotency13 + combined199 PASS; SQL28SKIP/NOT_RUN; real auth/features/cleanup scheduler/full TC/AT/Windows/UAT still pending |
+| 1.14 | 2026-10-06 | T-011 authorization14 + combined213 PASS; SQL38SKIP/NOT_RUN; current DB permission/scopes/HTTP/race foundation only; full login/features/TC/AT/Windows/UAT pending |
 
 ## SQL Server 2022 technical test variants
 
@@ -1949,3 +2344,147 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 - AT-25: BACKUPDATABASECOPY_ONLY/CHECKSUM เป็น.bak+uploads snapshot และ actualRESTORE ใน isolatedDB/sessionrevoke
 - AT-28: SQLhost/port/encryption/cert/pool/runtimeDBlogin/migrationlogin/backupaccountpermissions;Edition/build ผลจริง
 - AT-27: เก็บ SQLServerbuild/DBsettings/poolsize/queryplan/loadmetrics ไม่ใช้ผล SQLite เดิมแทน
+
+## SQLite local test profile
+
+ใช้ Node22/SQLite สำหรับกรณี local ที่ทำได้ แต่ทุก run ต้องระบุ provider/version/schema/driver และ environment; SQL2022-specific lock/deadlock/connection-loss/.bak/RESTORE/Windows variants ยังคง NOT_RUN/BLOCKED จนรันบน environment ที่ถูกต้อง การทดสอบ SQLite ไม่เปลี่ยนทั้ง case/AT เป็น PASS หากยังมี required variants ค้าง ไม่ใช้ NOT_APPLICABLE เพื่อเลี่ยงเกณฑ์ปลายทาง
+
+## Required variants หลังยืนยัน readiness proposals (ทั้งหมด NOT_RUN)
+
+| Cases / AT | Steps และ expected ที่เพิ่ม |
+|---|---|
+| TC-022/034; AT-13/29 | Archived project: Editor creator DELETE ถูกปฏิเสธ; Admin/owner Lead DELETE และ restore งานสำเร็จตาม cutoff/version; restored task ยัง read-only; comments/files/subtasks ยังห้าม write |
+| TC-019/021/028/034; AT-04/08/10/13 | Demote Admin, reopen done, restore non-done หลัง assignee inactive/Viewer/no-write: effective rights recompute/assignee=null พร้อม audit; คนที่ยังมี Lead/Editor คง assignment; done history คง |
+| TC-023; AT-06/07/29 | Unarchive project ใน archived team ถูกปฏิเสธ; เปิด team ก่อนแล้วทำได้; create/unarchive แข่งกับ archive team ไม่ทำให้ parent invariant ผิด |
+| TC-034/059/079; AT-13/22 | controlled UTC clock ที่ cutoff-1ms/cutoff/cutoff+1ms: restore ได้เฉพาะก่อน cutoff; purge ได้ตั้งแต่ cutoff; restore-vs-purge ไม่มี half state; failed bytes cleanup คง tracking/quota |
+| TC-029/030/032; AT-11/12 | เปลี่ยน due ของ monthly และ none/weekly↔monthly ตรวจ reset/preserve/clear anchor ตาม RD-06; generation ตามปกติกลับวัน anchor; successor เดิมไม่เปลี่ยน; checklist ใหม่ done=false |
+| TC-017/018/027/033/040/057/058/076/082; AT-08/10/12/17/22/25/30 | เพิ่ม deterministic race barriers สำหรับ revoke-vs-write, checklist-vs-complete, quota-finalize-vs-freeze; SQL2022 variants จำลอง lock timeout/deadlock/connection loss/query timeout และ unknown commit; ตรวจ authoritative key/state/rollback/no duplicates; ไม่เปิด fault injection ใน production |
+| TC-006/010/011/050/068/071/072; AT-02/20/26/30 | ตรวจ HTTP browser/proxy cache/back navigation และ logout/expiry/CSRF rotation ข้ามแท็บ; draft คงเมื่อ refresh แต่ sensitive data ต้องถูกล้างเมื่อหมดสิทธิ์; polling รวม response latency ยังอยู่ใน approved target |
+| TC-075/078/080/081; AT-25/28 | รันกับ source candidate/build/schema ที่ระบุ; Windows/SQL2022/UAT required ยัง NOT_RUN/BLOCKED ไม่อนุญาต final task sign-off; migration/reset/backup accounts ใช้สิทธิ์ที่กำหนดและไม่มี secrets ใน evidence |
+
+84 case IDs เดิมคงอยู่; variants เป็น required subscenarios ไม่ใช่ cases ใหม่หรือผล PASS จากการยืนยัน; T-003/T-004 สร้าง contracts/executable manifest ตาม acceptance แล้ว ดู tests/test-manifest.json; variants ทั้งหมดยัง NOT_RUN
+
+## T-003 contract-only evidence
+
+TC-025/035/044/048/068/069 มีshape/purevalidation checksที่เกี่ยวข้องในtests/contracts/contract.test.mjsและcontracts/test-manifest.json; ไม่ใช่การรันstepsทั้งหมดของTC/AT ผลทั้ง84casesและ30ATในregisterคงNOT_RUN จนมีHTTP/UI/database evidenceตามrequiredvariants
+
+## T-004 plan validation evidence
+
+[TeamFlow_Test_Release_Manifest.md](TeamFlow_Test_Release_Manifest.md) ล็อก levels/fixtures/20requiredvariants/AT-task-case evidence/provider profiles และcandidate/final/production gates; [tests/test-manifest.json](tests/test-manifest.json) เป็นmachine inventoryที่สร้างจากapprovedtables; check:test-plan และ17planning-policy tests PASSตาม [TeamFlow_T004_Test_Report.md](TeamFlow_T004_Test_Report.md). Actual record store tests/execution-records.jsonยังว่าง: 84TC/30AT/20RV/5UAT/4reviews NOT_RUN ไม่เปลี่ยนregisterเป็นPASSจากการตรวจแผน
+
+## T-005 foundation-only evidence
+
+[TeamFlow_T005_Test_Report.md](TeamFlow_T005_Test_Report.md) บันทึก5foundationSQLite/HTTP + 1frontend + 1Chromium shell testsPASS และfresh-copycli validation; T-003/T-004 regressionรวมแล้ว84testsPASS ไม่ใช่84TCผ่าน. SQL2022 harness1กรณีSKIP/NOT_RUN; fullschema/auth/ACL/Windows/UAT/TC/AT/RVยังไม่ผ่าน. ไม่มีการเพิ่มfullapplicationPASSในtests/execution-records.json
+
+## UT-17 / T-006 configuration evidence — 6 ตุลาคม 2026
+
+[TeamFlow_T006_Test_Report.md](TeamFlow_T006_Test_Report.md) และ [reports/T-006-config-results.json](reports/T-006-config-results.json) แยก pure config, real local filesystem/HTTP/process และ synthetic SQL guard lifecycle checks; ไม่ใช่ full TC-070/080/AT-28 หรือ real SQL2022 PASS. [TeamFlow_Configuration.md](TeamFlow_Configuration.md) ระบุ defaults/bounds/TLS/path/single-instance/failure behavior. T-006 IN_PROGRESS รอ SQL2022 guard integration; tests/execution-records.json คงไม่มี full application PASS; SQL/Windows/UAT/84TC/30AT/20RV/5UAT/4REL NOT_RUN
+
+## T-007 schema/operations evidence - 2026-10-06
+
+[TeamFlow_T007_Test_Report.md](TeamFlow_T007_Test_Report.md) / [reports/T-007-schema-results.json](reports/T-007-schema-results.json): actual SQLite file/constraints/migration/transactions separated from pure codecs and SQL2022 NOT_RUN. Partial TC-078 local evidence does not close full TC/AT-25/28/RV-18. Actual task_events/notifications persist in the feature transaction with rollback on effect failure; both providers have minimal fixtures before T-067. T-007 IN_PROGRESS; no full application PASS added to tests/execution-records.json.
+
+## T-012 frontend shell evidence — 2026-10-06
+
+[TeamFlow_T012_Test_Report.md](TeamFlow_T012_Test_Report.md) / [reports/T-012-shell-results.json](reports/T-012-shell-results.json): 16 frontend unit/SSR + 5 Chromium browser + 1 HTTP regression PASS; synthetic Self navigation fixtures separated from real backend ACL. Dialog keyboard/focus and 360px/200% text provide partial TC-073 evidence. Full TC-073/074, AT-18/26, supported browser/device matrix, SQL2022/Windows/UAT remain NOT_RUN; execution-records.json unchanged. DONE6/77, remaining71.
+
+## T-008 local helper evidence - 2026-10-06
+
+[TeamFlow_T008_Test_Report.md](TeamFlow_T008_Test_Report.md) / [reports/T-008-helper-results.json](reports/T-008-helper-results.json): 25helpers (10pure dates/lifecycle, 10synthetic retry/driver, 5actual SQLite) + combined174 PASS; SQL18SKIP/NOT_RUN. UT-02/partial TC-030/033/034/035/036/037/059/079 do not close full TC/AT/SQL2022/Windows/UAT. New 0002_review_status corrects legacy blocked to locked review, with upgrade/children/identity/FK-assert/rollback evidence. T-008 IN_PROGRESS under approved SRS5.2; dependency graph unchanged. DONE6/77, IN_PROGRESS3, TODO68, remaining71.
+
+## T-009 local middleware evidence - 2026-10-06
+
+[TeamFlow_T009_Test_Report.md](TeamFlow_T009_Test_Report.md) / [reports/T-009-api-results.json](reports/T-009-api-results.json): API12 + combined186 + browser5 + fresh source/omit-dev runtime install PASS. UT-01 and partial TC-068/069/070/AT-30 evidence; real session/ACL/SQL/HTTPS/Windows/UAT/full acceptance NOT_RUN. Synthetic session/authorization/proxy callbacks are identified separately. execution-records.json unchanged. T-009 IN_PROGRESS under SRS5.2; DONE6/77, IN_PROGRESS4, TODO67, remaining71.
+
+## T-010 local idempotency evidence - 6 October 2026
+
+[TeamFlow_T010_Test_Report.md](TeamFlow_T010_Test_Report.md) / [reports/T-010-idempotency-results.json](reports/T-010-idempotency-results.json): local13 + combined199 PASS; SQL28SKIP/NOT_RUN. UT-09 matching and partial atomic retry groundwork for TC-031/033/041/050/AT-12/17/21 only; full feature cases remain NOT_RUN. Actual SQLite persistence/rollback/three-process concurrency separated from synthetic identity/permission/commit-loss and upload metadata fixtures. No real uploaded file or full auth service acceptance. TTL at transaction finalization; callable bounded cleanup verified, T-050 scheduler pending. T-010 IN_PROGRESS under SRS5.2/16; dependencies and execution-records.json unchanged. DONE6/77, IN_PROGRESS5, TODO66, remaining71. Next local T-011 High.
+
+## T-011 local authorization evidence - 6 October 2026
+
+[TeamFlow_T011_Test_Report.md](TeamFlow_T011_Test_Report.md) / [reports/T-011-authorization-results.json](reports/T-011-authorization-results.json): authorization14 + combined213 PASS; SQL38SKIP/NOT_RUN. UT-03 and partial TC-007/010/014-023/056/059/062/063/066, AT-05/07/08/30 groundwork only. Actual DB session/membership/state, scope/count/notification UPDATE and SQLite/HTTP/revoke-vs-write transaction checks are separate from synthetic cookie/token resolver, middleware principal, version callback and minimal controller fixtures. No actual login/password hashing/cookie creation or full feature/CSV/file-stream acceptance. Archived Lead retains directory read; version hook checks precede lifecycle state; unavailable hook fails closed. T-011 IN_PROGRESS; dependency graph and execution-records.json unchanged. DONE6/77, IN_PROGRESS6, TODO65, remaining71. Next local T-013 High.
+
+
+## T-013 local setup evidence — 6 October 2026
+
+[TeamFlow_T013_Test_Report.md](TeamFlow_T013_Test_Report.md) / [reports/T-013-setup-results.json](reports/T-013-setup-results.json) / [fresh source](reports/T-013-fresh-checkout.json): setup17 + combined233 + Chromium7 PASS. Partial TC-001/002/AT-01 (wrong403/correct201/reuse409 and concurrent one-complete-set) and TC-073 local form keyboard/360px/200% reflow. Actual isolated SQLite/scrypt/HTTP/startup and two-process transactions plus real browser setup2cases separated from injected audit failure/commit-ack loss and synthetic operator-console capture. Browser shell4cases still use synthetic Self; full browser matrix/SQL2022/Windows/auth/UAT NOT_RUN. Shared scrypt groundwork supplies partial UT-04 evidence for T-014; login/session/rate lifecycle still pending. SQL46SKIP/NOT_RUN including setup8; execution-records.json unchanged; T-013 IN_PROGRESS. DONE6/77, IN_PROGRESS7, TODO64, remaining71; next local T-014 High.
+
+
+## T-014 local session evidence — 6 October 2026
+
+[TeamFlow_T014_Test_Report.md](TeamFlow_T014_Test_Report.md) / [reports/T-014-session-results.json](reports/T-014-session-results.json): sessions19 + combined252 PASS; SQL56SKIP/NOT_RUN including session10. UT-04/05 and partial TC-003/004/005/006/007/010/011/021/AT-02/03 groundwork: actual scrypt/SQLite/HTTP/startup/cookie resolver, current authorization, persistent windows, idle/absolute boundaries, atomic revocation and two-process counter/login races. Admin role/reset/deactivation mutations are minimal fixtures; no complete password-change/reset/unassign/login-screen/cross-tab/TLS acceptance. Cookie attributes for configured HTTPS origin were inspected over HTTP fixture transport; browser evidence identifies actual local HTTP separately. Native SQL2022/Windows/actualHTTPS/browser matrix/UAT remain NOT_RUN; execution-records.json unchanged. DONE6/77, IN_PROGRESS8, TODO63, remaining71; next local T-015 High. Browser/fresh results in dedicated report; no full TC/AT PASS inferred.
+
+
+## Local evidence — batch T-015–T-018 (2026-10-06)
+
+[TeamFlow_T015_T018_Test_Report.md](TeamFlow_T015_T018_Test_Report.md) / [reports/T-015-018-batch-results.json](reports/T-015-018-batch-results.json): accounts19 + combined273 + Chromium14 PASS on Node22/temporary SQLite; SQL69 SKIP/NOT_RUN. Partial UT-04/TC-003/004/005/006/007/008/009/010/011/012/021 and AT-02/03/04 evidence: actual password/current verification, token+CSRF rotation/all-other-session revocation, strict/CI/version/last-admin two-process guards, atomic archived/deleted unfinished assignee cleanup with done/history/grant preservation; actual auth/Admin screens, forced change, stale edit, literal search/paging, keyboard/mobile200%, polling-vs-activity and cross-tab logout draft clearing. Fixture task handler only exercises forced gate; real task lifecycle/cleanup/recurrence integration in T-022/T-027 and full T-068 matrix remain pending. Full TC/AT records remain NOT_RUN; tests/execution-records.json unchanged. Native SQL2022/Windows/actualHTTPS/full browser matrix/UAT NOT_RUN. Four tasks IN_PROGRESS; DONE6/77, IN_PROGRESS12, TODO59, remaining71. Next local T-019–T-022 all High; actual runtime model/effort NOT_VERIFIED.
+
+## T-019 local evidence - 2026-10-06
+
+TeamFlow_T019_Test_Report.md / reports/T-019-installer-results.json: SQLite provider8 + actual CLI/filesystem/POSIX PTY/HTTP7 =15 PASS; combined288 PASS. Partial TC-081/AT-28/AT-30, FR-04/39/40 and NFR-02/07. Recovery/new-password/forced gate/old-session revocation, force logout, private modes/parent permissions/symlink/hardlink/config file checks, stopped-instance guard, strict args/redacted errors, hidden confirmation/cancellation, atomic audit rollback and absence of public recovery route executed. NativeSQL2022/Windows DACL/Windows console/actualHTTPS/full release NOT_RUN; SQL77SKIP. tests/execution-records.json unchanged; no full TC/AT PASS. DONE6/77, IN_PROGRESS13, TODO58, remaining71. Owner requested stop after finishing T-019 and shutting down dev services; T-020 High not started.
+
+## Local batch T-020–T-024 — 2026-10-06
+
+TeamFlow_T020_T024_Test_Report.md / reports/T-020-024-batch-results.json: local workspaces17 + combined305 + Chromium17 + fresh source/omit-dev runtime305 PASS. UT-03 + partial TC-013–023/AT-05–08/29 evidence only; no full case/AT/provider sign-off. SQL89 SKIP/NOT_RUN; real SQL2022/Windows/full browser/device matrix/UAT/task-recurrence/file-byte/notification feature flows pending. execution-records.json unchanged. DONE6/77, IN_PROGRESS18, TODO53, remaining71; local batch5/5 implemented/verified. Next T-025 Medium.
+
+## Local batch T-025–T-029 — 2026-10-06
+
+TeamFlow_T025_T029_Test_Report.md / reports/T-025-029-batch-results.json: backend26 (provider18 + HTTP4 + two-process SQLite races4) and combined331 PASS. Actual organization settings/Admin/Member/conflict/offline/restart UI, task/checklist/status/recurrence service transactions, source/successor tombstones, durable completion replay, access-cleanup integration and effect rollback. Partial UT-01/02/03/06/07/08/09/18, TC-024–033/064/065/075 and AT-09–12/14/28 evidence only; task form/detail/checklist/recurrence UI (T-032/T-033), restore/purge service and real file bytes not executed. Full TC/AT results and execution-records.json unchanged. Native SQL2022/Windows/full browser/device/UAT remain NOT_RUN. DONE6/77, IN_PROGRESS23, TODO48, remaining71; local batch5/5. Final Chromium19/19 and fresh-source331/omit-dev runtime PASS; SQL107 SKIP/NOT_RUN. Next T-030 High.
+
+## Local batch T-030–T-034 — 2026-10-06
+
+TeamFlow_T030_T034_Test_Report.md / reports/T-030-034-batch-results.json: local18/18 (provider13 + HTTP2 + two-process SQLite races3), combined349/349 (Node328+frontend21), Chromium22/22 PASS. Actual task form/checklist/recurrence/delete/restore, current permissions,409 draft comparison/explicit review, dirty close/route/offline/360px; shared scoped SQL filters/dates/counts/sorts and board500/501 snapshots. Partial TC-024/026/027/028/030/031/034/035/045/047/048/065/075 and AT-09/10/11/13/14/15/16/19/20 evidence; future Calendar/Gantt/Report/Export consumers, Kanban move/fallback UI and retention remain pending. Full TC/AT and execution-records.json unchanged. Native SQL120 SKIP/Windows/full browser-device/UAT NOT_RUN. DONE6/77, IN_PROGRESS28, TODO43, remaining71; local5/5. Fresh-copy349 tests/ci/build/migrate/seed/omit-dev runtime PASS. Next T-035 High; candidate batch035High/036Medium/037Medium/038High/039Medium.
+
+## Local batch T-035–T-039 — 2026-10-06
+
+TeamFlow_T035_T039_Test_Report.md / reports/T-035-039-batch-results.json: local15/15 (provider10+HTTP2+two-process SQLite races3), combined364/364(Node343+frontend21), Chromium28/28 PASS. Atomic ordering/completion/recurrence; actual mouse/keyboard/touch emulated scroll+long-press; filters disable reorder; pending ack,409/validation/permission rollback, current demotion/revocation, lost response GET-before-same-key retry, acknowledged-write/read-failure recovery and501-task paginated fallback. Comments API plaintext/current rights/atomic effects/concurrent durable idempotency. Contract1.0.1 corrects recurring3-column response;52routes/75schemas unchanged. Partial TC-035–045/051/075 and AT-10/11/14/16/17/18/20/21/28 evidence only. Full TC/AT and execution-records.json unchanged; native SQL130SKIP/Windows/full device-browser/physical touch/UAT NOT_RUN; Comments panels/history/polling/Calendar/Gantt/full design pending. DONE6/77, IN_PROGRESS33, TODO38, remaining71; local5/5. Fresh-source364 tests/ci/type/build/migrate/seed/omit-dev runtime PASS; final people-picker/permission-clear UI6/6 recheck PASS. Next T-040 High; candidate040–043High/044Medium.
+
+## T-040–T-044 local implementation evidence — 2026-10-06
+
+TeamFlow_T040_T044_Test_Report.md / reports/T-040-044-batch-results.json: local provider/filesystem/actual HTTP/two-process quota/SIGKILL recovery and Chromium panels checks. Partial TC-051–059/075 and AT-05/08/21/22/30 trace only; do not mark full TC/AT PASS. Full SQL2022/Windows/full browser-device/UAT remain NOT_RUN; native SQL wrapper includes minimal provider-specific fixtures. tests/execution-records.json remains unchanged. Task Register DONE6/77, IN_PROGRESS38, TODO33, remaining71. Full orphan/retention scheduler T-060 and shared polling T-047 still pending; byte release is tested only after confirmed unlink/ENOENT.
+
+## T-045–T-049 local subset — 2026-10-06
+
+Local evidence for TC-010/046/047/048/049/050/060/061 and AT-15/19/20/23 is recorded in TeamFlow_T045_T049_Test_Report.md. These scoped unit/provider/actual Chromium checks do not change full TC/AT statuses or tests/execution-records.json. Native SQL2022/Windows/UAT/full browser-device matrix remain NOT_RUN. Full notification list/read UI remains T-050/T-051, and retention/backup job coordination T-060/T-061.
+
+Local subset outcomes: backend14/14 and all407/407 PASS; Chromium37 distinct cases verified after focused3-case recheck (raw36PASS/1 selector FAIL; corrected2PASS plus strengthened My Tasks1PASS). SQL152SKIP/NOT_RUN. Full acceptance/statuses/execution-records.json remain unchanged. Fresh-source result is in TeamFlow_T045_T049_Test_Report.md.
+
+## T-050–T-054 local subset — 2026-10-07
+
+Partial TC-062–067, TC-010/050/068/075 and AT-05/08/20/23/24/30 evidence is recorded in TeamFlow_T050_T054_Test_Report.md and reports/T-050-054-batch-results.json. Local own/current-access list/read/retention, date/team/person aggregation, UTF8 BOM/RFC4180/formula-safe CSV120+/50000/cap50001, HTTP/CSRF/no-store and Chromium notifications/report/filter/download/mobile checks do not close full TC/AT execution. Excel formula execution, native SQL2022, Windows, UAT, performance/full browser-device matrix and full retention/backup coordination remain NOT_RUN. tests/execution-records.json remains unchanged.
+
+Local outcomes: backend23/23, all420/420, Chromium14/14 plus strengthened visual1/1, fresh-source420 PASS. NativeSQL160SKIP/NOT_RUN. Raw failed attempts and fixes remain separate in the batch report; full TC/AT/UAT and formal execution records remain unchanged.
+
+## T-055–T-059 local batch evidence — 2026-10-07
+
+TeamFlow_T055_T059_Test_Report.md / reports/T-055-059-batch-results.json record partial TC-069/070/071/072/073/074/075 and AT-18/26/28/30 evidence. Main views at360/tablet/desktop and scoped keyboard/200% text review, reconnect draft retention/no queued mutation, actual SQLite/filesystem/readiness and redacted rotating logs. Native PWA registration/cache has an open FAIL; unit routing evidence cannot close TC-071/072 or AT-26. Browser vendor current+previous/physical touch/OS installation/native SQL2022/Windows/full TC-AT/UAT remain NOT_RUN. See the report for exact executed counts and raw versus corrected runs. execution-records.json remains empty; all five tasks IN_PROGRESS. DONE6/77, IN_PROGRESS53, TODO18, remaining71.
+
+
+## T-056 native PWA follow-up — 2026-10-07
+
+TeamFlow_T056_PWA_Followup_Report.md / reports/T-056-pwa-followup-results.json supersede the open native precache FAIL in the prior T-055–T-059 report for the repaired source. Real Chromium/installed Chrome worker cache/logout/offline and waiting-update lifecycle PASS locally; synthetic public draft survives without forced reload and old cache is removed only after client closure. Partial TC-071/072 and AT-26 evidence only. OS installation/real task-edit update notice/vendor current+previous/physical touch/native SQL2022/Windows/full TC-AT/UAT remain NOT_RUN; formal execution-records.json remains empty. DONE6/77, IN_PROGRESS53, TODO18, remaining71.
+
+
+## T-060–T-064 local operations subset — 2026-10-07
+
+TeamFlow_T060_T064_Test_Report.md / reports/T-060-064-batch-results.json cover partial TC-034/059/075/076/077/078/079 and AT-13/22/25/28 evidence: actual local purge cutoff/rollback and bytes retry/quota, ownership/drain/maintenance UI, stopped-instance SQLite snapshot/verify/isolated restore/session revoke, legacy migration/repeat/rollback and startup orphan recovery. SQL restore command construction/source is separate from native execution; real SQL2022 .bak/RESTORE/service paths/roles and Windows/PowerShell/Task Scheduler/full TC-AT/UAT remain NOT_RUN. Local timings do not certify deployment RPO/RTO. Formal execution-records.json remains empty; DONE6/77, IN_PROGRESS58, TODO13, remaining71.
+
+## T-065–T-069 local regression subset — 2026-10-07
+
+TeamFlow_T065_T069_Test_Report.md / reports/T-065-069-batch-results.json record new exact-role/provider-isolated HTTP fixtures10/10 PASS and grouped449/449 PASS (Node411/frontend38), final environment-isolation follow-up10/10. Partial authentication/session/account revocation and cross-team/detail/file-byte/Viewer/search/count/report/CSV/notification/replay/archive/CSRF/SQLi/plaintext-XSS evidence; Windows and user/developer instructions are source artifacts only. Native SQL174SKIP/0executed; full AT01–08/28/29/30 and required SQL/Windows/HTTPS/browser/RV/UAT remain NOT_RUN. Initial fixture/request/expected failures and corrections retained in report. Formal execution-records.json remains empty; DONE6/77, IN_PROGRESS63, TODO8, remaining71.
+
+## T-070–T-074 grouped local QA — 2026-10-07
+
+TeamFlow_T070_T074_Test_Report.md / reports/T-070-074-batch-results.json capture new HTTP lifecycle/checklist/monthly leap/retry/trash/purge-byte,501-task board/pagination/Bangkok midnight,10MiB multipart/comment/notification90day, parsed121-row CSV/reopen and clean restored role/session/download/restart journeys. New grouped regression/snapshot26/26 PASS; native SQL180SKIP/0executed. Final full regression456/456 PASS (Node418/frontend38); UI raw54PASS/1FAIL of55 and final corrected focused1/1PASS yields55 distinct local cases verified (first focused locator mismatch FAIL also retained). Type/lint/contract/test-plan PASS;125 product source files match preceding verified build so compiled assets reused; no full TC-AT PASS inferred. Required SQL2022/Windows/fresh ZIP/RPO-RTO/full browser-device/Excel/UAT acceptance remains NOT_RUN; formal execution-records.json empty. DONE6/77, IN_PROGRESS68, TODO3, remaining71; next T075 High.
+
+
+## T-075–T-077 local evidence — 2026-10-07
+
+TeamFlow_T075_T077_Test_Report.md records isolated SQLite load/performance, unsigned AT30/UAT5 templates, source inventory and fresh candidate ZIP local verification. Full TC-083/084/AT-27/28 and SQL2022/Windows/human UAT remain NOT_RUN. reports/release-readiness.json is mapping only; tests/execution-records.json unchanged. DONE6/77, IN_PROGRESS71, TODO0, remaining71. Declared High/Medium/High; actual model/effort NOT_VERIFIED.
+
+
+T075 follow-up: TeamFlow_T075_Memory_Followup_Report.md isolates compiled API memory from load clients and records a bounded validator-cache fix without changing schema/wire rules. Diagnostic5-minute comparisons are separate from required10-minute/native SQL/fullTC083/084/AT27 acceptance. Formal results remain NOT_RUN; counts DONE6/77, IN_PROGRESS71, remaining71.
+
+## T-078 addendum test design — 2026-10-08
+
+TC-085–TC-099 และ AT-31–AT-40 ออกแบบจาก addendum ที่อนุมัติแล้ว; ยังไม่มี implementation จึงเป็น NOT_RUN ทั้งหมด. Evidence ของการรวมเอกสาร: TeamFlow_T078_Addendum_Merge_Report.md

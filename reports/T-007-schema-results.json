@@ -1,0 +1,251 @@
+{
+  "task": "T-007",
+  "date": "2026-10-06",
+  "timezone": "Asia/Bangkok",
+  "status": "IN_PROGRESS",
+  "result": "PASS SQLite/pure; NOT_RUN actual SQL2022 acceptance",
+  "dependenciesVerifiedDone": [
+    "T-005",
+    "T-002"
+  ],
+  "declared": {
+    "model": "GPT-6.1 Sol",
+    "effort": "High",
+    "speed": "Standard"
+  },
+  "actualRuntimeSettings": "NOT_VERIFIED",
+  "environment": {
+    "os": "Darwin",
+    "arch": "arm64",
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "provider": "Node22 bundled SQLite (experimental/local only)"
+  },
+  "schema": {
+    "businessSupportTables": 24,
+    "applicationTablesIncludingLedger": 25,
+    "foreignKeys": 31,
+    "foreignKeyActions": "NO ACTION",
+    "additionalContractTable": "rate_limit_buckets",
+    "baseline0000": "UNCHANGED hashes verified against T-005 evidence",
+    "businessVersion": "0001_business_schema.sql",
+    "fullBusinessAcceptance": "NOT_RUN"
+  },
+  "checks": {
+    "schema": {
+      "result": "PASS",
+      "pass": 13,
+      "fail": 0,
+      "sqliteActual": 11,
+      "pureCodecs": 2
+    },
+    "combined": {
+      "result": "PASS",
+      "pass": 134,
+      "fail": 0,
+      "breakdown": {
+        "configuration": 37,
+        "foundation": 5,
+        "schema": 13,
+        "frontend": 1,
+        "contract": 61,
+        "planning": 17
+      }
+    },
+    "freshCheckout": {
+      "scope": "Fresh source copy runtime/config/schema checks; readiness remains503",
+      "ci": "PASS",
+      "typecheck": "PASS",
+      "build": "PASS",
+      "tests": "PASS: 134 tests (configuration + foundation + schema + frontend + contract + planning)",
+      "migrate": "PASS: foundation + business schema apply once, repeat no-op",
+      "seed": "PASS: explicit synthetic fixture only",
+      "start": "PASS: built HTML/live200/ready503"
+    },
+    "typecheck": "PASS",
+    "build": "PASS",
+    "lint": "PASS",
+    "contract": {
+      "result": "PASS",
+      "routes": 52,
+      "schemas": 75,
+      "wireFormat": "UNCHANGED"
+    },
+    "testPlan": {
+      "result": "PASS (plan only)",
+      "fullApplicationExecutionRecords": 0
+    },
+    "sqlserver": {
+      "result": "NOT_RUN",
+      "skipped": 13,
+      "foundation": 1,
+      "guard": 1,
+      "schema": 11,
+      "reason": "Isolated SQL2022 environment not configured"
+    },
+    "browser": "NOT_RUN this task; frontend/API routing unchanged; previous smoke evidence remains separate"
+  },
+  "progress": {
+    "done": 5,
+    "total": 77,
+    "inProgress": 2,
+    "todo": 70,
+    "remaining": 72
+  },
+  "nextReady": {
+    "task": "T-012",
+    "effort": "Medium"
+  },
+  "waitDependency": {
+    "task": "T-008",
+    "effort": "High",
+    "pending": [
+      "T-007"
+    ]
+  },
+  "trace": [
+    "FR-40",
+    "NFR-03",
+    "NFR-07",
+    "SRS section5",
+    "API Contract section7-8",
+    "TC-078 local subset only (full case NOT_RUN)"
+  ],
+  "commands": [
+    "npm run test:schema",
+    "npm run typecheck",
+    "npm run build",
+    "npm run lint",
+    "npm run test:sqlserver (13 skipped)",
+    "npm run check:contract",
+    "npm run check:test-plan",
+    "FRIDAY_NPM_CACHE=[isolated cache] FRIDAY_CHECKOUT_REPORT=reports/T-007-fresh-checkout.json npm run verify:checkout"
+  ],
+  "resolvedIssues": [
+    "Legacy fixture split DDL/bound INSERT into two statements per SQLite port",
+    "Loopback EPERM resolved by authorized isolated fresh-copy run",
+    "TaskEvent JSON array shape aligned with locked DTO",
+    "Non-indexed bounded text uses NVARCHAR(MAX)+DATALENGTH checks to avoid silent trailing-space truncation"
+  ],
+  "notRun": [
+    "Actual SQL2022 apply/FK-CHECK enabled and trusted/native collation/date-BIT serialization/indexes/query plans/concurrency",
+    "Windows/HTTPS/service/ACL/backup-restore",
+    "Full 84TC/30AT/20RV/5UAT/4REL and full browser matrix",
+    "Feature authorization/auth/jobs/maintenance/cleanup/board/recurrence/idempotency acceptance"
+  ],
+  "note": "No deployment/DNS/server change/commit/shared-runtime modification. No real passwords/tokens/data/uploads/backups in source. Checkmarks are local implementation evidence, not SQL acceptance.",
+  "artifacts": [
+    {
+      "path": "migrations/sqlite/0000_foundation.sql",
+      "sha256": "d32ff3f76660a86fdb000f18acdf36f7a38ed9a4192deaf62551230aa7eb4bb5"
+    },
+    {
+      "path": "migrations/sqlserver/0000_foundation.sql",
+      "sha256": "dc1835cea9302f6a6e31e3b5026b80c5ded897fd039dd715f4122f5c28d28e05"
+    },
+    {
+      "path": "migrations/sqlite/0001_business_schema.sql",
+      "sha256": "57a78f8c16c5273834ff56d1a0e90559612c372ae1770baaad8b27064e15ae89"
+    },
+    {
+      "path": "migrations/sqlserver/0001_business_schema.sql",
+      "sha256": "eaf34a8ea7ccd82ebd67b8c4cb7b4dea672485f2a1907730827ff77ba7ee6668"
+    },
+    {
+      "path": "src/repository/migrate.ts",
+      "sha256": "1fea5dab01a6add7599543014462c9ce382e688288d59bb535c2c55baf96867d"
+    },
+    {
+      "path": "src/repository/value-codecs.ts",
+      "sha256": "688496faa700c43588b2f58fe9239b13518cb6dbfd29a866bb64a7d33f326da1"
+    },
+    {
+      "path": "src/repository/sqlite/database.ts",
+      "sha256": "59ab57fd8977c7fe718d75dddf10542b1d8ef27e50b9a3231760f9fe9f02069a"
+    },
+    {
+      "path": "src/repository/sqlserver/database.ts",
+      "sha256": "c7f3cf3d0a2ddcda649197b7ef88efd3991fd515c9fce250c066e6008bb9b43d"
+    },
+    {
+      "path": "src/config/sql-options.ts",
+      "sha256": "b5005d4eb77138343b8007c26e22676bc9cd6baed22b946acc3c6f29a2c9ff96"
+    },
+    {
+      "path": "tests/schema/fixtures.ts",
+      "sha256": "b8882a242ff55ecf44ab7ae29bdad0e3989084f9406b12c50b6ca8e185d7efb0"
+    },
+    {
+      "path": "tests/schema/suite.ts",
+      "sha256": "ad123e98eac0bc603220f7cb82b0e1b3e7f40013ea261cf3ba93c1661063601c"
+    },
+    {
+      "path": "tests/schema/schema.test.ts",
+      "sha256": "0082cda061d38e8c1050f1d9a10095f1cf38c928712ddfc6737fcb98d28e18d1"
+    },
+    {
+      "path": "tests/schema/codecs.test.ts",
+      "sha256": "bf8d9af57673bd71a87389599359cefe6d6e1dc51a3ae7469bcce656f25689cd"
+    },
+    {
+      "path": "tests/sqlserver/schema.test.ts",
+      "sha256": "71acdaf959859e3290bb80564c2aef59f2111ab5cea9b2c1edb28d8b87a00ce3"
+    },
+    {
+      "path": "tests/foundation/database.test.ts",
+      "sha256": "6610a71009a77b10c70576076265cfed2b8358aeda6a3537fef38b76d71fefab"
+    },
+    {
+      "path": "scripts/migrate.ts",
+      "sha256": "13b19b01022ea1be952a650d50a84474f939238f95081a52b3591aae6b921f63"
+    },
+    {
+      "path": "scripts/verify-fresh-checkout.mjs",
+      "sha256": "7b2bda26d6cd41f3fb2b14fee8586219e87ee035568702c779ae3b234c6ccb39"
+    },
+    {
+      "path": "package.json",
+      "sha256": "a1e9afa90e6875bd5d1207b8d295a36b45083e9ead674863c16e4dd09473e90c"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "838a38c3962cacb0a4faf362ab5517b82ff278aad2dc90b9492a7d133eacde0d"
+    },
+    {
+      "path": "tsconfig.tools.json",
+      "sha256": "cec69bb5f5e7545e2bd239bbfce0359c9750a0b4de1f2618d68e3b4e03fd52ab"
+    },
+    {
+      "path": "README.md",
+      "sha256": "e993f55398536ecc832156b2ec8ca71752fe31a5e56fb12ceaeaadbf4d39d906"
+    },
+    {
+      "path": "TeamFlow_Database_Schema.md",
+      "sha256": "2f78f88a133bbcfd82d5333d90e0a9f811bd03b5473c7c47470b7827f25d194e"
+    },
+    {
+      "path": "TeamFlow_T007_Test_Report.md",
+      "sha256": "4a813b39c5f078941a6e11f5bbc20f8c0ded89f93e0192a18f114858dab7defa"
+    },
+    {
+      "path": "TeamFlow_Task_v1.0.md",
+      "sha256": "e7e4d011e7ef4e6ba03e13506282b8730dda38bbcd29c473044761345d738088"
+    },
+    {
+      "path": "TeamFlow_Test_Plan_v1.0.md",
+      "sha256": "716cd26acf121b6e1dda9463dcdd8ed8ef0f7575ac8a28a1745b865a2085aa19"
+    },
+    {
+      "path": "TeamFlow_Test_Cases_v1.0.md",
+      "sha256": "527ca6f449f28228b1ffc77d6f9f9323bf5a9ef448b5efdec379ed4a1d3c0d27"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "bb04344c326ceace7ccf3da37111291003e74fa1bf4cc7fa75699d07e5e98d0f"
+    },
+    {
+      "path": "reports/T-007-fresh-checkout.json",
+      "sha256": "b5bb8a4af90da23ab9b8080098bd1ea87700e0809b7d9741f09064ea823b2a4e"
+    }
+  ]
+}

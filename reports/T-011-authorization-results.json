@@ -1,0 +1,280 @@
+{
+  "task": "T-011",
+  "date": "2026-10-06",
+  "timezone": "Asia/Bangkok",
+  "status": "IN_PROGRESS",
+  "result": "LOCAL_AUTHORIZATION_SCOPES_PASS_SQL_LOGIN_FEATURES_PENDING",
+  "declared": {
+    "model": "GPT-6.1 Sol",
+    "effort": "High",
+    "speed": "Standard"
+  },
+  "actualRuntimeSettings": "NOT_VERIFIED",
+  "dependencies": {
+    "T-007": "IN_PROGRESS",
+    "T-009": "IN_PROGRESS"
+  },
+  "localAuthorization": "SRS5.2/16 temporary local SQLite authorized; dependency graph/full SQL acceptance unchanged",
+  "environment": {
+    "host": "macOS arm64",
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "database": "actual isolated SQLite files/session/membership rows",
+    "http": "ephemeral loopback; synthetic principal/token resolver; real DB authorization",
+    "concurrency": "two Node processes with deterministic IPC authorize/revoke/release barriers"
+  },
+  "checks": {
+    "authorization": {
+      "result": "PASS",
+      "passed": 14,
+      "total": 14,
+      "providerCases": 10,
+      "purePolicyCases": 1,
+      "httpCases": 2,
+      "separateProcessRaceCases": 1,
+      "protectedOperationPoliciesInventoried": 47
+    },
+    "combined": {
+      "result": "PASS",
+      "passed": 213,
+      "total": 213,
+      "suites": {
+        "config": 37,
+        "foundation": 5,
+        "schema": 13,
+        "helpers": 25,
+        "api": 12,
+        "idempotency": 13,
+        "authorization": 14,
+        "contract": 61,
+        "planning": 17,
+        "frontend": 16
+      }
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "checkContract": {
+      "result": "PASS",
+      "routes": 52,
+      "schemas": 75,
+      "wireChanged": false
+    },
+    "checkTestPlan": "PASS",
+    "postDocumentPlanningTests": {
+      "result": "PASS",
+      "passed": 17,
+      "total": 17
+    },
+    "sqlserver": {
+      "result": "NOT_RUN",
+      "harness": "SKIP",
+      "passed": 0,
+      "skipped": 38,
+      "newAuthorizationCases": 10,
+      "reason": "isolated SQL2022 not configured"
+    },
+    "diffCheck": "PASS",
+    "browser": {
+      "result": "NOT_RUN",
+      "reason": "UI/headers unchanged; historical T-009 result only"
+    },
+    "freshCheckout": {
+      "result": "NOT_RUN",
+      "reason": "runtime dependencies unchanged; historical packaging result only"
+    }
+  },
+  "implemented": [
+    "effective Admin/owner Lead/explicit Editor/Viewer; no team/creator/assignee grant",
+    "current DB session/hash/user/active/auth-version/absolute-idle/forced-password/CSRF",
+    "forced-password activity exception corrected to SRS6.2",
+    "static bound SQL scopes for rows/counts/search/report/export/recipient updates/file metadata/trash/teams/directory",
+    "archived/deleted/ownership/UTC retention and RD01/RD04 rules",
+    "guarded HTTP transactions with DTO validation before commit",
+    "version callback ordered after rights before lifecycle; missing callback503",
+    "idempotent replay rechecks current permission and cached child/successor visibility",
+    "archived Lead retains directory read"
+  ],
+  "fixtures": {
+    "actual": [
+      "SQLite session/user/membership state",
+      "row/count/search/export scope and scoped notification UPDATE",
+      "resource/archive/deleted/restore cutoff records",
+      "HTTP comment effects/key and invalid response rollback",
+      "separate-process SQLite revoke-vs-write serialization"
+    ],
+    "synthetic": [
+      "middleware principal and trusted token resolver; no login/cookie creation",
+      "minimal policy inputs for 47 operation inventory",
+      "version comparison callback for ordering",
+      "minimal HTTP notification/controller DTO assembly",
+      "file metadata only; no real uploaded/downloaded bytes"
+    ]
+  },
+  "trace": {
+    "suite": "UT-03",
+    "partialCases": [
+      "TC-007",
+      "TC-010",
+      "TC-014",
+      "TC-015",
+      "TC-016",
+      "TC-017",
+      "TC-018",
+      "TC-019",
+      "TC-020",
+      "TC-021",
+      "TC-022",
+      "TC-023",
+      "TC-056",
+      "TC-059",
+      "TC-062",
+      "TC-063",
+      "TC-066"
+    ],
+    "partialAcceptance": [
+      "AT-05",
+      "AT-07",
+      "AT-08",
+      "AT-30"
+    ],
+    "fullAcceptance": "NOT_RUN"
+  },
+  "notRun": [
+    "SQL2022 locks/key ranges/revoke race/deadlock/timeout/network/plans/native parameterization",
+    "password hashing/login/cookie creation/rotation/activity renewal",
+    "membership cleanup/unassign/role-change/revoke audit feature transactions",
+    "full list/report filters/pagination/DTOs/CSV formatting and streaming/file-byte controllers",
+    "client polling/clear/UAT/Windows/full TC/AT"
+  ],
+  "resolvedIssues": [
+    "membership queries/fixture corrected to published access/added_by schema and actual subtask columns",
+    "Lead directory access preserved after team archive"
+  ],
+  "progress": {
+    "done": 6,
+    "total": 77,
+    "inProgress": 6,
+    "todo": 65,
+    "remaining": 71
+  },
+  "nextLocal": {
+    "task": "T-013",
+    "effort": "High",
+    "dependencies": {
+      "T-007": "IN_PROGRESS",
+      "T-009": "IN_PROGRESS",
+      "T-012": "DONE"
+    }
+  },
+  "commands": [
+    "npm run test:authorization",
+    "npm test (final source)",
+    "npm run typecheck",
+    "npm run lint",
+    "npm run build",
+    "npm run test:sqlserver (SKIP/NOT_RUN)",
+    "npm run check:contract",
+    "npm run check:test-plan",
+    "npm run test:test-plan (post-doc update)",
+    "git diff --check"
+  ],
+  "artifacts": [
+    {
+      "path": "src/domain/permissions.ts",
+      "sha256": "a45225aee733e6a54e11737793662d6b2cba89f2e3ef1e439eaa3b4823b17ec9"
+    },
+    {
+      "path": "src/repository/access-scope.ts",
+      "sha256": "02b4717d0ce6de7fa4babb6fea9313d253a1082722e61c1301ae6b265c032283"
+    },
+    {
+      "path": "src/services/authorization.ts",
+      "sha256": "6b5fd6af8f82be07fc43433fc11ff75a0581bf1b17d103adf69c0a5eb39f78d7"
+    },
+    {
+      "path": "src/services/README.md",
+      "sha256": "fddff22e17c7f9b228b7a8ab12600e904754ce4fb5d084a425d32d503544abce"
+    },
+    {
+      "path": "src/api/authorization.ts",
+      "sha256": "63b204715ff0e4ba575cd96b11dc7a06f7df1d3a5651dc18c07680a5b13bd0f5"
+    },
+    {
+      "path": "src/api/middleware.ts",
+      "sha256": "77f3115b8efb7365ea05870a75f879e55e3d367a05a5f4241dc01ffe7eabcb10"
+    },
+    {
+      "path": "tests/authorization/concurrency.test.ts",
+      "sha256": "3b051e873dad82093be69ed67c45e0ea92e28a6df8b46ffc522aab910e293e0c"
+    },
+    {
+      "path": "tests/authorization/fixtures.ts",
+      "sha256": "1c4043c7af150dff0ac14705ae540ef208aaa47535d5c38f4ca8003d51f46727"
+    },
+    {
+      "path": "tests/authorization/http.test.ts",
+      "sha256": "56f62ac4b4f2af82c70d53955cf0a8a35de064b0f3ce741863929a901754b66d"
+    },
+    {
+      "path": "tests/authorization/policy.test.ts",
+      "sha256": "50b9a6e47d88a1221c23ec64b652a5f325bd21b53e4cbe7cd08a0006e9179135"
+    },
+    {
+      "path": "tests/authorization/provider-suite.ts",
+      "sha256": "5a4659713d7a048dc52a8c8a1953308f76f1e4f6fd611b12b224526acf3bb9d8"
+    },
+    {
+      "path": "tests/authorization/sqlite.test.ts",
+      "sha256": "8136bfcbb77cb5f26410fca0d58a69678c069398963a1ca2a28c11e0ad4b2116"
+    },
+    {
+      "path": "tests/authorization/worker.ts",
+      "sha256": "ac82f2c8f6597245c635ccfd0da5557c1eec695ff93c05fe85f2bd7644e64611"
+    },
+    {
+      "path": "tests/sqlserver/authorization.test.ts",
+      "sha256": "bbb29c8b7926e21e920ac661f5cb540da0b8870fdd1dd0255ea9a3879d87079c"
+    },
+    {
+      "path": "package.json",
+      "sha256": "fe3ba51e2cc44a969fe63768d2091cea87df38c97309f50a36f1af751dbf5313"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "10f79334d87869757661acb9ddffb412a14606496457df5eadd592403eb56a65"
+    },
+    {
+      "path": "tsconfig.tools.json",
+      "sha256": "4360129ebe6e693a77db0e9593c830ef9f7283d4e60321afa76ba013e135c2b6"
+    },
+    {
+      "path": "contracts/openapi.json",
+      "sha256": "539d47cab765ea23d4bfa061b82a7970c068c8623b3ce1a133b95ad6445c2664"
+    },
+    {
+      "path": "TeamFlow_T011_Test_Report.md",
+      "sha256": "89cc4a037c03ac83fd995ad5887b826f3c057b4f2ec5d3d56124d2d712b2a1a3"
+    },
+    {
+      "path": "TeamFlow_Task_v1.0.md",
+      "sha256": "d20013a94f7f94b739ff19bdcdfd527f0560b641e99c87765da440330ced51e2"
+    },
+    {
+      "path": "TeamFlow_Test_Plan_v1.0.md",
+      "sha256": "16ed639843f42600d60e65d23fbe551af40324a9ee4d27e5f58890bc238a760a"
+    },
+    {
+      "path": "TeamFlow_Test_Cases_v1.0.md",
+      "sha256": "9faca775e1c11bd904787ca27ba74378bbbe46cd985bf1deccfd3c3fd3f5a48a"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "1f93cbe2f800d038b93c56d3ae82c8a9a4e1fd8b20fb57bf44e9fcd2ef5ffed4"
+    },
+    {
+      "path": "tests/execution-records.json",
+      "sha256": "54b44045fb97134e974d188f074462f0a336acab3ec261f8ca7e109fa3447390"
+    }
+  ]
+}

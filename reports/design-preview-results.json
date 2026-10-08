@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-06",
+  "node": "v22.23.3",
+  "browser": "153.0.8010.12",
+  "result": "PASS",
+  "scope": "HTML mock only; synthetic tasks, no backend acceptance",
+  "checks": [
+    "4 views/shared data",
+    "search/status filter",
+    "calendar month navigation/no-due list",
+    "Gantt bars/due marker/incomplete dates/scale",
+    "detail Escape/focus restore",
+    "keyboard tabs",
+    "360px no page overflow",
+    "no JavaScript errors"
+  ],
+  "applicationTC049": "NOT_RUN",
+  "sqlServer": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "uat": "NOT_RUN"
+}

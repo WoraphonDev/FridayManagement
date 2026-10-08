@@ -1,0 +1,139 @@
+{
+  "date": "2026-10-06",
+  "scope": "T-035–T-039 local SQLite implementation/checks; not full provider/TC/AT sign-off",
+  "declaredEffort": {
+    "T-035": "High",
+    "T-036": "Medium",
+    "T-037": "Medium",
+    "T-038": "High",
+    "T-039": "Medium"
+  },
+  "actualModelEffort": "NOT_VERIFIED",
+  "runtime": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "provider": "temporary local SQLite",
+    "OS": "macOS",
+    "browser": "Chromium153;390px/touch emulation subset"
+  },
+  "checks": {
+    "typecheck": "PASS",
+    "lint": "PASS(0 warnings)",
+    "build": "PASS; fresh build emitted chunk-size warning",
+    "contract": "PASS1.0.1/52routes/75schemas;61 tests in combined",
+    "testPlan": "PASS inventory/policy;17 tests in combined",
+    "test:boards": "PASS15/15(provider10+HTTP2+two-process races3)",
+    "npm test": "PASS364/364(Node343+frontend21)",
+    "test:ui": "PASS28/28(Kanban6+regression22)",
+    "affectedUI": "PASS6/6 after final people picker and permission-clear changes",
+    "freshSource": "PASS reports/T-039-fresh-checkout.json(364 tests/offline ci/build/migrate/seed/omit-dev runtime)",
+    "SQL2022": "NOT_RUN;native harness130 SKIP",
+    "Windows": "NOT_RUN",
+    "fullBrowserDeviceMatrix": "NOT_RUN",
+    "physicalTouch": "NOT_RUN",
+    "UAT": "NOT_RUN",
+    "fullTC_AT": "NOT_RUN"
+  },
+  "progress": {
+    "localBatchImplementedAndVerified": 5,
+    "localBatchTotal": 5,
+    "done": 6,
+    "total": 77,
+    "inProgress": 33,
+    "todo": 38,
+    "remaining": 71
+  },
+  "trace": {
+    "FR": [
+      "FR-18",
+      "FR-20",
+      "FR-21",
+      "FR-22",
+      "FR-23",
+      "FR-26",
+      "FR-27",
+      "FR-35"
+    ],
+    "NFR": [
+      "NFR-02",
+      "NFR-03",
+      "NFR-05",
+      "NFR-06"
+    ],
+    "partialTC": [
+      "TC-035",
+      "TC-036",
+      "TC-037",
+      "TC-038",
+      "TC-039",
+      "TC-040",
+      "TC-041",
+      "TC-042",
+      "TC-043",
+      "TC-044",
+      "TC-045",
+      "TC-051",
+      "TC-075"
+    ],
+    "partialAT": [
+      "AT-10",
+      "AT-11",
+      "AT-14",
+      "AT-16",
+      "AT-17",
+      "AT-18",
+      "AT-20",
+      "AT-21",
+      "AT-28"
+    ],
+    "formalExecutionRecords": "unchanged;no full PASS fabricated"
+  },
+  "limits": [
+    "Native SQL2022 locking/deadlock/connection-loss/Windows acceptance requires actual execution",
+    "Comments/history/file panels await T040/T044; literal HTML API is not comments-rendering acceptance",
+    "Polling/Calendar/Gantt/Table/full Monday-inspired design remain pending",
+    "Physical devices/full matrix/load30-user acceptance NOT_RUN; fresh chunk-size warning",
+    "Full T016/T022/T027 integration remains partial",
+    "Readiness503;production startup guarded"
+  ],
+  "nextBatch": {
+    "T-040": "High",
+    "T-041": "High",
+    "T-042": "High",
+    "T-043": "High",
+    "T-044": "Medium"
+  },
+  "sourceSHA256": {
+    "src/services/tasks.ts": "a1c7b4bc760acd375c7a1755ab0a120e8074d3c86a7955433fd87636a494c1a4",
+    "src/api/tasks.ts": "da844b83e945bfa364e8b3bbe775a29801bfa4ad868dc1169b079fa8cf76191a",
+    "src/api/sessions.ts": "952315c692e6cd6c862811b145783881fc59c43d6c7a22acf1590ae114e09a16",
+    "src/repository/board-helpers.ts": "ede85c4ca79b5a68351b2b5ba13d9281bd3a854edc91f1470d8a17ae141e467d",
+    "src/services/authorization.ts": "1e8c0cd3904449a39f12fd053c22ce99b9a71420918156b092a917e42fa44ef1",
+    "frontend/src/Kanban.tsx": "1fc94de83423c96f59ea7e3e3f9bc3f08c43dd99a707aae179ac927f58f74f39",
+    "frontend/src/ProjectTasks.tsx": "faeb174b657aaa8c931c82bae1af0d7c1117c8e989a814a5c97142c6b739205e",
+    "frontend/src/task-api.ts": "9bdda74242d6ccf7b32ca51e4c4b5778f7db43f56e0b4f81ae7cec939ca8224d",
+    "frontend/src/shared/components.tsx": "fc916f5a7fa1f97a524fd8a7609419d5a56f23413c878ab531a149ec7500479a",
+    "frontend/src/style.css": "05d276103ecd013cd3c953c52039b599afd8ae27cf9badf8b1e2de69ecbe1d27",
+    "package.json": "4c0bb45b65e3c7d1ca34286379b6a81158825753f3fcdc5c3faf5c00603e6223",
+    "package-lock.json": "10f79334d87869757661acb9ddffb412a14606496457df5eadd592403eb56a65",
+    "tsconfig.tools.json": "4be52624c79082edb45c42b4d418f28a019aa4758268ed163cb3920f36ed4f4c",
+    "scripts/build-contract.mjs": "d4e31bc57e891c5fe0c18a0dd65b3b29edc8fd8fa391b42c9f2678e3c01db076",
+    "contracts/openapi.json": "7262e955cd9659fb0a46f0e6d0c027c9e19fa539cce7d8729cb2d9c10910790e",
+    "contracts/test-manifest.json": "d654722c5211a33107335db043f9456b7b80be0d9e56224b6fba85d38579e570",
+    "tests/test-manifest.json": "9af145a9bef83dadf3d30abc79d2fc3df4b1e80c0ca4437568acba2e497571ca",
+    "tests/execution-records.json": "54b44045fb97134e974d188f074462f0a336acab3ec261f8ca7e109fa3447390",
+    "tests/browser/boards.spec.ts": "e87c666d327127d75ed10facc8b57130251dd97010e976b4a0844370af28225d",
+    "tests/sqlserver/boards.test.ts": "b6f6c51cbed11be99e098fc4f58af6d8ed6b3971202830c282b0ae7e18bd2ea5",
+    "TeamFlow_API_Contract.md": "90d610c5beba6b58ad4c68f6f5bdd03036b901d55ec13148daadad42211491c5",
+    "AGENTS.md": "b7eecaf8829f7353d140e6490277c717450331e2d28072fa1b1b063018d2b126",
+    "TeamFlow_Task_v1.0.md": "21f4ba9bbce90044cf7e855ac5edbe3f084a96074e2db4a8fed65c0e8a7ee5f8",
+    "TeamFlow_Test_Plan_v1.0.md": "979e6906397c6111524e8f33681ded3c2fb33844b01e95fd0d59434e3d9b3d95",
+    "TeamFlow_Test_Cases_v1.0.md": "4ecc6be509c6206747d2d042c7836630b3f216b91346ffa69537620d74b9fc75",
+    "TeamFlow_T035_T039_Test_Report.md": "295337e06f8ba16951ec8cf53e36a558df9757561f9831ca2939f147fe90b2e4",
+    "tests/boards/concurrency.test.ts": "e14a8698aef39c0e807789b275be65917279de7dedb8a433d9c69a27b8a1ee9a",
+    "tests/boards/http.test.ts": "a3693e1d8c4a816a84149f3527956cfa0994e7aae900254e3f9d6578b1d870e6",
+    "tests/boards/provider-suite.ts": "7a73d8d9f5e61416aeec95b30b4b574c707f2c302f87a85158a3729d304ba954",
+    "tests/boards/sqlite.test.ts": "b33cb6ade75de80d121a49755b6892e63c1cf9d3492c88ff48b770b468e615aa",
+    "tests/boards/worker.ts": "e8405fe41c9504b8172580b137c0620d20d82a7e16f2c7857b3addf5da195165"
+  }
+}

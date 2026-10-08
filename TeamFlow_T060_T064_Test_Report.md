@@ -1,0 +1,27 @@
+# T-060–T-064 — grouped local operations delivery
+
+Date2026-10-07. Declared effort all five **High**; runtime model/effort **NOT_VERIFIED**. Node22.23.3/npm10.9.9/macOS; temporary SQLite and synthetic fixtures only. No deployment or real data/backup used.
+
+## Implementation and evidence
+
+- **T060:** automatic60s/startup and offline CLI use the same bounded purge service. UTC30-day cutoff; parent audit/byte queue/child deletion/recurrence live-link cleanup commit together. Tombstone snapshots remain. Notification90-day/session/idempotency/rate-limit expiry cleanup. Startup recovers reservations/orphans while retaining referenced blobs. Failed unlink preserves queue/quota and retries; scheduler emits a redacted failure when cleanup remains pending.
+- **T061:** runtime admission tracks API handlers through upload cleanup and stream completion, plus reminder/retention jobs. Freeze stops admission, drains accepted work, acquires persistent owner state. Read mode allows static/health/GET me/meta; other API reads including audit-producing downloads return MAINTENANCE503. Self maintenance notice disables writes and preserves draft. Shutdown closes admission and drains handlers/jobs before DB/instance guard release. Explicit owner-only offline clear; expired lease never unlocks a crashed snapshot automatically.
+- **T062:** CLI validates installer file authority and owns local/SQL guards, requiring a stopped app. SQLite backup API; SQL COPY_ONLY/CHECKSUM/STOP_ON_ERROR source adapter. Exclusive new target directory, staged DB/publication of manifest last; exact referenced attachment hashes/counts, schema/app version/UTC. No .env/logs/temp secrets in snapshot. Windows example wrapper provided as source only.
+- **T063:** manifest/hash/schema/provider checks before isolated restore. Existing targets rejected; SQLite restored metadata/file hashes checked and sessions/auth_version/idempotency revoked. SQL source validates new DB, VERIFYONLY+FILELISTONLY, binds MOVE paths, performs RESTORE without REPLACE, holds target guard, verifies copied attachments and revokes sessions before clearing restored freeze. SQL failures retain isolated DB/freeze for explicit review; no automatic source overwrite or DROP.
+- **T064:** pre-upgrade snapshot, prefix/checksum compatibility, transactional existing migration, repeat no-op and isolated rollback workflow. Genuine legacy business schema/status and attachment data exercised locally. Owner must use matching source version for incompatible app-version rollback.
+
+Run instructions and primary backup references: TeamFlow_Backup_Recovery.md. Native SQL2022 backup/restore is **NOT_RUN**; command/source checks are not provider integration evidence.
+
+## Checks
+
+- Operations local final: **PASS13/13**; initial source regression **PASS438/438** (Node400+frontend38); final fresh-source regression **PASS439/439** (Node401+frontend38), including backup-parent authority hardening.
+- Full UI raw: **52PASS/2FAIL of54**. Both failures concerned immediate focus/keyboard assertions before reconnect settled; focused unchanged rerun **PASS2/2**. Tests then strengthened to await the observable writable state; final maintenance/PWA/focus/keyboard recheck **PASS4/4**, yielding54 distinct UI cases locally verified. Shutdown drain and unchanged browser behavior were included in that focused run. No product reconnect behavior weakened.
+- Initial operations raw **7PASS/2FAIL of9**: malformed legacy board fixture and incorrect error envelope assertion; corrected/expanded tests passed. One temporary typecheck syntax failure while migrating screenshot destinations was repaired. Raw logs are retained.
+- Build/type/lint/contract/test-plan: **PASS**. Fresh-source offline ci/type/build/all439 tests/migrate/repeat/seed/omit-dev startup: **PASS**; initial fresh-source438 PASS is kept separately. Performance/large-chunk warning is not a performance certification. Final results recorded in reports/T-060-064-batch-results.json. Contract unchanged53routes/77schemas; formal execution records remain0.
+- Native SQL wrapper: **164SKIP,0executed**. Windows PowerShell/service/Task Scheduler **NOT_RUN**.
+
+## Limits and handoff
+
+Partial TC-034/059/075/076/077/078/079; AT-13/22/25/28. Full SQL2022 .bak/RESTORE/permissions/path/role evidence, Windows and PowerShell runtime, complete active-upload/freeze races, restored application role/download/health rehearsal, actual deployment RPO24h/RTO4h, full TC-AT/UAT remain **NOT_RUN**. Local restore duration/snapshot age are measurements of synthetic fixtures only.
+
+All five remain IN_PROGRESS; **DONE6/77, IN_PROGRESS58, TODO13, remaining71**. Next T065 **Medium**; candidate five-task batch065Medium/066Medium/067High/068High/069High. No commit/push/deploy/DNS/service installation/shared runtime changes; only source and temporary test fixtures. Snapshot/report hashes are separate from older reports; screenshot tests now use per-run output paths. Existing old screenshot paths regenerated by prior runs are historical artifacts, not silently rehashed as original evidence.

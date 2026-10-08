@@ -1,0 +1,55 @@
+{
+  "task": "T-003",
+  "date": "2026-10-05",
+  "timezone": "Asia/Bangkok",
+  "result": "PASS",
+  "scope": "API contract/schema/unit validation only",
+  "environment": {
+    "os": "macOS/Darwin",
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "ajv": "8.20.0",
+    "ajv-formats": "3.0.1",
+    "database": "NOT_RUN"
+  },
+  "checks": {
+    "npm_ci_offline_ignore_scripts": "PASS",
+    "route_owner_schema_inventory": {
+      "result": "PASS",
+      "routes": 52,
+      "schemas": 75
+    },
+    "unit_contract_tests": {
+      "tests": 61,
+      "pass": 61,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0
+    },
+    "npm_dependency_audit": {
+      "result": "PASS",
+      "vulnerabilities": 0,
+      "note": "Registry audit at installation; snapshot, not a security guarantee"
+    }
+  },
+  "contract_sha256": "539d47cab765ea23d4bfa061b82a7970c068c8623b3ce1a133b95ad6445c2664",
+  "commands": [
+    "npm ci --ignore-scripts --offline --no-audit --no-fund --cache /private/tmp/friday-npm-cache",
+    "npm run check:contract",
+    "node --test --test-reporter=tap tests/contracts/*.test.mjs"
+  ],
+  "not_run": [
+    "HTTP/API implementation",
+    "Authorization/session/CSRF",
+    "SQLite/SQL Server integration",
+    "Windows/backup/restore",
+    "Performance/UAT",
+    "All full AT/TC executions"
+  ],
+  "runtime_settings": {
+    "required": "GPT-6.1 Sol / High / Standard",
+    "actual": "NOT_VERIFIED: no selected-model/effort/speed metadata exposed by available tools; no setting change claimed",
+    "verification_limitation": "Available metadata does not expose selected settings; Codex UI inspection was denied by computer-use policy. No settings changed."
+  }
+}

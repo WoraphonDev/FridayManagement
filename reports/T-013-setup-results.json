@@ -1,0 +1,164 @@
+{
+  "task": "T-013",
+  "date": "2026-10-06",
+  "timezone": "Asia/Bangkok",
+  "status": "IN_PROGRESS",
+  "result": "LOCAL_SETUP_PASS_NATIVE_SQL_WINDOWS_MATRIX_AUTH_PENDING",
+  "declared": {
+    "model": "GPT-6.1 Sol",
+    "effort": "High",
+    "speed": "Standard"
+  },
+  "actualRuntimeSettings": "NOT_VERIFIED",
+  "dependencies": {
+    "T-007": "IN_PROGRESS",
+    "T-009": "IN_PROGRESS",
+    "T-012": "DONE"
+  },
+  "localAuthorization": "SRS5.2/16 owner-approved Node22 temporary SQLite profile; full dependency graph/SQL acceptance unchanged",
+  "environment": {
+    "host": "macOS arm64",
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "database": "isolated real SQLite files",
+    "http": "ephemeral loopback; browser shell port43173",
+    "browser": "Playwright1.63.0 Chromium153.0.8010.12",
+    "operatorConsole": "synthetic in-memory callback capture; no real tokens in reports",
+    "concurrency": "two Node processes/SQLite connections, IPC startup-token readiness barrier"
+  },
+  "checks": {
+    "setup": {
+      "result": "PASS",
+      "passed": 17,
+      "total": 17,
+      "provider": 8,
+      "security": 4,
+      "http": 2,
+      "startup": 2,
+      "separateProcesses": 1
+    },
+    "combined": {
+      "result": "PASS",
+      "passed": 233,
+      "total": 233,
+      "suites": {
+        "config": 37,
+        "foundation": 5,
+        "schema": 13,
+        "helpers": 25,
+        "api": 12,
+        "idempotency": 13,
+        "authorization": 14,
+        "setup": 17,
+        "frontend": 19,
+        "contract": 61,
+        "planning": 17
+      }
+    },
+    "browser": {
+      "result": "PASS",
+      "passed": 7,
+      "total": 7,
+      "realSetupCases": 2,
+      "syntheticSelfShellCases": 4,
+      "supportedMatrix": "NOT_RUN",
+      "networkLoss": "real server201 commit; browser response aborted; meta only; one credential POST"
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "checkContract": {
+      "result": "PASS",
+      "routes": 52,
+      "schemas": 75,
+      "wireChanged": false
+    },
+    "checkTestPlan": "PASS",
+    "postDocumentPlanningTests": {
+      "result": "PASS",
+      "passed": 17,
+      "total": 17
+    },
+    "sqlserver": {
+      "result": "NOT_RUN",
+      "harness": "SKIP",
+      "passed": 0,
+      "skipped": 46,
+      "newSetupCases": 8,
+      "reason": "isolated native SQL2022 not configured"
+    },
+    "freshCheckout": {
+      "result": "PASS",
+      "report": "reports/T-013-fresh-checkout.json"
+    },
+    "diffCheck": "PASS",
+    "taskRegisterConsistency": {
+      "result": "PASS",
+      "counts": {
+        "DONE": 6,
+        "IN_PROGRESS": 7,
+        "TODO": 64
+      },
+      "total": 77,
+      "remaining": 71
+    }
+  },
+  "faultInjection": [
+    "audit insert failure rolled back actual SQLite business effects while independently committed rate attempt remained",
+    "simulated lost acknowledgement after actual SQLite COMMIT returned503; authoritative meta false/repeated setup409"
+  ],
+  "traceability": {
+    "partialLocal": [
+      "TC-001",
+      "TC-002",
+      "AT-01",
+      "TC-073",
+      "UT-04 groundwork for T-014"
+    ],
+    "fullExecutionRecordsAdded": 0,
+    "fullAcceptance": "NOT_RUN"
+  },
+  "remaining": [
+    "Native SQL2022 serializable/no-users key-range/rate windows/rollback/identity/constraints/TLS/guard integration",
+    "Windows first-run console/service logs behavior, browser matrix and UAT",
+    "T-014 login/session/resolver, T-015 password gate, T-017 login UI; readiness still503, production refused"
+  ],
+  "progress": {
+    "completed": 6,
+    "total": 77,
+    "inProgress": 7,
+    "todo": 64,
+    "remaining": 71
+  },
+  "next": {
+    "task": "T-014",
+    "effort": "High",
+    "dependencies": "T-011/T-006/T-008 remain IN_PROGRESS; local continuation only"
+  },
+  "sourceSha256": {
+    "src/security/passwords.ts": "cd8fc177f0e197d2c7c0933c79e621f2cac67640dda2526996765df0db260c93",
+    "src/security/rate-limit.ts": "b2103c26453b91dc6a16e8ab13d0650993d9fa2c81bbc0b036e33c462dd39e31",
+    "src/services/setup.ts": "65d056dac84fe9e4f8ed90c09af86a677f7d26eb6b1297c498c3bbf8db3cfea8",
+    "src/api/setup.ts": "94b8e9a1b9a7435cec7f2361b0a1ae01fd63a3f17f27663505182432dd271312",
+    "src/api/start.ts": "d8d86ad0c503bbd0df91ee6076165e01d7446a4c533f28eb9723989f60fe820f",
+    "src/repository/migrate.ts": "e843c4872f22171cd8a70706cc743a25c3318d11a5619a2d67676c89ef98d83a",
+    "frontend/src/Setup.tsx": "eaf94e8ca3dfc42b2705e0083d24a60824fe4a818fc9275ed29caf3ef4488aa8",
+    "frontend/src/setup-policy.ts": "f3ccb2f8ebe312afbd64e0201c33802e34d68311f99314d1840450be48b819ce",
+    "frontend/src/App.tsx": "c272c28cf56e1b921bd385317fbac22fe5d30369c55840b0e95316b616c0fe8c",
+    "frontend/src/api.ts": "baff7b2441f8fdddd4b07399621801b4b6866c4228a2f3d8a881b6d4f398d057",
+    "frontend/src/Setup.test.tsx": "1f58cc0dd6b902a8beec463155a4a0a8ec24077ea8573ea9b22fa536a65871af",
+    "package.json": "8d5940bae84ebbca15ae125c38e42d2d7f4bcaf1b0456779a0a2c4e28f3edddd",
+    "tsconfig.tools.json": "766cf8f29709d2259aebf3c15f260b47c4fbba4753ab23bfd5d048f80938211e",
+    "tests/sqlserver/setup.test.ts": "6c2342712f675ad5613a862980975b0ea9c24bb984156240d38a2326d596a544",
+    "tests/browser/setup.spec.ts": "db7338347cf389321d83500fc6572a0fc42799ee5e2de2098ef3479424f03532",
+    "tests/browser/shell.spec.ts": "9f36a3efc5e5ff6dbfb30307d8ebc91a686379d86a3b55156cee948c8f5db858",
+    "tests/setup/concurrency.test.ts": "2f4ff232b70e86c4f9c37e34a67c10c3aec613633e6c9e85bbdeee9126fb26ec",
+    "tests/setup/fixtures.ts": "e1a04c518e11f15546545ccd1298d19669318132f3165d3353f91415e994316d",
+    "tests/setup/http.test.ts": "2bff22a9ad6ff5add39e0fa21c24cb9ec03cef6c8567e0f3259e44392743de2a",
+    "tests/setup/provider-suite.ts": "391bdf0bedf8e2fb4ed45b011df9e0c7852c99e1db23b4b1f26a27c9a9696456",
+    "tests/setup/security.test.ts": "9b9d830fe24ad72c0b3674d55912f5b11181442c3ac4937f340284ef5bfdcdf8",
+    "tests/setup/sqlite.test.ts": "3616e3226e58088d6d69f2123aab131edbb1dd3d5b9a15237b4b8cac8d410684",
+    "tests/setup/startup.test.ts": "bd252a575698165e7bf64b2fb5af82565914cda813684d815b937fb243362090",
+    "tests/setup/worker.ts": "128791d72da1b1061871f2fedac1da96a66b06c5298e26be999752bd2d8ce7ca"
+  }
+}

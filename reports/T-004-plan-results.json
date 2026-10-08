@@ -1,0 +1,917 @@
+{
+  "task": "T-004",
+  "date": "2026-10-05",
+  "timezone": "Asia/Bangkok",
+  "result": "PASS",
+  "scope": "Test/release plan validation only",
+  "environment": {
+    "node": "22.23.3",
+    "os": "darwin",
+    "database": "NOT_RUN"
+  },
+  "declaredSettings": {
+    "model": "GPT-6.1 Sol",
+    "effort": "Medium",
+    "speed": "Standard"
+  },
+  "actualSettings": "NOT_VERIFIED: available metadata does not expose selected settings; prior Codex UI access was denied; no setting changed",
+  "checks": {
+    "inventory": {
+      "tasks": 77,
+      "suites": 20,
+      "cases": 84,
+      "acceptance": 30,
+      "variants": 20,
+      "uat": 5,
+      "smoke": 30,
+      "FR": 40,
+      "NFR": 8,
+      "BR": 18,
+      "result": "PASS"
+    },
+    "recordStore": {
+      "records": 0,
+      "defects": 0,
+      "result": "PASS"
+    },
+    "policyTests": {
+      "tests": 17,
+      "pass": 17,
+      "fail": 0,
+      "skipped": 0,
+      "cancelled": 0,
+      "todo": 0
+    },
+    "releaseCliRejectsIncompleteBuild": {
+      "result": "PASS",
+      "actualExitCode": 1,
+      "expectedExitCode": 1,
+      "gate": "NOT_RUN"
+    },
+    "gitDiffWhitespace": "PASS",
+    "lockfilePins": "PASS"
+  },
+  "gates": {
+    "G0": {
+      "result": "PASS",
+      "pendingTasks": []
+    },
+    "candidate": {
+      "result": "NOT_RUN",
+      "pendingReviews": [
+        "REL-01",
+        "REL-02"
+      ],
+      "purpose": "Test candidate only; pending full release results must accompany it"
+    },
+    "final": {
+      "result": "NOT_RUN",
+      "pending": [
+        {
+          "id": "TC-001",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-002",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-003",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-004",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-005",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-006",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-007",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-008",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-009",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-010",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-011",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-012",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-013",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-014",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-015",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-016",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-017",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-018",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-019",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-020",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-021",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-022",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-023",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-024",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-025",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-026",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-027",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-028",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-029",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-030",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-031",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-032",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-033",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-034",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-035",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-036",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-037",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-038",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-039",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-040",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-041",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-042",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-043",
+          "result": "NOT_RUN",
+          "requiredProfile": "pure-node22"
+        },
+        {
+          "id": "TC-044",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-045",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-046",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-047",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-048",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-049",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-050",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-051",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-052",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-053",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-054",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-055",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-056",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-057",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-058",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-059",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-060",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-061",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-062",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-063",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-064",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-065",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-066",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-067",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-068",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-069",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-070",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-071",
+          "result": "NOT_RUN",
+          "requiredProfile": "pure-node22"
+        },
+        {
+          "id": "TC-072",
+          "result": "NOT_RUN",
+          "requiredProfile": "pure-node22"
+        },
+        {
+          "id": "TC-073",
+          "result": "NOT_RUN",
+          "requiredProfile": "pure-node22"
+        },
+        {
+          "id": "TC-074",
+          "result": "NOT_RUN",
+          "requiredProfile": "pure-node22"
+        },
+        {
+          "id": "TC-075",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-076",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-077",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-078",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-079",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-080",
+          "result": "NOT_RUN",
+          "requiredProfile": "windows-sqlserver2022"
+        },
+        {
+          "id": "TC-081",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-082",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-083",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "TC-084",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-01",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-02",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-03",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-04",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-05",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-06",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-07",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-08",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-09",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-10",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-11",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-12",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-13",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-14",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-15",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-16",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-17",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-18",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-19",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-20",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-21",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-22",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-23",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-24",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-25",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-26",
+          "result": "NOT_RUN",
+          "requiredProfile": "pure-node22"
+        },
+        {
+          "id": "AT-27",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-28",
+          "result": "NOT_RUN",
+          "requiredProfile": "windows-sqlserver2022"
+        },
+        {
+          "id": "AT-29",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "AT-30",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-01",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-02",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-03",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-04",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-05",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-06",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-07",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-08",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-09",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-10",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-11",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-12",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-13",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-14",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-15",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-16",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-17",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-18",
+          "result": "NOT_RUN",
+          "requiredProfile": "windows-sqlserver2022"
+        },
+        {
+          "id": "RV-19",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "RV-20",
+          "result": "NOT_RUN",
+          "requiredProfile": "sqlserver2022"
+        },
+        {
+          "id": "UAT-01",
+          "result": "NOT_RUN",
+          "requiredProfile": "windows-sqlserver2022"
+        },
+        {
+          "id": "UAT-02",
+          "result": "NOT_RUN",
+          "requiredProfile": "windows-sqlserver2022"
+        },
+        {
+          "id": "UAT-03",
+          "result": "NOT_RUN",
+          "requiredProfile": "windows-sqlserver2022"
+        },
+        {
+          "id": "UAT-04",
+          "result": "NOT_RUN",
+          "requiredProfile": "windows-sqlserver2022"
+        },
+        {
+          "id": "UAT-05",
+          "result": "NOT_RUN",
+          "requiredProfile": "windows-sqlserver2022"
+        },
+        {
+          "id": "REL-01",
+          "result": "NOT_RUN",
+          "requiredProfile": "pure-node22"
+        },
+        {
+          "id": "REL-02",
+          "result": "NOT_RUN",
+          "requiredProfile": "pure-node22"
+        },
+        {
+          "id": "REL-03",
+          "result": "NOT_RUN",
+          "requiredProfile": "windows-sqlserver2022"
+        },
+        {
+          "id": "REL-04",
+          "result": "NOT_RUN",
+          "requiredProfile": "windows-sqlserver2022"
+        }
+      ],
+      "unfinishedTasks": [
+        "T-005",
+        "T-006",
+        "T-007",
+        "T-008",
+        "T-009",
+        "T-010",
+        "T-011",
+        "T-012",
+        "T-013",
+        "T-014",
+        "T-015",
+        "T-016",
+        "T-017",
+        "T-018",
+        "T-019",
+        "T-020",
+        "T-021",
+        "T-022",
+        "T-023",
+        "T-024",
+        "T-025",
+        "T-026",
+        "T-027",
+        "T-028",
+        "T-029",
+        "T-030",
+        "T-031",
+        "T-032",
+        "T-033",
+        "T-034",
+        "T-035",
+        "T-036",
+        "T-037",
+        "T-038",
+        "T-039",
+        "T-040",
+        "T-041",
+        "T-042",
+        "T-043",
+        "T-044",
+        "T-045",
+        "T-046",
+        "T-047",
+        "T-048",
+        "T-049",
+        "T-050",
+        "T-051",
+        "T-052",
+        "T-053",
+        "T-054",
+        "T-055",
+        "T-056",
+        "T-057",
+        "T-058",
+        "T-059",
+        "T-060",
+        "T-061",
+        "T-062",
+        "T-063",
+        "T-064",
+        "T-065",
+        "T-066",
+        "T-067",
+        "T-068",
+        "T-069",
+        "T-070",
+        "T-071",
+        "T-072",
+        "T-073",
+        "T-074",
+        "T-075",
+        "T-076"
+      ],
+      "openCriticalMajorDefects": []
+    },
+    "production": {
+      "result": "NOT_RUN",
+      "ownerAction": "Owner deploys; no production action performed by this checker"
+    },
+    "note": "Gate evaluation verifies recorded evidence completeness, not the truth of a manual test. Owner sign-off and actual expected results remain required."
+  },
+  "ready": [
+    {
+      "id": "T-005",
+      "status": "TODO",
+      "effort": "Medium",
+      "readiness": "READY",
+      "pendingDependencies": []
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "tests/test-manifest.json",
+      "sha256": "162638bc3470d70f619c0bbc7b56f73d6a265ad1e9b30685ffa8dbfd335f793f"
+    },
+    {
+      "path": "tests/test-policy.mjs",
+      "sha256": "f2599d86fdf6face01b7a35ac644dabb1932aa553dac3ff8047fdd70b28631a9"
+    },
+    {
+      "path": "scripts/build-test-manifest.mjs",
+      "sha256": "be635c8c14d8c4019a889640a741f1122eba571c99c3e07469418dec8e5c705c"
+    },
+    {
+      "path": "scripts/check-test-plan.mjs",
+      "sha256": "adc292becfcc7c253ca06742ebb4d0e3be3aed4f11699f5d602094d9c32dcd38"
+    },
+    {
+      "path": "tests/planning/test-plan.test.mjs",
+      "sha256": "5f1e7d3e3c3eb42fa562e800ee0feb818779c8723ca02b1297c3c859333038f1"
+    },
+    {
+      "path": "tests/execution-records.json",
+      "sha256": "54b44045fb97134e974d188f074462f0a336acab3ec261f8ca7e109fa3447390"
+    }
+  ],
+  "commands": [
+    "npm run build:test-plan",
+    "npm run check:test-plan",
+    "node --test --test-reporter=tap tests/planning/*.test.mjs",
+    "node scripts/check-test-plan.mjs --build T004-negative-gate-check --source-sha256 [synthetic hash]",
+    "git diff --check"
+  ],
+  "notRun": [
+    "All full 84 TC / 30 AT / 20 RV / 5 UAT / 4 release reviews",
+    "HTTP/auth/ACL/SQLite/SQL Server integration and fault/concurrency tests",
+    "Browser/Windows/backup-restore/performance/UAT",
+    "Candidate ZIP/final release/deployment"
+  ],
+  "note": "17 PASS are planning-tool tests using synthetic inputs, not application test results. Record store remains empty. Existing T-003 contract evidence is unchanged."
+}

@@ -1,0 +1,171 @@
+{
+  "date": "2026-10-06",
+  "scope": "T-045-T-049 temporary local SQLite/HTTP/process/Chromium subset; no full SQL/Windows/TC/AT/UAT sign-off",
+  "declaredEffort": {
+    "T-045": "Medium",
+    "T-046": "High",
+    "T-047": "High",
+    "T-048": "High",
+    "T-049": "High"
+  },
+  "actualModelEffort": "NOT_VERIFIED",
+  "runtime": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "OS": "macOS",
+    "provider": "temporary local SQLite",
+    "browser": "Chromium; desktop/390px local subset"
+  },
+  "checks": {
+    "notifications": {
+      "result": "PASS",
+      "passed": 14,
+      "total": 14,
+      "provider": 11,
+      "actualHTTP": 1,
+      "twoProcessAndRestart": 1,
+      "schedulerFailureNonOverlapShutdown": 1
+    },
+    "allTests": {
+      "result": "PASS",
+      "total": 407,
+      "node": 375,
+      "frontend": 32
+    },
+    "Chromium": {
+      "rawRun": {
+        "result": "FAIL",
+        "passed": 36,
+        "failed": 1,
+        "total": 37,
+        "reason": "ambiguous test selector matched task and collaboration update badges"
+      },
+      "focusedCorrectionAndDateEdit": {
+        "result": "PASS",
+        "passed": 2,
+        "total": 2
+      },
+      "strengthenedMyTasks": {
+        "result": "PASS",
+        "passed": 1,
+        "total": 1
+      },
+      "finalDistinctCases": {
+        "result": "PASS_AFTER_RECHECK",
+        "passed": 37,
+        "total": 37
+      }
+    },
+    "typecheck": "PASS",
+    "lint": "PASS;0 warnings",
+    "build": "PASS;workspace main467KB,workspace51KB,Kanban55KB;fresh chunk-size warning/performance NOT_RUN",
+    "contract": "PASS;1.1.0 unchanged;53routes/77schemas;61 tests in full suite",
+    "testPlan": "PASS;inventory and17 policy tests;execution records0, not acceptance execution",
+    "freshSource": {
+      "scope": "Fresh source copy runtime/config/schema checks; readiness remains503",
+      "ci": "PASS",
+      "typecheck": "PASS",
+      "build": "PASS",
+      "tests": "PASS: 407 tests (all npm test suites)",
+      "migrate": "PASS: foundation + business + review correction apply once, repeat no-op",
+      "seed": "PASS: explicit synthetic fixture only",
+      "start": "PASS: built HTML/live200/ready503/meta200 setupRequired true/me401/generic login401 (omit-dev runtime)",
+      "runtimeInstall": "PASS: omit-dev dependencies for built server",
+      "installerCli": "PASS: compiled help loads with omit-dev runtime dependencies; mutation/hidden terminal checks in test:admin-cli"
+    },
+    "SQL2022": {
+      "result": "NOT_RUN",
+      "skipped": 152,
+      "executed": 0
+    },
+    "Windows": "NOT_RUN",
+    "fullBrowserDeviceMatrix": "NOT_RUN",
+    "UAT": "NOT_RUN",
+    "fullTC_AT": "NOT_RUN"
+  },
+  "localTasks": {
+    "implemented": 5,
+    "verifiedLocalSubset": 5,
+    "total": 5,
+    "registerStatus": "IN_PROGRESS"
+  },
+  "register": {
+    "DONE": 6,
+    "IN_PROGRESS": 43,
+    "TODO": 28,
+    "total": 77,
+    "remaining": 71
+  },
+  "trace": {
+    "partialTC": [
+      "TC-010",
+      "TC-046",
+      "TC-047",
+      "TC-048",
+      "TC-049",
+      "TC-050",
+      "TC-060",
+      "TC-061"
+    ],
+    "partialAT": [
+      "AT-15",
+      "AT-19",
+      "AT-20",
+      "AT-23"
+    ],
+    "formalExecutionRecords": 0
+  },
+  "next": {
+    "task": "T-050",
+    "declaredEffort": "High"
+  },
+  "sourceSHA256": {
+    "AGENTS.md": "eb779e7ccf8c5e3c81070b87c454b5cd75afb12312571de66bfa39d65468a02e",
+    "TeamFlow_T045_T049_Test_Report.md": "d637f32f9bd929c1ea4c203829f18bec8b3fad3b8f4c15ce5d91b3b5ec38cd09",
+    "TeamFlow_Task_v1.0.md": "629def395a2b142410cdfd88e1bb459b4f684aca8c90919e1b56efd15e6ad24b",
+    "TeamFlow_Test_Cases_v1.0.md": "4391fe0dac1fa9b88e40568c9997313c59cabaa67a937d0494b226084307a891",
+    "TeamFlow_Test_Plan_v1.0.md": "00bafcc7155a4dce36cadd3b10b98374f70f396ce6ba4b38a2673326a347390b",
+    "contracts/openapi.json": "2c8b23fb3c5bc5cd882cda256dc131a5b01293744e39c5843d9bac45a4367e52",
+    "frontend/src/App.tsx": "886bef8c44d0cdc3ffd7af547b69cdc933446f283fc716085288f453921b1355",
+    "frontend/src/Kanban.tsx": "72fbaed9b8ca4b8b46bbead8917463f9e97b7a8a2e6fa1a509ff78c47f1d0a81",
+    "frontend/src/Organization.tsx": "c84cbc18032445895602510ce58a9baf9fd5e9ac22d540b7a138b925411daf97",
+    "frontend/src/ProjectTasks.tsx": "327475e906650311125fe868b077134492498924762159dfdbc8946d0f37a9f6",
+    "frontend/src/TaskCollaboration.tsx": "20899b7556065bcc7c8dfa9301f4d9ed64205ea0448c5859852230e7f394b110",
+    "frontend/src/TaskEditor.tsx": "e35fac97a6fd3fedc661e1bb32371a9906b2b2d38c71a84d553ef0af974e1fc8",
+    "frontend/src/TaskViews.tsx": "b140c41b09ddc3b2165e1c59b4f0b0c2da6db68438ca6584a7270fc3d5aaf64a",
+    "frontend/src/TaskWorkspace.tsx": "808c1a96164083b1d43a81cfbd93a9e2857fa2cc4dd66a83e4aa55c5078e74e7",
+    "frontend/src/Workspaces.tsx": "86e35807cd4fa56ac7a6432047071755137f8ce5945943064c3f18763e121454",
+    "frontend/src/shared/refresh.test.ts": "7331dd24c33fff12b035a7cf758aae4f12bde0863c6d9a1ee5a9725d47106a63",
+    "frontend/src/shared/refresh.ts": "06caee48e90c5de0b52ea3fc3a6f40fc1e9d25574741ff422e82f5bd835a7577",
+    "frontend/src/style.css": "a55185c16d8b75db352b66773381e3238740b05b867ae4bea3c43b8585a48bb8",
+    "frontend/src/task-api.ts": "657738dab91cf0f2fd703d09198423f24001635ab139ee691c87d7d69296243e",
+    "frontend/src/task-dates.test.ts": "8d791fd65638e74a874cae5e1f72bef5359a730a255a678bcbaf75bab4b404ce",
+    "frontend/src/task-dates.ts": "f90e489c558a2b947ef3d7de6067f8196e94fb974739b1f7933dddacb7db4f4f",
+    "frontend/src/task-list.ts": "95023b85eca20146ba44c7f0b1bab78453d0219449a6858866b33d80b2638c23",
+    "package-lock.json": "10f79334d87869757661acb9ddffb412a14606496457df5eadd592403eb56a65",
+    "package.json": "e3713950c48d3464f82d6df28e03a6753f629b0dc6bc60fa8358cfb58119ae65",
+    "reports/T-049-fresh-checkout.json": "dd5164754a3c54a673e805eb01998b6cc73a5bc4def860f10b3ca315be4db2a2",
+    "reports/T049-calendar-mobile.png": "c53851579898b2142f86ac61fa0bf1977e54759e5706843153fb733d59acacf7",
+    "reports/T049-gantt-desktop.png": "0bf734cd5a5214251fa8d5e91a1476e61997f3bd3f9374c9ce1b7497c48ea120",
+    "src/api/start.ts": "a3e526dfd93c9da7859a319b116bb44da892a4879151c8fd949ea06e9dda6e3a",
+    "src/services/access-effects.ts": "a5b46119ebebe7e1b976bbd3b6ff6d700e5a1dafa63e35cbc7334f5a158920fc",
+    "src/services/notifications.ts": "65964039936abbf82c21fd0e322a20dbf6891f75010e07ea2d7fe3b8d5e4071c",
+    "src/services/reminders.ts": "c71d18129966e4037a1cce317002c459014a75b4d74259015a563cce0e66650b",
+    "src/services/tasks.ts": "3b2576b932cdda3730e3490b25dd5c1c4e7640b5c0cc9a47a3ce620c2da0c7ad",
+    "tests/boards/provider-suite.ts": "136b9626925c53d2b4a0670c9aad652e74874039b2e3f6763747200223321d8a",
+    "tests/browser/task-workspace-fixtures.ts": "31922c3866342d243e0d54b90e856b384fcc0d4c5264fc5f3e7232ffc21dfc4d",
+    "tests/browser/task-workspace-permissions.spec.ts": "a90cb298933510ab145e7892ce371200b5ee5f0a8cfd342a9a60c99980c0c747",
+    "tests/browser/task-workspace.spec.ts": "cf326cbaeb9706ebd395f70476ce6b7c58e158bd726198d7ad5c9e05c25b5755",
+    "tests/execution-records.json": "54b44045fb97134e974d188f074462f0a336acab3ec261f8ca7e109fa3447390",
+    "tests/notifications/concurrency.test.ts": "42ebeaef526240d123cc332b94e78082733602ece2fa14b6c6001e6565642b2c",
+    "tests/notifications/http.test.ts": "e948e941876053d4add226b0fc4abf55032109c01c97dfcc3221ec362a86ddc7",
+    "tests/notifications/provider-suite.ts": "771e8c8ad64a701b829156513432d57f3386b4ffedbf1948c956162ae7a3c19c",
+    "tests/notifications/scheduler.test.ts": "26b5584e66374fe43b6879c459315fd34817d4ee2d34c6c7fb40d07444c58607",
+    "tests/notifications/sqlite.test.ts": "0fc8b60297f948728cf9e4c13ac628d00e133dafec25fb8bf5d3d9234983a472",
+    "tests/notifications/worker.ts": "308c7442560a641137c6eddb4f58d9d8ff43192eed718958bbebe8851de62e14",
+    "tests/sqlserver/notifications.test.ts": "c21592acfdc70f653dd2c932d9dd5f3abb1e0e92d6ff97e666787748583f6a5d",
+    "tests/test-manifest.json": "9af145a9bef83dadf3d30abc79d2fc3df4b1e80c0ca4437568acba2e497571ca",
+    "tests/workspaces/provider-suite.ts": "80d4c5727061f327313a5c0f02ae115adbdc5f15a5b60ecbb491ef5d3ad3083a",
+    "tsconfig.tools.json": "77232c64317e9dd4afdfbfa3a862e89e24755cc4c08dd62742b8e7cfdf1907e2"
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "task": "T-003",
+  "level": "contract/unit",
+  "suite": "UT-01 (T-003 scope only)",
+  "commands": ["npm run check:contract", "npm run test:contract"],
+  "testFile": "tests/contracts/contract.test.mjs",
+  "trace": {
+    "FR": ["FR-05", "FR-18", "FR-40"],
+    "SRS": ["5", "12", "18"],
+    "relatedCasesStillNotRun": ["TC-025", "TC-035", "TC-044", "TC-048", "TC-068", "TC-069"],
+    "relatedAcceptanceStillNotRun": ["AT-09", "AT-14", "AT-17", "AT-30"]
+  },
+  "assertions": [
+    "Every SRS method/path has an operation, valid schema and existing owner task",
+    "OpenAPI matches authoring source; all request/query/path/header/response schemas compile in strict mode",
+    "Unknown/protected fields, wrong types, Unicode storage limits, dates, enums and pagination are rejected",
+    "PATCH merged-state validation requires authorized current task state; version fields are explicit",
+    "Board same-column versions and self-anchor rules are checked before database operations",
+    "Query decoding rejects inherited-property names, repeated scalars and ambiguous encodings",
+    "Response DTOs exclude private fields; error/requestId/no-store/idempotency declarations are consistent",
+    "Nested member/subtask/display DTOs and board fallback schemas support existing screens"
+  ],
+  "notProven": [
+    "HTTP middleware/CSRF/cookie authentication", "Authorization/scoping",
+    "SQLite or SQL Server database constraints/transactions", "Idempotency concurrency/replay storage",
+    "Upload streams/quota/recovery", "Windows/backup/restore/performance/UAT"
+  ]
+}

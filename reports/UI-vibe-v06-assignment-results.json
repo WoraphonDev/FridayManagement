@@ -1,0 +1,68 @@
+{
+  "date": "2026-10-07",
+  "scope": "Mock only; assignment owner change and compact status",
+  "htmlSHA256": "e74978c00e78d639fe20a82ac1b96c4081129ddb619fdfb467a0381168129c16",
+  "passed": 10,
+  "total": 10,
+  "cases": [
+    {
+      "id": "AS-1",
+      "description": "Vibe multi selection bridges native FormData1,2",
+      "result": "PASS"
+    },
+    {
+      "id": "AS-2",
+      "description": "Save/reopen and Table2 avatars",
+      "result": "PASS"
+    },
+    {
+      "id": "AS-3",
+      "description": "Clear-all save/reopen remains unassigned",
+      "result": "PASS"
+    },
+    {
+      "id": "AS-4",
+      "description": "Kanban two avatars and names",
+      "result": "PASS"
+    },
+    {
+      "id": "AS-5",
+      "description": "Checklist Prae/Ton separately saved and reopened",
+      "result": "PASS"
+    },
+    {
+      "id": "AS-6",
+      "description": "Viewer assignment controls disabled",
+      "result": "PASS"
+    },
+    {
+      "id": "AS-7",
+      "description": "360px Checklist layout no overflow",
+      "result": "PASS"
+    },
+    {
+      "id": "AS-8",
+      "description": "Table status26px and rows38px",
+      "result": "PASS"
+    },
+    {
+      "id": "AS-9",
+      "description": "Status change Working on it with no large modal",
+      "result": "PASS"
+    },
+    {
+      "id": "AS-10",
+      "description": "Scoped console warnings/errors0",
+      "result": "PASS"
+    }
+  ],
+  "build": "PASS",
+  "typecheck": "PASS",
+  "syntax": "PASS",
+  "limitations": [
+    "Production multi-assignee/Checklist assignment implementation NOT_RUN",
+    "Secondary-assignee filter/CSV/workload/recurrence tests NOT_RUN",
+    "Earlier suites not rerun on this SHA",
+    "Formal SQL2022/Windows/UAT NOT_RUN"
+  ]
+}

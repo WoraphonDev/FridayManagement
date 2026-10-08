@@ -1,0 +1,4 @@
+
+> friday-management@0.1.0 typecheck
+> tsc --noEmit -p tsconfig.json && tsc -p tsconfig.frontend.json && tsc -p tsconfig.tools.json
+

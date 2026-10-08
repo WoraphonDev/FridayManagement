@@ -1,0 +1,56 @@
+{
+  "date": "2026-10-07",
+  "scope": "Standalone Vibe mock, Kanban motion only",
+  "htmlSHA256": "a3a95d6044e2148c56d5854f98c32256c44eac9b8b81e1829d28cdd6b6e01221",
+  "cases": [
+    {
+      "id": "KM-1",
+      "description": "Dropdown move103 todo→doing observed moving then settled, transform none",
+      "result": "PASS"
+    },
+    {
+      "id": "KM-2",
+      "description": "Neighbour cards receive movement animation",
+      "result": "PASS"
+    },
+    {
+      "id": "KM-3",
+      "description": "Focus restored to moved card status combobox",
+      "result": "PASS"
+    },
+    {
+      "id": "KM-4",
+      "description": "Motion off103 doing→review, no animation marker",
+      "result": "PASS"
+    },
+    {
+      "id": "KM-5",
+      "description": "Incomplete Checklist blocks101 Done; remains doing without animation",
+      "result": "PASS"
+    },
+    {
+      "id": "KM-6",
+      "description": "360px move103 review→todo animated without document overflow",
+      "result": "PASS"
+    },
+    {
+      "id": "KM-7",
+      "description": "Scoped browser warnings/errors0",
+      "result": "PASS"
+    }
+  ],
+  "passed": 7,
+  "total": 7,
+  "build": "PASS",
+  "strictTypecheck": "PASS",
+  "scriptSyntax": "PASS",
+  "durationMs": {
+    "moved": 320,
+    "neighbours": 220
+  },
+  "limitations": [
+    "Native drag interaction NOT_RUN: UI automation does not expose dragTo; drag/drop and dropdown share the hooked changeStatus path",
+    "OS reduced-motion emulation NOT_RUN; matchMedia gate and cancellation implemented",
+    "Earlier full suites not rerun on this SHA; formal TC/AT/Windows/SQL/UAT NOT_RUN"
+  ]
+}

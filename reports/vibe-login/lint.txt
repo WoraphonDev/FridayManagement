@@ -1,0 +1,4 @@
+
+> friday-management@0.1.0 lint
+> eslint src frontend/src scripts/*.ts vite.config.ts vitest.config.ts playwright.config.ts tests/foundation tests/sqlserver tests/browser tests/config tests/schema tests/helpers tests/api tests/idempotency tests/authorization tests/setup tests/sessions tests/accounts tests/admin-cli tests/workspaces tests/tasks tests/task-views tests/boards tests/files tests/notifications tests/operations tests/regression tests/performance
+

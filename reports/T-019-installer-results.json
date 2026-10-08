@@ -1,0 +1,89 @@
+{
+  "task": "T-019",
+  "date": "2026-10-06",
+  "status": "IN_PROGRESS",
+  "environment": {
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "provider": "SQLite temporary local",
+    "platform": "macOS/POSIX PTY"
+  },
+  "declaredEffort": "High",
+  "actualRuntimeModelEffort": "NOT_VERIFIED",
+  "results": {
+    "installer": {
+      "result": "PASS",
+      "tests": 15,
+      "provider": 8,
+      "operations": 7
+    },
+    "combined": {
+      "result": "PASS",
+      "tests": 288,
+      "compiledCli": true
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "contract": "PASS:52 routes/75 schemas;61 tests in combined",
+    "planning": "PASS:17 tests in combined;plan validation only",
+    "sqlserver": {
+      "result": "NOT_RUN",
+      "skipped": 77,
+      "newProviderCases": 8
+    },
+    "freshCheckout": {
+      "result": "PASS",
+      "report": "reports/T-019-fresh-checkout.json",
+      "tests": 288,
+      "omitDevCompiledCli": "PASS"
+    },
+    "browser": "NOT_RUN this task: no UI change; previous batch14 PASS retained"
+  },
+  "initialFailuresResolved": [
+    "Type inference on test fetch fixed with Response annotation",
+    "Child fixture JSON separated from SQLite experimental stderr warning",
+    "Python PTY fixture renamed to avoid stdlib pty shadowing"
+  ],
+  "acceptance": "Partial TC-081/AT-28/AT-30 only; full SQL/Windows/HTTPS/release NOT_RUN",
+  "auditAttribution": "actor_id references target account FK; origin=local_cli/operator_kind=installation_operator/authority=machine_file_permissions/audit_actor_reference=target_account",
+  "register": {
+    "done": 6,
+    "total": 77,
+    "inProgress": 13,
+    "todo": 58,
+    "remaining": 71
+  },
+  "sourceSha256": {
+    "src/cli/admin.ts": "12b170be5f35994197c885e96086b5ac507c2770f5812408d3d5e67caa3ff22e",
+    "src/cli/authority.ts": "f446dc65e108f88cfa5866cb2cbe08a7c8871d6123a3bb684d95aa0a1e3d2dfb",
+    "src/cli/main.ts": "35ed63677e2e3875bad2c5de5e45a3f8ac8d30fbc9a7eb51d0579ad778fcf617",
+    "src/cli/terminal.ts": "f2b87df6c06655c2cf90bdcdfa23a9238b1111b4196e8263b923b868895deaa7",
+    "src/services/installer.ts": "04f39536b6565085c32646e4171dd20ba36f250b7b454d5ebbb8abd65ee28d0f",
+    "tests/admin-cli/operations.test.ts": "4c564c27a1b4ae10c695055609300800bbe3dc2345661ff8f96981c0bb01bb08",
+    "tests/admin-cli/provider-suite.ts": "7e9c2547b9e7e41a6af4fc4252c42c2abb9b9fa6e74e0f45ee0c066b7e69ef4c",
+    "tests/admin-cli/terminal_fixture.py": "7fa31c6b291d7e6f57cbdcf2b5c410c56b6fa349be471776d0f7e870bb5dbd39",
+    "tests/sqlserver/installer.test.ts": "9858a31e3b9f9bd5013927d2a11cd3ac6c8a2beb3c9b3a667a38bb490ce5594e",
+    "scripts/verify-fresh-checkout.mjs": "3fe3ee35c4848bf8d9d1b42444792a09dc0a4b431c9c77988312c6e7bfa3ee89",
+    "package.json": "bc5a6f299aeb05ea802c5b53251b7dcd4feb60e4b953396de818bb2123caa912"
+  },
+  "ownerStopRequest": "Finish T-019, stop running dev services, stop work for MacBook restart; next T-020 High not started",
+  "delivery": "Workspace only; no commit/push/merge/deploy/shared runtime change",
+  "serviceShutdown": {
+    "result": "PASS",
+    "verifiedAt": "2026-10-06T16:03:00+07:00",
+    "python8777": "SIGTERM PID5482; listener absent",
+    "node3000": "Already stopped at pre-shutdown verification; listener absent",
+    "colimaDefault": "Graceful colima stop default exit0; profile Stopped",
+    "portsAbsent": [
+      3000,
+      8777,
+      1433,
+      53,
+      59134
+    ],
+    "remainingListeners": "LINE, DBeaver and OpenCode application internal listeners; retained",
+    "startupSettings": "Unchanged",
+    "nextTask": "T-020 High not started; work stopped per owner request"
+  }
+}

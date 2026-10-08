@@ -1,0 +1,8 @@
+{
+  "status": "FAIL_ENVIRONMENT",
+  "stage": "offline npm ci before build/tests",
+  "reason": "Default npm cache lacked wsl-utils0.1.0; ENOTCACHED",
+  "archiveSHA256": "67ec1a7bed8b84de38bd0239ca7127759bff86a42171ea744c5e4676bf47c52f",
+  "retest": "Same immutable ZIP with existing /private/tmp/friday-T024-npm-cache; no source/dependency/runtime change",
+  "rawLog": "/private/tmp/friday-T077-fresh-archive.log"
+}

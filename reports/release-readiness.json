@@ -1,0 +1,1752 @@
+{
+  "formatVersion": 1,
+  "scope": "Mapping only; implementation and acceptance are not implied PASS",
+  "requirements": {
+    "FR": [
+      {
+        "id": "FR-01",
+        "tasks": [
+          "T-013",
+          "T-068"
+        ],
+        "evidenceExpectation": "ตั้งผู้ดูแลคนแรก | T-013, T-068 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-02",
+        "tasks": [
+          "T-014",
+          "T-017",
+          "T-068"
+        ],
+        "evidenceExpectation": "เข้าสู่ระบบและออกจากระบบ | T-014, T-017, T-068 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-03",
+        "tasks": [
+          "T-016",
+          "T-018",
+          "T-068"
+        ],
+        "evidenceExpectation": "จัดการผู้ใช้ | T-016, T-018, T-068 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-04",
+        "tasks": [
+          "T-014",
+          "T-015",
+          "T-016",
+          "T-017",
+          "T-018",
+          "T-019",
+          "T-068"
+        ],
+        "evidenceExpectation": "เปลี่ยนและรีเซ็ตรหัสผ่าน | T-014, T-015, T-016, T-017, T-018, T-019, T-068 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-05",
+        "tasks": [
+          "T-003",
+          "T-009",
+          "T-011",
+          "T-043",
+          "T-069"
+        ],
+        "evidenceExpectation": "บังคับสิทธิ์ทุกช่องทาง | T-003, T-009, T-011, T-043, T-069 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-06",
+        "tasks": [
+          "T-020",
+          "T-023",
+          "T-069"
+        ],
+        "evidenceExpectation": "สร้างและจัดการหลายทีม | T-020, T-023, T-069 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-07",
+        "tasks": [
+          "T-020",
+          "T-023",
+          "T-069"
+        ],
+        "evidenceExpectation": "สมาชิกอยู่หลายทีม | T-020, T-023, T-069 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-08",
+        "tasks": [
+          "T-020",
+          "T-023",
+          "T-069"
+        ],
+        "evidenceExpectation": "ตั้งหัวหน้าทีม | T-020, T-023, T-069 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-09",
+        "tasks": [
+          "T-021",
+          "T-024",
+          "T-069"
+        ],
+        "evidenceExpectation": "จัดการโปรเจกต์ | T-021, T-024, T-069 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-10",
+        "tasks": [
+          "T-011",
+          "T-021",
+          "T-024",
+          "T-069"
+        ],
+        "evidenceExpectation": "กำหนดสมาชิกโปรเจกต์ | T-011, T-021, T-024, T-069 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-11",
+        "tasks": [
+          "T-011",
+          "T-022",
+          "T-024",
+          "T-069"
+        ],
+        "evidenceExpectation": "ถอนสิทธิ์และปิดบัญชี | T-011, T-022, T-024, T-069 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-12",
+        "tasks": [
+          "T-026",
+          "T-032",
+          "T-070"
+        ],
+        "evidenceExpectation": "สร้างและแก้ไขงาน | T-026, T-032, T-070 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-13",
+        "tasks": [
+          "T-022",
+          "T-026",
+          "T-032",
+          "T-070"
+        ],
+        "evidenceExpectation": "มอบหมายงาน | T-022, T-026, T-032, T-070 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-14",
+        "tasks": [
+          "T-008",
+          "T-026",
+          "T-027",
+          "T-032",
+          "T-070"
+        ],
+        "evidenceExpectation": "จัดการสถานะและความสำคัญ | T-008, T-026, T-027, T-032, T-070 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-15",
+        "tasks": [
+          "T-002",
+          "T-027",
+          "T-028",
+          "T-033",
+          "T-070"
+        ],
+        "evidenceExpectation": "งานย่อย | T-002, T-027, T-028, T-033, T-070 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-16",
+        "tasks": [
+          "T-002",
+          "T-010",
+          "T-029",
+          "T-033",
+          "T-070"
+        ],
+        "evidenceExpectation": "งานซ้ำ | T-002, T-010, T-029, T-033, T-070 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-17",
+        "tasks": [
+          "T-002",
+          "T-030",
+          "T-033",
+          "T-060",
+          "T-070"
+        ],
+        "evidenceExpectation": "เก็บ ลบแบบกู้คืน และคืนงาน | T-002, T-030, T-033, T-060, T-070 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-18",
+        "tasks": [
+          "T-003",
+          "T-008",
+          "T-009",
+          "T-010",
+          "T-026",
+          "T-027",
+          "T-032",
+          "T-035",
+          "T-038",
+          "T-070"
+        ],
+        "evidenceExpectation": "รับมือแก้ไขพร้อมกัน | T-003, T-008, T-009, T-010, T-026, T-027, T-032, T-035, T-038, T-070 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-19",
+        "tasks": [
+          "T-031",
+          "T-045",
+          "T-071"
+        ],
+        "evidenceExpectation": "งานของฉัน | T-031, T-045, T-071 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-20",
+        "tasks": [
+          "T-031",
+          "T-037",
+          "T-045",
+          "T-071"
+        ],
+        "evidenceExpectation": "ค้นหา กรอง และจัดลำดับ | T-031, T-037, T-045, T-071 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-21",
+        "tasks": [
+          "T-010",
+          "T-034",
+          "T-035",
+          "T-036",
+          "T-038",
+          "T-071"
+        ],
+        "evidenceExpectation": "Kanban เปลี่ยนสถานะด้วยการลาก | T-010, T-034, T-035, T-036, T-038, T-071 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-22",
+        "tasks": [
+          "T-034",
+          "T-035",
+          "T-036",
+          "T-071"
+        ],
+        "evidenceExpectation": "Kanban จัดลำดับด้วยการลาก | T-034, T-035, T-036, T-071 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-23",
+        "tasks": [
+          "T-037",
+          "T-055",
+          "T-058",
+          "T-071"
+        ],
+        "evidenceExpectation": "ทางเลือกแทนการลาก | T-037, T-055, T-058, T-071 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-24",
+        "tasks": [
+          "T-045",
+          "T-071"
+        ],
+        "evidenceExpectation": "มุมมองรายการ | T-045, T-071 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-25",
+        "tasks": [
+          "T-046",
+          "T-071"
+        ],
+        "evidenceExpectation": "ปฏิทินและ Gantt | T-046, T-071 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-26",
+        "tasks": [
+          "T-038",
+          "T-047",
+          "T-071",
+          "T-075"
+        ],
+        "evidenceExpectation": "อัปเดตการเปลี่ยนแปลงทีม | T-038, T-047, T-071, T-075 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-27",
+        "tasks": [
+          "T-010",
+          "T-039",
+          "T-044",
+          "T-072"
+        ],
+        "evidenceExpectation": "ความคิดเห็นในงาน | T-010, T-039, T-044, T-072 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-28",
+        "tasks": [
+          "T-002",
+          "T-041",
+          "T-042",
+          "T-043",
+          "T-044",
+          "T-060",
+          "T-072"
+        ],
+        "evidenceExpectation": "ไฟล์แนบ | T-002, T-041, T-042, T-043, T-044, T-060, T-072 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-29",
+        "tasks": [
+          "T-040",
+          "T-044",
+          "T-072"
+        ],
+        "evidenceExpectation": "ประวัติงาน | T-040, T-044, T-072 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-30",
+        "tasks": [
+          "T-048",
+          "T-049",
+          "T-051",
+          "T-072"
+        ],
+        "evidenceExpectation": "แจ้งเตือนภายในเว็บ | T-048, T-049, T-051, T-072 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-31",
+        "tasks": [
+          "T-050",
+          "T-051",
+          "T-060",
+          "T-072"
+        ],
+        "evidenceExpectation": "อ่านแจ้งเตือน | T-050, T-051, T-060, T-072 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-32",
+        "tasks": [
+          "T-052",
+          "T-054",
+          "T-073"
+        ],
+        "evidenceExpectation": "ภาพรวมองค์กร/ทีม/โปรเจกต์ | T-052, T-054, T-073 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-33",
+        "tasks": [
+          "T-052",
+          "T-054",
+          "T-073"
+        ],
+        "evidenceExpectation": "รายงานตามสมาชิกและช่วงเวลา | T-052, T-054, T-073 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-34",
+        "tasks": [
+          "T-053",
+          "T-054",
+          "T-073"
+        ],
+        "evidenceExpectation": "Export CSV | T-053, T-054, T-073 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-35",
+        "tasks": [
+          "T-012",
+          "T-017",
+          "T-037",
+          "T-055",
+          "T-057",
+          "T-058",
+          "T-073"
+        ],
+        "evidenceExpectation": "Responsive และภาษาไทย | T-012, T-017, T-037, T-055, T-057, T-058, T-073 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-36",
+        "tasks": [
+          "T-056",
+          "T-057",
+          "T-058",
+          "T-073"
+        ],
+        "evidenceExpectation": "PWA แบบออนไลน์ | T-056, T-057, T-058, T-073 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-37",
+        "tasks": [
+          "T-006",
+          "T-025",
+          "T-065",
+          "T-074"
+        ],
+        "evidenceExpectation": "ตั้งค่าระบบที่จำเป็น | T-006, T-025, T-065, T-074 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-38",
+        "tasks": [
+          "T-061",
+          "T-062",
+          "T-063",
+          "T-074"
+        ],
+        "evidenceExpectation": "สำรองและกู้คืน | T-061, T-062, T-063, T-074 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-39",
+        "tasks": [
+          "T-019",
+          "T-040",
+          "T-059",
+          "T-060",
+          "T-061",
+          "T-065",
+          "T-074"
+        ],
+        "evidenceExpectation": "สุขภาพระบบและ log | T-019, T-040, T-059, T-060, T-061, T-065, T-074 | รอพัฒนา/ทดสอบ"
+      },
+      {
+        "id": "FR-40",
+        "tasks": [
+          "T-003",
+          "T-004",
+          "T-005",
+          "T-006",
+          "T-007",
+          "T-019",
+          "T-063",
+          "T-064",
+          "T-065",
+          "T-066",
+          "T-067",
+          "T-074",
+          "T-076",
+          "T-077"
+        ],
+        "evidenceExpectation": "ชุดโค้ดติดตั้งเอง | T-003, T-004, T-005, T-006, T-007, T-019, T-063, T-064, T-065, T-066, T-067, T-074, T-076, T-077 | รอพัฒนา/ทดสอบ"
+      }
+    ],
+    "NFR": [
+      {
+        "id": "NFR-01",
+        "tasks": [
+          "T-004",
+          "T-075",
+          "T-076"
+        ],
+        "evidenceExpectation": "T-004, T-075, T-076 | 30 accounts / 15 active / p95 / polling บนสเปกที่บันทึก"
+      },
+      {
+        "id": "NFR-02",
+        "tasks": [
+          "T-004",
+          "T-006",
+          "T-009",
+          "T-011",
+          "T-014",
+          "T-019",
+          "T-022",
+          "T-040",
+          "T-041",
+          "T-043",
+          "T-059",
+          "T-068",
+          "T-069",
+          "T-072",
+          "T-076"
+        ],
+        "evidenceExpectation": "T-004, T-006, T-009, T-011, T-014, T-019, T-022, T-040, T-041, T-043, T-059, T-068, T-069, T-072, T-076 | server permissions / session / CSRF / upload / secret redaction"
+      },
+      {
+        "id": "NFR-03",
+        "tasks": [
+          "T-004",
+          "T-007",
+          "T-008",
+          "T-010",
+          "T-022",
+          "T-027",
+          "T-029",
+          "T-030",
+          "T-035",
+          "T-041",
+          "T-042",
+          "T-049",
+          "T-060",
+          "T-063",
+          "T-070",
+          "T-072",
+          "T-074",
+          "T-076"
+        ],
+        "evidenceExpectation": "T-004, T-007, T-008, T-010, T-022, T-027, T-029, T-030, T-035, T-041, T-042, T-049, T-060, T-063, T-070, T-072, T-074, T-076 | transaction / version / recurrence / DB-file consistency"
+      },
+      {
+        "id": "NFR-04",
+        "tasks": [
+          "T-004",
+          "T-062",
+          "T-063",
+          "T-074",
+          "T-076"
+        ],
+        "evidenceExpectation": "T-004, T-062, T-063, T-074, T-076 | backup จริง / restore จริง / RPO-RTO ที่วัด"
+      },
+      {
+        "id": "NFR-05",
+        "tasks": [
+          "T-004",
+          "T-012",
+          "T-037",
+          "T-055",
+          "T-058",
+          "T-071",
+          "T-076"
+        ],
+        "evidenceExpectation": "T-004, T-012, T-037, T-055, T-058, T-071, T-076 | keyboard / focus / touch alternative / 200% zoom"
+      },
+      {
+        "id": "NFR-06",
+        "tasks": [
+          "T-004",
+          "T-012",
+          "T-037",
+          "T-055",
+          "T-058",
+          "T-071",
+          "T-076"
+        ],
+        "evidenceExpectation": "T-004, T-012, T-037, T-055, T-058, T-071, T-076 | browser/device versions และ NOT_RUN เมื่อไม่มี device"
+      },
+      {
+        "id": "NFR-07",
+        "tasks": [
+          "T-004",
+          "T-005",
+          "T-006",
+          "T-007",
+          "T-019",
+          "T-059",
+          "T-060",
+          "T-062",
+          "T-063",
+          "T-064",
+          "T-065",
+          "T-074",
+          "T-076",
+          "T-077"
+        ],
+        "evidenceExpectation": "T-004, T-005, T-006, T-007, T-019, T-059, T-060, T-062, T-063, T-064, T-065, T-074, T-076, T-077 | config/migration/backup/Windows install/upgrade portability"
+      },
+      {
+        "id": "NFR-08",
+        "tasks": [
+          "T-001",
+          "T-004",
+          "T-005",
+          "T-065",
+          "T-076",
+          "T-077"
+        ],
+        "evidenceExpectation": "T-001, T-004, T-005, T-065, T-076, T-077 | ไม่มี mandatory subscriptions / license inventory / ไม่รวมต้นทุนเครื่อง"
+      }
+    ],
+    "BR": [
+      {
+        "id": "BR-01",
+        "tasks": [
+          "T-013",
+          "T-014",
+          "T-016"
+        ],
+        "evidenceExpectation": "T-013, T-014, T-016"
+      },
+      {
+        "id": "BR-02",
+        "tasks": [
+          "T-016",
+          "T-068"
+        ],
+        "evidenceExpectation": "T-016, T-068"
+      },
+      {
+        "id": "BR-03",
+        "tasks": [
+          "T-020",
+          "T-023",
+          "T-069"
+        ],
+        "evidenceExpectation": "T-020, T-023, T-069"
+      },
+      {
+        "id": "BR-04",
+        "tasks": [
+          "T-011",
+          "T-021",
+          "T-069"
+        ],
+        "evidenceExpectation": "T-011, T-021, T-069"
+      },
+      {
+        "id": "BR-05",
+        "tasks": [
+          "T-021",
+          "T-022",
+          "T-069"
+        ],
+        "evidenceExpectation": "T-021, T-022, T-069"
+      },
+      {
+        "id": "BR-06",
+        "tasks": [
+          "T-026",
+          "T-003",
+          "T-070"
+        ],
+        "evidenceExpectation": "T-026, T-003, T-070"
+      },
+      {
+        "id": "BR-07",
+        "tasks": [
+          "T-026",
+          "T-022",
+          "T-070"
+        ],
+        "evidenceExpectation": "T-026, T-022, T-070"
+      },
+      {
+        "id": "BR-08",
+        "tasks": [
+          "T-008",
+          "T-026",
+          "T-071"
+        ],
+        "evidenceExpectation": "T-008, T-026, T-071"
+      },
+      {
+        "id": "BR-09",
+        "tasks": [
+          "T-008",
+          "T-045",
+          "T-049",
+          "T-052",
+          "T-071"
+        ],
+        "evidenceExpectation": "T-008, T-045, T-049, T-052, T-071"
+      },
+      {
+        "id": "BR-10",
+        "tasks": [
+          "T-027",
+          "T-036",
+          "T-070"
+        ],
+        "evidenceExpectation": "T-027, T-036, T-070"
+      },
+      {
+        "id": "BR-11",
+        "tasks": [
+          "T-028",
+          "T-027",
+          "T-070"
+        ],
+        "evidenceExpectation": "T-028, T-027, T-070"
+      },
+      {
+        "id": "BR-12",
+        "tasks": [
+          "T-029",
+          "T-070"
+        ],
+        "evidenceExpectation": "T-029, T-070"
+      },
+      {
+        "id": "BR-13",
+        "tasks": [
+          "T-035",
+          "T-037",
+          "T-071"
+        ],
+        "evidenceExpectation": "T-035, T-037, T-071"
+      },
+      {
+        "id": "BR-14",
+        "tasks": [
+          "T-021",
+          "T-027",
+          "T-039",
+          "T-041",
+          "T-069"
+        ],
+        "evidenceExpectation": "T-021, T-027, T-039, T-041, T-069"
+      },
+      {
+        "id": "BR-15",
+        "tasks": [
+          "T-022",
+          "T-069"
+        ],
+        "evidenceExpectation": "T-022, T-069"
+      },
+      {
+        "id": "BR-16",
+        "tasks": [
+          "T-011",
+          "T-050",
+          "T-052",
+          "T-053",
+          "T-069"
+        ],
+        "evidenceExpectation": "T-011, T-050, T-052, T-053, T-069"
+      },
+      {
+        "id": "BR-17",
+        "tasks": [
+          "T-027",
+          "T-052",
+          "T-073"
+        ],
+        "evidenceExpectation": "T-027, T-052, T-073"
+      },
+      {
+        "id": "BR-18",
+        "tasks": [
+          "T-039",
+          "T-040",
+          "T-044",
+          "T-072"
+        ],
+        "evidenceExpectation": "T-039, T-040, T-044, T-072"
+      }
+    ]
+  },
+  "operations": [
+    {
+      "method": "GET",
+      "path": "/api/meta",
+      "operationId": "get_api_meta",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/setup",
+      "operationId": "post_api_setup",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/login",
+      "operationId": "post_api_login",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/me",
+      "operationId": "get_api_me",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/session/activity",
+      "operationId": "post_api_session_activity",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/logout",
+      "operationId": "post_api_logout",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/password",
+      "operationId": "post_api_password",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/users",
+      "operationId": "get_api_users",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/users",
+      "operationId": "post_api_users",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/users/{id}",
+      "operationId": "patch_api_users_id",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/users/{id}/reset-password",
+      "operationId": "post_api_users_id_reset_password",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/directory",
+      "operationId": "get_api_directory",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/teams",
+      "operationId": "get_api_teams",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/teams",
+      "operationId": "post_api_teams",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/teams/{id}",
+      "operationId": "patch_api_teams_id",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/teams/{id}/members/{userId}",
+      "operationId": "put_api_teams_id_members_userId",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/teams/{id}/members/{userId}",
+      "operationId": "delete_api_teams_id_members_userId",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects",
+      "operationId": "get_api_projects",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects",
+      "operationId": "post_api_projects",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/projects/{id}",
+      "operationId": "patch_api_projects_id",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/{id}/members",
+      "operationId": "get_api_projects_id_members",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/projects/{id}/members/{userId}",
+      "operationId": "put_api_projects_id_members_userId",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/projects/{id}/members/{userId}",
+      "operationId": "delete_api_projects_id_members_userId",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tasks",
+      "operationId": "get_api_tasks",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/tasks",
+      "operationId": "post_api_tasks",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tasks/{id}",
+      "operationId": "get_api_tasks_id",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/tasks/{id}",
+      "operationId": "patch_api_tasks_id",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/tasks/{id}",
+      "operationId": "delete_api_tasks_id",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/trash",
+      "operationId": "get_api_trash",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/tasks/{id}/restore",
+      "operationId": "post_api_tasks_id_restore",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/projects/{id}/board",
+      "operationId": "get_api_projects_id_board",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/projects/{id}/board/move",
+      "operationId": "post_api_projects_id_board_move",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/tasks/{id}/subtasks",
+      "operationId": "post_api_tasks_id_subtasks",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/subtasks/{id}",
+      "operationId": "patch_api_subtasks_id",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/subtasks/{id}",
+      "operationId": "delete_api_subtasks_id",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tasks/{id}/comments",
+      "operationId": "get_api_tasks_id_comments",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/tasks/{id}/comments",
+      "operationId": "post_api_tasks_id_comments",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tasks/{id}/attachments",
+      "operationId": "get_api_tasks_id_attachments",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/tasks/{id}/attachments",
+      "operationId": "post_api_tasks_id_attachments",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/attachments/{id}/download",
+      "operationId": "get_api_attachments_id_download",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/attachments/{id}",
+      "operationId": "delete_api_attachments_id",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/attachments/{id}/restore",
+      "operationId": "post_api_attachments_id_restore",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/audit",
+      "operationId": "get_api_audit",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/tasks/{id}/events",
+      "operationId": "get_api_tasks_id_events",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/notifications",
+      "operationId": "get_api_notifications",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/notifications/{id}/read",
+      "operationId": "post_api_notifications_id_read",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "POST",
+      "path": "/api/notifications/read-all",
+      "operationId": "post_api_notifications_read_all",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/reports/summary",
+      "operationId": "get_api_reports_summary",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/export/tasks.csv",
+      "operationId": "get_api_export_tasks_csv",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/api/organization",
+      "operationId": "get_api_organization",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/organization",
+      "operationId": "patch_api_organization",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/health/live",
+      "operationId": "get_health_live",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    },
+    {
+      "method": "GET",
+      "path": "/health/ready",
+      "operationId": "get_health_ready",
+      "contract": "contracts/openapi.json",
+      "result": "NOT_RUN_FULL_ACCEPTANCE"
+    }
+  ],
+  "screens": [
+    {
+      "path": "/",
+      "source": "frontend/src/Reports.tsx / Auth.tsx / Setup.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    },
+    {
+      "path": "/my-tasks",
+      "source": "frontend/src/TaskWorkspace.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    },
+    {
+      "path": "/projects",
+      "source": "frontend/src/Workspaces.tsx / ProjectTasks.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    },
+    {
+      "path": "/calendar",
+      "source": "frontend/src/TaskWorkspace.tsx / TaskViews.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    },
+    {
+      "path": "/reports",
+      "source": "frontend/src/Reports.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    },
+    {
+      "path": "/notifications",
+      "source": "frontend/src/Notifications.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    },
+    {
+      "path": "/teams",
+      "source": "frontend/src/Workspaces.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    },
+    {
+      "path": "/trash",
+      "source": "frontend/src/Trash.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    },
+    {
+      "path": "/users",
+      "source": "frontend/src/Users.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    },
+    {
+      "path": "/settings",
+      "source": "frontend/src/Auth.tsx / Organization.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    },
+    {
+      "path": "Table/Gantt/Calendar/Kanban",
+      "source": "frontend/src/TaskViews.tsx / Kanban.tsx / TaskEditor.tsx",
+      "result": "NOT_RUN_FULL_WINDOWS_BROWSER_MATRIX"
+    }
+  ],
+  "acceptance": [
+    {
+      "id": "AT-01",
+      "title": "เปิดระบบใหม่/setup token ผิด/ถูก/ใช้ซ้ำ",
+      "tasks": [
+        "T-013",
+        "T-068"
+      ],
+      "cases": [
+        "TC-001",
+        "TC-002"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-02",
+      "title": "Login ผิด, rate limit, logout, cookie reuse",
+      "tasks": [
+        "T-014",
+        "T-017",
+        "T-068"
+      ],
+      "cases": [
+        "TC-003",
+        "TC-004",
+        "TC-005",
+        "TC-006",
+        "TC-010",
+        "TC-011"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-03",
+      "title": "Admin สร้าง/reset user แล้วเรียก task API ก่อนเปลี่ยนรหัส",
+      "tasks": [
+        "T-014",
+        "T-015",
+        "T-016",
+        "T-017",
+        "T-018",
+        "T-068"
+      ],
+      "cases": [
+        "TC-007",
+        "TC-008",
+        "TC-009",
+        "TC-021"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-04",
+      "title": "demote/deactivate Admin คนสุดท้ายรวม concurrent requests",
+      "tasks": [
+        "T-016",
+        "T-018",
+        "T-068"
+      ],
+      "cases": [
+        "TC-012"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-05",
+      "title": "M1 ดู Pprivate/P2 ผ่าน ID,search,report,CSV,fileURL",
+      "tasks": [
+        "T-011",
+        "T-043",
+        "T-053",
+        "T-069"
+      ],
+      "cases": [
+        "TC-014",
+        "TC-056",
+        "TC-066"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-06",
+      "title": "เพิ่ม M1 หลายทีม/Lead เฉพาะทีม1",
+      "tasks": [
+        "T-020",
+        "T-023",
+        "T-069"
+      ],
+      "cases": [
+        "TC-013",
+        "TC-015",
+        "TC-020",
+        "TC-023"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-07",
+      "title": "L1 เพิ่ม M2 ใน Pshared เป็น Editor และ V เป็น Viewer",
+      "tasks": [
+        "T-011",
+        "T-021",
+        "T-024",
+        "T-069"
+      ],
+      "cases": [
+        "TC-015",
+        "TC-016",
+        "TC-017",
+        "TC-023"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-08",
+      "title": "ถอน M2 จาก Pshared ขณะเปิด detail และมีงานค้าง",
+      "tasks": [
+        "T-011",
+        "T-022",
+        "T-024",
+        "T-043",
+        "T-069"
+      ],
+      "cases": [
+        "TC-018",
+        "TC-019",
+        "TC-020",
+        "TC-021",
+        "TC-063"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-09",
+      "title": "สร้างงานข้อมูลผิด/ไม่มีผู้รับ/ผู้รับ Viewer/วันเริ่มเกินวันส่ง",
+      "tasks": [
+        "T-026",
+        "T-032",
+        "T-070"
+      ],
+      "cases": [
+        "TC-024",
+        "TC-025",
+        "TC-026"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-10",
+      "title": "งาน checklist ไม่ครบ→done;ติ๊กครบ→done;untick ตอน done",
+      "tasks": [
+        "T-002",
+        "T-027",
+        "T-028",
+        "T-033",
+        "T-070"
+      ],
+      "cases": [
+        "TC-027",
+        "TC-028",
+        "TC-038"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-11",
+      "title": "งานซ้ำ daily/weekly/monthly,Jan31→Feb→Mar",
+      "tasks": [
+        "T-029",
+        "T-033",
+        "T-070"
+      ],
+      "cases": [
+        "TC-029",
+        "TC-030",
+        "TC-032"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-12",
+      "title": "done งานซ้ำพร้อมกัน/retry/reopen แล้ว done ใหม่",
+      "tasks": [
+        "T-002",
+        "T-010",
+        "T-029",
+        "T-070"
+      ],
+      "cases": [
+        "TC-031",
+        "TC-032",
+        "TC-033",
+        "TC-079"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-13",
+      "title": "delete/restore/retentionpurge และ parentfiles",
+      "tasks": [
+        "T-002",
+        "T-030",
+        "T-033",
+        "T-060",
+        "T-070"
+      ],
+      "cases": [
+        "TC-034",
+        "TC-059",
+        "TC-079"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-14",
+      "title": "สองคนแก้ task version เดียวกัน",
+      "tasks": [
+        "T-026",
+        "T-027",
+        "T-032",
+        "T-070"
+      ],
+      "cases": [
+        "TC-033",
+        "TC-035",
+        "TC-082"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-15",
+      "title": "My tasks วันนี้/overdue/null และ Bangkok ใกล้เที่ยงคืน",
+      "tasks": [
+        "T-031",
+        "T-045",
+        "T-046",
+        "T-071"
+      ],
+      "cases": [
+        "TC-026",
+        "TC-046",
+        "TC-047",
+        "TC-048"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-16",
+      "title": "ลากข้ามคอลัมน์/จัดลำดับ/refresh",
+      "tasks": [
+        "T-034",
+        "T-035",
+        "T-036",
+        "T-071"
+      ],
+      "cases": [
+        "TC-036",
+        "TC-037",
+        "TC-038"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-17",
+      "title": "boardmove ขณะ offline/403/409 และ samecolumnconcurrent",
+      "tasks": [
+        "T-010",
+        "T-035",
+        "T-038",
+        "T-071"
+      ],
+      "cases": [
+        "TC-039",
+        "TC-040",
+        "TC-041",
+        "TC-044",
+        "TC-084"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-18",
+      "title": "filteredboard drag + keyboard/touchalternative",
+      "tasks": [
+        "T-037",
+        "T-055",
+        "T-058",
+        "T-071"
+      ],
+      "cases": [
+        "TC-042",
+        "TC-043",
+        "TC-045",
+        "TC-073",
+        "TC-074"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-19",
+      "title": "Table/Calendar/Gantt มีวันส่ง/ไม่มีวันส่ง/filter หลายตัว",
+      "tasks": [
+        "T-031",
+        "T-045",
+        "T-046",
+        "T-071"
+      ],
+      "cases": [
+        "TC-045",
+        "TC-048",
+        "TC-049"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-20",
+      "title": "คนอื่นแก้งานขณะ user มี dirtyform",
+      "tasks": [
+        "T-032",
+        "T-038",
+        "T-047",
+        "T-071"
+      ],
+      "cases": [
+        "TC-050",
+        "TC-072"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-21",
+      "title": "commentHTML/script/กดซ้ำ/ลองแก้ audit",
+      "tasks": [
+        "T-010",
+        "T-039",
+        "T-040",
+        "T-044",
+        "T-072"
+      ],
+      "cases": [
+        "TC-051",
+        "TC-052",
+        "TC-069"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-22",
+      "title": "upload10MiB/เกิน/extension ปลอม/pathtraversal/quota race",
+      "tasks": [
+        "T-002",
+        "T-041",
+        "T-042",
+        "T-043",
+        "T-044",
+        "T-060",
+        "T-072"
+      ],
+      "cases": [
+        "TC-053",
+        "TC-054",
+        "TC-055",
+        "TC-056",
+        "TC-057",
+        "TC-058",
+        "TC-059",
+        "TC-079"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-23",
+      "title": "notificationassignment/comment/status/remindertwice/readone/all",
+      "tasks": [
+        "T-048",
+        "T-049",
+        "T-050",
+        "T-051",
+        "T-072"
+      ],
+      "cases": [
+        "TC-060",
+        "TC-061",
+        "TC-062",
+        "TC-063"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-24",
+      "title": "reportdatebasis/reopen/CSV ไทยและ formula",
+      "tasks": [
+        "T-052",
+        "T-053",
+        "T-054",
+        "T-073"
+      ],
+      "cases": [
+        "TC-028",
+        "TC-064",
+        "TC-065",
+        "TC-066",
+        "TC-067"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-25",
+      "title": "backup ระหว่างมีงาน/restore เครื่องทดสอบ/restart",
+      "tasks": [
+        "T-061",
+        "T-062",
+        "T-063",
+        "T-064",
+        "T-074"
+      ],
+      "cases": [
+        "TC-075",
+        "TC-076",
+        "TC-077",
+        "TC-078",
+        "TC-082"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-26",
+      "title": "เปิด PWAoffline/logout แล้วเปิด cache",
+      "tasks": [
+        "T-055",
+        "T-056",
+        "T-057",
+        "T-058",
+        "T-073"
+      ],
+      "cases": [
+        "TC-071",
+        "TC-072",
+        "TC-073",
+        "TC-074"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-27",
+      "title": "performancefixture/loadtest ตาม§13.3",
+      "tasks": [
+        "T-075"
+      ],
+      "cases": [
+        "TC-083",
+        "TC-084"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-28",
+      "title": "freshWindowsinstall จาก ZIP/env/one-timesetup",
+      "tasks": [
+        "T-006",
+        "T-019",
+        "T-025",
+        "T-059",
+        "T-064",
+        "T-065",
+        "T-066",
+        "T-074",
+        "T-077"
+      ],
+      "cases": [
+        "TC-052",
+        "TC-058",
+        "TC-075",
+        "TC-078",
+        "TC-080",
+        "TC-081",
+        "TC-082",
+        "TC-084"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-29",
+      "title": "archivedproject ลองแก้ task/comment/upload/recur",
+      "tasks": [
+        "T-021",
+        "T-024",
+        "T-069"
+      ],
+      "cases": [
+        "TC-022"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "AT-30",
+      "title": "CSRF/noOrigin/spoofproxy/XSS/SQLi/fileIDOR",
+      "tasks": [
+        "T-009",
+        "T-011",
+        "T-043",
+        "T-059",
+        "T-069"
+      ],
+      "cases": [
+        "TC-056",
+        "TC-068",
+        "TC-069",
+        "TC-070",
+        "TC-081"
+      ],
+      "result": "NOT_RUN"
+    }
+  ],
+  "counts": {
+    "FR": 40,
+    "NFR": 8,
+    "BR": 18,
+    "API": 53,
+    "TC": 84,
+    "AT": 30,
+    "RV": 20,
+    "UAT": 5,
+    "REL": 4
+  },
+  "releases": [
+    {
+      "id": "REL-01",
+      "tasks": [
+        "T-065",
+        "T-077"
+      ],
+      "title": "Candidate ZIP inventory/no secrets/live data",
+      "evidence": [
+        "ZIP SHA256",
+        "inventory/exclusion scan",
+        "manual redacted review"
+      ],
+      "profile": "pure-node22",
+      "level": "review",
+      "profiles": [
+        "pure-node22"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "REL-02",
+      "tasks": [
+        "T-005",
+        "T-066",
+        "T-077"
+      ],
+      "title": "Runtime/package lock/license/README/config/source completeness",
+      "evidence": [
+        "Node22/package-lock/license inventory",
+        "README/env.example/migrations/scripts/tests review"
+      ],
+      "profile": "pure-node22",
+      "level": "review",
+      "profiles": [
+        "pure-node22"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "REL-03",
+      "tasks": [
+        "T-065",
+        "T-074",
+        "T-077"
+      ],
+      "title": "Fresh unzip quick start on Windows",
+      "evidence": [
+        "exact ZIP hash",
+        "clean Windows install/test report"
+      ],
+      "profile": "windows-sqlserver2022",
+      "level": "review",
+      "profiles": [
+        "windows-sqlserver2022"
+      ],
+      "result": "NOT_RUN"
+    },
+    {
+      "id": "REL-04",
+      "tasks": [
+        "T-076",
+        "T-077"
+      ],
+      "title": "Coverage and no open Critical/Major defect",
+      "evidence": [
+        "FR/NFR/BR/API/screen trace review",
+        "defect register and retest results",
+        "owner final sign-off"
+      ],
+      "profile": "windows-sqlserver2022",
+      "level": "review",
+      "profiles": [
+        "windows-sqlserver2022"
+      ],
+      "result": "NOT_RUN"
+    }
+  ],
+  "formalSignoffs": "NOT_RUN"
+}

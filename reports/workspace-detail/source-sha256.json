@@ -1,0 +1,7 @@
+{
+  "design-preview/vibe/workspace-theme.css": "873c7c78f56d7303c56a85ce4efe3dc711cdfb18a24e148fdd51ace7031757f8",
+  "design-preview/vibe/adapter.tsx": "2f250cb1caff31926966855c8fc00199776eb7c2127088b445ddb6c3789b00bc",
+  "frontend/src/main.tsx": "d30e54bce8d6372f9f1ed826c7df75fa950ffdf16de7d109bf6bd34dd9f78c3f",
+  "frontend/src/App.tsx": "50b733c021038d7a4cd56c8b037029ad26d5e5586b9cde8d22dfc9aa6801bcdb",
+  "tests/browser/vibe-integration.spec.ts": "09862cf93ada2825fcb5f441162fe7587dc53422b3ce9066835d357c17efdad3"
+}

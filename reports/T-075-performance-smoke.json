@@ -1,0 +1,92 @@
+{
+  "scope": "SMOKE ONLY; not performance acceptance",
+  "status": "PASS_SMOKE",
+  "date": "2026-10-07T04:53:33.908Z",
+  "environment": {
+    "node": "22.23.3",
+    "sqlite": "3.53.4",
+    "npm": "10.9.9",
+    "platform": "darwin",
+    "release": "24.6.0",
+    "arch": "arm64",
+    "logicalCPU": 8,
+    "cpu": "Apple M2",
+    "RAM": 8589934592,
+    "disk": "SSD_NOT_VERIFIED",
+    "provider": "temporary SQLite",
+    "driver": "node:sqlite"
+  },
+  "thresholds": {
+    "readP95Ms": 2000,
+    "writeP95Ms": 3000,
+    "unexpectedErrorRate": 0.01,
+    "visibleUpdateMs": 10000
+  },
+  "nativeSqlWindows": "NOT_RUN",
+  "seed": {
+    "counts": {
+      "users": 30,
+      "teams": 6,
+      "projects": 20,
+      "tasks": 10000,
+      "comments": 20000,
+      "attachments": 3
+    },
+    "elapsedMs": 1348.141333
+  },
+  "coldStartupMs": 703.5051669999998,
+  "csv": {
+    "elapsedMs": 78.3097499999999,
+    "bytes": 1587512,
+    "rows": 10000,
+    "peakProcessRSS": 171886336
+  },
+  "boardConcurrency": {
+    "statuses": [
+      200,
+      409
+    ],
+    "expectedConflict": 1,
+    "totalTasks": 500,
+    "noDuplicateTaskIDs": true
+  },
+  "warmupSeconds": 2,
+  "browser": "153.0.8010.12",
+  "measurement": {
+    "rounds": 10,
+    "elapsedMs": 10001.730792000002,
+    "requests": 150,
+    "readRequests": 105,
+    "writeRequests": 45,
+    "ratio": [
+      0.7,
+      0.3
+    ],
+    "readP95": 197.053417000001,
+    "writeP95": 199.57541599999968,
+    "errorRate": 0,
+    "pass": true,
+    "statuses": {
+      "200": 122,
+      "201": 28
+    },
+    "errors": {},
+    "excludedDeliberateErrors": 0,
+    "fileTransferRequests": 0,
+    "visibleUpdateMs": 4918.159667000001,
+    "visibleSamples": 1,
+    "ancillary": "CSV/board conflict/login/browser polling/observer PATCH separate from main sample",
+    "activeSessions": 15,
+    "roles": {
+      "admin": 1,
+      "lead": 6,
+      "editor": 7,
+      "viewer": 1
+    }
+  },
+  "memory": {
+    "peakRSS": 273395008,
+    "peakHeap": 158189640,
+    "scope": "whole harness+API+SQLite process; includes clients/runtime; seed transient peak and browser process excluded; not production process-only"
+  }
+}

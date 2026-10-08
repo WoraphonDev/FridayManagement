@@ -1,0 +1,2991 @@
+
+> friday-management@0.1.0 test
+> npm run test:config && npm run test:foundation && npm run test:schema && npm run test:helpers && npm run test:api && npm run test:idempotency && npm run test:authorization && npm run test:setup && npm run test:sessions && npm run test:accounts && npm run test:admin-cli && npm run test:workspaces && npm run test:tasks && npm run test:task-views && npm run test:boards && npm run test:files && npm run test:notifications && npm run test:frontend && npm run test:contract && npm run test:test-plan && npm run test:operations && npm run test:regression && npm run test:performance-policy
+
+
+> friday-management@0.1.0 test:config
+> node --import tsx --test tests/config/*.test.ts
+
+TAP version 13
+# Subtest: All SRS configuration keys are present in reference template and checked policy
+ok 1 - All SRS configuration keys are present in reference template and checked policy
+  ---
+  duration_ms: 2.899917
+  type: 'test'
+  ...
+# Subtest: Local defaults retain baseline and derive no origin from request headers
+ok 2 - Local defaults retain baseline and derive no origin from request headers
+  ---
+  duration_ms: 0.511666
+  type: 'test'
+  ...
+# Subtest: Production requires explicit HTTPS origin, SQL provider and secure cookie
+ok 3 - Production requires explicit HTTPS origin, SQL provider and secure cookie
+  ---
+  duration_ms: 3.347833
+  type: 'test'
+  ...
+# Subtest: Invalid origin shape is rejected (*)
+ok 4 - Invalid origin shape is rejected (*)
+  ---
+  duration_ms: 0.075166
+  type: 'test'
+  ...
+# Subtest: Invalid origin shape is rejected (null)
+ok 5 - Invalid origin shape is rejected (null)
+  ---
+  duration_ms: 0.106375
+  type: 'test'
+  ...
+# Subtest: Invalid origin shape is rejected (https://tasks.test/path)
+ok 6 - Invalid origin shape is rejected (https://tasks.test/path)
+  ---
+  duration_ms: 0.049625
+  type: 'test'
+  ...
+# Subtest: Invalid origin shape is rejected (https://tasks.test/)
+ok 7 - Invalid origin shape is rejected (https://tasks.test/)
+  ---
+  duration_ms: 0.037917
+  type: 'test'
+  ...
+# Subtest: Invalid origin shape is rejected (credentials)
+ok 8 - Invalid origin shape is rejected (credentials)
+  ---
+  duration_ms: 0.036792
+  type: 'test'
+  ...
+# Subtest: Invalid origin shape is rejected (https://tasks.test?secret=x)
+ok 9 - Invalid origin shape is rejected (https://tasks.test?secret=x)
+  ---
+  duration_ms: 0.21375
+  type: 'test'
+  ...
+# Subtest: Invalid origin shape is rejected (https://tasks.test\#x)
+ok 10 - Invalid origin shape is rejected (https://tasks.test\#x)
+  ---
+  duration_ms: 0.292417
+  type: 'test'
+  ...
+# Subtest: Invalid origin shape is rejected (file:///tmp)
+ok 11 - Invalid origin shape is rejected (file:///tmp)
+  ---
+  duration_ms: 0.108084
+  type: 'test'
+  ...
+# Subtest: Invalid origin shape is rejected (https://one.test,https://two.test)
+ok 12 - Invalid origin shape is rejected (https://one.test,https://two.test)
+  ---
+  duration_ms: 0.038584
+  type: 'test'
+  ...
+# Subtest: Malformed provider/mode/host and boolean values fail without coercion
+ok 13 - Malformed provider/mode/host and boolean values fail without coercion
+  ---
+  duration_ms: 0.177958
+  type: 'test'
+  ...
+# Subtest: Trusted proxy allowlist accepts exact IPs and rejects ranges, names, hop counts and malformed lists
+ok 14 - Trusted proxy allowlist accepts exact IPs and rejects ranges, names, hop counts and malformed lists
+  ---
+  duration_ms: 0.169959
+  type: 'test'
+  ...
+# Subtest: Every integer setting rejects malformed/unsafe/range values
+ok 15 - Every integer setting rejects malformed/unsafe/range values
+  ---
+  duration_ms: 1.8725
+  type: 'test'
+  ...
+# Subtest: Bounds/cross-field timing/quota invariants and fixed retention are enforced
+ok 16 - Bounds/cross-field timing/quota invariants and fixed retention are enforced
+  ---
+  duration_ms: 0.264875
+  type: 'test'
+  ...
+# Subtest: SQL options preserve untrimmed secret, explicit TLS overrides for local tests and all pool/timeouts
+ok 17 - SQL options preserve untrimmed secret, explicit TLS overrides for local tests and all pool/timeouts
+  ---
+  duration_ms: 0.131583
+  type: 'test'
+  ...
+# Subtest: Configuration and driver errors never include supplied values/secrets
+ok 18 - Configuration and driver errors never include supplied values/secrets
+  ---
+  duration_ms: 0.077041
+  type: 'test'
+  ...
+# Subtest: SQL application-lock outcomes fail closed on missing/negative/unknown result
+ok 19 - SQL application-lock outcomes fail closed on missing/negative/unknown result
+  ---
+  duration_ms: 0.087916
+  type: 'test'
+  ...
+# Subtest: Paths are canonical, writable, outside source; probe files are removed and no database is created
+ok 20 - Paths are canonical, writable, outside source; probe files are removed and no database is created
+  ---
+  duration_ms: 20.279125
+  type: 'test'
+  ...
+# Subtest: Relative paths and source/build/webroot descendants or ancestors are rejected
+ok 21 - Relative paths and source/build/webroot descendants or ancestors are rejected
+  ---
+  duration_ms: 6.333833
+  type: 'test'
+  ...
+# Subtest: Existing symlink/junction back into source is rejected before directories or files are created
+ok 22 - Existing symlink/junction back into source is rejected before directories or files are created
+  ---
+  duration_ms: 3.072667
+  type: 'test'
+  ...
+# Subtest: SQLite outside DATA_DIR, directory path, logs/uploads/temp locations are rejected
+ok 23 - SQLite outside DATA_DIR, directory path, logs/uploads/temp locations are rejected
+  ---
+  duration_ms: 5.510209
+  type: 'test'
+  ...
+# Subtest: Dangling database symlink cannot create a database in source or outside storage
+ok 24 - Dangling database symlink cannot create a database in source or outside storage
+  ---
+  duration_ms: 2.790125
+  type: 'test'
+  ...
+# Subtest: Database aliases into source and hardlinked database files are rejected
+ok 25 - Database aliases into source and hardlinked database files are rejected
+  ---
+  duration_ms: 7.369709
+  type: 'test'
+  ...
+# Subtest: File-as-directory/unwritable path fails with only configuration key names
+ok 26 - File-as-directory/unwritable path fails with only configuration key names
+  ---
+  duration_ms: 3.749416
+  type: 'test'
+  ...
+# Subtest: Remote SQL backup paths are parsed but never created/probed on app host
+ok 27 - Remote SQL backup paths are parsed but never created/probed on app host
+  ---
+  duration_ms: 6.91925
+  type: 'test'
+  ...
+# Subtest: Service worker caches exact public build assets only; private/query/foreign/mutation requests bypass cache
+ok 28 - Service worker caches exact public build assets only; private/query/foreign/mutation requests bypass cache
+  ---
+  duration_ms: 36.595084
+  type: 'test'
+  ...
+# Subtest: Dedicated SQL guard uses bound Session/Exclusive lock and closes once without reconnect
+ok 29 - Dedicated SQL guard uses bound Session/Exclusive lock and closes once without reconnect
+  ---
+  duration_ms: 1.127583
+  type: 'test'
+  ...
+# Subtest: Guard acquisition rejects negative result and sanitizes connection/request failure
+ok 30 - Guard acquisition rejects negative result and sanitizes connection/request failure
+  ---
+  duration_ms: 0.715166
+  type: 'test'
+  ...
+# Subtest: Error/end during acquisition rejects immediately even without a request callback
+ok 31 - Error/end during acquisition rejects immediately even without a request callback
+  ---
+  duration_ms: 0.107333
+  type: 'test'
+  ...
+# Subtest: Held session loss notifies shutdown once; intentional close does not trigger failure
+ok 32 - Held session loss notifies shutdown once; intentional close does not trigger failure
+  ---
+  duration_ms: 0.132167
+  type: 'test'
+  ...
+# Subtest: Valid config starts loopback without creating a DB; duplicate instance is rejected and shutdown releases guard
+ok 33 - Valid config starts loopback without creating a DB; duplicate instance is rejected and shutdown releases guard
+  ---
+  duration_ms: 49.877625
+  type: 'test'
+  ...
+# Subtest: Invalid configuration stops before server/filesystem setup and safe formatter does not disclose secrets
+ok 34 - Invalid configuration stops before server/filesystem setup and safe formatter does not disclose secrets
+  ---
+  duration_ms: 1.887791
+  type: 'test'
+  ...
+# Subtest: Listen failure releases instance guard instead of leaving a lock owned by the failed startup
+ok 35 - Listen failure releases instance guard instead of leaving a lock owned by the failed startup
+  ---
+  duration_ms: 3.617292
+  type: 'test'
+  ...
+# Subtest: Origin is immutable and trust-proxy function recognizes only explicit IPs
+ok 36 - Origin is immutable and trust-proxy function recognizes only explicit IPs
+  ---
+  duration_ms: 0.790959
+  type: 'test'
+  ...
+# Subtest: SQL connection failure never falls back to SQLite or creates a local DB
+ok 37 - SQL connection failure never falls back to SQLite or creates a local DB
+  ---
+  duration_ms: 22.95175
+  type: 'test'
+  ...
+# Subtest: Kernel instance guard releases on process crash; no stale PID/lock file is deleted
+ok 38 - Kernel instance guard releases on process crash; no stale PID/lock file is deleted
+  ---
+  duration_ms: 428.182708
+  type: 'test'
+  ...
+1..38
+# tests 38
+# suites 0
+# pass 38
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1208.604209
+
+> friday-management@0.1.0 test:foundation
+> node --import tsx --test tests/foundation/*.test.ts
+
+TAP version 13
+# (node:53741) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite transaction commits state/audit/notification together and rolls back effect failures
+ok 1 - SQLite transaction commits state/audit/notification together and rolls back effect failures
+  ---
+  duration_ms: 3.518792
+  type: 'test'
+  ...
+# Subtest: Concurrent SQLite units serialize without nested-transaction failure
+ok 2 - Concurrent SQLite units serialize without nested-transaction failure
+  ---
+  duration_ms: 0.323541
+  type: 'test'
+  ...
+# Subtest: Migration ledger is idempotent and persistent; no sample data is created automatically
+ok 3 - Migration ledger is idempotent and persistent; no sample data is created automatically
+  ---
+  duration_ms: 17.031209
+  type: 'test'
+  ...
+# Subtest: Changed migration checksum fails and transactional DDL is rolled back
+ok 4 - Changed migration checksum fails and transactional DDL is rolled back
+  ---
+  duration_ms: 2.288833
+  type: 'test'
+  ...
+# Subtest: Loopback scaffold health/live works; readiness and business API fail closed without data creation
+ok 5 - Loopback scaffold health/live works; readiness and business API fail closed without data creation
+  ---
+  duration_ms: 45.361417
+  type: 'test'
+  ...
+1..5
+# tests 5
+# suites 0
+# pass 5
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 340.984167
+
+> friday-management@0.1.0 test:schema
+> node --import tsx --test tests/schema/*.test.ts
+
+TAP version 13
+# Subtest: Date codecs reject impossible days, year zero, timezone offsets and non-millisecond timestamps
+ok 1 - Date codecs reject impossible days, year zero, timezone offsets and non-millisecond timestamps
+  ---
+  duration_ms: 1.357292
+  type: 'test'
+  ...
+# Subtest: SQL row boundary converts DATE/DATETIME2/BIT and fails closed on unsafe or unsupported driver values
+ok 2 - SQL row boundary converts DATE/DATETIME2/BIT and fails closed on unsafe or unsupported driver values
+  ---
+  duration_ms: 0.803208
+  type: 'test'
+  ...
+# (node:53767) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite: All dictionary tables, enabled/trusted NO ACTION FKs and required indexes exist
+ok 3 - SQLite: All dictionary tables, enabled/trusted NO ACTION FKs and required indexes exist
+  ---
+  duration_ms: 16.28825
+  type: 'test'
+  ...
+# Subtest: SQLite: Case-insensitive username/team uniqueness, Thai/Unicode and memberships enforce boundaries
+ok 4 - SQLite: Case-insensitive username/team uniqueness, Thai/Unicode and memberships enforce boundaries
+  ---
+  duration_ms: 14.039708
+  type: 'test'
+  ...
+# Subtest: SQLite: UTF16 text storage matches DTO limits including emoji and Thai trailing spaces
+ok 5 - SQLite: UTF16 text storage matches DTO limits including emoji and Thai trailing spaces
+  ---
+  duration_ms: 12.554209
+  type: 'test'
+  ...
+# Subtest: SQLite: Subtask/comment/attachment/admin records enforce FK, JSON, UUID, byte and version boundaries
+ok 6 - SQLite: Subtask/comment/attachment/admin records enforce FK, JSON, UUID, byte and version boundaries
+  ---
+  duration_ms: 12.77175
+  type: 'test'
+  ...
+# Subtest: SQLite: Date-only leap boundaries and UTC millisecond timestamps serialize as provider-independent primitives
+ok 7 - SQLite: Date-only leap boundaries and UTC millisecond timestamps serialize as provider-independent primitives
+  ---
+  duration_ms: 13.052375
+  type: 'test'
+  ...
+# Subtest: SQLite: Task enums, recurrence links/anchor, optional UNIQUE, completion and trash pairs enforce consistency
+ok 8 - SQLite: Task enums, recurrence links/anchor, optional UNIQUE, completion and trash pairs enforce consistency
+  ---
+  duration_ms: 13.392792
+  type: 'test'
+  ...
+# Subtest: SQLite: Board uniqueness is immediate; negative ranks support two-phase swaps and status/project FKs
+ok 9 - SQLite: Board uniqueness is immediate; negative ranks support two-phase swaps and status/project FKs
+  ---
+  duration_ms: 13.767667
+  type: 'test'
+  ...
+# Subtest: SQLite: Explicit purge retains recurrence tombstones and cleanup snapshots, with no identity reuse
+ok 10 - SQLite: Explicit purge retains recurrence tombstones and cleanup snapshots, with no identity reuse
+  ---
+  duration_ms: 12.944167
+  type: 'test'
+  ...
+# Subtest: SQLite: Quota, reservations, cleanup, idempotency, sessions and maintenance survive reopen
+ok 11 - SQLite: Quota, reservations, cleanup, idempotency, sessions and maintenance survive reopen
+  ---
+  duration_ms: 14.5995
+  type: 'test'
+  ...
+# Subtest: SQLite: Actual task/audit/notification writes commit atomically and roll back when an effect fails
+ok 12 - SQLite: Actual task/audit/notification writes commit atomically and roll back when an effect fails
+  ---
+  duration_ms: 12.579625
+  type: 'test'
+  ...
+# Subtest: SQLite: Fresh/repeat/legacy upgrade preserve data; changed, missing and partial-failure migrations are rejected atomically
+ok 13 - SQLite: Fresh/repeat/legacy upgrade preserve data; changed, missing and partial-failure migrations are rejected atomically
+  ---
+  duration_ms: 14.662834
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 275.399834
+
+> friday-management@0.1.0 test:helpers
+> node --import tsx --test tests/helpers/*.test.ts
+
+TAP version 13
+# Subtest: Server Bangkok midnight and inclusive date ranges produce UTC half-open intervals
+ok 1 - Server Bangkok midnight and inclusive date ranges produce UTC half-open intervals
+  ---
+  duration_ms: 3.504208
+  type: 'test'
+  ...
+# Subtest: Calendar math handles leap centuries, year bounds and rejects invalid dates
+ok 2 - Calendar math handles leap centuries, year bounds and rejects invalid dates
+  ---
+  duration_ms: 0.147125
+  type: 'test'
+  ...
+# Subtest: Monthly anchor31 remains31 after February 2027
+ok 3 - Monthly anchor31 remains31 after February 2027
+  ---
+  duration_ms: 0.124917
+  type: 'test'
+  ...
+# Subtest: Monthly anchor31 remains31 after February 2028
+ok 4 - Monthly anchor31 remains31 after February 2028
+  ---
+  duration_ms: 0.064667
+  type: 'test'
+  ...
+# Subtest: Monthly anchor31 remains31 after February 1900
+ok 5 - Monthly anchor31 remains31 after February 1900
+  ---
+  duration_ms: 0.065917
+  type: 'test'
+  ...
+# Subtest: Monthly anchor31 remains31 after February 2000
+ok 6 - Monthly anchor31 remains31 after February 2000
+  ---
+  duration_ms: 0.059875
+  type: 'test'
+  ...
+# Subtest: Recurrence anchor edits/null start/daily/weekly follow baseline without catch-up
+ok 7 - Recurrence anchor edits/null start/daily/weekly follow baseline without catch-up
+  ---
+  duration_ms: 0.220875
+  type: 'test'
+  ...
+# Subtest: Restore/purge comparator is shared: cutoff-1ms, cutoff and cutoff+1ms
+ok 8 - Restore/purge comparator is shared: cutoff-1ms, cutoff and cutoff+1ms
+  ---
+  duration_ms: 0.089208
+  type: 'test'
+  ...
+# Subtest: Expected version rejects stale/invalid/overflow without a new version
+ok 9 - Expected version rejects stale/invalid/overflow without a new version
+  ---
+  duration_ms: 1.347042
+  type: 'test'
+  ...
+# Subtest: Write lifecycle checks auth/scope/deleted/archive boundaries and RD-01 exceptions
+ok 10 - Write lifecycle checks auth/scope/deleted/archive boundaries and RD-01 exceptions
+  ---
+  duration_ms: 0.319
+  type: 'test'
+  ...
+# (node:53793) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite local: two-phase rank swap, canonical locks, one column version increment and reopen persistence
+ok 11 - SQLite local: two-phase rank swap, canonical locks, one column version increment and reopen persistence
+  ---
+  duration_ms: 17.851083
+  type: 'test'
+  ...
+# Subtest: SQLite local: effect failure rolls back ranks, versions and persisted audit/notification together
+ok 12 - SQLite local: effect failure rolls back ranks, versions and persisted audit/notification together
+  ---
+  duration_ms: 13.699167
+  type: 'test'
+  ...
+# Subtest: SQLite local: stale/missing task and stale/incomplete/duplicate column orders cannot leave partial state
+ok 13 - SQLite local: stale/missing task and stale/incomplete/duplicate column orders cannot leave partial state
+  ---
+  duration_ms: 13.696667
+  type: 'test'
+  ...
+# Subtest: SQLite local: source/target column versions, task status/version, audit and notification commit atomically
+ok 14 - SQLite local: source/target column versions, task status/version, audit and notification commit atomically
+  ---
+  duration_ms: 13.356083
+  type: 'test'
+  ...
+# Subtest: SQLite local: legacy blocked upgrades to review with children, ledger, identity high-water and repeat/reopen intact
+ok 15 - SQLite local: legacy blocked upgrades to review with children, ledger, identity high-water and repeat/reopen intact
+  ---
+  duration_ms: 22.546792
+  type: 'test'
+  ...
+# Subtest: SQL adapter synthetic driver lifecycle: business rollback
+ok 16 - SQL adapter synthetic driver lifecycle: business rollback
+  ---
+  duration_ms: 3.939417
+  type: 'test'
+  ...
+# Subtest: SQL adapter synthetic driver lifecycle: rollback failure
+ok 17 - SQL adapter synthetic driver lifecycle: rollback failure
+  ---
+  duration_ms: 0.56675
+  type: 'test'
+  ...
+# Subtest: SQL adapter synthetic driver lifecycle: commit uncertainty
+ok 18 - SQL adapter synthetic driver lifecycle: commit uncertainty
+  ---
+  duration_ms: 0.447041
+  type: 'test'
+  ...
+# Subtest: SQLite busy/locked reports retryable service status without repeating a transaction
+ok 19 - SQLite busy/locked reports retryable service status without repeating a transaction
+  ---
+  duration_ms: 1.527834
+  type: 'test'
+  ...
+# Subtest: Only confirmed rolled-back SQL deadlocks on idempotent work retry; cap is two retries
+ok 20 - Only confirmed rolled-back SQL deadlocks on idempotent work retry; cap is two retries
+  ---
+  duration_ms: 0.210125
+  type: 'test'
+  ...
+# Subtest: non-idempotent is never blindly retried
+ok 21 - non-idempotent is never blindly retried
+  ---
+  duration_ms: 0.162375
+  type: 'test'
+  ...
+# Subtest: lock timeout is never blindly retried
+ok 22 - lock timeout is never blindly retried
+  ---
+  duration_ms: 0.067959
+  type: 'test'
+  ...
+# Subtest: request timeout is never blindly retried
+ok 23 - request timeout is never blindly retried
+  ---
+  duration_ms: 0.064625
+  type: 'test'
+  ...
+# Subtest: unknown commit is never blindly retried
+ok 24 - unknown commit is never blindly retried
+  ---
+  duration_ms: 0.055625
+  type: 'test'
+  ...
+# Subtest: Business failures preserve their original identity; work runs in adapter transaction
+ok 25 - Business failures preserve their original identity; work runs in adapter transaction
+  ---
+  duration_ms: 0.1585
+  type: 'test'
+  ...
+1..25
+# tests 25
+# suites 0
+# pass 25
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 338.491458
+
+> friday-management@0.1.0 test:api
+> node --import tsx --test tests/api/*.test.ts
+
+TAP version 13
+# Subtest: All 56 declared operations share fail-closed ingress; unknown route/method/path/query is rejected
+ok 1 - All 56 declared operations share fail-closed ingress; unknown route/method/path/query is rejected
+  ---
+  duration_ms: 128.390125
+  type: 'test'
+  ...
+# Subtest: JSON media/UTF8/syntax/1MiB limit and compressed ingress reject before any handler
+ok 2 - JSON media/UTF8/syntax/1MiB limit and compressed ingress reject before any handler
+  ---
+  duration_ms: 8.5455
+  type: 'test'
+  ...
+# Subtest: Origin is exact configured value, independent of spoofed Host/forwarded headers; no CORS
+ok 3 - Origin is exact configured value, independent of spoofed Host/forwarded headers; no CORS
+  ---
+  duration_ms: 8.745916
+  type: 'test'
+  ...
+# Subtest: Session/CSRF hooks fail closed; forced-password exceptions and hidden project404 preserve boundaries
+ok 4 - Session/CSRF hooks fail closed; forced-password exceptions and hidden project404 preserve boundaries
+  ---
+  duration_ms: 6.218875
+  type: 'test'
+  ...
+# Subtest: Body allowlist/trim/null/coercion and idempotency UUID validation leave secrets untouched
+ok 5 - Body allowlist/trim/null/coercion and idempotency UUID validation leave secrets untouched
+  ---
+  duration_ms: 12.779042
+  type: 'test'
+  ...
+# Subtest: Pagination/query wire is strict with page1/size50 defaults and max100; export cannot paginate
+ok 6 - Pagination/query wire is strict with page1/size50 defaults and max100; export cannot paginate
+  ---
+  duration_ms: 16.168917
+  type: 'test'
+  ...
+# Subtest: Public response schema rejects sensitive fields; safe error/logger/requestId/currentVersion/retry headers match wire
+ok 7 - Public response schema rejects sensitive fields; safe error/logger/requestId/currentVersion/retry headers match wire
+  ---
+  duration_ms: 3.784417
+  type: 'test'
+  ...
+# Subtest: No-body command rejects injected JSON and 204 emits no response body
+ok 8 - No-body command rejects injected JSON and 204 emits no response body
+  ---
+  duration_ms: 1.733041
+  type: 'test'
+  ...
+# Subtest: Merged task validation is deferred to authoritative transaction state, not request omissions
+ok 9 - Merged task validation is deferred to authoritative transaction state, not request omissions
+  ---
+  duration_ms: 3.3065
+  type: 'test'
+  ...
+# Subtest: Health routes preserve wire/query allowlist; HSTS respects configured trusted proxy
+ok 10 - Health routes preserve wire/query allowlist; HSTS respects configured trusted proxy
+  ---
+  duration_ms: 6.33275
+  type: 'test'
+  ...
+# (node:53836) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Local readiness reflects live SQLite, setup gate and actual storage; probes leave no files
+ok 11 - Local readiness reflects live SQLite, setup gate and actual storage; probes leave no files
+  ---
+  duration_ms: 23.800958
+  type: 'test'
+  ...
+# Subtest: Health is status-only; forwarded/external clients never invoke readiness; errors are redacted
+ok 12 - Health is status-only; forwarded/external clients never invoke readiness; errors are redacted
+  ---
+  duration_ms: 42.400292
+  type: 'test'
+  ...
+# {"event":"operational_log_failed"}
+# Subtest: Operational logs rotate real files and discard secrets/unknown fields; unsafe links fail closed
+ok 13 - Operational logs rotate real files and discard secrets/unknown fields; unsafe links fail closed
+  ---
+  duration_ms: 8.521709
+  type: 'test'
+  ...
+# (node:53837) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: Runtime Zod boundary retains locked scalar-password/UTF16/date/DTO rules without defaults or stripping
+ok 14 - Runtime Zod boundary retains locked scalar-password/UTF16/date/DTO rules without defaults or stripping
+  ---
+  duration_ms: 13.427834
+  type: 'test'
+  ...
+# Subtest: Provider query parameters treat SQL-shaped text as data and cannot expand row scope
+ok 15 - Provider query parameters treat SQL-shaped text as data and cannot expand row scope
+  ---
+  duration_ms: 17.634417
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 530.278917
+
+> friday-management@0.1.0 test:idempotency
+> node --import tsx --test tests/idempotency/*.test.ts
+
+TAP version 13
+# Subtest: canonical JSON sorts recursively, preserves array order and null/omitted distinctions
+ok 1 - canonical JSON sorts recursively, preserves array order and null/omitted distinctions
+  ---
+  duration_ms: 19.234292
+  type: 'test'
+  ...
+# (node:53863) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: separate Node processes share SQLite claim: one business/audit/notification/cache record
+ok 2 - separate Node processes share SQLite claim: one business/audit/notification/cache record
+  ---
+  duration_ms: 605.162792
+  type: 'test'
+  ...
+# (node:53864) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: HTTP replay has fresh requestId; real SQLite tx and repeated guard; missing engine fails closed
+ok 3 - HTTP replay has fresh requestId; real SQLite tx and repeated guard; missing engine fails closed
+  ---
+  duration_ms: 146.976208
+  type: 'test'
+  ...
+# (node:53865) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite: replay survives reopen; case-insensitive UUID; different body conflicts; user/concrete path isolated
+ok 4 - SQLite: replay survives reopen; case-insensitive UUID; different body conflicts; user/concrete path isolated
+  ---
+  duration_ms: 28.695541
+  type: 'test'
+  ...
+# Subtest: SQLite: current rights and resource visibility checked before replay/hash conflict; archive allows readable replay
+ok 5 - SQLite: current rights and resource visibility checked before replay/hash conflict; archive allows readable replay
+  ---
+  duration_ms: 15.515417
+  type: 'test'
+  ...
+# Subtest: SQLite: TTL anchored after mutation; exact cutoff expired; failed replacement restores old cache
+ok 6 - SQLite: TTL anchored after mutation; exact cutoff expired; failed replacement restores old cache
+  ---
+  duration_ms: 19.292875
+  type: 'test'
+  ...
+# Subtest: SQLite: effect failure and response sensitive-field rejection roll back business/effects/cache
+ok 7 - SQLite: effect failure and response sensitive-field rejection roll back business/effects/cache
+  ---
+  duration_ms: 14.964375
+  type: 'test'
+  ...
+# Subtest: SQLite: cache insert failure atomically rolls back business, audit and notification
+ok 8 - SQLite: cache insert failure atomically rolls back business, audit and notification
+  ---
+  duration_ms: 17.78475
+  type: 'test'
+  ...
+# Subtest: SQLite: parallel same key replays; conflicting parallel body creates one set of effects
+ok 9 - SQLite: parallel same key replays; conflicting parallel body creates one set of effects
+  ---
+  duration_ms: 26.896709
+  type: 'test'
+  ...
+# Subtest: SQLite: bounded cleanup expires at cutoff and preserves live keys; job has no automatic timer
+ok 10 - SQLite: bounded cleanup expires at cutoff and preserves live keys; job has no automatic timer
+  ---
+  duration_ms: 27.099417
+  type: 'test'
+  ...
+# Subtest: SQLite: create defaults normalized; credential commands rejected before hashing/persistence
+ok 11 - SQLite: create defaults normalized; credential commands rejected before hashing/persistence
+  ---
+  duration_ms: 20.787625
+  type: 'test'
+  ...
+# Subtest: SQLite: ambiguous outcome after commit returns busy; retry replays committed result without effects duplication
+ok 12 - SQLite: ambiguous outcome after commit returns busy; retry replays committed result without effects duplication
+  ---
+  duration_ms: 15.009833
+  type: 'test'
+  ...
+# Subtest: SQLite: upload fingerprint permits validated metadata only; file bytes and headers never reach storage
+ok 13 - SQLite: upload fingerprint permits validated metadata only; file bytes and headers never reach storage
+  ---
+  duration_ms: 32.796084
+  type: 'test'
+  ...
+1..13
+# tests 13
+# suites 0
+# pass 13
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 970.387041
+
+> friday-management@0.1.0 test:authorization
+> node --import tsx --test tests/authorization/*.test.ts
+
+TAP version 13
+# (node:53906) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: separate process revoke vs write barrier: authorized transaction completes, post-revocation new/replay denied
+ok 1 - separate process revoke vs write barrier: authorized transaction completes, post-revocation new/replay denied
+  ---
+  duration_ms: 654.1245
+  type: 'test'
+  ...
+# (node:53907) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: HTTP actual DB authorization/idempotency: archived replay, new write denial and revoked membership/session
+ok 2 - HTTP actual DB authorization/idempotency: archived replay, new write denial and revoked membership/session
+  ---
+  duration_ms: 83.57325
+  type: 'test'
+  ...
+# {"requestId":"0ce9b1f5-de2b-4b12-ab5a-e9f8162b4db7","code":"INTERNAL_ERROR"}
+# Subtest: HTTP scoped list/count/read-all and response rollback; forced-password activity exception works end to end
+ok 3 - HTTP scoped list/count/read-all and response rollback; forced-password activity exception works end to end
+  ---
+  duration_ms: 78.732334
+  type: 'test'
+  ...
+# Subtest: effective permission precedence; ordinary membership cannot grant read/write/manage
+ok 4 - effective permission precedence; ordinary membership cannot grant read/write/manage
+  ---
+  duration_ms: 1.793042
+  type: 'test'
+  ...
+# (node:53909) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite: role matrix: admin/owner lead/editor/viewer; team/foreign lead/creator/assignee do not grant project access
+ok 5 - SQLite: role matrix: admin/owner lead/editor/viewer; team/foreign lead/creator/assignee do not grant project access
+  ---
+  duration_ms: 23.548208
+  type: 'test'
+  ...
+# Subtest: SQLite: DB scopes hide private rows/counts/search/export; owner-team and literal search filters are bound
+ok 6 - SQLite: DB scopes hide private rows/counts/search/export; owner-team and literal search filters are bound
+  ---
+  duration_ms: 17.329667
+  type: 'test'
+  ...
+# Subtest: SQLite: current membership revocation and role downgrade affect every descendant; independent lead/editor grants preserved
+ok 7 - SQLite: current membership revocation and role downgrade affect every descendant; independent lead/editor grants preserved
+  ---
+  duration_ms: 20.429291
+  type: 'test'
+  ...
+# Subtest: SQLite: session hash/user/version/revocation/active/absolute and idle cutoffs revalidated without extending activity
+ok 8 - SQLite: session hash/user/version/revocation/active/absolute and idle cutoffs revalidated without extending activity
+  ---
+  duration_ms: 18.754541
+  type: 'test'
+  ...
+# Subtest: SQLite: forced password allows exactly me/password/logout/activity; current DB CSRF checked; GET never touches session
+ok 9 - SQLite: forced password allows exactly me/password/logout/activity; current DB CSRF checked; GET never touches session
+  ---
+  duration_ms: 17.140417
+  type: 'test'
+  ...
+# Subtest: SQLite: archived/deleted lifecycle and RD01 exceptions; version hook precedes state errors; expired restore denied
+ok 10 - SQLite: archived/deleted lifecycle and RD01 exceptions; version hook precedes state errors; expired restore denied
+  ---
+  duration_ms: 20.44175
+  type: 'test'
+  ...
+# Subtest: SQLite: attachment ownership/read visibility/deleted listing/restore cutoff; Viewer never writes
+ok 11 - SQLite: attachment ownership/read visibility/deleted listing/restore cutoff; Viewer never writes
+  ---
+  duration_ms: 28.263875
+  type: 'test'
+  ...
+# Subtest: SQLite: notification read-one/read-all SQL enforces recipient and current parent access
+ok 12 - SQLite: notification read-one/read-all SQL enforces recipient and current parent access
+  ---
+  duration_ms: 29.895542
+  type: 'test'
+  ...
+# Subtest: SQLite: team/directory privacy and create/unarchive parent invariant; all protected contract operations covered
+ok 13 - SQLite: team/directory privacy and create/unarchive parent invariant; all protected contract operations covered
+  ---
+  duration_ms: 28.517083
+  type: 'test'
+  ...
+# Subtest: SQLite: idempotent replay rechecks real session/rights and cached child existence; archived readable replay allowed
+ok 14 - SQLite: idempotent replay rechecks real session/rights and cached child existence; archived readable replay allowed
+  ---
+  duration_ms: 26.7635
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1017.455625
+
+> friday-management@0.1.0 test:setup
+> node --import tsx --test tests/setup/*.test.ts
+
+TAP version 13
+# (node:53946) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: separate processes with independent valid startup tokens share one DB no-users claim
+ok 1 - separate processes with independent valid startup tokens share one DB no-users claim
+  ---
+  duration_ms: 658.092583
+  type: 'test'
+  ...
+# (node:53947) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: HTTP public meta/setup enforce Origin/schema, create safe201 without session and close409
+ok 2 - HTTP public meta/setup enforce Origin/schema, create safe201 without session and close409
+  ---
+  duration_ms: 391.133833
+  type: 'test'
+  ...
+# Subtest: HTTP setup attempt limit uses socket IP despite spoofed forwarded headers and returns429/Retry-After
+ok 3 - HTTP setup attempt limit uses socket IP despite spoofed forwarded headers and returns429/Retry-After
+  ---
+  duration_ms: 52.348834
+  type: 'test'
+  ...
+# Subtest: actual async scrypt uses independent random salts; verifies correct password and rejects wrong/malformed cost
+ok 4 - actual async scrypt uses independent random salts; verifies correct password and rejects wrong/malformed cost
+  ---
+  duration_ms: 417.840583
+  type: 'test'
+  ...
+# Subtest: password policy counts Unicode scalars12/128, preserves whitespace and rejects limits before crypto
+ok 5 - password policy counts Unicode scalars12/128, preserves whitespace and rejects limits before crypto
+  ---
+  duration_ms: 564.059166
+  type: 'test'
+  ...
+# Subtest: hash resource cap4 rejects excess with503 and always releases capacity
+ok 6 - hash resource cap4 rejects excess with503 and always releases capacity
+  ---
+  duration_ms: 0.300459
+  type: 'test'
+  ...
+# Subtest: IP canonicalization unifies mapped IPv4 and equivalent IPv6 without trusting arbitrary text
+ok 7 - IP canonicalization unifies mapped IPv4 and equivalent IPv6 without trusting arbitrary text
+  ---
+  duration_ms: 3.381583
+  type: 'test'
+  ...
+# (node:53949) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite: setup token is 256-bit, changes with service restart, never stored or exposed by meta
+ok 8 - SQLite: setup token is 256-bit, changes with service restart, never stored or exposed by meta
+  ---
+  duration_ms: 24.68775
+  type: 'test'
+  ...
+# Subtest: SQLite: valid setup creates one active Admin/organization/audit/revision; scrypt salt/cost/no-trim; safe DTO
+ok 9 - SQLite: valid setup creates one active Admin/organization/audit/revision; scrypt salt/cost/no-trim; safe DTO
+  ---
+  duration_ms: 443.895125
+  type: 'test'
+  ...
+# Subtest: SQLite: wrong token403 and strict field/password rules reject without business rows; configured setup409 even wrong token
+ok 10 - SQLite: wrong token403 and strict field/password rules reject without business rows; configured setup409 even wrong token
+  ---
+  duration_ms: 109.753042
+  type: 'test'
+  ...
+# Subtest: SQLite: audit failure rolls back organization/user/revision; rate attempts survive business rollback
+ok 11 - SQLite: audit failure rolls back organization/user/revision; rate attempts survive business rollback
+  ---
+  duration_ms: 93.391625
+  type: 'test'
+  ...
+# Subtest: SQLite: parallel setup commands create exactly one complete set and the loser409
+ok 12 - SQLite: parallel setup commands create exactly one complete set and the loser409
+  ---
+  duration_ms: 89.048292
+  type: 'test'
+  ...
+# Subtest: SQLite: persisted setup IP limit10/15min survives restart; equivalent mapped IPv4 buckets match; cutoff resets
+ok 13 - SQLite: persisted setup IP limit10/15min survives restart; equivalent mapped IPv4 buckets match; cutoff resets
+  ---
+  duration_ms: 20.482375
+  type: 'test'
+  ...
+# Subtest: SQLite: pre-existing organization without accounts updated atomically rather than duplicated
+ok 14 - SQLite: pre-existing organization without accounts updated atomically rather than duplicated
+  ---
+  duration_ms: 81.11625
+  type: 'test'
+  ...
+# Subtest: SQLite: simulated lost commit acknowledgement returns busy; authoritative meta false and further setup409
+ok 15 - SQLite: simulated lost commit acknowledgement returns busy; authoritative meta false and further setup409
+  ---
+  duration_ms: 90.128542
+  type: 'test'
+  ...
+# (node:53950) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual startup announces only after listen; empty restart rotates token; configured restart emits none
+ok 16 - actual startup announces only after listen; empty restart rotates token; configured restart emits none
+  ---
+  duration_ms: 415.994
+  type: 'test'
+  ...
+# Subtest: existing unmigrated database rejected without token/DDL; startup error is safe
+ok 17 - existing unmigrated database rejected without token/DDL; startup error is safe
+  ---
+  duration_ms: 8.081916
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1482.116042
+
+> friday-management@0.1.0 test:sessions
+> node --import tsx --test tests/sessions/*.test.ts
+
+TAP version 13
+# (node:53977) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: two processes atomically enforce shared username10 across independent IP buckets
+ok 1 - two processes atomically enforce shared username10 across independent IP buckets
+  ---
+  duration_ms: 674.385125
+  type: 'test'
+  ...
+# Subtest: independent process login snapshot cannot create a session after committed role revocation
+ok 2 - independent process login snapshot cannot create a session after committed role revocation
+  ---
+  duration_ms: 568.488958
+  type: 'test'
+  ...
+# (node:53978) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: real login cookie/Self/no-store, readonly me, Origin+CSRF activity, logout commit and old-cookie401
+ok 3 - real login cookie/Self/no-store, readonly me, Origin+CSRF activity, logout commit and old-cookie401
+  ---
+  duration_ms: 562.496167
+  type: 'test'
+  ...
+# Subtest: generic login errors, strict ingress, duplicate/malformed cookies and caller fields cannot authenticate
+ok 4 - generic login errors, strict ingress, duplicate/malformed cookies and caller fields cannot authenticate
+  ---
+  duration_ms: 688.707625
+  type: 'test'
+  ...
+# Subtest: real session resolver/current authorization: forced gate, polling idle cutoff, maintenance state and scoped Self
+ok 5 - real session resolver/current authorization: forced gate, polling idle cutoff, maintenance state and scoped Self
+  ---
+  duration_ms: 379.126791
+  type: 'test'
+  ...
+# Subtest: rollback and unknown login/logout commit outcomes never emit credential/success cookies; errors redact details
+ok 6 - rollback and unknown login/logout commit outcomes never emit credential/success cookies; errors redact details
+  ---
+  duration_ms: 459.295542
+  type: 'test'
+  ...
+# Subtest: cookie proof accepts exactly one canonical session token, rejects ambiguity and uses host-only policy
+ok 7 - cookie proof accepts exactly one canonical session token, rejects ambiguity and uses host-only policy
+  ---
+  duration_ms: 1.493666
+  type: 'test'
+  ...
+# Subtest: actual shared hash/verify cap4 rejects the fifth crypto operation; scalar128 creation works, current-password1 is generic false
+ok 8 - actual shared hash/verify cap4 rejects the fifth crypto operation; scalar128 creation works, current-password1 is generic false
+  ---
+  duration_ms: 552.168792
+  type: 'test'
+  ...
+# (node:53980) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite: case-insensitive login creates independent256-bit tokens/hash-only sessions and minimal scoped Self
+ok 9 - SQLite: case-insensitive login creates independent256-bit tokens/hash-only sessions and minimal scoped Self
+  ---
+  duration_ms: 622.424041
+  type: 'test'
+  ...
+# Subtest: SQLite: wrong/unknown/inactive/corrupt and short CurrentPassword failures are generic; spaces are significant
+ok 10 - SQLite: wrong/unknown/inactive/corrupt and short CurrentPassword failures are generic; spaces are significant
+  ---
+  duration_ms: 596.50125
+  type: 'test'
+  ...
+# Subtest: SQLite: strict login allowlist and scalar CurrentPassword bounds validate before attempts or hashing
+ok 11 - SQLite: strict login allowlist and scalar CurrentPassword bounds validate before attempts or hashing
+  ---
+  duration_ms: 227.306333
+  type: 'test'
+  ...
+# Subtest: SQLite: username limit10 ignores case/IP; successes and restart preserve limits; exact15min boundary resets
+ok 12 - SQLite: username limit10 ignores case/IP; successes and restart preserve limits; exact15min boundary resets
+  ---
+  duration_ms: 447.2355
+  type: 'test'
+  ...
+# Subtest: SQLite: IP limit30 spans usernames and successful login; mapped IPv4 shares bucket; expired buckets reset
+ok 13 - SQLite: IP limit30 spans usernames and successful login; mapped IPv4 shares bucket; expired buckets reset
+  ---
+  duration_ms: 320.7475
+  type: 'test'
+  ...
+# Subtest: SQLite: reads do not renew idle; CSRF activity renews only before exact60min expiry
+ok 14 - SQLite: reads do not renew idle; CSRF activity renews only before exact60min expiry
+  ---
+  duration_ms: 308.164666
+  type: 'test'
+  ...
+# Subtest: SQLite: activity never extends12h absolute expiry; lowered configured lifetimes and clock regression fail safely
+ok 15 - SQLite: activity never extends12h absolute expiry; lowered configured lifetimes and clock regression fail safely
+  ---
+  duration_ms: 380.429084
+  type: 'test'
+  ...
+# Subtest: SQLite: forced gate limits Self summaries; scoped grants are current, archived Lead survives; logout revokes one session
+ok 16 - SQLite: forced gate limits Self summaries; scoped grants are current, archived Lead survives; logout revokes one session
+  ---
+  duration_ms: 287.667333
+  type: 'test'
+  ...
+# Subtest: SQLite: auth-version/deactivation/role/reset revocation compose atomically and rollback preserves sessions
+ok 17 - SQLite: auth-version/deactivation/role/reset revocation compose atomically and rollback preserves sessions
+  ---
+  duration_ms: 574.3465
+  type: 'test'
+  ...
+# Subtest: SQLite: login replaces presented old session without fixation; revocation race never creates a session
+ok 18 - SQLite: login replaces presented old session without fixation; revocation race never creates a session
+  ---
+  duration_ms: 430.962917
+  type: 'test'
+  ...
+# (node:53981) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: actual migrated startup serves setup→login/me/activity/logout and respects configured cookie lifetime after restart
+ok 19 - actual migrated startup serves setup→login/me/activity/logout and respects configured cookie lifetime after restart
+  ---
+  duration_ms: 542.644375
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4597.465292
+
+> friday-management@0.1.0 test:accounts
+> node --import tsx --test tests/accounts/*.test.ts
+
+TAP version 13
+# (node:54015) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T016 separate-process concurrent last-admin demote/demote
+ok 1 - T016 separate-process concurrent last-admin demote/demote
+  ---
+  duration_ms: 396.068541
+  type: 'test'
+  ...
+# Subtest: T016 separate-process concurrent last-admin deactivate/demote
+ok 2 - T016 separate-process concurrent last-admin deactivate/demote
+  ---
+  duration_ms: 403.435459
+  type: 'test'
+  ...
+# (node:54016) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T015 HTTP forced gate rotates cookie+CSRF only after commit, revokes other sessions and grants current scoped reads
+ok 3 - T015 HTTP forced gate rotates cookie+CSRF only after commit, revokes other sessions and grants current scoped reads
+  ---
+  duration_ms: 868.50575
+  type: 'test'
+  ...
+# Subtest: T016 HTTP origin/CSRF/access/strict input/version/last-admin and secret-free create/list/reset
+ok 4 - T016 HTTP origin/CSRF/access/strict input/version/last-admin and secret-free create/list/reset
+  ---
+  duration_ms: 659.20325
+  type: 'test'
+  ...
+# Subtest: T016 same-role self edit is no-op and does not clear valid cookie
+ok 5 - T016 same-role self edit is no-op and does not clear valid cookie
+  ---
+  duration_ms: 293.343041
+  type: 'test'
+  ...
+# Subtest: T015 unknown password commit never sends rotated cookie or retries credentials; authoritative fresh login resolves outcome
+ok 6 - T015 unknown password commit never sends rotated cookie or retries credentials; authoritative fresh login resolves outcome
+  ---
+  duration_ms: 502.46375
+  type: 'test'
+  ...
+# (node:54017) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite: T015 rotates token/CSRF, revokes others, preserves absolute lifetime and clears forced gate
+ok 7 - SQLite: T015 rotates token/CSRF, revokes others, preserves absolute lifetime and clears forced gate
+  ---
+  duration_ms: 641.153792
+  type: 'test'
+  ...
+# Subtest: SQLite: T015 rejects wrong current, short/long passwords and client-controlled fields without mutation
+ok 8 - SQLite: T015 rejects wrong current, short/long passwords and client-controlled fields without mutation
+  ---
+  duration_ms: 502.735375
+  type: 'test'
+  ...
+# Subtest: SQLite: T015 credential attempt limit survives business rollback and expires at15min
+ok 9 - SQLite: T015 credential attempt limit survives business rollback and expires at15min
+  ---
+  duration_ms: 1047.721459
+  type: 'test'
+  ...
+# Subtest: SQLite: T015 prepared credentials recheck revocation before commit
+ok 10 - SQLite: T015 prepared credentials recheck revocation before commit
+  ---
+  duration_ms: 358.831041
+  type: 'test'
+  ...
+# Subtest: SQLite: T016 create forces change, defaults member, username CI duplicate, immutable username and no secrets
+ok 11 - SQLite: T016 create forces change, defaults member, username CI duplicate, immutable username and no secrets
+  ---
+  duration_ms: 418.021625
+  type: 'test'
+  ...
+# Subtest: SQLite: T016 search is literal, pages stable, active filter and no privileged member reads
+ok 12 - SQLite: T016 search is literal, pages stable, active filter and no privileged member reads
+  ---
+  duration_ms: 280.365583
+  type: 'test'
+  ...
+# Subtest: SQLite: T016 optimistic version, no-op and last active Admin guard preserve state/audit
+ok 13 - SQLite: T016 optimistic version, no-op and last active Admin guard preserve state/audit
+  ---
+  duration_ms: 213.837375
+  type: 'test'
+  ...
+# Subtest: SQLite: T015/016 reset confirms actor password, rejects stale version, revokes and forces target only
+ok 14 - SQLite: T015/016 reset confirms actor password, rejects stale version, revokes and forces target only
+  ---
+  duration_ms: 549.142
+  type: 'test'
+  ...
+# Subtest: SQLite: T016 deactivation cleans all unfinished including archived/deleted; done/history survive; notifications/revisions atomic
+ok 15 - SQLite: T016 deactivation cleans all unfinished including archived/deleted; done/history survive; notifications/revisions atomic
+  ---
+  duration_ms: 286.718833
+  type: 'test'
+  ...
+# Subtest: SQLite: T016 Admin demotion retains independent ownerLead/editor even archived; viewer/private loses assignee
+ok 16 - SQLite: T016 Admin demotion retains independent ownerLead/editor even archived; viewer/private loses assignee
+  ---
+  duration_ms: 214.364834
+  type: 'test'
+  ...
+# Subtest: SQLite: T016 demotion preserves explicit editor but removes viewer-only assignment and leaves unrelated revision private
+ok 17 - SQLite: T016 demotion preserves explicit editor but removes viewer-only assignment and leaves unrelated revision private
+  ---
+  duration_ms: 216.380125
+  type: 'test'
+  ...
+# Subtest: SQLite: T015 exact12 scalars accepted, wrong-current request does not alter last-seen
+ok 18 - SQLite: T015 exact12 scalars accepted, wrong-current request does not alter last-seen
+  ---
+  duration_ms: 416.691875
+  type: 'test'
+  ...
+# Subtest: SQLite: T016 rollback prevents partial account/task/audit/notification changes
+ok 19 - SQLite: T016 rollback prevents partial account/task/audit/notification changes
+  ---
+  duration_ms: 215.958584
+  type: 'test'
+  ...
+1..19
+# tests 19
+# suites 0
+# pass 19
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5632.29925
+
+> friday-management@0.1.0 test:admin-cli
+> node --import tsx --test tests/admin-cli/*.test.ts
+
+TAP version 13
+# (node:54049) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T019 strict CLI allowlist rejects password arguments/duplicates/missing confirmation without echoing values
+ok 1 - T019 strict CLI allowlist rejects password arguments/duplicates/missing confirmation without echoing values
+  ---
+  duration_ms: 1.616083
+  type: 'test'
+  ...
+# Subtest: T019 real filesystem owner/modes/symlink/hardlink/environment-file permissions fail closed
+ok 2 - T019 real filesystem owner/modes/symlink/hardlink/environment-file permissions fail closed
+  ---
+  duration_ms: 158.858625
+  type: 'test'
+  ...
+# Subtest: T019 real CLI force logout revokes sessions and redacts argument failures; recovery requires TTY
+ok 3 - T019 real CLI force logout revokes sessions and redacts argument failures; recovery requires TTY
+  ---
+  duration_ms: 1382.148625
+  type: 'test'
+  ...
+# Subtest: T019 running application guard prevents installer and remains owned until released
+ok 4 - T019 running application guard prevents installer and remains owned until released
+  ---
+  duration_ms: 530.835584
+  type: 'test'
+  ...
+# Subtest: T019 actual hidden PTY recovery succeeds without password/hash in stdout/argv/env; old session revoked
+ok 5 - T019 actual hidden PTY recovery succeeds without password/hash in stdout/argv/env; old session revoked
+  ---
+  duration_ms: 769.348375
+  type: 'test'
+  ...
+# Subtest: T019 actual PTY mismatch and Ctrl-C leave password/session/audit untouched
+ok 6 - T019 actual PTY mismatch and Ctrl-C leave password/session/audit untouched
+  ---
+  duration_ms: 1011.164958
+  type: 'test'
+  ...
+# Subtest: T019 no unauthenticated public recovery routes were added to real HTTP app
+ok 7 - T019 no unauthenticated public recovery routes were added to real HTTP app
+  ---
+  duration_ms: 32.249167
+  type: 'test'
+  ...
+# (node:54050) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite: T019 recovers existing inactive member as active forced Admin, revokes sessions, preserves history and redacts installer audit
+ok 8 - SQLite: T019 recovers existing inactive member as active forced Admin, revokes sessions, preserves history and redacts installer audit
+  ---
+  duration_ms: 446.830875
+  type: 'test'
+  ...
+# Subtest: SQLite: T019 force logout advances auth version only, revokes all target sessions and leaves other users/password/resource version intact
+ok 9 - SQLite: T019 force logout advances auth version only, revokes all target sessions and leaves other users/password/resource version intact
+  ---
+  duration_ms: 437.1455
+  type: 'test'
+  ...
+# Subtest: SQLite: T019 target confirmation/shape/policy guards refuse before writes or audit
+ok 10 - SQLite: T019 target confirmation/shape/policy guards refuse before writes or audit
+  ---
+  duration_ms: 151.73625
+  type: 'test'
+  ...
+# Subtest: SQLite: T019 audit failure rolls back recovered role/password/version, sessions and revisions
+ok 11 - SQLite: T019 audit failure rolls back recovered role/password/version, sessions and revisions
+  ---
+  duration_ms: 294.115709
+  type: 'test'
+  ...
+# Subtest: SQLite: T019 aborting installer authority after password hashing cannot apply mutation
+ok 12 - SQLite: T019 aborting installer authority after password hashing cannot apply mutation
+  ---
+  duration_ms: 222.607459
+  type: 'test'
+  ...
+# Subtest: SQLite: T019 stale auth snapshot cannot overwrite a concurrent administrative action
+ok 13 - SQLite: T019 stale auth snapshot cannot overwrite a concurrent administrative action
+  ---
+  duration_ms: 221.297375
+  type: 'test'
+  ...
+# Subtest: SQLite: T019 force logout keeps unrelated view revisions private and recovery does not resurrect assignments
+ok 14 - SQLite: T019 force logout keeps unrelated view revisions private and recovery does not resurrect assignments
+  ---
+  duration_ms: 225.848458
+  type: 'test'
+  ...
+# Subtest: SQLite: T019 maintenance freeze prevents recovery/logout and never steals its lease
+ok 15 - SQLite: T019 maintenance freeze prevents recovery/logout and never steals its lease
+  ---
+  duration_ms: 153.380958
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4342.143375
+
+> friday-management@0.1.0 test:workspaces
+> node --import tsx --test tests/workspaces/*.test.ts
+
+TAP version 13
+# (node:54146) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T020/21/22 SQLite two-process viewer/delete race serializes effects
+ok 1 - T020/21/22 SQLite two-process viewer/delete race serializes effects
+  ---
+  duration_ms: 330.242125
+  type: 'test'
+  ...
+# Subtest: T020/21/22 SQLite two-process archive/create race serializes effects
+ok 2 - T020/21/22 SQLite two-process archive/create race serializes effects
+  ---
+  duration_ms: 310.692417
+  type: 'test'
+  ...
+# (node:54147) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T020/21 HTTP locked DTOs, pagination, idempotent creates and scoped replay recheck
+ok 3 - T020/21 HTTP locked DTOs, pagination, idempotent creates and scoped replay recheck
+  ---
+  duration_ms: 539.328333
+  type: 'test'
+  ...
+# Subtest: T021/22 HTTP cross-team Viewer/downgrade/remove/version boundaries protect effective rights
+ok 4 - T021/22 HTTP cross-team Viewer/downgrade/remove/version boundaries protect effective rights
+  ---
+  duration_ms: 385.282292
+  type: 'test'
+  ...
+# Subtest: T020/21 HTTP CSRF/origin/inactive-target/immutable owner/unknown fields reject without side effects
+ok 5 - T020/21 HTTP CSRF/origin/inactive-target/immutable owner/unknown fields reject without side effects
+  ---
+  duration_ms: 299.598083
+  type: 'test'
+  ...
+# (node:54148) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite local: T020 team create, UTF16/trim/CI uniqueness, no unauthorized or duplicate composite writes
+ok 6 - SQLite local: T020 team create, UTF16/trim/CI uniqueness, no unauthorized or duplicate composite writes
+  ---
+  duration_ms: 380.127709
+  type: 'test'
+  ...
+# Subtest: SQLite local: T020/21 active-project archive guard, archived team create/unarchive guard, no cascade
+ok 7 - SQLite local: T020/21 active-project archive guard, archived team create/unarchive guard, no cascade
+  ---
+  duration_ms: 316.30225
+  type: 'test'
+  ...
+# Subtest: SQLite local: T020/21 version conflict rejects all effects and owner team remains immutable
+ok 8 - SQLite local: T020/21 version conflict rejects all effects and owner team remains immutable
+  ---
+  duration_ms: 293.295917
+  type: 'test'
+  ...
+# Subtest: SQLite local: T021 team-only membership excludes projects/total; explicit sharing and owner Lead are scoped
+ok 9 - SQLite local: T021 team-only membership excludes projects/total; explicit sharing and owner Lead are scoped
+  ---
+  duration_ms: 296.870417
+  type: 'test'
+  ...
+# Subtest: SQLite local: T021 directory privacy/no usernames/secrets and active-only search/pagination
+ok 10 - SQLite local: T021 directory privacy/no usernames/secrets and active-only search/pagination
+  ---
+  duration_ms: 281.39125
+  type: 'test'
+  ...
+# Subtest: SQLite local: T022 Editor->Viewer atomically unassigns open/deleted but preserves done, versions, audit and scoped notification
+ok 11 - SQLite local: T022 Editor->Viewer atomically unassigns open/deleted but preserves done, versions, audit and scoped notification
+  ---
+  duration_ms: 285.112875
+  type: 'test'
+  ...
+# Subtest: SQLite local: T022 removing/reducing Lead preserves explicit Editor and cleanup only losing effective write
+ok 12 - SQLite local: T022 removing/reducing Lead preserves explicit Editor and cleanup only losing effective write
+  ---
+  duration_ms: 284.170916
+  type: 'test'
+  ...
+# Subtest: SQLite local: T022 reducing explicit Editor does not cleanup an owner Lead
+ok 13 - SQLite local: T022 reducing explicit Editor does not cleanup an owner Lead
+  ---
+  duration_ms: 286.539041
+  type: 'test'
+  ...
+# Subtest: SQLite local: T022 deactivate uses shared cleanup, revokes live sessions and preserves done history
+ok 14 - SQLite local: T022 deactivate uses shared cleanup, revokes live sessions and preserves done history
+  ---
+  duration_ms: 288.240417
+  type: 'test'
+  ...
+# Subtest: SQLite local: T022 cleanup notification/audit failure rolls back membership/task/version/revisions together
+ok 15 - SQLite local: T022 cleanup notification/audit failure rolls back membership/task/version/revisions together
+  ---
+  duration_ms: 286.114917
+  type: 'test'
+  ...
+# Subtest: SQLite local: T020/21 stale/revoked sessions and maintenance reject mutation
+ok 16 - SQLite local: T020/21 stale/revoked sessions and maintenance reject mutation
+  ---
+  duration_ms: 281.184583
+  type: 'test'
+  ...
+# Subtest: SQLite local: T021 archived projects remain readable and real authorization forbids normal writes
+ok 17 - SQLite local: T021 archived projects remain readable and real authorization forbids normal writes
+  ---
+  duration_ms: 280.503834
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3866.846458
+
+> friday-management@0.1.0 test:tasks
+> node --import tsx --test tests/tasks/*.test.ts
+
+TAP version 13
+# (node:54188) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T026/027/029 SQLite two-process done/done race serializes effects
+ok 1 - T026/027/029 SQLite two-process done/done race serializes effects
+  ---
+  duration_ms: 372.064542
+  type: 'test'
+  ...
+# Subtest: T026/027/029 SQLite two-process edit/edit race serializes effects
+ok 2 - T026/027/029 SQLite two-process edit/edit race serializes effects
+  ---
+  duration_ms: 324.744083
+  type: 'test'
+  ...
+# Subtest: T026/027/029 SQLite two-process done/untick race serializes effects
+ok 3 - T026/027/029 SQLite two-process done/untick race serializes effects
+  ---
+  duration_ms: 320.763667
+  type: 'test'
+  ...
+# Subtest: T026/027/029 SQLite two-process done/demote race serializes effects
+ok 4 - T026/027/029 SQLite two-process done/demote race serializes effects
+  ---
+  duration_ms: 320.570708
+  type: 'test'
+  ...
+# (node:54189) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T025 HTTP authenticated name only, current admin/CSRF/version
+ok 5 - T025 HTTP authenticated name only, current admin/CSRF/version
+  ---
+  duration_ms: 489.574959
+  type: 'test'
+  ...
+# Subtest: T026–029 HTTP locked task/checklist/status DTOs, persisted idempotent retry and scoped replay
+ok 6 - T026–029 HTTP locked task/checklist/status DTOs, persisted idempotent retry and scoped replay
+  ---
+  duration_ms: 524.243541
+  type: 'test'
+  ...
+# Subtest: T026 HTTP validation/permissions/current lifecycle versions have no partial effects
+ok 7 - T026 HTTP validation/permissions/current lifecycle versions have no partial effects
+  ---
+  duration_ms: 379.594125
+  type: 'test'
+  ...
+# Subtest: T029 actual HTTP restart replays durable completion key without another successor
+ok 8 - T029 actual HTTP restart replays durable completion key without another successor
+  ---
+  duration_ms: 368.461958
+  type: 'test'
+  ...
+# (node:54190) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite local: T025 organization admin-only, UTF16/trim/version, persisted reopen and atomic audit
+ok 9 - SQLite local: T025 organization admin-only, UTF16/trim/version, persisted reopen and atomic audit
+  ---
+  duration_ms: 342.761167
+  type: 'test'
+  ...
+# Subtest: SQLite local: T026 create defaults/nullable fields/plain text DTO and atomic board/event
+ok 10 - SQLite local: T026 create defaults/nullable fields/plain text DTO and atomic board/event
+  ---
+  duration_ms: 358.380833
+  type: 'test'
+  ...
+# Subtest: SQLite local: T026 every field rejects invalid lengths/enums/real dates/ranges/unknown/immutable fields
+ok 11 - SQLite local: T026 every field rejects invalid lengths/enums/real dates/ranges/unknown/immutable fields
+  ---
+  duration_ms: 342.689375
+  type: 'test'
+  ...
+# Subtest: SQLite local: T026 merged patch preserves omitted fields/conflict no overwrite/updated timestamp
+ok 12 - SQLite local: T026 merged patch preserves omitted fields/conflict no overwrite/updated timestamp
+  ---
+  duration_ms: 298.267417
+  type: 'test'
+  ...
+# Subtest: SQLite local: T026 current roles/active assignee, cross-project invisibility, archived/deleted writes
+ok 13 - SQLite local: T026 current roles/active assignee, cross-project invisibility, archived/deleted writes
+  ---
+  duration_ms: 296.4225
+  type: 'test'
+  ...
+# Subtest: SQLite local: T027 all twelve transitions maintain completion/append board/version and noop
+ok 14 - SQLite local: T027 all twelve transitions maintain completion/append board/version and noop
+  ---
+  duration_ms: 301.541291
+  type: 'test'
+  ...
+# Subtest: SQLite local: T028 checklist create/edit/toggle/delete versions, no auto-done and parent guard
+ok 15 - SQLite local: T028 checklist create/edit/toggle/delete versions, no auto-done and parent guard
+  ---
+  duration_ms: 296.104583
+  type: 'test'
+  ...
+# Subtest: SQLite local: T028 unknown child dates/invalid titles and viewer cannot mutate
+ok 16 - SQLite local: T028 unknown child dates/invalid titles and viewer cannot mutate
+  ---
+  duration_ms: 284.573166
+  type: 'test'
+  ...
+# Subtest: SQLite local: T029 daily/weekly uses old due + offset; no overdue catchup, defaults and copied eligible fields
+ok 17 - SQLite local: T029 daily/weekly uses old due + offset; no overdue catchup, defaults and copied eligible fields
+  ---
+  duration_ms: 295.209208
+  type: 'test'
+  ...
+# Subtest: SQLite local: T029 monthly Jan31-Feb28-Mar31 retains anchor and checklist resets
+ok 18 - SQLite local: T029 monthly Jan31-Feb28-Mar31 retains anchor and checklist resets
+  ---
+  duration_ms: 297.679708
+  type: 'test'
+  ...
+# Subtest: SQLite local: T029 monthly Jan31-Feb29-Mar31 retains anchor and checklist resets
+ok 19 - SQLite local: T029 monthly Jan31-Feb29-Mar31 retains anchor and checklist resets
+  ---
+  duration_ms: 290.142625
+  type: 'test'
+  ...
+# Subtest: SQLite local: T029 due edit resets monthly anchor, leaving monthly clears; later source edits preserve successor
+ok 20 - SQLite local: T029 due edit resets monthly anchor, leaving monthly clears; later source edits preserve successor
+  ---
+  duration_ms: 288.035083
+  type: 'test'
+  ...
+# Subtest: SQLite local: T029 reopen/recomplete and purged successor tombstone do not regenerate; none cancels
+ok 21 - SQLite local: T029 reopen/recomplete and purged successor tombstone do not regenerate; none cancels
+  ---
+  duration_ms: 294.325667
+  type: 'test'
+  ...
+# Subtest: SQLite local: T029 does not clone comments/files/audit; recurrence successor has own creation event
+ok 22 - SQLite local: T029 does not clone comments/files/audit; recurrence successor has own creation event
+  ---
+  duration_ms: 288.560625
+  type: 'test'
+  ...
+# Subtest: SQLite local: T016/022/027/029 member demotion and account deactivation preserve done history and unassign reopen/successor
+ok 23 - SQLite local: T016/022/027/029 member demotion and account deactivation preserve done history and unassign reopen/successor
+  ---
+  duration_ms: 304.008958
+  type: 'test'
+  ...
+# Subtest: SQLite local: T027 notifications current recipients/dedupe/no-self, and rollback at every atomic effect
+ok 24 - SQLite local: T027 notifications current recipients/dedupe/no-self, and rollback at every atomic effect
+  ---
+  duration_ms: 295.886209
+  type: 'test'
+  ...
+# Subtest: SQLite local: T025/T028 rollback failed audit leaves organization/checklist/parent unchanged
+ok 25 - SQLite local: T025/T028 rollback failed audit leaves organization/checklist/parent unchanged
+  ---
+  duration_ms: 287.274042
+  type: 'test'
+  ...
+# Subtest: SQLite local: T026 owner Lead overrides explicit Viewer and eligible admin is assignable without membership
+ok 26 - SQLite local: T026 owner Lead overrides explicit Viewer and eligible admin is assignable without membership
+  ---
+  duration_ms: 286.415125
+  type: 'test'
+  ...
+# Subtest: SQLite local: Owner Vibe: multi-assignees, secondary filtering, independent Checklist, notifications and recurrence
+ok 27 - SQLite local: Owner Vibe: multi-assignees, secondary filtering, independent Checklist, notifications and recurrence
+  ---
+  duration_ms: 294.370834
+  type: 'test'
+  ...
+# Subtest: SQLite local: Owner Vibe: persisted groups, cross-project rejection, versions and audit rollback
+ok 28 - SQLite local: Owner Vibe: persisted groups, cross-project rejection, versions and audit rollback
+  ---
+  duration_ms: 290.978
+  type: 'test'
+  ...
+# Subtest: SQLite local: Owner Vibe: removal cleans secondary and Checklist assignments without removing the primary
+ok 29 - SQLite local: Owner Vibe: removal cleans secondary and Checklist assignments without removing the primary
+  ---
+  duration_ms: 296.843625
+  type: 'test'
+  ...
+# Subtest: SQLite local: Owner Vibe: secondary-assignee workload, CSV, reminders and pagination dedupe
+ok 30 - SQLite local: Owner Vibe: secondary-assignee workload, CSV, reminders and pagination dedupe
+  ---
+  duration_ms: 303.460875
+  type: 'test'
+  ...
+# Subtest: SQLite local: Owner Vibe: idempotent multi-assignee create replays reordered sets and preserves explicit alias conflicts
+ok 31 - SQLite local: Owner Vibe: idempotent multi-assignee create replays reordered sets and preserves explicit alias conflicts
+  ---
+  duration_ms: 305.144084
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 7299.050125
+
+> friday-management@0.1.0 test:task-views
+> node --import tsx --test tests/task-views/*.test.ts
+
+TAP version 13
+# (node:54223) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T030/034 SQLite two-process delete/edit race serializes effects
+ok 1 - T030/034 SQLite two-process delete/edit race serializes effects
+  ---
+  duration_ms: 312.300709
+  type: 'test'
+  ...
+# Subtest: T030/034 SQLite two-process restore/restore race serializes effects
+ok 2 - T030/034 SQLite two-process restore/restore race serializes effects
+  ---
+  duration_ms: 335.022541
+  type: 'test'
+  ...
+# Subtest: T030/034 SQLite two-process delete/done race serializes effects
+ok 3 - T030/034 SQLite two-process delete/done race serializes effects
+  ---
+  duration_ms: 305.011958
+  type: 'test'
+  ...
+# (node:54224) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T030/031/034 HTTP locked list/trash/board DTOs and restore idempotency survives restart
+ok 4 - T030/031/034 HTTP locked list/trash/board DTOs and restore idempotency survives restart
+  ---
+  duration_ms: 609.226542
+  type: 'test'
+  ...
+# Subtest: T031 HTTP malformed/reversed/repeated queries rejected; read/count scoped and revoked trash fails closed
+ok 5 - T031 HTTP malformed/reversed/repeated queries rejected; read/count scoped and revoked trash fails closed
+  ---
+  duration_ms: 413.894709
+  type: 'test'
+  ...
+# (node:54225) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite local: T030 delete excludes active queries/board/notifications/attachment scope; restore appends/version, children intact
+ok 6 - SQLite local: T030 delete excludes active queries/board/notifications/attachment scope; restore appends/version, children intact
+  ---
+  duration_ms: 405.213292
+  type: 'test'
+  ...
+# Subtest: SQLite local: T030 creator Editor vs noncreator/Viewer; Admin/Lead archived deletion and read-only restore RD01
+ok 7 - SQLite local: T030 creator Editor vs noncreator/Viewer; Admin/Lead archived deletion and read-only restore RD01
+  ---
+  duration_ms: 349.2475
+  type: 'test'
+  ...
+# Subtest: SQLite local: T030 exact UTC 30-day cutoff; stale version first, no partial expired restore
+ok 8 - SQLite local: T030 exact UTC 30-day cutoff; stale version first, no partial expired restore
+  ---
+  duration_ms: 320.139583
+  type: 'test'
+  ...
+# Subtest: SQLite local: T030 restore current eligible assignee, done history retained, soft-delete series does not regenerate
+ok 9 - SQLite local: T030 restore current eligible assignee, done history retained, soft-delete series does not regenerate
+  ---
+  duration_ms: 295.328541
+  type: 'test'
+  ...
+# Subtest: SQLite local: T030 managed trash only owning scopes, revoked read hidden and children blocked
+ok 10 - SQLite local: T030 managed trash only owning scopes, revoked read hidden and children blocked
+  ---
+  duration_ms: 288.238792
+  type: 'test'
+  ...
+# Subtest: SQLite local: T030 deletion/restore effect failure rolls back task/ordering/column/events atomically
+ok 11 - SQLite local: T030 deletion/restore effect failure rolls back task/ordering/column/events atomically
+  ---
+  duration_ms: 285.476875
+  type: 'test'
+  ...
+# Subtest: SQLite local: T031 scoped count before pagination, hidden search and explicit archived project only
+ok 12 - SQLite local: T031 scoped count before pagination, hidden search and explicit archived project only
+  ---
+  duration_ms: 300.772417
+  type: 'test'
+  ...
+# Subtest: SQLite local: T031 AND fields/OR values, assignee null vs omitted, creator/has_due and exact category
+ok 13 - SQLite local: T031 AND fields/OR values, assignee null vs omitted, creator/has_due and exact category
+  ---
+  duration_ms: 285.505042
+  type: 'test'
+  ...
+# Subtest: SQLite local: T031 literal wildcard/Unicode case search in title/description/category and bound SQL injection
+ok 14 - SQLite local: T031 literal wildcard/Unicode case search in title/description/category and bound SQL injection
+  ---
+  duration_ms: 289.035125
+  type: 'test'
+  ...
+# Subtest: SQLite local: T031 all seven sorts, due null-last both directions and ID ties
+ok 15 - SQLite local: T031 all seven sorts, due null-last both directions and ID ties
+  ---
+  duration_ms: 290.2845
+  type: 'test'
+  ...
+# Subtest: SQLite local: T031 inclusive due and Bangkok timestamp [start,end), completed excludes reopened tasks
+ok 16 - SQLite local: T031 inclusive due and Bangkok timestamp [start,end), completed excludes reopened tasks
+  ---
+  duration_ms: 292.109667
+  type: 'test'
+  ...
+# Subtest: SQLite local: T034 consistent four-column snapshot/versions persist after restart; corrupt rank fails closed
+ok 17 - SQLite local: T034 consistent four-column snapshot/versions persist after restart; corrupt rank fails closed
+  ---
+  duration_ms: 287.218542
+  type: 'test'
+  ...
+# Subtest: SQLite local: T034 500 boundary vs501 list_required returns no partial array; pagination still complete
+ok 18 - SQLite local: T034 500 boundary vs501 list_required returns no partial array; pagination still complete
+  ---
+  duration_ms: 375.592792
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 4351.217833
+
+> friday-management@0.1.0 test:boards
+> node --import tsx --test tests/boards/*.test.ts
+
+TAP version 13
+# (node:54255) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T035 SQLite two-process move/move race serializes effects
+ok 1 - T035 SQLite two-process move/move race serializes effects
+  ---
+  duration_ms: 333.850333
+  type: 'test'
+  ...
+# Subtest: T035 SQLite two-process move/edit race serializes effects
+ok 2 - T035 SQLite two-process move/edit race serializes effects
+  ---
+  duration_ms: 396.031459
+  type: 'test'
+  ...
+# Subtest: T035 SQLite two-process move/done race serializes effects
+ok 3 - T035 SQLite two-process move/done race serializes effects
+  ---
+  duration_ms: 308.44025
+  type: 'test'
+  ...
+# (node:54256) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T035 HTTP move DTO/versions/CSRF/key/replay and recurrence3-column response persists actual restart
+ok 4 - T035 HTTP move DTO/versions/CSRF/key/replay and recurrence3-column response persists actual restart
+  ---
+  duration_ms: 590.856583
+  type: 'test'
+  ...
+# Subtest: T039 HTTP concurrent same-key comment/restart/plaintext/read scope/archive/current replay rights
+ok 5 - T039 HTTP concurrent same-key comment/restart/plaintext/read scope/archive/current replay rights
+  ---
+  duration_ms: 507.461042
+  type: 'test'
+  ...
+# (node:54257) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite local: T035 same-column before/append stable contiguous ranks and one version bump persists restart
+ok 6 - SQLite local: T035 same-column before/append stable contiguous ranks and one version bump persists restart
+  ---
+  duration_ms: 359.351916
+  type: 'test'
+  ...
+# Subtest: SQLite local: T035 cross-column insertion/reopen/completion uses shared rules; done reorder never regenerates
+ok 7 - SQLite local: T035 cross-column insertion/reopen/completion uses shared rules; done reorder never regenerates
+  ---
+  duration_ms: 389.434167
+  type: 'test'
+  ...
+# Subtest: SQLite local: T035 checklist gate/recurrence three columns and reset copy are atomic locked DTOs
+ok 8 - SQLite local: T035 checklist gate/recurrence three columns and reset copy are atomic locked DTOs
+  ---
+  duration_ms: 356.562292
+  type: 'test'
+  ...
+# Subtest: SQLite local: T035 wrong/self/missing/other-column anchors, mismatched source and stale versions leave snapshot intact
+ok 9 - SQLite local: T035 wrong/self/missing/other-column anchors, mismatched source and stale versions leave snapshot intact
+  ---
+  duration_ms: 293.006291
+  type: 'test'
+  ...
+# Subtest: SQLite local: T035 Viewer/hidden/archived/deleted/maintenance enforce current rights
+ok 10 - SQLite local: T035 Viewer/hidden/archived/deleted/maintenance enforce current rights
+  ---
+  duration_ms: 286.849125
+  type: 'test'
+  ...
+# Subtest: SQLite local: T035 move effect failure rolls task/status/board/recurrence back together
+ok 11 - SQLite local: T035 move effect failure rolls task/status/board/recurrence back together
+  ---
+  duration_ms: 281.413375
+  type: 'test'
+  ...
+# Subtest: SQLite local: T039 comments plaintext/validation/page scope/author/version immutable
+ok 12 - SQLite local: T039 comments plaintext/validation/page scope/author/version immutable
+  ---
+  duration_ms: 289.172667
+  type: 'test'
+  ...
+# Subtest: SQLite local: T039 recipient dedup/no-self/current access and atomic comment/event/notification rollback
+ok 13 - SQLite local: T039 recipient dedup/no-self/current access and atomic comment/event/notification rollback
+  ---
+  duration_ms: 285.6255
+  type: 'test'
+  ...
+# Subtest: SQLite local: T035 maintenance blocks move/comments; archived comments readable but no new write
+ok 14 - SQLite local: T035 maintenance blocks move/comments; archived comments readable but no new write
+  ---
+  duration_ms: 292.018166
+  type: 'test'
+  ...
+# Subtest: SQLite local: T035 large-column response stays bounded/incomplete and paginated fallback remains available
+ok 15 - SQLite local: T035 large-column response stays bounded/incomplete and paginated fallback remains available
+  ---
+  duration_ms: 357.379125
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 3459.936584
+
+> friday-management@0.1.0 test:files
+> node --import tsx --test tests/files/*.test.ts
+
+TAP version 13
+# (node:54297) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T042 actual two-process SQLite 15/20-MiB quota race yields one 4-MiB attachment and releases losing reservation
+ok 1 - T042 actual two-process SQLite 15/20-MiB quota race yields one 4-MiB attachment and releases losing reservation
+  ---
+  duration_ms: 435.807917
+  type: 'test'
+  ...
+# Subtest: T042 real SIGKILL receiving recovery preserves committed file and releases persistent staging bytes
+ok 2 - T042 real SIGKILL receiving recovery preserves committed file and releases persistent staging bytes
+  ---
+  duration_ms: 275.476958
+  type: 'test'
+  ...
+# Subtest: T042 real SIGKILL finalizing recovery preserves committed file and releases persistent staging bytes
+ok 3 - T042 real SIGKILL finalizing recovery preserves committed file and releases persistent staging bytes
+  ---
+  duration_ms: 247.2975
+  type: 'test'
+  ...
+# (node:54298) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T040–043 HTTP real multipart idempotent concurrent/restart/hash, authorized binary/safe headers, lifecycle and immutable scoped audit
+ok 4 - T040–043 HTTP real multipart idempotent concurrent/restart/hash, authorized binary/safe headers, lifecycle and immutable scoped audit
+  ---
+  duration_ms: 606.267417
+  type: 'test'
+  ...
+# Subtest: T041 HTTP no Origin/CSRF/session/key before temp creation; invalid multipart/UTF8/type boundaries
+ok 5 - T041 HTTP no Origin/CSRF/session/key before temp creation; invalid multipart/UTF8/type boundaries
+  ---
+  duration_ms: 319.162292
+  type: 'test'
+  ...
+# Subtest: T041 HTTP revoke current membership during actual streaming fails finalize and releases disk/reservation
+ok 6 - T041 HTTP revoke current membership during actual streaming fails finalize and releases disk/reservation
+  ---
+  duration_ms: 303.605375
+  type: 'test'
+  ...
+# Subtest: T041 real HTTP 10MiB streamed file accepted and max+1 refused without residual reservation
+ok 7 - T041 real HTTP 10MiB streamed file accepted and max+1 refused without residual reservation
+  ---
+  duration_ms: 486.617167
+  type: 'test'
+  ...
+# (node:54299) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite local: T040 paginated current-scope task history/legacy structured values/admin recursive redaction and mutation actor/time/request
+ok 8 - SQLite local: T040 paginated current-scope task history/legacy structured values/admin recursive redaction and mutation actor/time/request
+  ---
+  duration_ms: 56.460542
+  type: 'test'
+  ...
+# Subtest: SQLite local: T041 streamed fingerprint/name/UUID storage/exact bytes and private download DTO
+ok 9 - SQLite local: T041 streamed fingerprint/name/UUID storage/exact bytes and private download DTO
+  ---
+  duration_ms: 31.453209
+  type: 'test'
+  ...
+# Subtest: SQLite local: T041 allowlist magic bounded ZIP/Office directory and fatal UTF8
+ok 10 - SQLite local: T041 allowlist magic bounded ZIP/Office directory and fatal UTF8
+  ---
+  duration_ms: 128.950583
+  type: 'test'
+  ...
+# Subtest: SQLite local: T041 actual 1byte/10MiB/max+1/empty and multipart single-file/unknown-field rejection releases temps
+ok 11 - SQLite local: T041 actual 1byte/10MiB/max+1/empty and multipart single-file/unknown-field rejection releases temps
+  ---
+  duration_ms: 144.256042
+  type: 'test'
+  ...
+# Subtest: SQLite local: T042 concurrent quota reservation cannot exceed remaining space; failure releases bytes
+ok 12 - SQLite local: T042 concurrent quota reservation cannot exceed remaining space; failure releases bytes
+  ---
+  duration_ms: 36.3105
+  type: 'test'
+  ...
+# Subtest: SQLite local: T041 finalize rechecks demotion/revocation/archived/deleted parent and failed metadata transaction leaves no effects
+ok 13 - SQLite local: T041 finalize rechecks demotion/revocation/archived/deleted parent and failed metadata transaction leaves no effects
+  ---
+  duration_ms: 64.844667
+  type: 'test'
+  ...
+# Subtest: SQLite local: T043 uploader/owner Lead/Admin vs other Editor/Viewer; deleted metadata scope; active restore and repeated delete no-op
+ok 14 - SQLite local: T043 uploader/owner Lead/Admin vs other Editor/Viewer; deleted metadata scope; active restore and repeated delete no-op
+  ---
+  duration_ms: 26.800083
+  type: 'test'
+  ...
+# Subtest: SQLite local: T043 exact UTC30day cutoff/current archived/deleted parent/private download/missing disk safely logged
+ok 15 - SQLite local: T043 exact UTC30day cutoff/current archived/deleted parent/private download/missing disk safely logged
+  ---
+  duration_ms: 25.225625
+  type: 'test'
+  ...
+# Subtest: SQLite local: T042 restart recovery receiving/finalizing/orphan preserves referenced file and accounts reservation release
+ok 16 - SQLite local: T042 restart recovery receiving/finalizing/orphan preserves referenced file and accounts reservation release
+  ---
+  duration_ms: 39.2325
+  type: 'test'
+  ...
+# Subtest: SQLite local: T041 file move failure remains tracked until repair/recovery, without metadata or audit
+ok 17 - SQLite local: T041 file move failure remains tracked until repair/recovery, without metadata or audit
+  ---
+  duration_ms: 24.842125
+  type: 'test'
+  ...
+# Subtest: SQLite local: T043 purge queues before disk removal; cleanup retries retain bytes and metadata-only loss never double releases
+ok 18 - SQLite local: T043 purge queues before disk removal; cleanup retries retain bytes and metadata-only loss never double releases
+  ---
+  duration_ms: 30.242792
+  type: 'test'
+  ...
+1..18
+# tests 18
+# suites 0
+# pass 18
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2051.478542
+
+> friday-management@0.1.0 test:notifications
+> node --import tsx --test tests/notifications/*.test.ts
+
+TAP version 13
+# (node:54327) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T050-054 actual HTTP notification/read CSRF/own scope, GET nonmutation, streamed CSV headers/error/filter and scheduler retention
+ok 1 - T050-054 actual HTTP notification/read CSRF/own scope, GET nonmutation, streamed CSV headers/error/filter and scheduler retention
+  ---
+  duration_ms: 360.813959
+  type: 'test'
+  ...
+# (node:54328) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite local: T050 own/current-parent scope, page50, unread independent of filter, no GET changes or idle renewal
+ok 2 - SQLite local: T050 own/current-parent scope, page50, unread independent of filter, no GET changes or idle renewal
+  ---
+  duration_ms: 44.129625
+  type: 'test'
+  ...
+# Subtest: SQLite local: T050 read one/noop/read all persisted, only own visible rows, revoked parents hidden
+ok 3 - SQLite local: T050 read one/noop/read all persisted, only own visible rows, revoked parents hidden
+  ---
+  duration_ms: 34.937375
+  type: 'test'
+  ...
+# Subtest: SQLite local: T050 90 UTC day cutoff, just-before retained, maintenance pauses actual cleanup function
+ok 4 - SQLite local: T050 90 UTC day cutoff, just-before retained, maintenance pauses actual cleanup function
+  ---
+  duration_ms: 48.469375
+  type: 'test'
+  ...
+# Subtest: SQLite local: T052 totals/status6/overdue/unassigned/33.33%, owner team vs assignee team, zero and hidden/deleted/archived
+ok 5 - SQLite local: T052 totals/status6/overdue/unassigned/33.33%, owner team vs assignee team, zero and hidden/deleted/archived
+  ---
+  duration_ms: 96.095583
+  type: 'test'
+  ...
+# Subtest: SQLite local: T052 Bangkok created/completed boundaries, due inclusive, default month, reopen clears done-period, inactive history
+ok 6 - SQLite local: T052 Bangkok created/completed boundaries, due inclusive, default month, reopen clears done-period, inactive history
+  ---
+  duration_ms: 52.642458
+  type: 'test'
+  ...
+# Subtest: SQLite local: T053 CSV120+ rows UTF8 BOM RFC4180, formula neutralization, all shared filters and no secret columns
+ok 7 - SQLite local: T053 CSV120+ rows UTF8 BOM RFC4180, formula neutralization, all shared filters and no secret columns
+  ---
+  duration_ms: 67.631292
+  type: 'test'
+  ...
+# Subtest: SQLite local: T053 cap50001 rejects before streaming; exactly50000 streams bounded batches, disconnect releases transaction
+ok 8 - SQLite local: T053 cap50001 rejects before streaming; exactly50000 streams bounded batches, disconnect releases transaction
+  ---
+  duration_ms: 4121.538083
+  type: 'test'
+  ...
+# Subtest: SQLite local: T053 authorization rechecked before headers and export startup; changed access produces no CSV
+ok 9 - SQLite local: T053 authorization rechecked before headers and export startup; changed access produces no CSV
+  ---
+  duration_ms: 16.768875
+  type: 'test'
+  ...
+# (node:54329) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T049 actual two-process reminder race and new-process restart have one DB tuple per day
+ok 10 - T049 actual two-process reminder race and new-process restart have one DB tuple per day
+  ---
+  duration_ms: 968.3265
+  type: 'test'
+  ...
+# (node:54330) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T049 actual server reminder runs without browser/GET; GET list/detail/board/me do not dispatch or extend idle
+ok 11 - T049 actual server reminder runs without browser/GET; GET list/detail/board/me do not dispatch or extend idle
+  ---
+  duration_ms: 2552.962375
+  type: 'test'
+  ...
+# (node:54331) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T049 scheduler starts immediately, retries safe failure without overlap, stop waits and clears timer
+ok 12 - T049 scheduler starts immediately, retries safe failure without overlap, stop waits and clears timer
+  ---
+  duration_ms: 4531.705792
+  type: 'test'
+  ...
+# (node:54332) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite local: T048 dispatch unique recipients, self/inactive/no access suppressed, safe message
+ok 13 - SQLite local: T048 dispatch unique recipients, self/inactive/no access suppressed, safe message
+  ---
+  duration_ms: 30.0385
+  type: 'test'
+  ...
+# Subtest: SQLite local: T048 actual assignment/comment/status share task events; creator and assignee deduped
+ok 14 - SQLite local: T048 actual assignment/comment/status share task events; creator and assignee deduped
+  ---
+  duration_ms: 40.303
+  type: 'test'
+  ...
+# Subtest: SQLite local: T048 notification write failure rolls back task, audit and event atomically
+ok 15 - SQLite local: T048 notification write failure rolls back task, audit and event atomically
+  ---
+  duration_ms: 22.662041
+  type: 'test'
+  ...
+# Subtest: SQLite local: T048 actual permission cleanup notifies owner Admin/Leads except actor
+ok 16 - SQLite local: T048 actual permission cleanup notifies owner Admin/Leads except actor
+  ---
+  duration_ms: 53.008834
+  type: 'test'
+  ...
+# Subtest: SQLite local: T048 actual reopen and restore clear historical ineligible assignee and alert owner leads
+ok 17 - SQLite local: T048 actual reopen and restore clear historical ineligible assignee and alert owner leads
+  ---
+  duration_ms: 37.000958
+  type: 'test'
+  ...
+# Subtest: SQLite local: T049 tomorrow/today/overdue Bangkok, repeated run and restart deduped
+ok 18 - SQLite local: T049 tomorrow/today/overdue Bangkok, repeated run and restart deduped
+  ---
+  duration_ms: 37.885709
+  type: 'test'
+  ...
+# Subtest: SQLite local: T049 exclusions done/deleted/archived team/project/unassigned/inactive/no access/viewer
+ok 19 - SQLite local: T049 exclusions done/deleted/archived team/project/unassigned/inactive/no access/viewer
+  ---
+  duration_ms: 41.717208
+  type: 'test'
+  ...
+# Subtest: SQLite local: T049 midnight/leap/year boundaries and current-day-only catch-up
+ok 20 - SQLite local: T049 midnight/leap/year boundaries and current-day-only catch-up
+  ---
+  duration_ms: 24.894666
+  type: 'test'
+  ...
+# Subtest: SQLite local: T049 DB tuple dedupe per recipient/type/day, reassignment and changed due date
+ok 21 - SQLite local: T049 DB tuple dedupe per recipient/type/day, reassignment and changed due date
+  ---
+  duration_ms: 24.085875
+  type: 'test'
+  ...
+# Subtest: SQLite local: T049 keyset batches process every eligible row beyond 100
+ok 22 - SQLite local: T049 keyset batches process every eligible row beyond 100
+  ---
+  duration_ms: 81.247542
+  type: 'test'
+  ...
+# Subtest: SQLite local: T049 maintenance pauses business reminders; resume catches up current day only
+ok 23 - SQLite local: T049 maintenance pauses business reminders; resume catches up current day only
+  ---
+  duration_ms: 19.087958
+  type: 'test'
+  ...
+1..23
+# tests 23
+# suites 0
+# pass 23
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 5025.235541
+
+> friday-management@0.1.0 test:frontend
+> vitest run --config vitest.config.ts
+
+
+ RUN  v5.0.3 /Users/mickitang/Documents/GitHub/FridayManagement
+
+
+ Test Files  9 passed (9)
+      Tests  38 passed (38)
+   Start at  22:24:20
+   Duration  1.43s (import 84%, transform 12%, tests 3%)
+
+
+> friday-management@0.1.0 test:contract
+> node --test tests/contracts/*.test.mjs
+
+TAP version 13
+# Subtest: T-003 route/owner/schema/policy inventory matches SRS and Task Register
+ok 1 - T-003 route/owner/schema/policy inventory matches SRS and Task Register
+  ---
+  duration_ms: 182.970791
+  type: 'test'
+  ...
+# Subtest: SRS create-task JSON example validates without altering it
+ok 2 - SRS create-task JSON example validates without altering it
+  ---
+  duration_ms: 1.203625
+  type: 'test'
+  ...
+# Subtest: unassigned/no-date task accepts omission or explicit null
+ok 3 - unassigned/no-date task accepts omission or explicit null
+  ---
+  duration_ms: 0.098208
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects blank title
+ok 4 - UT-01 create task rejects blank title
+  ---
+  duration_ms: 0.076208
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects too-long title
+ok 5 - UT-01 create task rejects too-long title
+  ---
+  duration_ms: 0.077833
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects protected creator
+ok 6 - UT-01 create task rejects protected creator
+  ---
+  duration_ms: 0.051417
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects protected status
+ok 7 - UT-01 create task rejects protected status
+  ---
+  duration_ms: 0.104209
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects protected version
+ok 8 - UT-01 create task rejects protected version
+  ---
+  duration_ms: 0.412292
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects protected anchor
+ok 9 - UT-01 create task rejects protected anchor
+  ---
+  duration_ms: 0.3065
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects SQL-shaped id
+ok 10 - UT-01 create task rejects SQL-shaped id
+  ---
+  duration_ms: 0.338
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects negative id
+ok 11 - UT-01 create task rejects negative id
+  ---
+  duration_ms: 0.099417
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects string id
+ok 12 - UT-01 create task rejects string id
+  ---
+  duration_ms: 0.038708
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects overflow id
+ok 13 - UT-01 create task rejects overflow id
+  ---
+  duration_ms: 0.034041
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects non-leap date
+ok 14 - UT-01 create task rejects non-leap date
+  ---
+  duration_ms: 0.040416
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects impossible date
+ok 15 - UT-01 create task rejects impossible date
+  ---
+  duration_ms: 0.029791
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects year zero
+ok 16 - UT-01 create task rejects year zero
+  ---
+  duration_ms: 0.030583
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects date timestamp
+ok 17 - UT-01 create task rejects date timestamp
+  ---
+  duration_ms: 0.031625
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects start after due
+ok 18 - UT-01 create task rejects start after due
+  ---
+  duration_ms: 0.0355
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects recurrence without due
+ok 19 - UT-01 create task rejects recurrence without due
+  ---
+  duration_ms: 0.033666
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects invalid enum
+ok 20 - UT-01 create task rejects invalid enum
+  ---
+  duration_ms: 0.036084
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects unrecognized field
+ok 21 - UT-01 create task rejects unrecognized field
+  ---
+  duration_ms: 0.042458
+  type: 'test'
+  ...
+# Subtest: UT-01 create task rejects UTF16 overflow
+ok 22 - UT-01 create task rejects UTF16 overflow
+  ---
+  duration_ms: 0.045833
+  type: 'test'
+  ...
+# Subtest: UTF16 boundary and leap-date inputs are accepted
+ok 23 - UTF16 boundary and leap-date inputs are accepted
+  ---
+  duration_ms: 0.055292
+  type: 'test'
+  ...
+# Subtest: PATCH validates merged dates rather than just submitted fields
+ok 24 - PATCH validates merged dates rather than just submitted fields
+  ---
+  duration_ms: 0.485667
+  type: 'test'
+  ...
+# Subtest: PATCH requires a version and at least one editable field; project is immutable
+ok 25 - PATCH requires a version and at least one editable field; project is immutable
+  ---
+  duration_ms: 0.419375
+  type: 'test'
+  ...
+# Subtest: DELETE task has a JSON version body; missing/string versions are rejected
+ok 26 - DELETE task has a JSON version body; missing/string versions are rejected
+  ---
+  duration_ms: 0.129167
+  type: 'test'
+  ...
+# Subtest: membership changes use the parent version, not arbitrary role escalation fields
+ok 27 - membership changes use the parent version, not arbitrary role escalation fields
+  ---
+  duration_ms: 0.195417
+  type: 'test'
+  ...
+# Subtest: subtask writes require parent and subtask versions to support completion races
+ok 28 - subtask writes require parent and subtask versions to support completion races
+  ---
+  duration_ms: 0.325916
+  type: 'test'
+  ...
+# Subtest: board move checks same-column versions and self-anchor before database work
+ok 29 - board move checks same-column versions and self-anchor before database work
+  ---
+  duration_ms: 0.232
+  type: 'test'
+  ...
+# Subtest: query decoding handles OR arrays, explicit null and false without truthy-string bugs
+ok 30 - query decoding handles OR arrays, explicit null and false without truthy-string bugs
+  ---
+  duration_ms: 0.9105
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects page=0
+ok 31 - UT-01 query rejects page=0
+  ---
+  duration_ms: 0.114708
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects pageSize=101
+ok 32 - UT-01 query rejects pageSize=101
+  ---
+  duration_ms: 0.045958
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects page=-1
+ok 33 - UT-01 query rejects page=-1
+  ---
+  duration_ms: 0.034083
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects page=01
+ok 34 - UT-01 query rejects page=01
+  ---
+  duration_ms: 0.031959
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects page=1e2
+ok 35 - UT-01 query rejects page=1e2
+  ---
+  duration_ms: 0.088834
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects page=1&page=2
+ok 36 - UT-01 query rejects page=1&page=2
+  ---
+  duration_ms: 0.035416
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects status=todo,doing
+ok 37 - UT-01 query rejects status=todo,doing
+  ---
+  duration_ms: 0.039375
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects status=todo&status=todo
+ok 38 - UT-01 query rejects status=todo&status=todo
+  ---
+  duration_ms: 0.129
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects status[]=todo
+ok 39 - UT-01 query rejects status[]=todo
+  ---
+  duration_ms: 0.092125
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects includeArchived=true
+ok 40 - UT-01 query rejects includeArchived=true
+  ---
+  duration_ms: 0.044166
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects has_due=0
+ok 41 - UT-01 query rejects has_due=0
+  ---
+  duration_ms: 0.04175
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects has_due=FALSE
+ok 42 - UT-01 query rejects has_due=FALSE
+  ---
+  duration_ms: 0.042834
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects assignee=
+ok 43 - UT-01 query rejects assignee=
+  ---
+  duration_ms: 0.053375
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects assignee=0
+ok 44 - UT-01 query rejects assignee=0
+  ---
+  duration_ms: 0.063041
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects sort=password_hash
+ok 45 - UT-01 query rejects sort=password_hash
+  ---
+  duration_ms: 0.040875
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects due_from=2026-02-30
+ok 46 - UT-01 query rejects due_from=2026-02-30
+  ---
+  duration_ms: 0.598458
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects due_from=2026-10-10&due_to=2026-10-09
+ok 47 - UT-01 query rejects due_from=2026-10-10&due_to=2026-10-09
+  ---
+  duration_ms: 0.060625
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects has_due=false&due_from=2026-10-09
+ok 48 - UT-01 query rejects has_due=false&due_from=2026-10-09
+  ---
+  duration_ms: 0.060833
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects __proto__=x
+ok 49 - UT-01 query rejects __proto__=x
+  ---
+  duration_ms: 0.036125
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects constructor=x
+ok 50 - UT-01 query rejects constructor=x
+  ---
+  duration_ms: 0.041125
+  type: 'test'
+  ...
+# Subtest: UT-01 query rejects toString=x
+ok 51 - UT-01 query rejects toString=x
+  ---
+  duration_ms: 0.034958
+  type: 'test'
+  ...
+# Subtest: CSV/report query cannot silently paginate exported rows
+ok 52 - CSV/report query cannot silently paginate exported rows
+  ---
+  duration_ms: 0.068042
+  type: 'test'
+  ...
+# Subtest: password schemas enforce bounds without trimming or mutating input
+ok 53 - password schemas enforce bounds without trimming or mutating input
+  ---
+  duration_ms: 0.227
+  type: 'test'
+  ...
+# Subtest: timestamp schema accepts UTC millisecond format and rejects offsets/date-only
+ok 54 - timestamp schema accepts UTC millisecond format and rejects offsets/date-only
+  ---
+  duration_ms: 0.315667
+  type: 'test'
+  ...
+# Subtest: error DTO accepts conflict version and rejects SQL stack/token fields
+ok 55 - error DTO accepts conflict version and rejects SQL stack/token fields
+  ---
+  duration_ms: 0.569542
+  type: 'test'
+  ...
+# Subtest: public metadata cannot expand into organization/path/database details
+ok 56 - public metadata cannot expand into organization/path/database details
+  ---
+  duration_ms: 0.121917
+  type: 'test'
+  ...
+# Subtest: every named response object rejects secret/internal fields
+ok 57 - every named response object rejects secret/internal fields
+  ---
+  duration_ms: 0.135625
+  type: 'test'
+  ...
+# Subtest: write headers require UUID keys on completion, upload and create routes
+ok 58 - write headers require UUID keys on completion, upload and create routes
+  ---
+  duration_ms: 0.090125
+  type: 'test'
+  ...
+# Subtest: bodyless commands reject extra body; 204 never has a content schema
+ok 59 - bodyless commands reject extra body; 204 never has a content schema
+  ---
+  duration_ms: 0.039333
+  type: 'test'
+  ...
+# Subtest: Task DTO includes scoped display context and rejects nested private account fields
+ok 60 - Task DTO includes scoped display context and rejects nested private account fields
+  ---
+  duration_ms: 3.532875
+  type: 'test'
+  ...
+# Subtest: board fallback signals incomplete ordering instead of pretending a partial board is complete
+ok 61 - board fallback signals incomplete ordering instead of pretending a partial board is complete
+  ---
+  duration_ms: 0.412834
+  type: 'test'
+  ...
+# Subtest: Repeated equivalent transient schemas reuse compilation without relaxing validation
+ok 62 - Repeated equivalent transient schemas reuse compilation without relaxing validation
+  ---
+  duration_ms: 3.195333
+  type: 'test'
+  ...
+# Subtest: Validator cache evicts old schemas and preserves distinct constraints and bundle references
+ok 63 - Validator cache evicts old schemas and preserves distinct constraints and bundle references
+  ---
+  duration_ms: 47.350041
+  type: 'test'
+  ...
+# Subtest: Cached validation keeps each failure diagnostic and input independent
+ok 64 - Cached validation keeps each failure diagnostic and input independent
+  ---
+  duration_ms: 0.228
+  type: 'test'
+  ...
+1..64
+# tests 64
+# suites 0
+# pass 64
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 336.263542
+
+> friday-management@0.1.0 test:test-plan
+> node --test tests/planning/*.test.mjs
+
+TAP version 13
+# Subtest: Complete manifest matches approved inventories and source dependencies
+ok 1 - Complete manifest matches approved inventories and source dependencies
+  ---
+  duration_ms: 21.648333
+  type: 'test'
+  ...
+# Subtest: Missing AT and altered mappings are rejected
+ok 2 - Missing AT and altered mappings are rejected
+  ---
+  duration_ms: 37.942041
+  type: 'test'
+  ...
+# Subtest: Empty execution store never implies application or release PASS
+ok 3 - Empty execution store never implies application or release PASS
+  ---
+  duration_ms: 0.818833
+  type: 'test'
+  ...
+# Subtest: Synthetic full evidence can satisfy policy but is never written as real results
+ok 4 - Synthetic full evidence can satisfy policy but is never written as real results
+  ---
+  duration_ms: 12.506416
+  type: 'test'
+  ...
+# Subtest: SQLite PASS cannot close a SQL Server case or final gate
+ok 5 - SQLite PASS cannot close a SQL Server case or final gate
+  ---
+  duration_ms: 16.391125
+  type: 'test'
+  ...
+# Subtest: SQL PASS on macOS cannot close Windows install
+ok 6 - SQL PASS on macOS cannot close Windows install
+  ---
+  duration_ms: 2.848167
+  type: 'test'
+  ...
+# Subtest: Missing concurrency variant blocks final even when all cases and AT are PASS
+ok 7 - Missing concurrency variant blocks final even when all cases and AT are PASS
+  ---
+  duration_ms: 2.651084
+  type: 'test'
+  ...
+# Subtest: Old build or changed source digest cannot satisfy current sign-off
+ok 8 - Old build or changed source digest cannot satisfy current sign-off
+  ---
+  duration_ms: 5.039958
+  type: 'test'
+  ...
+# Subtest: Evidence must exist and match hash; credentials/data cannot be used
+ok 9 - Evidence must exist and match hash; credentials/data cannot be used
+  ---
+  duration_ms: 0.87925
+  type: 'test'
+  ...
+# Subtest: PASS requires execution identity/actual/environment and AT sign-off
+ok 10 - PASS requires execution identity/actual/environment and AT sign-off
+  ---
+  duration_ms: 1.109958
+  type: 'test'
+  ...
+# Subtest: Provider identity and Node major mismatches rejected
+ok 11 - Provider identity and Node major mismatches rejected
+  ---
+  duration_ms: 0.244917
+  type: 'test'
+  ...
+# Subtest: Unsupported status and duplicate per-build results rejected
+ok 12 - Unsupported status and duplicate per-build results rejected
+  ---
+  duration_ms: 0.215833
+  type: 'test'
+  ...
+# Subtest: BLOCKED needs reason and FAIL needs defect; neither can be masked by PASS
+ok 13 - BLOCKED needs reason and FAIL needs defect; neither can be masked by PASS
+  ---
+  duration_ms: 21.782833
+  type: 'test'
+  ...
+# Subtest: Open Critical/Major defects and incomplete task sign-off prevent final PASS
+ok 14 - Open Critical/Major defects and incomplete task sign-off prevent final PASS
+  ---
+  duration_ms: 5.194084
+  type: 'test'
+  ...
+# Subtest: Browser current/previous matrix cannot close from one browser
+ok 15 - Browser current/previous matrix cannot close from one browser
+  ---
+  duration_ms: 0.22775
+  type: 'test'
+  ...
+# Subtest: Candidate requires packaging reviews and does not imply final PASS
+ok 16 - Candidate requires packaging reviews and does not imply final PASS
+  ---
+  duration_ms: 0.494708
+  type: 'test'
+  ...
+# Subtest: Readiness honors dependency completion and carries declared effort
+ok 17 - Readiness honors dependency completion and carries declared effort
+  ---
+  duration_ms: 0.227792
+  type: 'test'
+  ...
+1..17
+# tests 17
+# suites 0
+# pass 17
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 226.212958
+
+> friday-management@0.1.0 test:operations
+> node --import tsx --test tests/operations/*.test.ts
+
+TAP version 13
+# (node:54448) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite local: cutoff purge is atomic with audit/bytes queue and retains recurrence tombstones
+ok 1 - SQLite local: cutoff purge is atomic with audit/bytes queue and retains recurrence tombstones
+  ---
+  duration_ms: 25.142084
+  type: 'test'
+  ...
+# Subtest: SQLite local: maintenance blocks retention, drains admitted work and owner loss never unlocks
+ok 2 - SQLite local: maintenance blocks retention, drains admitted work and owner loss never unlocks
+  ---
+  duration_ms: 15.605583
+  type: 'test'
+  ...
+# Subtest: SQLite local: a failed parent deletion rolls audit/child/byte-queue changes back
+ok 3 - SQLite local: a failed parent deletion rolls audit/child/byte-queue changes back
+  ---
+  duration_ms: 14.282875
+  type: 'test'
+  ...
+# Subtest: SQLite local: expired sessions/idempotency/rate limits clean at the exact deadline
+ok 4 - SQLite local: expired sessions/idempotency/rate limits clean at the exact deadline
+  ---
+  duration_ms: 15.088416
+  type: 'test'
+  ...
+# (node:54449) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: T062/T063 real SQLite snapshot/isolated restore verifies bytes/counts and revokes old sessions
+ok 5 - T062/T063 real SQLite snapshot/isolated restore verifies bytes/counts and revokes old sessions
+  ---
+  duration_ms: 46.8815
+  type: 'test'
+  ...
+# Subtest: T062 failed/tampered snapshot cannot publish or overwrite; thaw remains owned and secrets excluded
+ok 6 - T062 failed/tampered snapshot cannot publish or overwrite; thaw remains owned and secrets excluded
+  ---
+  duration_ms: 34.615
+  type: 'test'
+  ...
+# Subtest: T064 pre-upgrade snapshot, transactional legacy upgrade, repeat migration and isolated rollback preserve existing data/files
+ok 7 - T064 pre-upgrade snapshot, transactional legacy upgrade, repeat migration and isolated rollback preserve existing data/files
+  ---
+  duration_ms: 40.96725
+  type: 'test'
+  ...
+# Subtest: T061 actual HTTP rejects admitted mutations while frozen; /me remains read-only and startup refuses a stale freeze
+ok 8 - T061 actual HTTP rejects admitted mutations while frozen; /me remains read-only and startup refuses a stale freeze
+  ---
+  duration_ms: 116.19725
+  type: 'test'
+  ...
+# Subtest: T060 startup recovery preserves referenced bytes while removing orphan/temp blobs
+ok 9 - T060 startup recovery preserves referenced bytes while removing orphan/temp blobs
+  ---
+  duration_ms: 17.804333
+  type: 'test'
+  ...
+# Subtest: T062 checksum reads reject symlinks; SQL restore plan binds paths and never uses REPLACE/system target
+ok 10 - T062 checksum reads reject symlinks; SQL restore plan binds paths and never uses REPLACE/system target
+  ---
+  duration_ms: 15.417709
+  type: 'test'
+  ...
+# Subtest: T061 installer CLI rejects a running instance and emits no connection/credential details
+ok 11 - T061 installer CLI rejects a running instance and emits no connection/credential details
+  ---
+  duration_ms: 457.402958
+  type: 'test'
+  ...
+# Subtest: T062/T063 installer command creates/verifies/restores a stopped local snapshot end to end
+ok 12 - T062/T063 installer command creates/verifies/restores a stopped local snapshot end to end
+  ---
+  duration_ms: 1128.704292
+  type: 'test'
+  ...
+# Subtest: T062 private backup path rejects a replaceable public ancestor
+ok 13 - T062 private backup path rejects a replaceable public ancestor
+  ---
+  duration_ms: 15.210667
+  type: 'test'
+  ...
+# Subtest: T074 clean restored application old-cookie revoke, real Member scope/download and restart persistence
+ok 14 - T074 clean restored application old-cookie revoke, real Member scope/download and restart persistence
+  ---
+  duration_ms: 524.715083
+  type: 'test'
+  ...
+1..14
+# tests 14
+# suites 0
+# pass 14
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2877.233958
+
+> friday-management@0.1.0 test:regression
+> node --import tsx --test tests/regression/*.test.ts
+
+TAP version 13
+# (node:54479) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: SQLite local T067 fixture roles/project topology, generated hashes, independent reset and Bangkok clock
+ok 1 - SQLite local T067 fixture roles/project topology, generated hashes, independent reset and Bangkok clock
+  ---
+  duration_ms: 871.11225
+  type: 'test'
+  ...
+# Subtest: SQLite local T068 real login hash-only sessions, polling idle boundary and absolute expiry despite activity
+ok 2 - SQLite local T068 real login hash-only sessions, polling idle boundary and absolute expiry despite activity
+  ---
+  duration_ms: 317.706417
+  type: 'test'
+  ...
+# Subtest: SQLite local T068 last Admin guard, role/deactivate revocation and history retention
+ok 3 - SQLite local T068 last Admin guard, role/deactivate revocation and history retention
+  ---
+  duration_ms: 376.480125
+  type: 'test'
+  ...
+# Subtest: SQLite local T068 password rotation/reset revokes old cookie and keeps audit secret-free
+ok 4 - SQLite local T068 password rotation/reset revokes old cookie and keeps audit secret-free
+  ---
+  duration_ms: 640.914042
+  type: 'test'
+  ...
+# Subtest: SQLite local T069 exact role/project read matrix and byte-authorized file IDOR
+ok 5 - SQLite local T069 exact role/project read matrix and byte-authorized file IDOR
+  ---
+  duration_ms: 640.885084
+  type: 'test'
+  ...
+# Subtest: SQLite local T069 Viewer write matrix preserves DB/attachment bytes across all task actions
+ok 6 - SQLite local T069 Viewer write matrix preserves DB/attachment bytes across all task actions
+  ---
+  duration_ms: 249.284917
+  type: 'test'
+  ...
+# Subtest: SQLite local T069 scope across search/count/report/CSV/notification and directory
+ok 7 - SQLite local T069 scope across search/count/report/CSV/notification and directory
+  ---
+  duration_ms: 323.00175
+  type: 'test'
+  ...
+# Subtest: SQLite local T069 revoke open detail prevents new reads/write/replay and cleans open assignment
+ok 8 - SQLite local T069 revoke open detail prevents new reads/write/replay and cleans open assignment
+  ---
+  duration_ms: 311.314875
+  type: 'test'
+  ...
+# Subtest: SQLite local T069 archived project rejects normal writes, owner lifecycle exception and unarchive
+ok 9 - SQLite local T069 archived project rejects normal writes, owner lifecycle exception and unarchive
+  ---
+  duration_ms: 323.924833
+  type: 'test'
+  ...
+# Subtest: SQLite local T069 CSRF/no Origin/spoofed proxy, parameterized SQLi and plaintext XSS
+ok 10 - SQLite local T069 CSRF/no Origin/spoofed proxy, parameterized SQLi and plaintext XSS
+  ---
+  duration_ms: 233.06925
+  type: 'test'
+  ...
+# Subtest: SQLite local T070 HTTP validation/checklist/leap monthly/concurrent same-key retry/reopen one successor
+ok 11 - SQLite local T070 HTTP validation/checklist/leap monthly/concurrent same-key retry/reopen one successor
+  ---
+  duration_ms: 261.391041
+  type: 'test'
+  ...
+# Subtest: SQLite local T070 real HTTP trash/restore/cutoff/purge removes referenced bytes and keeps purge audit
+ok 12 - SQLite local T070 real HTTP trash/restore/cutoff/purge removes referenced bytes and keeps purge audit
+  ---
+  duration_ms: 307.495125
+  type: 'test'
+  ...
+# Subtest: SQLite local T071 HTTP >500 board fallback, complete paginated rows and Bangkok midnight/null dates
+ok 13 - SQLite local T071 HTTP >500 board fallback, complete paginated rows and Bangkok midnight/null dates
+  ---
+  duration_ms: 406.794667
+  type: 'test'
+  ...
+# Subtest: SQLite local T072 comment same-key concurrency immutable history, recipients/no-self/read scope and90day cutoff
+ok 14 - SQLite local T072 comment same-key concurrency immutable history, recipients/no-self/read scope and90day cutoff
+  ---
+  duration_ms: 320.955375
+  type: 'test'
+  ...
+# Subtest: SQLite local T072 real multipart10MiB/+1/invalid magic preserves quota and cleans reservations/temp
+ok 15 - SQLite local T072 real multipart10MiB/+1/invalid magic preserves quota and cleans reservations/temp
+  ---
+  duration_ms: 518.183333
+  type: 'test'
+  ...
+# Subtest: SQLite local T073 HTTP report owner-team/date/reopen and parsed Thai/formula/newline CSV all121rows
+ok 16 - SQLite local T073 HTTP report owner-team/date/reopen and parsed Thai/formula/newline CSV all121rows
+  ---
+  duration_ms: 259.054917
+  type: 'test'
+  ...
+1..16
+# tests 16
+# suites 0
+# pass 16
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 6663.327958
+
+> friday-management@0.1.0 test:performance-policy
+> node --import tsx --test tests/performance/*.test.ts
+
+TAP version 13
+# Subtest: nearest-rank p95 and strict1percent errors/performance cutoffs
+ok 1 - nearest-rank p95 and strict1percent errors/performance cutoffs
+  ---
+  duration_ms: 0.756542
+  type: 'test'
+  ...
+# Subtest: 150 request cycle is70/30 with15 mixed-role actors and read-only Viewer
+ok 2 - 150 request cycle is70/30 with15 mixed-role actors and read-only Viewer
+  ---
+  duration_ms: 0.094875
+  type: 'test'
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 2
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 107.450625

@@ -1,0 +1,244 @@
+{
+  "date": "2026-10-07",
+  "scope": "English-first compact minimal Vibe mockup only",
+  "result": "PASS_FOCUSED_PREVIEW",
+  "cases": [
+    {
+      "id": "E01",
+      "description": "English login copy",
+      "result": "PASS"
+    },
+    {
+      "id": "E02",
+      "description": "Compact font and layout dimensions",
+      "result": "PASS"
+    },
+    {
+      "id": "E03",
+      "description": "English base and translated board",
+      "result": "PASS"
+    },
+    {
+      "id": "E-page-home",
+      "description": "English UI on home",
+      "result": "PASS"
+    },
+    {
+      "id": "E-page-my",
+      "description": "English UI on my",
+      "result": "PASS"
+    },
+    {
+      "id": "E-page-projects",
+      "description": "English UI on projects",
+      "result": "PASS"
+    },
+    {
+      "id": "E-page-calendar",
+      "description": "English UI on calendar",
+      "result": "PASS"
+    },
+    {
+      "id": "E-page-reports",
+      "description": "English UI on reports",
+      "result": "PASS"
+    },
+    {
+      "id": "E-page-teams",
+      "description": "English UI on teams",
+      "result": "PASS"
+    },
+    {
+      "id": "E-page-users",
+      "description": "English UI on users",
+      "result": "PASS"
+    },
+    {
+      "id": "E-page-trash",
+      "description": "English UI on trash",
+      "result": "PASS"
+    },
+    {
+      "id": "E-page-settings",
+      "description": "English UI on settings",
+      "result": "PASS"
+    },
+    {
+      "id": "E-page-board",
+      "description": "English UI on board",
+      "result": "PASS"
+    },
+    {
+      "id": "E04",
+      "description": "English group form and Vibe color dropdown",
+      "result": "PASS"
+    },
+    {
+      "id": "E05",
+      "description": "English independent date controls",
+      "result": "PASS"
+    },
+    {
+      "id": "E06",
+      "description": "English form saves Unicode task title without translating user content",
+      "result": "PASS"
+    },
+    {
+      "id": "E-view-Kanban",
+      "description": "Compact Kanban view renders",
+      "result": "PASS"
+    },
+    {
+      "id": "E-view-Calendar",
+      "description": "Compact Calendar view renders",
+      "result": "PASS"
+    },
+    {
+      "id": "E-view-Gantt",
+      "description": "Compact Gantt view renders",
+      "result": "PASS"
+    },
+    {
+      "id": "E-view-Main table",
+      "description": "Compact Main table view renders",
+      "result": "PASS"
+    },
+    {
+      "id": "E07",
+      "description": "English Notify read-all",
+      "result": "PASS"
+    },
+    {
+      "id": "E08",
+      "description": "Compact 82px calendar cells",
+      "result": "PASS"
+    },
+    {
+      "id": "E09",
+      "description": "Compact Gantt rows preserve task view",
+      "result": "PASS"
+    },
+    {
+      "id": "E10",
+      "description": "Task drawer reduced to 590px",
+      "result": "PASS"
+    },
+    {
+      "id": "E-size-360",
+      "description": "No page horizontal overflow at 360",
+      "result": "PASS"
+    },
+    {
+      "id": "E11",
+      "description": "English compact mobile navigation",
+      "result": "PASS"
+    },
+    {
+      "id": "E12",
+      "description": "English mobile menu Escape returns focus",
+      "result": "PASS"
+    },
+    {
+      "id": "E13",
+      "description": "Compact mobile DatePicker stays inside viewport",
+      "result": "PASS"
+    },
+    {
+      "id": "E-size-768",
+      "description": "No page horizontal overflow at 768",
+      "result": "PASS"
+    },
+    {
+      "id": "E-size-1440",
+      "description": "No page horizontal overflow at 1440",
+      "result": "PASS"
+    },
+    {
+      "id": "E14",
+      "description": "Viewer write controls remain disabled",
+      "result": "PASS"
+    },
+    {
+      "id": "E15",
+      "description": "Offline write controls remain disabled",
+      "result": "PASS"
+    },
+    {
+      "id": "E16",
+      "description": "Minimal active menu retains clear blue selection",
+      "result": "PASS"
+    }
+  ],
+  "counts": {
+    "pass": 33,
+    "fail": 0
+  },
+  "evidenceMode": "Cumulative focused checks with targeted repairs; 32 before final active-menu CSS specificity fix, 1 final-build selection check. Earlier V04 results are historical, not a V05 regression rerun.",
+  "htmlSHA256": "30e34c057f499bddcd067839b30cd39bc46c348499c9d7d650d379b5587f4bb0",
+  "htmlBytes": 902594,
+  "node": "v22.23.3",
+  "library": "@vibe/core@4.5.34",
+  "react": "19.3.0",
+  "browser": {
+    "name": "Codex In-app Browser",
+    "version": "NOT_VERIFIED",
+    "viewports": [
+      360,
+      768,
+      1440
+    ]
+  },
+  "measuredDensity": {
+    "bodyFont": "13px",
+    "headingFont": "20px",
+    "inputHeight": 32,
+    "language": "en",
+    "rowHeight": 38,
+    "sidebarWidth": 216,
+    "thai": false
+  },
+  "englishCopyEntries": 597,
+  "staticThaiCharacters": 0,
+  "userEnteredThai": "PASS preserved in synthetic task title",
+  "build": "PASS",
+  "typecheck": "PASS",
+  "htmlSyntax": "PASS",
+  "browserLogCutoff": "2026-10-07T10:19:34.226Z",
+  "browserErrorsAndWarnings": [],
+  "repairs": [
+    {
+      "case": "E02",
+      "before": "Vibe medium input wrapper 40px despite CSS input override",
+      "after": "Use actual Vibe TextField small size; measured32px"
+    },
+    {
+      "case": "E09",
+      "before": "Gantt label line boxes forced 51.24px rows",
+      "after": "Explicit label line-height gives compact rows <=47px"
+    },
+    {
+      "case": "review timing",
+      "before": "Immediate DatePicker DOM read returned null; Notify click before settled enhancement",
+      "after": "Inspect current state and wait for visible DatePicker/Notify controls before assertions"
+    }
+  ],
+  "screenshots": [
+    "reports/UI-vibe-v05-board.jpg",
+    "reports/UI-vibe-v05-login.jpg",
+    "reports/UI-vibe-v05-task.jpg",
+    "reports/UI-vibe-v05-mobile.jpg"
+  ],
+  "notRun": [
+    "Production UI integration",
+    "Full V04 focused checks or legacy M01-M21 rerun on V05",
+    "Full WCAG/screen reader/zoom/physical device matrix",
+    "SQL Server2022/Windows/formal TC-AT/UAT/release/security acceptance"
+  ],
+  "securityAudit": "Unchanged prior OPEN53Moderate/6High/0Critical; do not infer acceptance from mock",
+  "tasks": {
+    "done": 6,
+    "total": 77,
+    "remaining": 71,
+    "inProgress": 71
+  }
+}

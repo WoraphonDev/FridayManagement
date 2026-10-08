@@ -1,0 +1,5 @@
+
+> friday-management@0.1.0 check:test-plan
+> node scripts/check-test-plan.mjs
+
+{"inventory":{"tasks":77,"suites":20,"cases":84,"acceptance":30,"variants":20,"uat":5,"smoke":30,"FR":40,"NFR":8,"BR":18,"result":"PASS"},"evidence":{"records":0,"defects":0,"result":"PASS"},"gates":{"G0":{"result":"PASS","pendingTasks":[]},"candidate":{"result":"NOT_RUN","pendingReviews":["REL-01","REL-02"],"purpose":"Test candidate only; pending full release results must accompany it"},"final":{"result":"NOT_RUN","pending":143},"production":{"result":"NOT_RUN"}},"ready":[{"id":"T-006","effort":"High"},{"id":"T-007","effort":"High"}]}

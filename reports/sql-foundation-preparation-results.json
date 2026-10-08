@@ -1,0 +1,64 @@
+{
+  "date": "2026-10-08",
+  "tasks": [
+    "T-006",
+    "T-007"
+  ],
+  "declared_effort": "High",
+  "actual_model_effort": "NOT_VERIFIED",
+  "owner_decision": "No isolated SQL2022 yet; prepare tests and runbook first",
+  "environment": {
+    "node": "22.23.3",
+    "os": "macOS",
+    "architecture": "arm64",
+    "SQL_test_environment_configured": false,
+    "docker_daemon_available": false
+  },
+  "changes": [
+    "Read-only SQL2022/database/permissions preflight with redacted errors",
+    "Sequential focused native suite gated on readiness",
+    "Private environment and acceptance runbook"
+  ],
+  "checks": {
+    "readiness_tests": {
+      "pass": 5,
+      "fail": 0
+    },
+    "configuration_regression": {
+      "pass": 43,
+      "fail": 0
+    },
+    "schema_local_regression": {
+      "pass": 13,
+      "fail": 0
+    },
+    "typecheck": "PASS",
+    "changed_file_lint": "PASS",
+    "native_foundation": {
+      "result": "NOT_RUN",
+      "executed": 0,
+      "skipped": 13
+    },
+    "focused_command": {
+      "result": "NOT_READY",
+      "expected_exit": 1,
+      "code": "ISOLATED_SQL_TEST_REQUIRED"
+    },
+    "node_run_launcher": "PASS: correctly NOT_READY without opt-in"
+  },
+  "task_register": {
+    "completed": 6,
+    "total": 77,
+    "remaining": 71,
+    "in_progress": 71,
+    "todo": 0
+  },
+  "not_run": [
+    "Native SQL2022",
+    "Windows/HTTPS",
+    "native query plans/concurrency",
+    "backup/restore acceptance",
+    "human UAT"
+  ],
+  "next_task": "Native T-006/T-007 High after isolated SQL2022 is provided"
+}

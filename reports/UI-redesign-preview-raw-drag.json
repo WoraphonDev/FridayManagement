@@ -1,0 +1,77 @@
+{
+  "date": "2026-10-07",
+  "scope": "Standalone design prototype only",
+  "browser": "153.0.8010.12",
+  "runtime": "v22.23.3",
+  "source": "TeamFlow_UI_Redesign_Mockup.html",
+  "sha256": "e97202fdd87798727504d1ec621917b1ec99aa3a0bb7892e1c742828c7c0c1e5",
+  "summary": {
+    "pass": 10,
+    "fail": 1,
+    "planned": 21
+  },
+  "cases": [
+    {
+      "id": "M01",
+      "description": "Login: show password, help and session/rate-limit notices",
+      "result": "PASS"
+    },
+    {
+      "id": "M02",
+      "description": "Setup and forced password change are inspectable; password mismatch remains visible",
+      "result": "PASS"
+    },
+    {
+      "id": "M03",
+      "description": "Board: four views open the same task; Calendar/Gantt expose incomplete dates",
+      "result": "PASS"
+    },
+    {
+      "id": "M04",
+      "description": "Search and combined person/status/priority filters update visible tasks and result count",
+      "result": "PASS"
+    },
+    {
+      "id": "M05",
+      "description": "Create: required title, date order and recurrence due date; new task starts todo",
+      "result": "PASS"
+    },
+    {
+      "id": "M06",
+      "description": "Dirty draft: cancel preserves input; Escape requires discard confirmation; focus returns",
+      "result": "PASS"
+    },
+    {
+      "id": "M07",
+      "description": "Checklist: done guard, no auto-done, weekly successor once after reopen",
+      "result": "PASS"
+    },
+    {
+      "id": "M08",
+      "description": "Comment draft survives tabs and offline; reconnect retains task draft",
+      "result": "PASS"
+    },
+    {
+      "id": "M09",
+      "description": "Conflict: draft is not overwritten; save waits for explicit review choice",
+      "result": "PASS"
+    },
+    {
+      "id": "M10",
+      "description": "Viewer/archived UI closes writes; Admin can unarchive",
+      "result": "PASS"
+    },
+    {
+      "id": "M11",
+      "description": "Kanban: filtered drag disabled, dropdown alternative and cross-column drag",
+      "result": "FAIL",
+      "error": "expect(locator).toContainText(expected) failed\n\nLocator: locator('[data-column=doing]')\nExpected substring: \"ส่งคู่มือให้ผู้ใช้งาน\"\nReceived string:    \"กำลังทำ2FR-101ออกแบบหน้าเว็บไซต์ใหม่สูง2/3 Checklist 9 ต.ค.MN 1รอทำกำลังทำรอตรวจเสร็จแล้วFR-102เตรียมเนื้อหาหน้าบริการปกติ1/2 Checklist 12 ต.ค.PR 0รอทำกำลังทำรอตรวจเสร็จแล้วเพิ่มงาน\"\nTimeout: 5000ms\n"
+    }
+  ],
+  "pageErrors": [],
+  "privateApiRequests": [],
+  "productionAcceptance": "NOT_RUN",
+  "sqlServer": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "uat": "NOT_RUN"
+}

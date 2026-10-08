@@ -1,0 +1,34 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "noEmit": true,
+    "allowImportingTsExtensions": true
+  },
+  "include": [
+    "scripts/*.ts",
+    "tests/foundation/*.ts",
+    "tests/sqlserver/*.ts",
+    "tests/browser/*.ts",
+    "playwright.config.ts",
+    "tests/config/*.ts",
+    "tests/schema/*.ts",
+    "tests/helpers/*.ts",
+    "tests/api/*.ts",
+    "tests/idempotency/*.ts",
+    "tests/authorization/*.ts",
+    "tests/setup/*.ts",
+    "tests/sessions/*.ts",
+    "tests/accounts/*.ts",
+    "tests/admin-cli/*.ts",
+    "tests/workspaces/*.ts",
+    "tests/tasks/*.ts",
+    "tests/task-views/*.ts",
+    "tests/boards/*.ts",
+    "tests/files/*.ts",
+    "tests/notifications/*.ts",
+    "tests/operations/*.ts",
+    "tests/regression/*.ts",
+    "tests/performance/*.ts"
+  ]
+}

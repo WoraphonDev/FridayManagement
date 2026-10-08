@@ -1,0 +1,1435 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "@csstools/selector-specificity": {
+      "name": "@csstools/selector-specificity",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss-selector-parser"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": "<=4.0.0",
+      "nodes": [
+        "node_modules/@csstools/selector-specificity"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/accordion": {
+      "name": "@vibe/accordion",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/expand-collapse"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/accordion"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/alert-banner": {
+      "name": "@vibe/alert-banner",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/icon-button",
+        "@vibe/link",
+        "@vibe/tooltip",
+        "@vibe/typography"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/alert-banner"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/attention-box": {
+      "name": "@vibe/attention-box",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/icon-button",
+        "@vibe/layout",
+        "@vibe/link",
+        "@vibe/typography"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/attention-box"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/avatar": {
+      "name": "@vibe/avatar",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/clickable",
+        "@vibe/style",
+        "@vibe/tooltip"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/avatar"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/avatar-group": {
+      "name": "@vibe/avatar-group",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/avatar",
+        "@vibe/clickable",
+        "@vibe/counter",
+        "@vibe/layout",
+        "@vibe/menu",
+        "@vibe/menu-button",
+        "@vibe/style",
+        "@vibe/tooltip",
+        "@vibe/virtualized-list"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/avatar-group"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/badge": {
+      "name": "@vibe/badge",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/counter"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/badge"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/base": {
+      "name": "@vibe/base",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style"
+      ],
+      "effects": [
+        "@vibe/search"
+      ],
+      "range": ">=4.0.0-alpha.0",
+      "nodes": [
+        "node_modules/@vibe/base"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/base-list": {
+      "name": "@vibe/base-list",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/avatar",
+        "@vibe/chips",
+        "@vibe/style",
+        "@vibe/tooltip",
+        "@vibe/typography"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/base-list"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/breadcrumbs": {
+      "name": "@vibe/breadcrumbs",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/menu",
+        "@vibe/menu-button",
+        "@vibe/style",
+        "@vibe/tooltip"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/breadcrumbs"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/button": {
+      "name": "@vibe/button",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style"
+      ],
+      "effects": [
+        "@vibe/alert-banner",
+        "@vibe/icon-button",
+        "@vibe/split-button"
+      ],
+      "range": ">=4.0.0-alpha.0",
+      "nodes": [
+        "node_modules/@vibe/button"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/button-group": {
+      "name": "@vibe/button-group",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/style",
+        "@vibe/tooltip"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/button-group"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/checkbox": {
+      "name": "@vibe/checkbox",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style",
+        "@vibe/typography"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/checkbox"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/chips": {
+      "name": "@vibe/chips",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/avatar",
+        "@vibe/clickable",
+        "@vibe/icon-button",
+        "@vibe/style",
+        "@vibe/typography"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/chips"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/clickable": {
+      "name": "@vibe/clickable",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style"
+      ],
+      "effects": [
+        "@vibe/color-picker",
+        "@vibe/radio-button"
+      ],
+      "range": ">=4.0.0-alpha.0",
+      "nodes": [
+        "node_modules/@vibe/clickable"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/color-picker": {
+      "name": "@vibe/color-picker",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/clickable",
+        "@vibe/dialog",
+        "@vibe/tooltip"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/color-picker"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/combobox": {
+      "name": "@vibe/combobox",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/icon-button",
+        "@vibe/menu-button",
+        "@vibe/search",
+        "@vibe/style",
+        "@vibe/tooltip",
+        "@vibe/typography",
+        "@vibe/virtualized-list"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/combobox"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/core": {
+      "name": "@vibe/core",
+      "severity": "moderate",
+      "isDirect": true,
+      "via": [
+        "@vibe/accordion",
+        "@vibe/alert-banner",
+        "@vibe/attention-box",
+        "@vibe/avatar",
+        "@vibe/avatar-group",
+        "@vibe/badge",
+        "@vibe/base",
+        "@vibe/base-list",
+        "@vibe/breadcrumbs",
+        "@vibe/button",
+        "@vibe/button-group",
+        "@vibe/checkbox",
+        "@vibe/chips",
+        "@vibe/clickable",
+        "@vibe/color-picker",
+        "@vibe/combobox",
+        "@vibe/counter",
+        "@vibe/date-picker",
+        "@vibe/dialog",
+        "@vibe/dropdown",
+        "@vibe/editable",
+        "@vibe/empty-state",
+        "@vibe/expand-collapse",
+        "@vibe/icon-button",
+        "@vibe/info",
+        "@vibe/label",
+        "@vibe/layout",
+        "@vibe/link",
+        "@vibe/list",
+        "@vibe/menu",
+        "@vibe/menu-button",
+        "@vibe/modal",
+        "@vibe/progress-bars",
+        "@vibe/radio-button",
+        "@vibe/search",
+        "@vibe/slider",
+        "@vibe/split-button",
+        "@vibe/style",
+        "@vibe/table",
+        "@vibe/tabs",
+        "@vibe/text-inputs",
+        "@vibe/text-with-highlight",
+        "@vibe/tipseen",
+        "@vibe/toast",
+        "@vibe/toggle",
+        "@vibe/tooltip",
+        "@vibe/typography",
+        "@vibe/virtualized-grid",
+        "@vibe/virtualized-list",
+        "@vibe/wizard"
+      ],
+      "effects": [],
+      "range": ">=3.89.0-alpha-01945.0",
+      "nodes": [
+        "node_modules/@vibe/core"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/counter": {
+      "name": "@vibe/counter",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style"
+      ],
+      "effects": [
+        "@vibe/badge",
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/counter"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/date-picker": {
+      "name": "@vibe/date-picker",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/dropdown",
+        "@vibe/icon-button",
+        "@vibe/layout",
+        "@vibe/style"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/date-picker"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/dialog": {
+      "name": "@vibe/dialog",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style"
+      ],
+      "effects": [],
+      "range": ">=4.0.0-alpha.0",
+      "nodes": [
+        "node_modules/@vibe/dialog"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/dropdown": {
+      "name": "@vibe/dropdown",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/base",
+        "@vibe/base-list",
+        "@vibe/chips",
+        "@vibe/dialog",
+        "@vibe/icon-button",
+        "@vibe/layout",
+        "@vibe/style",
+        "@vibe/text-inputs",
+        "@vibe/tooltip",
+        "@vibe/typography"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/dropdown"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/editable": {
+      "name": "@vibe/editable",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style",
+        "@vibe/tooltip",
+        "@vibe/typography"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/editable"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/empty-state": {
+      "name": "@vibe/empty-state",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/layout",
+        "@vibe/link",
+        "@vibe/typography"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/empty-state"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/expand-collapse": {
+      "name": "@vibe/expand-collapse",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style",
+        "@vibe/typography"
+      ],
+      "effects": [
+        "@vibe/accordion",
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/expand-collapse"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/icon-button": {
+      "name": "@vibe/icon-button",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/tooltip"
+      ],
+      "effects": [],
+      "range": ">=4.0.0-alpha.0",
+      "nodes": [
+        "node_modules/@vibe/icon-button"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/info": {
+      "name": "@vibe/info",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/dialog",
+        "@vibe/icon-button",
+        "@vibe/layout",
+        "@vibe/link",
+        "@vibe/typography"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/info"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/label": {
+      "name": "@vibe/label",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/clickable",
+        "@vibe/style",
+        "@vibe/typography"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/label"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/layout": {
+      "name": "@vibe/layout",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/clickable",
+        "@vibe/style"
+      ],
+      "effects": [
+        "@vibe/attention-box",
+        "@vibe/empty-state",
+        "@vibe/info",
+        "@vibe/toast"
+      ],
+      "range": ">=4.0.0-alpha.0",
+      "nodes": [
+        "node_modules/@vibe/layout"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/link": {
+      "name": "@vibe/link",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/link"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/list": {
+      "name": "@vibe/list",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/avatar",
+        "@vibe/base-list",
+        "@vibe/style",
+        "@vibe/tooltip",
+        "@vibe/typography",
+        "@vibe/virtualized-list"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/list"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/menu": {
+      "name": "@vibe/menu",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/avatar",
+        "@vibe/button",
+        "@vibe/dialog",
+        "@vibe/icon-button",
+        "@vibe/label",
+        "@vibe/layout",
+        "@vibe/style",
+        "@vibe/tooltip",
+        "@vibe/typography"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/menu"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/menu-button": {
+      "name": "@vibe/menu-button",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/dialog",
+        "@vibe/menu",
+        "@vibe/style",
+        "@vibe/tooltip"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/menu-button"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/modal": {
+      "name": "@vibe/modal",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/icon-button",
+        "@vibe/layout",
+        "@vibe/menu-button",
+        "@vibe/style",
+        "@vibe/tooltip",
+        "@vibe/typography",
+        "@vibe/wizard"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/modal"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/progress-bars": {
+      "name": "@vibe/progress-bars",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/progress-bars"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/radio-button": {
+      "name": "@vibe/radio-button",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/clickable",
+        "@vibe/tooltip",
+        "@vibe/typography"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/radio-button"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/search": {
+      "name": "@vibe/search",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/base",
+        "@vibe/icon-button",
+        "@vibe/menu-button"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/search"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/slider": {
+      "name": "@vibe/slider",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/dialog",
+        "@vibe/style",
+        "@vibe/text-inputs",
+        "@vibe/tooltip",
+        "@vibe/typography"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/slider"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/split-button": {
+      "name": "@vibe/split-button",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/dialog",
+        "@vibe/menu"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/split-button"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/style": {
+      "name": "@vibe/style",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "postcss",
+        "stylelint"
+      ],
+      "effects": [
+        "@vibe/avatar",
+        "@vibe/avatar-group",
+        "@vibe/base",
+        "@vibe/base-list",
+        "@vibe/breadcrumbs",
+        "@vibe/button",
+        "@vibe/button-group",
+        "@vibe/checkbox",
+        "@vibe/chips",
+        "@vibe/clickable",
+        "@vibe/combobox",
+        "@vibe/core",
+        "@vibe/counter",
+        "@vibe/date-picker",
+        "@vibe/dialog",
+        "@vibe/dropdown",
+        "@vibe/editable",
+        "@vibe/expand-collapse",
+        "@vibe/label",
+        "@vibe/layout",
+        "@vibe/link",
+        "@vibe/list",
+        "@vibe/menu",
+        "@vibe/menu-button",
+        "@vibe/modal",
+        "@vibe/progress-bars",
+        "@vibe/slider",
+        "@vibe/table",
+        "@vibe/tabs",
+        "@vibe/text-inputs",
+        "@vibe/text-with-highlight",
+        "@vibe/tipseen",
+        "@vibe/toggle",
+        "@vibe/tooltip",
+        "@vibe/typography",
+        "@vibe/virtualized-grid",
+        "@vibe/virtualized-list",
+        "@vibe/wizard"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/style"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/table": {
+      "name": "@vibe/table",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/icon-button",
+        "@vibe/layout",
+        "@vibe/menu",
+        "@vibe/menu-button",
+        "@vibe/style",
+        "@vibe/tooltip",
+        "@vibe/typography",
+        "@vibe/virtualized-list"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/table"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/tabs": {
+      "name": "@vibe/tabs",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style",
+        "@vibe/tooltip"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/tabs"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/text-inputs": {
+      "name": "@vibe/text-inputs",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/base",
+        "@vibe/clickable",
+        "@vibe/icon-button",
+        "@vibe/layout",
+        "@vibe/style",
+        "@vibe/tooltip",
+        "@vibe/typography"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/text-inputs"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/text-with-highlight": {
+      "name": "@vibe/text-with-highlight",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style",
+        "@vibe/tooltip"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/text-with-highlight"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/tipseen": {
+      "name": "@vibe/tipseen",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/dialog",
+        "@vibe/icon-button",
+        "@vibe/style",
+        "@vibe/tooltip",
+        "@vibe/typography",
+        "@vibe/wizard"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/tipseen"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/toast": {
+      "name": "@vibe/toast",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/icon-button",
+        "@vibe/layout",
+        "@vibe/link",
+        "@vibe/typography"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/toast"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/toggle": {
+      "name": "@vibe/toggle",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style",
+        "@vibe/typography"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/toggle"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/tooltip": {
+      "name": "@vibe/tooltip",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/dialog",
+        "@vibe/layout",
+        "@vibe/style"
+      ],
+      "effects": [],
+      "range": ">=4.0.0-alpha.0",
+      "nodes": [
+        "node_modules/@vibe/tooltip"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/typography": {
+      "name": "@vibe/typography",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style",
+        "@vibe/tooltip"
+      ],
+      "effects": [],
+      "range": ">=4.0.0-alpha.0",
+      "nodes": [
+        "node_modules/@vibe/typography"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/virtualized-grid": {
+      "name": "@vibe/virtualized-grid",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style"
+      ],
+      "effects": [
+        "@vibe/core"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/virtualized-grid"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "@vibe/virtualized-list": {
+      "name": "@vibe/virtualized-list",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/style"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/virtualized-list"
+      ],
+      "fixAvailable": true
+    },
+    "@vibe/wizard": {
+      "name": "@vibe/wizard",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        "@vibe/button",
+        "@vibe/clickable",
+        "@vibe/style",
+        "@vibe/typography"
+      ],
+      "effects": [],
+      "range": "*",
+      "nodes": [
+        "node_modules/@vibe/wizard"
+      ],
+      "fixAvailable": true
+    },
+    "braces": {
+      "name": "braces",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1240992,
+          "name": "braces",
+          "dependency": "braces",
+          "title": "braces vulnerable to stack-exhaustion denial of service through deeply nested patterns",
+          "url": "https://github.com/advisories/GHSA-vfj7-8cjw-p6xm",
+          "severity": "high",
+          "cwe": [
+            "CWE-674"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<=3.0.3"
+        }
+      ],
+      "effects": [
+        "micromatch"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/braces"
+      ],
+      "fixAvailable": true
+    },
+    "fast-glob": {
+      "name": "fast-glob",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "micromatch"
+      ],
+      "effects": [
+        "globby",
+        "stylelint"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/fast-glob"
+      ],
+      "fixAvailable": true
+    },
+    "globby": {
+      "name": "globby",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "fast-glob"
+      ],
+      "effects": [
+        "stylelint"
+      ],
+      "range": ">=8.0.0",
+      "nodes": [
+        "node_modules/globby"
+      ],
+      "fixAvailable": true
+    },
+    "micromatch": {
+      "name": "micromatch",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "braces"
+      ],
+      "effects": [
+        "fast-glob",
+        "stylelint"
+      ],
+      "range": ">=0.2.0",
+      "nodes": [
+        "node_modules/micromatch"
+      ],
+      "fixAvailable": true
+    },
+    "mssql": {
+      "name": "mssql",
+      "severity": "moderate",
+      "isDirect": true,
+      "via": [
+        "tedious"
+      ],
+      "effects": [],
+      "range": ">=4.2.1",
+      "nodes": [
+        "node_modules/mssql"
+      ],
+      "fixAvailable": {
+        "name": "mssql",
+        "version": "4.2.0",
+        "isSemVerMajor": true
+      }
+    },
+    "postcss": {
+      "name": "postcss",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1117015,
+          "name": "postcss",
+          "dependency": "postcss",
+          "title": "PostCSS has XSS via Unescaped </style> in its CSS Stringify Output",
+          "url": "https://github.com/advisories/GHSA-qx2v-qp2m-jg93",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-79"
+          ],
+          "cvss": {
+            "score": 6.1,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:R/S:C/C:L/I:L/A:N"
+          },
+          "range": "<8.5.10"
+        },
+        {
+          "source": 1124252,
+          "name": "postcss",
+          "dependency": "postcss",
+          "title": "PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments",
+          "url": "https://github.com/advisories/GHSA-6g55-p6wh-862q",
+          "severity": "high",
+          "cwe": [
+            "CWE-22",
+            "CWE-200"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+          },
+          "range": "<=8.5.11"
+        },
+        {
+          "source": 1130709,
+          "name": "postcss",
+          "dependency": "postcss",
+          "title": "PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset",
+          "url": "https://github.com/advisories/GHSA-fxqj-rqcc-2cmp",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-22",
+            "CWE-200"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": "<=8.5.22"
+        },
+        {
+          "source": 1139510,
+          "name": "postcss",
+          "dependency": "postcss",
+          "title": "PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure",
+          "url": "https://github.com/advisories/GHSA-r28c-9q8g-f849",
+          "severity": "high",
+          "cwe": [
+            "CWE-22"
+          ],
+          "cvss": {
+            "score": 7.5,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N"
+          },
+          "range": "<=8.5.17"
+        }
+      ],
+      "effects": [
+        "@vibe/style"
+      ],
+      "range": "<=8.5.22",
+      "nodes": [
+        "node_modules/@vibe/style/node_modules/postcss"
+      ],
+      "fixAvailable": {
+        "name": "@vibe/core",
+        "version": "3.88.6",
+        "isSemVerMajor": true
+      }
+    },
+    "postcss-selector-parser": {
+      "name": "postcss-selector-parser",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1241232,
+          "name": "postcss-selector-parser",
+          "dependency": "postcss-selector-parser",
+          "title": "PostCSS: Quadratic complexity in flat selector parsing allows CPU exhaustion",
+          "url": "https://github.com/advisories/GHSA-rj75-hqrm-r3gf",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-400",
+            "CWE-407"
+          ],
+          "cvss": {
+            "score": 5.9,
+            "vectorString": "CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H"
+          },
+          "range": "<7.1.6"
+        }
+      ],
+      "effects": [
+        "@csstools/selector-specificity",
+        "stylelint"
+      ],
+      "range": "<7.1.6",
+      "nodes": [
+        "node_modules/postcss-selector-parser"
+      ],
+      "fixAvailable": true
+    },
+    "sprintf-js": {
+      "name": "sprintf-js",
+      "severity": "moderate",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1241202,
+          "name": "sprintf-js",
+          "dependency": "sprintf-js",
+          "title": "sprintf-js vulnerable to denial of service through unbounded precision specifiers",
+          "url": "https://github.com/advisories/GHSA-hp3w-g68c-fv3c",
+          "severity": "moderate",
+          "cwe": [
+            "CWE-1284"
+          ],
+          "cvss": {
+            "score": 5.3,
+            "vectorString": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:L"
+          },
+          "range": "<=1.1.3"
+        }
+      ],
+      "effects": [
+        "tedious"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/sprintf-js"
+      ],
+      "fixAvailable": {
+        "name": "tedious",
+        "version": "2.3.1",
+        "isSemVerMajor": true
+      }
+    },
+    "stylelint": {
+      "name": "stylelint",
+      "severity": "high",
+      "isDirect": false,
+      "via": [
+        "@csstools/selector-specificity",
+        "fast-glob",
+        "globby",
+        "micromatch",
+        "postcss-selector-parser"
+      ],
+      "effects": [],
+      "range": ">=0.1.0",
+      "nodes": [
+        "node_modules/stylelint"
+      ],
+      "fixAvailable": true
+    },
+    "tedious": {
+      "name": "tedious",
+      "severity": "moderate",
+      "isDirect": true,
+      "via": [
+        "sprintf-js"
+      ],
+      "effects": [
+        "mssql"
+      ],
+      "range": "0.0.0-dev || >=2.4.0",
+      "nodes": [
+        "node_modules/tedious"
+      ],
+      "fixAvailable": {
+        "name": "tedious",
+        "version": "2.3.1",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 56,
+      "high": 6,
+      "critical": 0,
+      "total": 62
+    },
+    "dependencies": {
+      "prod": 443,
+      "dev": 133,
+      "optional": 54,
+      "peer": 1,
+      "peerOptional": 0,
+      "total": 629
+    }
+  }
+}

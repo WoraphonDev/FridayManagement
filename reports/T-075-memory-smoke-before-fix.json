@@ -1,0 +1,153 @@
+{
+  "scope": "Isolated compiled API vs tsx client harness memory diagnostic; not acceptance",
+  "status": "MEASURED_DIAGNOSTIC",
+  "date": "2026-10-07T05:17:41.521Z",
+  "environment": {
+    "node": "22.23.3",
+    "sqlite": "3.53.4",
+    "npm": "10.9.9",
+    "platform": "darwin",
+    "release": "24.6.0",
+    "arch": "arm64",
+    "logicalCPU": 8,
+    "cpu": "Apple M2",
+    "RAM": 8589934592,
+    "disk": "SSD_NOT_VERIFIED",
+    "provider": "temporary SQLite",
+    "driver": "node:sqlite"
+  },
+  "thresholds": {
+    "readP95Ms": 2000,
+    "writeP95Ms": 3000,
+    "unexpectedErrorRate": 0.01,
+    "visibleUpdateMs": 10000
+  },
+  "nativeSqlWindows": "NOT_RUN",
+  "seed": {
+    "counts": {
+      "users": 30,
+      "teams": 6,
+      "projects": 20,
+      "tasks": 10000,
+      "comments": 20000,
+      "attachments": 3
+    },
+    "elapsedMs": 1347.470667
+  },
+  "coldStartupMs": 864.4503750000003,
+  "csv": {
+    "elapsedMs": 76.53395799999998,
+    "bytes": 1587512,
+    "rows": 10000,
+    "peakProcessRSS": 183108480
+  },
+  "boardConcurrency": {
+    "statuses": [
+      200,
+      409
+    ],
+    "expectedConflict": 1,
+    "totalTasks": 500,
+    "noDuplicateTaskIDs": true
+  },
+  "warmupSeconds": 2,
+  "isolatedMemory": {
+    "samples": [
+      {
+        "phase": "post-warmup-baseline",
+        "seconds": 0,
+        "api": {
+          "rss": 116429184,
+          "heapTotal": 69238784,
+          "heapUsed": 32069872,
+          "external": 3894614,
+          "arrayBuffers": 84593
+        },
+        "harness": {
+          "rss": 187565184,
+          "heapTotal": 115556352,
+          "heapUsed": 75752840,
+          "external": 13727105,
+          "arrayBuffers": 9604939
+        },
+        "forcedGC": true
+      },
+      {
+        "phase": "post-load-gc",
+        "seconds": 10,
+        "api": {
+          "rss": 133865984,
+          "heapTotal": 81985536,
+          "heapUsed": 42212640,
+          "external": 3894654,
+          "arrayBuffers": 84593
+        },
+        "harness": {
+          "rss": 186812032,
+          "heapTotal": 116080640,
+          "heapUsed": 76038672,
+          "external": 13727105,
+          "arrayBuffers": 9604923
+        },
+        "forcedGC": true
+      },
+      {
+        "phase": "idle-gc",
+        "seconds": 11,
+        "api": {
+          "rss": 143630912,
+          "heapTotal": 81985536,
+          "heapUsed": 42196864,
+          "external": 3894654,
+          "arrayBuffers": 84593
+        },
+        "harness": {
+          "rss": 188565120,
+          "heapTotal": 116080640,
+          "heapUsed": 76023176,
+          "external": 13727105,
+          "arrayBuffers": 9604923
+        },
+        "forcedGC": true
+      }
+    ],
+    "scope": "API is compiled JS in separate process; harness is tsx + clients + seed; no browser; GC only baseline/post-load/idle outside measured requests; no universal memory acceptance threshold",
+    "durationSeconds": 10
+  },
+  "measurement": {
+    "rounds": 10,
+    "elapsedMs": 10000.971292000002,
+    "requests": 150,
+    "readRequests": 105,
+    "writeRequests": 45,
+    "ratio": [
+      0.7,
+      0.3
+    ],
+    "readP95": 150.48183400000016,
+    "writeP95": 171.222667,
+    "errorRate": 0,
+    "pass": true,
+    "statuses": {
+      "200": 122,
+      "201": 28
+    },
+    "errors": {},
+    "excludedDeliberateErrors": 0,
+    "fileTransferRequests": 0,
+    "visibleSamples": 0,
+    "ancillary": "CSV/board conflict/login/browser polling/observer PATCH separate from main sample",
+    "activeSessions": 15,
+    "roles": {
+      "admin": 1,
+      "lead": 6,
+      "editor": 7,
+      "viewer": 1
+    }
+  },
+  "memory": {
+    "peakRSS": 194053760,
+    "peakHeap": 90709032,
+    "scope": "Client harness/tsx/seed process only; API separately sampled in isolatedMemory; no browser"
+  }
+}

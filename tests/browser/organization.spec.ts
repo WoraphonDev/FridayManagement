@@ -1,0 +1,159 @@
+import { test, expect, type Page } from '@playwright/test';
+import { rmSync } from 'node:fs';
+import { startupFixture } from '../setup/fixtures.js';
+import { startApplication } from '../../src/api/start.js';
+const password = 'Workspace-admin-fixture-password';
+async function fixture(page: Page) {
+  const f = await startupFixture();
+  let token = '';
+  let app = await startApplication(f.env, {
+    announceSetupToken: (t) => {
+      token = t;
+    },
+  });
+  try {
+    const setup = await page.request.post(f.env.APP_ORIGIN + '/api/setup', {
+      headers: { Origin: f.env.APP_ORIGIN },
+      data: {
+        token,
+        organization_name: 'Workspace fixture',
+        username: 'WorkspaceAdmin',
+        display_name: 'Workspace Admin',
+        password,
+      },
+    });
+    expect(setup.status()).toBe(201);
+    await page.goto(f.env.APP_ORIGIN);
+    await page.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('WorkspaceAdmin');
+    await page.getByLabel('รหัสผ่าน', { exact: true }).fill(password);
+    await page.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
+    await expect(page.getByRole('link', { name: 'ทีม', exact: true })).toBeVisible();
+    return {
+      ...f,
+      restart: async () => {
+        await app.stop();
+        app = await startApplication(f.env);
+      },
+      close: async () => {
+        await app.stop();
+        rmSync(f.root, { recursive: true, force: true });
+      },
+    };
+  } catch (e) {
+    await app.stop();
+    rmSync(f.root, { recursive: true, force: true });
+    throw e;
+  }
+}
+async function mutate(page: Page, path: string, body: unknown, method = 'POST') {
+  return page.evaluate(
+    async ({ path, body, method }) => {
+      const self = await (await fetch('/api/me')).json();
+      const response = await fetch(path, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': self.csrf,
+          ...(method === 'POST' ? { 'Idempotency-Key': crypto.randomUUID() } : {}),
+        },
+        body: JSON.stringify(body),
+      });
+      return { status: response.status, body: await response.json() };
+    },
+    { path, body, method },
+  );
+}
+test('T025 actual settings rename, sidebar, competing version preserves draft, offline and restart', async ({
+  page,
+}, testInfo) => {
+  const f = await fixture(page);
+  try {
+    await page.getByRole('link', { name: 'โปรไฟล์และการตั้งค่า', exact: true }).click();
+    const org = page.getByRole('region', { name: 'ตั้งค่าองค์กร' });
+    await org.getByLabel('ชื่อองค์กร', { exact: true }).fill('ฝ่ายวางแผน Friday');
+    await org.getByRole('button', { name: 'บันทึกชื่อองค์กร' }).click();
+    await expect(page.locator('aside').getByLabel('ชื่อองค์กร')).toHaveText('ฝ่ายวางแผน Friday');
+    await org.getByLabel('ชื่อองค์กร', { exact: true }).fill('ร่างของฉัน');
+    const competing = await mutate(
+      page,
+      '/api/organization',
+      { name: 'ชื่อจากผู้ดูแลอีกคน', version: 2 },
+      'PATCH',
+    );
+    expect(competing.status).toBe(200);
+    await org.getByRole('button', { name: 'บันทึกชื่อองค์กร' }).click();
+    await expect(org.getByText('ชื่อปัจจุบัน:', { exact: false })).toContainText(
+      'ชื่อจากผู้ดูแลอีกคน',
+    );
+    await expect(org.getByLabel('ชื่อองค์กร', { exact: true })).toHaveValue('ร่างของฉัน');
+    await expect(org.getByRole('button', { name: 'บันทึกชื่อองค์กร' })).toBeDisabled();
+    await org.getByLabel('ตรวจข้อมูลล่าสุดแล้ว').check();
+    await org.getByRole('button', { name: 'บันทึกชื่อองค์กร' }).click();
+    await expect(org.getByText('บันทึกชื่อองค์กรแล้ว', { exact: true })).toBeVisible();
+    await page.context().setOffline(true);
+    await expect(org.getByRole('button', { name: 'บันทึกชื่อองค์กร' })).toBeDisabled();
+    await page.context().setOffline(false);
+    await f.restart();
+    await page.reload();
+    await expect(org.getByLabel('ชื่อองค์กร', { exact: true })).toHaveValue('ร่างของฉัน');
+    await expect(page.locator('aside').getByLabel('ชื่อองค์กร')).toHaveText('ร่างของฉัน');
+    await page.setViewportSize({ width: 360, height: 800 });
+    await expect(org.getByRole('button', { name: 'บันทึกชื่อองค์กร' })).toBeVisible();
+    const dimensions = await page.evaluate(() => ({
+      width: document.documentElement.clientWidth,
+      scroll: document.documentElement.scrollWidth,
+    }));
+    expect(dimensions.scroll).toBeLessThanOrEqual(dimensions.width + 1);
+    await page.screenshot({ path: testInfo.outputPath('T025-settings.png'), fullPage: true });
+  } finally {
+    await f.close();
+  }
+});
+test('T025 actual member settings read-only and public page does not disclose organization', async ({
+  page,
+  browser,
+}) => {
+  const f = await fixture(page);
+  const memberContext = await browser.newContext();
+  try {
+    const user = await mutate(page, '/api/users', {
+      username: 'OrgMember',
+      display_name: 'Organization member',
+      temp_password: 'Org-member-fixture-password',
+      org_role: 'member',
+    });
+    expect(user.status).toBe(201);
+    const member = await memberContext.newPage();
+    await member.goto(f.env.APP_ORIGIN);
+    const meta = await member.request.get(f.env.APP_ORIGIN + '/api/meta');
+    expect(meta.status()).toBe(200);
+    expect(Object.keys(await meta.json()).sort()).toEqual(['setupRequired', 'version']);
+    await expect(member.getByText('Workspace fixture', { exact: true })).toHaveCount(0);
+    await member.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('OrgMember');
+    await member.getByLabel('รหัสผ่าน', { exact: true }).fill('Org-member-fixture-password');
+    await member.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
+    await member
+      .getByLabel('รหัสผ่านปัจจุบัน', { exact: true })
+      .fill('Org-member-fixture-password');
+    await member.getByLabel('รหัสผ่านใหม่', { exact: true }).fill('Org-member-changed-password');
+    await member
+      .getByLabel('ยืนยันรหัสผ่านใหม่', { exact: true })
+      .fill('Org-member-changed-password');
+    await member.getByRole('button', { name: 'เปลี่ยนรหัสผ่าน', exact: true }).click();
+    await member.getByRole('link', { name: 'โปรไฟล์และการตั้งค่า', exact: true }).click();
+    const org = member.getByRole('region', { name: 'ตั้งค่าองค์กร' });
+    await expect(org.getByText('Workspace fixture', { exact: true })).toBeVisible();
+    await expect(org.getByRole('textbox')).toHaveCount(0);
+    await expect(org.getByRole('button', { name: 'บันทึกชื่อองค์กร' })).toHaveCount(0);
+    const forbidden = await mutate(
+      member,
+      '/api/organization',
+      { name: 'No', version: 1 },
+      'PATCH',
+    );
+    expect(forbidden.status).toBe(403);
+  } finally {
+    await memberContext.close();
+    await f.close();
+  }
+});

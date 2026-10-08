@@ -1,0 +1,170 @@
+[
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:13:54.217Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:16:41.963Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:16:41.963Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:16:41.963Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:16:41.963Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:16:41.963Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:16:53.616Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:16:53.616Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:16:53.616Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:16:53.691Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:16:53.692Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:19:11.103Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:19:11.103Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:19:11.103Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:19:11.103Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:19:11.103Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:20:33.457Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:20:35.718Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:21:08.877Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:21:08.877Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:21:08.878Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:21:08.898Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:21:08.899Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:21:59.101Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:21:59.101Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:21:59.101Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:21:59.102Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  },
+  {
+    "level": "error",
+    "message": "NotFoundError: Failed to execute 'removeChild' on 'Node': The node to be removed is not a child of this node.\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108513)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:109189)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108907)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)\n    at t3 (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:108826)\n    at Mn (http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html:5007:107907)",
+    "timestamp": "2026-10-07T07:21:59.102Z",
+    "url": "http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html"
+  }
+]

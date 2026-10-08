@@ -1,0 +1,11 @@
+# Workspace typography and detail — 8 October 2026
+
+Owner reported workspace layout/font/detail did not match the approved preview and asked whether modified Vibe CSS was applied. Before this correction both used @vibe/core4.5.34, but actual app used separate translated vibe.css/approved-design.css layered over legacy style.css. It did not import mock minimal.css/colorful.css directly. Native fields/selects and mapped React markup differ from the preview bridge.
+
+Now design-preview/vibe/workspace-theme.css is imported directly by both adapter.tsx and frontend/src/main.tsx, after existing theme overrides. Shared font stack/scale/leading/weights and scoped live mappings align sidebar headings/current project, task title/status/control/field typography, header Members positioning and group add/summary details. Login design stylesheet stays last; Login geometry/eye/help/install/real authentication/reduced motion still tested. No remote font fetch or new dependency; Inter is used only if installed, with existing fallbacks.
+
+Actual live1440x900 metrics: body13px/18.85px, page title600 20px/28px, task500 12px/16.2px and exactly one current sidebar nav. Isolated native browser verifies216px sidebar/38px rows/590px drawer, drawer title17px, input13px/label12px, multi-owner/checklist/group persistence, CSP/drag,360px reduced motion and Login. Initial added drawer assertion failed because old selector kept20px; specificity fixed, final Chromium4/4 PASS. Frontend38/38, typecheck, changed-file lint, actual build and preview build PASS. Existing bundle warning remains.
+
+Evidence reports/UI-workspace-detail-results.json / reports/workspace-detail/*.log / source-sha256.json. Images UI-workspace-details-live.png use the existing local synthetic Admin2-task board; live-drawer image confirms title17px/23.8px, label12px/17.4px and input13px/18px; table/drawer test images use isolated synthetic test fixtures. Real roles/data, pagination/conflicts and admin controls differ from mock; no pixel-identity or human UAT claim. API/backend/migrations unchanged; SQL/Windows/full browser matrix NOT_RUN.
+
+DONE6/77, IN_PROGRESS71, TODO0, remaining71. Declared Medium; actual runtime settings NOT_VERIFIED. Next owner visual review T055/T076 Medium; nativeSQL T006/T007 High when isolated environment exists.

@@ -1,0 +1,392 @@
+
+up to date, audited 306 packages in 40s
+
+45 packages are looking for funding
+  run `npm fund` for details
+
+# npm audit report
+
+braces  *
+Severity: high
+braces vulnerable to stack-exhaustion denial of service through deeply nested patterns - https://github.com/advisories/GHSA-vfj7-8cjw-p6xm
+fix available via `npm audit fix`
+node_modules/braces
+  micromatch  >=0.2.0
+  Depends on vulnerable versions of braces
+  node_modules/micromatch
+    fast-glob  *
+    Depends on vulnerable versions of micromatch
+    node_modules/fast-glob
+      globby  >=8.0.0
+      Depends on vulnerable versions of fast-glob
+      node_modules/globby
+        stylelint  >=0.1.0
+        Depends on vulnerable versions of @csstools/selector-specificity
+        Depends on vulnerable versions of fast-glob
+        Depends on vulnerable versions of globby
+        Depends on vulnerable versions of micromatch
+        Depends on vulnerable versions of postcss-selector-parser
+        node_modules/stylelint
+
+postcss  <=8.5.22
+Severity: high
+PostCSS has XSS via Unescaped </style> in its CSS Stringify Output - https://github.com/advisories/GHSA-qx2v-qp2m-jg93
+PostCSS: Arbitrary file read and information disclosure via attacker-controlled sourceMappingURL in CSS comments - https://github.com/advisories/GHSA-6g55-p6wh-862q
+PostCSS: incomplete fix of GHSA-6g55-p6wh-862q — attacker-controlled sourceMappingURL reads arbitrary .map files when `from` is unset - https://github.com/advisories/GHSA-fxqj-rqcc-2cmp
+PostCSS: Path Traversal in Previous Source Map Auto-Loading (sourceMappingURL) leads to Arbitrary .map File Disclosure - https://github.com/advisories/GHSA-r28c-9q8g-f849
+fix available via `npm audit fix --force`
+Will install @vibe/core@3.88.6, which is a breaking change
+node_modules/postcss
+  @vibe/style  *
+  Depends on vulnerable versions of postcss
+  Depends on vulnerable versions of stylelint
+  node_modules/@vibe/style
+    @vibe/avatar  *
+    Depends on vulnerable versions of @vibe/clickable
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    node_modules/@vibe/avatar
+      @vibe/core  >=3.89.0-alpha-01945.0
+      Depends on vulnerable versions of @vibe/accordion
+      Depends on vulnerable versions of @vibe/alert-banner
+      Depends on vulnerable versions of @vibe/attention-box
+      Depends on vulnerable versions of @vibe/avatar
+      Depends on vulnerable versions of @vibe/avatar-group
+      Depends on vulnerable versions of @vibe/badge
+      Depends on vulnerable versions of @vibe/base
+      Depends on vulnerable versions of @vibe/base-list
+      Depends on vulnerable versions of @vibe/breadcrumbs
+      Depends on vulnerable versions of @vibe/button
+      Depends on vulnerable versions of @vibe/button-group
+      Depends on vulnerable versions of @vibe/checkbox
+      Depends on vulnerable versions of @vibe/chips
+      Depends on vulnerable versions of @vibe/clickable
+      Depends on vulnerable versions of @vibe/color-picker
+      Depends on vulnerable versions of @vibe/combobox
+      Depends on vulnerable versions of @vibe/counter
+      Depends on vulnerable versions of @vibe/date-picker
+      Depends on vulnerable versions of @vibe/dialog
+      Depends on vulnerable versions of @vibe/dropdown
+      Depends on vulnerable versions of @vibe/editable
+      Depends on vulnerable versions of @vibe/empty-state
+      Depends on vulnerable versions of @vibe/expand-collapse
+      Depends on vulnerable versions of @vibe/icon-button
+      Depends on vulnerable versions of @vibe/info
+      Depends on vulnerable versions of @vibe/label
+      Depends on vulnerable versions of @vibe/layout
+      Depends on vulnerable versions of @vibe/link
+      Depends on vulnerable versions of @vibe/list
+      Depends on vulnerable versions of @vibe/menu
+      Depends on vulnerable versions of @vibe/menu-button
+      Depends on vulnerable versions of @vibe/modal
+      Depends on vulnerable versions of @vibe/progress-bars
+      Depends on vulnerable versions of @vibe/radio-button
+      Depends on vulnerable versions of @vibe/search
+      Depends on vulnerable versions of @vibe/slider
+      Depends on vulnerable versions of @vibe/split-button
+      Depends on vulnerable versions of @vibe/style
+      Depends on vulnerable versions of @vibe/table
+      Depends on vulnerable versions of @vibe/tabs
+      Depends on vulnerable versions of @vibe/text-inputs
+      Depends on vulnerable versions of @vibe/text-with-highlight
+      Depends on vulnerable versions of @vibe/tipseen
+      Depends on vulnerable versions of @vibe/toast
+      Depends on vulnerable versions of @vibe/toggle
+      Depends on vulnerable versions of @vibe/tooltip
+      Depends on vulnerable versions of @vibe/typography
+      Depends on vulnerable versions of @vibe/virtualized-grid
+      Depends on vulnerable versions of @vibe/virtualized-list
+      Depends on vulnerable versions of @vibe/wizard
+      node_modules/@vibe/core
+    @vibe/avatar-group  *
+    Depends on vulnerable versions of @vibe/avatar
+    Depends on vulnerable versions of @vibe/clickable
+    Depends on vulnerable versions of @vibe/counter
+    Depends on vulnerable versions of @vibe/layout
+    Depends on vulnerable versions of @vibe/menu
+    Depends on vulnerable versions of @vibe/menu-button
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/virtualized-list
+    node_modules/@vibe/avatar-group
+    @vibe/base  >=4.0.0-alpha.0
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/base
+      @vibe/search  *
+      Depends on vulnerable versions of @vibe/base
+      Depends on vulnerable versions of @vibe/icon-button
+      Depends on vulnerable versions of @vibe/menu-button
+      node_modules/@vibe/search
+    @vibe/base-list  *
+    Depends on vulnerable versions of @vibe/avatar
+    Depends on vulnerable versions of @vibe/chips
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/base-list
+    @vibe/breadcrumbs  *
+    Depends on vulnerable versions of @vibe/menu
+    Depends on vulnerable versions of @vibe/menu-button
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    node_modules/@vibe/breadcrumbs
+    @vibe/button  >=4.0.0-alpha.0
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/button
+      @vibe/alert-banner  *
+      Depends on vulnerable versions of @vibe/button
+      Depends on vulnerable versions of @vibe/icon-button
+      Depends on vulnerable versions of @vibe/link
+      Depends on vulnerable versions of @vibe/tooltip
+      Depends on vulnerable versions of @vibe/typography
+      node_modules/@vibe/alert-banner
+      @vibe/attention-box  *
+      Depends on vulnerable versions of @vibe/button
+      Depends on vulnerable versions of @vibe/icon-button
+      Depends on vulnerable versions of @vibe/layout
+      Depends on vulnerable versions of @vibe/link
+      Depends on vulnerable versions of @vibe/typography
+      node_modules/@vibe/attention-box
+      @vibe/color-picker  *
+      Depends on vulnerable versions of @vibe/button
+      Depends on vulnerable versions of @vibe/clickable
+      Depends on vulnerable versions of @vibe/dialog
+      Depends on vulnerable versions of @vibe/tooltip
+      node_modules/@vibe/color-picker
+      @vibe/empty-state  *
+      Depends on vulnerable versions of @vibe/button
+      Depends on vulnerable versions of @vibe/layout
+      Depends on vulnerable versions of @vibe/link
+      Depends on vulnerable versions of @vibe/typography
+      node_modules/@vibe/empty-state
+      @vibe/icon-button  >=4.0.0-alpha.0
+      Depends on vulnerable versions of @vibe/button
+      Depends on vulnerable versions of @vibe/tooltip
+      node_modules/@vibe/icon-button
+      @vibe/split-button  *
+      Depends on vulnerable versions of @vibe/button
+      Depends on vulnerable versions of @vibe/dialog
+      Depends on vulnerable versions of @vibe/menu
+      node_modules/@vibe/split-button
+      @vibe/toast  *
+      Depends on vulnerable versions of @vibe/button
+      Depends on vulnerable versions of @vibe/icon-button
+      Depends on vulnerable versions of @vibe/layout
+      Depends on vulnerable versions of @vibe/link
+      Depends on vulnerable versions of @vibe/typography
+      node_modules/@vibe/toast
+    @vibe/button-group  *
+    Depends on vulnerable versions of @vibe/button
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    node_modules/@vibe/button-group
+    @vibe/checkbox  *
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/checkbox
+    @vibe/chips  *
+    Depends on vulnerable versions of @vibe/avatar
+    Depends on vulnerable versions of @vibe/clickable
+    Depends on vulnerable versions of @vibe/icon-button
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/chips
+    @vibe/clickable  >=4.0.0-alpha.0
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/clickable
+      @vibe/radio-button  *
+      Depends on vulnerable versions of @vibe/clickable
+      Depends on vulnerable versions of @vibe/tooltip
+      Depends on vulnerable versions of @vibe/typography
+      node_modules/@vibe/radio-button
+    @vibe/combobox  *
+    Depends on vulnerable versions of @vibe/button
+    Depends on vulnerable versions of @vibe/icon-button
+    Depends on vulnerable versions of @vibe/menu-button
+    Depends on vulnerable versions of @vibe/search
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    Depends on vulnerable versions of @vibe/virtualized-list
+    node_modules/@vibe/combobox
+    @vibe/counter  *
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/counter
+      @vibe/badge  *
+      Depends on vulnerable versions of @vibe/counter
+      node_modules/@vibe/badge
+    @vibe/date-picker  *
+    Depends on vulnerable versions of @vibe/dropdown
+    Depends on vulnerable versions of @vibe/icon-button
+    Depends on vulnerable versions of @vibe/layout
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/date-picker
+    @vibe/dialog  >=4.0.0-alpha.0
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/dialog
+      @vibe/info  *
+      Depends on vulnerable versions of @vibe/dialog
+      Depends on vulnerable versions of @vibe/icon-button
+      Depends on vulnerable versions of @vibe/layout
+      Depends on vulnerable versions of @vibe/link
+      Depends on vulnerable versions of @vibe/typography
+      node_modules/@vibe/info
+    @vibe/dropdown  *
+    Depends on vulnerable versions of @vibe/base
+    Depends on vulnerable versions of @vibe/base-list
+    Depends on vulnerable versions of @vibe/chips
+    Depends on vulnerable versions of @vibe/dialog
+    Depends on vulnerable versions of @vibe/icon-button
+    Depends on vulnerable versions of @vibe/layout
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/text-inputs
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/dropdown
+    @vibe/editable  *
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/editable
+    @vibe/expand-collapse  *
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/expand-collapse
+      @vibe/accordion  *
+      Depends on vulnerable versions of @vibe/expand-collapse
+      node_modules/@vibe/accordion
+    @vibe/label  *
+    Depends on vulnerable versions of @vibe/clickable
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/label
+    @vibe/layout  >=4.0.0-alpha.0
+    Depends on vulnerable versions of @vibe/clickable
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/layout
+    @vibe/link  *
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/link
+    @vibe/list  *
+    Depends on vulnerable versions of @vibe/avatar
+    Depends on vulnerable versions of @vibe/base-list
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    Depends on vulnerable versions of @vibe/virtualized-list
+    node_modules/@vibe/list
+    @vibe/menu  *
+    Depends on vulnerable versions of @vibe/avatar
+    Depends on vulnerable versions of @vibe/button
+    Depends on vulnerable versions of @vibe/dialog
+    Depends on vulnerable versions of @vibe/icon-button
+    Depends on vulnerable versions of @vibe/label
+    Depends on vulnerable versions of @vibe/layout
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/menu
+    @vibe/menu-button  *
+    Depends on vulnerable versions of @vibe/dialog
+    Depends on vulnerable versions of @vibe/menu
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    node_modules/@vibe/menu-button
+    @vibe/modal  *
+    Depends on vulnerable versions of @vibe/button
+    Depends on vulnerable versions of @vibe/icon-button
+    Depends on vulnerable versions of @vibe/layout
+    Depends on vulnerable versions of @vibe/menu-button
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    Depends on vulnerable versions of @vibe/wizard
+    node_modules/@vibe/modal
+    @vibe/progress-bars  *
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/progress-bars
+    @vibe/slider  *
+    Depends on vulnerable versions of @vibe/dialog
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/text-inputs
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/slider
+    @vibe/table  *
+    Depends on vulnerable versions of @vibe/icon-button
+    Depends on vulnerable versions of @vibe/layout
+    Depends on vulnerable versions of @vibe/menu
+    Depends on vulnerable versions of @vibe/menu-button
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    Depends on vulnerable versions of @vibe/virtualized-list
+    node_modules/@vibe/table
+    @vibe/tabs  *
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    node_modules/@vibe/tabs
+    @vibe/text-inputs  *
+    Depends on vulnerable versions of @vibe/base
+    Depends on vulnerable versions of @vibe/clickable
+    Depends on vulnerable versions of @vibe/icon-button
+    Depends on vulnerable versions of @vibe/layout
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/text-inputs
+    @vibe/text-with-highlight  *
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    node_modules/@vibe/text-with-highlight
+    @vibe/tipseen  *
+    Depends on vulnerable versions of @vibe/button
+    Depends on vulnerable versions of @vibe/dialog
+    Depends on vulnerable versions of @vibe/icon-button
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    Depends on vulnerable versions of @vibe/typography
+    Depends on vulnerable versions of @vibe/wizard
+    node_modules/@vibe/tipseen
+    @vibe/toggle  *
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/toggle
+    @vibe/tooltip  >=4.0.0-alpha.0
+    Depends on vulnerable versions of @vibe/dialog
+    Depends on vulnerable versions of @vibe/layout
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/tooltip
+    @vibe/typography  >=4.0.0-alpha.0
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/tooltip
+    node_modules/@vibe/typography
+    @vibe/virtualized-grid  *
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/virtualized-grid
+    @vibe/virtualized-list  *
+    Depends on vulnerable versions of @vibe/style
+    node_modules/@vibe/virtualized-list
+    @vibe/wizard  *
+    Depends on vulnerable versions of @vibe/button
+    Depends on vulnerable versions of @vibe/clickable
+    Depends on vulnerable versions of @vibe/style
+    Depends on vulnerable versions of @vibe/typography
+    node_modules/@vibe/wizard
+
+postcss-selector-parser  <7.1.6
+Severity: moderate
+PostCSS: Quadratic complexity in flat selector parsing allows CPU exhaustion - https://github.com/advisories/GHSA-rj75-hqrm-r3gf
+fix available via `npm audit fix`
+node_modules/postcss-selector-parser
+  @csstools/selector-specificity  <=4.0.0
+  Depends on vulnerable versions of postcss-selector-parser
+  node_modules/@csstools/selector-specificity
+
+59 vulnerabilities (53 moderate, 6 high)
+
+To address issues that do not require attention, run:
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force

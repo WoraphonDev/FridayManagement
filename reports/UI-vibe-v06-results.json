@@ -1,0 +1,73 @@
+{
+  "version": "06",
+  "scope": "Cosmetic mock-only review; not formal feature acceptance",
+  "date": "2026-10-07",
+  "browser": "Codex In-app Browser",
+  "browserVersion": "NOT_VERIFIED",
+  "htmlSHA256": "cd2f2705b355b12d00d59d31aa3873312981a3e7dff816b4cd1956ef3665917c",
+  "cases": [
+    {
+      "id": "V06-01",
+      "description": "Login lavender background, decorative circles, tilted board and completion card visible",
+      "result": "PASS"
+    },
+    {
+      "id": "V06-02",
+      "description": "Typography family consistently applied; body13px and heading20px",
+      "result": "PASS"
+    },
+    {
+      "id": "V06-03",
+      "description": "Login and all10 table avatars use10px initials/24px line-height",
+      "result": "PASS"
+    },
+    {
+      "id": "V06-04",
+      "description": "Desktop density preserved: sidebar216/topbar46/row38/search field32px",
+      "result": "PASS"
+    },
+    {
+      "id": "V06-05",
+      "description": "Navy navigation and four rich labelled status colors rendered",
+      "result": "PASS"
+    },
+    {
+      "id": "V06-06",
+      "description": "Animation toggle disables all10 Kanban card transitions to0s and is restored",
+      "result": "PASS"
+    },
+    {
+      "id": "V06-07",
+      "description": "360px board: no document overflow, heading20px and avatar initials10px",
+      "result": "PASS"
+    },
+    {
+      "id": "V06-08",
+      "description": "768px board: no document overflow, sidebar204px",
+      "result": "PASS"
+    },
+    {
+      "id": "V06-09",
+      "description": "English document language and no Thai static body copy",
+      "result": "PASS"
+    },
+    {
+      "id": "V06-10",
+      "description": "Browser error/warn0 during scoped V06 review",
+      "result": "PASS"
+    }
+  ],
+  "passed": 10,
+  "total": 10,
+  "syntax": {
+    "result": "PASS",
+    "scripts": 2
+  },
+  "typecheck": "PASS",
+  "limitations": [
+    "System font fallbacks are used; no external font download",
+    "OS reduced-motion not emulated in this review; existing CSS support retained",
+    "Formal TC/AT/SQL2022/Windows/UAT NOT_RUN",
+    "V05 full suite NOT_RUN on V06"
+  ]
+}

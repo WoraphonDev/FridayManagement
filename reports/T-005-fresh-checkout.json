@@ -1,0 +1,10 @@
+{
+  "scope": "Fresh source copy bootstrap only",
+  "ci": "PASS",
+  "typecheck": "PASS",
+  "build": "PASS",
+  "tests": "PASS: 84 tests (5 foundation + 1 frontend + 61 contract + 17 planning)",
+  "migrate": "PASS: apply once, repeat no-op",
+  "seed": "PASS: explicit synthetic fixture only",
+  "start": "PASS: built HTML/live200/ready503"
+}

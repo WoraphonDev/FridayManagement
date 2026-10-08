@@ -1,0 +1,51 @@
+{
+  "scope": "V06 parameter typography follow-up, mock only",
+  "date": "2026-10-07",
+  "htmlSHA256": "b2f9d2eb6a7de4c1e88b493eb67f17689f89908f2e59a01fcbd4b167934e4792",
+  "passed": 7,
+  "total": 7,
+  "cases": [
+    {
+      "id": "PF-1",
+      "description": "Typed input/textarea/date values13px",
+      "result": "PASS"
+    },
+    {
+      "id": "PF-2",
+      "description": "All5 selected parameter labels13px",
+      "result": "PASS"
+    },
+    {
+      "id": "PF-3",
+      "description": "All5 Assignee dropdown option labels13px",
+      "result": "PASS"
+    },
+    {
+      "id": "PF-4",
+      "description": "Drawer590px and TextField32px preserved",
+      "result": "PASS"
+    },
+    {
+      "id": "PF-5",
+      "description": "Selecting Mina updates native FormData assignee=1",
+      "result": "PASS"
+    },
+    {
+      "id": "PF-6",
+      "description": "360px drawer/value typography13px without document overflow",
+      "result": "PASS"
+    },
+    {
+      "id": "PF-7",
+      "description": "Scoped browser error/warn0",
+      "result": "PASS"
+    }
+  ],
+  "build": "PASS",
+  "scriptSyntax": "PASS",
+  "raw": "UI-vibe-v06-parameter-font-values.json",
+  "limitations": [
+    "V06 earlier10 checks refer to the earlier SHA; not rerun as full suite",
+    "Formal TC/AT/UAT/SQL2022/Windows NOT_RUN"
+  ]
+}

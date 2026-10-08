@@ -1,0 +1,42 @@
+{
+  "date": "2026-10-07",
+  "scope": "Standalone design prototype only",
+  "browser": "153.0.8010.12",
+  "runtime": "v22.23.3",
+  "source": "TeamFlow_UI_Redesign_Mockup.html",
+  "sha256": "3155667ac8c2a6dabe621a1e428dd45f52ec675fe944e2c248e6da34a2038a16",
+  "summary": {
+    "pass": 3,
+    "fail": 1,
+    "planned": 21
+  },
+  "cases": [
+    {
+      "id": "M01",
+      "description": "Login: show password, help and session/rate-limit notices",
+      "result": "PASS"
+    },
+    {
+      "id": "M02",
+      "description": "Setup and forced password change are inspectable; password mismatch remains visible",
+      "result": "PASS"
+    },
+    {
+      "id": "M03",
+      "description": "Board: four views open the same task; Calendar/Gantt expose incomplete dates",
+      "result": "PASS"
+    },
+    {
+      "id": "M04",
+      "description": "Search and combined person/status/priority filters update visible tasks and result count",
+      "result": "FAIL",
+      "error": "expect(locator).toHaveText(expected) failed\n\nLocator:  locator('#result-count')\nExpected: \"1 งาน\"\nReceived: \"2 งาน\"\nTimeout:  5000ms\n"
+    }
+  ],
+  "pageErrors": [],
+  "privateApiRequests": [],
+  "productionAcceptance": "NOT_RUN",
+  "sqlServer": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "uat": "NOT_RUN"
+}

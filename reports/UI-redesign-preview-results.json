@@ -1,0 +1,126 @@
+{
+  "date": "2026-10-07",
+  "scope": "Standalone design prototype only",
+  "browser": "153.0.8010.12",
+  "runtime": "v22.23.3",
+  "source": "TeamFlow_UI_Redesign_Mockup.html",
+  "sha256": "30b987248cfad3a4e92beff0c6943394d25cbb4957397c150d77ba2911044fbf",
+  "summary": {
+    "pass": 21,
+    "fail": 0,
+    "planned": 21
+  },
+  "cases": [
+    {
+      "id": "M01",
+      "description": "Login: show password, help and session/rate-limit notices",
+      "result": "PASS"
+    },
+    {
+      "id": "M02",
+      "description": "Setup and forced password change are inspectable; password mismatch remains visible",
+      "result": "PASS"
+    },
+    {
+      "id": "M03",
+      "description": "Board: four views open the same task; Calendar/Gantt expose incomplete dates",
+      "result": "PASS"
+    },
+    {
+      "id": "M04",
+      "description": "Search and combined person/status/priority filters update visible tasks and result count",
+      "result": "PASS"
+    },
+    {
+      "id": "M05",
+      "description": "Create: required title, date order and recurrence due date; new task starts todo",
+      "result": "PASS"
+    },
+    {
+      "id": "M06",
+      "description": "Dirty draft: cancel preserves input; Escape requires discard confirmation; focus returns",
+      "result": "PASS"
+    },
+    {
+      "id": "M07",
+      "description": "Checklist: done guard, no auto-done, weekly successor once after reopen",
+      "result": "PASS"
+    },
+    {
+      "id": "M08",
+      "description": "Comment draft survives tabs and offline; reconnect retains task draft",
+      "result": "PASS"
+    },
+    {
+      "id": "M09",
+      "description": "Conflict: draft is not overwritten; save waits for explicit review choice",
+      "result": "PASS"
+    },
+    {
+      "id": "M10",
+      "description": "Viewer/archived UI closes writes; Admin can unarchive",
+      "result": "PASS"
+    },
+    {
+      "id": "M11",
+      "description": "Kanban: filtered drag disabled, dropdown alternative and cross-column drag",
+      "result": "PASS"
+    },
+    {
+      "id": "M12",
+      "description": "File selection only, allowlist/size guard, file trash and restore",
+      "result": "PASS"
+    },
+    {
+      "id": "M13",
+      "description": "Notifications: read one/all and open linked task",
+      "result": "PASS"
+    },
+    {
+      "id": "M14",
+      "description": "Trash: creator delete and authorized restore, no permanent delete control",
+      "result": "PASS"
+    },
+    {
+      "id": "M15",
+      "description": "User admin: last active Admin guard and reset form",
+      "result": "PASS"
+    },
+    {
+      "id": "M16",
+      "description": "CSV: explicit demo download contains all active tasks",
+      "result": "PASS"
+    },
+    {
+      "id": "M17",
+      "description": "Loading, empty, error, offline and forbidden are visible and recoverable",
+      "result": "PASS"
+    },
+    {
+      "id": "M18",
+      "description": "Desktop: inspect every main screen and management dialogs",
+      "result": "PASS"
+    },
+    {
+      "id": "M19",
+      "description": "Mobile/tablet: all main screens fit 360/768px; scroll is contained",
+      "result": "PASS"
+    },
+    {
+      "id": "M20",
+      "description": "Keyboard: tab switching, modal focus trap and Escape return",
+      "result": "PASS"
+    },
+    {
+      "id": "M21",
+      "description": "Reduced motion and no API/storage/remote-resource usage",
+      "result": "PASS"
+    }
+  ],
+  "pageErrors": [],
+  "privateApiRequests": [],
+  "productionAcceptance": "NOT_RUN",
+  "sqlServer": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "uat": "NOT_RUN"
+}

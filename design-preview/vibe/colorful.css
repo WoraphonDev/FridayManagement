@@ -1,0 +1,365 @@
+/* Paint and typography only: keep the approved compact geometry in minimal.css. */
+:root {
+  --font-family: 'Inter', 'Segoe UI', Arial, 'Leelawadee UI', sans-serif;
+  --ink: #323338;
+  --muted: #676879;
+  --shadow: 0 12px 36px #292f4c16;
+}
+body {
+  font-family: var(--font-family);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button,
+input,
+select,
+textarea {
+  font-family: var(--font-family);
+}
+/* Vibe's nested Typography has its own size; size the actual value, including portals. */
+.vibe-field-host input[data-vibe='TextField'] {
+  font-family: var(--font-family);
+  font-size: 13px !important;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.field .vibe-select-host [role='combobox'] {
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.vibe-select-host [role='combobox'] * {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  letter-spacing: inherit;
+}
+[role='listbox'] [role='option'],
+[role='listbox'] [role='option'] * {
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0;
+}
+h1,
+h2,
+h3 {
+  letter-spacing: -0.025em;
+  font-weight: 600;
+}
+.task-name button,
+.nav-label,
+.field {
+  letter-spacing: 0;
+}
+.task-table,
+.gantt-wrap {
+  font-variant-numeric: tabular-nums;
+}
+/* Vibe customSize controls the circle, but its default text size is independent. */
+.vibe-avatar-host .vibe-avatar-text {
+  font-family: var(--font-family);
+  font-size: 10px !important;
+  line-height: 24px !important;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-align: center;
+  color: #514080;
+}
+.topbar {
+  background: #292f4c;
+  color: #fff;
+  border-color: #292f4c;
+}
+.topbar .brand,
+.topbar .vibe-button {
+  color: #fff;
+}
+.topbar .brand small {
+  color: #c7cbe0;
+}
+.topbar .vibe-button:hover {
+  background: #ffffff18;
+  color: #fff;
+}
+.studio {
+  background: #fff8e8;
+  color: #725c29;
+  border-color: #eddfbf;
+}
+.sidebar {
+  background: #f6f7fb;
+}
+.workspace-icon {
+  background: #8c56d5;
+  color: #fff;
+}
+.welcome-banner {
+  background: #f3f0fc;
+  border-color: #e9e3f5;
+}
+.welcome-orbit {
+  display: grid;
+}
+.status.todo {
+  background: #c4c7d3;
+  color: #30354c;
+}
+.status.doing {
+  background: #fdab3d;
+  color: #4d3300;
+}
+.status.review {
+  background: #8d4bc5;
+  color: #fff;
+}
+.status.done {
+  background: #00c875;
+  color: #143b2a;
+}
+.button.primary:hover {
+  box-shadow: 0 3px 10px #0073ea25;
+}
+.task-card,
+.project-card {
+  transition:
+    transform 180ms var(--ease),
+    box-shadow 180ms var(--ease);
+}
+.task-card:hover,
+.project-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px #292f4c12;
+}
+.task-card[data-kanban-motion='moving'] {
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 10px 24px #292f4c22;
+}
+.task-card .card-assignee {
+  justify-content: flex-start;
+  gap: 7px;
+}
+.card-assignee .vibe-avatar-host {
+  flex-shrink: 0;
+}
+.task-assignee-avatars {
+  display: inline-flex;
+  gap: 4px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.card-assignee {
+  flex-wrap: wrap;
+}
+.card-assignee .hint {
+  overflow-wrap: anywhere;
+}
+.check-item {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 150px;
+  gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  padding: 9px 0;
+}
+.check-item .check-row {
+  border: 0;
+  padding: 0;
+}
+.checklist-assignee {
+  min-width: 0;
+}
+.checklist-assignee .vibe-select-host {
+  min-width: 0;
+}
+.status-picker {
+  min-width: 0;
+  width: calc(100% - 14px);
+  margin: 5px 7px;
+  --status-color: #c4c7d3;
+  --status-ink: #30354c;
+}
+.status-picker[data-status='doing'] {
+  --status-color: #fdab3d;
+  --status-ink: #4d3300;
+}
+.status-picker[data-status='review'] {
+  --status-color: #8d4bc5;
+  --status-ink: #fff;
+}
+.status-picker[data-status='done'] {
+  --status-color: #00c875;
+  --status-ink: #143b2a;
+}
+.status-picker [role='combobox'],
+.status-picker [role='combobox'] > div,
+.status-picker [role='combobox'] button {
+  background: var(--status-color);
+  color: var(--status-ink);
+}
+.status-picker [role='combobox'] {
+  border: 0;
+  border-radius: 4px;
+  min-height: 26px;
+  height: 26px;
+  font-size: 11px;
+}
+.status-picker [role='combobox'] [class*='typography'] {
+  color: var(--status-ink);
+}
+.status-picker [role='combobox'] + div {
+  display: none;
+}
+.status-picker [data-vibe='Dropdown'],
+.status-picker [data-vibe='Dropdown'] > div,
+.status-picker [data-vibe='Dropdown'] > div > div {
+  border: 0;
+  background: transparent;
+  border-radius: 4px;
+  box-shadow: none;
+}
+.status-picker [role='combobox'] {
+  flex: 1;
+  width: 100%;
+  cursor: pointer;
+  justify-content: center;
+  padding: 0 8px;
+  overflow: hidden;
+  transition: filter 140ms ease;
+}
+.status-picker [role='combobox'] > div {
+  justify-content: center;
+  width: 100%;
+}
+.status-picker [role='combobox'] > div,
+.status-picker [role='combobox'] > div > div {
+  height: 26px !important;
+  max-height: 26px;
+  min-height: 0;
+  display: flex;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+}
+.status-picker [role='combobox'] > div > div {
+  width: 100%;
+  background: transparent;
+}
+.status-picker [role='combobox'] [class*='typography'] {
+  text-align: center;
+  font-weight: 500;
+}
+.status-picker [role='combobox']:hover {
+  filter: brightness(0.96);
+}
+.status-picker [role='combobox']:focus-visible {
+  outline: 2px solid var(--blue);
+  outline-offset: 2px;
+}
+@media (max-width: 600px) {
+  .check-item {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 6px;
+  }
+  .checklist-assignee {
+    max-width: 200px;
+    margin-left: 25px;
+  }
+}
+.notify-panel {
+  box-shadow: 0 12px 36px #292f4c1f;
+}
+.auth-right {
+  background: #eff1fc;
+  border-color: #e4e2f0;
+}
+.auth-right:before,
+.auth-right:after {
+  display: block;
+}
+.mini-board {
+  transform: rotate(-2deg);
+  box-shadow: 0 24px 60px #38305814;
+}
+.float-card {
+  display: flex;
+  padding: 10px 12px;
+  gap: 9px;
+  font-size: 11px;
+  bottom: -16px;
+  right: -8px;
+  animation: success-arrive 450ms var(--ease) 180ms both;
+}
+.float-card .tick-orb {
+  width: 28px;
+  height: 28px;
+}
+@keyframes success-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px) rotate(2deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(2deg);
+  }
+}
+.no-motion .task-card:hover,
+.no-motion .project-card:hover {
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .task-card:hover,
+  .project-card:hover {
+    transform: none;
+  }
+}
+@media (max-width: 760px) {
+  .welcome-orbit {
+    display: none;
+  }
+}
+/* Owner requested a larger Friday wordmark in preview and actual app. */
+.auth-left .brand {
+  font-size: 40px;
+  letter-spacing: -1.5px;
+  gap: 10px;
+}
+.auth-left .brandmark {
+  grid-template-columns: 20px 20px;
+  gap: 6px;
+}
+.auth-left .brandmark i {
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+}
+.topbar .brand {
+  font-size: 26px;
+}
+.topbar .brandmark {
+  grid-template-columns: 12px 12px;
+  gap: 4px;
+}
+.topbar .brandmark i {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px;
+}
+@media (max-width: 760px) {
+  .auth-left .brand {
+    font-size: 34px;
+  }
+  .auth-left .brandmark {
+    grid-template-columns: 17px 17px;
+    gap: 5px;
+  }
+  .auth-left .brandmark i {
+    width: 17px;
+    height: 17px;
+  }
+  .topbar .brand {
+    font-size: 20px;
+  }
+}

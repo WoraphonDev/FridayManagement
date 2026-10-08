@@ -1,0 +1,14 @@
+{
+  "frontend/src/App.tsx": "71857b5d85a1980a909a898fed16caa1e79bfe26485a7ff20fb5c2341021f992",
+  "frontend/src/Workspaces.tsx": "4ad574fa914e90bd689397ce35799a4475c2a24eae646302daa736ade87200cf",
+  "frontend/src/ProjectTasks.tsx": "91dc4f37759cdf9ee49dc865fc91a2e2e8198108a6f16880989dc6fba5c8c4fd",
+  "frontend/src/TaskWorkspace.tsx": "3d7387e6bc7576bca1d4095c2e1ae93639d30b9e72148bc72feb345765e4f0cb",
+  "frontend/src/TaskEditor.tsx": "2b7cb333665687d5d2bdcd44098d3a82f175122ef02da7e6339f1b0bbceaf4d6",
+  "frontend/src/Kanban.tsx": "401e6b36cceae3bedcfe423f8a7f746eed578de524941306b805ca7f1ce49af5",
+  "frontend/src/shared/components.tsx": "76858ebed251c13e9ed4638f0bd6d196bff885d4b482fb26c4217d1a0d6ed0c4",
+  "frontend/src/shared/UiIcon.tsx": "5b1ba0b7ccb950239e0f0a31cbe86f38ffb26491d072786f3a8e6b25521c2bf1",
+  "frontend/src/shared/formatPlanDate.ts": "620f076356eadb847f075e1e4b8097e9567f083c9ba726e6b6d07bd0ab33e4b5",
+  "frontend/src/approved-design.css": "f42945d4b91910a699b7d968017e4bbe75012902f1583a5738566662bc7a7d9e",
+  "frontend/src/main.tsx": "317c10a5516c9a7648501089d5ab4a7c69685810cf65b0b887a267bb8e5e0177",
+  "tests/browser/vibe-integration.spec.ts": "4f24964e95e1ea2d63ebfb2a265a6c1cfb85267e634494c8f5ba3153583bf879"
+}

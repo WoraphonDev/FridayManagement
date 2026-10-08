@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-07",
+  "scope": "Owner-approved Vibe preview applied to actual application source; local SQLite profile",
+  "declared_effort": {
+    "UI": "Medium",
+    "contracts_schema_assignment_recurrence_motion": "High"
+  },
+  "actual_model_effort": "NOT_VERIFIED",
+  "runtime": "Node22.23.3",
+  "vibe": "4.5.34",
+  "api_contract": {
+    "version": "1.2.0",
+    "routes": 56,
+    "schemas": 81,
+    "result": "PASS"
+  },
+  "checks": {
+    "regression": {
+      "result": "PASS",
+      "node_pass": 428,
+      "frontend_pass": 38,
+      "total_pass": 466,
+      "fail": 0
+    },
+    "final_frontend": {
+      "result": "PASS",
+      "pass": 38
+    },
+    "browser": {
+      "result": "PASS",
+      "pass": 2,
+      "fail": 0,
+      "desktop": true,
+      "mobile_viewport": "360x800",
+      "group_refresh_within_10s": true,
+      "native_drag": true,
+      "move_motion_ms": 320,
+      "reduced_motion": true,
+      "status_height_px": 26,
+      "status_center_error_px": "<1 horizontal and vertical",
+      "CSP_console_errors": 0
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS_WITH_CHUNK_SIZE_WARNING",
+    "test_plan_inventory": "PASS",
+    "license_inventory": {
+      "result": "PASS",
+      "packages": 629,
+      "missing": 0
+    },
+    "native_sqlserver": {
+      "result": "NOT_RUN",
+      "pass": 0,
+      "skipped": 185
+    }
+  },
+  "dependency_audit": {
+    "result": "OPEN_FINDINGS",
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 56,
+      "high": 6,
+      "critical": 0,
+      "total": 62
+    },
+    "safe_fix_attempted": true,
+    "forced_major_change": false
+  },
+  "traceability": [
+    {
+      "cases": [
+        "TC-025",
+        "TC-027",
+        "TC-028",
+        "TC-029",
+        "TC-031",
+        "TC-033",
+        "TC-035",
+        "TC-060",
+        "TC-061",
+        "TC-063"
+      ],
+      "local_evidence": "tests/tasks/provider-suite.ts multi-owner/Checklist/withdrawal/recurrence/report/reminder/idempotency extensions; full provider regression",
+      "formal_status": "NOT_RUN"
+    },
+    {
+      "cases": [
+        "TC-036",
+        "TC-046",
+        "TC-073"
+      ],
+      "local_evidence": "tests/browser/vibe-integration.spec.ts actual UI/API assignments/group refresh/inline status/native drag/motion/mobile/reduced-motion",
+      "formal_status": "NOT_RUN"
+    }
+  ],
+  "not_run": [
+    "Native SQL2022 migration/integration/backup-restore",
+    "Windows deployment/service/HTTPS",
+    "Human UAT/full formal TC-AT/RV",
+    "Full vendor current+previous physical browser/device matrix",
+    "Entire legacy browser suite after English selector changes",
+    "Updated performance/load run and immutable delivery ZIP"
+  ],
+  "task_register": {
+    "completed": 6,
+    "total": 77,
+    "remaining": 71,
+    "in_progress": 71,
+    "todo": 0
+  },
+  "delivery_url": "http://127.0.0.1:43193/projects",
+  "data": "Synthetic temporary review data outside repository; no database backup/real user data committed",
+  "source_only": true,
+  "deployed": false
+}

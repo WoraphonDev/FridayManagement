@@ -1,0 +1,13 @@
+{
+  "frontend/src/Auth.tsx": "241a6e8b0bfc343a7a644d91f4aeb91465bdde148df9e66c96cfa93996fdecc4",
+  "frontend/src/Brand.tsx": "d59ecca567454c3d002cd2a170b82fe2894fab3ace82ff843a0e4d550446f676",
+  "frontend/src/App.tsx": "b4937f4a6c1d321e6aa07bd0044bc92b5dcea33c1021c681d2b771025272a386",
+  "frontend/src/Pwa.tsx": "43c8e66e918f9780254e28fade2b9690aaac0b5a2a0dd7e17555867ac3c9401d",
+  "frontend/src/shared/components.tsx": "03f51ef17d667fcfc368ec31b3fefbbc65cd29e174f8acc403bfec8dd2b95879",
+  "frontend/src/shared/UiIcon.tsx": "faf5fcd75d2948b839f987283750af20d3a264a1c72107b39dead140e392aada",
+  "frontend/src/login-design.css": "f3efc5d116dc419b16bff4df22372c5b229ee70760a79dfa68b60b588ad327cc",
+  "frontend/src/main.tsx": "3c64a4b0fb42772626614c6f6b2ecbf97b28bdd1da1f4690f601e8f6e6e3d819",
+  "tests/browser/vibe-integration.spec.ts": "e9073a1a54c8fca518c926a833b29fd64ee3a7ac124f496db9ff167f3f693ab7",
+  "design-preview/vibe/colorful.css": "2db1276a4f5e4c22da79c137eed54d3a3cea990e25f0f7bc1eb84df9b2c80d1f",
+  "TeamFlow_UI_Vibe_Preview.html": "7715d465af21530e0a4dab81eb309d5b39661fe4889095c273b054ce50d549b9"
+}

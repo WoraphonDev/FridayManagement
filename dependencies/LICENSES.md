@@ -1,0 +1,635 @@
+# Dependency license inventory
+
+Generated from pinned package-lock.json and installed package metadata. Includes optional platform packages. Package licenses remain with their packages; review packaging/notices at T-077. Node.js22 uses built-in experimental node:sqlite; no extra SQLite npm driver.
+
+| Package | Version | License | Scope |
+|---|---|---|---|
+| @azure-rest/core-client | 2.9.0 | MIT | runtime |
+| @azure/abort-controller | 2.2.0 | MIT | runtime |
+| @azure/core-auth | 1.11.0 | MIT | runtime |
+| @azure/core-client | 1.11.1 | MIT | runtime |
+| @azure/core-lro | 2.7.2 | MIT | runtime |
+| @azure/core-paging | 1.7.0 | MIT | runtime |
+| @azure/core-process | 1.0.0 | MIT | runtime |
+| @azure/core-rest-pipeline | 1.25.0 | MIT | runtime |
+| @azure/core-tracing | 1.4.0 | MIT | runtime |
+| @azure/core-util | 1.14.0 | MIT | runtime |
+| @azure/identity | 4.13.3 | MIT | runtime |
+| @azure/keyvault-common | 2.1.0 | MIT | runtime |
+| @azure/keyvault-keys | 4.10.2 | MIT | runtime |
+| @azure/logger | 1.4.0 | MIT | runtime |
+| @azure/msal-browser | 5.24.0 | MIT | runtime |
+| @azure/msal-common | 16.14.2 | MIT | runtime |
+| @azure/msal-node | 6.0.1 | MIT | runtime |
+| @azure/msal-common | 16.14.1 | MIT | runtime |
+| @babel/code-frame | 7.29.7 | MIT | runtime |
+| @babel/compat-data | 7.29.7 | MIT | dev |
+| @babel/core | 7.29.7 | MIT | dev |
+| @babel/generator | 7.29.8 | MIT | dev |
+| @babel/helper-compilation-targets | 7.29.7 | MIT | dev |
+| @babel/helper-globals | 7.29.7 | MIT | dev |
+| @babel/helper-module-imports | 7.29.7 | MIT | dev |
+| @babel/helper-module-transforms | 7.29.7 | MIT | dev |
+| @babel/helper-string-parser | 7.29.7 | MIT | dev |
+| @babel/helper-validator-identifier | 7.29.7 | MIT | runtime |
+| @babel/helper-validator-option | 7.29.7 | MIT | dev |
+| @babel/helpers | 7.29.7 | MIT | dev |
+| @babel/parser | 7.29.9 | MIT | dev |
+| @babel/runtime | 7.29.10 | MIT | runtime |
+| @babel/template | 7.29.7 | MIT | dev |
+| @babel/traverse | 7.29.8 | MIT | dev |
+| @babel/types | 7.29.8 | MIT | dev |
+| @cacheable/memory | 2.2.0 | MIT | dev |
+| @cacheable/utils | 2.5.0 | MIT | dev |
+| @csstools/selector-specificity | 2.2.0 | CC0-1.0 | runtime |
+| @dnd-kit/accessibility | 3.1.1 | MIT | runtime |
+| @dnd-kit/core | 6.3.1 | MIT | runtime |
+| @dnd-kit/sortable | 10.0.0 | MIT | runtime |
+| @dnd-kit/utilities | 3.2.2 | MIT | runtime |
+| @esbuild/aix-ppc64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/android-arm | 0.28.2 | MIT | runtime / optional |
+| @esbuild/android-arm64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/android-x64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/darwin-arm64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/darwin-x64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/freebsd-arm64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/freebsd-x64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/linux-arm | 0.28.2 | MIT | runtime / optional |
+| @esbuild/linux-arm64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/linux-ia32 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/linux-loong64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/linux-mips64el | 0.28.2 | MIT | runtime / optional |
+| @esbuild/linux-ppc64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/linux-riscv64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/linux-s390x | 0.28.2 | MIT | runtime / optional |
+| @esbuild/linux-x64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/netbsd-arm64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/netbsd-x64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/openbsd-arm64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/openbsd-x64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/openharmony-arm64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/sunos-x64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/win32-arm64 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/win32-ia32 | 0.28.2 | MIT | runtime / optional |
+| @esbuild/win32-x64 | 0.28.2 | MIT | runtime / optional |
+| @eslint-community/eslint-utils | 4.10.1 | MIT | dev |
+| eslint-visitor-keys | 3.4.3 | Apache-2.0 | dev |
+| @eslint-community/regexpp | 4.12.2 | MIT | dev |
+| @eslint/config-array | 0.23.5 | Apache-2.0 | dev |
+| @eslint/config-helpers | 0.7.0 | Apache-2.0 | dev |
+| @eslint/core | 1.2.1 | Apache-2.0 | dev |
+| @eslint/object-schema | 3.0.5 | Apache-2.0 | dev |
+| @eslint/plugin-kit | 0.7.3 | Apache-2.0 | dev |
+| @floating-ui/core | 1.8.0 | MIT | runtime |
+| @floating-ui/dom | 1.8.0 | MIT | runtime |
+| @floating-ui/react-dom | 2.1.9 | MIT | runtime |
+| @floating-ui/utils | 0.2.12 | MIT | runtime |
+| @humanfs/core | 0.19.2 | Apache-2.0 | dev |
+| @humanfs/node | 0.16.8 | Apache-2.0 | dev |
+| @humanfs/types | 0.15.0 | Apache-2.0 | dev |
+| @humanwhocodes/module-importer | 1.0.1 | Apache-2.0 | dev |
+| @humanwhocodes/retry | 0.4.3 | Apache-2.0 | dev |
+| @jridgewell/gen-mapping | 0.3.13 | MIT | dev |
+| @jridgewell/remapping | 2.3.5 | MIT | dev |
+| @jridgewell/resolve-uri | 3.1.2 | MIT | runtime |
+| @jridgewell/sourcemap-codec | 1.6.0 | MIT | runtime |
+| @jridgewell/trace-mapping | 0.3.31 | MIT | runtime |
+| @js-joda/core | 6.2.0 | BSD-3-Clause | runtime |
+| @keyv/bigmap | 1.3.1 | MIT | dev |
+| @keyv/serialize | 1.1.1 | MIT | dev |
+| @nodelib/fs.scandir | 2.1.5 | MIT | runtime |
+| @nodelib/fs.stat | 2.0.5 | MIT | runtime |
+| @nodelib/fs.walk | 1.2.8 | MIT | runtime |
+| @oxc-project/types | 0.152.0 | MIT | runtime |
+| @playwright/test | 1.63.0 | Apache-2.0 | dev |
+| @rolldown/binding-android-arm-eabi | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-android-arm64 | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-darwin-arm64 | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-darwin-x64 | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-freebsd-x64 | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-linux-arm-gnueabihf | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-linux-arm64-gnu | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-linux-arm64-musl | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-linux-ppc64-gnu | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-linux-s390x-gnu | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-linux-x64-gnu | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-linux-x64-musl | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-openharmony-arm64 | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-win32-arm64-msvc | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-win32-x64-msvc | 1.2.12 | MIT | runtime / optional |
+| @rolldown/pluginutils | 1.0.1 | MIT | runtime |
+| @tediousjs/connection-string | 1.1.0 | MIT | runtime |
+| @types/body-parser | 1.19.6 | MIT | dev |
+| @types/busboy | 1.5.4 | MIT | dev |
+| @types/chai | 5.2.3 | MIT | runtime |
+| @types/connect | 3.4.38 | MIT | dev |
+| @types/deep-eql | 4.0.2 | MIT | runtime |
+| @types/esrecurse | 4.3.1 | MIT | dev |
+| @types/estree | 1.0.9 | MIT | runtime |
+| @types/express | 5.0.6 | MIT | dev |
+| @types/express-serve-static-core | 5.1.3 | MIT | dev |
+| @types/http-errors | 2.0.5 | MIT | dev |
+| @types/json-schema | 7.0.15 | MIT | dev |
+| @types/minimist | 1.2.5 | MIT | runtime |
+| @types/mssql | 12.3.0 | MIT | dev |
+| @types/node | 22.20.5 | MIT | runtime |
+| @types/normalize-package-data | 2.4.4 | MIT | runtime |
+| @types/parse-json | 4.0.2 | MIT | runtime |
+| @types/qs | 6.15.1 | MIT | dev |
+| @types/range-parser | 1.2.7 | MIT | dev |
+| @types/react | 19.3.0 | MIT | runtime |
+| @types/react-dom | 19.3.0 | MIT | dev |
+| @types/readable-stream | 4.0.25 | MIT | runtime |
+| @types/send | 1.2.1 | MIT | dev |
+| @types/serve-static | 2.2.0 | MIT | dev |
+| @typescript-eslint/eslint-plugin | 8.71.0 | MIT | dev |
+| ignore | 7.0.12 | MIT | dev |
+| @typescript-eslint/parser | 8.71.0 | MIT | dev |
+| @typescript-eslint/project-service | 8.71.0 | MIT | dev |
+| @typescript-eslint/scope-manager | 8.71.0 | MIT | dev |
+| @typescript-eslint/tsconfig-utils | 8.71.0 | MIT | dev |
+| @typescript-eslint/type-utils | 8.71.0 | MIT | dev |
+| @typescript-eslint/types | 8.71.0 | MIT | dev |
+| @typescript-eslint/typescript-estree | 8.71.0 | MIT | dev |
+| semver | 7.8.5 | ISC | dev |
+| @typescript-eslint/utils | 8.71.0 | MIT | dev |
+| @typescript-eslint/visitor-keys | 8.71.0 | MIT | dev |
+| @typespec/ts-http-runtime | 0.3.9 | MIT | runtime |
+| @vibe/a11y | 4.0.7 | MIT | runtime |
+| @vibe/accordion | 4.0.8 | MIT | runtime |
+| @vibe/alert-banner | 4.0.9 | MIT | runtime |
+| @vibe/attention-box | 4.0.8 | MIT | runtime |
+| @vibe/avatar | 4.0.13 | MIT | runtime |
+| @vibe/avatar-group | 4.0.6 | MIT | runtime |
+| @vibe/badge | 4.0.6 | MIT | runtime |
+| @vibe/base | 4.0.11 | MIT | runtime |
+| @vibe/base-list | 4.1.1 | MIT | runtime |
+| @vibe/breadcrumbs | 4.0.6 | MIT | runtime |
+| @vibe/button | 4.0.13 | MIT | runtime |
+| @vibe/button-group | 4.0.15 | MIT | runtime |
+| @vibe/checkbox | 4.0.15 | MIT | runtime |
+| @vibe/chips | 4.0.7 | MIT | runtime |
+| @vibe/clickable | 4.0.12 | MIT | runtime |
+| @vibe/color-picker | 4.0.10 | MIT | runtime |
+| @vibe/combobox | 4.0.5 | MIT | runtime |
+| @vibe/core | 4.5.34 | MIT | runtime |
+| @vibe/counter | 4.0.12 | MIT | runtime |
+| @vibe/date-picker | 4.0.7 | MIT | runtime |
+| @vibe/dialog | 4.1.15 | MIT | runtime |
+| @vibe/divider | 4.0.8 | MIT | runtime |
+| @vibe/dropdown | 4.1.1 | MIT | runtime |
+| @vibe/editable | 4.0.13 | MIT | runtime |
+| @vibe/empty-state | 4.0.6 | MIT | runtime |
+| @vibe/expand-collapse | 4.0.15 | MIT | runtime |
+| @vibe/formatted-number | 4.0.8 | MIT | runtime |
+| @vibe/hooks | 4.0.14 | MIT | runtime |
+| @vibe/icon | 4.0.10 | MIT | runtime |
+| @vibe/icon-button | 4.0.21 | MIT | runtime |
+| @vibe/icons | 4.2.0 | MIT | runtime |
+| @vibe/info | 4.0.6 | MIT | runtime |
+| @vibe/label | 4.0.15 | MIT | runtime |
+| @vibe/layer | 4.0.12 | MIT | runtime |
+| @vibe/layout | 4.0.13 | MIT | runtime |
+| @vibe/link | 4.0.9 | MIT | runtime |
+| @vibe/list | 4.0.4 | MIT | runtime |
+| @vibe/loader | 4.0.10 | MIT | runtime |
+| @vibe/menu | 4.0.6 | MIT | runtime |
+| @vibe/menu-button | 4.0.6 | MIT | runtime |
+| @vibe/modal | 4.0.4 | MIT | runtime |
+| @vibe/progress-bars | 4.0.9 | MIT | runtime |
+| @vibe/radio-button | 4.0.14 | MIT | runtime |
+| @vibe/search | 4.0.6 | MIT | runtime |
+| @vibe/shared | 4.0.10 | MIT | runtime |
+| @vibe/skeleton | 4.0.6 | MIT | runtime |
+| @vibe/slider | 4.0.6 | MIT | runtime |
+| @vibe/split-button | 4.0.6 | MIT | runtime |
+| @vibe/style | 4.1.0 | MIT | runtime |
+| postcss | 8.4.31 | MIT | runtime |
+| @vibe/table | 4.0.5 | MIT | runtime |
+| @vibe/tabs | 4.0.10 | MIT | runtime |
+| @vibe/text-inputs | 4.0.6 | MIT | runtime |
+| @vibe/text-with-highlight | 4.0.10 | MIT | runtime |
+| @vibe/theme-provider | 4.0.8 | MIT | runtime |
+| @vibe/tipseen | 4.0.5 | MIT | runtime |
+| @vibe/toast | 4.0.5 | MIT | runtime |
+| @vibe/toggle | 4.0.9 | MIT | runtime |
+| @vibe/tooltip | 4.0.21 | MIT | runtime |
+| @vibe/transitions | 4.0.6 | MIT | runtime |
+| @vibe/typography | 4.0.21 | MIT | runtime |
+| @vibe/virtualized-grid | 4.0.6 | MIT | runtime |
+| @vibe/virtualized-list | 4.0.6 | MIT | runtime |
+| @vibe/wizard | 4.0.5 | MIT | runtime |
+| @vitejs/plugin-react | 6.1.1 | MIT | dev |
+| @vitest/mocker | 5.0.3 | MIT | runtime |
+| @vitest/spy | 5.0.3 | MIT | runtime |
+| abort-controller | 3.0.0 | MIT | runtime |
+| accepts | 2.0.0 | MIT | runtime |
+| acorn | 8.18.0 | MIT | dev |
+| acorn-jsx | 5.3.2 | MIT | dev |
+| agent-base | 7.1.4 | MIT | runtime |
+| ajv | 8.20.0 | MIT | runtime |
+| ajv-formats | 3.0.1 | MIT | runtime |
+| ansi-regex | 5.0.1 | MIT | runtime |
+| ansi-styles | 4.3.0 | MIT | runtime |
+| array-union | 2.1.0 | MIT | runtime |
+| arrify | 1.0.1 | MIT | runtime |
+| assertion-error | 2.0.1 | MIT | runtime |
+| astral-regex | 2.0.0 | MIT | runtime |
+| balanced-match | 4.0.4 | MIT | dev |
+| base64-js | 1.5.1 | MIT | runtime |
+| baseline-browser-mapping | 2.11.27 | Apache-2.0 | dev |
+| bl | 6.1.6 | MIT | runtime |
+| body-parser | 2.3.0 | MIT | runtime |
+| content-type | 2.1.0 | MIT | runtime |
+| brace-expansion | 5.0.12 | MIT | dev |
+| braces | 3.0.3 | MIT | runtime |
+| browserslist | 4.29.3 | MIT | dev |
+| browserslist-config-monday | 1.0.6 | MIT | runtime |
+| buffer | 6.0.3 | MIT | runtime |
+| buffer-equal-constant-time | 1.0.1 | BSD-3-Clause | runtime |
+| bundle-name | 4.1.1 | MIT | runtime |
+| busboy | 1.6.0 | MIT | runtime |
+| bytes | 3.1.2 | MIT | runtime |
+| cacheable | 2.5.0 | MIT | dev |
+| call-bind-apply-helpers | 1.0.2 | MIT | runtime |
+| call-bound | 1.0.4 | MIT | runtime |
+| callsites | 3.1.0 | MIT | runtime |
+| camelcase | 5.3.1 | MIT | runtime |
+| camelcase-keys | 6.2.2 | MIT | runtime |
+| caniuse-lite | 1.0.30001814 | CC-BY-4.0 | dev |
+| chai | 6.3.0 | MIT | runtime |
+| classnames | 2.5.1 | MIT | runtime |
+| color-convert | 2.0.1 | MIT | runtime |
+| color-name | 1.1.4 | MIT | runtime |
+| colord | 2.10.0 | MIT | runtime |
+| commander | 11.1.0 | MIT | runtime |
+| compute-scroll-into-view | 3.1.1 | MIT | runtime |
+| concat-map | 0.0.1 | MIT | runtime |
+| content-disposition | 1.1.0 | MIT | runtime |
+| content-type | 1.0.5 | MIT | runtime |
+| convert-source-map | 2.0.0 | MIT | dev |
+| cookie | 0.7.2 | MIT | runtime |
+| cookie-signature | 1.2.2 | MIT | runtime |
+| cosmiconfig | 7.1.0 | MIT | runtime |
+| yaml | 1.10.3 | ISC | runtime |
+| cross-spawn | 7.0.6 | MIT | dev |
+| css-functions-list | 3.3.3 | MIT | runtime |
+| cssesc | 3.0.0 | MIT | runtime |
+| csstype | 3.2.3 | MIT | runtime |
+| date-fns | 2.30.0 | MIT | runtime |
+| debug | 4.4.3 | MIT | runtime |
+| decamelize | 1.2.0 | MIT | runtime |
+| decamelize-keys | 1.1.1 | MIT | runtime |
+| map-obj | 1.0.1 | MIT | runtime |
+| deep-is | 0.1.4 | MIT | dev |
+| default-browser | 5.5.1 | MIT | runtime |
+| default-browser-id | 5.0.1 | MIT | runtime |
+| define-lazy-prop | 3.0.0 | MIT | runtime |
+| depd | 2.0.0 | MIT | runtime |
+| detect-libc | 2.1.2 | Apache-2.0 | runtime |
+| detect-node-es | 1.1.0 | MIT | runtime |
+| dir-glob | 3.0.1 | MIT | runtime |
+| dom-helpers | 5.2.1 | MIT | runtime |
+| downshift | 9.4.0 | MIT | runtime |
+| dunder-proto | 1.0.1 | MIT | runtime |
+| ecdsa-sig-formatter | 1.0.11 | Apache-2.0 | runtime |
+| ee-first | 1.1.1 | MIT | runtime |
+| electron-to-chromium | 1.5.444 | ISC | dev |
+| emoji-regex | 8.0.0 | MIT | runtime |
+| encodeurl | 2.0.0 | MIT | runtime |
+| error-ex | 1.3.4 | MIT | runtime |
+| es-define-property | 1.0.1 | MIT | runtime |
+| es-errors | 1.3.0 | MIT | runtime |
+| es-module-lexer | 2.3.2 | MIT | runtime |
+| es-object-atoms | 1.1.2 | MIT | runtime |
+| es-toolkit | 1.52.0 | MIT | runtime |
+| esbuild | 0.28.2 | MIT | runtime |
+| escalade | 3.2.0 | MIT | dev |
+| escape-html | 1.0.3 | MIT | runtime |
+| escape-string-regexp | 4.0.0 | MIT | dev |
+| eslint | 10.12.0 | MIT | dev |
+| eslint-plugin-react-hooks | 7.1.1 | MIT | dev |
+| eslint-plugin-react-refresh | 0.5.7 | MIT | dev |
+| eslint-scope | 9.1.2 | BSD-2-Clause | dev |
+| eslint-visitor-keys | 5.0.1 | Apache-2.0 | dev |
+| ajv | 6.15.0 | MIT | dev |
+| json-schema-traverse | 0.4.1 | MIT | dev |
+| espree | 11.2.0 | BSD-2-Clause | dev |
+| esquery | 1.7.0 | BSD-3-Clause | dev |
+| esrecurse | 4.3.0 | BSD-2-Clause | dev |
+| estraverse | 5.3.0 | BSD-2-Clause | dev |
+| estree-walker | 3.0.3 | MIT | runtime |
+| esutils | 2.0.3 | BSD-2-Clause | dev |
+| etag | 1.8.1 | MIT | runtime |
+| event-target-shim | 5.0.1 | MIT | runtime |
+| events | 3.3.0 | MIT | runtime |
+| expect-type | 1.4.0 | Apache-2.0 | runtime |
+| express | 5.2.1 | MIT | runtime |
+| fast-deep-equal | 3.1.3 | MIT | runtime |
+| fast-glob | 3.3.3 | MIT | runtime |
+| glob-parent | 5.1.2 | ISC | runtime |
+| fast-json-stable-stringify | 2.1.0 | MIT | dev |
+| fast-levenshtein | 2.0.6 | MIT | dev |
+| fast-uri | 3.1.8 | BSD-3-Clause | runtime |
+| fastest-levenshtein | 1.0.16 | MIT | runtime |
+| fastq | 1.20.3 | ISC | runtime |
+| fdir | 6.5.0 | MIT | runtime |
+| file-entry-cache | 11.1.5 | MIT | dev |
+| fill-range | 7.1.1 | MIT | runtime |
+| finalhandler | 2.1.1 | MIT | runtime |
+| find-up | 5.0.0 | MIT | dev |
+| flat-cache | 6.1.23 | MIT | dev |
+| flatted | 3.4.4 | ISC | runtime |
+| focus-lock | 1.3.6 | MIT | runtime |
+| forwarded | 0.2.0 | MIT | runtime |
+| fresh | 2.0.0 | MIT | runtime |
+| fs.realpath | 1.0.0 | ISC | runtime |
+| fsevents | 2.3.3 | MIT | runtime / optional |
+| function-bind | 1.1.2 | MIT | runtime |
+| gensync | 1.0.0-beta.2 | MIT | dev |
+| get-intrinsic | 1.3.0 | MIT | runtime |
+| get-nonce | 1.0.1 | MIT | runtime |
+| get-proto | 1.0.1 | MIT | runtime |
+| glob | 7.2.3 | ISC | runtime |
+| glob-parent | 6.0.2 | ISC | dev |
+| balanced-match | 1.0.2 | MIT | runtime |
+| brace-expansion | 1.1.21 | MIT | runtime |
+| minimatch | 3.1.5 | ISC | runtime |
+| global-modules | 2.0.0 | MIT | runtime |
+| global-prefix | 3.0.0 | MIT | runtime |
+| which | 1.3.1 | ISC | runtime |
+| globby | 11.1.0 | MIT | runtime |
+| globjoin | 0.1.4 | MIT | runtime |
+| gopd | 1.2.0 | MIT | runtime |
+| hard-rejection | 2.1.0 | MIT | runtime |
+| has-flag | 4.0.0 | MIT | runtime |
+| has-symbols | 1.1.0 | MIT | runtime |
+| hashery | 1.5.1 | MIT | dev |
+| hasown | 2.0.4 | MIT | runtime |
+| hermes-estree | 0.25.1 | MIT | dev |
+| hermes-parser | 0.25.1 | MIT | dev |
+| hookified | 1.15.1 | MIT | dev |
+| hosted-git-info | 4.1.0 | ISC | runtime |
+| lru-cache | 6.0.0 | ISC | runtime |
+| yallist | 4.0.0 | ISC | runtime |
+| html-tags | 3.3.1 | MIT | runtime |
+| http-errors | 2.0.1 | MIT | runtime |
+| http-proxy-agent | 7.0.2 | MIT | runtime |
+| https-proxy-agent | 7.0.6 | MIT | runtime |
+| iconv-lite | 0.7.3 | MIT | runtime |
+| ieee754 | 1.2.1 | BSD-3-Clause | runtime |
+| ignore | 5.3.2 | MIT | runtime |
+| import-fresh | 3.3.1 | MIT | runtime |
+| resolve-from | 4.0.0 | MIT | runtime |
+| import-lazy | 4.0.0 | MIT | runtime |
+| imurmurhash | 0.1.4 | MIT | runtime |
+| indent-string | 4.0.0 | MIT | runtime |
+| inflight | 1.0.6 | ISC | runtime |
+| inherits | 2.0.4 | ISC | runtime |
+| ini | 1.3.8 | ISC | runtime |
+| ipaddr.js | 1.9.1 | MIT | runtime |
+| is-arrayish | 0.2.1 | MIT | runtime |
+| is-core-module | 2.17.0 | MIT | runtime |
+| is-docker | 3.0.0 | MIT | runtime |
+| is-extglob | 2.1.1 | MIT | runtime |
+| is-fullwidth-code-point | 3.0.0 | MIT | runtime |
+| is-glob | 4.0.3 | MIT | runtime |
+| is-inside-container | 1.0.0 | MIT | runtime |
+| is-number | 7.0.0 | MIT | runtime |
+| is-plain-obj | 1.1.0 | MIT | runtime |
+| is-plain-object | 5.1.0 | MIT | runtime |
+| is-promise | 4.0.0 | MIT | runtime |
+| is-wsl | 3.1.1 | MIT | runtime |
+| isexe | 2.0.0 | ISC | runtime |
+| js-md4 | 0.3.2 | MIT | runtime |
+| js-tokens | 4.0.0 | MIT | runtime |
+| jsesc | 3.1.0 | MIT | dev |
+| json-buffer | 3.0.1 | MIT | runtime |
+| json-parse-even-better-errors | 2.3.1 | MIT | runtime |
+| json-schema-traverse | 1.0.0 | MIT | runtime |
+| json-stable-stringify-without-jsonify | 1.0.1 | MIT | dev |
+| json5 | 2.2.3 | MIT | dev |
+| jsonwebtoken | 9.0.3 | MIT | runtime |
+| semver | 7.8.5 | ISC | runtime |
+| jwa | 2.0.1 | MIT | runtime |
+| jws | 4.0.1 | MIT | runtime |
+| keyv | 5.6.0 | MIT | dev |
+| kind-of | 6.0.3 | MIT | runtime |
+| known-css-properties | 0.26.0 | MIT | runtime |
+| levn | 0.4.1 | MIT | dev |
+| lightningcss | 1.33.0 | MPL-2.0 | runtime |
+| lightningcss-android-arm64 | 1.33.0 | MPL-2.0 | runtime / optional |
+| lightningcss-darwin-arm64 | 1.33.0 | MPL-2.0 | runtime / optional |
+| lightningcss-darwin-x64 | 1.33.0 | MPL-2.0 | runtime / optional |
+| lightningcss-freebsd-x64 | 1.33.0 | MPL-2.0 | runtime / optional |
+| lightningcss-linux-arm-gnueabihf | 1.33.0 | MPL-2.0 | runtime / optional |
+| lightningcss-linux-arm64-gnu | 1.33.0 | MPL-2.0 | runtime / optional |
+| lightningcss-linux-arm64-musl | 1.33.0 | MPL-2.0 | runtime / optional |
+| lightningcss-linux-x64-gnu | 1.33.0 | MPL-2.0 | runtime / optional |
+| lightningcss-linux-x64-musl | 1.33.0 | MPL-2.0 | runtime / optional |
+| lightningcss-win32-arm64-msvc | 1.33.0 | MPL-2.0 | runtime / optional |
+| lightningcss-win32-x64-msvc | 1.33.0 | MPL-2.0 | runtime / optional |
+| lines-and-columns | 1.2.4 | MIT | runtime |
+| locate-path | 6.0.0 | MIT | dev |
+| lodash.includes | 4.3.0 | MIT | runtime |
+| lodash.isboolean | 3.0.3 | MIT | runtime |
+| lodash.isinteger | 4.0.4 | MIT | runtime |
+| lodash.isnumber | 3.0.3 | MIT | runtime |
+| lodash.isplainobject | 4.0.6 | MIT | runtime |
+| lodash.isstring | 4.0.1 | MIT | runtime |
+| lodash.once | 4.1.1 | MIT | runtime |
+| lodash.truncate | 4.4.2 | MIT | runtime |
+| loose-envify | 1.4.0 | MIT | runtime |
+| lru-cache | 5.1.1 | ISC | dev |
+| magic-string | 1.4.3 | MIT | runtime |
+| map-obj | 4.3.0 | MIT | runtime |
+| math-intrinsics | 1.1.0 | MIT | runtime |
+| mathml-tag-names | 2.1.3 | MIT | runtime |
+| media-typer | 1.1.1 | MIT | runtime |
+| memoize-one | 5.2.1 | MIT | runtime |
+| meow | 9.0.0 | MIT | runtime |
+| merge-descriptors | 2.0.0 | MIT | runtime |
+| merge2 | 1.4.1 | MIT | runtime |
+| micromatch | 4.0.8 | MIT | runtime |
+| picomatch | 2.3.2 | MIT | runtime |
+| mime-db | 1.54.0 | MIT | runtime |
+| mime-types | 3.0.2 | MIT | runtime |
+| min-indent | 1.0.1 | MIT | runtime |
+| minimatch | 10.2.6 | BlueOak-1.0.0 | dev |
+| minimist-options | 4.1.0 | MIT | runtime |
+| ms | 2.1.3 | MIT | runtime |
+| mssql | 12.7.3 | MIT | runtime |
+| nanoid | 3.3.19 | MIT | runtime |
+| native-duplexpair | 1.0.0 | MIT | runtime |
+| natural-compare | 1.4.0 | MIT | dev |
+| negotiator | 1.1.0 | MIT | runtime |
+| content-type | 2.1.0 | MIT | runtime |
+| node-releases | 2.0.57 | MIT | dev |
+| normalize-package-data | 3.0.3 | BSD-2-Clause | runtime |
+| semver | 7.8.5 | ISC | runtime |
+| normalize-path | 3.0.0 | MIT | runtime |
+| object-assign | 4.1.1 | MIT | runtime |
+| object-inspect | 1.13.4 | MIT | runtime |
+| obug | 2.2.1 | MIT | runtime |
+| on-finished | 2.4.1 | MIT | runtime |
+| once | 1.4.0 | ISC | runtime |
+| open | 10.2.0 | MIT | runtime |
+| optionator | 0.9.4 | MIT | dev |
+| p-limit | 3.1.0 | MIT | dev |
+| p-locate | 5.0.0 | MIT | dev |
+| p-try | 2.2.0 | MIT | runtime |
+| parent-module | 1.0.1 | MIT | runtime |
+| parse-json | 5.2.0 | MIT | runtime |
+| parseurl | 1.3.3 | MIT | runtime |
+| path-exists | 4.0.0 | MIT | runtime |
+| path-is-absolute | 1.0.1 | MIT | runtime |
+| path-key | 3.1.1 | MIT | dev |
+| path-parse | 1.0.7 | MIT | runtime |
+| path-to-regexp | 8.4.2 | MIT | runtime |
+| path-type | 4.0.0 | MIT | runtime |
+| picocolors | 1.1.1 | ISC | runtime |
+| picomatch | 4.0.7 | MIT | runtime |
+| playwright | 1.63.0 | Apache-2.0 | dev |
+| playwright-core | 1.63.0 | Apache-2.0 | dev |
+| postcss | 8.5.28 | MIT | runtime |
+| postcss-media-query-parser | 0.2.3 | MIT | runtime |
+| postcss-resolve-nested-selector | 0.1.6 | MIT | runtime |
+| postcss-safe-parser | 6.0.0 | MIT | runtime |
+| postcss-scss | 4.0.9 | MIT | runtime |
+| postcss-selector-parser | 6.1.4 | MIT | runtime |
+| postcss-value-parser | 4.2.0 | MIT | runtime |
+| prelude-ls | 1.2.1 | MIT | dev |
+| prettier | 3.9.9 | MIT | dev |
+| process | 0.11.10 | MIT | runtime |
+| prop-types | 15.8.1 | MIT | runtime |
+| react-is | 16.13.1 | MIT | runtime |
+| proxy-addr | 2.0.8 | MIT | runtime |
+| punycode | 2.3.1 | MIT | dev |
+| qified | 0.10.1 | MIT | dev |
+| hookified | 2.2.0 | MIT | dev |
+| qs | 6.16.0 | BSD-3-Clause | runtime |
+| queue-microtask | 1.2.3 | MIT | runtime |
+| quick-lru | 4.0.1 | MIT | runtime |
+| range-parser | 1.3.0 | MIT | runtime |
+| raw-body | 3.0.2 | MIT | runtime |
+| react | 19.3.0 | MIT | runtime |
+| react-clientside-effect | 1.2.8 | MIT | runtime |
+| react-day-picker | 8.10.2 | MIT | runtime |
+| react-dom | 19.3.0 | MIT | runtime |
+| react-focus-lock | 2.13.7 | MIT | runtime |
+| react-from-dom | 0.7.5 | MIT | runtime |
+| react-inlinesvg | 4.5.0 | MIT | runtime |
+| react-is | 18.3.1 | MIT | runtime |
+| react-remove-scroll | 2.7.2 | MIT | runtime |
+| react-remove-scroll-bar | 2.3.8 | MIT | runtime |
+| react-router | 7.18.4 | MIT | runtime |
+| react-router-dom | 7.18.4 | MIT | runtime |
+| cookie | 1.1.1 | MIT | runtime |
+| react-style-singleton | 2.2.3 | MIT | runtime |
+| react-transition-group | 4.4.5 | BSD-3-Clause | runtime |
+| react-virtualized-auto-sizer | 1.0.26 | MIT | runtime |
+| react-window | 1.8.11 | MIT | runtime |
+| read-pkg | 5.2.0 | MIT | runtime |
+| read-pkg-up | 7.0.1 | MIT | runtime |
+| find-up | 4.1.0 | MIT | runtime |
+| locate-path | 5.0.0 | MIT | runtime |
+| p-limit | 2.3.0 | MIT | runtime |
+| p-locate | 4.1.0 | MIT | runtime |
+| type-fest | 0.8.1 | (MIT OR CC0-1.0) | runtime |
+| hosted-git-info | 2.8.9 | ISC | runtime |
+| normalize-package-data | 2.5.0 | BSD-2-Clause | runtime |
+| semver | 5.7.2 | ISC | runtime |
+| type-fest | 0.6.0 | (MIT OR CC0-1.0) | runtime |
+| readable-stream | 4.7.0 | MIT | runtime |
+| redent | 3.0.0 | MIT | runtime |
+| require-from-string | 2.0.2 | MIT | runtime |
+| resolve | 1.22.13 | MIT | runtime |
+| resolve-from | 5.0.0 | MIT | runtime |
+| reusify | 1.1.0 | MIT | runtime |
+| rimraf | 3.0.2 | ISC | runtime |
+| rolldown | 1.2.12 | MIT | runtime |
+| router | 2.2.0 | MIT | runtime |
+| run-applescript | 7.1.0 | MIT | runtime |
+| run-parallel | 1.2.0 | MIT | runtime |
+| safe-buffer | 5.2.1 | MIT | runtime |
+| safer-buffer | 2.1.2 | MIT | runtime |
+| scheduler | 0.28.0 | MIT | runtime |
+| semver | 6.3.1 | ISC | dev |
+| send | 1.2.1 | MIT | runtime |
+| serve-static | 2.2.1 | MIT | runtime |
+| set-cookie-parser | 2.7.2 | MIT | runtime |
+| setprototypeof | 1.2.0 | ISC | runtime |
+| shebang-command | 2.0.0 | MIT | dev |
+| shebang-regex | 3.0.0 | MIT | dev |
+| side-channel | 1.1.1 | MIT | runtime |
+| side-channel-list | 1.0.1 | MIT | runtime |
+| side-channel-map | 1.0.1 | MIT | runtime |
+| side-channel-weakmap | 1.0.2 | MIT | runtime |
+| signal-exit | 3.0.7 | ISC | runtime |
+| slash | 3.0.0 | MIT | runtime |
+| slice-ansi | 4.0.0 | MIT | runtime |
+| source-map-js | 1.2.2 | BSD-3-Clause | runtime |
+| spdx-correct | 3.2.0 | Apache-2.0 | runtime |
+| spdx-exceptions | 2.5.0 | CC-BY-3.0 | runtime |
+| spdx-expression-parse | 3.0.1 | MIT | runtime |
+| spdx-license-ids | 3.0.24 | CC0-1.0 | runtime |
+| sprintf-js | 1.1.3 | BSD-3-Clause | runtime |
+| statuses | 2.0.2 | MIT | runtime |
+| std-env | 4.3.0 | MIT | runtime |
+| streamsearch | 1.1.0 | MIT | runtime |
+| string_decoder | 1.3.0 | MIT | runtime |
+| string-width | 4.2.3 | MIT | runtime |
+| strip-ansi | 6.0.1 | MIT | runtime |
+| strip-indent | 3.0.0 | MIT | runtime |
+| style-search | 0.1.0 | ISC | runtime |
+| stylelint | 14.16.1 | MIT | runtime |
+| balanced-match | 2.0.0 | MIT | runtime |
+| file-entry-cache | 6.0.1 | MIT | runtime |
+| flat-cache | 3.2.0 | MIT | runtime |
+| keyv | 4.5.4 | MIT | runtime |
+| supports-color | 7.2.0 | MIT | runtime |
+| supports-hyperlinks | 2.3.0 | MIT | runtime |
+| supports-preserve-symlinks-flag | 1.0.0 | MIT | runtime |
+| svg-tags | 1.0.0 | MIT | runtime |
+| table | 6.9.0 | BSD-3-Clause | runtime |
+| tarn | 3.1.2 | MIT | runtime |
+| tedious | 20.3.3 | MIT | runtime |
+| tinybench | 6.2.0 | MIT | runtime |
+| tinyexec | 1.3.1 | MIT | runtime |
+| tinyglobby | 0.2.17 | MIT | runtime |
+| to-regex-range | 5.0.1 | MIT | runtime |
+| toidentifier | 1.0.1 | MIT | runtime |
+| trim-newlines | 3.0.1 | MIT | runtime |
+| ts-api-utils | 2.5.0 | MIT | dev |
+| tslib | 2.8.1 | 0BSD | runtime |
+| tsx | 4.23.15 | MIT | runtime |
+| type-check | 0.4.0 | MIT | dev |
+| type-fest | 0.18.1 | (MIT OR CC0-1.0) | runtime |
+| type-is | 2.1.0 | MIT | runtime |
+| content-type | 2.1.0 | MIT | runtime |
+| typescript | 5.9.3 | Apache-2.0 | dev |
+| typescript-eslint | 8.71.0 | MIT | dev |
+| undici-types | 6.21.0 | MIT | runtime |
+| unpipe | 1.0.0 | MIT | runtime |
+| update-browserslist-db | 1.3.3 | MIT | dev |
+| uri-js | 4.4.1 | BSD-2-Clause | dev |
+| use-callback-ref | 1.3.3 | MIT | runtime |
+| use-sidecar | 1.1.3 | MIT | runtime |
+| util-deprecate | 1.0.2 | MIT | runtime |
+| v8-compile-cache | 2.4.0 | MIT | runtime |
+| validate-npm-package-license | 3.0.4 | Apache-2.0 | runtime |
+| vary | 1.1.2 | MIT | runtime |
+| vite | 8.3.2 | MIT | runtime |
+| vitest | 5.0.3 | MIT | runtime |
+| which | 2.0.2 | ISC | dev |
+| why-is-node-running | 3.2.1 | MIT | runtime |
+| word-wrap | 1.2.5 | MIT | dev |
+| wrappy | 1.0.2 | ISC | runtime |
+| write-file-atomic | 4.0.2 | ISC | runtime |
+| wsl-utils | 0.1.0 | MIT | runtime |
+| yallist | 3.1.1 | ISC | dev |
+| yaml | 2.9.1 | ISC | runtime / optional |
+| yargs-parser | 20.2.9 | ISC | runtime |
+| yocto-queue | 0.1.0 | MIT | dev |
+| zod | 4.6.5 | MIT | runtime |
+| zod-validation-error | 4.0.2 | MIT | dev |

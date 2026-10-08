@@ -1,0 +1,664 @@
+/* Login structure and geometry from the approved V06 auth screen. */
+.auth-layout .content > section {
+  grid-template-columns: 50% 50%;
+  background: #fff;
+}
+.auth-content {
+  position: relative;
+  min-height: 100dvh;
+  padding: 110px 14% 92px;
+  align-items: center;
+  justify-content: center;
+}
+.auth-content > .friday-brand {
+  position: absolute;
+  top: 36px;
+  left: 14%;
+  margin: 0;
+  font-size: 23px;
+}
+.auth-content > .friday-brand small {
+  font-size: 11px;
+  font-weight: 400;
+  margin-top: 4px;
+}
+.auth-content .login-form {
+  width: 100%;
+  max-width: 340px;
+  margin: 0;
+}
+.login-form .eyebrow {
+  font-size: 10px;
+  letter-spacing: 1.8px;
+  font-weight: 600;
+  color: #676879;
+  margin: 0 0 10px;
+}
+.login-form h1 {
+  font-size: 24px;
+  letter-spacing: -0.6px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0 0 10px;
+  color: #323338;
+}
+.login-intro {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #676879;
+  margin: 0 0 22px;
+}
+.login-form form,
+.login-form fieldset {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.login-form fieldset {
+  display: grid;
+  gap: 13px;
+}
+.login-form .field {
+  margin: 0;
+  display: grid;
+  gap: 5px;
+}
+.login-form .field > label {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18px;
+  margin: 0;
+  color: #323338;
+}
+.login-form input {
+  width: 100%;
+  height: 32px;
+  border: 1px solid #c4c4cf;
+  border-radius: 4px;
+  padding: 7px 9px;
+  font-family: var(--font-family);
+  font-size: 13px;
+  font-weight: 400;
+  color: #323338;
+  background: #fff;
+}
+.login-form input::placeholder {
+  color: #676879;
+  opacity: 1;
+}
+.login-form input:focus {
+  outline: 2px solid #0073ea;
+  outline-offset: -1px;
+}
+.login-form input[aria-invalid='true'] {
+  border-color: #d83a52;
+}
+.login-password {
+  position: relative;
+}
+.login-password input {
+  padding-right: 40px;
+}
+.login-password .password-toggle {
+  position: absolute;
+  right: 4px;
+  top: 24px;
+  width: 26px;
+  height: 26px;
+  min-height: 26px;
+  display: grid;
+  place-items: center;
+  padding: 4px;
+  border: 0;
+  border-radius: 3px;
+  background: transparent;
+  color: #676879;
+}
+.password-toggle:hover {
+  background: #f0f1f5;
+}
+.login-assistance {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  color: #676879;
+}
+.login-assistance button {
+  font-size: 12px;
+  min-height: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #0073ea;
+}
+.login-assistance button:hover {
+  text-decoration: underline;
+}
+.login-form button[type='submit'] {
+  width: 100%;
+  min-height: 32px;
+  height: 32px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+.login-form button[type='submit'] [class*='content'] {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.login-form .field-error,
+.login-form [role='alert'] {
+  font-size: 12px;
+  line-height: 1.5;
+  color: #b52846;
+}
+.auth-foot {
+  position: absolute;
+  bottom: 28px;
+  left: 14%;
+  right: 14%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: #676879;
+}
+.auth-artwork {
+  min-height: 100dvh;
+  padding: 40px;
+  gap: 0;
+  border-left: 1px solid #e4e2f0;
+  background: #eff1fc;
+}
+.auth-artwork:after {
+  content: '';
+  position: absolute;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  background: #e0ebfb;
+  bottom: -150px;
+  left: -100px;
+}
+.auth-copy {
+  z-index: 1;
+  max-width: 430px;
+}
+.auth-copy .eyebrow {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: #8f75ab;
+  font-weight: 600;
+  margin: 0 0 15px;
+}
+.auth-copy h2 {
+  font-size: 24px;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+  font-weight: 600;
+  margin: 0 0 14px;
+}
+.auth-copy > p:last-child {
+  font-size: 13px;
+  line-height: 1.6;
+  margin: 0;
+}
+.auth-board {
+  margin-top: 26px;
+  border-radius: 6px;
+  padding: 18px;
+  transform: rotate(-2deg);
+}
+.art-board-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+.art-team {
+  background: #f0e4ff;
+  color: #7c43bd;
+  font-size: 10px;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-weight: 400;
+}
+.art-tabs {
+  display: flex;
+  gap: 15px;
+  font-size: 10px;
+  color: #323338;
+  padding: 0 0 12px;
+}
+.art-tabs span:first-child {
+  color: #0073ea;
+}
+.art-row {
+  grid-template-columns: 1.5fr 36px 1fr;
+  min-height: 45px;
+  gap: 10px;
+  font-size: 11px;
+}
+.art-avatar {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #dedee9;
+  border-radius: 50%;
+  font-size: 10px;
+  font-weight: 600;
+  background: #e9e0fb;
+  color: #514080;
+}
+.art-avatar-1 {
+  background: #fff2dd;
+}
+.art-avatar-2 {
+  background: #e1f3ef;
+}
+.art-status {
+  height: 28px;
+  display: grid;
+  place-items: center;
+  padding: 0 5px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 400;
+}
+.art-status-0 {
+  background: #fdab3d;
+  color: #323338;
+}
+.art-status-1 {
+  background: #9551cf;
+  color: #fff;
+}
+.art-status-2 {
+  background: #00c875;
+  color: #134b37;
+}
+.art-success {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  position: absolute;
+  bottom: -16px;
+  right: -8px;
+  padding: 10px 12px;
+  border: 1px solid #e6e9ef;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 12px 36px #292f4c1f;
+  font-size: 11px;
+  transform: rotate(2deg);
+  animation: login-success-arrive 450ms ease-out 180ms both;
+}
+.art-success strong {
+  font-weight: 600;
+}
+.art-success p {
+  font-size: 11px;
+  color: #676879;
+  margin: 4px 0 0;
+}
+.art-success-orb {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #e1f6ee;
+  color: #009d73;
+  font-size: 17px;
+}
+.auth-credit {
+  position: relative;
+  margin-top: 32px;
+  color: #74728b;
+  font-size: 11px;
+  display: flex;
+  gap: 18px;
+}
+@keyframes login-success-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(8px) rotate(2deg);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(2deg);
+  }
+}
+@media (max-width: 760px) {
+  .auth-layout .content > section {
+    display: block;
+  }
+  .auth-content {
+    min-height: max(650px, 100dvh);
+    padding: 120px 24px 100px;
+  }
+  .auth-content > .friday-brand {
+    left: 24px;
+    top: 28px;
+    font-size: 23px;
+  }
+  .auth-content .login-form {
+    max-width: 340px;
+  }
+  .auth-foot {
+    left: 24px;
+    right: 24px;
+    bottom: 24px;
+    font-size: 10px;
+    flex-wrap: wrap;
+  }
+  .auth-artwork {
+    display: none;
+  }
+  .auth-layout .pwa-options {
+    position: static;
+    margin: 0;
+    padding: 6px 24px;
+    font-size: 10px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .art-success {
+    animation: none;
+  }
+}
+/* Larger wordmark with a crisp native vector mark, shared by auth and workspace. */
+.friday-brand {
+  gap: 9px;
+  font-size: 22px;
+  letter-spacing: -0.9px;
+  font-weight: 700;
+  line-height: 1;
+}
+.friday-brand .brand-symbol {
+  width: 28px;
+  height: 28px;
+  flex: none;
+}
+.friday-brand small {
+  font-size: 10px;
+  letter-spacing: 0.1px;
+  font-weight: 400;
+  margin-top: 4px;
+}
+.auth-content > .friday-brand {
+  font-size: 32px;
+  letter-spacing: -1.2px;
+}
+.auth-content > .friday-brand .brand-symbol {
+  width: 38px;
+  height: 38px;
+}
+.auth-content > .friday-brand small {
+  font-size: 11px;
+}
+.auth-content .login-form {
+  animation: login-form-arrive 420ms ease-out both;
+}
+.auth-copy {
+  animation: login-form-arrive 550ms ease-out 80ms both;
+}
+.auth-board {
+  animation: login-board-arrive 650ms cubic-bezier(0.2, 0.7, 0.2, 1) 160ms both;
+}
+.art-row {
+  animation: login-form-arrive 400ms ease-out both;
+}
+.art-row:nth-child(3) {
+  animation-delay: 280ms;
+}
+.art-row:nth-child(4) {
+  animation-delay: 360ms;
+}
+.art-row:nth-child(5) {
+  animation-delay: 440ms;
+}
+.auth-credit {
+  animation: login-form-arrive 400ms ease-out 500ms both;
+}
+.project-board,
+.project-directory {
+  animation: login-form-arrive 220ms ease-out both;
+}
+.view-tabs button,
+.plan-date,
+.person-chip,
+.new-group-trigger {
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    box-shadow 160ms ease;
+}
+dialog[open]:not(.task-editor) {
+  animation: login-dialog-arrive 180ms ease-out both;
+}
+@keyframes login-form-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes login-board-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(16px) rotate(-4deg) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) rotate(-2deg) scale(1);
+  }
+}
+@keyframes login-dialog-arrive {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* Install and update controls stay compact until the user opens the panel. */
+.pwa-options {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  z-index: 12;
+  width: auto;
+  max-width: 300px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+}
+.pwa-install {
+  position: relative;
+}
+.pwa-options .pwa-install > summary {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  width: max-content;
+  margin-left: auto;
+  list-style: none;
+  cursor: pointer;
+  background: #fff;
+  color: #53586c;
+  border: 1px solid #dfe3eb;
+  border-radius: 9px;
+  padding: 9px 12px;
+  font-size: 11px;
+  font-weight: 500;
+  box-shadow: 0 3px 12px #292f4c0a;
+  transition:
+    box-shadow 160ms ease,
+    border-color 160ms ease;
+}
+.pwa-install > summary::-webkit-details-marker {
+  display: none;
+}
+.pwa-install > summary:hover {
+  border-color: #b6c9ec;
+  box-shadow: 0 4px 16px #292f4c15;
+}
+.pwa-options .pwa-install[open] {
+  width: auto;
+  padding: 0;
+  box-shadow: none;
+}
+.pwa-panel {
+  position: absolute;
+  bottom: 48px;
+  right: 0;
+  width: 290px;
+  padding: 18px;
+  border: 1px solid #e6e9ef;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 40px #292f4c22;
+  color: #323338;
+  animation: login-dialog-arrive 180ms ease-out both;
+}
+.pwa-panel .friday-brand {
+  font-size: 23px;
+}
+.pwa-panel h3 {
+  font-size: 13px;
+  font-weight: 600;
+  margin: 18px 0 7px;
+}
+.pwa-panel p,
+.pwa-panel li {
+  font-size: 12px;
+  line-height: 1.6;
+  color: #676879;
+}
+.pwa-panel ol {
+  padding-left: 18px;
+  margin: 12px 0;
+}
+.pwa-panel small {
+  display: block;
+  color: #85899a;
+  font-size: 10px;
+  line-height: 1.5;
+  border-top: 1px solid #eceff5;
+  padding-top: 10px;
+}
+.pwa-panel .primary {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 12px 0;
+  font-size: 12px;
+}
+.pwa-update {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 12px;
+  margin-top: 8px;
+  border: 1px solid #dbe7ff;
+  border-radius: 10px;
+  color: #4666a1;
+  background: #f5f8ff;
+  box-shadow: 0 3px 12px #292f4c0a;
+}
+.pwa-update strong {
+  font-size: 11px;
+  font-weight: 600;
+}
+.pwa-update p {
+  font-size: 10px;
+  line-height: 1.6;
+  margin: 4px 0 0;
+  color: #676879;
+}
+@media (max-width: 760px) {
+  .auth-content > .friday-brand {
+    font-size: 30px;
+  }
+  .auth-layout .pwa-options {
+    position: relative;
+    margin: 0 24px 16px;
+    right: auto;
+    bottom: auto;
+    padding: 0;
+    width: auto;
+    max-width: none;
+  }
+  .pwa-panel {
+    max-width: calc(100vw - 48px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .auth-content .login-form,
+  .auth-copy,
+  .auth-board,
+  .art-row,
+  .auth-credit,
+  .project-board,
+  .project-directory,
+  dialog[open]:not(.task-editor),
+  .pwa-panel {
+    animation: none;
+  }
+  .view-tabs button,
+  .plan-date,
+  .person-chip,
+  .new-group-trigger,
+  .pwa-install > summary {
+    transition: none;
+  }
+}
+/* Owner follow-up: a more prominent Friday wordmark. */
+.friday-brand {
+  font-size: 26px;
+}
+.friday-brand .brand-symbol {
+  width: 30px;
+  height: 30px;
+}
+.auth-content > .friday-brand {
+  font-size: 40px;
+  letter-spacing: -1.5px;
+}
+.auth-content > .friday-brand .brand-symbol {
+  width: 48px;
+  height: 48px;
+}
+@media (max-width: 760px) {
+  .auth-content > .friday-brand {
+    font-size: 34px;
+  }
+  .auth-content > .friday-brand .brand-symbol {
+    width: 42px;
+    height: 42px;
+  }
+  .topbar .friday-brand {
+    font-size: 20px;
+  }
+  .topbar .friday-brand .brand-symbol {
+    width: 24px;
+    height: 24px;
+  }
+}

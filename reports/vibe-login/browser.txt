@@ -1,0 +1,20 @@
+
+> friday-management@0.1.0 test:ui
+> playwright test tests/browser/vibe-integration.spec.ts
+
+[WebServer] (node:58981) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:58980) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:58990) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:58990) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+  ✓  1 tests/browser/vibe-integration.spec.ts:3:1 › Owner Vibe: real groups, multiple assignees, independent checklist, centered status, CSP and Kanban (8.5s)
+  ✓  2 tests/browser/vibe-integration.spec.ts:153:1 › Owner Vibe: compact mobile menu and reduced-motion drawer (2.4s)
+  ✓  3 tests/browser/vibe-integration.spec.ts:182:1 › Approved design geometry, sidebar deep links, group editing and fixed create footer (7.5s)
+  ✓  4 tests/browser/vibe-integration.spec.ts:241:1 › Approved Login: larger logo, eye inside password, install panel, motion and real authentication (3.0s)
+
+  4 passed (23.6s)

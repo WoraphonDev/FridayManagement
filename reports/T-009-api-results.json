@@ -1,0 +1,247 @@
+{
+  "task": "T-009",
+  "date": "2026-10-06",
+  "timezone": "Asia/Bangkok",
+  "status": "IN_PROGRESS",
+  "result": "LOCAL_MIDDLEWARE_PASS_REAL_AUTH_ACL_SQL_INTEGRATION_PENDING",
+  "declared": {
+    "model": "GPT-6.1 Sol",
+    "effort": "High",
+    "speed": "Standard"
+  },
+  "actualRuntimeSettings": "NOT_VERIFIED",
+  "dependencies": {
+    "T-003": "DONE",
+    "T-006": "IN_PROGRESS"
+  },
+  "localAuthorization": "SRS5.2/16 owner-approved SQLite local profile; graph/full sign-off unchanged",
+  "environment": {
+    "host": "macOS arm64",
+    "node": "22.23.3",
+    "npm": "10.9.9",
+    "database": "actual SQLite fixture; SQL not configured",
+    "http": "ephemeral loopback; synthetic session/authorization/proxy callbacks",
+    "browser": "Chromium153.0.8010.12 headless; Playwright1.63.0"
+  },
+  "checks": {
+    "api": {
+      "result": "PASS",
+      "passed": 12,
+      "total": 12,
+      "finalDefensiveErrorGuardRetest": "PASS"
+    },
+    "combined": {
+      "result": "PASS",
+      "passed": 186,
+      "total": 186,
+      "suites": {
+        "config": 37,
+        "foundation": 5,
+        "schema": 13,
+        "helpers": 25,
+        "api": 12,
+        "frontend": 16,
+        "contract": 61,
+        "planning": 17
+      },
+      "scope": "Combined baseline before final uncataloged-error guard; affected API tests retested on final source"
+    },
+    "browser": {
+      "result": "PASS",
+      "passed": 5,
+      "total": 5
+    },
+    "typecheck": "PASS",
+    "lint": "PASS",
+    "build": "PASS",
+    "checkContract": {
+      "result": "PASS",
+      "routes": 52,
+      "schemas": 75,
+      "wireChanges": false
+    },
+    "checkTestPlan": "PASS",
+    "licenses": {
+      "result": "PASS",
+      "packages": 390,
+      "missing": 0,
+      "versionsChanged": false,
+      "runtimePromotions": [
+        "ajv",
+        "ajv-formats"
+      ]
+    },
+    "freshSource": {
+      "result": "PASS",
+      "report": "reports/T-009-fresh-checkout.json",
+      "runtimeOmitDev": "PASS",
+      "note": "Packaging baseline before final uncataloged-error guard; guard separately API tested/built on final source"
+    },
+    "diffCheck": "PASS"
+  },
+  "implemented": [
+    "Contract-derived 50 API routes + 2 health routes",
+    "Zod boundary delegates strict locked JSON Schema rules without coercion/defaulting/stripping",
+    "1MiB JSON ingress; UTF8/media/syntax/no-body/path/query/allowlist",
+    "Origin/session/CSRF/forced-password/scoped authorization hooks fail closed",
+    "Pagination1/50/max100; response privacy schemas",
+    "Safe requestId/error/currentVersion/Retry-After and redacted logger",
+    "CSP/security headers/HSTS gated by production trusted transport"
+  ],
+  "trace": {
+    "suite": "UT-01",
+    "partialCases": [
+      "TC-068",
+      "TC-069",
+      "TC-070"
+    ],
+    "partialAcceptance": [
+      "AT-30"
+    ],
+    "fullAcceptance": "NOT_RUN"
+  },
+  "notRun": [
+    "Real sessions/expiry/revocation/backend ACL",
+    "SQL2022 integration",
+    "Real production TLS/proxy/Windows/UAT/full browser-device matrix",
+    "Feature controller/merged task state validation inside actual transaction",
+    "Hash/rate limits/upload streaming/reservation features"
+  ],
+  "resolvedIssues": [
+    "Query $ref resolution for pagination defaults",
+    "Health200/503 fixtures separated from API fail-closed checks",
+    "Default npm cache missed package; existing isolated project cache completed offline fresh source validation",
+    "Unknown internal error codes safely mapped to INTERNAL_ERROR"
+  ],
+  "progress": {
+    "done": 6,
+    "total": 77,
+    "inProgress": 4,
+    "todo": 67,
+    "remaining": 71
+  },
+  "nextLocal": {
+    "task": "T-010",
+    "effort": "High",
+    "fullDependenciesPending": [
+      "T-007",
+      "T-009",
+      "T-008"
+    ]
+  },
+  "commands": [
+    "npm test",
+    "npm run test:api (final guard)",
+    "npm run typecheck",
+    "npm run lint",
+    "npm run build",
+    "npm run check:contract",
+    "npm run check:test-plan",
+    "npm run licenses",
+    "npm run test:ui",
+    "FRIDAY_NPM_CACHE=/private/tmp/friday-npm-cache npm run verify:checkout",
+    "git diff --check"
+  ],
+  "artifacts": [
+    {
+      "path": "src/api/app.ts",
+      "sha256": "ade58bb7586c4e0ef8da57339e7a12c8a00c803e6a4138244fcd60328f35cd37"
+    },
+    {
+      "path": "src/api/contract.ts",
+      "sha256": "858071e8a4f145332d44fbcbb488f0300e60cd7bddbb6abaeaea1ab564fa597e"
+    },
+    {
+      "path": "src/api/errors.ts",
+      "sha256": "a81a2a719231e9a9fed141e1662fbf59193a8dc274591f391e4c3a152474129b"
+    },
+    {
+      "path": "src/api/middleware.ts",
+      "sha256": "ce7d6bf325b6a658079ecac4c3771a0a869cfd21e3e8eb23e49c3cc7df79a691"
+    },
+    {
+      "path": "src/domain/failure.ts",
+      "sha256": "368c55012375cf6caeb6d7c0bee3fc354b5eff5adccaa0fcc144caee57bed35a"
+    },
+    {
+      "path": "src/domain/lifecycle.ts",
+      "sha256": "158b713ff2694e03ed12c9b2cf649889c9e3288cf2e9abf2022b7e90fc07acfb"
+    },
+    {
+      "path": "src/repository/board-helpers.ts",
+      "sha256": "ede85c4ca79b5a68351b2b5ba13d9281bd3a854edc91f1470d8a17ae141e467d"
+    },
+    {
+      "path": "tests/api/http.test.ts",
+      "sha256": "0f119004f0ed6da4ec5055b88758376aa8392c5b2dca869b47b375037cb55843"
+    },
+    {
+      "path": "tests/api/validation.test.ts",
+      "sha256": "6bf1dcfbf8412e1b062d97e9005c941ad4a9f0a82a6dce0b720bac557f0ee629"
+    },
+    {
+      "path": "package.json",
+      "sha256": "cf9a0f34bbbb73df57a99f2873833d897c1b726b9314b91377dde5e5696f4491"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "10f79334d87869757661acb9ddffb412a14606496457df5eadd592403eb56a65"
+    },
+    {
+      "path": "tsconfig.tools.json",
+      "sha256": "9072fee524bdb4e672c63b84f01c7c2bf221d5d308a99a88ada204f5d96b9ed8"
+    },
+    {
+      "path": "scripts/verify-fresh-checkout.mjs",
+      "sha256": "2f6240e88c95589f754d18a6bd057fbc88b50a5c153b2a1c8afc7ff0f743702a"
+    },
+    {
+      "path": "dependencies/license-inventory.json",
+      "sha256": "f38f240afdec4b5022396c95029bd39ffeb85306a244a9249d3d36085402ffb7"
+    },
+    {
+      "path": "dependencies/LICENSES.md",
+      "sha256": "5ba70935d77a80d0a6860c2b567bcc450705f11f949a6587f8b9d9337c4cfcd9"
+    },
+    {
+      "path": "TeamFlow_T009_Test_Report.md",
+      "sha256": "a3e8268da65c0864485f60d2e98857443aee05ffcb6ca8972548e1e8668b3354"
+    },
+    {
+      "path": "reports/T-009-fresh-checkout.json",
+      "sha256": "5df8817a131fc47f78106081eaaf65e6910db100e2869d1f14d7f6e9ffbc8ec1"
+    },
+    {
+      "path": "TeamFlow_Task_v1.0.md",
+      "sha256": "72a33c75b2ea9e6777811af5d8a589ad05854c9352bc609677bebaa363b8d669"
+    },
+    {
+      "path": "TeamFlow_Test_Plan_v1.0.md",
+      "sha256": "5174d4a5274eb0d52f2b8bc9e5cb8ce0da98249f9cb31171289e88e6002f3ed6"
+    },
+    {
+      "path": "TeamFlow_Test_Cases_v1.0.md",
+      "sha256": "4be39291478fa376f8437222bbc4308f492fb233a0a8258be75c33cde26803b6"
+    },
+    {
+      "path": "TeamFlow_API_Contract.md",
+      "sha256": "1c278552fac770031f36a8179eeb5c95f7e90a4a48d3514156f0799106950474"
+    },
+    {
+      "path": "contracts/openapi.json",
+      "sha256": "539d47cab765ea23d4bfa061b82a7970c068c8623b3ce1a133b95ad6445c2664"
+    },
+    {
+      "path": "contracts/validate.mjs",
+      "sha256": "f3b41485465676f043866823d6db4ac225581f830a266101ce02c077defe3dc1"
+    },
+    {
+      "path": "AGENTS.md",
+      "sha256": "ef1b0972788b38c83ba6b77f1937393f72969f1fea001f5e2217f9890b6d1875"
+    },
+    {
+      "path": "README.md",
+      "sha256": "543099c066ca9ce7db1e0b94ab0056ceab37e4f7a34be152b0afdce081249743"
+    }
+  ]
+}
