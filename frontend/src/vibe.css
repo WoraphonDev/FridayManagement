@@ -961,3 +961,105 @@ dialog.task-editor fieldset > label:has(select[aria-label='Repeat']) {
   padding: 0;
   border: 0;
 }
+
+/* T-084 Project Docs (FR-48): list + reader/editor; renders only server-sanitized HTML. */
+.project-docs {
+  display: grid;
+  grid-template-columns: minmax(180px, 260px) minmax(0, 1fr);
+  gap: 16px;
+  align-items: start;
+}
+.project-docs .docs-list ul {
+  list-style: none;
+  margin: 8px 0 0;
+  padding: 0;
+}
+.project-docs .docs-list li button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  text-align: left;
+  overflow-wrap: anywhere;
+}
+.project-docs .docs-list button[aria-current='true'] {
+  background: var(--primary-selected-color, #cce5ff);
+}
+.project-docs .doc-view {
+  min-width: 0;
+}
+.project-docs .doc-head input {
+  width: 100%;
+}
+.project-docs .doc-body {
+  min-height: 160px;
+  padding: 12px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  overflow-wrap: anywhere;
+  overflow-x: auto;
+}
+.project-docs .doc-body.editing {
+  border-color: var(--ui-border-color, #c3c6d4);
+  outline-offset: 2px;
+}
+.project-docs .doc-body ul[data-type='checklist'] {
+  list-style: none;
+  padding-left: 4px;
+}
+.project-docs .doc-body ul[data-type='checklist'] > li {
+  position: relative;
+  padding-left: 26px;
+}
+.project-docs .doc-body ul[data-type='checklist'] > li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.2em;
+  width: 14px;
+  height: 14px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+}
+.project-docs .doc-body ul[data-type='checklist'] > li[data-checked='true']::before {
+  content: '✓';
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  background: #00c875;
+  border-color: #00c875;
+  color: #fff;
+}
+.project-docs .doc-body ul[data-type='checklist'] > li[data-checked='true'] {
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.project-docs .doc-body table {
+  border-collapse: collapse;
+  margin: 8px 0;
+}
+.project-docs .doc-body th,
+.project-docs .doc-body td {
+  border: 1px solid var(--ui-border-color, #c3c6d4);
+  padding: 4px 8px;
+  min-width: 60px;
+}
+.project-docs .doc-body img {
+  max-width: 100%;
+  height: auto;
+}
+.project-docs .doc-body pre {
+  overflow-x: auto;
+  padding: 8px;
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+}
+.doc-image-picker {
+  list-style: none;
+  padding: 0;
+}
+@media (max-width: 767px) {
+  .project-docs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

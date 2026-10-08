@@ -253,6 +253,7 @@ export function docService(options: AccessOptions = {}) {
       id: number,
       input: unknown,
       restore: boolean,
+      request: string,
     ) {
       const before = await load(tx, id, true);
       const { actor, project } = await scope(tx, proof, before.project_id);
@@ -275,6 +276,21 @@ export function docService(options: AccessOptions = {}) {
         sql(
           'UPDATE dbo.project_docs SET deleted_at=@deleted,deleted_by=@by,version=@version,updated_at=@at WHERE id=@id',
           { id, deleted: restore ? null : at, by: restore ? null : actor.id, version, at },
+        ),
+      );
+      // §8.4: delete/restore is audited in the same transaction (title only, never the body).
+      await tx.execute(
+        sql(
+          'INSERT INTO dbo.admin_events(actor_id,action,resource_type,resource_id,redacted_changes,request_id,created_at) VALUES(@actor,@action,@type,@id,@changes,@request,@at)',
+          {
+            actor: actor.id,
+            action: restore ? 'doc_restored' : 'doc_deleted',
+            type: 'project_doc',
+            id,
+            changes: JSON.stringify({ project_id: before.project_id, title: before.title }),
+            request,
+            at,
+          },
         ),
       );
       return { item: await dto(tx, await load(tx, id), project, actor.id, true) };

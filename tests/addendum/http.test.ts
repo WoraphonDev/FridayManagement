@@ -318,6 +318,151 @@ test('AT-35 Docs: sanitize XSS, Viewer read-only, 409 + history, own/P-05 delete
     assert.equal((await db(f, 'SELECT id FROM dbo.project_doc_versions')).length, 0);
   }));
 
+test('AT-35 Docs boundaries, concurrent save, manager P-05, 30-day window, archived, audit', () =>
+  fixture(async (base, f) => {
+    f.setTime('2026-10-01T00:00:00.000Z');
+    const admin = await login(base);
+    await call(base, admin, '/api/projects/1/members/2', 'PUT', { access: 'editor', version: 1 });
+    const member = await login(base, 'Member');
+    // Title ≤200 UTF-16 units and ≤200,000 text characters after sanitize.
+    const title200 = 'ก'.repeat(200);
+    const max = await call(base, admin, '/api/projects/1/docs', 'POST', {
+      title: title200,
+      body_html: '<p>' + 'x'.repeat(199999) + '<script>' + 'y'.repeat(5000) + '</script>z</p>',
+    });
+    assert.equal(max.status, 201);
+    assert.equal(max.body.item.title, title200);
+    assert.equal(max.body.item.text_length, 200000);
+    for (const body of [
+      { title: 'ก'.repeat(201) },
+      { title: '   ' },
+      { title: 'Over', body_html: '<p>' + 'x'.repeat(200000) + '&amp;</p>' },
+    ])
+      assert.equal((await call(base, admin, '/api/projects/1/docs', 'POST', body)).status, 422);
+    const doc = (
+      await call(base, admin, '/api/projects/1/docs', 'POST', {
+        title: 'Shared',
+        body_html: '<p>v1</p>',
+      })
+    ).body.item;
+    // Two editors save from the same version at once: exactly one wins, the other gets 409.
+    const [a, b] = await Promise.all([
+      call(base, admin, `/api/docs/${doc.id}`, 'PATCH', { body_html: '<p>admin</p>', version: 1 }),
+      call(base, member, `/api/docs/${doc.id}`, 'PATCH', {
+        body_html: '<p>member</p>',
+        version: 1,
+      }),
+    ]);
+    assert.deepEqual([a.status, b.status].sort(), [200, 409]);
+    const loser = a.status === 409 ? a : b,
+      winner = a.status === 200 ? a : b;
+    assert.equal(loser.body.error.currentVersion, 2);
+    const latest = (await call(base, admin, `/api/docs/${doc.id}`)).body.item;
+    assert.equal(latest.body_html, winner.body.item.body_html);
+    assert.deepEqual(
+      (await call(base, member, `/api/docs/${doc.id}/versions`)).body.items.map(
+        (v: { version: number }) => v.version,
+      ),
+      [2, 1],
+    );
+    // Editor deletes/restores only own docs.
+    const own = (await call(base, member, '/api/projects/1/docs', 'POST', { title: 'Mine' })).body
+      .item;
+    assert.equal(own.can_delete, true);
+    assert.equal(
+      (await call(base, member, `/api/docs/${own.id}`, 'DELETE', { version: 1 })).status,
+      200,
+    );
+    assert.equal(
+      (await call(base, member, `/api/docs/${own.id}/restore`, 'POST', { version: 2 })).status,
+      200,
+    );
+    assert.equal((await call(base, member, `/api/docs/${doc.id}`)).body.item.can_delete, false);
+    // Manager without P-05 edits but cannot delete others' docs; with P-05 can.
+    let perms = await call(base, admin, '/api/users/2/permissions', 'PUT', {
+      keys: ['P-01'],
+      permissions_version: 1,
+    });
+    assert.equal(perms.status, 200);
+    assert.equal(
+      (
+        await call(base, admin, '/api/projects/1/members/2', 'PUT', {
+          access: 'manager',
+          version: 2,
+        })
+      ).status,
+      200,
+    );
+    let m = await login(base, 'Member');
+    let item = (await call(base, m, `/api/docs/${doc.id}`)).body.item;
+    assert.deepEqual([item.can_edit, item.can_delete], [true, false]);
+    assert.equal(
+      (await call(base, m, `/api/docs/${doc.id}`, 'DELETE', { version: 2 })).status,
+      403,
+    );
+    perms = await call(base, admin, '/api/users/2/permissions', 'PUT', {
+      keys: ['P-01', 'P-05'],
+      permissions_version: 2,
+    });
+    assert.equal(perms.status, 200);
+    item = (await call(base, m, `/api/docs/${doc.id}`)).body.item;
+    assert.equal(item.can_delete, true);
+    assert.equal(
+      (await call(base, m, `/api/docs/${doc.id}`, 'DELETE', { version: 2 })).status,
+      200,
+    );
+    // Restore window: 29 days later restorable; at exactly 30×24h it is expired.
+    f.setTime('2026-10-30T00:00:00.000Z');
+    // Sessions expire across these jumps, so sign in again at each instant.
+    m = await login(base, 'Member');
+    assert.equal((await call(base, m, `/api/docs/${doc.id}`)).body.item.can_restore, true);
+    assert.equal(
+      (await call(base, m, `/api/docs/${doc.id}/restore`, 'POST', { version: 3 })).status,
+      200,
+    );
+    assert.equal(
+      (await call(base, m, `/api/docs/${doc.id}`, 'DELETE', { version: 4 })).status,
+      200,
+    );
+    f.setTime('2026-11-29T00:00:00.000Z');
+    m = await login(base, 'Member');
+    const expired = await call(base, m, `/api/docs/${doc.id}/restore`, 'POST', { version: 5 });
+    assert.deepEqual([expired.status, expired.body.error.code], [422, 'RETENTION_EXPIRED']);
+    f.setTime('2026-11-30T00:00:00.000Z');
+    const admin3 = await login(base);
+    assert.equal(
+      (await call(base, admin3, '/api/projects/1/docs?includeDeleted=true')).body.items.some(
+        (d: { id: number }) => d.id === doc.id,
+      ),
+      false,
+    );
+    // Delete/restore are audited without the doc body.
+    const audit = await db(
+      f,
+      "SELECT action,actor_id,redacted_changes FROM dbo.admin_events WHERE resource_type='project_doc' ORDER BY id",
+    );
+    assert.deepEqual(
+      audit.map((r) => [r.action, r.actor_id]),
+      [
+        ['doc_deleted', 2],
+        ['doc_restored', 2],
+        ['doc_deleted', 2],
+        ['doc_restored', 2],
+        ['doc_deleted', 2],
+      ],
+    );
+    assert.ok(audit.every((r) => !String(r.redacted_changes).includes('body')));
+    // Archived project: docs are read-only for everyone.
+    await db(f, "UPDATE dbo.projects SET archived_at='2026-11-30T00:00:00.000Z' WHERE id=1");
+    const a2 = await login(base);
+    const ro = (await call(base, a2, `/api/docs/${own.id}`)).body.item;
+    assert.deepEqual([ro.can_edit, ro.can_delete], [false, false]);
+    for (const r of [
+      await call(base, a2, `/api/docs/${own.id}`, 'PATCH', { title: 'No', version: 3 }),
+      await call(base, a2, '/api/projects/1/docs', 'POST', { title: 'No' }),
+    ])
+      assert.deepEqual([r.status, r.body.error.code], [422, 'PROJECT_ARCHIVED']);
+  }));
 test('AT-36 Project files: upload with validation/quota, merged list, own/P-06 delete, restore, safe download', () =>
   fixture(async (base, f, root) => {
     const admin = await login(base),

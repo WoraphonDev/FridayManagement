@@ -1,8 +1,9 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
 import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';
 import type { Project } from './workspace-api';
 import { Dialog, EmptyState, ErrorNotice, Loading, Toast } from './shared/components';
+import { docSnippets } from './doc-snippets';
 const client = apiClient();
 const id = z.number().int().min(1),
   timestamp = z.string().datetime(),
@@ -43,11 +44,30 @@ const versions = z
       .max(1000),
   })
   .strict();
+const imageFiles = z
+  .object({
+    items: z
+      .array(
+        z
+          .object({
+            original_name: z.string().min(1).max(200),
+            validated_type: z.string().min(1).max(100),
+            deleted_at: z.string().nullable(),
+            download_path: z
+              .string()
+              .regex(/^\/api\/(project-files|attachments)\/[0-9]+\/download$/),
+          })
+          .passthrough(),
+      )
+      .max(100),
+  })
+  .passthrough();
 type Doc = z.infer<typeof docSchema>;
 type Summary = z.infer<typeof summary>;
 const tools: [string, string, string?][] = [
   ['H1', 'formatBlock', 'h1'],
   ['H2', 'formatBlock', 'h2'],
+  ['H3', 'formatBlock', 'h3'],
   ['Bold', 'bold'],
   ['Italic', 'italic'],
   ['• List', 'insertUnorderedList'],
@@ -81,6 +101,7 @@ export function ProjectDocs({
     [error, setError] = useState<ApiError>(),
     [notice, setNotice] = useState(''),
     [history, setHistory] = useState<z.infer<typeof versions>['items']>(),
+    [images, setImages] = useState<z.infer<typeof imageFiles>['items']>(),
     [reload, setReload] = useState(0);
   const editor = useRef<HTMLDivElement>(null),
     createKey = useRef(crypto.randomUUID());
@@ -194,6 +215,52 @@ export function ProjectDocs({
     editor.current?.focus();
     // execCommand is deprecated but dependency-free; the server sanitizer is the real boundary.
     document.execCommand(cmd, false, value);
+  };
+  const insertAt = useRef<Range>(undefined);
+  const pickImage = async () => {
+    const sel = window.getSelection();
+    insertAt.current =
+      sel?.rangeCount && editor.current?.contains(sel.anchorNode)
+        ? sel.getRangeAt(0).cloneRange()
+        : undefined;
+    try {
+      const page = await client.request(`/api/projects/${project.id}/files?pageSize=100`, {
+        parse: (v) => imageFiles.parse(v).items,
+      });
+      setImages(page.filter((f) => !f.deleted_at && /^image\//.test(f.validated_type)));
+    } catch (e) {
+      fail(e);
+    }
+  };
+  const [pendingImage, setPendingImage] = useState<{ path: string; name: string }>();
+  // Insert only after the modal picker has closed and released focus back to the page;
+  // while it is open the editor is inert and execCommand would silently do nothing.
+  useEffect(() => {
+    if (!pendingImage || images) return;
+    const timer = setTimeout(() => {
+      editor.current?.focus();
+      const sel = window.getSelection();
+      if (insertAt.current && sel) {
+        sel.removeAllRanges();
+        sel.addRange(insertAt.current);
+      }
+      command('insertHTML', docSnippets.image(pendingImage.path, pendingImage.name));
+      setPendingImage(undefined);
+    });
+    return () => clearTimeout(timer);
+  }, [pendingImage, images]);
+  const insertImage = (path: string, name: string) => {
+    setPendingImage({ path, name });
+    setImages(undefined);
+  };
+  /** Checklist items toggle when the box (left gutter) is clicked while editing. */
+  const toggleCheck = (e: MouseEvent<HTMLDivElement>) => {
+    if (!editing) return;
+    const li = (e.target as HTMLElement).closest('ul[data-type="checklist"] > li');
+    if (!(li instanceof HTMLElement)) return;
+    if (e.clientX - li.getBoundingClientRect().left > 24) return;
+    e.preventDefault();
+    li.dataset.checked = li.dataset.checked === 'true' ? 'false' : 'true';
   };
   return (
     <div className="project-docs">
@@ -325,6 +392,28 @@ export function ProjectDocs({
                 <button
                   type="button"
                   onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => command('insertHTML', docSnippets.checklist)}
+                >
+                  ☐ Checklist
+                </button>
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => command('insertHTML', docSnippets.table)}
+                >
+                  Table
+                </button>
+                <button
+                  type="button"
+                  disabled={!online}
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => void pickImage()}
+                >
+                  Image
+                </button>
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
                   onClick={() => {
                     const url = window.prompt('Link (https:// or mailto:)');
                     if (url && /^(https?:\/\/|mailto:)/i.test(url.trim()))
@@ -344,12 +433,30 @@ export function ProjectDocs({
               role={editing ? 'textbox' : undefined}
               aria-multiline={editing || undefined}
               aria-label={editing ? 'Doc content' : undefined}
+              onMouseDown={toggleCheck}
               // Server-sanitized allowlist HTML only (SRS §9.7); never raw user input.
               dangerouslySetInnerHTML={{ __html: selected.body_html }}
             />
           </>
         )}
       </article>
+      {images && (
+        <Dialog title="Insert image from project files" onClose={() => setImages(undefined)}>
+          {images.length ? (
+            <ul className="doc-image-picker">
+              {images.map((f) => (
+                <li key={f.download_path}>
+                  <button onClick={() => insertImage(f.download_path, f.original_name)}>
+                    {f.original_name}
+                  </button>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <EmptyState title="No images in this project's Files yet" />
+          )}
+        </Dialog>
+      )}
       {history && (
         <Dialog title="Doc history" onClose={() => setHistory(undefined)}>
           <ol className="doc-history">

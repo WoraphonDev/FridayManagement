@@ -103,11 +103,11 @@ export async function sessionHooks(
     }),
     delete_api_docs_id: async (c) => ({
       status: 200,
-      body: await docs.trash(tx(c), proof(c), c.params.id!, c.body, false),
+      body: await docs.trash(tx(c), proof(c), c.params.id!, c.body, false, requestId(c)),
     }),
     post_api_docs_id_restore: async (c) => ({
       status: 200,
-      body: await docs.trash(tx(c), proof(c), c.params.id!, c.body, true),
+      body: await docs.trash(tx(c), proof(c), c.params.id!, c.body, true, requestId(c)),
     }),
     get_api_docs_id_versions: async (c) => ({
       status: 200,

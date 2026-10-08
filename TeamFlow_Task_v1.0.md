@@ -1,12 +1,16 @@
 # TeamFlow — Task.md: แผนพัฒนาและตรวจความครบถ้วน
 
-**Version:** 1.55 · **วันที่:** 8 ตุลาคม 2026\
+**Version:** 1.56 · **วันที่:** 8 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
 **จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 77 API routes ที่ล็อก (contract 1.4.0) + planned routes SRS §12.6
 **ต้นทาง:** `TeamFlow_Requirements_v1.0.md` และ `TeamFlow_SRS_v1.0.md` รุ่นปัจจุบันที่อ่านเมื่อ 5 ตุลาคม 2026
 
 
 
+
+## T-084 Project Docs — 8 October 2026
+
+ตรวจโค้ด Docs ที่มีอยู่ (migration 0007, sanitizer, service, 7 routes, UI) เทียบ SRS §9.7/§4.4: sanitizer และสิทธิ์ถูกต้อง. แก้: audit doc_deleted/doc_restored ใน transaction เดียว, editor เพิ่ม H3/Checklist/Table/Image จาก Files, CSS ของ Docs, bug แทรกรูปไม่ได้ขณะ dialog modal เปิด. เพิ่ม XSS corpus 47 vectors, AT-35 boundaries/concurrency/P-05/29-30 วัน/archived/audit, frontend snippet tests และ Chromium spec. ผล: Node 445/445 + frontend 44/44, Chromium 1/1, typecheck/lint/build/contract PASS. Contract/migration ไม่เปลี่ยน. SQL Server 2022/Windows/UAT NOT_RUN. Evidence: TeamFlow_T084_Test_Report.md / reports/T-084-docs-results.json. DONE6/91, IN_PROGRESS76, IN_REVIEW2, TODO7, remaining85. Declared High; actual model/effort NOT_VERIFIED. Next: T-085 Medium (Files, โค้ดมีแล้วรอตรวจรับ); T-086/T-087/T-089 รอเจ้าของรีวิว T-079.
 
 ## T-083 My overview + My work — 8 October 2026
 
@@ -280,7 +284,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-081 | Permission catalog + checkbox รายคน + project role manager + authorization matrix | T-078 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; SQLite AT-32 HTTP + combined474 PASS; SQL2022 NOT_RUN; full P-key×role×endpoint matrix and two-process race pending |
 | T-082 | Admin center + Permission matrix (checkbox/bulk/preset) | T-080, T-081 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; SQLite AT-33 HTTP + browser preset/summary/409/375px/Settings PASS; SQL2022/Windows/UAT NOT_RUN |
 | T-083 | My overview + My work grouped table | T-078 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T083_Test_Report.md; reports/T-083-my-overview-results.json: addendum5/5 (AT-34×2) + Node441 + frontend42 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
-| T-084 | Project Docs (schema/API/editor/sanitize/version/trash) | T-081 | High | TODO | ยังไม่มอบหมาย | — |
+| T-084 | Project Docs (schema/API/editor/sanitize/version/trash) | T-081 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T084_Test_Report.md; reports/T-084-docs-results.json: XSS corpus47 + AT-35 HTTP2/2 + Node445 + frontend44 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-085 | Project Files tab + project-level upload | T-081 | Medium | TODO | ยังไม่มอบหมาย | — |
 | T-086 | Main table monday upgrade (inline/batch/drag/sticky/resize) | T-079 | High | TODO | ยังไม่มอบหมาย | — |
 | T-087 | Task side panel (Updates/@mention/Files/Activity) | T-079 | Medium | TODO | ยังไม่มอบหมาย | — |
@@ -1955,15 +1959,15 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 **Trace:** FR-48, NFR-02, NFR-03 · **SRS:** §5.3, §9.7, §12.6
 **Acceptance:** AT-35
 
-- [ ] migration project_docs/project_doc_versions
-- [ ] server sanitizer allowlist + XSS corpus
-- [ ] version/409/history
-- [ ] soft delete/restore/purge 30 วัน
-- [ ] editor UI ไม่ดึง CDN + สิทธิ์ Viewer/P-05
+- [x] migration project_docs/project_doc_versions (SQLite run; SQL Server NOT_RUN)
+- [x] server sanitizer allowlist + XSS corpus
+- [x] version/409/history
+- [x] soft delete/restore/purge 30 วัน + audit
+- [x] editor UI ไม่ดึง CDN + สิทธิ์ Viewer/P-05
 
 **เกณฑ์รับงาน:** AT-35 ผ่านจริงรวม XSS และ conflict
 
-**Status:** TODO
+**Status:** IN_PROGRESS · **Local evidence:** TeamFlow_T084_Test_Report.md. AT-35 local SQLite HTTP + XSS corpus + Chromium PASS; SQL Server 2022/Windows/UAT NOT_RUN; actual model/effort NOT_VERIFIED.
 
 **หลักฐานเมื่อปิดงาน:** บันทึกใน Task Register; สำหรับการทดสอบระบุผลและ environment ไม่ใช้คำว่า “ผ่าน” โดยไม่มีการรัน
 
@@ -2218,7 +2222,7 @@ FR-46 Updates feed: DEFERRED ไปรอบถัดไปตามเจ้า
 | AT-32 | Permission checkbox/manager/revoke/self-block | T-081, T-082, T-091 | NOT_RUN | — |
 | AT-33 | Admin center + Permission matrix | T-082, T-091 | NOT_RUN | — |
 | AT-34 | My overview + My work | T-083, T-091 | NOT_RUN | Local SQLite HTTP/Chromium PASS (TeamFlow_T083_Test_Report.md); formal run with SQL2022 pending |
-| AT-35 | Docs CRUD/conflict/XSS/trash | T-084, T-091 | NOT_RUN | — |
+| AT-35 | Docs CRUD/conflict/XSS/trash | T-084, T-091 | NOT_RUN | Local SQLite HTTP/XSS/Chromium PASS (TeamFlow_T084_Test_Report.md); formal run with SQL2022 pending |
 | AT-36 | Project Files | T-085, T-091 | NOT_RUN | — |
 | AT-37 | Workload + Overview | T-088, T-091 | NOT_RUN | — |
 | AT-38 | Main table + side panel | T-086, T-087, T-091 | NOT_RUN | — |

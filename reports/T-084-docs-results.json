@@ -1,0 +1,27 @@
+{
+  "task": "T-084",
+  "date": "2026-10-08",
+  "environment": { "os": "macOS (Darwin 24.6.0)", "node": "22.23.3", "provider": "sqlite (local temporary)", "browser": "Playwright Chromium" },
+  "declaredEffort": "High",
+  "actualModelEffort": "NOT_VERIFIED",
+  "trace": ["FR-48", "NFR-02", "NFR-03", "AT-35", "TC-092"],
+  "results": {
+    "sanitizer.test.ts": "3/3 PASS (47-vector XSS corpus)",
+    "AT-35 HTTP": "2/2 PASS",
+    "frontend project-docs.test.tsx": "2/2 PASS",
+    "browser project-docs.spec.ts": "1/1 PASS",
+    "npm test": "node 445/445 + frontend 44/44 PASS",
+    "typecheck": "PASS",
+    "lint": "PASS (1 pre-existing react-refresh warning)",
+    "build": "PASS",
+    "check:contract": "PASS (77 routes, unchanged)"
+  },
+  "fixed": [
+    "doc delete/restore audited in admin_events within the same transaction",
+    "editor tools H3/checklist/table/image from project Files",
+    "Docs CSS (layout, checklist, table, image, mobile)",
+    "image insertion failed while modal picker kept editor inert"
+  ],
+  "notRun": ["SQL Server 2022", "Windows", "UAT", "separate owner-team Lead role", "formal TC-092/AT-35 run register"],
+  "status": "IN_PROGRESS"
+}
