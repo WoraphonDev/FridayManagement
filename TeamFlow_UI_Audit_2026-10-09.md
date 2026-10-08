@@ -44,3 +44,9 @@
 | Trash | L | หัว "Task trash" ซ้ำกับ h1 "Trash"; ตารางว่างไม่มี empty state |
 | มือถือ 375px | M | ไม่มี scroll แนวนอนทั้งหน้า (ผ่าน) แต่ Main table เห็นแค่คอลัมน์ Task ต้องเลื่อนในตาราง; ปุ่ม Install app + toast Update ready บังเนื้อหาครึ่งล่าง; แท็บมุมมองถูกตัด |
 | Dark mode | — | แอปไม่มี dark mode (ไม่ตอบสนอง prefers-color-scheme) แต่ไม่อยู่ใน Requirements/SRS/mock จึงไม่ถือเป็น defect |
+
+## ผลการแก้ (2026-10-09, SQLite local, Chromium)
+- แก้ครบทุกข้อในรอบ 1–2 (G1–G6, My work, Calendar, Settings, Notify, Projects, Main table, Reports, Teams, Admin, Home, Gantt, Overview, Kanban, Docs/Files/Workload/Trash, มือถือ 360/375px); Dark mode ไม่อยู่ในขอบเขต
+- บั๊กที่พบระหว่างแก้: toast บังปุ่ม, copy "CreateNext"/"Checklist updated"/"DeleteFiles"/"ConfirmDelete file", Admin status "Activate", popover Vibe ที่ปิดแล้วดันหน้ากว้างเกิน 360px, row menu ถูกแถวล่างทับ, หน้า offline ภาษาไทย, Save แสดงระหว่างตรวจข้อมูลหลังกลับมาออนไลน์
+- ผลทดสอบ: Playwright 67/67 PASS (5.7m), `npm test` PASS (Node + frontend 49/49 + contract/test-plan), typecheck PASS, lint 0 error (warning เดิม 1)
+- ยังไม่ได้ทำ: SQL Server 2022/Windows/UAT (NOT_RUN), human visual sign-off จากเจ้าของ
