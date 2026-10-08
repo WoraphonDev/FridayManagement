@@ -87,6 +87,22 @@ async function board(page: Page) {
   await expect(b.getByRole('button', { name: 'Drag task #1', exact: true })).toBeVisible();
   return b;
 }
+const cardTitles: Record<number, string> = { 1: 'Alpha', 2: 'Beta', 3: 'Gamma' };
+const optionLabels: Record<string, string> = {
+  todo: 'Not started',
+  doing: 'Working on it',
+  review: 'In review',
+  done: 'Done',
+};
+/** Kanban status lives in the card's ••• menu as a Vibe dropdown. */
+async function setBoardStatus(page: Page, id: number, status: string) {
+  const label = `Status for ${cardTitles[id]}`;
+  await page.getByRole('combobox', { name: label, exact: true }).press('Enter');
+  await page
+    .getByRole('listbox', { name: `Options for ${label}`, exact: true })
+    .getByRole('option', { name: optionLabels[status], exact: true })
+    .click();
+}
 async function setupCards(page: Page) {
   const f = await projectFixture(page);
   for (const title of ['Alpha', 'Beta', 'Gamma']) {
@@ -122,7 +138,7 @@ test('T036 actual mouse cross-column/in-column drag, pending ack, refresh and se
       await route.fulfill({ response });
     });
     await drag(page, 3, b.locator('[data-task-id="1"]'));
-    await expect(b.getByText('กำลังบันทึกตำแหน่ง…', { exact: true })).toBeVisible();
+    await expect(b.getByText('Saving position…', { exact: true })).toBeVisible();
     await expect(b.getByText('Position saved', { exact: true })).toHaveCount(0);
     await expect.poll(() => !!acknowledge).toBe(true);
     acknowledge!();
@@ -166,9 +182,9 @@ test('T037 keyboard status/up/down and every filter disables reorder, clear rest
   const f = await setupCards(page);
   try {
     const b = await board(page);
-    await b.getByText('จัดการงาน #3', { exact: true }).focus();
+    await b.getByLabel('Manage task #3', { exact: true }).focus();
     await page.keyboard.press('Enter');
-    await b.getByRole('button', { name: 'เลื่อนขึ้น #3', exact: true }).focus();
+    await b.getByRole('button', { name: 'Move up #3', exact: true }).focus();
     await page.keyboard.press('Enter');
     await expect(b.getByText('Position saved', { exact: true })).toBeVisible();
     expect(
@@ -177,21 +193,21 @@ test('T037 keyboard status/up/down and every filter disables reorder, clear rest
         .locator('[data-task-id]')
         .evaluateAll((nodes) => nodes.map((n) => n.getAttribute('data-task-id'))),
     ).toEqual(['1', '3', '2']);
-    await b.getByLabel('สถานะงาน #3', { exact: true }).selectOption('review');
+    await setBoardStatus(b.page(), 3, 'review');
     await expect(
       b
         .getByRole('region', { name: 'Column In review' })
         .getByRole('button', { name: 'Open task #3', exact: true }),
     ).toBeVisible();
-    await b.getByText('ตัวกรองบอร์ด', { exact: true }).click();
+    await b.locator('summary').filter({ hasText: 'Board filters' }).click();
     for (const [label, value] of [
       ['Search board', 'Alpha'],
-      ['หมวดหมู่บอร์ด', 'Other'],
-      ['วันส่งบอร์ดจาก', '2026-10-01'],
-      ['วันส่งบอร์ดถึง', '2026-12-31'],
+      ['Board category', 'Other'],
+      ['Board due from', '2026-10-01'],
+      ['Board due to', '2026-12-31'],
     ]) {
       await b.getByLabel(label!, { exact: true }).fill(value!);
-      await expect(b.getByText(/กำลังกรองรายการ ปิดการลาก/)).toBeVisible();
+      await expect(b.getByText(/Reordering is disabled while filtering/)).toBeVisible();
       await expect(b.locator('button.drag-handle:not(:disabled)')).toHaveCount(0);
       await b.getByRole('button', { name: 'Clear filters', exact: true }).click();
       await expect(b.getByRole('button', { name: 'Drag task #1', exact: true })).toBeEnabled();
@@ -218,8 +234,8 @@ test('T038 validation rollback, two-tab conflict, lost response authoritative GE
     const b = await board(page);
     await mutate(page, '/api/tasks/1/subtasks', { task_version: 1, title: 'Incomplete' });
     await b.getByRole('button', { name: 'Refresh board', exact: true }).click();
-    await b.getByText('จัดการงาน #1', { exact: true }).click();
-    await b.getByLabel('สถานะงาน #1', { exact: true }).selectOption('done');
+    await b.getByLabel('Manage task #1', { exact: true }).click();
+    await setBoardStatus(b.page(), 1, 'done');
     await expect(b.getByRole('alert')).toBeVisible();
     await expect(
       b
@@ -227,10 +243,10 @@ test('T038 validation rollback, two-tab conflict, lost response authoritative GE
         .getByRole('button', { name: 'Open task #1', exact: true }),
     ).toBeVisible();
     await mutate(page, '/api/tasks/1', { version: 2, status: 'doing' }, 'PATCH');
-    await b.getByText('จัดการงาน #2', { exact: true }).click();
-    await b.getByLabel('สถานะงาน #2', { exact: true }).selectOption('review');
+    await b.getByLabel('Manage task #2', { exact: true }).click();
+    await setBoardStatus(b.page(), 2, 'review');
     await expect(
-      b.getByText('ตำแหน่งเปลี่ยนแล้ว โหลดข้อมูลล่าสุด กรุณาเลือกการย้ายใหม่', { exact: true }),
+      b.getByText('Position changed. Review the latest board and move again.', { exact: true }),
     ).toBeVisible();
     await expect(
       b
@@ -247,9 +263,9 @@ test('T038 validation rollback, two-tab conflict, lost response authoritative GE
       await route.fetch();
       await route.abort('failed');
     });
-    await b.getByText('จัดการงาน #3', { exact: true }).click();
-    await b.getByLabel('สถานะงาน #3', { exact: true }).selectOption('doing');
-    await expect(b.getByText(/ยังยืนยันผลไม่ได้/)).toBeVisible();
+    await b.getByLabel('Manage task #3', { exact: true }).click();
+    await setBoardStatus(b.page(), 3, 'doing');
+    await expect(b.getByText(/Checking the server before retrying/)).toBeVisible();
     await expect(
       b
         .getByRole('region', { name: 'Column Working on it' })
@@ -261,7 +277,7 @@ test('T038 validation rollback, two-tab conflict, lost response authoritative GE
       keys.push(route.request().headers()['idempotency-key']!);
       await route.continue();
     });
-    await b.getByRole('button', { name: 'ตรวจข้อมูลแล้วลองคำสั่งเดิม', exact: true }).click();
+    await b.getByRole('button', { name: 'Review and retry', exact: true }).click();
     await expect(b.getByText('Position saved', { exact: true })).toBeVisible();
     expect(keys.length).toBe(2);
     expect(keys[0]).toBe(keys[1]);
@@ -274,7 +290,9 @@ test('T038 validation rollback, two-tab conflict, lost response authoritative GE
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
     await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('My draft');
     await expect(
-      d.getByText('เก็บร่างของคุณไว้แล้ว กรุณาตรวจข้อมูลล่าสุดก่อนบันทึก', { exact: true }),
+      d.getByText('Your draft is preserved. Review the latest data before saving.', {
+        exact: true,
+      }),
     ).toBeVisible();
     page.once('dialog', (d) => void d.accept());
     await d.getByRole('button', { name: 'Close dialog', exact: true }).click();
@@ -285,10 +303,10 @@ test('T038 validation rollback, two-tab conflict, lost response authoritative GE
         .getByRole('button', { name: 'Open task #3', exact: true }),
     ).toBeVisible();
     await page.route('**/api/projects/1/board', (route) => route.abort('failed'));
-    await b.getByText('จัดการงาน #2', { exact: true }).click();
-    await b.getByLabel('สถานะงาน #2', { exact: true }).selectOption('doing');
+    await b.getByLabel('Manage task #2', { exact: true }).click();
+    await setBoardStatus(b.page(), 2, 'doing');
     await expect(
-      b.getByText('บันทึกตำแหน่งแล้ว แต่โหลดข้อมูลล่าสุดไม่สำเร็จ กรุณาโหลดบอร์ดใหม่', {
+      b.getByText('Position saved. Refresh the board to see the latest data.', {
         exact: true,
       }),
     ).toBeVisible();
@@ -297,12 +315,10 @@ test('T038 validation rollback, two-tab conflict, lost response authoritative GE
         .getByRole('region', { name: 'Column Working on it' })
         .getByRole('button', { name: 'Open task #2', exact: true }),
     ).toBeVisible();
-    await expect(
-      b.getByRole('button', { name: 'ตรวจข้อมูลแล้วลองคำสั่งเดิม', exact: true }),
-    ).toHaveCount(0);
+    await expect(b.getByRole('button', { name: 'Review and retry', exact: true })).toHaveCount(0);
     await page.unroute('**/api/projects/1/board');
-    await b.getByRole('button', { name: 'ใช้ข้อมูลล่าสุด', exact: true }).click();
-    await expect(b.getByText('ใช้ข้อมูลล่าสุดแล้ว', { exact: true })).toBeVisible();
+    await b.getByRole('button', { name: 'Use latest data', exact: true }).click();
+    await expect(b.getByText('Latest data applied', { exact: true })).toBeVisible();
   } finally {
     await f.close();
   }
@@ -324,9 +340,9 @@ test('T037 touch scroll and long-press drag with keyboard/menu alternative on em
     await touch.goto(f.env.APP_ORIGIN);
     const b = await board(touch);
     const cdp = await context.newCDPSession(touch);
-    const scrollBefore = await touch
-      .getByRole('region', { name: 'Project tasks · Task project', exact: true })
-      .evaluate((n) => n.scrollTop);
+    // The board lives in the page now, so touch scrolling moves the window; make sure it can.
+    await touch.evaluate(() => (document.body.style.paddingBottom = '1200px'));
+    const scrollBefore = await touch.evaluate(() => window.scrollY);
     const card = await b.locator('[data-task-id="1"]').boundingBox();
     await cdp.send('Input.dispatchTouchEvent', {
       type: 'touchStart',
@@ -338,13 +354,7 @@ test('T037 touch scroll and long-press drag with keyboard/menu alternative on em
     });
     await cdp.send('Input.dispatchTouchEvent', { type: 'touchEnd', touchPoints: [] });
     await expect(b.getByRole('button', { name: 'Drag task #1', exact: true })).toBeEnabled();
-    await expect
-      .poll(() =>
-        touch
-          .getByRole('region', { name: 'Project tasks · Task project', exact: true })
-          .evaluate((n) => n.scrollTop),
-      )
-      .toBeGreaterThan(scrollBefore);
+    await expect.poll(() => touch.evaluate(() => window.scrollY)).toBeGreaterThan(scrollBefore);
     await touch.waitForTimeout(600);
     await b.getByRole('button', { name: 'Drag task #1', exact: true }).scrollIntoViewIfNeeded();
     const handle = await b.getByRole('button', { name: 'Drag task #1', exact: true }).boundingBox(),
@@ -421,10 +431,10 @@ test('T037/038 actual Member demotion rolls stale move back; Viewer controls and
       { version: 2, access: 'viewer' },
       'PUT',
     );
-    await b.getByText('จัดการงาน #1', { exact: true }).click();
-    await b.getByLabel('สถานะงาน #1', { exact: true }).selectOption('doing');
+    await b.getByLabel('Manage task #1', { exact: true }).click();
+    await setBoardStatus(b.page(), 1, 'doing');
     await expect(b.getByRole('alert')).toBeVisible();
-    await expect(b.getByRole('button', { name: /ลากงาน/ })).toHaveCount(0);
+    await expect(b.getByRole('button', { name: /Drag task/ })).toHaveCount(0);
     await expect(
       b
         .getByRole('region', { name: 'Column Not started' })
@@ -460,12 +470,12 @@ test('T036 >500 controlled boundary fixture renders paginated list and task-deta
     const jobs = await tasks(page);
     await jobs.getByRole('button', { name: 'Kanban', exact: true }).click();
     const b = jobs.getByRole('region', { name: 'Project Kanban' });
-    await expect(b.getByText(/เกิน 500 งาน ใช้รายการแบ่งหน้า/)).toBeVisible();
-    await expect(b.getByRole('button', { name: /ลากงาน/ })).toHaveCount(0);
-    await expect(b.getByRole('button', { name: /เปิดงาน/ })).toHaveCount(20);
+    await expect(b.getByText(/Over 500 tasks/)).toBeVisible();
+    await expect(b.getByRole('button', { name: /Drag task/ })).toHaveCount(0);
+    await expect(b.getByRole('button', { name: /Open task/ })).toHaveCount(20);
     await b.getByRole('button', { name: 'Next board page', exact: true }).click();
-    await expect(b.getByText('หน้า 2 · รวม 501 งาน', { exact: true })).toBeVisible();
-    const open = b.getByRole('button', { name: /เปิดงาน/ }).first();
+    await expect(b.getByText('Page 2 · Total 501 Tasks', { exact: true })).toBeVisible();
+    const open = b.getByRole('button', { name: /Open task/ }).first();
     await open.click();
     const d = detail(page);
     await d.getByLabel('Status', { exact: true }).selectOption('doing');

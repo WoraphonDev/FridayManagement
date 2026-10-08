@@ -376,7 +376,7 @@ export function TaskCollaboration({
             }
           </p>
         )}
-      <section hidden={!!pane && pane !== 'comments'} aria-label="Comments">
+      <section hidden={!!pane && pane !== 'comments'} aria-label="comments">
         <h3>Comments</h3>
         {!c && !error && <Loading />}
         <ul>
@@ -403,7 +403,7 @@ export function TaskCollaboration({
             size={c.pageSize}
             total={c.total}
             set={setCp}
-            label="Comments"
+            label="comments"
             disabled={pending}
           />
         )}
@@ -497,7 +497,7 @@ export function TaskCollaboration({
               )}
               {(a.can_delete || a.can_restore) && write && (
                 <button disabled={pending} onClick={() => setConfirm(a)}>
-                  {a.deleted_at ? 'Restore' : 'Delete'}Files {a.original_name}
+                  {a.deleted_at ? 'Restore' : 'Delete'} file {a.original_name}
                 </button>
               )}
             </li>
@@ -509,7 +509,7 @@ export function TaskCollaboration({
             size={f.pageSize}
             total={f.total}
             set={setFp}
-            label="Files"
+            label="files"
             disabled={pending}
           />
         )}
@@ -578,7 +578,7 @@ export function TaskCollaboration({
             size={h.pageSize}
             total={h.total}
             set={setHp}
-            label="History"
+            label="history"
             disabled={pending}
           />
         )}
@@ -595,7 +595,7 @@ export function TaskCollaboration({
               : ' · Counts toward storage until permanently removed'}
           </p>
           <button disabled={pending || !write} onClick={() => void changeFile()}>
-            Confirm{confirm.deleted_at ? 'Restore file' : 'Delete file'}
+            {confirm.deleted_at ? 'Restore file' : 'Delete file'}
           </button>
           <button disabled={pending} onClick={() => setConfirm(undefined)}>
             Cancel
@@ -621,7 +621,7 @@ function Pager({
   disabled: boolean;
 }) {
   return (
-    <nav aria-label={`Page${label}`}>
+    <nav aria-label={`Pages of ${label}`}>
       <button disabled={disabled || page === 1} onClick={() => set(page - 1)}>
         Previous {label}
       </button>
