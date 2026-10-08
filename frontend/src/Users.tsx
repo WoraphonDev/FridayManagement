@@ -80,7 +80,7 @@ export function Users({
       {notice && <Toast>{notice}</Toast>}
       {failure && <p role="alert">{failure}</p>}
       <form
-        className="toolbar"
+        className="toolbar user-search"
         onSubmit={(e) => {
           e.preventDefault();
           setLoading(true);
@@ -151,27 +151,36 @@ export function Users({
                 u.display_name,
                 u.job_title ?? '—',
                 u.org_role,
-                u.active ? 'Activate' : 'Deactivate',
-                <div className="row-actions" key={u.id}>
+                <span key={u.id} className="user-status">
+                  <span className={`status-chip ${u.active ? 'on' : 'off'}`}>
+                    {u.active ? 'Active' : 'Inactive'}
+                  </span>
+                  {u.must_change_password && (
+                    <small className="status-note">Password change required</small>
+                  )}
+                </span>,
+                <div className="row-actions compact-actions" key={u.id}>
                   <button
+                    aria-label={`Edit ${u.username}`}
                     disabled={!online || self.maintenance}
                     onClick={() => setAction({ kind: 'edit', user: u })}
                   >
-                    Edit {u.username}
+                    Edit
                   </button>
                   <button
+                    aria-label={`${u.active ? 'Deactivate' : 'Activate'} ${u.username}`}
                     disabled={!online || self.maintenance}
                     onClick={() => setAction({ kind: 'active', user: u })}
                   >
-                    {u.active ? 'Deactivate' : 'Activate'} {u.username}
+                    {u.active ? 'Deactivate' : 'Activate'}
                   </button>
                   <button
+                    aria-label={`Reset password ${u.username}`}
                     disabled={!online || self.maintenance}
                     onClick={() => setAction({ kind: 'reset', user: u })}
                   >
-                    Reset password {u.username}
+                    Reset password
                   </button>
-                  {u.must_change_password && <span>Password change required</span>}
                 </div>,
               ])}
             />

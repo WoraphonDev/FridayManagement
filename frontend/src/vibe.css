@@ -1765,3 +1765,56 @@ button.notify-link {
 .avatar-stack span:first-child {
   margin-left: 0;
 }
+
+/* Admin user directory: status chip + compact text actions. */
+.status-chip {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+}
+.status-chip.on {
+  background: #e5f7ee;
+  color: #037f4c;
+}
+.status-chip.off {
+  background: #eef0f4;
+  color: #676879;
+}
+.status-note {
+  display: block;
+  margin-top: 2px;
+  color: #d83a52;
+  font-size: 11px;
+}
+.compact-actions {
+  display: flex;
+  gap: 2px;
+}
+.compact-actions button {
+  min-height: 26px;
+  padding: 2px 8px;
+  border: 0;
+  background: transparent;
+  color: #0073ea;
+  font-size: 12px;
+}
+.compact-actions button:hover:not(:disabled) {
+  background: #e7f0fd;
+}
+.user-search {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+}
+.user-search > * {
+  margin: 0;
+}
+.user-search label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+}
