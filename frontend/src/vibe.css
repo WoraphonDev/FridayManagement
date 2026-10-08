@@ -1451,3 +1451,113 @@ img.file-preview {
     overflow-x: auto;
   }
 }
+
+/* Notify popover (Vibe Preview). */
+.notify-anchor {
+  position: relative;
+}
+button.notify-link {
+  background: transparent;
+  color: inherit;
+}
+.notify-popover {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  z-index: 120;
+  width: 380px;
+  max-width: calc(100vw - 24px);
+  background: #fff;
+  color: #323338;
+  border-radius: 8px;
+  box-shadow: 0 12px 32px #292f4c33;
+  outline: none;
+}
+.notify-popover header,
+.notify-popover footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+}
+.notify-popover header {
+  border-bottom: 1px solid #e6e9ef;
+}
+.notify-popover header strong {
+  font-size: 15px;
+}
+.notify-unread {
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: #e7f0fd;
+  color: #0060b9;
+  font-size: 11px;
+}
+.notify-popover header .link-button {
+  margin-left: auto;
+}
+.notify-popover .link-button {
+  border: 0;
+  background: none;
+  font-size: 12px;
+}
+.notify-popover .icon-button {
+  border: 0;
+  min-height: 24px;
+  padding: 0 6px;
+}
+.notify-popover ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  max-height: 360px;
+  overflow-y: auto;
+}
+.notify-popover li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 16px;
+  border-bottom: 1px solid #f0f1f5;
+  border-left: 3px solid transparent;
+}
+.notify-popover li.unread {
+  border-left-color: #0073ea;
+}
+.notify-item {
+  flex: 1;
+  border: 0;
+  background: none;
+  padding: 0;
+  text-align: left;
+}
+.notify-item span {
+  display: block;
+  font-size: 13px;
+}
+.notify-item small,
+.notify-read {
+  color: #676879;
+  font-size: 11px;
+}
+.notify-popover footer {
+  justify-content: center;
+}
+.notify-empty {
+  padding: 16px;
+  color: #676879;
+}
+.notify-popover button,
+.notify-popover span,
+.notify-popover strong {
+  color: #323338;
+}
+.notify-popover .link-button {
+  color: #0073ea;
+}
+.notify-popover .link-button:disabled {
+  color: #9699a6;
+}
+.notify-popover .notify-unread {
+  color: #0060b9;
+}

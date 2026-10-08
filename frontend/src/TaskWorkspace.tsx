@@ -1166,7 +1166,14 @@ export function TaskWorkspace({
                                       'Start Plan',
                                       'End Plan',
                                     ]
-                                  : ['Task', 'Assignee', 'Status', 'Priority', 'Start Plan', 'End Plan']
+                                  : [
+                                      'Task',
+                                      'Assignee',
+                                      'Status',
+                                      'Priority',
+                                      'Start Plan',
+                                      'End Plan',
+                                    ]
                               }
                               className={project ? 'main-table' : 'main-table my-work-table'}
                               {...(project ? { widths, onResize: resizeColumn } : {})}
@@ -1402,7 +1409,9 @@ export function TaskWorkspace({
                                         {priorityLabel[t.priority]}
                                       </span>,
                                       <span key={t.id} className="plan-date">
-                                        {t.start_date ? formatPlanDate(t.start_date) : 'Not scheduled'}
+                                        {t.start_date
+                                          ? formatPlanDate(t.start_date)
+                                          : 'Not scheduled'}
                                       </span>,
                                       <span
                                         key={t.id}

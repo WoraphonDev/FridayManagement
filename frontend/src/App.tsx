@@ -2,6 +2,7 @@ import { projectPage, type Project } from './workspace-api';
 import { OrganizationSettings } from './Organization';
 import { Brand, AuthArtwork } from './Brand';
 import { NotificationBadge } from './NotificationBadge';
+import { NotifyPopover } from './NotifyPopover';
 import { organizationReply } from './organization-api';
 import { Trash } from './Trash';
 import { Workspaces } from './Workspaces';
@@ -38,6 +39,7 @@ export function App() {
   const [reconnecting, setReconnecting] = useState(false);
   const [self, setSelf] = useState<Self>();
   const [organizationName, setOrganizationName] = useState<string>();
+  const [notifyOpen, setNotifyOpen] = useState(false);
   const [settingsSection, setSettingsSection] = useState<SettingsSection>('profile');
   const [organizationReload, setOrganizationReload] = useState(0);
   const [error, setError] = useState<ApiError>();
@@ -417,15 +419,29 @@ export function App() {
             </button>
           )}
           {orgSession && self && (
-            <NavLink className="notify-link" to="/notifications">
-              <NavIcon path={navIcons['/notifications']} />
-              <span>Notify</span>
-              <NotificationBadge
-                key={epoch + self.csrf + location.pathname}
-                {...{ self, online }}
-                onFailure={failure}
-              />
-            </NavLink>
+            <div className="notify-anchor">
+              <button
+                className="notify-link"
+                aria-expanded={notifyOpen}
+                aria-haspopup="dialog"
+                onClick={() => setNotifyOpen((v) => !v)}
+              >
+                <NavIcon path={navIcons['/notifications']} />
+                <span>Notify</span>
+                <NotificationBadge
+                  key={epoch + self.csrf + location.pathname + notifyOpen}
+                  {...{ self, online }}
+                  onFailure={failure}
+                />
+              </button>
+              {notifyOpen && (
+                <NotifyPopover
+                  {...{ self, online }}
+                  onFailure={failure}
+                  onClose={() => setNotifyOpen(false)}
+                />
+              )}
+            </div>
           )}
           {self && (
             <NavLink
