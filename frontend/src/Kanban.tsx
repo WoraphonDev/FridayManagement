@@ -127,55 +127,54 @@ function Card({
           {task.title}
         </button>
         <div className="card-group-name">{groupName ?? 'Tasks'}</div>
-        <span className={`priority-pill ${task.priority}`}>{priorityLabel[task.priority]}</span>
-        <div className="card-checklist">
-          <progress
-            aria-label="Checklist completion"
-            value={task.subtask_done_count}
-            max={task.subtask_count || 1}
-          />
-          <span>
-            {task.subtask_done_count}/{task.subtask_count} Checklist
-          </span>
-        </div>
-        <div className="card-plans">
-          <span>
-            <small>Start Plan</small>
-            <UiIcon name="calendar" />
-            {formatPlanDate(task.start_date)}
-          </span>
-          <span>
-            <small>End Plan</small>
-            <UiIcon name="calendar" />
-            {formatPlanDate(task.due_date)} {task.overdue && <strong>Overdue</strong>}
-          </span>
-        </div>
-        <Assignees people={task.assignees ?? (task.assignee ? [task.assignee] : [])} />
-        {controls && (
-          <StatusPicker
-            value={task.status}
-            label={`Status for ${task.title}`}
-            disabled={disabled}
-            onChange={(status) => onMove(status, null)}
-          />
+        {task.subtask_count > 0 && (
+          <div className="card-checklist">
+            <progress
+              aria-label="Checklist completion"
+              value={task.subtask_done_count}
+              max={task.subtask_count}
+            />
+            <span>
+              {task.subtask_done_count}/{task.subtask_count}
+            </span>
+          </div>
         )}
-        {controls && (
-          <details>
-            <summary>Manage task #{task.id}</summary>
-            <button
-              disabled={disabled || before === undefined}
-              onClick={() => onMove(task.status, before!)}
-            >
-              Move up #{task.id}
-            </button>
-            <button
-              disabled={disabled || after === undefined}
-              onClick={() => onMove(task.status, after!)}
-            >
-              Move down #{task.id}
-            </button>
-          </details>
-        )}
+        <div className="card-foot">
+          <span className={`priority-pill ${task.priority}`}>{priorityLabel[task.priority]}</span>
+          <span
+            className={`card-due ${task.overdue ? 'overdue' : ''}`}
+            title={`Start Plan ${formatPlanDate(task.start_date)} · End Plan ${formatPlanDate(task.due_date)}`}
+          >
+            <UiIcon name="calendar" />
+            {formatPlanDate(task.due_date)}
+          </span>
+          <Assignees compact people={task.assignees ?? (task.assignee ? [task.assignee] : [])} />
+          {controls && (
+            <details className="card-manage">
+              <summary aria-label={`Manage task #${task.id}`}>•••</summary>
+              <div className="card-manage-menu">
+                <StatusPicker
+                  value={task.status}
+                  label={`Status for ${task.title}`}
+                  disabled={disabled}
+                  onChange={(status) => onMove(status, null)}
+                />
+                <button
+                  disabled={disabled || before === undefined}
+                  onClick={() => onMove(task.status, before!)}
+                >
+                  Move up #{task.id}
+                </button>
+                <button
+                  disabled={disabled || after === undefined}
+                  onClick={() => onMove(task.status, after!)}
+                >
+                  Move down #{task.id}
+                </button>
+              </div>
+            </details>
+          )}
+        </div>
       </div>
     </article>
   );

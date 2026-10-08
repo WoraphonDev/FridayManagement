@@ -1379,7 +1379,7 @@ img.file-preview {
 /* Views other than Main table sit inside the same 24px gutter as the toolbar. */
 .board-page
   .task-workspace
-  > :not(.project-heading, .board-members, .view-tabs, .task-filters, .toolbar, .task-group, .add-new-group, .my-work-scope, dialog, .toast) {
+  > :not(.project-heading, .board-members, .view-tabs, .task-filters, .toolbar, .task-group, .add-new-group, .my-work-scope, .kanban, dialog, .toast) {
   margin-left: 24px;
   margin-right: 24px;
 }
@@ -2140,4 +2140,61 @@ section[aria-label='Gantt'] .calendar-month {
 .date-list li button:hover {
   color: #0073ea;
   text-decoration: underline;
+}
+
+/* Kanban cards: title, group, one footer row (Vibe Preview). */
+.kanban-card .card-foot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+.kanban-card .card-due {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  color: #676879;
+  font-size: 11px;
+}
+.kanban-card .card-due.overdue {
+  color: #d83a52;
+}
+.kanban-card .card-due .ui-icon {
+  width: 12px;
+  height: 12px;
+}
+.kanban-card .card-foot .task-assignees {
+  margin-left: auto;
+}
+.card-manage summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 0 4px;
+  color: #676879;
+}
+.card-manage[open] .card-manage-menu {
+  position: absolute;
+  right: 0;
+  top: 22px;
+  z-index: 6;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 160px;
+  padding: 8px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 8px 24px #292f4c26;
+}
+.card-manage-menu button {
+  border: 0;
+  text-align: left;
+}
+.kanban-card .card-checklist {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #676879;
 }
