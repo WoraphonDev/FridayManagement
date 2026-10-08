@@ -1877,3 +1877,150 @@ select.priority-pill {
 select[aria-label='Sort by'] {
   min-width: 160px;
 }
+
+/* Reports overview (Vibe Preview): KPI cards, donut, assignee bars. */
+.report-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 12px;
+  padding: 14px 16px;
+  border: 1px solid #e6e9ef;
+  border-radius: 8px;
+  background: #f6f7fb;
+}
+.report-toolbar label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 12px;
+}
+.report-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin: 14px 0;
+}
+.report-metrics > div {
+  padding: 14px 16px;
+  border: 1px solid #e6e9ef;
+  border-radius: 8px;
+  background: #fff;
+}
+.report-metrics dt {
+  color: #676879;
+  font-size: 12px;
+}
+.report-metrics dd {
+  margin: 8px 0 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+.report-panels {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+.report-panel {
+  padding: 16px;
+  border: 1px solid #e6e9ef;
+  border-radius: 8px;
+  background: #fff;
+}
+.report-panel h2 {
+  margin: 0 0 4px;
+  font-size: 14px;
+}
+.donut-wrap {
+  display: grid;
+  place-items: center;
+  padding: 16px 0;
+}
+.donut {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+}
+.donut > span {
+  position: absolute;
+  inset: 22px;
+  display: grid;
+  place-content: center;
+  text-align: center;
+  border-radius: 50%;
+  background: #fff;
+}
+.donut strong {
+  font-size: 22px;
+}
+.donut small {
+  color: #676879;
+  font-size: 11px;
+}
+.report-panel .report-statuses {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.report-panel .status-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0;
+  background: none;
+  font-size: 12px;
+}
+.report-panel .status-cell i {
+  width: 8px;
+  height: 8px;
+  border-radius: 2px;
+}
+.report-panel .status-cell.todo i { background: #c4c4c4; }
+.report-panel .status-cell.doing i { background: #fdab3d; }
+.report-panel .status-cell.review i { background: #a25ddc; }
+.report-panel .status-cell.done i { background: #00c875; }
+.report-panel .status-cell strong {
+  margin-left: auto;
+  font-weight: 400;
+}
+.assignee-bars {
+  list-style: none;
+  margin: 12px 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.assignee-bars li {
+  display: grid;
+  grid-template-columns: 140px 1fr 32px;
+  align-items: center;
+  gap: 10px;
+  font-size: 12px;
+}
+.assignee-bars small {
+  color: #676879;
+}
+.bar-track {
+  height: 6px;
+  border-radius: 3px;
+  background: #eceff8;
+  overflow: hidden;
+}
+.bar-track i {
+  display: block;
+  height: 100%;
+  background: #a25ddc;
+}
+.assignee-bars strong {
+  text-align: right;
+  font-weight: 400;
+}
+.report-note {
+  padding: 10px 12px;
+  border-radius: 6px;
+  background: #e7f0fd;
+  color: #0060b9;
+  font-size: 12px;
+}

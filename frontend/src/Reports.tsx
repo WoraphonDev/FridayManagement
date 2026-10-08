@@ -14,7 +14,7 @@ import { useSharedRefresh } from './shared/refresh';
 import { Loading, ErrorNotice, EmptyState } from './shared/components';
 import { loadJobTitles, type JobTitle } from './admin-api';
 const client = apiClient(),
-  basisLabels = { created: "Created on", due: "Due date", completed: "Completed on" };
+  basisLabels = { created: 'Created on', due: 'Due date', completed: 'Completed on' };
 export function Reports({
   self,
   online,
@@ -126,12 +126,12 @@ export function Reports({
         a.download = `friday-tasks-${data.metadata.date_basis}-${data.metadata.date_from ?? 'start'}-${data.metadata.date_to ?? 'end'}.csv`;
         a.click();
         setTimeout(() => URL.revokeObjectURL(url), 1000);
-        setNotice("CSV downloaded using the current filters");
+        setNotice('CSV downloaded using the current filters');
       }
     } catch (e) {
       if (!c.signal.aborted && e instanceof ApiError) {
         if (e.code === 'EXPORT_LIMIT_EXCEEDED')
-          setNotice("Over 50,000 tasks. Narrow the date range or filters before exporting.");
+          setNotice('Over 50,000 tasks. Narrow the date range or filters before exporting.');
         else setError(e);
         onFailure(e);
       }
@@ -147,7 +147,6 @@ export function Reports({
     <div className="reports-workspace">
       <div className="report-toolbar">
         <label>
-          
           Owner team
           <select
             aria-label="Owner team"
@@ -163,7 +162,6 @@ export function Reports({
           </select>
         </label>
         <label>
-          
           Projects
           <select
             aria-label="Projects"
@@ -181,7 +179,6 @@ export function Reports({
           </select>
         </label>
         <label>
-          
           Assignee
           <select
             aria-label="Assignee"
@@ -193,7 +190,7 @@ export function Reports({
             {people.map((p) => (
               <option key={p.id} value={p.id}>
                 {p.display_name}
-                {!p.active ? " (Inactive)" : ''}
+                {!p.active ? ' (Inactive)' : ''}
               </option>
             ))}
           </select>
@@ -215,7 +212,6 @@ export function Reports({
           </select>
         </label>
         <label>
-          
           Date basis
           <select
             aria-label="Date basis"
@@ -230,7 +226,6 @@ export function Reports({
           </select>
         </label>
         <label>
-          
           From date
           <input
             type="date"
@@ -241,7 +236,6 @@ export function Reports({
           />
         </label>
         <label>
-          
           To date
           <input
             type="date"
@@ -252,7 +246,7 @@ export function Reports({
           />
         </label>
         <button disabled={!online || !data || exporting} onClick={() => void exportCSV()}>
-          {exporting ? "Exporting…" : "Export CSV"}
+          {exporting ? 'Exporting…' : 'Export CSV'}
         </button>
       </div>
       {notice && <p role="status">{notice}</p>}
@@ -261,19 +255,18 @@ export function Reports({
       {data && (
         <>
           <p className="muted">
-            
             Date basis: {basisLabels[data.metadata.date_basis]} ·{' '}
-            {data.metadata.date_from ?? "No start limit"}  To{' '}
-            {data.metadata.date_to ?? "No end limit"} · Asia/Bangkok
+            {data.metadata.date_from ?? 'No start limit'} To{' '}
+            {data.metadata.date_to ?? 'No end limit'} · Asia/Bangkok
           </p>
           {!data.total && <EmptyState title="No tasks match these filters" />}
           <dl className="report-metrics">
             {[
-              ["All tasks", data.total],
-              ["Overdue", data.overdue],
-              ["Unassigned open tasks", data.unassigned],
-              ["Completed in period", data.done_in_period],
-              ["Completion rate", `${data.completion_percentage.toFixed(2)}%`],
+              ['All tasks', data.total],
+              ['Overdue', data.overdue],
+              ['Unassigned open tasks', data.unassigned],
+              ['Completed in period', data.done_in_period],
+              ['Completion rate', `${data.completion_percentage.toFixed(2)}%`],
             ].map(([label, value]) => (
               <div key={label}>
                 <dt>{label}</dt>
@@ -281,51 +274,76 @@ export function Reports({
               </div>
             ))}
           </dl>
-          <div className="report-statuses">
-            {statuses.map((s) => (
-              <div key={s} className={`status-cell ${s}`}>
-                <span>{statusLabel[s]}</span>
-                <strong>{data.by_status[s]}</strong>
+          <div className="report-panels">
+            <section className="report-panel" aria-label="Status distribution">
+              <h2>Status distribution</h2>
+              <div className="donut-wrap">
+                <div
+                  className="donut"
+                  role="img"
+                  aria-label={`${Math.round(data.completion_percentage)}% done`}
+                  style={{ background: donut(data.by_status, data.total) }}
+                >
+                  <span>
+                    <strong>{Math.round(data.completion_percentage)}%</strong>
+                    <small>Done</small>
+                  </span>
+                </div>
               </div>
-            ))}
+              <div className="report-statuses">
+                {statuses.map((s) => (
+                  <div key={s} className={`status-cell ${s}`}>
+                    <i aria-hidden="true" />
+                    <span>{statusLabel[s]}</span>
+                    <strong>{data.by_status[s]}</strong>
+                  </div>
+                ))}
+              </div>
+            </section>
+            <section className="report-panel" aria-label="Open tasks by assignee">
+              <h2>Open tasks by assignee</h2>
+              <p className="muted">Only unfinished tasks are counted</p>
+              {data.workload.length ? (
+                <ul className="assignee-bars">
+                  {data.workload.map((w) => {
+                    const max = Math.max(...data.workload.map((x) => x.open_count), 1);
+                    return (
+                      <li key={w.assignee?.id ?? 'none'}>
+                        <span className="bar-name">
+                          {w.assignee
+                            ? `${w.assignee.display_name}${w.assignee.active ? '' : ' (Inactive / history)'}`
+                            : 'Unassigned'}
+                          {w.job_title && <small> · {w.job_title}</small>}
+                        </span>
+                        <span className="bar-track" aria-hidden="true">
+                          <i style={{ width: `${(w.open_count / max) * 100}%` }} />
+                        </span>
+                        <strong>{w.open_count}</strong>
+                      </li>
+                    );
+                  })}
+                </ul>
+              ) : (
+                <p>No open tasks</p>
+              )}
+              <p className="report-note">
+                Task counts indicate workload; they are not individual performance scores.
+              </p>
+            </section>
           </div>
-          <h2>Open tasks by assignee</h2>
-          <div className="table-scroll">
-            <table>
-              <thead>
-                <tr>
-                  <th>Assignee</th>
-                  <th>Job title</th>
-                  <th>Open tasks</th>
-                </tr>
-              </thead>
-              <tbody>
-                {data.workload.length ? (
-                  data.workload.map((w) => (
-                    <tr key={w.assignee?.id ?? 'none'}>
-                      <td>
-                        {w.assignee
-                          ? `${w.assignee.display_name}${w.assignee.active ? '' : " (Inactive / history)"}`
-                          : "Unassigned"}
-                      </td>
-                      <td>{w.job_title ?? '—'}</td>
-                      <td>{w.open_count}</td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={3}>No open tasks</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-          <p className="muted">
-            
-            Counts reflect your access and filters. They do not measure individual performance.
-          </p>
         </>
       )}
     </div>
   );
+}
+const statusColors = { todo: '#c4c4c4', doing: '#fdab3d', review: '#a25ddc', done: '#00c875' };
+function donut(by: Record<keyof typeof statusColors, number>, total: number) {
+  if (!total) return '#e6e9ef';
+  let at = 0;
+  const stops = (Object.keys(statusColors) as (keyof typeof statusColors)[]).map((k) => {
+    const from = at;
+    at += (by[k] / total) * 100;
+    return `${statusColors[k]} ${from}% ${at}%`;
+  });
+  return `conic-gradient(${stops.join(', ')})`;
 }
