@@ -1,6 +1,6 @@
 {
   "scenario": "status→Done with confetti, 900 ms, headless Chromium",
   "frames": 55,
-  "fps": 60,
+  "fps": 61,
   "p95": 17
 }

@@ -1,0 +1,20 @@
+{
+  "task": "T-086",
+  "date": "2026-10-08",
+  "environment": { "os": "macOS (Darwin 24.6.0)", "node": "22.23.3", "provider": "sqlite (local temporary)", "browser": "Playwright Chromium" },
+  "declaredEffort": "High",
+  "actualModelEffort": "NOT_VERIFIED",
+  "trace": ["FR-52", "FR-45", "AT-38", "TC-096"],
+  "results": {
+    "AT-38 HTTP": "1/1 PASS",
+    "browser main-table.spec.ts": "1/1 PASS (3/3 repeat)",
+    "npm test": "node 451/451 + frontend 47/47 PASS",
+    "addendum browser specs": "7/7 PASS",
+    "typecheck": "PASS",
+    "lint": "PASS (1 pre-existing react-refresh warning)",
+    "build": "PASS"
+  },
+  "fixed": ["column widths saved per user via /api/me/preferences", "sticky group header and Select/Task columns", "double-click rename replaced by F2/menu (click opened details first)"],
+  "notRun": ["SQL Server 2022 batch savepoints", "Windows", "UAT", "touch drag (menu alternative only)", "formal TC-096/AT-38 run register"],
+  "status": "IN_PROGRESS"
+}

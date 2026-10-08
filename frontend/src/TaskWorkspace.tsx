@@ -2,7 +2,15 @@ import { UiIcon } from './shared/UiIcon';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { StatusPicker } from './shared/StatusPicker';
 import { Assignees } from './shared/PeoplePicker';
-import { lazy, Suspense, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  lazy,
+  Suspense,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react';
 import { apiClient, ApiError, type Self } from './api';
 import { projectPage, teamPage, projectMembers, type Project, type Team } from './workspace-api';
 import {
@@ -29,6 +37,7 @@ import { myWorkGroup, myWorkGroups } from './task-dates';
 import { useSharedRefresh } from './shared/refresh';
 import { useFavorites } from './favorites-api';
 import { motionAllowed } from './motion';
+import { savePreferences, usePreferences } from './preferences';
 import { TaskEditor } from './TaskEditor';
 import { DataTable, Dialog, ErrorNotice, Field, Loading } from './shared/components';
 import { CalendarView, GanttView } from './TaskViews';
@@ -58,7 +67,8 @@ const batchReply = z
   })
   .strict();
 type BatchResult = z.infer<typeof batchReply>['results'];
-const widthKey = (user: number) => `friday:main-table-widths:${user}`;
+// FR-52: Main table column ids for per-user widths stored in /api/me/preferences.
+const mainColumns = ['select', 'task', 'assignees', 'status', 'priority', 'start', 'end'] as const;
 const client = apiClient();
 const Kanban = lazy(() => import('./Kanban').then((m) => ({ default: m.Kanban })));
 const ProjectDocs = lazy(() => import('./ProjectDocs').then((m) => ({ default: m.ProjectDocs })));
@@ -137,24 +147,30 @@ export function TaskWorkspace({
     [titleEdit, setTitleEdit] = useState<{ id: number; value: string }>(),
     [quickAdd, setQuickAdd] = useState<Record<string, string>>({}),
     [dragging, setDragging] = useState<number>(),
-    [widths, setWidths] = useState<(number | undefined)[]>(() => {
-      try {
-        return JSON.parse(localStorage.getItem(widthKey(self.user.id)) ?? '[]') as number[];
-      } catch {
-        return [];
-      }
-    });
-  const resizeColumn = (index: number, width: number) =>
-    setWidths((w) => {
-      const next = [...w];
-      next[index] = width;
-      try {
-        localStorage.setItem(widthKey(self.user.id), JSON.stringify(next));
-      } catch {
-        /* per-viewer convenience only */
-      }
+    [draftWidths, setDraftWidths] = useState<Record<string, number>>({});
+  const prefs = usePreferences(self.csrf);
+  const widths = mainColumns.map(
+    (k) => draftWidths[k] ?? prefs.column_widths[k] ?? (k === 'select' ? 44 : undefined),
+  );
+  const saveWidths = useRef<ReturnType<typeof setTimeout>>(undefined);
+  // Resize follows the pointer locally and is saved per user once it settles (UX/FR-52).
+  const resizeColumn = (index: number, width: number) => {
+    const key = mainColumns[index]!,
+      value = Math.max(60, Math.min(800, width));
+    setDraftWidths((d) => {
+      const next = { ...d, [key]: value };
+      clearTimeout(saveWidths.current);
+      saveWidths.current = setTimeout(() => {
+        void savePreferences(self.csrf, {
+          column_widths: { ...prefs.column_widths, ...next },
+        }).catch((e: unknown) => {
+          if (e instanceof ApiError) onFailure(e);
+        });
+      }, 400);
       return next;
     });
+  };
+  useEffect(() => () => clearTimeout(saveWidths.current), []);
   const writableProject =
     !!project && project.effective_access !== 'viewer' && !project.archived_at && !self.maintenance;
   const mutate = async (path: string, method: 'PATCH' | 'POST', body: unknown) => {
@@ -1131,7 +1147,14 @@ export function TaskWorkspace({
                                 </button>
                               )}
                           </div>
-                          <div hidden={collapsed.includes(g)}>
+                          <div
+                            hidden={collapsed.includes(g)}
+                            style={
+                              project
+                                ? ({ '--select-col': `${widths[0] ?? 44}px` } as CSSProperties)
+                                : undefined
+                            }
+                          >
                             <DataTable
                               caption={`${groupLabel[g]} · Tasks`}
                               columns={
@@ -1254,10 +1277,13 @@ export function TaskWorkspace({
                                             aria-label={`Open task #${t.id}`}
                                             disabled={!online}
                                             onClick={() => void open(t)}
-                                            onDoubleClick={() =>
-                                              writableProject &&
-                                              setTitleEdit({ id: t.id, value: t.title })
-                                            }
+                                            // A click opens the task, so rename is F2 or the row menu.
+                                            onKeyDown={(e) => {
+                                              if (e.key === 'F2' && writableProject) {
+                                                e.preventDefault();
+                                                setTitleEdit({ id: t.id, value: t.title });
+                                              }
+                                            }}
                                           >
                                             {t.title}
                                             <small>

@@ -1,12 +1,16 @@
 # TeamFlow — Task.md: แผนพัฒนาและตรวจความครบถ้วน
 
-**Version:** 1.60 · **วันที่:** 8 ตุลาคม 2026\
+**Version:** 1.61 · **วันที่:** 8 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
 **จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 85 API routes ที่ล็อก (contract 1.7.0) + planned routes SRS §12.6
 **ต้นทาง:** `TeamFlow_Requirements_v1.0.md` และ `TeamFlow_SRS_v1.0.md` รุ่นปัจจุบันที่อ่านเมื่อ 5 ตุลาคม 2026
 
 
 
+
+## T-086 Main table — 8 October 2026
+
+ตรวจโค้ด Main table ที่มีอยู่ (batch/quick add/rename/drag/move/resize) แล้วแก้: column widths เก็บต่อผู้ใช้ผ่าน preferences แทน localStorage, sticky header + คอลัมน์ Select/Task, เอา double-click rename ที่ใช้ไม่ได้ออก (ใช้ F2/เมนู). ผล: AT-38 HTTP 1/1, Chromium main-table 1/1 (3/3), Node 451/451 + frontend 47/47, addendum browser 7/7, typecheck/lint/build PASS. SQL Server 2022/Windows/UAT NOT_RUN. Evidence: TeamFlow_T086_Test_Report.md / reports/T-086-main-table-results.json. DONE7/91, IN_PROGRESS81, IN_REVIEW1, TODO2, remaining84. Declared High; actual model/effort NOT_VERIFIED. Next: T-087 Medium (Task side panel).
 
 ## T-079 owner approval + T-089 Motion/preferences — 8 October 2026
 
@@ -302,7 +306,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-083 | My overview + My work grouped table | T-078 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T083_Test_Report.md; reports/T-083-my-overview-results.json: addendum5/5 (AT-34×2) + Node441 + frontend42 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-084 | Project Docs (schema/API/editor/sanitize/version/trash) | T-081 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T084_Test_Report.md; reports/T-084-docs-results.json: XSS corpus47 + AT-35 HTTP2/2 + Node445 + frontend44 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-085 | Project Files tab + project-level upload | T-081 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T085_Test_Report.md; reports/T-085-files-results.json: AT-36 HTTP2/2 + Node446 + frontend44 + Chromium1/1 PASS SQLite+temp FS; SQL2022/Windows/UAT NOT_RUN |
-| T-086 | Main table monday upgrade (inline/batch/drag/sticky/resize) | T-079 | High | TODO | ยังไม่มอบหมาย | — |
+| T-086 | Main table monday upgrade (inline/batch/drag/sticky/resize) | T-079 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T086_Test_Report.md; reports/T-086-main-table-results.json: AT-38 HTTP + Chromium main-table 1/1 (3/3) + Node451 + frontend47 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-087 | Task side panel (Updates/@mention/Files/Activity) | T-079 | Medium | TODO | ยังไม่มอบหมาย | — |
 | T-088 | Workload + Project overview | T-080 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T088_Test_Report.md; reports/T-088-workload-results.json: contract1.5.0 80 routes + migration0008 + AT-37 HTTP1/1 + Node449 + frontend47 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-089 | Motion system AN-01–AN-12 + reduced-motion + Settings toggle | T-079 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T089_Test_Report.md; reports/T-089-motion-results.json + motion-trace: contract1.7.0 85 routes + migration0010 + preferences HTTP + Chromium motion 1/1 (60fps headless) + Node451 + frontend47 PASS; GPU trace/owner AT-39/SQL2022/UAT NOT_RUN |
@@ -2015,15 +2019,15 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 **Trace:** FR-52, FR-45 · **SRS:** §9.10, §12.6
 **Acceptance:** AT-38
 
-- [ ] sticky header/คอลัมน์ Task และ resize จำต่อผู้ใช้
-- [ ] inline edit + เพิ่มงานท้ายกลุ่ม
-- [ ] batch endpoint ผลรายข้อ/409/403
-- [ ] ลากแถวย้ายกลุ่มพร้อม version
-- [ ] keyboard/touch alternative
+- [x] sticky header/คอลัมน์ Task และ resize จำต่อผู้ใช้ (preferences)
+- [x] inline edit + เพิ่มงานท้ายกลุ่ม
+- [x] batch endpoint ผลรายข้อ/409/403
+- [x] ลากแถวย้ายกลุ่มพร้อม version (task version)
+- [x] keyboard/touch alternative (Move to group, F2, resize ด้วยลูกศร)
 
 **เกณฑ์รับงาน:** AT-38 ส่วน Main table ผ่านจริง; ไม่มี partial update เงียบ
 
-**Status:** TODO
+**Status:** IN_PROGRESS · **Local evidence:** TeamFlow_T086_Test_Report.md. AT-38 Main table local SQLite HTTP + Chromium PASS; SQL Server 2022/Windows/UAT NOT_RUN; actual model/effort NOT_VERIFIED.
 
 **หลักฐานเมื่อปิดงาน:** บันทึกใน Task Register; สำหรับการทดสอบระบุผลและ environment ไม่ใช้คำว่า “ผ่าน” โดยไม่มีการรัน
 
