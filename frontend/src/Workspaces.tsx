@@ -224,8 +224,6 @@ export function Workspaces({
     );
   return (
     <div className={`workspace-manager ${kind === 'projects' ? 'project-directory' : ''}`}>
-      {kind === 'teams' && <h2>Teams</h2>}
-      <p>{kind === 'teams' ? 'Manage teams and member roles' : 'Every project you can access'}</p>
       {changed && (
         <Toast>Data changed. Your dialog draft is preserved. Saving checks the version.</Toast>
       )}

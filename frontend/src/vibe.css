@@ -27,6 +27,7 @@ button {
   border: 1px solid #d7dbe5;
   border-radius: 5px;
   color: #323338;
+  background: #fff;
   transition:
     background 150ms ease,
     box-shadow 150ms ease;
@@ -187,12 +188,20 @@ p {
   margin-bottom: 18px;
   border-bottom: 1px solid var(--line);
 }
-.content > header .eyebrow {
-  color: var(--muted);
-  font-size: 10px;
+.content > header .breadcrumb {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  color: #676879;
+  font-size: 11px;
 }
 .content > header h1 {
-  margin: 5px 0 0;
+  margin: 10px 0 0;
+}
+.content > header > p {
+  margin: 6px 0 0;
+  color: #676879;
+  font-size: 13px;
 }
 .task-workspace,
 .card,
@@ -1282,4 +1291,9 @@ img.file-preview {
 .view-tabs {
   max-width: 100%;
   overflow-x: auto;
+}
+
+/* G3: a pager row (Previous · Page n · Next) is noise when there is only one page. */
+.toolbar:has(> button:first-child:disabled):has(> button:last-child:disabled):has(> span:nth-child(2)):has(> :nth-child(3):last-child) {
+  display: none;
 }

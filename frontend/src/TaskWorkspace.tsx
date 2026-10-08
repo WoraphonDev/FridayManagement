@@ -569,7 +569,7 @@ export function TaskWorkspace({
           <nav className="breadcrumb" aria-label="Breadcrumb">
             {onBack ? <button onClick={onBack}>All projects</button> : <span>Workspace</span>}
             <span aria-hidden="true">›</span>
-            <span>{project?.owner_team_name ?? 'My work'}</span>
+            <span>{project?.owner_team_name ?? (mode === 'my' ? 'My work' : 'Calendar')}</span>
           </nav>
           <div className="title-row">
             <h1>{project?.name ?? (mode === 'my' ? 'My work' : 'Work calendar')}</h1>
@@ -590,7 +590,12 @@ export function TaskWorkspace({
               </button>
             )}
           </div>
-          <p>{project?.description || 'Plan work and follow your team’s progress'}</p>
+          <p>
+            {project?.description ||
+              (mode === 'my'
+                ? 'Prioritize your work and focus on what matters today'
+                : 'All due dates across projects you can access')}
+          </p>
           {project && (
             <div className="header-meta">
               <UiIcon name="team" /> {project.owner_team_name} <span>•</span> {taskTotal ?? '…'}{' '}

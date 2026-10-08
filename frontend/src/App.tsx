@@ -384,7 +384,7 @@ export function App() {
     : setupRequired
       ? 'First-time setup'
       : page?.path === '/'
-        ? 'Team workspace'
+        ? 'Home'
         : (page?.label ?? 'Page not found');
   useEffect(() => {
     document.title = `${heading} · Friday Management`;
@@ -562,13 +562,20 @@ export function App() {
       </aside>
       <main
         id="main-content"
-        className={`content ${boardProject && location.pathname === '/projects' ? 'board-page' : ''}`}
+        className={`content ${(boardProject && location.pathname === '/projects') || location.pathname === '/my-tasks' || location.pathname === '/calendar' ? 'board-page' : ''}`}
       >
-        <header>
-          <p className="eyebrow">Shared workspace</p>
+        <header className="page-header">
+          {organizationName && page && (
+            <nav className="breadcrumb" aria-label="Breadcrumb">
+              <span>{organizationName}</span>
+              <span aria-hidden="true">›</span>
+              <span>{navLabels[page.path] ?? heading}</span>
+            </nav>
+          )}
           <h1 id="page-heading" tabIndex={-1}>
             {heading}
           </h1>
+          {page && pageDescriptions[page.path] && <p>{pageDescriptions[page.path]}</p>}
         </header>
         {!online && <Toast>Connect to save changes. Offline saving is unavailable.</Toast>}
         {online && !writable && <Toast>Checking for updates before enabling changes</Toast>}
@@ -731,6 +738,16 @@ export function App() {
   );
 }
 
+const pageDescriptions: Record<string, string> = {
+  '/': 'Your starting point for the working day',
+  '/projects': 'Every project you can access',
+  '/reports': 'Track statuses and due dates within your access scope',
+  '/notifications': 'Updates on tasks you follow',
+  '/teams': 'People and responsibilities across teams',
+  '/trash': 'Restore deleted tasks within 30 days',
+  '/users': 'Manage members, teams, job titles and permissions',
+  '/settings': 'Manage your profile and preferences',
+};
 const navLabels: Record<string, string> = {
   '/projects': 'All projects',
   '/calendar': 'Work calendar',

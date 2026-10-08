@@ -36,7 +36,6 @@ export function AdminCenter(props: Props) {
   const [tab, setTab] = useState<Tab>('Members');
   return (
     <div className="admin-center">
-      <h2>Admin center</h2>
       <div role="tablist" aria-label="Admin sections" className="toolbar">
         {tabs.map((t) => (
           <button
