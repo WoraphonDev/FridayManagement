@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { UiIcon } from './shared/UiIcon';
 import { Brand } from './Brand';
 type InstallEvent = Event & { prompt(): Promise<void>; userChoice: Promise<{ outcome: string }> };
-export function Pwa() {
+/**
+ * G5: the floating Install control shows only before sign-in; signed-in users install from
+ * Settings › Appearance (`mode="settings"`). The update notice stays available everywhere.
+ */
+export function Pwa({ mode = 'floating' }: { mode?: 'floating' | 'update-only' | 'settings' }) {
   const [install, setInstall] = useState<InstallEvent>();
   const [update, setUpdate] = useState(false);
   useEffect(() => {
@@ -36,38 +40,50 @@ export function Pwa() {
       window.removeEventListener('appinstalled', installed);
     };
   }, []);
+  const panel = (
+    <div className="pwa-panel">
+      {mode !== 'settings' && <Brand />}
+      <h3>Your workspace, one click away</h3>
+      <p>Open Friday in its own window and keep it close to your daily work.</p>
+      {install ? (
+        <button
+          className="primary"
+          onClick={() =>
+            void install
+              .prompt()
+              .then(() => install.userChoice)
+              .then(() => setInstall(undefined))
+          }
+        >
+          <UiIcon name="download" /> Install Friday
+        </button>
+      ) : (
+        <ol>
+          <li>Open your browser’s menu or Share menu.</li>
+          <li>Choose Install app or Add to Home Screen, when available.</li>
+        </ol>
+      )}
+      <small>Availability depends on your browser. Installation uses HTTPS or localhost.</small>
+    </div>
+  );
+  if (mode === 'settings')
+    return (
+      <section className="pwa-settings" aria-label="Install app">
+        <h2>Install app</h2>
+        {panel}
+      </section>
+    );
   return (
     <aside className="pwa-options" aria-label="Open as app">
-      <details className="pwa-install">
-        <summary aria-label="Install or add to home screen">
-          <UiIcon name="download" />
-          <span>Install app</span>
-        </summary>
-        <div className="pwa-panel">
-          <Brand />
-          <h3>Your workspace, one click away</h3>
-          <p>Open Friday in its own window and keep it close to your daily work.</p>
-          {install ? (
-            <button
-              className="primary"
-              onClick={() =>
-                void install
-                  .prompt()
-                  .then(() => install.userChoice)
-                  .then(() => setInstall(undefined))
-              }
-            >
-              <UiIcon name="download" /> Install Friday
-            </button>
-          ) : (
-            <ol>
-              <li>Open your browser’s menu or Share menu.</li>
-              <li>Choose Install app or Add to Home Screen, when available.</li>
-            </ol>
-          )}
-          <small>Availability depends on your browser. Installation uses HTTPS or localhost.</small>
-        </div>
-      </details>
+      {mode === 'floating' && (
+        <details className="pwa-install">
+          <summary aria-label="Install or add to home screen">
+            <UiIcon name="download" />
+            <span>Install app</span>
+          </summary>
+          {panel}
+        </details>
+      )}
       {update && (
         <div className="pwa-update" role="status">
           <UiIcon name="spark" />

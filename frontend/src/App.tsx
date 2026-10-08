@@ -596,7 +596,7 @@ export function App() {
         </header>
         {!online && <Toast>Connect to save changes. Offline saving is unavailable.</Toast>}
         {online && !writable && <Toast>Checking for updates before enabling changes</Toast>}
-        <Pwa />
+        <Pwa mode={self ? 'update-only' : 'floating'} />
         {self?.maintenance && <Toast>Maintenance in progress. Please try again later.</Toast>}
         {self && (self.must_change_password || self.user.must_change_password) && (
           <Toast>Change your password to continue</Toast>
@@ -708,7 +708,12 @@ export function App() {
                     onFailure={failure}
                   />
                 }
-                appearance={<MotionSettings self={self} online={online} onFailure={failure} />}
+                appearance={
+                  <>
+                    <MotionSettings self={self} online={online} onFailure={failure} />
+                    <Pwa mode="settings" />
+                  </>
+                }
                 organization={
                   <OrganizationSettings
                     self={self}

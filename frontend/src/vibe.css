@@ -2220,3 +2220,36 @@ section[aria-label='Gantt'] .calendar-month {
   margin: 0;
   font-size: 12px;
 }
+
+/* G5: Install lives in Settings › Appearance once signed in. */
+.pwa-settings {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #e6e9ef;
+}
+.pwa-settings .pwa-panel {
+  position: static;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  padding: 0;
+  width: auto;
+  background: none;
+}
+.pwa-settings h3 {
+  margin: 4px 0;
+  font-size: 13px;
+}
+@media (max-width: 720px) {
+  /* Update notice: slim bar at the bottom instead of a card over content. */
+  .pwa-update {
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    max-width: none;
+    padding: 8px 12px;
+  }
+  .pwa-update p {
+    display: none;
+  }
+}
