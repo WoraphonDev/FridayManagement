@@ -1,0 +1,30 @@
+{
+  "task": "T-083",
+  "date": "2026-10-08",
+  "environment": { "os": "macOS (Darwin 24.6.0)", "node": "22.23.3", "provider": "sqlite (local temporary)", "browser": "Playwright Chromium" },
+  "declaredEffort": "Medium",
+  "actualModelEffort": "NOT_VERIFIED",
+  "trace": ["FR-44", "FR-45", "AT-34", "TC-091", "UT-02", "UT-23"],
+  "results": {
+    "test:addendum": "5/5 PASS (AT-34 x2)",
+    "npm test": "node 441/441 + frontend 42/42 PASS",
+    "frontend my-overview.test.tsx": "3/3 PASS",
+    "browser my-overview.spec.ts": "1/1 PASS",
+    "typecheck": "PASS",
+    "lint": "PASS (1 pre-existing react-refresh warning)",
+    "build": "PASS",
+    "check:contract": "PASS (77 routes, unchanged)",
+    "test:contract": "64/64 PASS",
+    "check:test-plan": "PASS",
+    "test:test-plan": "17/17 PASS"
+  },
+  "fixed": [
+    "due_this_week excludes today to match My work This week group",
+    "done_last_7_days uses Bangkok dates today-6..today matching date_basis=completed",
+    "Home widget/status/project links carry My work filters; forged values dropped",
+    "Due range This week option and Future label",
+    "stale route count 63 -> 77 in tests/api/http.test.ts (pre-existing failure)"
+  ],
+  "notRun": ["SQL Server 2022", "Windows", "UAT", "formal TC-091/AT-34 run register"],
+  "status": "IN_PROGRESS"
+}

@@ -1,5 +1,5 @@
 import { ApiError } from './api';
-import { dateAdd } from './task-dates';
+import { bangkokWeekEnd, dateAdd } from './task-dates';
 import type { Task } from './task-api';
 export const emptyFilters = {
   q: '',
@@ -14,6 +14,7 @@ export const emptyFilters = {
   has_due: '',
   sort: 'due_asc',
   group: '',
+  completed_from: '',
 };
 export type Filters = typeof emptyFilters;
 export function taskParameters(
@@ -54,7 +55,15 @@ export function taskParameters(
     query.set('due_to', [dateAdd(today, -1), filters.due_to].filter(Boolean).sort()[0]!);
   if (filters.group === 'future')
     query.set('due_from', [dateAdd(today, 1), filters.due_from].filter(Boolean).sort().at(-1)!);
+  if (filters.group === 'this_week') {
+    query.set('due_from', [dateAdd(today, 1), filters.due_from].filter(Boolean).sort().at(-1)!);
+    query.set('due_to', [bangkokWeekEnd(today), filters.due_to].filter(Boolean).sort()[0]!);
+  }
   if (filters.group === 'none') query.set('has_due', 'false');
+  if (filters.completed_from) {
+    query.set('date_basis', 'completed');
+    query.set('date_from', filters.completed_from);
+  }
   for (const value of filters.priority) query.append('priority', value);
   const empty =
     (filters.group === 'none' && filters.has_due === 'true') ||
@@ -66,6 +75,26 @@ export function taskParameters(
       query.get('due_from')! > query.get('due_to')!) ||
     (query.get('has_due') === 'false' && (!!query.get('due_from') || !!query.get('due_to')));
   return { query, empty };
+}
+const datePattern = /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/;
+const linkGroups = ['overdue', 'today', 'this_week', 'none', 'done'];
+const linkStatuses = ['todo', 'doing', 'review', 'done'];
+/** FR-44: Home widgets open My work with the same filter; unknown values are dropped. */
+export function myWorkFilters(search: string): Filters {
+  const p = new URLSearchParams(search),
+    f: Filters = { ...emptyFilters, status: [], priority: [] };
+  const range = p.get('range') ?? '';
+  if (linkGroups.includes(range)) f.group = range;
+  const status = p.getAll('status').filter((s) => linkStatuses.includes(s));
+  if (status.length) f.status = [...new Set(status)];
+  const project = p.get('project') ?? '';
+  if (/^[1-9][0-9]{0,9}$/.test(project)) f.project = project;
+  const completed = p.get('completed_from') ?? '';
+  if (datePattern.test(completed)) {
+    f.completed_from = completed;
+    f.group = 'done';
+  }
+  return f;
 }
 type Page = { items: Task[]; total: number; page: number; pageSize: number };
 /** Exhaust pagination before presenting the timeline as complete. Reject a moving page set. */

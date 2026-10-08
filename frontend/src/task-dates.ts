@@ -68,9 +68,16 @@ export function myWorkGroup(task: Pick<Task, 'status' | 'due_date'>, today: stri
   if (!task.due_date) return 'none';
   if (task.due_date < today) return 'overdue';
   if (task.due_date === today) return 'today';
+  const end = bangkokWeekEnd(today);
+  return task.due_date <= end
+    ? 'this_week'
+    : task.due_date <= dateAdd(end, 7)
+      ? 'next_week'
+      : 'later';
+}
+/** Sunday that closes the Monday-start week containing `today` (SRS §9.9). */
+export function bangkokWeekEnd(today: string) {
   const day = (iso: string) => Date.parse(`${iso}T00:00:00Z`) / 86400000;
   const sinceMonday = (((day(today) - day('2026-10-05')) % 7) + 7) % 7;
-  const weekEnd = day(today) + 6 - sinceMonday;
-  const due = day(task.due_date);
-  return due <= weekEnd ? 'this_week' : due <= weekEnd + 7 ? 'next_week' : 'later';
+  return dateAdd(today, 6 - sinceMonday);
 }

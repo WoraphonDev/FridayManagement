@@ -18,7 +18,13 @@ import {
   type Status,
   type Task,
 } from './task-api';
-import { emptyFilters, taskParameters, allTaskPages, type Filters } from './task-list';
+import {
+  emptyFilters,
+  myWorkFilters,
+  taskParameters,
+  allTaskPages,
+  type Filters,
+} from './task-list';
 import { myWorkGroup, myWorkGroups } from './task-dates';
 import { useSharedRefresh } from './shared/refresh';
 import { TaskEditor } from './TaskEditor';
@@ -81,7 +87,9 @@ export function TaskWorkspace({
     closeScope.current = onScopeRemoved;
   });
   const [view, setView] = useState<View>(mode === 'calendar' ? 'calendar' : 'table'),
-    [filters, setFilters] = useState<Filters>(emptyFilters),
+    [filters, setFilters] = useState<Filters>(() =>
+      mode === 'my' ? myWorkFilters(window.location.search) : emptyFilters,
+    ),
     [q, setQ] = useState(''),
     [created, setCreated] = useState(false),
     [taskTotal, setTaskTotal] = useState<number>(),
@@ -504,6 +512,7 @@ export function TaskWorkspace({
     ...Object.fromEntries(namedGroups.map((g) => [String(g.id), g.name])),
     overdue: 'Overdue',
     today: 'Today',
+    future: 'Future',
     this_week: 'This week',
     next_week: 'Next week',
     later: 'Later',
@@ -816,16 +825,28 @@ export function TaskWorkspace({
                 <select
                   aria-label="Due range"
                   value={filters.group}
-                  onChange={(e) => update('group', e.target.value)}
+                  onChange={(e) => {
+                    setFilters((f) => ({ ...f, group: e.target.value, completed_from: '' }));
+                    setPage(1);
+                  }}
                 >
                   <option value="">All</option>
-                  {['today', 'overdue', 'future', 'none', 'done'].map((g) => (
+                  {['today', 'overdue', 'this_week', 'future', 'none', 'done'].map((g) => (
                     <option key={g} value={g}>
                       {groupLabel[g]}
                     </option>
                   ))}
                 </select>
               </label>
+            )}
+            {mode === 'my' && filters.completed_from && (
+              <button
+                className="filter-chip"
+                aria-label={`Remove filter completed since ${filters.completed_from}`}
+                onClick={() => update('completed_from', '')}
+              >
+                Completed since {filters.completed_from} ×
+              </button>
             )}
             <label>
               <select

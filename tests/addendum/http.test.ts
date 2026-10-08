@@ -11,6 +11,8 @@ import { sqliteFixture } from '../schema/fixtures.js';
 import { sessionFixture, password } from '../sessions/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { retentionService } from '../../src/services/retention.js';
+import { myWorkFilters, taskParameters } from '../../frontend/src/task-list.js';
+import { myWorkGroup } from '../../frontend/src/task-dates.js';
 // T-083–T-087 local SQLite HTTP evidence for AT-34/35/36/38 (SQL Server NOT_RUN here).
 const origin = 'https://addendum.invalid';
 type F = Awaited<ReturnType<typeof sessionFixture>>;
@@ -117,7 +119,8 @@ test('AT-34 My overview numbers match My work scope and switch at Bangkok midnig
     assert.equal(o.body.bangkok_today, '2026-10-06');
     assert.equal(o.body.due_today, 1);
     assert.equal(o.body.overdue, 0);
-    assert.equal(o.body.due_this_week, 2);
+    // "This week" is the rest of the week after today, like the My work group.
+    assert.equal(o.body.due_this_week, 1);
     assert.equal(o.body.next_up[0].id, 1);
     const mine = await call(base, member2, '/api/tasks?assignee=2&pageSize=100');
     assert.equal(
@@ -139,6 +142,103 @@ test('AT-34 My overview numbers match My work scope and switch at Bangkok midnig
     void member;
   }));
 
+test('AT-34 every Home widget equals the My work query it links to; assigned/created toggle', () =>
+  fixture(async (base, f) => {
+    const admin = await login(base);
+    await call(base, admin, '/api/projects/1/members/2', 'PUT', { access: 'editor', version: 1 });
+    // Wed 7 Oct 10:00 Bangkok; week Mon 5 – Sun 11 Oct; "done in 7 days" = 1–7 Oct.
+    f.setTime('2026-10-07T03:00:00.000Z');
+    await db(f, "UPDATE dbo.tasks SET due_date='2026-10-06' WHERE id=1");
+    await db(f, "UPDATE dbo.tasks SET due_date='2026-10-07' WHERE id=2");
+    const rows: [string, string | null, string, string | null, number][] = [
+      ['this week', '2026-10-09', 'doing', null, 1],
+      ['next week', '2026-10-13', 'review', null, 1],
+      ['later', '2026-10-30', 'todo', null, 1],
+      ['no date', null, 'todo', null, 1],
+      ['done 1 Oct Bangkok', '2026-10-01', 'done', '2026-09-30T17:30:00.000Z', 1],
+      ['done 30 Sep Bangkok', '2026-09-30', 'done', '2026-09-30T16:30:00.000Z', 1],
+      ['created by member, assigned to Admin', '2026-10-08', 'todo', null, 2],
+    ];
+    for (const [title, due, status, completed, creator] of rows)
+      await db(
+        f,
+        'INSERT INTO dbo.tasks(project_id,title,creator_id,due_date,status,completed_at) VALUES(1,@title,@creator,@due,@status,@completed)',
+        { title, creator, due, status, completed },
+      );
+    await f.db.transaction(async (tx) => {
+      for (let id = 1; id <= 9; id++)
+        await tx.execute(
+          sql('INSERT INTO dbo.task_assignees(task_id,user_id) VALUES(@id,@user)', {
+            id,
+            user: id === 9 ? 1 : 2,
+          }),
+        );
+    });
+    const member = await login(base, 'Member');
+    const o = (await call(base, member, '/api/me/overview')).body;
+    assert.equal(o.bangkok_today, '2026-10-07');
+    const listed = async (search: string, created = false) => {
+      const { query, empty } = taskParameters(myWorkFilters(search), o.bangkok_today, {
+        self: 2,
+        created,
+      });
+      assert.equal(empty, false, search);
+      query.set('pageSize', '100');
+      const r = await call(base, member, `/api/tasks?${query}`);
+      assert.equal(r.status, 200, search);
+      return r.body.items as { id: number; status: string; due_date: string | null }[];
+    };
+    // Widget value === row count of the exact My work link (MyOverview.tsx).
+    const expected: [string, number, number[]][] = [
+      ['?range=overdue', o.overdue, [1]],
+      ['?range=today', o.due_today, [2]],
+      ['?range=this_week', o.due_this_week, [3]],
+      ['?range=none', o.no_date, [6]],
+      ['?completed_from=2026-10-01', o.done_last_7_days, [7]],
+    ];
+    for (const [search, value, ids] of expected) {
+      const items = await listed(search);
+      assert.deepEqual(items.map((t) => t.id).sort(), ids, search);
+      assert.equal(value, ids.length, search);
+    }
+    for (const s of ['todo', 'doing', 'review', 'done'])
+      assert.equal((await listed(`?status=${s}`)).length, o.by_status[s], s);
+    assert.deepEqual(o.by_project, [
+      { project_id: 1, project_name: o.by_project[0].project_name, open_count: 6 },
+    ]);
+    assert.equal((await listed('?project=1')).filter((t) => t.status !== 'done').length, 6);
+    assert.equal(o.open_total, 6);
+    assert.deepEqual(
+      o.next_up.map((t: { id: number }) => t.id),
+      [1, 2, 3, 4, 5],
+    );
+    // Grouped table buckets agree with the widgets.
+    const all = await listed('');
+    const count = (g: string) =>
+      all.filter((t) => myWorkGroup(t as never, o.bangkok_today) === g).length;
+    assert.deepEqual(
+      [
+        count('overdue'),
+        count('today'),
+        count('this_week'),
+        count('next_week'),
+        count('later'),
+        count('none'),
+        count('done'),
+      ],
+      [o.overdue, o.due_today, o.due_this_week, 1, 1, o.no_date, 2],
+    );
+    // Toggle "Created by me" switches the scope to creator.
+    assert.deepEqual(
+      (await listed('', true)).map((t) => t.id),
+      [9],
+    );
+    // Forged link values are dropped instead of widening the query.
+    assert.deepEqual(
+      myWorkFilters('?range=all&status=blocked&project=0&completed_from=x'),
+      myWorkFilters(''),
+    );
+  }));
 test('AT-35 Docs: sanitize XSS, Viewer read-only, 409 + history, own/P-05 delete, restore, purge', () =>
   fixture(async (base, f) => {
     const admin = await login(base),

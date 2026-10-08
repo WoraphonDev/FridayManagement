@@ -1,12 +1,16 @@
 # TeamFlow — Task.md: แผนพัฒนาและตรวจความครบถ้วน
 
-**Version:** 1.54 · **วันที่:** 8 ตุลาคม 2026\
+**Version:** 1.55 · **วันที่:** 8 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
 **จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 77 API routes ที่ล็อก (contract 1.4.0) + planned routes SRS §12.6
 **ต้นทาง:** `TeamFlow_Requirements_v1.0.md` และ `TeamFlow_SRS_v1.0.md` รุ่นปัจจุบันที่อ่านเมื่อ 5 ตุลาคม 2026
 
 
 
+
+## T-083 My overview + My work — 8 October 2026
+
+ตรวจโค้ด T-083 ที่มีอยู่เทียบ AT-34 แล้วแก้: This week ไม่รวมวันนี้ให้ตรงกลุ่ม My work, Done 7 วันใช้วันที่ Bangkok, link widget/สถานะ/โปรเจกต์ส่งตัวกรองไป My work จริง (`myWorkFilters`), ตัวกรอง This week; ใส่ `test:addendum` เข้า `npm test`/lint และแก้เทส route count 63→77 ที่ fail ค้าง. ผล: addendum 5/5, Node 441/441 + frontend 42/42, Chromium 1/1, typecheck/lint/build/contract/test-plan PASS. Contract/migration ไม่เปลี่ยน. SQL Server 2022/Windows/UAT NOT_RUN. พบโค้ด T-084–T-087 ที่ยังไม่บันทึก ยังไม่ตรวจรับ. Evidence: TeamFlow_T083_Test_Report.md / reports/T-083-my-overview-results.json. DONE6/91, IN_PROGRESS75, IN_REVIEW2, TODO8, remaining85. Declared Medium; actual model/effort NOT_VERIFIED. Next: T-084 High (Docs, โค้ดมีแล้วรอตรวจรับ) หรือ T-085 Medium; T-086/T-087/T-089 รอเจ้าของรีวิว T-079.
 
 ## T-079–T-082 implementation + batch test T-078–T-082 — 8 October 2026
 
@@ -275,7 +279,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-080 | Job titles: schema/API/Admin UI/filter/report/CSV | T-078 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; reports/T-078-T-082-batch-results.json; SQLite AT-31 HTTP + combined474 + browser PASS; SQL2022/Windows/UAT NOT_RUN |
 | T-081 | Permission catalog + checkbox รายคน + project role manager + authorization matrix | T-078 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; SQLite AT-32 HTTP + combined474 PASS; SQL2022 NOT_RUN; full P-key×role×endpoint matrix and two-process race pending |
 | T-082 | Admin center + Permission matrix (checkbox/bulk/preset) | T-080, T-081 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; SQLite AT-33 HTTP + browser preset/summary/409/375px/Settings PASS; SQL2022/Windows/UAT NOT_RUN |
-| T-083 | My overview + My work grouped table | T-078 | Medium | TODO | ยังไม่มอบหมาย | — |
+| T-083 | My overview + My work grouped table | T-078 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T083_Test_Report.md; reports/T-083-my-overview-results.json: addendum5/5 (AT-34×2) + Node441 + frontend42 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-084 | Project Docs (schema/API/editor/sanitize/version/trash) | T-081 | High | TODO | ยังไม่มอบหมาย | — |
 | T-085 | Project Files tab + project-level upload | T-081 | Medium | TODO | ยังไม่มอบหมาย | — |
 | T-086 | Main table monday upgrade (inline/batch/drag/sticky/resize) | T-079 | High | TODO | ยังไม่มอบหมาย | — |
@@ -1932,14 +1936,14 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 **Trace:** FR-44, FR-45 · **SRS:** §9.9, §9.10, §12.6
 **Acceptance:** AT-34
 
-- [ ] API my overview ใช้ scope เดียวกับรายงาน
-- [ ] widgets + ลิงก์ตัวกรอง
-- [ ] My work grouped table + toggle
-- [ ] ทดสอบเที่ยงคืน Bangkok และสิทธิ์
+- [x] API my overview ใช้ scope เดียวกับรายงาน
+- [x] widgets + ลิงก์ตัวกรอง
+- [x] My work grouped table + toggle
+- [x] ทดสอบเที่ยงคืน Bangkok และสิทธิ์ (SQLite local)
 
 **เกณฑ์รับงาน:** AT-34 รันจริงและตัวเลขตรงกัน
 
-**Status:** TODO
+**Status:** IN_PROGRESS · **Local evidence:** TeamFlow_T083_Test_Report.md. AT-34 local SQLite HTTP + Chromium PASS; SQL Server 2022/Windows/UAT NOT_RUN; actual model/effort NOT_VERIFIED.
 
 **หลักฐานเมื่อปิดงาน:** บันทึกใน Task Register; สำหรับการทดสอบระบุผลและ environment ไม่ใช้คำว่า “ผ่าน” โดยไม่มีการรัน
 
@@ -2213,7 +2217,7 @@ FR-46 Updates feed: DEFERRED ไปรอบถัดไปตามเจ้า
 | AT-31 | Job title/filter/CSV ไม่เปลี่ยนสิทธิ์ | T-080, T-082, T-091 | NOT_RUN | — |
 | AT-32 | Permission checkbox/manager/revoke/self-block | T-081, T-082, T-091 | NOT_RUN | — |
 | AT-33 | Admin center + Permission matrix | T-082, T-091 | NOT_RUN | — |
-| AT-34 | My overview + My work | T-083, T-091 | NOT_RUN | — |
+| AT-34 | My overview + My work | T-083, T-091 | NOT_RUN | Local SQLite HTTP/Chromium PASS (TeamFlow_T083_Test_Report.md); formal run with SQL2022 pending |
 | AT-35 | Docs CRUD/conflict/XSS/trash | T-084, T-091 | NOT_RUN | — |
 | AT-36 | Project Files | T-085, T-091 | NOT_RUN | — |
 | AT-37 | Workload + Overview | T-088, T-091 | NOT_RUN | — |

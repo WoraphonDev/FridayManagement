@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { apiClient, ApiError, type Self } from './api';
 import { statusLabel, statuses, taskSchema } from './task-api';
 import { useSharedRefresh } from './shared/refresh';
+import { dateAdd } from './task-dates';
 import { EmptyState, ErrorNotice, Loading } from './shared/components';
 const client = apiClient();
 const count = z.number().int().min(0);
@@ -77,12 +78,22 @@ export function MyOverview({
   useSharedRefresh(read, online, self.csrf);
   if (error && !data) return <ErrorNotice error={error} retry={() => setReload((n) => n + 1)} />;
   if (!data) return <Loading />;
-  const tiles: [string, number, string][] = [
-    ['Overdue', data.overdue, 'overdue'],
-    ['Due today', data.due_today, 'today'],
-    ['This week', data.due_this_week, 'this_week'],
-    ['No date', data.no_date, 'none'],
-    ['Done in 7 days', data.done_last_7_days, 'done'],
+  return <OverviewBody self={self} data={data} />;
+}
+/** Pure Home body so every widget link can be verified without the network (AT-34). */
+export function OverviewBody({ self, data }: { self: Self; data: Overview }) {
+  // Each link reproduces the widget's query in My work (FR-44, AT-34).
+  const tiles: [string, number, string, string][] = [
+    ['Overdue', data.overdue, 'overdue', 'range=overdue'],
+    ['Due today', data.due_today, 'today', 'range=today'],
+    ['Later this week', data.due_this_week, 'this_week', 'range=this_week'],
+    ['No date', data.no_date, 'none', 'range=none'],
+    [
+      'Done in 7 days',
+      data.done_last_7_days,
+      'done',
+      `completed_from=${dateAdd(data.bangkok_today, -6)}`,
+    ],
   ];
   const max = Math.max(1, ...statuses.map((s) => data.by_status[s]));
   return (
@@ -92,11 +103,11 @@ export function MyOverview({
         My overview · {data.open_total} open tasks assigned to you · {data.bangkok_today}
       </p>
       <div className="overview-tiles">
-        {tiles.map(([label, value, group]) => (
+        {tiles.map(([label, value, group, query]) => (
           <Link
             key={group}
             className={`overview-tile tile-${group}`}
-            to={`/my-tasks#my-group-${group}`}
+            to={`/my-tasks?${query}#my-group-${group}`}
           >
             <span>{label}</span>
             <strong>{value}</strong>
@@ -108,7 +119,7 @@ export function MyOverview({
           <h3 id="ov-status">My tasks by status</h3>
           {statuses.map((s) => (
             <div className="overview-bar" key={s}>
-              <span>{statusLabel[s]}</span>
+              <Link to={`/my-tasks?status=${s}`}>{statusLabel[s]}</Link>
               <span
                 className={`bar status-${s}`}
                 style={{ width: `${(data.by_status[s] / max) * 100}%` }}
@@ -123,7 +134,7 @@ export function MyOverview({
             <ul className="overview-list">
               {data.by_project.map((p) => (
                 <li key={p.project_id}>
-                  <Link to={`/projects?project=${p.project_id}`}>{p.project_name}</Link>
+                  <Link to={`/my-tasks?project=${p.project_id}`}>{p.project_name}</Link>
                   <strong>{p.open_count}</strong>
                 </li>
               ))}

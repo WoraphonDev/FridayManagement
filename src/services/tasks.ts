@@ -1170,12 +1170,13 @@ export function taskService(options: AccessOptions = {}) {
         due_this_week = 0,
         no_date = 0,
         done_last_7_days = 0;
-      const weekAgo = new Date(Date.parse(at) - 7 * 86400000).toISOString();
+      // Bangkok dates today-6..today, matching My work date_basis=completed&date_from.
+      const weekAgo = addDays(today, -6);
       const open: typeof rows = [];
       for (const t of rows) {
         by_status[t.status as keyof typeof by_status]++;
         if (t.status === 'done') {
-          if (t.completed_at && t.completed_at >= weekAgo) done_last_7_days++;
+          if (t.completed_at && bangkokToday(t.completed_at) >= weekAgo) done_last_7_days++;
           continue;
         }
         open.push(t);
@@ -1189,7 +1190,8 @@ export function taskService(options: AccessOptions = {}) {
         if (!t.due_date) no_date++;
         else if (t.due_date < today) overdue++;
         else if (t.due_date === today) due_today++;
-        if (t.due_date && t.due_date >= today && t.due_date <= weekEnd) due_this_week++;
+        // Rest of this week after today, the same bucket as My work "This week".
+        else if (t.due_date <= weekEnd) due_this_week++;
       }
       open.sort(
         (x, y) =>
