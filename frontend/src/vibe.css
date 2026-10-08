@@ -1379,3 +1379,75 @@ img.file-preview {
 .board-page section[aria-label='Calendar'] {
   padding: 0 24px 24px;
 }
+
+/* Settings: section menu on the left, one panel at a time (Vibe Preview). */
+.settings-layout {
+  display: grid;
+  grid-template-columns: 200px minmax(0, 560px);
+  gap: 32px;
+  align-items: start;
+}
+.settings-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.settings-nav button {
+  border: 0;
+  text-align: left;
+  background: transparent;
+  padding: 8px 12px;
+}
+.settings-nav button.active {
+  background: #e7f0fd;
+  color: #0060b9;
+}
+.settings-panel h2 {
+  margin: 4px 0 4px;
+  font-size: 16px;
+}
+.settings-lead {
+  color: #676879;
+  font-size: 12px;
+}
+.profile-card {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 16px 0;
+}
+.profile-card small {
+  display: block;
+  color: #676879;
+  font-size: 11px;
+}
+.profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #e9e0fb;
+  font-size: 11px;
+  font-weight: 600;
+}
+.profile-fields dt {
+  margin-top: 12px;
+  font-weight: 600;
+  font-size: 12px;
+}
+.profile-fields dd {
+  margin: 4px 0 0;
+  padding: 7px 10px;
+  border-radius: 4px;
+  background: #eceff8;
+}
+@media (max-width: 720px) {
+  .settings-layout {
+    grid-template-columns: 1fr;
+  }
+  .settings-nav {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+}

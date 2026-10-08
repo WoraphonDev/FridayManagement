@@ -5,7 +5,7 @@ import { NotificationBadge } from './NotificationBadge';
 import { organizationReply } from './organization-api';
 import { Trash } from './Trash';
 import { Workspaces } from './Workspaces';
-import { useCallback, useEffect, useRef, useState, lazy, Suspense } from 'react';
+import { useCallback, useEffect, useRef, useState, lazy, Suspense, type ReactNode } from 'react';
 import { subscribeRefresh, refreshCurrentReaders } from './shared/refresh';
 import { setWritable, useWritable } from './shared/connection';
 import { readFailureCount } from './api';
@@ -38,6 +38,7 @@ export function App() {
   const [reconnecting, setReconnecting] = useState(false);
   const [self, setSelf] = useState<Self>();
   const [organizationName, setOrganizationName] = useState<string>();
+  const [settingsSection, setSettingsSection] = useState<SettingsSection>('profile');
   const [organizationReload, setOrganizationReload] = useState(0);
   const [error, setError] = useState<ApiError>();
   const [loading, setLoading] = useState(true);
@@ -652,33 +653,55 @@ export function App() {
                 <Notifications key={epoch + self.csrf} {...{ self, online }} onFailure={failure} />
               </Suspense>
             ) : self && page?.path === '/settings' ? (
-              <>
-                <OrganizationSettings
-                  self={self}
-                  online={online}
-                  onFailure={failure}
-                  onChange={() => setOrganizationReload((n) => n + 1)}
-                />
-                <MotionSettings self={self} online={online} onFailure={failure} />
-                <h2>Profile</h2>
-                <dl>
-                  <dt>Username</dt>
-                  <dd>{self.user.username}</dd>
-                  <dt>Display name</dt>
-                  <dd>{self.user.display_name}</dd>
-                  <dt>Access</dt>
-                  <dd>{self.user.org_role}</dd>
-                </dl>
-                <p>Contact your administrator to update your name or permissions</p>
-                <MyPermissions self={self} />
-                <Password
-                  key={epoch + self.csrf}
-                  self={self}
-                  online={online}
-                  onDone={authenticated}
-                  onFailure={failure}
-                />
-              </>
+              <SettingsPage
+                section={settingsSection}
+                onSection={setSettingsSection}
+                profile={
+                  <>
+                    <h2>Profile</h2>
+                    <p className="settings-lead">Your name appears on tasks and comments</p>
+                    <div className="profile-card">
+                      <span className="profile-avatar" aria-hidden="true">
+                        {initials(self.user.display_name)}
+                      </span>
+                      <div>
+                        <strong>{self.user.display_name}</strong>
+                        <small>
+                          {self.user.username} · {self.user.org_role}
+                        </small>
+                      </div>
+                    </div>
+                    <dl className="profile-fields">
+                      <dt>Display name</dt>
+                      <dd>{self.user.display_name}</dd>
+                      <dt>Username</dt>
+                      <dd>{self.user.username}</dd>
+                    </dl>
+                    <p className="settings-lead">
+                      Contact your administrator to update your name or permissions
+                    </p>
+                    <MyPermissions self={self} />
+                  </>
+                }
+                password={
+                  <Password
+                    key={epoch + self.csrf}
+                    self={self}
+                    online={online}
+                    onDone={authenticated}
+                    onFailure={failure}
+                  />
+                }
+                appearance={<MotionSettings self={self} online={online} onFailure={failure} />}
+                organization={
+                  <OrganizationSettings
+                    self={self}
+                    online={online}
+                    onFailure={failure}
+                    onChange={() => setOrganizationReload((n) => n + 1)}
+                  />
+                }
+              />
             ) : self && (page?.path === '/my-tasks' || page?.path === '/calendar') ? (
               <Suspense fallback={<Loading />}>
                 <TaskWorkspace
@@ -738,6 +761,39 @@ export function App() {
   );
 }
 
+type SettingsSection = 'profile' | 'password' | 'appearance' | 'organization';
+const settingsSections: [SettingsSection, string][] = [
+  ['profile', 'Profile'],
+  ['password', 'Change password'],
+  ['appearance', 'Appearance'],
+  ['organization', 'Organization'],
+];
+function SettingsPage({
+  section,
+  onSection,
+  ...panels
+}: { section: SettingsSection; onSection: (s: SettingsSection) => void } & Record<
+  SettingsSection,
+  ReactNode
+>) {
+  return (
+    <div className="settings-layout">
+      <nav className="settings-nav" aria-label="Settings sections">
+        {settingsSections.map(([key, label]) => (
+          <button
+            key={key}
+            aria-current={section === key ? 'page' : undefined}
+            className={section === key ? 'active' : undefined}
+            onClick={() => onSection(key)}
+          >
+            {label}
+          </button>
+        ))}
+      </nav>
+      <div className="settings-panel">{panels[section]}</div>
+    </div>
+  );
+}
 const pageDescriptions: Record<string, string> = {
   '/': 'Your starting point for the working day',
   '/projects': 'Every project you can access',
