@@ -1,12 +1,16 @@
 # TeamFlow — Task.md: แผนพัฒนาและตรวจความครบถ้วน
 
-**Version:** 1.56 · **วันที่:** 8 ตุลาคม 2026\
+**Version:** 1.57 · **วันที่:** 8 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
 **จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 77 API routes ที่ล็อก (contract 1.4.0) + planned routes SRS §12.6
 **ต้นทาง:** `TeamFlow_Requirements_v1.0.md` และ `TeamFlow_SRS_v1.0.md` รุ่นปัจจุบันที่อ่านเมื่อ 5 ตุลาคม 2026
 
 
 
+
+## T-085 Project Files — 8 October 2026
+
+ตรวจโค้ด Files ที่มีอยู่เทียบ SRS §9.8/FR-28: quota/validation/download headers/P-06 ถูกต้อง. แก้: audit project_file_deleted/restored ใน transaction เดียว, ค้นหาหน่วง 300 ms, CSS ของ preview. เพิ่ม AT-36 (Viewer, quota boundary, type filter, ไฟล์ของงานที่ถูกลบซ่อน, P-06, 29/30 วัน, purge คืน quota/ลบ disk, audit) และ Chromium spec. ผล: Node 446/446 + frontend 44/44, Chromium 1/1, typecheck/lint/build/contract PASS. Contract/migration ไม่เปลี่ยน. Spec browser เดิมที่ใช้ป้ายไทยตอน login fail อยู่ก่อนแล้ว (แยกเป็นงาน). SQL Server 2022/Windows/UAT NOT_RUN. Evidence: TeamFlow_T085_Test_Report.md / reports/T-085-files-results.json. DONE6/91, IN_PROGRESS77, IN_REVIEW2, TODO6, remaining85. Declared Medium; actual model/effort NOT_VERIFIED. Next: T-088 Medium (Workload/Overview).
 
 ## T-084 Project Docs — 8 October 2026
 
@@ -285,7 +289,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-082 | Admin center + Permission matrix (checkbox/bulk/preset) | T-080, T-081 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; SQLite AT-33 HTTP + browser preset/summary/409/375px/Settings PASS; SQL2022/Windows/UAT NOT_RUN |
 | T-083 | My overview + My work grouped table | T-078 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T083_Test_Report.md; reports/T-083-my-overview-results.json: addendum5/5 (AT-34×2) + Node441 + frontend42 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-084 | Project Docs (schema/API/editor/sanitize/version/trash) | T-081 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T084_Test_Report.md; reports/T-084-docs-results.json: XSS corpus47 + AT-35 HTTP2/2 + Node445 + frontend44 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
-| T-085 | Project Files tab + project-level upload | T-081 | Medium | TODO | ยังไม่มอบหมาย | — |
+| T-085 | Project Files tab + project-level upload | T-081 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T085_Test_Report.md; reports/T-085-files-results.json: AT-36 HTTP2/2 + Node446 + frontend44 + Chromium1/1 PASS SQLite+temp FS; SQL2022/Windows/UAT NOT_RUN |
 | T-086 | Main table monday upgrade (inline/batch/drag/sticky/resize) | T-079 | High | TODO | ยังไม่มอบหมาย | — |
 | T-087 | Task side panel (Updates/@mention/Files/Activity) | T-079 | Medium | TODO | ยังไม่มอบหมาย | — |
 | T-088 | Workload + Project overview | T-080 | Medium | TODO | ยังไม่มอบหมาย | — |
@@ -1979,15 +1983,15 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 **Trace:** FR-49, FR-28 · **SRS:** §9.8, §12.6
 **Acceptance:** AT-36
 
-- [ ] schema/attachments project scope
-- [ ] รวมไฟล์ตามสิทธิ์ + search/filter
-- [ ] upload ระดับโปรเจกต์ใช้ quota/ตรวจชนิดเดิม
-- [ ] preview รูป/PDF ปลอดภัย
-- [ ] ลบ/คืนตาม P-06
+- [x] schema/attachments project scope (SQLite run; SQL Server NOT_RUN)
+- [x] รวมไฟล์ตามสิทธิ์ + search/filter
+- [x] upload ระดับโปรเจกต์ใช้ quota/ตรวจชนิดเดิม
+- [x] preview รูป/PDF ปลอดภัย (PDF headed NOT_RUN)
+- [x] ลบ/คืนตาม P-06 + audit
 
 **เกณฑ์รับงาน:** AT-36 รันจริงบน filesystem จริง
 
-**Status:** TODO
+**Status:** IN_PROGRESS · **Local evidence:** TeamFlow_T085_Test_Report.md. AT-36 local SQLite + temp filesystem HTTP + Chromium PASS; SQL Server 2022/Windows/UAT NOT_RUN; actual model/effort NOT_VERIFIED.
 
 **หลักฐานเมื่อปิดงาน:** บันทึกใน Task Register; สำหรับการทดสอบระบุผลและ environment ไม่ใช้คำว่า “ผ่าน” โดยไม่มีการรัน
 
@@ -2223,7 +2227,7 @@ FR-46 Updates feed: DEFERRED ไปรอบถัดไปตามเจ้า
 | AT-33 | Admin center + Permission matrix | T-082, T-091 | NOT_RUN | — |
 | AT-34 | My overview + My work | T-083, T-091 | NOT_RUN | Local SQLite HTTP/Chromium PASS (TeamFlow_T083_Test_Report.md); formal run with SQL2022 pending |
 | AT-35 | Docs CRUD/conflict/XSS/trash | T-084, T-091 | NOT_RUN | Local SQLite HTTP/XSS/Chromium PASS (TeamFlow_T084_Test_Report.md); formal run with SQL2022 pending |
-| AT-36 | Project Files | T-085, T-091 | NOT_RUN | — |
+| AT-36 | Project Files | T-085, T-091 | NOT_RUN | Local SQLite+FS HTTP/Chromium PASS (TeamFlow_T085_Test_Report.md); formal run with SQL2022/Windows pending |
 | AT-37 | Workload + Overview | T-088, T-091 | NOT_RUN | — |
 | AT-38 | Main table + side panel | T-086, T-087, T-091 | NOT_RUN | — |
 | AT-39 | UX/motion/reduced motion | T-079, T-089, T-091 | NOT_RUN | — |

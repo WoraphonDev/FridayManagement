@@ -1,0 +1,25 @@
+{
+  "task": "T-085",
+  "date": "2026-10-08",
+  "environment": { "os": "macOS (Darwin 24.6.0)", "node": "22.23.3", "provider": "sqlite (local temporary) + temp filesystem", "browser": "Playwright Chromium" },
+  "declaredEffort": "Medium",
+  "actualModelEffort": "NOT_VERIFIED",
+  "trace": ["FR-49", "FR-28", "AT-36", "TC-094"],
+  "results": {
+    "AT-36 HTTP": "2/2 PASS",
+    "browser project-files.spec.ts": "1/1 PASS",
+    "npm test": "node 446/446 + frontend 44/44 PASS",
+    "typecheck": "PASS",
+    "lint": "PASS (1 pre-existing react-refresh warning)",
+    "build": "PASS",
+    "check:contract": "PASS (77 routes, unchanged)"
+  },
+  "fixed": [
+    "project file delete/restore audited in admin_events within the same transaction",
+    "file search debounced 300 ms",
+    "preview image constrained to dialog/viewport"
+  ],
+  "preExistingFailures": ["tests/browser/files.spec.ts and other legacy specs use removed Thai login labels (fail without this change)"],
+  "notRun": ["SQL Server 2022", "Windows NTFS/ACL", "UAT", "headed PDF rendering", "formal TC-094/AT-36 run register"],
+  "status": "IN_PROGRESS"
+}

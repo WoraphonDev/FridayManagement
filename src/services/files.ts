@@ -807,7 +807,13 @@ export async function fileService(
       }
       return { items, page, pageSize, total: merged.length };
     },
-    async projectChange(tx: Transaction, proof: SessionProof, id: number, restore: boolean) {
+    async projectChange(
+      tx: Transaction,
+      proof: SessionProof,
+      id: number,
+      restore: boolean,
+      request: string,
+    ) {
       let r = await projectRow(tx, id);
       if (!r) throw new ApiFault('NOT_FOUND');
       const { project } = await projectTarget(tx, proof, r.project_id, true, true);
@@ -815,13 +821,30 @@ export async function fileService(
       if (!can(project, 'P-06') && r.uploader_id !== proof.userId) throw new ApiFault('FORBIDDEN');
       if (restore && r.deleted_at && !retentionWindow(r.deleted_at, now()).restorable)
         throw new ApiFault('RETENTION_EXPIRED');
-      if (restore ? !!r.deleted_at : !r.deleted_at)
+      if (restore ? !!r.deleted_at : !r.deleted_at) {
+        const at = now();
         await tx.execute(
           sql('UPDATE dbo.project_files SET deleted_at=@deleted WHERE id=@id', {
             id,
-            deleted: restore ? null : now(),
+            deleted: restore ? null : at,
           }),
         );
+        // FR-28/§8.4: project-level delete/restore is audited atomically like task attachments.
+        await tx.execute(
+          sql(
+            'INSERT INTO dbo.admin_events(actor_id,action,resource_type,resource_id,redacted_changes,request_id,created_at) VALUES(@actor,@action,@type,@id,@changes,@request,@at)',
+            {
+              actor: proof.userId,
+              action: restore ? 'project_file_restored' : 'project_file_deleted',
+              type: 'project_file',
+              id,
+              changes: JSON.stringify({ project_id: r.project_id, name: r.original_name }),
+              request,
+              at,
+            },
+          ),
+        );
+      }
       return { item: await projectDto(tx, (await projectRow(tx, id))!, proof) };
     },
     async projectDownload(tx: Transaction, proof: SessionProof, id: number, request: string) {

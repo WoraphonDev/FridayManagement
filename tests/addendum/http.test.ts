@@ -525,6 +525,124 @@ test('AT-36 Project files: upload with validation/quota, merged list, own/P-06 d
     assert.equal((await readdir(join(root, 'attachments'))).length, 3);
   }));
 
+const png = Buffer.from(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+  'base64',
+);
+test('AT-36 Files: Viewer, quota boundary, type filter, deleted task hidden, P-06, 30-day window, purge, audit', () =>
+  fixture(async (base, f, root) => {
+    f.setTime('2026-10-01T00:00:00.000Z');
+    const admin = await login(base);
+    await call(base, admin, '/api/projects/1/members/2', 'PUT', { access: 'viewer', version: 1 });
+    let member = await login(base, 'Member');
+    // Viewer reads the merged list but cannot upload or open the trash view.
+    assert.equal((await upload(base, member, '/api/projects/1/files')).status, 403);
+    assert.equal((await call(base, member, '/api/projects/1/files')).status, 200);
+    assert.equal(
+      (await call(base, member, '/api/projects/1/files?includeDeleted=true')).status,
+      403,
+    );
+    await call(base, admin, '/api/projects/1/members/2', 'PUT', { access: 'editor', version: 2 });
+    member = await login(base, 'Member');
+    const own = (await upload(base, member, '/api/projects/1/files', 'แผน.txt')).body.item;
+    const boss = (await upload(base, admin, '/api/projects/1/files', 'boss.txt')).body.item;
+    const image = await upload(base, admin, '/api/projects/1/files', 'ผัง.png', png);
+    assert.equal(image.status, 201);
+    assert.equal(image.body.item.validated_type, 'image/png');
+    // Quota boundary: exactly the remaining bytes fit; one more byte does not.
+    const total = 1024 * 1024 * 20;
+    const stored = Number(
+      (await db(f, 'SELECT stored_bytes FROM dbo.storage_quota'))[0]!.stored_bytes,
+    );
+    await db(f, 'UPDATE dbo.storage_quota SET stored_bytes=@v', { v: total - 12 });
+    const fit = await upload(base, member, '/api/projects/1/files', 'fit.txt');
+    assert.equal(fit.status, 201);
+    const over = await upload(base, member, '/api/projects/1/files', 'over.txt', Buffer.from('x'));
+    assert.deepEqual([over.status, over.body.error.code], [422, 'QUOTA_EXCEEDED']);
+    assert.equal(
+      Number((await db(f, 'SELECT reserved_bytes FROM dbo.storage_quota'))[0]!.reserved_bytes),
+      0,
+    );
+    await db(f, 'UPDATE dbo.storage_quota SET stored_bytes=@v', { v: stored + 12 });
+    // Type filter and source column.
+    const byType = async (type: string) =>
+      (await call(base, member, `/api/projects/1/files?type=${type}`)).body.total;
+    assert.deepEqual(
+      [await byType('image'), await byType('document'), await byType('pdf')],
+      [1, 3, 0],
+    );
+    // Attachments of a deleted task disappear from the project list.
+    await upload(base, admin, '/api/tasks/2/attachments', 'task.txt');
+    assert.equal((await call(base, member, '/api/projects/1/files?source=task')).body.total, 1);
+    assert.equal((await call(base, admin, '/api/tasks/2', 'DELETE', { version: 1 })).status, 200);
+    assert.equal((await call(base, member, '/api/projects/1/files?source=task')).body.total, 0);
+    // Manager without P-06 cannot delete others' files.
+    await call(base, admin, '/api/users/2/permissions', 'PUT', {
+      keys: ['P-01'],
+      permissions_version: 1,
+    });
+    await call(base, admin, '/api/projects/1/members/2', 'PUT', { access: 'manager', version: 3 });
+    member = await login(base, 'Member');
+    assert.equal((await call(base, member, `/api/project-files/${boss.id}`, 'DELETE')).status, 403);
+    // Own file: delete, restore after 29 days, expire at exactly 30×24h.
+    assert.equal((await call(base, member, `/api/project-files/${own.id}`, 'DELETE')).status, 200);
+    const trashList = await call(base, member, '/api/projects/1/files?includeDeleted=true');
+    assert.equal(
+      trashList.body.items.find(
+        (i: { id: number; source: string }) => i.source === 'project' && i.id === own.id,
+      ).can_restore,
+      true,
+    );
+    f.setTime('2026-10-30T00:00:00.000Z');
+    member = await login(base, 'Member');
+    assert.equal(
+      (await call(base, member, `/api/project-files/${own.id}/restore`, 'POST')).status,
+      200,
+    );
+    assert.equal((await call(base, member, `/api/project-files/${own.id}`, 'DELETE')).status, 200);
+    f.setTime('2026-11-29T00:00:00.000Z');
+    member = await login(base, 'Member');
+    const expired = await call(base, member, `/api/project-files/${own.id}/restore`, 'POST');
+    assert.deepEqual([expired.status, expired.body.error.code], [422, 'RETENTION_EXPIRED']);
+    // Deleted bytes count toward quota until purge; purge unlinks and releases them.
+    const before = Number(
+      (await db(f, 'SELECT stored_bytes FROM dbo.storage_quota'))[0]!.stored_bytes,
+    );
+    const filesBefore = (await readdir(join(root, 'attachments'))).length;
+    const retention = await retentionService(
+      f.db,
+      { directory: root, maxFileBytes: 10485760, totalUploadBytes: total },
+      { clock: f.clock },
+    );
+    await retention.run();
+    assert.equal(
+      (await db(f, 'SELECT id FROM dbo.project_files WHERE id=@id', { id: own.id })).length,
+      0,
+    );
+    assert.equal(
+      Number((await db(f, 'SELECT stored_bytes FROM dbo.storage_quota'))[0]!.stored_bytes),
+      // own file + the deleted task's attachment both passed 30×24h.
+      before - 24,
+    );
+    assert.ok((await readdir(join(root, 'attachments'))).length < filesBefore);
+    // Outsider: 404 for list and download.
+    const admin2 = await login(base);
+    await call(base, admin2, '/api/projects/1/members/2', 'DELETE', { version: 4 });
+    member = await login(base, 'Member');
+    assert.equal((await call(base, member, '/api/projects/1/files')).status, 404);
+    const r = await fetch(`${base}/api/project-files/${boss.id}/download`, {
+      headers: { Cookie: member.Cookie },
+    });
+    assert.equal(r.status, 404);
+    const audit = await db(
+      f,
+      "SELECT action FROM dbo.admin_events WHERE resource_type='project_file' ORDER BY id",
+    );
+    assert.deepEqual(
+      audit.map((a) => a.action),
+      ['project_file_deleted', 'project_file_restored', 'project_file_deleted'],
+    );
+  }));
 test('AT-38 batch: per-item outcomes without silent partial updates; @mention notifies only project users', () =>
   fixture(async (base, f) => {
     const admin = await login(base),

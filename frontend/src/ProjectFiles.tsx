@@ -59,6 +59,7 @@ export function ProjectFiles({
 }) {
   const [data, setData] = useState<z.infer<typeof filePage>>(),
     [q, setQ] = useState(''),
+    [query, setQuery] = useState(''),
     [type, setType] = useState(''),
     [source, setSource] = useState(''),
     [trash, setTrash] = useState(false),
@@ -80,6 +81,11 @@ export function ProjectFiles({
     },
     [onFailure],
   );
+  // Search waits for a typing pause instead of issuing one request per keystroke.
+  useEffect(() => {
+    const timer = setTimeout(() => setQuery(q.trim()), 300);
+    return () => clearTimeout(timer);
+  }, [q]);
   useEffect(() => {
     const c = new AbortController();
     const params = new URLSearchParams({
@@ -87,7 +93,7 @@ export function ProjectFiles({
       pageSize: '25',
       includeDeleted: String(trash),
     });
-    if (q.trim()) params.set('q', q.trim());
+    if (query) params.set('q', query);
     if (type) params.set('type', type);
     if (source) params.set('source', source);
     client
@@ -103,7 +109,7 @@ export function ProjectFiles({
       })
       .catch((e) => !c.signal.aborted && fail(e));
     return () => c.abort();
-  }, [project.id, q, type, source, trash, page, reload, fail]);
+  }, [project.id, query, type, source, trash, page, reload, fail]);
   useEffect(() => () => preview && URL.revokeObjectURL(preview.url), [preview]);
   const upload = async (file: File) => {
     setPending(true);

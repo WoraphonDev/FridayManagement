@@ -1063,3 +1063,21 @@ dialog.task-editor fieldset > label:has(select[aria-label='Repeat']) {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* T-085 Project Files (FR-49): previews stay inside the dialog and the viewport. */
+.project-files .row-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.project-files tr.deleted th,
+.project-files tr.deleted td {
+  opacity: 0.6;
+}
+img.file-preview {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  height: auto;
+  margin: 0 auto;
+}

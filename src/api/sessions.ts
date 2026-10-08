@@ -172,11 +172,11 @@ export async function sessionHooks(
           }),
           delete_api_project_files_id: async (c: ApiContext) => ({
             status: 200,
-            body: await files.projectChange(tx(c), proof(c), c.params.id!, false),
+            body: await files.projectChange(tx(c), proof(c), c.params.id!, false, requestId(c)),
           }),
           post_api_project_files_id_restore: async (c: ApiContext) => ({
             status: 200,
-            body: await files.projectChange(tx(c), proof(c), c.params.id!, true),
+            body: await files.projectChange(tx(c), proof(c), c.params.id!, true, requestId(c)),
           }),
           get_api_project_files_id_download: async (c: ApiContext) => ({
             status: 200,
