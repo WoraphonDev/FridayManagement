@@ -9,9 +9,9 @@ const password = 'Batch-admin-fixture-password',
   next = 'Batch-new-fixture-password';
 async function login(page: Page, origin: string, user = 'BatchAdmin', secret = password) {
   await page.goto(origin);
-  await page.getByLabel('ชื่อผู้ใช้', { exact: true }).fill(user);
-  await page.getByLabel('รหัสผ่าน', { exact: true }).fill(secret);
-  await page.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
+  await page.getByLabel('Username', { exact: true }).fill(user);
+  await page.getByLabel('Password', { exact: true }).fill(secret);
+  await page.getByRole('button', { name: 'Sign in', exact: true }).click();
 }
 async function fixture(page: Page) {
   const f = await startupFixture();
@@ -34,7 +34,7 @@ async function fixture(page: Page) {
     });
     expect(response.status()).toBe(201);
     await login(page, f.env.APP_ORIGIN);
-    await expect(page.getByRole('link', { name: 'จัดการผู้ใช้', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Admin', exact: true })).toBeVisible();
     return {
       ...f,
       app,
@@ -64,14 +64,14 @@ async function mutation(page: Page, path: string, body: unknown, method = 'POST'
   );
 }
 async function create(page: Page, user = 'BatchMember') {
-  await page.getByRole('link', { name: 'จัดการผู้ใช้', exact: true }).click();
-  await page.getByRole('button', { name: 'เพิ่มผู้ใช้', exact: true }).click();
+  await page.getByRole('link', { name: 'Admin', exact: true }).click();
+  await page.getByRole('button', { name: 'Add user', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByLabel('ชื่อผู้ใช้ใหม่').fill(user);
-  await dialog.getByLabel('ชื่อที่แสดง').fill('Batch Member');
-  expect(await dialog.getByLabel('รหัสผ่านชั่วคราว').inputValue()).toBe('');
-  await dialog.getByLabel('รหัสผ่านชั่วคราว').fill(temp);
-  await dialog.getByRole('button', { name: 'สร้างผู้ใช้', exact: true }).click();
+  await dialog.getByLabel('New username').fill(user);
+  await dialog.getByLabel('Display name').fill('Batch Member');
+  expect(await dialog.getByLabel('Temporary password').inputValue()).toBe('');
+  await dialog.getByLabel('Temporary password').fill(temp);
+  await dialog.getByRole('button', { name: 'Create user', exact: true }).click();
   await expect(dialog).toHaveCount(0);
   await expect(page.getByRole('cell', { name: user, exact: true })).toBeVisible();
 }
@@ -88,43 +88,43 @@ test('T017/018 actual create → login → forced password → profile → logou
     const member = await ctx.newPage();
     await login(member, f.env.APP_ORIGIN, 'BatchMember', temp);
     await expect(
-      member.getByRole('heading', { name: 'เปลี่ยนรหัสผ่าน', exact: true }),
+      member.getByRole('heading', { name: 'Change password', exact: true }),
     ).toBeVisible();
-    await expect(member.getByRole('link', { name: 'งานของฉัน', exact: true })).toHaveCount(0);
+    await expect(member.getByRole('link', { name: 'My work', exact: true })).toHaveCount(0);
     const old = await browser.newContext();
     contexts.push(old);
     const before = await old.newPage();
     await login(before, f.env.APP_ORIGIN, 'BatchMember', temp);
-    await expect(before.getByLabel('รหัสผ่านปัจจุบัน')).toBeVisible();
+    await expect(before.getByLabel('Current password')).toBeVisible();
     const cookie = (await ctx.cookies())[0]!.value;
-    await member.getByLabel('รหัสผ่านปัจจุบัน').fill('wrong');
-    await member.getByLabel('รหัสผ่านใหม่', { exact: true }).fill(next);
-    await member.getByLabel('ยืนยันรหัสผ่านใหม่').fill(next);
-    await member.getByRole('button', { name: 'เปลี่ยนรหัสผ่าน', exact: true }).click();
-    await expect(member.getByRole('alert').first()).toContainText('ไม่ถูกต้อง');
-    expect(await member.getByLabel('รหัสผ่านปัจจุบัน').inputValue()).toBe('');
-    await member.getByLabel('รหัสผ่านปัจจุบัน').fill(temp);
-    await member.getByLabel('รหัสผ่านใหม่', { exact: true }).fill('short');
-    await member.getByLabel('ยืนยันรหัสผ่านใหม่').fill('short');
-    await member.getByRole('button', { name: 'เปลี่ยนรหัสผ่าน', exact: true }).click();
+    await member.getByLabel('Current password').fill('wrong');
+    await member.getByLabel('New password', { exact: true }).fill(next);
+    await member.getByLabel('Confirm new password').fill(next);
+    await member.getByRole('button', { name: 'Change password', exact: true }).click();
+    await expect(member.getByRole('alert').first()).toContainText(/incorrect|invalid/i);
+    expect(await member.getByLabel('Current password').inputValue()).toBe('');
+    await member.getByLabel('Current password').fill(temp);
+    await member.getByLabel('New password', { exact: true }).fill('short');
+    await member.getByLabel('Confirm new password').fill('short');
+    await member.getByRole('button', { name: 'Change password', exact: true }).click();
     await expect(member.getByText('Password must contain 6–128 characters').first()).toBeVisible();
-    await member.getByLabel('รหัสผ่านใหม่', { exact: true }).fill(next);
-    await member.getByLabel('ยืนยันรหัสผ่านใหม่').fill(next);
-    await member.getByRole('button', { name: 'เปลี่ยนรหัสผ่าน', exact: true }).click();
-    await expect(member.getByRole('link', { name: 'งานของฉัน', exact: true })).toBeVisible();
+    await member.getByLabel('New password', { exact: true }).fill(next);
+    await member.getByLabel('Confirm new password').fill(next);
+    await member.getByRole('button', { name: 'Change password', exact: true }).click();
+    await expect(member.getByRole('link', { name: 'My work', exact: true })).toBeVisible();
     expect((await ctx.cookies())[0]!.value).not.toBe(cookie);
     await before.reload();
-    await expect(before.getByRole('heading', { name: 'เข้าสู่ระบบ', exact: true })).toBeVisible();
-    await member.getByRole('link', { name: 'โปรไฟล์และการตั้งค่า' }).click();
-    await expect(member.getByRole('heading', { name: 'โปรไฟล์', exact: true })).toBeVisible();
+    await expect(before.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
+    await member.getByRole('link', { name: 'Settings' }).click();
+    await expect(member.getByRole('heading', { name: 'Profile', exact: true })).toBeVisible();
     await expect(member.getByText('BatchMember', { exact: true })).toBeVisible();
-    await member.getByRole('link', { name: 'งานของฉัน', exact: true }).click();
-    await expect(member.getByRole('heading', { name: 'งานของฉัน', exact: true })).toBeVisible();
+    await member.getByRole('link', { name: 'My work', exact: true }).click();
+    await expect(member.getByRole('heading', { name: 'My work', exact: true })).toBeVisible();
     expect(
       await member.evaluate(() => [localStorage.length, sessionStorage.length, document.cookie]),
     ).toEqual([0, 0, '']);
-    await member.getByRole('button', { name: 'ออกจากระบบ', exact: true }).click();
-    await expect(member.getByRole('heading', { name: 'เข้าสู่ระบบ', exact: true })).toBeVisible();
+    await member.getByRole('button', { name: 'Sign out', exact: true }).click();
+    await expect(member.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
   } finally {
     for (const c of contexts) await c.close();
     await f.close();
@@ -136,12 +136,12 @@ test('T018 actual edit/last-admin/deactivate/reactivate/reset confirmations and 
   const f = await fixture(page);
   try {
     await create(page);
-    await page.getByRole('button', { name: 'ปิดใช้งาน BatchAdmin', exact: true }).click();
-    await page.getByRole('dialog').getByRole('button', { name: 'ยืนยัน', exact: true }).click();
-    await expect(page.getByRole('dialog').getByRole('alert')).toContainText('อย่างน้อยหนึ่งคน');
-    await page.getByRole('button', { name: 'ปิดหน้าต่าง', exact: true }).click();
-    await page.getByRole('button', { name: 'แก้ไข BatchMember', exact: true }).click();
-    await page.getByRole('dialog').getByLabel('ชื่อที่แสดง').fill('Draft name');
+    await page.getByRole('button', { name: 'Deactivate BatchAdmin', exact: true }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
+    await expect(page.getByRole('dialog').getByRole('alert')).toContainText('At least one active administrator');
+    await page.getByRole('button', { name: 'Close dialog', exact: true }).click();
+    await page.getByRole('button', { name: 'Edit BatchMember', exact: true }).click();
+    await page.getByRole('dialog').getByLabel('Display name').fill('Draft name');
     const users = await page.evaluate(
       async () =>
         (await (await fetch('/api/users')).json()).items as Array<{
@@ -161,34 +161,34 @@ test('T018 actual edit/last-admin/deactivate/reactivate/reset confirmations and 
         )
       ).status,
     ).toBe(200);
-    await page.getByRole('dialog').getByRole('button', { name: 'ยืนยัน', exact: true }).click();
-    await expect(page.getByRole('dialog').getByRole('alert')).toContainText('ข้อมูลถูกแก้ไข');
-    await page.getByRole('button', { name: 'โหลดข้อมูลล่าสุด' }).click();
-    await expect(page.getByRole('dialog').getByLabel('ชื่อที่แสดง')).toHaveValue('External name');
-    await page.getByRole('dialog').getByLabel('ชื่อที่แสดง').fill('Saved name');
-    await page.getByRole('dialog').getByRole('button', { name: 'ยืนยัน', exact: true }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
+    await expect(page.getByRole('dialog').getByRole('alert')).toContainText(/changed/i);
+    await page.getByRole('button', { name: 'Load latest data' }).click();
+    await expect(page.getByRole('dialog').getByLabel('Display name')).toHaveValue('External name');
+    await page.getByRole('dialog').getByLabel('Display name').fill('Saved name');
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(page.getByRole('cell', { name: 'Saved name', exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'ปิดใช้งาน BatchMember', exact: true }).click();
-    await page.getByRole('dialog').getByRole('button', { name: 'ยืนยัน', exact: true }).click();
+    await page.getByRole('button', { name: 'Deactivate BatchMember', exact: true }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(
-      page.getByRole('button', { name: 'เปิดใช้งาน BatchMember', exact: true }),
+      page.getByRole('button', { name: 'Activate BatchMember', exact: true }),
     ).toBeVisible();
-    await page.getByRole('button', { name: 'เปิดใช้งาน BatchMember', exact: true }).click();
-    await page.getByRole('dialog').getByRole('button', { name: 'ยืนยัน', exact: true }).click();
+    await page.getByRole('button', { name: 'Activate BatchMember', exact: true }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(
-      page.getByRole('button', { name: 'ปิดใช้งาน BatchMember', exact: true }),
+      page.getByRole('button', { name: 'Deactivate BatchMember', exact: true }),
     ).toBeVisible();
-    await page.getByRole('button', { name: 'รีเซ็ตรหัสผ่าน BatchMember', exact: true }).click();
-    await page.getByRole('dialog').getByLabel('รหัสผ่านชั่วคราว').fill(next);
-    await page.getByRole('dialog').getByLabel('รหัสผ่าน Admin ของคุณ').fill('wrong');
-    await page.getByRole('dialog').getByRole('button', { name: 'ยืนยัน', exact: true }).click();
-    await expect(page.getByRole('dialog').getByRole('alert')).toContainText('ไม่ถูกต้อง');
-    expect(await page.getByLabel('รหัสผ่านชั่วคราว').inputValue()).toBe('');
-    await page.getByLabel('รหัสผ่านชั่วคราว').fill(next);
-    await page.getByLabel('รหัสผ่าน Admin ของคุณ').fill(password);
-    await page.getByRole('dialog').getByRole('button', { name: 'ยืนยัน', exact: true }).click();
+    await page.getByRole('button', { name: 'Reset password BatchMember', exact: true }).click();
+    await page.getByRole('dialog').getByLabel('Temporary password').fill(next);
+    await page.getByRole('dialog').getByLabel('Your administrator password').fill('wrong');
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
+    await expect(page.getByRole('dialog').getByRole('alert')).toContainText(/incorrect|invalid/i);
+    expect(await page.getByLabel('Temporary password').inputValue()).toBe('');
+    await page.getByLabel('Temporary password').fill(next);
+    await page.getByLabel('Your administrator password').fill(password);
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(page.getByRole('dialog')).toHaveCount(0);
-    await expect(page.getByRole('status').filter({ hasText: 'รีเซ็ตรหัสผ่านแล้ว' })).toBeVisible();
+    await expect(page.getByRole('status').filter({ hasText: 'Password reset.' })).toBeVisible();
   } finally {
     await f.close();
   }
@@ -202,8 +202,8 @@ test('T017 passive polling never renews idle; trusted interaction does; logout c
   try {
     const second = await context.newPage();
     await second.goto(f.env.APP_ORIGIN + '/settings');
-    await expect(second.getByLabel('รหัสผ่านปัจจุบัน')).toBeVisible();
-    await second.getByLabel('รหัสผ่านใหม่', { exact: true }).fill('Unsaved-secret-fixture');
+    await expect(second.getByLabel('Current password')).toBeVisible();
+    await second.getByLabel('New password', { exact: true }).fill('Unsaved-secret-fixture');
     const seen = async () =>
       String(
         (await db.transaction((tx) => tx.query(sql('SELECT last_seen_at FROM dbo.sessions'))))[0]!
@@ -218,9 +218,9 @@ test('T017 passive polling never renews idle; trusted interaction does; logout c
     expect(await seen()).toBe(initial);
     await page.keyboard.press('Tab');
     await expect.poll(seen).not.toBe(initial);
-    await page.getByRole('button', { name: 'ออกจากระบบ', exact: true }).click();
-    await expect(second.getByRole('heading', { name: 'เข้าสู่ระบบ', exact: true })).toBeVisible();
-    await expect(second.getByLabel('รหัสผ่านใหม่', { exact: true })).toHaveCount(0);
+    await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+    await expect(second.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
+    await expect(second.getByLabel('New password', { exact: true })).toHaveCount(0);
     await second.close();
   } finally {
     await db.close();
@@ -240,22 +240,22 @@ test('T018 literal search/filter/paging and dialog keyboard/mobile 200% reflow',
       });
       expect(made.status).toBe(201);
     }
-    await page.getByRole('link', { name: 'จัดการผู้ใช้', exact: true }).click();
-    await expect(page.getByText('หน้า 1 · ทั้งหมด 12 คน', { exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'หน้าถัดไป', exact: true }).click();
-    await expect(page.getByText('หน้า 2 · ทั้งหมด 12 คน', { exact: true })).toBeVisible();
-    await page.getByLabel('ค้นหาผู้ใช้').fill('%');
-    await page.getByRole('button', { name: 'ค้นหา', exact: true }).click();
-    await expect(page.getByText('หน้า 1 · ทั้งหมด 0 คน', { exact: true })).toBeVisible();
-    await page.getByLabel('ค้นหาผู้ใช้').fill('Page10');
-    await page.getByRole('button', { name: 'ค้นหา', exact: true }).click();
+    await page.getByRole('link', { name: 'Admin', exact: true }).click();
+    await expect(page.getByText('Page 1 · Total 12 people', { exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Next page', exact: true }).click();
+    await expect(page.getByText('Page 2 · Total 12 people', { exact: true })).toBeVisible();
+    await page.getByLabel('Search users').fill('%');
+    await page.getByRole('button', { name: 'Search', exact: true }).click();
+    await expect(page.getByText('Page 1 · Total 0 people', { exact: true })).toBeVisible();
+    await page.getByLabel('Search users').fill('Page10');
+    await page.getByRole('button', { name: 'Search', exact: true }).click();
     await expect(page.getByRole('cell', { name: 'Page10', exact: true })).toBeVisible();
-    const trigger = page.getByRole('button', { name: 'เพิ่มผู้ใช้', exact: true });
+    const trigger = page.getByRole('button', { name: 'Add user', exact: true });
     await trigger.click();
-    const close = page.getByRole('button', { name: 'ปิดหน้าต่าง', exact: true });
+    const close = page.getByRole('button', { name: 'Close dialog', exact: true });
     await expect(close).toBeFocused();
     await page.keyboard.press('Tab');
-    await expect(page.getByLabel('ชื่อผู้ใช้ใหม่')).toBeFocused();
+    await expect(page.getByLabel('New username')).toBeFocused();
     await page.keyboard.press('Shift+Tab');
     await expect(close).toBeFocused();
     await page.setViewportSize({ width: 360, height: 740 });
@@ -297,10 +297,10 @@ test('T017 login show-password/429/offline and duplicate submission guard', asyn
       ).status(),
     ).toBe(201);
     await page.goto(f.env.APP_ORIGIN);
-    await page.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('BatchAdmin');
-    await page.getByLabel('รหัสผ่าน', { exact: true }).fill(password);
-    await page.getByRole('button', { name: 'แสดงรหัสผ่าน', exact: true }).click();
-    await expect(page.getByLabel('รหัสผ่าน', { exact: true })).toHaveAttribute('type', 'text');
+    await page.getByLabel('Username', { exact: true }).fill('BatchAdmin');
+    await page.getByLabel('Password', { exact: true }).fill(password);
+    await page.getByRole('button', { name: 'Show password', exact: true }).click();
+    await expect(page.getByLabel('Password', { exact: true })).toHaveAttribute('type', 'text');
     let sends = 0;
     await page.route('**/api/login', async (route) => {
       sends++;
@@ -319,19 +319,19 @@ test('T017 login show-password/429/offline and duplicate submission guard', asyn
       });
     });
     await context.setOffline(true);
-    await expect(page.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true })).toBeDisabled();
+    await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toBeDisabled();
     expect(sends).toBe(0);
     await context.setOffline(false);
-    await page.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
+    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
     await page
       .locator('form')
       .evaluate((form) =>
         form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true })),
       );
-    await expect(page.getByRole('alert').filter({ hasText: 'ถี่เกินไป' })).toBeVisible();
+    await expect(page.getByRole('alert').filter({ hasText: 'Too many requests' })).toBeVisible();
     expect(sends).toBe(1);
-    await expect(page.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true })).toBeDisabled();
-    expect(await page.getByLabel('รหัสผ่าน', { exact: true }).inputValue()).toBe('');
+    await expect(page.getByRole('button', { name: 'Sign in', exact: true })).toBeDisabled();
+    expect(await page.getByLabel('Password', { exact: true }).inputValue()).toBe('');
   } finally {
     await app.stop();
     rmSync(f.root, { recursive: true, force: true });

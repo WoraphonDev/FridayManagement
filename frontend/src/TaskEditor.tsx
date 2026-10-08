@@ -315,7 +315,7 @@ export function TaskEditor({
       setReviewed(false);
       setLatest(undefined);
       setNotice(
-        result.successor ? `Saved · CreateNext occurrence #${result.successor.id}` : 'Task saved',
+        result.successor ? `Saved · Next occurrence created #${result.successor.id}` : 'Task saved',
       );
       onDone();
       if (!id) onClose();
@@ -754,7 +754,7 @@ export function TaskEditor({
                             setChildTitle(s.title);
                           }}
                         >
-                          Checklist updated {s.title}
+                          Edit checklist item {s.title}
                         </button>
                         <button disabled={pending || dirty} onClick={() => setConfirmChild(s)}>
                           Delete checklist item {s.title}

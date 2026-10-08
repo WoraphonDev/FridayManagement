@@ -7,16 +7,17 @@ test('T061 actual maintenance notice disables task writes and preserves an unsav
   let thaw: (() => Promise<void>) | undefined;
   try {
     const workspace = await tasks(page);
-    await workspace.getByRole('button', { name: 'สร้างงาน', exact: true }).first().click();
-    const form = page.getByRole('dialog', { name: 'สร้างงาน', exact: true });
-    await form.getByLabel('ชื่องาน', { exact: true }).fill('ร่างระหว่างสำรอง');
+    await workspace.getByRole('button', { name: 'New task', exact: true }).first().click();
+    const form = page.getByRole('dialog', { name: 'Create task', exact: true });
+    await form.getByLabel('Task title', { exact: true }).fill('ร่างระหว่างสำรอง');
     thaw = await f.freeze();
     await page.evaluate(() => window.dispatchEvent(new Event('focus')));
     await expect(
-      page.getByText('ระบบอยู่ระหว่างบำรุงรักษา กรุณารอก่อนทำรายการ', { exact: true }),
+      page.getByText('Maintenance in progress. Please try again later.', { exact: true }),
     ).toBeVisible({ timeout: 15000 });
-    await expect(form.getByLabel('ชื่องาน', { exact: true })).toHaveValue('ร่างระหว่างสำรอง');
-    await expect(form.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeDisabled();
+    await expect(form.getByLabel('Task title', { exact: true })).toHaveValue('ร่างระหว่างสำรอง');
+    // Vibe editor hides the submit control while writes are blocked.
+    await expect(form.getByRole('button', { name: 'New task', exact: true })).toHaveCount(0);
     const rejected = await page.evaluate(async () => {
       const response = await fetch('/api/session/activity', {
         method: 'POST',
@@ -30,10 +31,10 @@ test('T061 actual maintenance notice disables task writes and preserves an unsav
     await thaw();
     thaw = undefined;
     await page.evaluate(() => window.dispatchEvent(new Event('focus')));
-    await expect(form.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeEnabled({
+    await expect(form.getByRole('button', { name: 'New task', exact: true })).toBeEnabled({
       timeout: 15000,
     });
-    await expect(form.getByLabel('ชื่องาน', { exact: true })).toHaveValue('ร่างระหว่างสำรอง');
+    await expect(form.getByLabel('Task title', { exact: true })).toHaveValue('ร่างระหว่างสำรอง');
   } finally {
     await thaw?.();
     await f.close();

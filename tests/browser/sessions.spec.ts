@@ -26,7 +26,7 @@ async function prepare(page: Page) {
     });
     expect(setup.status()).toBe(201);
     await page.goto(f.env.APP_ORIGIN);
-    await expect(page.getByRole('alert')).toContainText('เข้าสู่ระบบ');
+    await expect(page.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
     const result = await page.evaluate(
       async (data) => {
         const response = await fetch('/api/login', {
@@ -41,7 +41,7 @@ async function prepare(page: Page) {
     );
     expect(result.status).toBe(200);
     await page.reload();
-    await expect(page.getByRole('link', { name: 'จัดการผู้ใช้', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Admin', exact: true })).toBeVisible();
     return { ...f, app, csrf: result.csrf as string };
   } catch (e) {
     await app.stop();
@@ -85,8 +85,8 @@ test('actual browser uses HttpOnly Strict cookie, validates Self on reload and c
     expect(statuses).toEqual([204, 204, 401]);
     expect(await context.cookies()).toEqual([]);
     await page.reload();
-    await expect(page.getByRole('alert')).toContainText('เข้าสู่ระบบ');
-    await expect(page.getByRole('link', { name: 'จัดการผู้ใช้', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Admin', exact: true })).toHaveCount(0);
     expect(errors).toEqual([]);
   } finally {
     await f.app.stop();
@@ -109,7 +109,7 @@ test('actual browser session survives process restart; current auth-version revo
     });
     expect(announced).toBe(false);
     await page.reload();
-    await expect(page.getByRole('link', { name: 'จัดการผู้ใช้', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Admin', exact: true })).toBeVisible();
     const db = new SqliteDatabase(f.path);
     try {
       await db.transaction((tx) =>
@@ -121,8 +121,8 @@ test('actual browser session survives process restart; current auth-version revo
       await db.close();
     }
     await page.reload();
-    await expect(page.getByRole('alert')).toContainText('เข้าสู่ระบบ');
-    await expect(page.getByRole('link', { name: 'จัดการผู้ใช้', exact: true })).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: 'Admin', exact: true })).toHaveCount(0);
     expect(await context.cookies()).toEqual([]);
   } finally {
     await app.stop();

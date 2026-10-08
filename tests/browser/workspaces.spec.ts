@@ -24,10 +24,10 @@ async function fixture(page: Page) {
     });
     expect(setup.status()).toBe(201);
     await page.goto(f.env.APP_ORIGIN);
-    await page.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('WorkspaceAdmin');
-    await page.getByLabel('รหัสผ่าน', { exact: true }).fill(password);
-    await page.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
-    await expect(page.getByRole('link', { name: 'ทีม', exact: true })).toBeVisible();
+    await page.getByLabel('Username', { exact: true }).fill('WorkspaceAdmin');
+    await page.getByLabel('Password', { exact: true }).fill(password);
+    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await expect(page.getByRole('link', { name: 'Teams & members', exact: true })).toBeVisible();
     return {
       ...f,
       close: async () => {
@@ -60,12 +60,12 @@ async function mutate(page: Page, path: string, body: unknown, method = 'POST') 
   );
 }
 async function createTeam(page: Page, name = 'ทีมตัวอย่าง') {
-  await page.getByRole('link', { name: 'ทีม', exact: true }).click();
-  await page.getByRole('button', { name: 'สร้างทีม', exact: true }).click();
+  await page.getByRole('link', { name: 'Teams & members', exact: true }).click();
+  await page.getByRole('button', { name: 'Create team', exact: true }).click();
   const dialog = page.getByRole('dialog');
-  await dialog.getByLabel('ชื่อ', { exact: true }).fill(name);
-  await dialog.getByLabel('รายละเอียด', { exact: true }).fill('ทีมออกแบบ');
-  await dialog.getByRole('button', { name: 'บันทึก', exact: true }).click();
+  await dialog.getByLabel('Name', { exact: true }).fill(name);
+  await dialog.getByLabel('Details', { exact: true }).fill('Design team');
+  await dialog.getByRole('button', { name: 'Save', exact: true }).click();
   await expect(dialog).toHaveCount(0);
   await expect(page.getByRole('cell').filter({ hasText: name }).first()).toBeVisible();
 }
@@ -75,43 +75,43 @@ test('T023/024 actual create/edit/archive/project membership UI and active-proje
   const f = await fixture(page);
   try {
     await createTeam(page);
-    await page.getByRole('link', { name: 'โปรเจกต์', exact: true }).click();
-    await page.getByRole('button', { name: 'สร้างโปรเจกต์', exact: true }).click();
+    await page.getByRole('link', { name: 'All projects', exact: true }).click();
+    await page.getByRole('button', { name: 'Create project', exact: true }).click();
     let dialog = page.getByRole('dialog');
-    await dialog.getByLabel('ชื่อ', { exact: true }).fill('Website Launch');
-    await dialog.getByLabel('ทีมเจ้าของ', { exact: true }).selectOption({ label: 'ทีมตัวอย่าง' });
-    await dialog.getByRole('button', { name: 'บันทึก', exact: true }).click();
+    await dialog.getByLabel('Name', { exact: true }).fill('Website Launch');
+    await dialog.getByLabel('Owner team', { exact: true }).selectOption({ label: 'ทีมตัวอย่าง' });
+    await dialog.getByRole('button', { name: 'Save', exact: true }).click();
     await expect(dialog).toHaveCount(0);
-    await page.getByRole('button', { name: 'สมาชิก', exact: true }).click();
+    await page.getByRole('button', { name: 'Members', exact: true }).click();
     dialog = page.getByRole('dialog');
     await expect(dialog.getByRole('cell', { name: 'Workspace Admin', exact: true })).toBeVisible();
     await dialog
-      .getByLabel('ผู้ใช้', { exact: true })
-      .selectOption({ label: 'Workspace Admin · ไม่มีทีม' });
-    await dialog.getByLabel('บทบาท', { exact: true }).selectOption('viewer');
-    await dialog.getByRole('button', { name: 'กำหนดสมาชิก', exact: true }).click();
-    await dialog.getByRole('button', { name: 'ยืนยันเปลี่ยนสิทธิ์', exact: true }).click();
+      .getByLabel('Users', { exact: true })
+      .selectOption({ label: 'Workspace Admin · No team' });
+    await dialog.getByLabel('Role', { exact: true }).selectOption('viewer');
+    await dialog.getByRole('button', { name: 'Set membership', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Confirm access change', exact: true }).click();
     await expect(dialog.getByRole('cell', { name: 'viewer', exact: true })).toBeVisible();
     await expect(dialog.getByRole('cell', { name: 'admin', exact: true })).toBeVisible();
-    await dialog.getByRole('button', { name: 'ปิดหน้าต่าง' }).click();
-    await page.getByRole('link', { name: 'ทีม', exact: true }).click();
-    await page.getByRole('button', { name: 'เก็บ', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Close dialog' }).click();
+    await page.getByRole('link', { name: 'Teams & members', exact: true }).click();
+    await page.getByRole('button', { name: 'Archive', exact: true }).click();
     dialog = page.getByRole('dialog');
-    await dialog.getByRole('button', { name: 'ยืนยัน', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(dialog.getByRole('alert')).toBeVisible();
-    await dialog.getByRole('button', { name: 'ปิดหน้าต่าง' }).click();
-    await page.getByRole('link', { name: 'โปรเจกต์', exact: true }).click();
-    await page.getByRole('button', { name: 'เก็บ', exact: true }).click();
-    await page.getByRole('dialog').getByRole('button', { name: 'ยืนยัน', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Close dialog' }).click();
+    await page.getByRole('link', { name: 'All projects', exact: true }).click();
+    await page.getByRole('button', { name: 'Archive', exact: true }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(page.getByRole('dialog')).toHaveCount(0);
-    await page.getByLabel('รวมที่เก็บแล้ว').check();
-    await expect(page.getByRole('button', { name: 'เปิดคืน', exact: true })).toBeVisible();
-    await page.getByRole('link', { name: 'ทีม', exact: true }).click();
-    await page.getByRole('button', { name: 'เก็บ', exact: true }).click();
-    await page.getByRole('dialog').getByRole('button', { name: 'ยืนยัน', exact: true }).click();
+    await page.getByLabel('Include archived').check();
+    await expect(page.getByRole('button', { name: 'Unarchive', exact: true })).toBeVisible();
+    await page.getByRole('link', { name: 'Teams & members', exact: true }).click();
+    await page.getByRole('button', { name: 'Archive', exact: true }).click();
+    await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(page.getByRole('dialog')).toHaveCount(0);
-    await page.getByLabel('รวมที่เก็บแล้ว').check();
-    await expect(page.getByRole('button', { name: 'เปิดคืน', exact: true })).toBeVisible();
+    await page.getByLabel('Include archived').check();
+    await expect(page.getByRole('button', { name: 'Unarchive', exact: true })).toBeVisible();
   } finally {
     await f.close();
   }
@@ -128,25 +128,25 @@ test('T023 real Lead/member flows, confirmation and version conflict preserve dr
       temp_password: password,
     });
     expect(made.status).toBe(201);
-    await page.getByRole('button', { name: 'สมาชิก', exact: true }).click();
+    await page.getByRole('button', { name: 'Members', exact: true }).click();
     let dialog = page.getByRole('dialog');
     await dialog
-      .getByLabel('ผู้ใช้', { exact: true })
-      .selectOption({ label: 'สมาชิกต่างทีม · ไม่มีทีม' });
-    await dialog.getByLabel('บทบาท', { exact: true }).selectOption('lead');
-    await dialog.getByRole('button', { name: 'กำหนดสมาชิก', exact: true }).click();
-    await dialog.getByRole('button', { name: 'ยืนยันเปลี่ยนสิทธิ์', exact: true }).click();
-    await expect(dialog.getByRole('button', { name: 'ถอด Lead', exact: true })).toBeVisible();
-    await dialog.getByRole('button', { name: 'ถอด Lead', exact: true }).click();
-    await dialog.getByRole('button', { name: 'ยืนยันเปลี่ยนสิทธิ์', exact: true }).click();
-    await expect(dialog.getByRole('button', { name: 'ตั้ง Lead', exact: true })).toBeVisible();
-    await dialog.getByRole('button', { name: 'ถอนสมาชิก', exact: true }).click();
-    await dialog.getByRole('button', { name: 'ยกเลิกคำสั่ง', exact: true }).click();
+      .getByLabel('Users', { exact: true })
+      .selectOption({ label: 'สมาชิกต่างทีม · No team' });
+    await dialog.getByLabel('Role', { exact: true }).selectOption('lead');
+    await dialog.getByRole('button', { name: 'Set membership', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Confirm access change', exact: true }).click();
+    await expect(dialog.getByRole('button', { name: 'Remove Lead role', exact: true })).toBeVisible();
+    await dialog.getByRole('button', { name: 'Remove Lead role', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Confirm access change', exact: true }).click();
+    await expect(dialog.getByRole('button', { name: 'Make Lead', exact: true })).toBeVisible();
+    await dialog.getByRole('button', { name: 'Remove member', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Cancel action', exact: true }).click();
     await expect(dialog.getByRole('cell', { name: 'สมาชิกต่างทีม', exact: true })).toBeVisible();
-    await dialog.getByRole('button', { name: 'ปิดหน้าต่าง' }).click();
-    await page.getByRole('button', { name: 'แก้ไข', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Close dialog' }).click();
+    await page.getByRole('button', { name: 'Edit', exact: true }).click();
     dialog = page.getByRole('dialog');
-    await dialog.getByLabel('ชื่อ', { exact: true }).fill('ร่างของฉัน');
+    await dialog.getByLabel('Name', { exact: true }).fill('Your draft');
     const latest = await page.evaluate(async () => await (await fetch('/api/teams')).json());
     const changed = await mutate(
       page,
@@ -155,15 +155,15 @@ test('T023 real Lead/member flows, confirmation and version conflict preserve dr
       'PATCH',
     );
     expect(changed.status).toBe(200);
-    await dialog.getByRole('button', { name: 'บันทึก', exact: true }).click();
-    await expect(dialog.getByRole('button', { name: 'โหลดล่าสุดและตรวจทาน' })).toBeVisible();
-    await expect(dialog.getByLabel('ชื่อ', { exact: true })).toHaveValue('ร่างของฉัน');
-    await dialog.getByRole('button', { name: 'โหลดล่าสุดและตรวจทาน' }).click();
-    await expect(dialog.getByText(/ข้อมูลล่าสุด: แก้จากอีกหน้าต่าง/)).toBeVisible();
-    await dialog.getByLabel('ยืนยันตรวจข้อมูลล่าสุดและร่างแล้ว').check();
-    await dialog.getByRole('button', { name: 'บันทึก', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Save', exact: true }).click();
+    await expect(dialog.getByRole('button', { name: 'Load latest and review' })).toBeVisible();
+    await expect(dialog.getByLabel('Name', { exact: true })).toHaveValue('Your draft');
+    await dialog.getByRole('button', { name: 'Load latest and review' }).click();
+    await expect(dialog.getByText(/Latest data: แก้จากอีกหน้าต่าง/)).toBeVisible();
+    await dialog.getByLabel('I have reviewed the latest data and my draft').check();
+    await dialog.getByRole('button', { name: 'Save', exact: true }).click();
     await expect(dialog).toHaveCount(0);
-    await expect(page.getByRole('cell').filter({ hasText: 'ร่างของฉัน' })).toBeVisible();
+    await expect(page.getByRole('cell').filter({ hasText: 'Your draft' })).toBeVisible();
   } finally {
     await f.close();
   }
@@ -200,26 +200,26 @@ test('T024 cross-team Viewer reads only shared project, revoke hides modal and l
     expect(share.status).toBe(200);
     const member = await ctx.newPage();
     await member.goto(f.env.APP_ORIGIN);
-    await member.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('ViewerFixture');
-    await member.getByLabel('รหัสผ่าน', { exact: true }).fill(password);
-    await member.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
-    await member.getByLabel('รหัสผ่านปัจจุบัน').fill(password);
-    await member.getByLabel('รหัสผ่านใหม่', { exact: true }).fill('Viewer-new-fixture-password');
-    await member.getByLabel('ยืนยันรหัสผ่านใหม่').fill('Viewer-new-fixture-password');
-    await member.getByRole('button', { name: 'เปลี่ยนรหัสผ่าน', exact: true }).click();
-    await member.getByRole('link', { name: 'โปรเจกต์', exact: true }).click();
+    await member.getByLabel('Username', { exact: true }).fill('ViewerFixture');
+    await member.getByLabel('Password', { exact: true }).fill(password);
+    await member.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await member.getByLabel('Current password').fill(password);
+    await member.getByLabel('New password', { exact: true }).fill('Viewer-new-fixture-password');
+    await member.getByLabel('Confirm new password').fill('Viewer-new-fixture-password');
+    await member.getByRole('button', { name: 'Change password', exact: true }).click();
+    await member.getByRole('link', { name: 'All projects', exact: true }).click();
     await expect(
-      member.getByRole('cell').filter({ hasText: 'Shared private project' }),
+      member.locator('.project-directory-card').filter({ hasText: 'Shared private project' }),
     ).toBeVisible();
     await expect(member.getByText('Hidden project', { exact: true })).toHaveCount(0);
-    await expect(member.getByRole('button', { name: 'สร้างโปรเจกต์', exact: true })).toHaveCount(0);
-    await expect(member.getByRole('button', { name: 'แก้ไข', exact: true })).toHaveCount(0);
-    await member.getByRole('button', { name: 'สมาชิก', exact: true }).click();
+    await expect(member.getByRole('button', { name: 'Create project', exact: true })).toHaveCount(0);
+    await expect(member.getByRole('button', { name: 'Edit', exact: true })).toHaveCount(0);
+    await member.getByRole('button', { name: 'Members', exact: true }).click();
     await expect(
-      member.getByRole('dialog').getByText('คุณอ่านรายชื่อได้', { exact: false }),
+      member.getByRole('dialog').getByText('Only an administrator or owner team lead can change access', { exact: false }),
     ).toBeVisible();
     await expect(
-      member.getByRole('dialog').getByRole('button', { name: 'กำหนดสมาชิก', exact: true }),
+      member.getByRole('dialog').getByRole('button', { name: 'Set membership', exact: true }),
     ).toHaveCount(0);
     const removed = await mutate(
       page,
@@ -232,8 +232,9 @@ test('T024 cross-team Viewer reads only shared project, revoke hides modal and l
     await expect(member.getByText('Shared private project', { exact: true })).toHaveCount(0);
     await expect(member.getByRole('dialog')).toHaveCount(0);
     await page.setViewportSize({ width: 360, height: 800 });
-    await page.getByRole('link', { name: 'ทีม', exact: true }).click();
-    await expect(page.getByRole('heading', { name: 'ทีมในองค์กร', exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Toggle navigation' }).click();
+    await page.getByRole('link', { name: 'Teams & members', exact: true }).click();
+    await expect(page.getByRole('heading', { name: 'Teams', exact: true, level: 1 })).toBeVisible();
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );

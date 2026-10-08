@@ -35,60 +35,57 @@ test('T046/047 actual Gantt/Calendar Viewer and archive read-only; demotion pres
     ).toBe(200);
     const member = await ctx.newPage();
     await member.goto(f.env.APP_ORIGIN);
-    await member.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('TimelineMember');
-    await member.getByLabel('รหัสผ่าน', { exact: true }).fill('Workspace-member-fixture-password');
-    await member.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
-    await member.getByLabel('รหัสผ่านปัจจุบัน').fill('Workspace-member-fixture-password');
-    await member.getByLabel('รหัสผ่านใหม่', { exact: true }).fill('Timeline-new-fixture-password');
-    await member.getByLabel('ยืนยันรหัสผ่านใหม่').fill('Timeline-new-fixture-password');
-    await member.getByRole('button', { name: 'เปลี่ยนรหัสผ่าน', exact: true }).click();
+    await member.getByLabel('Username', { exact: true }).fill('TimelineMember');
+    await member.getByLabel('Password', { exact: true }).fill('Workspace-member-fixture-password');
+    await member.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await member.getByLabel('Current password').fill('Workspace-member-fixture-password');
+    await member.getByLabel('New password', { exact: true }).fill('Timeline-new-fixture-password');
+    await member.getByLabel('Confirm new password').fill('Timeline-new-fixture-password');
+    await member.getByRole('button', { name: 'Change password', exact: true }).click();
     const jobs = await tasks(member);
     await jobs.getByRole('button', { name: 'Gantt', exact: true }).click();
     await jobs.getByRole('button', { name: /เปิดงาน #1 Scoped timeline/ }).click();
-    const detail = member.getByRole('dialog', { name: 'รายละเอียดงาน #1', exact: true });
-    await detail.getByLabel('ชื่องาน', { exact: true }).fill('Retained draft');
+    const detail = member.getByRole('dialog', { name: 'Task details #1', exact: true });
+    await detail.getByLabel('Task title', { exact: true }).fill('Retained draft');
     expect(
       (await mutate(page, '/api/projects/1/members/2', { version: 2, access: 'viewer' }, 'PUT'))
         .status,
     ).toBe(200);
-    await expect(detail.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeDisabled({
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled({
       timeout: 10000,
     });
-    await expect(detail.getByLabel('ชื่องาน', { exact: true })).toHaveValue('Retained draft');
+    await expect(detail.getByLabel('Task title', { exact: true })).toHaveValue('Retained draft');
     member.once('dialog', (d) => d.accept());
-    await detail.locator(':scope > button').filter({ hasText: 'ปิดหน้าต่าง' }).click();
-    await expect(jobs.getByRole('button', { name: 'สร้างงาน', exact: true })).toHaveCount(0);
+    await detail.getByRole('button', { name: 'Close dialog', exact: true }).click();
+    await expect(jobs.getByRole('button', { name: 'New task', exact: true })).toHaveCount(0);
     await jobs.getByRole('button', { name: 'Calendar', exact: true }).click();
     await jobs.locator('.calendar-event').click();
-    await expect(detail.getByLabel('วันส่ง', { exact: true })).toBeDisabled();
-    await detail.locator(':scope > button').filter({ hasText: 'ปิดหน้าต่าง' }).click();
+    await expect(detail.getByLabel('Due date', { exact: true })).toBeDisabled();
+    await detail.getByRole('button', { name: 'Close dialog', exact: true }).click();
     expect(
       (await mutate(page, '/api/projects/1', { version: 3, archived: true }, 'PATCH')).status,
     ).toBe(200);
-    await expect(jobs.getByText('เก็บแล้ว · อ่านอย่างเดียว', { exact: true })).toBeVisible({
+    await expect(jobs.getByText('Archived · Read only', { exact: true })).toBeVisible({
       timeout: 10000,
     });
     await jobs.locator('.calendar-event').click();
-    await expect(detail.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeDisabled();
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled();
     expect((await mutate(page, '/api/projects/1/members/2', { version: 4 }, 'DELETE')).status).toBe(
       200,
     );
     await expect(jobs).toHaveCount(0, { timeout: 10000 });
     await expect(detail).toHaveCount(0);
     await expect(member.getByText('Scoped timeline', { exact: false })).toHaveCount(0);
-    await page.getByRole('link', { name: 'โปรเจกต์', exact: true }).click();
-    await page.getByLabel('รวมที่เก็บแล้ว', { exact: true }).check();
-    await page.getByRole('button', { name: 'งาน', exact: true }).click();
-    const adminJobs = page.getByRole('dialog', {
-      name: 'งานในโปรเจกต์ · Task project',
-      exact: true,
-    });
+    await page.getByRole('link', { name: 'All projects', exact: true }).click();
+    await page.getByLabel('Include archived', { exact: true }).check();
+    await page.getByRole('button', { name: 'Tasks', exact: true }).click();
+    const adminJobs = page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
     await adminJobs.getByRole('button', { name: 'Gantt', exact: true }).click();
     await adminJobs.getByRole('button', { name: /เปิดงาน #1 Scoped timeline/ }).click();
     await expect(
       page
-        .getByRole('dialog', { name: 'รายละเอียดงาน #1', exact: true })
-        .getByLabel('วันส่ง', { exact: true }),
+        .getByRole('dialog', { name: 'Task details #1', exact: true })
+        .getByLabel('Due date', { exact: true }),
     ).toBeDisabled();
   } finally {
     await ctx.close();

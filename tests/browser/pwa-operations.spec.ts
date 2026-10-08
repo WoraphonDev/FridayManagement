@@ -23,16 +23,16 @@ for (const [name, width] of [
         ).status,
       ).toBe(201);
       for (const label of [
-        'หน้าแรก',
-        'งานของฉัน',
-        'ปฏิทิน',
-        'รายงาน',
-        'การแจ้งเตือน',
-        'ทีม',
-        'โปรเจกต์',
-        'ถังขยะ',
-        'จัดการผู้ใช้',
-        'โปรไฟล์และการตั้งค่า',
+        'Home',
+        'My work',
+        'Calendar',
+        'Reports',
+        'Notifications',
+        'Teams',
+        'Projects',
+        'Trash',
+        'Users',
+        'Profile & settings',
       ]) {
         await page.getByRole('link', { name: new RegExp(`^${label}`) }).click();
         await expect(page.locator('#page-heading')).toBeVisible();
@@ -53,8 +53,8 @@ for (const [name, width] of [
       }
       await expect(
         jobs
-          .getByRole('region', { name: 'Kanban โปรเจกต์', exact: true })
-          .getByRole('button', { name: 'เปิดงาน #1', exact: true }),
+          .getByRole('region', { name: 'Project Kanban', exact: true })
+          .getByRole('button', { name: 'Open task #1', exact: true }),
       ).toBeVisible();
       await expect(jobs.getByRole('button', { name: 'Table', exact: true })).toHaveCSS(
         'white-space',
@@ -128,9 +128,9 @@ test('T056/T057 native worker cache and logout/offline', async ({ page, context 
     await expect
       .poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller)))
       .toBe(true);
-    await expect(page.getByRole('button', { name: 'ออกจากระบบ', exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'ออกจากระบบ', exact: true }).click();
-    await expect(page.getByLabel('ชื่อผู้ใช้', { exact: true })).toBeVisible();
+    await expect(page.getByRole('button', { name: 'Sign out', exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+    await expect(page.getByLabel('Username', { exact: true })).toBeVisible();
     const cached = await page.evaluate(async () => {
       const output: { url: string; text: string }[] = [];
       for (const key of await caches.keys()) {
@@ -152,7 +152,7 @@ test('T056/T057 native worker cache and logout/offline', async ({ page, context 
     await context.setOffline(true);
     await page.goto(f.env.APP_ORIGIN + '/projects');
     await expect(
-      page.getByRole('heading', { name: 'ต้องเชื่อมต่อเพื่อใช้งาน', exact: true }),
+      page.getByRole('heading', { name: 'Connect to continue', exact: true }),
     ).toBeVisible();
     await expect(page.getByText('Task project', { exact: true })).toHaveCount(0);
   } finally {
@@ -170,11 +170,11 @@ test('T057 reconnect blocks writes until authoritative reads finish and retains 
     await mutate(page, '/api/tasks', { project_id: 1, title: 'Server original', assignee_id: 1 });
     const jobs = await tasks(page);
     await jobs.getByRole('button', { name: /เปิดงาน #1/ }).click();
-    const detail = page.getByRole('dialog', { name: 'รายละเอียดงาน #1', exact: true });
-    const title = detail.getByLabel('ชื่องาน', { exact: true });
+    const detail = page.getByRole('dialog', { name: 'Task details #1', exact: true });
+    const title = detail.getByLabel('Task title', { exact: true });
     await title.fill('My unsaved draft');
     await context.setOffline(true);
-    await expect(detail.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeDisabled();
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled();
     const barrier = new Promise<void>((resolve) => {
       release = resolve;
     });
@@ -192,7 +192,7 @@ test('T057 reconnect blocks writes until authoritative reads finish and retains 
       page.getByText('กำลังตรวจข้อมูลล่าสุดก่อนเปิดให้บันทึก', { exact: true }),
     ).toBeVisible();
     expect(intercepted).toBe(false);
-    await expect(detail.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeDisabled();
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled();
     await page.evaluate(() => {
       Object.defineProperty(document, 'hidden', { configurable: true, get: () => false });
       document.dispatchEvent(new Event('visibilitychange'));
@@ -201,13 +201,13 @@ test('T057 reconnect blocks writes until authoritative reads finish and retains 
     await expect(
       page.getByText('กำลังตรวจข้อมูลล่าสุดก่อนเปิดให้บันทึก', { exact: true }),
     ).toBeVisible();
-    await expect(detail.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeDisabled();
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled();
     release!();
     await expect(
       page.getByText('กำลังตรวจข้อมูลล่าสุดก่อนเปิดให้บันทึก', { exact: true }),
     ).toHaveCount(0);
     await expect(title).toHaveValue('My unsaved draft');
-    await expect(detail.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeEnabled();
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeEnabled();
   } finally {
     release?.();
     await context.setOffline(false);

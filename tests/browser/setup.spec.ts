@@ -8,10 +8,10 @@ import { verifyPassword } from '../../src/security/passwords.js';
 const fixturePassword = '  Browser-fixture-password  ';
 async function fill(page: Page, token: string) {
   await page.getByLabel('Setup token', { exact: true }).fill(token);
-  await page.getByLabel('ชื่อองค์กร', { exact: true }).fill('Browser fixture organization');
-  await page.getByLabel('ชื่อผู้ใช้ Admin', { exact: true }).fill('BrowserAdmin');
-  await page.getByLabel('ชื่อที่แสดง', { exact: true }).fill('Browser Admin');
-  await page.getByLabel('รหัสผ่านใหม่', { exact: true }).fill(fixturePassword);
+  await page.getByLabel('Organization name', { exact: true }).fill('Browser fixture organization');
+  await page.getByLabel('Admin username', { exact: true }).fill('BrowserAdmin');
+  await page.getByLabel('Display name', { exact: true }).fill('Browser Admin');
+  await page.getByLabel('New password', { exact: true }).fill(fixturePassword);
 }
 async function checkDatabase(path: string) {
   const db = new SqliteDatabase(path);
@@ -52,18 +52,18 @@ test('real setup form validates, rejects wrong token, clears secrets, completes 
   try {
     await page.goto(f.env.APP_ORIGIN);
     await expect(
-      page.getByRole('heading', { name: 'ตั้งค่าระบบครั้งแรก', exact: true }),
+      page.getByRole('form', { name: 'First-time setup', exact: true }),
     ).toBeVisible();
     await fill(page, 'x'.repeat(64));
-    await page.getByLabel('รหัสผ่านใหม่', { exact: true }).fill('😀'.repeat(5));
-    const submit = page.getByRole('button', { name: 'สร้างผู้ดูแลและตั้งค่าระบบ', exact: true });
+    await page.getByLabel('New password', { exact: true }).fill('😀'.repeat(5));
+    const submit = page.getByRole('button', { name: 'Create administrator and finish setup', exact: true });
     await submit.click();
     await expect(page.getByText('Password must contain 6–128 characters', { exact: true })).toBeVisible();
-    await page.getByLabel('รหัสผ่านใหม่', { exact: true }).fill(fixturePassword);
+    await page.getByLabel('New password', { exact: true }).fill(fixturePassword);
     await submit.click();
-    await expect(page.getByRole('alert')).toContainText('token ไม่ถูกต้อง');
+    await expect(page.getByRole('alert')).toContainText('Invalid token');
     await expect(page.getByLabel('Setup token', { exact: true })).toHaveValue('');
-    await expect(page.getByLabel('รหัสผ่านใหม่', { exact: true })).toHaveValue('');
+    await expect(page.getByLabel('New password', { exact: true })).toHaveValue('');
     await context.setOffline(true);
     await expect(submit).toBeDisabled();
     await context.setOffline(false);
@@ -77,12 +77,12 @@ test('real setup form validates, rejects wrong token, clears secrets, completes 
     await fill(page, token);
     await page.getByLabel('Setup token', { exact: true }).focus();
     await page.keyboard.press('Tab');
-    await expect(page.getByLabel('ชื่อองค์กร', { exact: true })).toBeFocused();
+    await expect(page.getByLabel('Organization name', { exact: true })).toBeFocused();
     await submit.click();
     await expect(
-      page.getByRole('heading', { name: 'ตั้งค่าระบบเรียบร้อย', exact: true }),
+      page.getByText('Administrator created. Setup complete.', { exact: true }),
     ).toBeVisible();
-    await expect(page.getByRole('form', { name: 'ตั้งค่าระบบครั้งแรก' })).toHaveCount(0);
+    await expect(page.getByRole('form', { name: 'First-time setup' })).toHaveCount(0);
     expect(
       await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })),
     ).toEqual({ local: 0, session: 0 });
@@ -124,18 +124,16 @@ test('pending setup blocks double submit; lost success response checks meta with
   try {
     await page.goto(f.env.APP_ORIGIN);
     await fill(page, token);
-    await page.getByRole('button', { name: 'สร้างผู้ดูแลและตั้งค่าระบบ', exact: true }).click();
+    await page.getByRole('button', { name: 'Create administrator and finish setup', exact: true }).click();
     await seen;
-    await expect(page.getByRole('button', { name: 'กำลังตั้งค่า…', exact: true })).toBeDisabled();
-    await page.getByRole('form', { name: 'ตั้งค่าระบบครั้งแรก' }).evaluate((form) => {
+    await expect(page.getByRole('button', { name: 'Setting up…', exact: true })).toBeDisabled();
+    await page.getByRole('form', { name: 'First-time setup' }).evaluate((form) => {
       form.dispatchEvent(new Event('submit', { bubbles: true, cancelable: true }));
     });
     expect(posts).toBe(1);
     release();
-    await expect(
-      page.getByRole('heading', { name: 'ตั้งค่าระบบเรียบร้อย', exact: true }),
-    ).toBeVisible();
-    await expect(page.getByText('ระบบตั้งค่าแล้ว', { exact: true })).toBeVisible();
+    // Lost response: meta check reports the configured state without resending credentials.
+    await expect(page.getByText('Already configured', { exact: true })).toBeVisible();
     expect(posts).toBe(1);
     await checkDatabase(f.path);
   } finally {

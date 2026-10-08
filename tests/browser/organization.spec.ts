@@ -24,10 +24,10 @@ async function fixture(page: Page) {
     });
     expect(setup.status()).toBe(201);
     await page.goto(f.env.APP_ORIGIN);
-    await page.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('WorkspaceAdmin');
-    await page.getByLabel('รหัสผ่าน', { exact: true }).fill(password);
-    await page.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
-    await expect(page.getByRole('link', { name: 'ทีม', exact: true })).toBeVisible();
+    await page.getByLabel('Username', { exact: true }).fill('WorkspaceAdmin');
+    await page.getByLabel('Password', { exact: true }).fill(password);
+    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await expect(page.getByRole('link', { name: 'Teams & members', exact: true })).toBeVisible();
     return {
       ...f,
       restart: async () => {
@@ -68,12 +68,12 @@ test('T025 actual settings rename, sidebar, competing version preserves draft, o
 }, testInfo) => {
   const f = await fixture(page);
   try {
-    await page.getByRole('link', { name: 'โปรไฟล์และการตั้งค่า', exact: true }).click();
-    const org = page.getByRole('region', { name: 'ตั้งค่าองค์กร' });
-    await org.getByLabel('ชื่อองค์กร', { exact: true }).fill('ฝ่ายวางแผน Friday');
-    await org.getByRole('button', { name: 'บันทึกชื่อองค์กร' }).click();
-    await expect(page.locator('aside').getByLabel('ชื่อองค์กร')).toHaveText('ฝ่ายวางแผน Friday');
-    await org.getByLabel('ชื่อองค์กร', { exact: true }).fill('ร่างของฉัน');
+    await page.getByRole('link', { name: 'Settings', exact: true }).click();
+    const org = page.getByRole('region', { name: 'Organization settings' });
+    await org.getByLabel('Organization name', { exact: true }).fill('ฝ่ายวางแผน Friday');
+    await org.getByRole('button', { name: 'Save organization settings' }).click();
+    await expect(page.locator('aside .workspace-box strong')).toHaveText('ฝ่ายวางแผน Friday');
+    await org.getByLabel('Organization name', { exact: true }).fill('Your draft');
     const competing = await mutate(
       page,
       '/api/organization',
@@ -81,24 +81,24 @@ test('T025 actual settings rename, sidebar, competing version preserves draft, o
       'PATCH',
     );
     expect(competing.status).toBe(200);
-    await org.getByRole('button', { name: 'บันทึกชื่อองค์กร' }).click();
-    await expect(org.getByText('ชื่อปัจจุบัน:', { exact: false })).toContainText(
+    await org.getByRole('button', { name: 'Save organization settings' }).click();
+    await expect(org.getByText('Current name:', { exact: false })).toContainText(
       'ชื่อจากผู้ดูแลอีกคน',
     );
-    await expect(org.getByLabel('ชื่อองค์กร', { exact: true })).toHaveValue('ร่างของฉัน');
-    await expect(org.getByRole('button', { name: 'บันทึกชื่อองค์กร' })).toBeDisabled();
-    await org.getByLabel('ตรวจข้อมูลล่าสุดแล้ว').check();
-    await org.getByRole('button', { name: 'บันทึกชื่อองค์กร' }).click();
-    await expect(org.getByText('บันทึกชื่อองค์กรแล้ว', { exact: true })).toBeVisible();
+    await expect(org.getByLabel('Organization name', { exact: true })).toHaveValue('Your draft');
+    await expect(org.getByRole('button', { name: 'Save organization settings' })).toBeDisabled();
+    await org.getByLabel('Latest data reviewed').check();
+    await org.getByRole('button', { name: 'Save organization settings' }).click();
+    await expect(org.getByText('Organization settings saved', { exact: true })).toBeVisible();
     await page.context().setOffline(true);
-    await expect(org.getByRole('button', { name: 'บันทึกชื่อองค์กร' })).toBeDisabled();
+    await expect(org.getByRole('button', { name: 'Save organization settings' })).toBeDisabled();
     await page.context().setOffline(false);
     await f.restart();
     await page.reload();
-    await expect(org.getByLabel('ชื่อองค์กร', { exact: true })).toHaveValue('ร่างของฉัน');
-    await expect(page.locator('aside').getByLabel('ชื่อองค์กร')).toHaveText('ร่างของฉัน');
+    await expect(org.getByLabel('Organization name', { exact: true })).toHaveValue('Your draft');
+    await expect(page.locator('aside .workspace-box strong')).toHaveText('Your draft');
     await page.setViewportSize({ width: 360, height: 800 });
-    await expect(org.getByRole('button', { name: 'บันทึกชื่อองค์กร' })).toBeVisible();
+    await expect(org.getByRole('button', { name: 'Save organization settings' })).toBeVisible();
     const dimensions = await page.evaluate(() => ({
       width: document.documentElement.clientWidth,
       scroll: document.documentElement.scrollWidth,
@@ -129,22 +129,22 @@ test('T025 actual member settings read-only and public page does not disclose or
     expect(meta.status()).toBe(200);
     expect(Object.keys(await meta.json()).sort()).toEqual(['setupRequired', 'version']);
     await expect(member.getByText('Workspace fixture', { exact: true })).toHaveCount(0);
-    await member.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('OrgMember');
-    await member.getByLabel('รหัสผ่าน', { exact: true }).fill('Org-member-fixture-password');
-    await member.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
+    await member.getByLabel('Username', { exact: true }).fill('OrgMember');
+    await member.getByLabel('Password', { exact: true }).fill('Org-member-fixture-password');
+    await member.getByRole('button', { name: 'Sign in', exact: true }).click();
     await member
-      .getByLabel('รหัสผ่านปัจจุบัน', { exact: true })
+      .getByLabel('Current password', { exact: true })
       .fill('Org-member-fixture-password');
-    await member.getByLabel('รหัสผ่านใหม่', { exact: true }).fill('Org-member-changed-password');
+    await member.getByLabel('New password', { exact: true }).fill('Org-member-changed-password');
     await member
-      .getByLabel('ยืนยันรหัสผ่านใหม่', { exact: true })
+      .getByLabel('Confirm new password', { exact: true })
       .fill('Org-member-changed-password');
-    await member.getByRole('button', { name: 'เปลี่ยนรหัสผ่าน', exact: true }).click();
-    await member.getByRole('link', { name: 'โปรไฟล์และการตั้งค่า', exact: true }).click();
-    const org = member.getByRole('region', { name: 'ตั้งค่าองค์กร' });
+    await member.getByRole('button', { name: 'Change password', exact: true }).click();
+    await member.getByRole('link', { name: 'Settings', exact: true }).click();
+    const org = member.getByRole('region', { name: 'Organization settings' });
     await expect(org.getByText('Workspace fixture', { exact: true })).toBeVisible();
     await expect(org.getByRole('textbox')).toHaveCount(0);
-    await expect(org.getByRole('button', { name: 'บันทึกชื่อองค์กร' })).toHaveCount(0);
+    await expect(org.getByRole('button', { name: 'Save organization settings' })).toHaveCount(0);
     const forbidden = await mutate(
       member,
       '/api/organization',

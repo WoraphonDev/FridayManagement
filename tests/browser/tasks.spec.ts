@@ -24,10 +24,10 @@ async function fixture(page: Page) {
     });
     expect(setup.status()).toBe(201);
     await page.goto(f.env.APP_ORIGIN);
-    await page.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('WorkspaceAdmin');
-    await page.getByLabel('รหัสผ่าน', { exact: true }).fill(password);
-    await page.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
-    await expect(page.getByRole('link', { name: 'ทีม', exact: true })).toBeVisible();
+    await page.getByLabel('Username', { exact: true }).fill('WorkspaceAdmin');
+    await page.getByLabel('Password', { exact: true }).fill(password);
+    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await expect(page.getByRole('link', { name: 'Teams & members', exact: true })).toBeVisible();
     return {
       ...f,
       restart: async () => {
@@ -74,99 +74,114 @@ async function projectFixture(page: Page) {
   return { ...f, project: project.body.item };
 }
 async function tasks(page: Page) {
-  await page.getByRole('link', { name: 'โปรเจกต์', exact: true }).click();
-  await page.getByRole('button', { name: 'งาน', exact: true }).click();
-  return page.getByRole('dialog', { name: 'งานในโปรเจกต์ · Task project', exact: true });
+  await page.getByRole('link', { name: 'All projects', exact: true }).click();
+  await page.getByRole('button', { name: 'Tasks', exact: true }).click();
+  return page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
 }
 async function make(page: Page, title: string) {
   const jobs = await tasks(page);
-  await jobs.getByRole('button', { name: 'สร้างงาน', exact: true }).click();
-  const d = page.getByRole('dialog', { name: 'สร้างงาน', exact: true });
-  await d.getByLabel('ชื่องาน', { exact: true }).fill(title);
-  await d.getByRole('button', { name: 'บันทึกงาน', exact: true }).click();
+  await jobs.getByRole('button', { name: 'New task', exact: true }).first().click();
+  const d = page.getByRole('dialog', { name: 'Create task', exact: true });
+  await d.getByLabel('Task title', { exact: true }).fill(title);
+  await d.getByRole('button', { name: 'New task', exact: true }).click();
   await expect(d).toHaveCount(0);
   return jobs;
 }
-const detail = (page: Page) => page.getByRole('dialog', { name: /^รายละเอียดงาน #/ });
+async function pickAssignee(page: Page, scope: ReturnType<Page['getByRole']>, name: string) {
+  await scope.getByRole('button', { name: 'Assignees', exact: true }).click();
+  await page
+    .getByRole('listbox', { name: 'Options for Assignees', exact: true })
+    .getByRole('option', { name, exact: true })
+    .click();
+  await page.keyboard.press('Escape');
+}
+const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details #/ });
 const closeDetail = (page: Page) =>
-  detail(page).locator(':scope > button').filter({ hasText: 'ปิดหน้าต่าง' }).click();
+  detail(page).getByRole('button', { name: 'Close dialog', exact: true }).click();
 test('T032/033 actual all task fields/checklist/closed guard/monthly successor/delete/restore via UI', async ({
   page,
 }) => {
   const f = await projectFixture(page);
   try {
     const jobs = await tasks(page);
-    await jobs.getByRole('button', { name: 'สร้างงาน', exact: true }).click();
-    const create = page.getByRole('dialog', { name: 'สร้างงาน', exact: true });
-    await create.getByLabel('ชื่องาน', { exact: true }).fill('Monthly plan');
-    await create.getByLabel('รายละเอียด', { exact: true }).fill('<script>literal</script>');
-    await create.getByLabel('หมวดหมู่', { exact: true }).fill('Finance');
-    await create.getByLabel('ผู้รับ', { exact: true }).selectOption('1');
-    await create.getByLabel('ความสำคัญ', { exact: true }).selectOption('urgent');
-    await create.getByLabel('วันเริ่ม', { exact: true }).fill('2027-01-29');
-    await create.getByLabel('งานซ้ำ', { exact: true }).selectOption('monthly');
-    await expect(create.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeDisabled();
-    await create.getByLabel('วันส่ง', { exact: true }).fill('2027-01-31');
-    await create.getByRole('button', { name: 'บันทึกงาน', exact: true }).click();
+    await jobs.getByRole('button', { name: 'New task', exact: true }).first().click();
+    const create = page.getByRole('dialog', { name: 'Create task', exact: true });
+    await create.getByLabel('Task title', { exact: true }).fill('Monthly plan');
+    await create.getByLabel('Details', { exact: true }).fill('<script>literal</script>');
+    await create.getByLabel('Category', { exact: true }).fill('Finance');
+    await pickAssignee(page, create, 'Workspace Admin');
+    await create.getByLabel('Priority', { exact: true }).selectOption('urgent');
+    await create.getByLabel('Start Plan', { exact: true }).fill('2027-01-29');
+    await create.getByLabel('Repeat', { exact: true }).selectOption('monthly');
+    await expect(create.getByRole('button', { name: 'New task', exact: true })).toBeDisabled();
+    await create.getByLabel('End Plan', { exact: true }).fill('2027-01-31');
+    await create.getByRole('button', { name: 'New task', exact: true }).click();
     await expect(create).toHaveCount(0);
-    await jobs.getByRole('button', { name: 'เปิดงาน #1', exact: true }).click();
+    await jobs.getByRole('button', { name: 'Open task #1', exact: true }).click();
     let d = detail(page);
-    await expect(d.getByLabel('รายละเอียด', { exact: true })).toHaveValue(
+    await expect(d.getByLabel('Details', { exact: true })).toHaveValue(
       '<script>literal</script>',
     );
-    await expect(d.getByLabel('ผู้รับ', { exact: true })).toHaveValue('1');
-    await d.getByLabel('เพิ่ม Checklist', { exact: true }).fill('Review');
-    await d.getByRole('button', { name: 'เพิ่ม Checklist', exact: true }).click();
+    await expect(d.getByText('Workspace Admin', { exact: true }).first()).toBeVisible();
+    await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
+    await d.getByLabel('Add checklist item', { exact: true }).fill('Review');
+    await d.getByRole('button', { name: 'Add checklist item', exact: true }).click();
     await expect(d.getByRole('heading', { name: 'Checklist 0/1', exact: true })).toBeVisible();
-    await d.getByRole('button', { name: 'แก้ Checklist Review', exact: true }).click();
-    await d.getByLabel('ชื่อ Checklist ใหม่', { exact: true }).fill('Review final');
-    await d.getByRole('button', { name: 'บันทึกชื่อ Checklist', exact: true }).click();
+    await d.getByRole('button', { name: 'Edit checklist item Review', exact: true }).click();
+    await d.getByLabel('New checklist item', { exact: true }).fill('Review final');
+    await d.getByRole('button', { name: 'Save checklist title', exact: true }).click();
     await expect(d.getByLabel('Review final', { exact: true })).toBeVisible();
-    await d.getByLabel('สถานะ', { exact: true }).selectOption('done');
-    await d.getByRole('button', { name: 'บันทึกงาน', exact: true }).click();
-    await expect(d.getByText('ต้องทำ Checklist ให้ครบก่อนปิดงาน', { exact: true })).toBeVisible();
+    await d.getByRole('tab', { name: 'Details', exact: true }).click();
+    await d.getByLabel('Status', { exact: true }).selectOption('done');
+    await d.getByRole('button', { name: 'Save task', exact: true }).click();
+    await expect(d.getByText('Complete every checklist item before marking Done', { exact: true })).toBeVisible();
+    await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await d.getByLabel('Review final', { exact: true }).click();
     await expect(d.getByRole('heading', { name: 'Checklist 1/1', exact: true })).toBeVisible();
-    await expect(d.getByLabel('สถานะ', { exact: true })).toHaveValue('todo');
-    await d.getByLabel('สถานะ', { exact: true }).selectOption('done');
-    await d.getByRole('button', { name: 'บันทึกงาน', exact: true }).click();
-    await expect(d.getByText('บันทึกแล้ว · สร้างงานรอบถัดไป #2', { exact: true })).toBeVisible();
+    await d.getByRole('tab', { name: 'Details', exact: true }).click();
+    await expect(d.getByLabel('Status', { exact: true })).toHaveValue('todo');
+    await d.getByLabel('Status', { exact: true }).selectOption('done');
+    await d.getByRole('button', { name: 'Save task', exact: true }).click();
+    await expect(d.getByText('Saved · Next occurrence created #2', { exact: true })).toBeVisible();
+    await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await expect(d.getByLabel('Review final', { exact: true })).toBeDisabled();
-    await expect(d.getByLabel('เพิ่ม Checklist', { exact: true })).toHaveCount(0);
-    await d.getByLabel('สถานะ', { exact: true }).selectOption('doing');
-    await d.getByRole('button', { name: 'บันทึกงาน', exact: true }).click();
-    await expect(d.getByText('บันทึกงานแล้ว', { exact: true })).toBeVisible();
+    await expect(d.getByLabel('Add checklist item', { exact: true })).toHaveCount(0);
+    await d.getByRole('tab', { name: 'Details', exact: true }).click();
+    await d.getByLabel('Status', { exact: true }).selectOption('doing');
+    await d.getByRole('button', { name: 'Save task', exact: true }).click();
+    await expect(d.getByText('Task saved', { exact: true })).toBeVisible();
+    await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await d.getByLabel('Review final', { exact: true }).click();
     await expect(d.getByRole('heading', { name: 'Checklist 0/1', exact: true })).toBeVisible();
-    await d.getByRole('button', { name: 'ลบ Checklist Review final', exact: true }).click();
+    await d.getByRole('button', { name: 'Delete checklist item Review final', exact: true }).click();
     await page
-      .getByRole('dialog', { name: 'ยืนยันลบ Checklist', exact: true })
-      .getByRole('button', { name: 'ยืนยันลบ Checklist นี้', exact: true })
+      .getByRole('dialog', { name: 'Confirm checklist deletion', exact: true })
+      .getByRole('button', { name: 'Delete this checklist item', exact: true })
       .click();
     await expect(d.getByRole('heading', { name: 'Checklist 0/0', exact: true })).toBeVisible();
-    await d.getByRole('button', { name: 'ลบงาน', exact: true }).click();
+    await d.getByRole('button', { name: 'Delete task', exact: true }).click();
     await page
-      .getByRole('dialog', { name: 'ยืนยันลบงาน', exact: true })
-      .getByRole('button', { name: 'ยืนยันลบงานนี้', exact: true })
+      .getByRole('dialog', { name: 'Confirm task deletion', exact: true })
+      .getByRole('button', { name: 'Delete this task', exact: true })
       .click();
     await expect(d).toHaveCount(0);
-    await expect(jobs.getByRole('button', { name: 'เปิดงาน #1', exact: true })).toHaveCount(0);
-    await jobs.locator(':scope > button').filter({ hasText: 'ปิดหน้าต่าง' }).click();
-    await page.getByRole('link', { name: 'ถังขยะ', exact: true }).click();
-    await expect(page.getByRole('columnheader', { name: 'กู้คืนก่อน', exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'คืนงาน #1', exact: true }).click();
+    await expect(jobs.getByRole('button', { name: 'Open task #1', exact: true })).toHaveCount(0);
+    await page.getByRole('link', { name: 'Trash', exact: true }).click();
+    await expect(page.getByRole('columnheader', { name: 'Restore before', exact: true })).toBeVisible();
+    await page.getByRole('button', { name: 'Restore task #1', exact: true }).click();
     await page
-      .getByRole('dialog', { name: 'ยืนยันคืนงาน', exact: true })
-      .getByRole('button', { name: 'ยืนยันคืนงานนี้', exact: true })
+      .getByRole('dialog', { name: 'Confirm task restore', exact: true })
+      .getByRole('button', { name: 'Restore this task', exact: true })
       .click();
-    await expect(page.getByText('คืนงาน #1 แล้ว', { exact: true })).toBeVisible();
+    await expect(page.getByText('Restore task #1 complete', { exact: true })).toBeVisible();
     const again = await tasks(page);
-    await again.getByRole('button', { name: 'เปิดงาน #2', exact: true }).click();
+    await again.getByRole('button', { name: 'Open task #2', exact: true }).click();
     d = detail(page);
-    await expect(d.getByLabel('วันส่ง', { exact: true })).toHaveValue('2027-02-28');
+    await expect(d.getByLabel('End Plan', { exact: true })).toHaveValue('2027-02-28');
+    await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await expect(d.getByRole('heading', { name: 'Checklist 0/1', exact: true })).toBeVisible();
     await closeDetail(page);
-    await expect(again.getByRole('button', { name: 'เปิดงาน #1', exact: true })).toBeVisible();
+    await expect(again.getByRole('button', { name: 'Open task #1', exact: true })).toBeVisible();
   } finally {
     await f.close();
   }
@@ -177,9 +192,9 @@ test('T032 actual 409 draft review, unsaved close/route cancellation, offline an
   const f = await projectFixture(page);
   try {
     const jobs = await make(page, 'Original');
-    await jobs.getByRole('button', { name: 'เปิดงาน #1', exact: true }).click();
+    await jobs.getByRole('button', { name: 'Open task #1', exact: true }).click();
     const d = detail(page);
-    await d.getByLabel('ชื่องาน', { exact: true }).fill('My draft');
+    await d.getByLabel('Task title', { exact: true }).fill('My draft');
     const other = await mutate(
       page,
       '/api/tasks/1',
@@ -187,35 +202,36 @@ test('T032 actual 409 draft review, unsaved close/route cancellation, offline an
       'PATCH',
     );
     expect(other.status).toBe(200);
-    await d.getByRole('button', { name: 'บันทึกงาน', exact: true }).click();
-    await expect(d.getByLabel('ชื่องาน', { exact: true })).toHaveValue('My draft');
-    await d.getByRole('button', { name: 'โหลดล่าสุดและเทียบร่าง', exact: true }).click();
-    await expect(d.getByText(/ข้อมูลล่าสุด: Remote update/)).toBeVisible();
-    await expect(d.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeDisabled();
-    await d.getByLabel('ยืนยันตรวจข้อมูลล่าสุดและร่างแล้ว').check();
-    await d.getByRole('button', { name: 'บันทึกงาน', exact: true }).click();
-    await expect(d.getByText('บันทึกงานแล้ว', { exact: true })).toBeVisible();
-    await d.getByLabel('ชื่องาน', { exact: true }).fill('Unsaved');
+    await d.getByRole('button', { name: 'Save task', exact: true }).click();
+    await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('My draft');
+    await d.getByRole('button', { name: 'Load latest and compare', exact: true }).click();
+    await expect(d.getByText(/Latest data: Remote update/)).toBeVisible();
+    await expect(d.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled();
+    await d.getByLabel('I have reviewed the latest data and my draft').check();
+    await d.getByRole('button', { name: 'Save task', exact: true }).click();
+    await expect(d.getByText('Task saved', { exact: true })).toBeVisible();
+    await d.getByLabel('Task title', { exact: true }).fill('Unsaved');
     page.once('dialog', (dialog) => dialog.dismiss());
     await closeDetail(page);
-    await expect(d.getByLabel('ชื่องาน', { exact: true })).toHaveValue('Unsaved');
+    await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('Unsaved');
     page.once('dialog', (dialog) => dialog.dismiss());
     await page.evaluate(() => history.back());
-    await expect(d.getByLabel('ชื่องาน', { exact: true })).toHaveValue('Unsaved');
-    await expect(page).toHaveURL(/\/projects$/);
+    await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('Unsaved');
+    await expect(page).toHaveURL(/\/projects\?project=1$/);
     await page.context().setOffline(true);
-    await expect(d.getByRole('button', { name: 'บันทึกงาน', exact: true })).toBeDisabled();
+    // Vibe editor hides the submit control while offline.
+    await expect(d.getByRole('button', { name: 'Save task', exact: true })).toHaveCount(0);
     await page.context().setOffline(false);
-    await expect(page.getByRole('button', { name: 'ออกจากระบบ', exact: true })).toBeEnabled({
+    await expect(page.getByRole('button', { name: 'Sign out', exact: true })).toBeEnabled({
       timeout: 15000,
     });
-    await expect(d.getByLabel('ชื่องาน', { exact: true })).toBeEnabled();
+    await expect(d.getByLabel('Task title', { exact: true })).toBeEnabled();
     await page.setViewportSize({ width: 360, height: 800 });
-    await d.getByLabel('ชื่องาน', { exact: true }).focus();
+    await d.getByLabel('Task title', { exact: true }).focus();
     await page.keyboard.press('Tab');
     expect(
       await d
-        .getByLabel('รายละเอียด', { exact: true })
+        .getByLabel('Details', { exact: true })
         .evaluate((e) => e === document.activeElement),
     ).toBe(true);
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
@@ -224,7 +240,7 @@ test('T032 actual 409 draft review, unsaved close/route cancellation, offline an
     await page.screenshot({ path: testInfo.outputPath('T032-task-detail.png'), fullPage: true });
     page.once('dialog', (dialog) => dialog.accept());
     await page.evaluate(() => history.back());
-    await expect(page).not.toHaveURL(/\/projects$/);
+    await expect(page).not.toHaveURL(/\/projects\?project=1$/);
     await expect(d).toHaveCount(0);
   } finally {
     await f.close();
@@ -253,50 +269,46 @@ test('T032 Viewer detail and archived Admin are read-only; managed archived dele
     );
     const member = await ctx.newPage();
     await member.goto(f.env.APP_ORIGIN);
-    await member.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('TaskViewer');
-    await member.getByLabel('รหัสผ่าน', { exact: true }).fill(password);
-    await member.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
-    await member.getByLabel('รหัสผ่านปัจจุบัน').fill(password);
-    await member.getByLabel('รหัสผ่านใหม่', { exact: true }).fill('Task-viewer-new-password');
-    await member.getByLabel('ยืนยันรหัสผ่านใหม่').fill('Task-viewer-new-password');
-    await member.getByRole('button', { name: 'เปลี่ยนรหัสผ่าน', exact: true }).click();
+    await member.getByLabel('Username', { exact: true }).fill('TaskViewer');
+    await member.getByLabel('Password', { exact: true }).fill(password);
+    await member.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await member.getByLabel('Current password').fill(password);
+    await member.getByLabel('New password', { exact: true }).fill('Task-viewer-new-password');
+    await member.getByLabel('Confirm new password').fill('Task-viewer-new-password');
+    await member.getByRole('button', { name: 'Change password', exact: true }).click();
     const jobs = await tasks(member);
-    await expect(jobs.getByRole('button', { name: 'สร้างงาน', exact: true })).toHaveCount(0);
-    await jobs.getByRole('button', { name: 'เปิดงาน #1', exact: true }).click();
+    await expect(jobs.getByRole('button', { name: 'New task', exact: true })).toHaveCount(0);
+    await jobs.getByRole('button', { name: 'Open task #1', exact: true }).click();
     const read = detail(member);
-    await expect(read.getByLabel('ชื่องาน', { exact: true })).toHaveValue('Archived task');
-    await expect(read.getByLabel('ชื่องาน', { exact: true })).toBeDisabled();
-    await expect(read.getByRole('button', { name: 'ลบงาน', exact: true })).toHaveCount(0);
+    await expect(read.getByLabel('Task title', { exact: true })).toHaveValue('Archived task');
+    await expect(read.getByLabel('Task title', { exact: true })).toBeDisabled();
+    await expect(read.getByRole('button', { name: 'Delete task', exact: true })).toHaveCount(0);
     await mutate(page, `/api/projects/1/members/${user.body.item.id}`, { version: 2 }, 'DELETE');
-    await read.getByRole('button', { name: 'ตรวจข้อมูลล่าสุด', exact: true }).click();
+    await read.getByRole('button', { name: 'Review latest data', exact: true }).click();
     await expect(read).toHaveCount(0);
     const archived = await mutate(page, '/api/projects/1', { version: 3, archived: true }, 'PATCH');
     expect(archived.status).toBe(200);
-    await page.getByRole('link', { name: 'โปรเจกต์', exact: true }).click();
-    await page.getByLabel('รวมที่เก็บแล้ว').check();
-    await page.getByRole('button', { name: 'งาน', exact: true }).click();
-    const adminJobs = page.getByRole('dialog', {
-      name: 'งานในโปรเจกต์ · Task project',
-      exact: true,
-    });
-    await expect(adminJobs.getByRole('button', { name: 'สร้างงาน', exact: true })).toHaveCount(0);
-    await adminJobs.getByRole('button', { name: 'เปิดงาน #1', exact: true }).click();
+    await page.getByRole('link', { name: 'All projects', exact: true }).click();
+    await page.getByLabel('Include archived').check();
+    await page.getByRole('button', { name: 'Tasks', exact: true }).click();
+    const adminJobs = page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
+    await expect(adminJobs.getByRole('button', { name: 'New task', exact: true })).toHaveCount(0);
+    await adminJobs.getByRole('button', { name: 'Open task #1', exact: true }).click();
     const admin = detail(page);
-    await expect(admin.getByLabel('ชื่องาน', { exact: true })).toBeDisabled();
-    await admin.getByRole('button', { name: 'ลบงาน', exact: true }).click();
+    await expect(admin.getByLabel('Task title', { exact: true })).toBeDisabled();
+    await admin.getByRole('button', { name: 'Delete task', exact: true }).click();
     await page
-      .getByRole('dialog', { name: 'ยืนยันลบงาน', exact: true })
-      .getByRole('button', { name: 'ยืนยันลบงานนี้', exact: true })
+      .getByRole('dialog', { name: 'Confirm task deletion', exact: true })
+      .getByRole('button', { name: 'Delete this task', exact: true })
       .click();
     await expect(admin).toHaveCount(0);
-    await adminJobs.locator(':scope > button').filter({ hasText: 'ปิดหน้าต่าง' }).click();
-    await page.getByRole('link', { name: 'ถังขยะ', exact: true }).click();
-    await page.getByRole('button', { name: 'คืนงาน #1', exact: true }).click();
+    await page.getByRole('link', { name: 'Trash', exact: true }).click();
+    await page.getByRole('button', { name: 'Restore task #1', exact: true }).click();
     await page
-      .getByRole('dialog', { name: 'ยืนยันคืนงาน', exact: true })
-      .getByRole('button', { name: 'ยืนยันคืนงานนี้', exact: true })
+      .getByRole('dialog', { name: 'Confirm task restore', exact: true })
+      .getByRole('button', { name: 'Restore this task', exact: true })
       .click();
-    await expect(page.getByText('คืนงาน #1 แล้ว', { exact: true })).toBeVisible();
+    await expect(page.getByText('Restore task #1 complete', { exact: true })).toBeVisible();
   } finally {
     await ctx.close();
     await f.close();

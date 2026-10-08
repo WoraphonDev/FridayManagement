@@ -24,10 +24,10 @@ async function fixture(page: Page) {
     });
     expect(setup.status()).toBe(201);
     await page.goto(f.env.APP_ORIGIN);
-    await page.getByLabel('ชื่อผู้ใช้', { exact: true }).fill('WorkspaceAdmin');
-    await page.getByLabel('รหัสผ่าน', { exact: true }).fill(password);
-    await page.getByRole('button', { name: 'เข้าสู่ระบบ', exact: true }).click();
-    await expect(page.getByRole('link', { name: 'ทีม', exact: true })).toBeVisible();
+    await page.getByLabel('Username', { exact: true }).fill('WorkspaceAdmin');
+    await page.getByLabel('Password', { exact: true }).fill(password);
+    await page.getByRole('button', { name: 'Sign in', exact: true }).click();
+    await expect(page.getByRole('link', { name: 'Teams & members', exact: true })).toBeVisible();
     return {
       ...f,
       restart: async () => {
@@ -74,20 +74,20 @@ async function projectFixture(page: Page) {
   return { ...f, project: project.body.item };
 }
 async function tasks(page: Page) {
-  await page.getByRole('link', { name: 'โปรเจกต์', exact: true }).click();
-  await page.getByRole('button', { name: 'งาน', exact: true }).click();
-  return page.getByRole('dialog', { name: 'งานในโปรเจกต์ · Task project', exact: true });
+  await page.getByRole('link', { name: 'All projects', exact: true }).click();
+  await page.getByRole('button', { name: 'Tasks', exact: true }).click();
+  return page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
 }
-const detail = (page: Page) => page.getByRole('dialog', { name: /^รายละเอียดงาน #/ });
+const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details #/ });
 async function openTask(page: Page) {
   const f = await projectFixture(page);
   expect(
     (await mutate(page, '/api/tasks', { project_id: 1, title: 'Collaboration task' })).status,
   ).toBe(201);
   const jobs = await tasks(page);
-  await jobs.getByRole('button', { name: 'เปิดงาน #1', exact: true }).click();
+  await jobs.getByRole('button', { name: 'Open task #1', exact: true }).click();
   await expect(
-    detail(page).getByRole('heading', { name: 'ความคิดเห็น', exact: true }),
+    detail(page).getByRole('heading', { name: 'Comments', exact: true }),
   ).toBeVisible();
   return f;
 }
@@ -98,36 +98,36 @@ test('T044 actual comments plaintext/pagination/dirty refresh and file upload/do
   try {
     const d = detail(page);
     await d
-      .getByLabel('เขียนความคิดเห็น', { exact: true })
+      .getByLabel('Write a comment', { exact: true })
       .fill('<script>window.fixtureXSS=1</script> ไทย');
-    await d.getByRole('button', { name: 'ส่งความคิดเห็น', exact: true }).click();
-    await expect(d.getByText('เพิ่มความคิดเห็นแล้ว', { exact: true })).toBeVisible();
+    await d.getByRole('button', { name: 'Post comment', exact: true }).click();
+    await expect(d.getByText('Comment added', { exact: true })).toBeVisible();
     await expect(
       d.getByText('<script>window.fixtureXSS=1</script> ไทย', { exact: true }),
     ).toBeVisible();
     expect(await page.evaluate(() => 'fixtureXSS' in window)).toBe(false);
-    await d.getByLabel('เขียนความคิดเห็น', { exact: true }).fill('ร่างที่ต้องอยู่');
-    await d.getByRole('button', { name: 'รีเฟรชความคิดเห็น ไฟล์ ประวัติ', exact: true }).click();
-    await expect(d.getByLabel('เขียนความคิดเห็น', { exact: true })).toHaveValue('ร่างที่ต้องอยู่');
+    await d.getByLabel('Write a comment', { exact: true }).fill('ร่างที่ต้องอยู่');
+    await d.getByRole('button', { name: 'Refresh comments, files and history', exact: true }).click();
+    await expect(d.getByLabel('Write a comment', { exact: true })).toHaveValue('ร่างที่ต้องอยู่');
     page.once('dialog', (dialog) => dialog.dismiss());
-    await d.getByRole('button', { name: 'ปิดหน้าต่าง', exact: true }).click();
+    await d.getByRole('button', { name: 'Close dialog', exact: true }).click();
     await expect(d).toBeVisible();
     for (let i = 0; i < 10; i++)
       expect(
         (await mutate(page, '/api/tasks/1/comments', { body: `Page comment ${i}` })).status,
       ).toBe(201);
-    await d.getByRole('button', { name: 'รีเฟรชความคิดเห็น ไฟล์ ประวัติ', exact: true }).click();
-    await expect(d.getByRole('button', { name: 'ถัดไป ความคิดเห็น', exact: true })).toBeEnabled();
-    await d.getByRole('button', { name: 'ถัดไป ความคิดเห็น', exact: true }).click();
+    await d.getByRole('button', { name: 'Refresh comments, files and history', exact: true }).click();
+    await expect(d.getByRole('button', { name: 'Next comments', exact: true })).toBeEnabled();
+    await d.getByRole('button', { name: 'Next comments', exact: true }).click();
     await expect(d.getByText('Page comment 9', { exact: true })).toBeVisible();
-    await expect(d.getByLabel('เขียนความคิดเห็น', { exact: true })).toHaveValue('ร่างที่ต้องอยู่');
-    await d.getByLabel('เลือกไฟล์แนบ', { exact: true }).setInputFiles({
+    await expect(d.getByLabel('Write a comment', { exact: true })).toHaveValue('ร่างที่ต้องอยู่');
+    await d.getByLabel('Choose attachment', { exact: true }).setInputFiles({
       name: 'งาน.txt',
       mimeType: 'text/plain',
       buffer: Buffer.from('ไทย file bytes'),
     });
-    await d.getByRole('button', { name: 'อัปโหลดไฟล์', exact: true }).click();
-    await expect(d.getByText('อัปโหลดแล้ว', { exact: true })).toBeVisible();
+    await d.getByRole('button', { name: 'Upload file', exact: true }).click();
+    await expect(d.getByText('Uploaded', { exact: true })).toBeVisible();
     const downloaded = page.waitForEvent('download');
     await d.getByRole('button', { name: 'ดาวน์โหลด งาน.txt', exact: true }).click();
     const download = await downloaded;
@@ -138,31 +138,31 @@ test('T044 actual comments plaintext/pagination/dirty refresh and file upload/do
     expect(Buffer.concat(chunks).toString()).toBe('ไทย file bytes');
     await d.getByRole('button', { name: 'ลบไฟล์ งาน.txt', exact: true }).click();
     await page
-      .getByRole('dialog', { name: 'ยืนยันลบไฟล์', exact: true })
-      .getByRole('button', { name: 'ยืนยันลบไฟล์', exact: true })
+      .getByRole('dialog', { name: 'Confirm file deletion', exact: true })
+      .getByRole('button', { name: 'Confirm file deletion', exact: true })
       .click();
     await expect(d.getByRole('button', { name: 'ดาวน์โหลด งาน.txt', exact: true })).toHaveCount(0);
-    await d.getByRole('checkbox', { name: 'แสดงไฟล์ที่ลบและกู้คืนได้' }).check();
+    await d.getByRole('checkbox', { name: 'Show deleted files available to restore' }).check();
     await d.getByRole('button', { name: 'กู้คืนไฟล์ งาน.txt', exact: true }).click();
     await page
-      .getByRole('dialog', { name: 'ยืนยันกู้คืนไฟล์', exact: true })
-      .getByRole('button', { name: 'ยืนยันกู้คืนไฟล์', exact: true })
+      .getByRole('dialog', { name: 'Confirm file restore', exact: true })
+      .getByRole('button', { name: 'Confirm file restore', exact: true })
       .click();
     await expect(d.getByRole('button', { name: 'ดาวน์โหลด งาน.txt', exact: true })).toBeVisible();
-    await d.getByRole('button', { name: 'ถัดไป ประวัติ', exact: true }).click();
+    await d.getByRole('button', { name: 'Next history', exact: true }).click();
     await expect(
       d
-        .getByRole('region', { name: 'ประวัติงาน', exact: true })
+        .getByRole('region', { name: 'Task history', exact: true })
         .getByText('เปลี่ยนไฟล์แนบ', { exact: true })
         .first(),
     ).toBeVisible();
     await page.setViewportSize({ width: 390, height: 844 });
     await d
-      .getByRole('button', { name: 'รีเฟรชความคิดเห็น ไฟล์ ประวัติ', exact: true })
+      .getByRole('button', { name: 'Refresh comments, files and history', exact: true })
       .scrollIntoViewIfNeeded();
     expect(await d.evaluate((e) => e.scrollWidth <= e.clientWidth + 1)).toBe(true);
     await page.screenshot({ path: testInfo.outputPath('T044-panels-mobile.png') });
-    await d.getByLabel('เขียนความคิดเห็น', { exact: true }).fill('');
+    await d.getByLabel('Write a comment', { exact: true }).fill('');
   } finally {
     await f.close();
   }
@@ -183,20 +183,20 @@ test('T044 actual upload progress/pending acknowledgment, uncertain response sam
       await new Promise<void>((r) => (ack = r));
       await route.abort('failed');
     });
-    await d.getByLabel('เลือกไฟล์แนบ', { exact: true }).setInputFiles({
+    await d.getByLabel('Choose attachment', { exact: true }).setInputFiles({
       name: 'retry.txt',
       mimeType: 'text/plain',
       buffer: Buffer.alloc(1024 * 256, 97),
     });
-    await d.getByRole('button', { name: 'อัปโหลดไฟล์', exact: true }).click();
-    await expect(d.getByRole('progressbar', { name: 'ความคืบหน้าอัปโหลด' })).toBeVisible();
-    await expect(d.getByText('อัปโหลดแล้ว', { exact: true })).toHaveCount(0);
+    await d.getByRole('button', { name: 'Upload file', exact: true }).click();
+    await expect(d.getByRole('progressbar', { name: 'Upload progress' })).toBeVisible();
+    await expect(d.getByText('Uploaded', { exact: true })).toHaveCount(0);
     await expect.poll(() => !!ack).toBe(true);
     ack!();
     await expect(d.getByRole('alert').first()).toBeVisible();
     await page.unroute('**/api/tasks/1/attachments');
-    await d.getByRole('button', { name: 'อัปโหลดไฟล์', exact: true }).click();
-    await expect(d.getByText('อัปโหลดแล้ว', { exact: true })).toBeVisible();
+    await d.getByRole('button', { name: 'Upload file', exact: true }).click();
+    await expect(d.getByText('Uploaded', { exact: true })).toBeVisible();
     expect(
       await page.evaluate(async () => {
         const f = await (await fetch('/api/tasks/1/attachments')).json();
@@ -211,12 +211,12 @@ test('T044 actual upload progress/pending acknowledgment, uncertain response sam
         await route.abort('failed');
       } else await route.continue();
     });
-    await d.getByLabel('เขียนความคิดเห็น', { exact: true }).fill('retry comment');
-    await d.getByRole('button', { name: 'ส่งความคิดเห็น', exact: true }).click();
+    await d.getByLabel('Write a comment', { exact: true }).fill('retry comment');
+    await d.getByRole('button', { name: 'Post comment', exact: true }).click();
     await expect(d.getByRole('alert').first()).toBeVisible();
-    await expect(d.getByLabel('เขียนความคิดเห็น', { exact: true })).toHaveValue('retry comment');
-    await d.getByRole('button', { name: 'ส่งความคิดเห็น', exact: true }).click();
-    await expect(d.getByText('เพิ่มความคิดเห็นแล้ว', { exact: true })).toBeVisible();
+    await expect(d.getByLabel('Write a comment', { exact: true })).toHaveValue('retry comment');
+    await d.getByRole('button', { name: 'Post comment', exact: true }).click();
+    await expect(d.getByText('Comment added', { exact: true })).toBeVisible();
     expect(
       await page.evaluate(async () => {
         const c = await (await fetch('/api/tasks/1/comments')).json();
@@ -224,7 +224,7 @@ test('T044 actual upload progress/pending acknowledgment, uncertain response sam
       }),
     ).toBe(1);
     await f.restart();
-    await d.getByRole('button', { name: 'รีเฟรชความคิดเห็น ไฟล์ ประวัติ', exact: true }).click();
+    await d.getByRole('button', { name: 'Refresh comments, files and history', exact: true }).click();
     await expect(d.getByRole('button', { name: 'ดาวน์โหลด retry.txt', exact: true })).toBeVisible();
   } finally {
     await f.close();
@@ -236,24 +236,24 @@ test('T044 invalid type/size/quota errors retain drafts; current permission fail
   const f = await openTask(page);
   try {
     const d = detail(page);
-    await d.getByLabel('เขียนความคิดเห็น', { exact: true }).fill('draft');
-    await d.getByLabel('เลือกไฟล์แนบ', { exact: true }).setInputFiles({
+    await d.getByLabel('Write a comment', { exact: true }).fill('draft');
+    await d.getByLabel('Choose attachment', { exact: true }).setInputFiles({
       name: 'fake.pdf',
       mimeType: 'application/pdf',
       buffer: Buffer.from('plain'),
     });
-    await d.getByRole('button', { name: 'อัปโหลดไฟล์', exact: true }).click();
+    await d.getByRole('button', { name: 'Upload file', exact: true }).click();
     await expect(
       d.getByText('ชนิดหรือเนื้อหาไฟล์ไม่ตรงตามที่อนุญาต', { exact: true }),
     ).toBeVisible();
-    await expect(d.getByLabel('เขียนความคิดเห็น', { exact: true })).toHaveValue('draft');
-    await d.getByLabel('เลือกไฟล์แนบ', { exact: true }).setInputFiles({
+    await expect(d.getByLabel('Write a comment', { exact: true })).toHaveValue('draft');
+    await d.getByLabel('Choose attachment', { exact: true }).setInputFiles({
       name: 'large.txt',
       mimeType: 'text/plain',
       buffer: Buffer.alloc(10485761, 97),
     });
     await expect(d.getByText('ไฟล์เกิน 10 MiB', { exact: true })).toBeVisible();
-    await expect(d.getByRole('button', { name: 'อัปโหลดไฟล์', exact: true })).toBeDisabled();
+    await expect(d.getByRole('button', { name: 'Upload file', exact: true })).toBeDisabled();
     await page.route('**/api/tasks/1/attachments', async (route) => {
       if (route.request().method() === 'POST')
         await route.fulfill({
@@ -270,11 +270,11 @@ test('T044 invalid type/size/quota errors retain drafts; current permission fail
       else await route.continue();
     });
     await d
-      .getByLabel('เลือกไฟล์แนบ', { exact: true })
+      .getByLabel('Choose attachment', { exact: true })
       .setInputFiles({ name: 'valid.txt', mimeType: 'text/plain', buffer: Buffer.from('valid') });
-    await d.getByRole('button', { name: 'อัปโหลดไฟล์', exact: true }).click();
+    await d.getByRole('button', { name: 'Upload file', exact: true }).click();
     await expect(d.getByText('พื้นที่ไฟล์เต็ม กรุณาติดต่อ Admin', { exact: true })).toBeVisible();
-    await expect(d.getByRole('button', { name: 'อัปโหลดไฟล์', exact: true })).toBeEnabled();
+    await expect(d.getByRole('button', { name: 'Upload file', exact: true })).toBeEnabled();
     await page.unroute('**/api/tasks/1/attachments');
     await page.route('**/api/tasks/1/comments*', (route) =>
       route.fulfill({
@@ -289,9 +289,9 @@ test('T044 invalid type/size/quota errors retain drafts; current permission fail
         },
       }),
     );
-    await d.getByRole('button', { name: 'รีเฟรชความคิดเห็น ไฟล์ ประวัติ', exact: true }).click();
+    await d.getByRole('button', { name: 'Refresh comments, files and history', exact: true }).click();
     await expect(d).toHaveCount(0);
-    await expect(page.getByLabel('เขียนความคิดเห็น', { exact: true })).toHaveCount(0);
+    await expect(page.getByLabel('Write a comment', { exact: true })).toHaveCount(0);
   } finally {
     await f.close();
   }

@@ -9,6 +9,16 @@
         "dev"
       ],
       "port": 5173
+    },
+    {
+      "name": "local",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "NODE_ENV=development DB_PROVIDER=sqlite DATA_DIR=/private/tmp/friday-local-data LOG_DIR=/private/tmp/friday-local-logs SQLITE_DB_PATH=/private/tmp/friday-local-data/friday.sqlite PORT=43171 APP_ORIGIN=http://127.0.0.1:43171 COOKIE_SECURE=false npm start"
+      ],
+      "port": 43171,
+      "url": "http://127.0.0.1:43171"
     }
   ]
 }
