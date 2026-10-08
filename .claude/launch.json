@@ -11,32 +11,14 @@
       "port": 5173
     },
     {
-      "name": "local",
+      "name": "app",
       "runtimeExecutable": "sh",
       "runtimeArgs": [
         "-c",
-        "NODE_ENV=development DB_PROVIDER=sqlite DATA_DIR=/private/tmp/friday-local-data LOG_DIR=/private/tmp/friday-local-logs SQLITE_DB_PATH=/private/tmp/friday-local-data/friday.sqlite PORT=43171 APP_ORIGIN=http://127.0.0.1:43171 COOKIE_SECURE=false npm start"
+        "NODE_ENV=development DB_PROVIDER=sqlite DATA_DIR=/private/tmp/friday-audit LOG_DIR=/private/tmp/friday-audit-logs SQLITE_DB_PATH=/private/tmp/friday-audit/friday.sqlite PORT=5000 APP_ORIGIN=http://127.0.0.1:5000 COOKIE_SECURE=false npm start"
       ],
-      "port": 43171,
-      "url": "http://127.0.0.1:43171"
-    },
-    {
-      "name": "mock",
-      "runtimeExecutable": "node",
-      "runtimeArgs": [
-        "/private/tmp/claude-501/-Users-mickitang-Documents-GitHub-FridayManagement/2fcf0f5b-6def-4aa2-b5db-178271b78016/scratchpad/mock.cjs"
-      ],
-      "port": 43180
-    },
-    {
-      "name": "audit",
-      "runtimeExecutable": "sh",
-      "runtimeArgs": [
-        "-c",
-        "NODE_ENV=development DB_PROVIDER=sqlite DATA_DIR=/private/tmp/friday-audit LOG_DIR=/private/tmp/friday-audit-logs SQLITE_DB_PATH=/private/tmp/friday-audit/friday.sqlite PORT=43172 APP_ORIGIN=http://127.0.0.1:43172 COOKIE_SECURE=false npm start"
-      ],
-      "port": 43172,
-      "url": "http://127.0.0.1:43172"
+      "port": 5000,
+      "url": "http://127.0.0.1:5000"
     }
   ]
 }

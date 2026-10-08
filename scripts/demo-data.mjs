@@ -1,10 +1,10 @@
 // Local demo data shaped like TeamFlow_UI_Vibe_Preview.html, created through the public API.
 // Usage (fresh local SQLite instance only):
-//   DEMO_ORIGIN=http://127.0.0.1:43172 SETUP_TOKEN=<console token> DEMO_PASSWORD=<test password> node scripts/demo-data.mjs
+//   DEMO_ORIGIN=http://127.0.0.1:5000 SETUP_TOKEN=<console token> DEMO_PASSWORD=<test password> node scripts/demo-data.mjs
 // Refuses non-local origins. Every demo account uses DEMO_PASSWORD; members must change it at first sign-in.
 import { randomUUID } from 'node:crypto';
 
-const origin = process.env.DEMO_ORIGIN ?? 'http://127.0.0.1:43172';
+const origin = process.env.DEMO_ORIGIN ?? 'http://127.0.0.1:5000';
 const token = process.env.SETUP_TOKEN;
 const password = process.env.DEMO_PASSWORD;
 if (!/^http:\/\/(127\.0\.0\.1|localhost)(:\d+)?$/.test(origin)) throw new Error('Local origin only');
