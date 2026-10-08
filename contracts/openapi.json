@@ -3,8 +3,8 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "FridayManagement API",
-    "version": "1.5.0",
-    "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
+    "version": "1.6.0",
+    "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-090 favorites. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
   },
   "servers": [
     {
@@ -5330,6 +5330,308 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/MyOverview"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error; HTTP status/code mapping is in TeamFlow_API_Contract.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]*$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/favorites": {
+      "get": {
+        "operationId": "get_api_me_favorites",
+        "summary": "GET /api/me/favorites",
+        "security": [
+          {
+            "cookieSession": []
+          }
+        ],
+        "parameters": [],
+        "x-permission": "authenticated",
+        "x-owner-tasks": [
+          "T-090"
+        ],
+        "x-idempotency": "none",
+        "x-query-schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "x-business-rules": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Favorites"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error; HTTP status/code mapping is in TeamFlow_API_Contract.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]*$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/me/favorites/{id}": {
+      "put": {
+        "operationId": "put_api_me_favorites_id",
+        "summary": "PUT /api/me/favorites/{id}",
+        "security": [
+          {
+            "cookieSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 128,
+              "x-utf16MaxLength": 128
+            }
+          }
+        ],
+        "x-permission": "authenticated",
+        "x-owner-tasks": [
+          "T-090"
+        ],
+        "x-idempotency": "none",
+        "x-query-schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "x-business-rules": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Favorites"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Error; HTTP status/code mapping is in TeamFlow_API_Contract.md",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            },
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              },
+              "Retry-After": {
+                "schema": {
+                  "type": "string",
+                  "pattern": "^[1-9][0-9]*$"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "operationId": "delete_api_me_favorites_id",
+        "summary": "DELETE /api/me/favorites/{id}",
+        "security": [
+          {
+            "cookieSession": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
+          },
+          {
+            "name": "Origin",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            }
+          },
+          {
+            "name": "X-CSRF-Token",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "minLength": 32,
+              "maxLength": 128,
+              "x-utf16MaxLength": 128
+            }
+          }
+        ],
+        "x-permission": "authenticated",
+        "x-owner-tasks": [
+          "T-090"
+        ],
+        "x-idempotency": "none",
+        "x-query-schema": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        },
+        "x-business-rules": [],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "headers": {
+              "X-Request-Id": {
+                "required": true,
+                "schema": {
+                  "$ref": "#/components/schemas/RequestId"
+                }
+              },
+              "Cache-Control": {
+                "required": true,
+                "schema": {
+                  "type": "string",
+                  "const": "no-store"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Favorites"
                 }
               }
             }
@@ -13879,6 +14181,55 @@
           "by_assignee",
           "by_job_title",
           "recent_activity"
+        ],
+        "additionalProperties": false
+      },
+      "Favorites": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "project_id": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "project_name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "x-utf16MaxLength": 100,
+                  "pattern": "\\S"
+                },
+                "owner_team_name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "x-utf16MaxLength": 100,
+                  "pattern": "\\S"
+                },
+                "archived": {
+                  "type": "boolean"
+                },
+                "created_at": {
+                  "$ref": "#/components/schemas/Timestamp"
+                }
+              },
+              "required": [
+                "project_id",
+                "project_name",
+                "owner_team_name",
+                "archived",
+                "created_at"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 100
+          }
+        },
+        "required": [
+          "items"
         ],
         "additionalProperties": false
       },

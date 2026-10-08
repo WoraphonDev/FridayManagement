@@ -27,6 +27,7 @@ import {
 } from './task-list';
 import { myWorkGroup, myWorkGroups } from './task-dates';
 import { useSharedRefresh } from './shared/refresh';
+import { useFavorites } from './favorites-api';
 import { TaskEditor } from './TaskEditor';
 import { DataTable, Dialog, ErrorNotice, Field, Loading } from './shared/components';
 import { CalendarView, GanttView } from './TaskViews';
@@ -88,6 +89,8 @@ export function TaskWorkspace({
   onBack?: () => void;
 }) {
   const [project, setProject] = useState(initialProject);
+  const favorites = useFavorites(project ? self.csrf : undefined, online),
+    starred = !!project && favorites.items.some((f) => f.project_id === project.id);
   const closeScope = useRef(onScopeRemoved);
   useEffect(() => {
     closeScope.current = onScopeRemoved;
@@ -536,7 +539,25 @@ export function TaskWorkspace({
             <span aria-hidden="true">›</span>
             <span>{project?.owner_team_name ?? 'My work'}</span>
           </nav>
-          <h1>{project?.name ?? (mode === 'my' ? 'My work' : 'Work calendar')}</h1>
+          <h1>
+            {project?.name ?? (mode === 'my' ? 'My work' : 'Work calendar')}
+            {project && (
+              <button
+                type="button"
+                className={`favorite-toggle ${starred ? 'on' : ''}`}
+                aria-pressed={starred}
+                aria-label={starred ? 'Remove from favorites' : 'Add to favorites'}
+                disabled={!online}
+                onClick={() =>
+                  void favorites.toggle(project.id, !starred).catch((e: unknown) => {
+                    if (e instanceof ApiError) onFailure(e);
+                  })
+                }
+              >
+                {starred ? '★' : '☆'}
+              </button>
+            )}
+          </h1>
           <p>{project?.description || 'Plan work and follow your team’s progress'}</p>
           {project && (
             <div className="header-meta">

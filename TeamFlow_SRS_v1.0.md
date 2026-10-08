@@ -588,6 +588,9 @@ Home/My overview, My work grouped table, Favorites ใน sidebar, Project Docs,
 | GET /api/projects/{id}/workload | from,weeks | Project read; open tasks per assignee per Monday-start Bangkok week |
 | GET /api/teams/{id}/workload | from,weeks | Admin, team Lead or member with P-09; only tasks in projects the viewer can access (BR-16) |
 | GET /api/projects/{id}/overview | — | Project read (P-07 for managers); progress/status/overdue/assignee/job title/recent activity |
+| GET /api/me/favorites | — | Self; current-access filtered |
+| PUT /api/me/favorites/{id} | — | Self + project read (404 otherwise); idempotent; max 100 |
+| DELETE /api/me/favorites/{id} | — | Self; own row only |
 | GET /api/users/{id}/permissions | — | Admin or self; keys + permissions_version + manager projects |
 | PUT /api/users/{id}/permissions | keys, permissions_version | Admin not self (403); stale 409; BR-22 demote manager→editor atomically + audit |
 | GET /api/permissions/catalog | — | Authenticated; P-01–P-10 labels/scope/preset |
@@ -676,7 +679,7 @@ Response201ใช้TaskMutationResultในcontracts/openapi.json: item=TaskDet
 | `POST /api/tasks/batch` | T-086 | Editor+ ต่องาน |
 | `GET /api/projects/{id}/workload`, `GET /api/teams/{id}/workload`, `GET /api/projects/{id}/overview` (locked in contract 1.5.0, §12.2) | T-088 | ตาม §4.4/P-07/P-09 |
 | `GET/PATCH /api/me/preferences` | T-089 | Self |
-| `GET /api/me/favorites`, `PUT/DELETE /api/me/favorites/{projectId}` | T-090 | Self + project access |
+| `GET /api/me/favorites`, `PUT/DELETE /api/me/favorites/{id}` (locked in contract 1.6.0, §12.2; `{id}` = project id) | T-090 | Self + project access |
 
 ## 13. Security / Operational Specifications — SP-08
 

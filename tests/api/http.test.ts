@@ -59,8 +59,8 @@ async function error(response: Response, status: number, code: string) {
   parseSchema(schema, body);
   return body;
 }
-test('All 80 declared operations share fail-closed ingress; unknown route/method/path/query is rejected', async () => {
-  assert.equal(operations.length, 80);
+test('All 83 declared operations share fail-closed ingress; unknown route/method/path/query is rejected', async () => {
+  assert.equal(operations.length, 83);
   await fixture(async (base) => {
     for (const op of operations.filter((o) => o.path.startsWith('/api/'))) {
       const path = op.path.replace(/\{[^}]+\}/g, '1');

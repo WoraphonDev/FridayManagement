@@ -64,3 +64,7 @@ SQLite0004 and SQL Server0004 add `project_groups(id,project_id,name,color,posit
 ## Migration 0008 — T-088 (8 October 2026)
 
 `organizations.workload_threshold` INTEGER/INT NOT NULL DEFAULT 10, CHECK 1–1000 (SQLite `0008_workload_threshold.sql`, SQL Server `0008_workload_threshold.sql`). FR-50 highlight threshold for open tasks per person per Monday-start Bangkok week; Admin edits it via `PATCH /api/organization`. SQLite fresh migration verified; SQL Server NOT_RUN.
+
+## Migration 0009 — T-090 (8 October 2026)
+
+`user_favorites(user_id, project_id, created_at)` PK(user_id, project_id), FKs to users/projects (NO ACTION), index on project_id. Private per user; read filtered by current access; rows removed by `cleanupFavorites()` inside every access-change transaction. SQLite fresh migration verified; SQL Server NOT_RUN.

@@ -39,6 +39,7 @@ export const tables = [
   'project_docs',
   'project_doc_versions',
   'project_files',
+  'user_favorites',
 ];
 export const hash = 'a'.repeat(64);
 export const time = '2026-10-06T00:00:00.000Z';

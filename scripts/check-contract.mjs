@@ -45,7 +45,7 @@ export function checkContract() {
   }
   assert.deepEqual(operations, srs, 'SRS route coverage mismatch');
   assert.deepEqual(operations, taskInventory, 'Task route coverage mismatch');
-  assert.equal(operations.size, 80);
+  assert.equal(operations.size, 83);
   for (const name of Object.keys(contract.components.schemas)) assert(schemaValidator(name), `Uncompiled schema: ${name}`);
   return { routes: operations.size, schemas: Object.keys(contract.components.schemas).length, result: 'PASS' };
 }

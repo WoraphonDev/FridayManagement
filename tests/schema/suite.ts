@@ -82,7 +82,7 @@ export function schemaAcceptance(
             assert.equal(key.on_update, 'NO ACTION');
           }
         }
-        assert.equal(count, 48);
+        assert.equal(count, 50);
         const indexes = await rows<{ name: string }>(
           db,
           s("SELECT name FROM sqlite_master WHERE type='index'"),
@@ -111,7 +111,7 @@ export function schemaAcceptance(
             "SELECT is_disabled,is_not_trusted,delete_referential_action,update_referential_action FROM sys.foreign_keys WHERE schema_id=SCHEMA_ID(OBJECT_SCHEMA_NAME(OBJECT_ID(N'dbo.tasks')))",
           ),
         );
-        assert.equal(keys.length, 48);
+        assert.equal(keys.length, 50);
         for (const key of keys)
           assert.deepEqual(key, {
             is_disabled: 0,

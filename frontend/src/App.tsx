@@ -12,6 +12,7 @@ import { readFailureCount } from './api';
 import { Pwa } from './Pwa';
 import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { MyOverview } from './MyOverview';
+import { useFavorites } from './favorites-api';
 import { apiClient, ApiError, selfSchema, metaSchema, type Self } from './api';
 import { Login, Password } from './Auth';
 import { AdminCenter, MyPermissions } from './AdminCenter';
@@ -310,6 +311,7 @@ export function App() {
   }, [reload]);
   const orgSession =
     self && !self.must_change_password && !self.user.must_change_password ? self.csrf : undefined;
+  const favorites = useFavorites(orgSession, online);
   useEffect(() => {
     if (!orgSession || !online) return;
     const read = async (signal: AbortSignal) => {
@@ -446,6 +448,28 @@ export function App() {
           </span>
         </NavLink>
         <nav aria-label="Main navigation">
+          {!!orgSession && !!favorites.items.length && (
+            <div className="nav-section project-navigation" aria-label="Favorites">
+              <p className="nav-heading">Favorites</p>
+              {favorites.items.map((f) => (
+                <NavLink
+                  key={f.project_id}
+                  to={`/projects?project=${f.project_id}`}
+                  onClick={() => setMenuOpen(false)}
+                  aria-current={boardProject?.id === f.project_id ? 'page' : false}
+                  className={boardProject?.id === f.project_id ? 'project-active' : ''}
+                >
+                  <span className="nav-star" aria-hidden="true">
+                    ★
+                  </span>
+                  <span className="nav-label">
+                    {f.project_name}
+                    <small>{f.owner_team_name}</small>
+                  </span>
+                </NavLink>
+              ))}
+            </div>
+          )}
           {[
             { label: 'Personal', paths: ['/', '/my-tasks'] },
             { label: 'Workspace', paths: ['/projects', '/teams', '/calendar', '/reports'] },

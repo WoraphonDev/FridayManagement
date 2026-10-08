@@ -5,6 +5,7 @@ import { randomUUID } from 'node:crypto';
 import type { Transaction, Row } from '../domain/database.js';
 import { sql } from '../repository/access-scope.js';
 import { requireVersion } from '../domain/lifecycle.js';
+import { cleanupFavorites } from './favorites.js';
 
 /** Recheck effective write AFTER a membership/account change in the same transaction. */
 export async function cleanupAssignments(
@@ -15,6 +16,8 @@ export async function cleanupAssignments(
   now: string,
   scope: { project?: number; team?: number } = {},
 ) {
+  // FR-47: a favorite disappears with the access that made the project visible.
+  await cleanupFavorites(tx, target);
   const tasks = await tx.query<
     Row & { id: number; version: number; project_id: number; owner_team_id: number }
   >(

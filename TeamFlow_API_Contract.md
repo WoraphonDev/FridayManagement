@@ -1,10 +1,14 @@
-# TeamFlow — API/DTO contract 1.5.0
+# TeamFlow — API/DTO contract 1.6.0
 
 วันที่: 5 ตุลาคม 2026 · Task: T-003 · Business baseline1.1 + RD-01–RD-08
 
 Machine contract: [contracts/openapi.json](contracts/openapi.json) (OpenAPI3.1.1/JSON Schema2020-12). Authoring source: [scripts/build-contract.mjs](scripts/build-contract.mjs). Contract tests: [tests/contracts/contract.test.mjs](tests/contracts/contract.test.mjs).
 
 เอกสารนี้ล็อกสัญญา frontend/backend สำหรับ Node22 + SQLite local และ SQL2022 ปลายทางร่วมกัน ไม่ใช่ HTTP server, authorization implementation หรือหลักฐานว่า database transactions ผ่าน หากเปลี่ยน field/status/policy ต้องแก้ SRS/contract/tests พร้อมกัน และ regenerate JSON ก่อนปิดงาน
+
+## Addendum API 1.6.0 — T-090 (8 October 2026)
+
+Contract 1.6.0 has 83 routes/108 schemas. `GET /api/me/favorites` returns `Favorites{items[{project_id,project_name,owner_team_name,archived,created_at}] ≤100}` filtered by current read access. `PUT /api/me/favorites/{id}` (`{id}` = project id; no body; CSRF) stars a readable project (404 otherwise, idempotent, 422 above 100) and `DELETE /api/me/favorites/{id}` removes the caller's own row; both return the fresh list. Rows are private (migration 0009 `user_favorites`) and are deleted in the same transaction as any membership/account change that removes Admin/Lead/project-member reach.
 
 ## Addendum API 1.5.0 — T-088 (8 October 2026)
 
@@ -252,6 +256,9 @@ Node22; `npm ci --ignore-scripts`, `npm run check:contract`, `npm run test:contr
 | GET /api/projects/{id}/workload | — | 200 / Workload | none | T-088 |
 | GET /api/teams/{id}/workload | — | 200 / Workload | none | T-088 |
 | GET /api/projects/{id}/overview | — | 200 / ProjectOverview | none | T-088 |
+| GET /api/me/favorites | — | 200 / Favorites | none | T-090 |
+| PUT /api/me/favorites/{id} | — | 200 / Favorites | none | T-090 |
+| DELETE /api/me/favorites/{id} | — | 200 / Favorites | none | T-090 |
 
 ## T-009 runtime integration note - 2026-10-06
 

@@ -1,12 +1,16 @@
 # TeamFlow — Task.md: แผนพัฒนาและตรวจความครบถ้วน
 
-**Version:** 1.58 · **วันที่:** 8 ตุลาคม 2026\
+**Version:** 1.59 · **วันที่:** 8 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
-**จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 80 API routes ที่ล็อก (contract 1.5.0) + planned routes SRS §12.6
+**จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 83 API routes ที่ล็อก (contract 1.6.0) + planned routes SRS §12.6
 **ต้นทาง:** `TeamFlow_Requirements_v1.0.md` และ `TeamFlow_SRS_v1.0.md` รุ่นปัจจุบันที่อ่านเมื่อ 5 ตุลาคม 2026
 
 
 
+
+## T-090 Favorites — 8 October 2026
+
+สร้างใหม่: migration 0009 `user_favorites`, contract 1.6.0 (83 routes/108 schemas) GET/PUT/DELETE `/api/me/favorites{/id}`, `cleanupFavorites()` ใน transaction ของทุกการเปลี่ยนสิทธิ์, ปุ่มดาวในหัวโปรเจกต์ และ Favorites บนสุดของ sidebar. ผล: AT-40 HTTP 1/1, schema 18/18, Node 450/450 + frontend 47/47, Chromium addendum 5/5, typecheck/lint/build/contract PASS. SQL Server 2022/Windows/UAT NOT_RUN. Evidence: TeamFlow_T090_Test_Report.md / reports/T-090-favorites-results.json. DONE6/91, IN_PROGRESS79, IN_REVIEW2, TODO4, remaining85. Declared Low; actual model/effort NOT_VERIFIED. Next: T-086 High / T-087 Medium / T-089 Medium รอเจ้าของรีวิว mock T-079; T-091 High ต้องมี SQL Server 2022/Windows/UAT.
 
 ## T-088 Workload + Project overview — 8 October 2026
 
@@ -298,7 +302,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-087 | Task side panel (Updates/@mention/Files/Activity) | T-079 | Medium | TODO | ยังไม่มอบหมาย | — |
 | T-088 | Workload + Project overview | T-080 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T088_Test_Report.md; reports/T-088-workload-results.json: contract1.5.0 80 routes + migration0008 + AT-37 HTTP1/1 + Node449 + frontend47 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-089 | Motion system AN-01–AN-12 + reduced-motion + Settings toggle | T-079 | Medium | TODO | ยังไม่มอบหมาย | — |
-| T-090 | Favorites (Updates feed เลื่อนไปรอบถัดไป) | T-083 | Low | TODO | ยังไม่มอบหมาย | — |
+| T-090 | Favorites (Updates feed เลื่อนไปรอบถัดไป) | T-083 | Low | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T090_Test_Report.md; reports/T-090-favorites-results.json: contract1.6.0 83 routes + migration0009 + AT-40 HTTP1/1 + Node450 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-091 | Regression รวม addendum, SQL Server 2022 native, Windows, UAT | T-079, T-080, T-081, T-082, T-083, T-084, T-085, T-086, T-087, T-088, T-089, T-090 | High | TODO | ยังไม่มอบหมาย | — |
 
 ## 5. Phase 00: Baseline และสัญญาการพัฒนา
@@ -2084,14 +2088,14 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 **Trace:** FR-47 · **SRS:** §9.11, §12.6
 **Acceptance:** AT-40
 
-- [ ] migration user_favorites
-- [ ] API + sidebar บนสุด
-- [ ] ลบเมื่อถอนสิทธิ์
-- [ ] ไม่กระทบผู้อื่น
+- [x] migration user_favorites (SQLite run; SQL Server NOT_RUN)
+- [x] API + sidebar บนสุด
+- [x] ลบเมื่อถอนสิทธิ์
+- [x] ไม่กระทบผู้อื่น
 
 **เกณฑ์รับงาน:** AT-40 รันจริง
 
-**Status:** TODO
+**Status:** IN_PROGRESS · **Local evidence:** TeamFlow_T090_Test_Report.md. AT-40 local SQLite HTTP + Chromium PASS; SQL Server 2022/Windows/UAT NOT_RUN; actual model/effort NOT_VERIFIED.
 
 **หลักฐานเมื่อปิดงาน:** บันทึกใน Task Register; สำหรับการทดสอบระบุผลและ environment ไม่ใช้คำว่า “ผ่าน” โดยไม่มีการรัน
 
@@ -2235,7 +2239,7 @@ FR-46 Updates feed: DEFERRED ไปรอบถัดไปตามเจ้า
 | AT-37 | Workload + Overview | T-088, T-091 | NOT_RUN | Local SQLite HTTP/Chromium PASS (TeamFlow_T088_Test_Report.md); formal run with SQL2022 pending |
 | AT-38 | Main table + side panel | T-086, T-087, T-091 | NOT_RUN | — |
 | AT-39 | UX/motion/reduced motion | T-079, T-089, T-091 | NOT_RUN | — |
-| AT-40 | Favorites | T-090, T-091 | NOT_RUN | — |
+| AT-40 | Favorites | T-090, T-091 | NOT_RUN | Local SQLite HTTP/Chromium PASS (TeamFlow_T090_Test_Report.md); formal run with SQL2022 pending |
 
 ## 21. API Coverage — ทุก route ใน SRS §12.2
 
@@ -2288,6 +2292,9 @@ FR-46 Updates feed: DEFERRED ไปรอบถัดไปตามเจ้า
 | GET /api/projects/{id}/workload | T-088 |
 | GET /api/teams/{id}/workload | T-088 |
 | GET /api/projects/{id}/overview | T-088 |
+| GET /api/me/favorites | T-090 |
+| PUT /api/me/favorites/{id} | T-090 |
+| DELETE /api/me/favorites/{id} | T-090 |
 | GET /api/users/{id}/permissions | T-081, T-082 |
 | PUT /api/users/{id}/permissions | T-081, T-082 |
 | GET /api/permissions/catalog | T-081, T-082 |

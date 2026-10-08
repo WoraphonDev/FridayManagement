@@ -783,6 +783,71 @@ test('AT-37 Workload weeks/threshold/P-09 scope and project overview numbers', (
     assert.equal((await call(base, member, '/api/projects/3/overview')).status, 404);
     assert.equal((await call(base, member, '/api/projects/3/workload')).status, 404);
   }));
+test('AT-40 Favorites are private, never widen access and vanish when access is revoked', () =>
+  fixture(async (base, f) => {
+    const admin = await login(base);
+    await call(base, admin, '/api/projects/1/members/2', 'PUT', { access: 'editor', version: 1 });
+    let member = await login(base, 'Member');
+    const ids = (r: { body: { items: { project_id: number }[] } }) =>
+      r.body.items.map((i) => i.project_id);
+    let r = await call(base, member, '/api/me/favorites/1', 'PUT');
+    assert.deepEqual([r.status, ids(r)], [200, [1]]);
+    assert.equal(r.body.items[0].project_name, 'โครงการ 1');
+    assert.deepEqual(ids(await call(base, member, '/api/me/favorites/1', 'PUT')), [1]);
+    // Private: Admin sees only their own list; Admin changes do not touch Member's.
+    assert.deepEqual(ids(await call(base, admin, '/api/me/favorites')), []);
+    await call(base, admin, '/api/me/favorites/2', 'PUT');
+    await call(base, admin, '/api/me/favorites/1', 'PUT');
+    assert.deepEqual(ids(await call(base, admin, '/api/me/favorites/2', 'DELETE')), [1]);
+    assert.deepEqual(ids(await call(base, member, '/api/me/favorites')), [1]);
+    // No access → 404 and nothing stored; unknown project → 404.
+    for (const id of [2, 99]) {
+      r = await call(base, member, `/api/me/favorites/${id}`, 'PUT');
+      assert.equal(r.status, 404);
+    }
+    assert.equal((await db(f, 'SELECT user_id FROM dbo.user_favorites WHERE user_id=2')).length, 1);
+    // Lead access counts; losing the lead role removes that favorite in the same change.
+    let team = await call(base, admin, '/api/teams/2/members/2', 'PUT', {
+      team_role: 'lead',
+      version: 1,
+    });
+    assert.equal(team.status, 200);
+    member = await login(base, 'Member');
+    assert.deepEqual(ids(await call(base, member, '/api/me/favorites/2', 'PUT')), [1, 2]);
+    team = await call(base, admin, '/api/teams/2/members/2', 'DELETE', {
+      version: team.body.item.version,
+    });
+    assert.equal(team.status, 200);
+    member = await login(base, 'Member');
+    assert.deepEqual(ids(await call(base, member, '/api/me/favorites')), [1]);
+    // Revoking project membership deletes the row; regaining access does not resurrect it.
+    await call(base, admin, '/api/projects/1/members/2', 'DELETE', { version: 2 });
+    assert.equal((await db(f, 'SELECT user_id FROM dbo.user_favorites WHERE user_id=2')).length, 0);
+    member = await login(base, 'Member');
+    assert.deepEqual(ids(await call(base, member, '/api/me/favorites')), []);
+    await call(base, admin, '/api/projects/1/members/2', 'PUT', { access: 'viewer', version: 3 });
+    member = await login(base, 'Member');
+    assert.deepEqual(ids(await call(base, member, '/api/me/favorites')), []);
+    assert.deepEqual(ids(await call(base, admin, '/api/me/favorites')), [1]);
+    // Limit 100 per user.
+    await f.db.transaction(async (tx) => {
+      for (let i = 0; i < 99; i++) {
+        await tx.execute(
+          sql('INSERT INTO dbo.projects(owner_team_id,name,created_by) VALUES(1,@name,1)', {
+            name: `P${i}`,
+          }),
+        );
+      }
+      await tx.execute(
+        sql(
+          "INSERT INTO dbo.user_favorites(user_id,project_id,created_at) SELECT 1,id,'2026-10-06T00:00:00.000Z' FROM dbo.projects WHERE name LIKE 'P%' AND id NOT IN (SELECT project_id FROM dbo.user_favorites WHERE user_id=1)",
+        ),
+      );
+    });
+    assert.equal((await call(base, admin, '/api/me/favorites')).body.items.length, 100);
+    r = await call(base, admin, '/api/me/favorites/2', 'PUT');
+    assert.deepEqual([r.status, r.body.error.code], [422, 'VALIDATION_FAILED']);
+  }));
 test('AT-38 batch: per-item outcomes without silent partial updates; @mention notifies only project users', () =>
   fixture(async (base, f) => {
     const admin = await login(base),
