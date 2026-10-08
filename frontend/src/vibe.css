@@ -2242,11 +2242,13 @@ section[aria-label='Gantt'] .calendar-month {
 }
 @media (max-width: 720px) {
   /* Update notice: slim bar at the bottom instead of a card over content. */
-  .pwa-update {
+  .pwa-options {
     left: 12px;
     right: 12px;
     bottom: 12px;
     max-width: none;
+  }
+  .pwa-update {
     padding: 8px 12px;
   }
   .pwa-update p {
@@ -2307,4 +2309,15 @@ section[aria-label='Gantt'] .gantt-bar {
   border-radius: 10px;
   font-size: 11px;
   line-height: 20px;
+}
+
+/* A closed Vibe dropdown keeps its popover in the DOM; never let it widen the page. */
+.monday-style-dialog-content-wrapper:has([class*='menuHidden']) {
+  display: none;
+}
+
+/* Wide tables scroll inside their own containers; the board itself never widens the page. */
+.content.board-page,
+.content.board-page .task-workspace {
+  overflow-x: clip;
 }

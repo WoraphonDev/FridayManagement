@@ -52,15 +52,15 @@ test('T045 actual My tasks default assignee, created view, Bangkok groups, AND/O
     await create(page, 'Future assigned', { assignee_id: 1, due_date: dateAdd(d, 2) });
     await page.getByRole('link', { name: 'My work', exact: true }).click();
     const workspace = page.getByRole('region', { name: 'My work', exact: true });
-    await expect(workspace.getByText('รวม 5 งาน', { exact: false })).toBeVisible();
+    await expect(workspace.getByText('5 Tasks', { exact: true })).toBeVisible();
     await expect(workspace.getByRole('button', { name: 'Open task #5', exact: true })).toHaveCount(
       0,
     );
-    await workspace.getByRole('button', { name: 'ฉันสร้าง', exact: true }).click();
+    await workspace.getByLabel('Show tasks', { exact: true }).selectOption('created');
     await expect(
       workspace.getByRole('button', { name: 'Open task #5', exact: true }),
     ).toBeVisible();
-    await workspace.getByRole('button', { name: 'มอบหมายให้ฉัน', exact: true }).click();
+    await workspace.getByLabel('Show tasks', { exact: true }).selectOption('assigned');
     for (const [group, id] of [
       ['future', 6],
       ['overdue', 2],
@@ -80,7 +80,7 @@ test('T045 actual My tasks default assignee, created view, Bangkok groups, AND/O
     await expect(workspace.getByRole('button', { name: 'Open task #2', exact: true })).toHaveCount(
       0,
     );
-    await workspace.locator('summary').filter({ hasText: 'ตัวกรองงาน' }).click();
+    await workspace.locator('summary').filter({ hasText: 'Filters' }).click();
     await workspace.getByLabel('Working on it', { exact: true }).check();
     await expect(workspace.getByText('No tasks match these filters')).toBeVisible();
     await workspace.getByLabel('Not started', { exact: true }).check();
@@ -110,7 +110,7 @@ test('T046 actual Gantt inclusive overlap/one-day/due-only/no dates and Calendar
     await create(page, 'Only start', { start_date: d });
     await create(page, 'No dates');
     const jobs = await tasks(page);
-    for (const name of ['Table', 'Gantt', 'Calendar', 'Kanban'])
+    for (const name of ['Main table', 'Gantt', 'Calendar', 'Kanban'])
       await expect(jobs.getByRole('button', { name, exact: true })).toBeVisible();
     await jobs.getByRole('button', { name: 'Gantt', exact: true }).click();
     const gantt = jobs.getByRole('region', { name: 'Gantt', exact: true });
@@ -118,12 +118,16 @@ test('T046 actual Gantt inclusive overlap/one-day/due-only/no dates and Calendar
     const widths = await gantt
       .locator('.gantt-bar')
       .evaluateAll((nodes) => nodes.map((n) => (n as HTMLElement).style.width));
-    expect(widths.sort()).toEqual(['168px', '56px', '56px']);
-    await expect(gantt.getByRole('button', { name: /เปิดงาน #3.*ไม่มีวันเริ่ม/ })).toBeVisible();
+    expect(widths.sort()).toEqual(['336px', '56px', '56px']);
+    await expect(gantt.getByRole('button', { name: /Open task #3.*No Start Plan/ })).toBeVisible();
     await expect(
-      gantt.getByRole('region', { name: 'งานวันที่ไม่ครบ', exact: true }).getByRole('button'),
+      gantt
+        .getByRole('region', { name: 'Tasks with incomplete dates', exact: true })
+        .getByRole('button'),
     ).toHaveCount(3);
-    const bar = gantt.getByRole('button', { name: /เปิดงาน #2/ });
+    const bar = gantt
+      .locator('.gantt-bar')
+      .and(gantt.getByRole('button', { name: /Open task #2 / }));
     await bar.focus();
     await page.keyboard.press('Enter');
     await expect(detail(page).getByLabel('End Plan', { exact: true })).toHaveValue(d);
@@ -141,7 +145,7 @@ test('T046 actual Gantt inclusive overlap/one-day/due-only/no dates and Calendar
     await expect(detail(page).getByText('Task saved', { exact: true })).toBeVisible();
     await closeDetail(page);
     for (const scale of ['week', 'month', 'day']) {
-      await gantt.getByLabel('ช่วงเวลา', { exact: true }).selectOption(scale);
+      await gantt.getByLabel('Range', { exact: true }).selectOption(scale);
       await expect(gantt.locator('.gantt-bar')).toHaveCount(3);
     }
     await gantt.getByRole('button', { name: 'Next period', exact: true }).click();
@@ -156,7 +160,9 @@ test('T046 actual Gantt inclusive overlap/one-day/due-only/no dates and Calendar
     const calendar = jobs.getByRole('region', { name: 'Calendar', exact: true });
     await expect(calendar.locator('.calendar-event')).toHaveCount(3);
     await expect(
-      calendar.getByRole('region', { name: 'No due date', exact: true }).getByRole('button'),
+      calendar
+        .getByRole('region', { name: 'Tasks without End Plan', exact: true })
+        .getByRole('button'),
     ).toHaveCount(2);
     await calendar.getByRole('button', { name: 'Next month', exact: true }).click();
     await expect(calendar.locator('.calendar-event')).toHaveCount(0);
@@ -165,11 +171,13 @@ test('T046 actual Gantt inclusive overlap/one-day/due-only/no dates and Calendar
     await calendar.locator('.calendar-event').filter({ hasText: 'Only due' }).click();
     await expect(detail(page).getByLabel('Start Plan', { exact: true })).toHaveValue('');
     await closeDetail(page);
-    await jobs.locator('summary').filter({ hasText: 'ตัวกรองงาน' }).click();
+    await jobs.locator('summary').filter({ hasText: 'Filters' }).click();
     await jobs.getByLabel('Due date', { exact: true }).selectOption('false');
     await expect(calendar.locator('.calendar-event')).toHaveCount(0);
     await expect(
-      calendar.getByRole('region', { name: 'No due date', exact: true }).getByRole('button'),
+      calendar
+        .getByRole('region', { name: 'Tasks without End Plan', exact: true })
+        .getByRole('button'),
     ).toHaveCount(2);
   } finally {
     await f.close();
@@ -205,25 +213,32 @@ test('T046 loads all 205 API rows, bounded Gantt pages and accessible Calendar o
     await expect(jobs.getByRole('button', { name: /^Open task #/ })).toHaveCount(20);
     await jobs.getByRole('button', { name: 'Gantt', exact: true }).click();
     const g = jobs.getByRole('region', { name: 'Gantt', exact: true });
-    await expect(g.getByText('โหลดครบ 205 งาน', { exact: false })).toBeVisible();
+    await expect(g.getByText(/of 205 tasks in range/)).toBeVisible();
     await expect(g.locator('.gantt-bar')).toHaveCount(50);
     for (let i = 0; i < 4; i++)
       await g.getByRole('button', { name: 'Next Gantt page', exact: true }).click();
     await expect(g.locator('.gantt-bar')).toHaveCount(5);
-    await g.getByRole('button', { name: /เปิดงาน #205 / }).click();
+    await g
+      .locator('.gantt-bar')
+      .and(g.getByRole('button', { name: /Open task #205 / }))
+      .click();
     await expect(detail(page).getByLabel('Task title', { exact: true })).toHaveValue(
       'Timeline 205',
     );
     await closeDetail(page);
     await jobs.getByRole('button', { name: 'Calendar', exact: true }).click();
     const c = jobs.getByRole('region', { name: 'Calendar', exact: true });
-    await expect(c.locator('.calendar-event')).toHaveCount(5);
-    await expect(c.getByText('อีก 200 งาน', { exact: false })).toBeVisible();
-    const list = c.getByRole('region', { name: 'งานมีวันส่งในช่วงปฏิทินนี้', exact: true });
+    await expect(c.locator('.calendar-event')).toHaveCount(3);
+    await expect(c.getByText('+202 more', { exact: true })).toBeVisible();
+    await c.locator('summary').filter({ hasText: 'All tasks in this calendar range' }).click();
+    const list = c.getByRole('region', {
+      name: 'Tasks with End Plan in this calendar range',
+      exact: true,
+    });
     for (let i = 0; i < 4; i++)
       await list.getByRole('button', { name: 'Next items', exact: true }).click();
     await expect(
-      list.getByRole('button', { name: '#205 Timeline 205', exact: true }),
+      list.getByRole('button', { name: 'Open task #205 Timeline 205', exact: true }),
     ).toBeVisible();
     await page.setViewportSize({ width: 390, height: 844 });
     await jobs.evaluate((el) => {
@@ -261,31 +276,33 @@ test('T047 actual second-tab edit refreshes clean detail; dirty draft badge, ver
     await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('Remote clean', {
       timeout: 10000,
     });
+    const tab = (name: string) => d.getByRole('tab', { name, exact: true }).click();
     await d.getByLabel('Task title', { exact: true }).fill('My draft');
+    await tab('Updates');
     await d.getByLabel('Write a comment', { exact: true }).fill('My comment draft');
     expect(
       (await mutate(other, '/api/tasks/1', { version: 2, title: 'Remote changed' }, 'PATCH'))
         .status,
     ).toBe(200);
-    await expect(d.getByText(/^มีข้อมูลเปลี่ยนแปลง · เก็บร่างของคุณไว้แล้ว/)).toBeVisible({
+    await expect(page.getByText(/^Data changed\. Your draft is preserved/)).toBeVisible({
       timeout: 10000,
     });
-    await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('My draft');
     await expect(d.getByLabel('Write a comment', { exact: true })).toHaveValue('My comment draft');
+    await tab('Details');
+    await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('My draft');
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
     await expect(
       d.getByRole('button', { name: 'Load latest and compare', exact: true }),
     ).toBeVisible();
     await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('My draft');
     await d.getByRole('button', { name: 'Load latest and compare', exact: true }).click();
-    await expect(d.getByText('ข้อมูลล่าสุด: Remote changed', { exact: false })).toBeVisible();
+    await expect(d.getByText('Latest data: Remote changed', { exact: false })).toBeVisible();
     expect((await mutate(other, '/api/tasks/1/comments', { body: 'Remote comment' })).status).toBe(
       201,
     );
+    await tab('Updates');
     await expect(d.getByText('Remote comment', { exact: true })).toBeVisible({ timeout: 10000 });
-    await expect(
-      d.getByText('ความคิดเห็น ไฟล์ หรือประวัติมีข้อมูลเปลี่ยนแปลง', { exact: false }),
-    ).toBeVisible({ timeout: 10000 });
+    await expect(page.getByText(/Collaboration data changed/)).toBeVisible({ timeout: 10000 });
     await expect(d.getByLabel('Write a comment', { exact: true })).toHaveValue('My comment draft');
     await other.close();
   } finally {
@@ -364,7 +381,9 @@ test('T071 four views retain authoritative dates/null dates after edit and actua
     const noDates = await create(page, 'Across views no dates');
     let jobs = await tasks(page);
     await expect(
-      jobs.getByRole('cell', { name: `#${dated.id} Across views dated`, exact: true }),
+      jobs
+        .getByRole('button', { name: `Open task #${dated.id}`, exact: true })
+        .filter({ hasText: 'Across views dated' }),
     ).toBeVisible();
     await jobs.getByRole('button', { name: 'Gantt', exact: true }).click();
     await expect(jobs.locator('.gantt-bar')).toHaveCount(1);
@@ -372,8 +391,11 @@ test('T071 four views retain authoritative dates/null dates after edit and actua
     await expect(jobs.locator('.calendar-event')).toHaveCount(1);
     await expect(
       jobs
-        .getByRole('region', { name: 'No due date', exact: true })
-        .getByRole('button', { name: `#${noDates.id} Across views no dates`, exact: true }),
+        .getByRole('region', { name: 'Tasks without End Plan', exact: true })
+        .getByRole('button', {
+          name: `Open task #${noDates.id} Across views no dates`,
+          exact: true,
+        }),
     ).toBeVisible();
     await jobs.getByRole('button', { name: 'Kanban', exact: true }).click();
     await expect(jobs.locator('.kanban-card')).toHaveCount(2);
@@ -389,14 +411,19 @@ test('T071 four views retain authoritative dates/null dates after edit and actua
     await expect(page.getByRole('button', { name: 'Sign out', exact: true })).toBeEnabled();
     jobs = await tasks(page);
     await expect(
-      jobs.getByRole('cell', { name: `#${noDates.id} Across views revised`, exact: true }),
+      jobs
+        .getByRole('button', { name: `Open task #${noDates.id}`, exact: true })
+        .filter({ hasText: 'Across views revised' }),
     ).toBeVisible();
     await jobs.getByRole('button', { name: 'Calendar', exact: true }).click();
     await expect(jobs.locator('.calendar-event')).toHaveCount(1);
     await expect(
       jobs
-        .getByRole('region', { name: 'No due date', exact: true })
-        .getByRole('button', { name: `#${noDates.id} Across views revised`, exact: true }),
+        .getByRole('region', { name: 'Tasks without End Plan', exact: true })
+        .getByRole('button', {
+          name: `Open task #${noDates.id} Across views revised`,
+          exact: true,
+        }),
     ).toBeVisible();
     await page.screenshot({
       path: testInfo.outputPath('T071-four-view-restart.png'),

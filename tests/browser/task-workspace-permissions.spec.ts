@@ -44,14 +44,15 @@ test('T046/047 actual Gantt/Calendar Viewer and archive read-only; demotion pres
     await member.getByRole('button', { name: 'Change password', exact: true }).click();
     const jobs = await tasks(member);
     await jobs.getByRole('button', { name: 'Gantt', exact: true }).click();
-    await jobs.getByRole('button', { name: /เปิดงาน #1 Scoped timeline/ }).click();
+    await jobs.getByRole('button', { name: /Open task #1 Scoped timeline/ }).click();
     const detail = member.getByRole('dialog', { name: 'Task details #1', exact: true });
     await detail.getByLabel('Task title', { exact: true }).fill('Retained draft');
     expect(
       (await mutate(page, '/api/projects/1/members/2', { version: 2, access: 'viewer' }, 'PUT'))
         .status,
     ).toBe(200);
-    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled({
+    // Read-only editors hide the Save control instead of disabling it.
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toHaveCount(0, {
       timeout: 10000,
     });
     await expect(detail.getByLabel('Task title', { exact: true })).toHaveValue('Retained draft');
@@ -60,7 +61,7 @@ test('T046/047 actual Gantt/Calendar Viewer and archive read-only; demotion pres
     await expect(jobs.getByRole('button', { name: 'New task', exact: true })).toHaveCount(0);
     await jobs.getByRole('button', { name: 'Calendar', exact: true }).click();
     await jobs.locator('.calendar-event').click();
-    await expect(detail.getByLabel('Due date', { exact: true })).toBeDisabled();
+    await expect(detail.getByLabel('End Plan', { exact: true })).toBeDisabled();
     await detail.getByRole('button', { name: 'Close dialog', exact: true }).click();
     expect(
       (await mutate(page, '/api/projects/1', { version: 3, archived: true }, 'PATCH')).status,
@@ -69,7 +70,7 @@ test('T046/047 actual Gantt/Calendar Viewer and archive read-only; demotion pres
       timeout: 10000,
     });
     await jobs.locator('.calendar-event').click();
-    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled();
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toHaveCount(0);
     expect((await mutate(page, '/api/projects/1/members/2', { version: 4 }, 'DELETE')).status).toBe(
       200,
     );
@@ -85,11 +86,11 @@ test('T046/047 actual Gantt/Calendar Viewer and archive read-only; demotion pres
       exact: true,
     });
     await adminJobs.getByRole('button', { name: 'Gantt', exact: true }).click();
-    await adminJobs.getByRole('button', { name: /เปิดงาน #1 Scoped timeline/ }).click();
+    await adminJobs.getByRole('button', { name: /Open task #1 Scoped timeline/ }).click();
     await expect(
       page
         .getByRole('dialog', { name: 'Task details #1', exact: true })
-        .getByLabel('Due date', { exact: true }),
+        .getByLabel('End Plan', { exact: true }),
     ).toBeDisabled();
   } finally {
     await ctx.close();
