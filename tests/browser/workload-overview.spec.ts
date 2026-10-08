@@ -62,6 +62,7 @@ test('Workload highlights above threshold, lists cell tasks; Overview matches da
     ).toHaveCount(3);
     // Team workload from the Teams page (Admin).
     await page.getByRole('link', { name: 'Teams & members', exact: true }).click();
+    await page.locator('summary[aria-label^="Team actions"]').first().click();
     await page.getByRole('button', { name: 'Workload', exact: true }).first().click();
     const teamDialog = page.getByRole('dialog', { name: 'Workload · Task team' });
     await expect(
@@ -78,7 +79,7 @@ test('Workload highlights above threshold, lists cell tasks; Overview matches da
     ).toBeVisible();
     // Admin edits the threshold in Profile & settings; the value round-trips from the server.
     await page.keyboard.press('Escape');
-    await page.goto(f.env.APP_ORIGIN + '/settings');
+    await page.goto(f.env.APP_ORIGIN + '/settings?section=organization');
     const settings = page.getByRole('region', { name: 'Organization settings' });
     const field = settings.getByLabel('Workload threshold', { exact: true });
     await expect(field).toHaveValue('1');

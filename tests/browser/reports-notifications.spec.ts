@@ -40,7 +40,9 @@ const reports = async (page: Page) => {
   await expect(page.getByRole('button', { name: 'Export CSV', exact: true })).toBeEnabled();
 };
 const center = async (page: Page) => {
-  await page.getByRole('link', { name: /^การแจ้งเตือน/ }).click();
+  // Notify opens a popover; the full center is behind "View all notifications".
+  await page.getByRole('button', { name: /^Notify/ }).click();
+  await page.getByRole('button', { name: 'View all notifications →', exact: true }).click();
   await expect(page.locator('.notification-list')).toBeVisible();
 };
 test('T051 notification page50/read-one/read-all/current badge persists across reload and own scope', async ({
@@ -57,7 +59,7 @@ test('T051 notification page50/read-one/read-all/current badge persists across r
     await page
       .locator('.notification-list li')
       .first()
-      .getByRole('button', { name: /อ่านรายการ/ })
+      .getByRole('button', { name: /Read notification/ })
       .click();
     await expect(page.getByLabel('unread 54 items', { exact: true })).toBeVisible({
       timeout: 10000,
@@ -97,7 +99,7 @@ test('T051 stale notification opens current detail and deleted-task 404 clears s
     await mutate(page, '/api/tasks/1', { version: 1 }, 'DELETE');
     await page.getByRole('button', { name: 'Open task #1', exact: true }).click();
     await expect(
-      page.getByText('งานนี้ไม่พร้อมเปิด หรือสิทธิ์เข้าถึงเปลี่ยนแล้ว', { exact: true }),
+      page.getByText('This task is unavailable or your access has changed', { exact: true }),
     ).toBeVisible();
     await expect(modal).toHaveCount(0);
     await expect(page.getByText('No notifications', { exact: true })).toBeVisible();
@@ -119,7 +121,7 @@ test('T051 actual shared refresh/focus/read-only poll, offline stops requests an
     });
     await context.setOffline(true);
     await expect(
-      page.getByText('ต้องเชื่อมต่อเพื่อใช้งาน ไม่มีการบันทึกงานระหว่างออฟไลน์', { exact: true }),
+      page.getByText('Connect to save changes. Offline saving is unavailable.', { exact: true }),
     ).toBeVisible();
     await notify(f.path);
     let requests = 0;
@@ -325,7 +327,7 @@ test('T054 explicit cap/error recovery, offline disabled CSV and current filter 
     );
     await page.getByRole('button', { name: 'Export CSV', exact: true }).click();
     await expect(
-      page.getByText('เกิน 50,000 งาน กรุณาลดช่วงวันที่หรือเพิ่มตัวกรองก่อนส่งออก', {
+      page.getByText('Over 50,000 tasks. Narrow the date range or filters before exporting.', {
         exact: true,
       }),
     ).toBeVisible();
@@ -333,7 +335,7 @@ test('T054 explicit cap/error recovery, offline disabled CSV and current filter 
     await page.getByLabel('Assignee', { exact: true }).selectOption('1');
     await page.getByLabel('Assignee', { exact: true }).selectOption('null');
     await expect(page.locator('.report-metrics>div').first().locator('dd')).toHaveText('1');
-    await expect(page.locator('tbody')).toContainText('Unassigned');
+    await expect(page.locator('.assignee-bars')).toContainText('Unassigned');
     await context.setOffline(true);
     await expect(page.getByRole('button', { name: 'Export CSV', exact: true })).toBeDisabled();
     await context.setOffline(false);
@@ -365,7 +367,7 @@ test('T054 Monday-style report mobile360, keyboard controls, 200% text zoom and 
     await page.keyboard.press('ArrowDown');
     await page.keyboard.press('Enter');
     await page.keyboard.press('Tab');
-    await expect(page.getByLabel('เริ่มวันที่', { exact: true })).toBeFocused();
+    await expect(page.getByLabel('From date', { exact: true })).toBeFocused();
     await page.setViewportSize({ width: 360, height: 900 });
     await expect(page.getByLabel('Date basis', { exact: true })).toBeVisible();
     await expect(page.getByRole('button', { name: 'Export CSV', exact: true })).toBeEnabled();

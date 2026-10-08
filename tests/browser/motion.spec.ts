@@ -93,7 +93,7 @@ test('Motion: pulse + confetti on Done, actions stay usable, reduce toggle and O
       ) + '\n',
     );
     // Reduce animations in Settings: saved per user, survives reload, disables CSS motion.
-    await page.goto(f.env.APP_ORIGIN + '/settings');
+    await page.goto(f.env.APP_ORIGIN + '/settings?section=appearance');
     await page.getByLabel('Reduce animations').check();
     const saved = page.locator('.toast').filter({ hasText: 'Animation preference saved' });
     await expect(saved).toBeVisible();
@@ -109,7 +109,7 @@ test('Motion: pulse + confetti on Done, actions stay usable, reduce toggle and O
     );
     await expect(page.locator('.confetti-piece')).toHaveCount(0);
     // OS-level reduced motion wins even when the preference is off.
-    await page.goto(f.env.APP_ORIGIN + '/settings');
+    await page.goto(f.env.APP_ORIGIN + '/settings?section=appearance');
     await page.getByLabel('Reduce animations').uncheck();
     await expect(page.getByText('Animation preference saved')).toBeVisible();
     await page.emulateMedia({ reducedMotion: 'reduce' });
