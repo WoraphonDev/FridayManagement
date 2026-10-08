@@ -2198,3 +2198,25 @@ section[aria-label='Gantt'] .calendar-month {
   font-size: 11px;
   color: #676879;
 }
+
+/* Empty states: centred, quiet dashed panel (Docs, Files, Trash, lists). */
+.state {
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  padding: 40px 16px;
+  border: 1px dashed #c3c6d4;
+  border-radius: 8px;
+  background: #fafbfc;
+  text-align: center;
+  color: #676879;
+}
+.state h2 {
+  margin: 0;
+  font-size: 15px;
+  color: #323338;
+}
+.state p {
+  margin: 0;
+  font-size: 12px;
+}

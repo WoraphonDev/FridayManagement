@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { apiClient, ApiError, type Self } from './api';
 import { trashPage, mutationReply, statusLabel } from './task-api';
-import { DataTable, Dialog, ErrorNotice, Loading, Toast } from './shared/components';
+import { DataTable, Dialog, EmptyState, ErrorNotice, Loading, Toast } from './shared/components';
 const client = apiClient();
 export function Trash({
   self,
@@ -86,12 +86,12 @@ export function Trash({
   };
   return (
     <div>
-      <h2>Task trash</h2>
-      <p>Restore before the date shown. Permanent deletion is unavailable here.</p>
+      <p className="settings-lead">
+        Restore before the date shown. Permanent deletion is unavailable here.
+      </p>
       {error && <ErrorNotice error={error} retry={refresh} />}
       {notice && <Toast>{notice}</Toast>}
       <button disabled={!online || pending} onClick={refresh}>
-        
         Refresh trash
       </button>
       {loading ? (
@@ -99,27 +99,44 @@ export function Trash({
       ) : (
         data && (
           <>
-            <DataTable
-              caption="Trashed tasks"
-              columns={["Tasks", "Projects", "Status", "Deleted at", "Restore before", "Manage"]}
-              rows={data.items.map((t) => [
-                t.title,
-                t.project_name,
-                statusLabel[t.status],
-                new Date(t.deleted_at!).toLocaleString('en-GB', { timeZone: 'Asia/Bangkok' }),
-                new Date(t.restore_before).toLocaleString('en-GB', { timeZone: 'Asia/Bangkok' }),
-                <button
-                  key={t.id}
-                  disabled={
-                    !online || pending || self.maintenance || now >= Date.parse(t.restore_before)
-                  }
-                  onClick={() => setRestore(t)}
-                >
-                  
-                  Restore task #{t.id}
-                </button>,
-              ])}
-            />
+            {!data.items.length && (
+              <EmptyState title="Trash is empty">
+                <p>Deleted tasks appear here for 30 days.</p>
+              </EmptyState>
+            )}
+            {data.items.length > 0 && (
+              <DataTable
+                caption="Trashed tasks"
+                columns={['Tasks', 'Projects', 'Status', 'Deleted at', 'Restore before', 'Manage']}
+                rows={data.items.map((t) => [
+                  t.title,
+                  t.project_name,
+                  statusLabel[t.status],
+                  new Date(t.deleted_at!).toLocaleString('en-GB', {
+                    timeZone: 'Asia/Bangkok',
+                    day: 'numeric',
+                    month: 'short',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  }),
+                  new Date(t.restore_before).toLocaleString('en-GB', {
+                    timeZone: 'Asia/Bangkok',
+                    day: 'numeric',
+                    month: 'short',
+                    year: 'numeric',
+                  }),
+                  <button
+                    key={t.id}
+                    disabled={
+                      !online || pending || self.maintenance || now >= Date.parse(t.restore_before)
+                    }
+                    onClick={() => setRestore(t)}
+                  >
+                    Restore task #{t.id}
+                  </button>,
+                ])}
+              />
+            )}
             <div className="toolbar">
               <button
                 disabled={!online || page === 1}
@@ -128,12 +145,10 @@ export function Trash({
                   refresh();
                 }}
               >
-                
                 Previous trash page
               </button>
               <span>
-                
-                Page {page}  · Total {data.total}  Tasks
+                Page {page} · Total {data.total} Tasks
               </span>
               <button
                 disabled={!online || page * data.pageSize >= data.total}
@@ -142,7 +157,6 @@ export function Trash({
                   refresh();
                 }}
               >
-                
                 Next trash page
               </button>
             </div>
@@ -152,12 +166,14 @@ export function Trash({
       {restore && (
         <Dialog title="Confirm task restore" onClose={() => !pending && setRestore(undefined)}>
           <p>
-            {restore.title}  · Restore before{' '}
+            {restore.title} · Restore before{' '}
             {new Date(restore.restore_before).toLocaleString('en-GB', { timeZone: 'Asia/Bangkok' })}
           </p>
-          <p>The task returns to the end of its original status column. Archived projects remain read only.</p>
+          <p>
+            The task returns to the end of its original status column. Archived projects remain read
+            only.
+          </p>
           <button disabled={!online || pending || self.maintenance} onClick={() => void run()}>
-            
             Restore this task
           </button>
         </Dialog>
