@@ -2276,3 +2276,35 @@ section[aria-label='Gantt'] .calendar-month {
   background: #e7f0fd;
   color: #0073ea;
 }
+
+/* Gantt density matches the compact Main table (owner: "too big"). */
+section[aria-label='Gantt'] .gantt-row {
+  grid-template-columns: 220px 1fr;
+  min-height: 34px;
+}
+section[aria-label='Gantt'] .gantt-heading {
+  grid-template-columns: 220px 1fr;
+}
+section[aria-label='Gantt'] .gantt-heading strong {
+  padding: 8px 12px;
+  font-size: 12px;
+}
+section[aria-label='Gantt'] .gantt-axis span {
+  padding: 6px 2px;
+  font-size: 11px;
+}
+section[aria-label='Gantt'] .gantt-title {
+  padding: 0 12px;
+  font-size: 12px;
+  min-height: 0;
+}
+section[aria-label='Gantt'] .gantt-bar {
+  top: 7px;
+  height: 20px;
+  min-height: 20px;
+  padding: 0 8px;
+  border-width: 0;
+  border-radius: 10px;
+  font-size: 11px;
+  line-height: 20px;
+}

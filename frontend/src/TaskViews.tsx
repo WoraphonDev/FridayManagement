@@ -230,7 +230,7 @@ export function GanttView({
         </button>
       </div>
       <div className="gantt-scroll" tabIndex={0} aria-label="Task timeline">
-        <div className="gantt-canvas" style={{ width: 260 + days.length * width }}>
+        <div className="gantt-canvas" style={{ width: 220 + days.length * width }}>
           <div className="gantt-heading">
             <strong>Task</strong>
             <div className="gantt-axis">
