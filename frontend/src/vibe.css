@@ -2321,3 +2321,14 @@ section[aria-label='Gantt'] .gantt-bar {
 .content.board-page .task-workspace {
   overflow-x: clip;
 }
+/* Keep Main table rows at the approved 38px: checkbox and ••• sit side by side. */
+.main-table .row-select {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  max-height: 30px;
+}
+.main-table .row-select summary {
+  min-height: 0;
+  line-height: 1;
+}

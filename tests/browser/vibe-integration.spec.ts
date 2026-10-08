@@ -95,8 +95,8 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
     await board.getByRole('button', { name: 'Kanban', exact: true }).click();
     const card = board.locator('[data-task-id="1"]');
     await expect(card).toContainText('Ton');
-    await expect(card).toContainText('Start Plan');
-    await expect(card).toContainText('End Plan');
+    // Compact card shows End Plan; both plan dates stay available in the date tooltip.
+    await expect(card.locator('.card-due')).toHaveAttribute('title', /^Start Plan .+ · End Plan /);
     const motion = page.evaluate(
       () =>
         new Promise<number[]>((resolve) => {
@@ -116,6 +116,8 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
           sample();
         }),
     );
+    // Status moved into the card's ••• menu in the compact Kanban card.
+    await card.getByLabel('Manage task #1', { exact: true }).click();
     await card
       .getByRole('combobox', { name: 'Status for Launch checklist', exact: true })
       .press('Enter');

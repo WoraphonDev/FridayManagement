@@ -10,8 +10,8 @@ for (const [name, width] of [
   test(`T055 main authenticated screens and four views reflow ${name}`, async ({
     page,
   }, testInfo) => {
-    await page.setViewportSize({ width, height: 900 });
     const f = await projectFixture(page);
+    await page.setViewportSize({ width, height: 900 });
     try {
       expect(
         (
@@ -25,23 +25,31 @@ for (const [name, width] of [
       for (const label of [
         'Home',
         'My work',
-        'Calendar',
-        'Reports',
+        'Work calendar',
+        'Reports overview',
         'Notifications',
-        'Teams',
-        'Projects',
+        'Teams & members',
+        'All projects',
         'Trash',
-        'Users',
-        'Profile & settings',
+        'Admin',
+        'Settings',
       ]) {
-        await page.getByRole('link', { name: new RegExp(`^${label}`) }).click();
-        await expect(page.locator('#page-heading')).toBeVisible();
+        if (label === 'Notifications') {
+          await page.getByRole('button', { name: /^Notify/ }).click();
+          await page.getByRole('button', { name: 'View all notifications →', exact: true }).click();
+        } else {
+          // Narrow layouts keep the sidebar behind the menu button.
+          const menu = page.getByRole('button', { name: 'Toggle navigation' });
+          if (await menu.isVisible()) await menu.click();
+          await page.getByRole('link', { name: label, exact: true }).click();
+        }
+        await expect(page.locator('h1:visible').first()).toBeVisible();
         await expect
           .poll(() => page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1))
           .toBe(true);
       }
       const jobs = await tasks(page);
-      for (const view of ['Table', 'Gantt', 'Calendar', 'Kanban']) {
+      for (const view of ['Main table', 'Gantt', 'Calendar', 'Kanban']) {
         await jobs.getByRole('button', { name: view, exact: true }).click();
         await expect(jobs.getByRole('button', { name: view, exact: true })).toHaveAttribute(
           'aria-pressed',
@@ -56,7 +64,7 @@ for (const [name, width] of [
           .getByRole('region', { name: 'Project Kanban', exact: true })
           .getByRole('button', { name: 'Open task #1', exact: true }),
       ).toBeVisible();
-      await expect(jobs.getByRole('button', { name: 'Table', exact: true })).toHaveCSS(
+      await expect(jobs.getByRole('button', { name: 'Main table', exact: true })).toHaveCSS(
         'white-space',
         'nowrap',
       );
@@ -77,7 +85,7 @@ test('T055 dialog keyboard Escape restores opener; 200 percent text stays reacha
     await page.evaluate(() => {
       document.documentElement.style.fontSize = '200%';
     });
-    const opener = page.getByRole('button', { name: 'วิธีใช้งาน', exact: true });
+    const opener = page.getByRole('button', { name: 'Help', exact: true });
     await opener.focus();
     await page.keyboard.press('Enter');
     const dialog = page.getByRole('dialog');
@@ -169,12 +177,12 @@ test('T057 reconnect blocks writes until authoritative reads finish and retains 
   try {
     await mutate(page, '/api/tasks', { project_id: 1, title: 'Server original', assignee_id: 1 });
     const jobs = await tasks(page);
-    await jobs.getByRole('button', { name: /เปิดงาน #1/ }).click();
+    await jobs.getByRole('button', { name: /Open task #1/ }).click();
     const detail = page.getByRole('dialog', { name: 'Task details #1', exact: true });
     const title = detail.getByLabel('Task title', { exact: true });
     await title.fill('My unsaved draft');
     await context.setOffline(true);
-    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled();
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toHaveCount(0);
     const barrier = new Promise<void>((resolve) => {
       release = resolve;
     });
@@ -189,22 +197,22 @@ test('T057 reconnect blocks writes until authoritative reads finish and retains 
     );
     await context.setOffline(false);
     await expect(
-      page.getByText('กำลังตรวจข้อมูลล่าสุดก่อนเปิดให้บันทึก', { exact: true }),
+      page.getByText('Checking for updates before enabling changes', { exact: true }),
     ).toBeVisible();
     expect(intercepted).toBe(false);
-    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled();
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toHaveCount(0);
     await page.evaluate(() => {
       Object.defineProperty(document, 'hidden', { configurable: true, get: () => false });
       document.dispatchEvent(new Event('visibilitychange'));
     });
     await expect.poll(() => intercepted).toBe(true);
     await expect(
-      page.getByText('กำลังตรวจข้อมูลล่าสุดก่อนเปิดให้บันทึก', { exact: true }),
+      page.getByText('Checking for updates before enabling changes', { exact: true }),
     ).toBeVisible();
-    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled();
+    await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toHaveCount(0);
     release!();
     await expect(
-      page.getByText('กำลังตรวจข้อมูลล่าสุดก่อนเปิดให้บันทึก', { exact: true }),
+      page.getByText('Checking for updates before enabling changes', { exact: true }),
     ).toHaveCount(0);
     await expect(title).toHaveValue('My unsaved draft');
     await expect(detail.getByRole('button', { name: 'Save task', exact: true })).toBeEnabled();

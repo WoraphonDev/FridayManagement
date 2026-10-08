@@ -1,3 +1,4 @@
+import { useWritable } from './shared/connection';
 import { UiIcon } from './shared/UiIcon';
 import { projectGroups, type ProjectGroup } from './task-api';
 import { PeoplePicker } from './shared/PeoplePicker';
@@ -217,8 +218,14 @@ export function TaskEditor({
     online,
     String(id ?? 'new') + ':' + initialProject.id,
   );
+  // Also wait for the post-reconnect authoritative reads (T057) before offering Save.
+  const writable = useWritable();
   const write =
-    project.effective_access !== 'viewer' && !project.archived_at && !self.maintenance && online;
+    project.effective_access !== 'viewer' &&
+    !project.archived_at &&
+    !self.maintenance &&
+    online &&
+    writable;
   const canDelete =
     base &&
     (['admin', 'lead'].includes(project.effective_access) ||

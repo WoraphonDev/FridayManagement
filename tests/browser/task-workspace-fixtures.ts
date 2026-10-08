@@ -75,6 +75,8 @@ async function projectFixture(page: Page) {
   return { ...f, project: project.body.item };
 }
 async function tasks(page: Page) {
+  const menu = page.getByRole('button', { name: 'Toggle navigation' });
+  if (await menu.isVisible()) await menu.click();
   await page.getByRole('link', { name: 'All projects', exact: true }).click();
   await page.locator('summary[aria-label^="Project actions"]').first().click();
   await page.getByRole('button', { name: 'Tasks', exact: true }).click();
