@@ -1668,3 +1668,100 @@ button.notify-link {
   border: 0;
   text-align: left;
 }
+
+/* Teams as cards (Vibe Preview). */
+.team-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+.team-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid #e6e9ef;
+  border-radius: 8px;
+  background: #fff;
+}
+.team-card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.team-card-icon {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 5px;
+  background: #a25ddc;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+.team-state {
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: #e5f7ee;
+  color: #037f4c;
+  font-size: 11px;
+}
+.team-state.archived {
+  background: #eef0f4;
+  color: #676879;
+}
+.team-card h3 {
+  margin: 10px 0 0;
+  font-size: 15px;
+}
+.team-card > p {
+  margin: 0 0 8px;
+  color: #676879;
+  font-size: 12px;
+}
+.team-card-meta {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid #e6e9ef;
+  font-size: 12px;
+}
+.team-card-meta span:last-child {
+  color: #676879;
+}
+.team-card-foot {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+.team-card-foot small {
+  margin-left: auto;
+  color: #676879;
+  font-size: 11px;
+}
+.team-card-foot .card-menu {
+  position: relative;
+  right: auto;
+  bottom: auto;
+}
+.avatar-stack {
+  display: flex;
+}
+.avatar-stack span {
+  display: grid;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  margin-left: -4px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #e9e0fb;
+  font-size: 9px;
+  font-weight: 600;
+}
+.avatar-stack span:first-child {
+  margin-left: 0;
+}

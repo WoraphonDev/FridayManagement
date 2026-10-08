@@ -346,31 +346,53 @@ export function Workspaces({
                 {!data.items.length && <p>No projects to show</p>}
               </div>
             ) : (
-              <DataTable
-                caption={kind === 'teams' ? 'Teams' : 'Projects'}
-                columns={[
-                  'Name',
-                  kind === 'teams' ? 'My role' : 'Owner team',
-                  'Status',
-                  'Management',
-                ]}
-                rows={data.items.map((e) => [
-                  <div key={e.id}>
-                    <strong>{e.name}</strong>
-                    <p>{e.description}</p>
-                  </div>,
-                  isProject(e) ? (
-                    <>
-                      {e.owner_team_name}
-                      <p>Access: {e.effective_access}</p>
-                    </>
-                  ) : (
-                    (e.own_role ?? 'Admin')
-                  ),
-                  e.archived_at ? 'Archived · Read only' : 'Active',
-                  actionsFor(e),
-                ])}
-              />
+              <div className="team-card-grid" role="region" aria-label="Teams">
+                {data.items.map((e) => {
+                  const members = (!isProject(e) && e.members) || [];
+                  const leads = members.filter((m) => m.team_role === 'lead');
+                  return (
+                    <article key={e.id} className={`team-card ${e.archived_at ? 'archived' : ''}`}>
+                      <div className="team-card-head">
+                        <span className="team-card-icon" aria-hidden="true">
+                          {e.name.trim()[0]?.toUpperCase()}
+                        </span>
+                        <span className={`team-state ${e.archived_at ? 'archived' : ''}`}>
+                          {e.archived_at ? 'Archived · Read only' : 'Active'}
+                        </span>
+                      </div>
+                      <h3>{e.name}</h3>
+                      <p>{e.description}</p>
+                      <div className="team-card-meta">
+                        <span>
+                          Lead · {leads.map((m) => m.user.display_name).join(', ') || '—'}
+                        </span>
+                        <span>{members.length} Members</span>
+                      </div>
+                      <div className="team-card-foot">
+                        <span className="avatar-stack">
+                          {members.slice(0, 5).map((m) => (
+                            <span key={m.user.id} title={m.user.display_name}>
+                              {m.user.display_name
+                                .trim()
+                                .split(/\s+/)
+                                .map((w) => w[0])
+                                .slice(0, 2)
+                                .join('')
+                                .toUpperCase()}
+                            </span>
+                          ))}
+                        </span>
+                        <small>{isProject(e) ? '' : `My role · ${e.own_role ?? 'Admin'}`}</small>
+                        <details className="card-menu">
+                          <summary aria-label={`Team actions ${e.name}`}>•••</summary>
+                          {actionsFor(e)}
+                        </details>
+                      </div>
+                    </article>
+                  );
+                })}
+                {!data.items.length && <p>No teams to show</p>}
+              </div>
             )}
             <div className="toolbar">
               <button
