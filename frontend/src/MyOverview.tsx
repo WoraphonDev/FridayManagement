@@ -1,3 +1,4 @@
+import { formatPlanDate } from './shared/formatPlanDate';
 import { useCallback, useEffect, useState } from 'react';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
@@ -153,7 +154,9 @@ export function OverviewBody({ self, data }: { self: Self; data: Overview }) {
               {data.next_up.map((t) => (
                 <li key={t.id}>
                   <Link to={`/projects/${t.project_id}/tasks/${t.id}`}>{t.title}</Link>
-                  <span className={t.overdue ? 'overdue' : ''}>{t.due_date ?? 'No date'}</span>
+                  <span className={t.overdue ? 'overdue' : ''}>
+                    {t.due_date ? formatPlanDate(t.due_date) : 'No date'}
+                  </span>
                 </li>
               ))}
             </ol>
