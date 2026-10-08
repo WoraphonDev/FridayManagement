@@ -1,3 +1,4 @@
+import { formatPlanDate } from './shared/formatPlanDate';
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient, ApiError, type Self } from './api';
@@ -228,7 +229,9 @@ export function OverviewBody({ data }: { data: ProjectOverviewData }) {
               {data.overdue_tasks.map((t) => (
                 <li key={t.id}>
                   <Link to={`/projects/${data.project_id}/tasks/${t.id}`}>{t.title}</Link>
-                  <span className="overdue">{t.due_date}</span>
+                  <span className="overdue">
+                    {t.due_date ? formatPlanDate(t.due_date) : 'No date'}
+                  </span>
                 </li>
               ))}
             </ol>
@@ -281,7 +284,7 @@ export function OverviewBody({ data }: { data: ProjectOverviewData }) {
             </tbody>
           </table>
         </section>
-        <section aria-labelledby="po-activity">
+        <section aria-labelledby="po-activity" className="overview-activity">
           <h3 id="po-activity">Recent activity</h3>
           {data.recent_activity.length ? (
             <ol className="overview-list">
@@ -294,7 +297,13 @@ export function OverviewBody({ data }: { data: ProjectOverviewData }) {
                     </Link>
                   </span>
                   <small>
-                    {new Date(e.created_at).toLocaleString('en-GB', { timeZone: 'Asia/Bangkok' })}
+                    {new Date(e.created_at).toLocaleString('en-GB', {
+                      timeZone: 'Asia/Bangkok',
+                      day: 'numeric',
+                      month: 'short',
+                      hour: '2-digit',
+                      minute: '2-digit',
+                    })}
                   </small>
                 </li>
               ))}
