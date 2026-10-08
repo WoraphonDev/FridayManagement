@@ -1818,3 +1818,62 @@ button.notify-link {
   font-size: 12px;
   font-weight: 600;
 }
+
+/* Main table: date cells, pill selects, quiet row selection (Vibe Preview). */
+.plan-date-cell {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: #323338;
+  white-space: nowrap;
+}
+.plan-date-cell.overdue {
+  color: #d83a52;
+}
+.plan-date-cell .ui-icon {
+  width: 14px;
+  height: 14px;
+  vertical-align: -2px;
+}
+.plan-date-cell input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+.plan-date-cell:focus-within {
+  outline: 2px solid #0073ea;
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+select.priority-pill {
+  appearance: none;
+  -webkit-appearance: none;
+  text-align: center;
+  text-align-last: center;
+  cursor: pointer;
+  border: 0;
+  min-height: 24px;
+  padding: 2px 10px;
+}
+.main-table th:first-child {
+  color: transparent;
+}
+.main-table .row-select input[type='checkbox'] {
+  opacity: 0;
+  transition: opacity 120ms;
+}
+.main-table tr:hover .row-select input[type='checkbox'],
+.main-table .row-select input[type='checkbox']:checked,
+.main-table .row-select input[type='checkbox']:focus-visible {
+  opacity: 1;
+}
+select[aria-label='Sort by'] {
+  min-width: 160px;
+}

@@ -82,6 +82,42 @@ const ProjectFiles = lazy(() =>
   import('./ProjectFiles').then((m) => ({ default: m.ProjectFiles })),
 );
 type View = 'table' | 'calendar' | 'gantt' | 'kanban' | 'docs' | 'files' | 'workload' | 'overview';
+/** Vibe date cell: shows "📅 1 Oct"; the native picker opens on click and stays keyboard-editable. */
+function PlanDateCell({
+  label,
+  value,
+  overdue,
+  disabled,
+  onChange,
+}: {
+  label: string;
+  value: string | null;
+  overdue: boolean;
+  disabled: boolean;
+  onChange: (v: string | null) => void;
+}) {
+  return (
+    <span className={`plan-date-cell ${overdue ? 'overdue' : ''}`}>
+      <span aria-hidden="true">
+        <UiIcon name="calendar" /> {value ? formatPlanDate(value) : 'Not scheduled'}
+      </span>
+      <input
+        type="date"
+        aria-label={label}
+        value={value ?? ''}
+        disabled={disabled}
+        onClick={(e) => {
+          try {
+            e.currentTarget.showPicker();
+          } catch {
+            /* picker unavailable; typing still works */
+          }
+        }}
+        onChange={(e) => onChange(e.target.value || null)}
+      />
+    </span>
+  );
+}
 export function TaskWorkspace({
   project: initialProject,
   self,
@@ -922,8 +958,8 @@ export function TaskWorkspace({
                 onChange={(e) => update('sort', e.target.value)}
               >
                 {[
-                  ['due_asc', 'Earliest End Plan'],
-                  ['due_desc', 'Latest End Plan'],
+                  ['due_asc', 'End Plan · earliest'],
+                  ['due_desc', 'End Plan · latest'],
                   ['created_desc', 'Newest created'],
                   ['created_asc', 'Oldest created'],
                   ['updated_desc', 'Recently updated'],
@@ -1337,18 +1373,13 @@ export function TaskWorkspace({
                                         </span>
                                       ),
                                       writableProject ? (
-                                        <input
+                                        <PlanDateCell
                                           key={t.id}
-                                          type="date"
-                                          className="plan-date"
-                                          aria-label={`Start Plan ${t.title}`}
-                                          value={t.start_date ?? ''}
+                                          label={`Start Plan ${t.title}`}
+                                          value={t.start_date}
+                                          overdue={false}
                                           disabled={!online || groupPending}
-                                          onChange={(e) =>
-                                            void patchTask(t, {
-                                              start_date: e.target.value || null,
-                                            })
-                                          }
+                                          onChange={(v) => void patchTask(t, { start_date: v })}
                                         />
                                       ) : (
                                         <span key={t.id} className="plan-date">
@@ -1358,16 +1389,13 @@ export function TaskWorkspace({
                                         </span>
                                       ),
                                       writableProject ? (
-                                        <input
+                                        <PlanDateCell
                                           key={t.id}
-                                          type="date"
-                                          className={`plan-date ${t.overdue ? 'overdue' : ''}`}
-                                          aria-label={`End Plan ${t.title}`}
-                                          value={t.due_date ?? ''}
+                                          label={`End Plan ${t.title}`}
+                                          value={t.due_date}
+                                          overdue={!!t.overdue}
                                           disabled={!online || groupPending}
-                                          onChange={(e) =>
-                                            void patchTask(t, { due_date: e.target.value || null })
-                                          }
+                                          onChange={(v) => void patchTask(t, { due_date: v })}
                                         />
                                       ) : (
                                         <span
