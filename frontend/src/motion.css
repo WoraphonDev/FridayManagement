@@ -152,9 +152,8 @@ button,
 .project-card:hover {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-/* AN-12 toast */
+/* AN-12 toast (position comes from the layout CSS; fixed already anchors the progress bar) */
 .toast {
-  position: relative;
   overflow: hidden;
   animation: motion-toast-in 220ms var(--motion-ease);
 }
