@@ -1471,7 +1471,7 @@ export function TaskWorkspace({
                                   <UiIcon name="plus" />
                                   <input
                                     aria-label={`Add task to ${groupLabel[g]}`}
-                                    placeholder="+ Add task (type and press Enter)"
+                                    placeholder="Add task"
                                     maxLength={200}
                                     data-add
                                     value={quickAdd[g] ?? ''}
