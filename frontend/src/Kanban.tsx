@@ -12,6 +12,7 @@ import {
   useSensors,
   useDroppable,
   closestCorners,
+  DragOverlay,
   type DragEndEvent,
 } from '@dnd-kit/core';
 import { SortableContext, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable';
@@ -103,9 +104,12 @@ function Card({
       style={{
         transform: CSS.Transform.toString(transform),
         transition: transition,
-        opacity: isDragging ? 0.5 : 1,
+        opacity: isDragging ? 0.35 : 1,
       }}
       data-task-id={task.id}
+      // Press and drag from anywhere on the card (owner request); the ⠿ handle stays for
+      // keyboard/assistive users and as a visual cue.
+      {...(controls && !disabled ? listeners : {})}
     >
       <div className="card-top">
         <span>FR-{String(task.id).padStart(3, '0')}</span>
@@ -179,12 +183,20 @@ function Card({
     </article>
   );
 }
-function Lane({ status, children }: { status: Status; children: React.ReactNode }) {
-  const { setNodeRef } = useDroppable({ id: status });
+function Lane({
+  status,
+  children,
+  active,
+}: {
+  status: Status;
+  children: React.ReactNode;
+  active?: boolean;
+}) {
+  const { setNodeRef, isOver } = useDroppable({ id: status });
   return (
     <section
       ref={setNodeRef}
-      className={`kanban-lane lane-${status}`}
+      className={`kanban-lane lane-${status} ${isOver || active ? 'lane-over' : ''}`}
       aria-label={`Column ${statusLabel[status]}`}
     >
       <h3>{statusLabel[status]}</h3>
@@ -269,6 +281,9 @@ export function Kanban({
     positions.current = next;
   }, [data, visible]);
   useEffect(() => () => motions.current.forEach((a) => a.cancel()), []);
+  // Smooth cross-column drag: a floating copy follows the pointer and the target column glows.
+  const [dragId, setDragId] = useState<number>(),
+    [overLane, setOverLane] = useState<Status>();
   const busy = useRef(false),
     intent = useRef<Intent | undefined>(undefined),
     sequence = useRef(0),
@@ -501,6 +516,8 @@ export function Kanban({
     void execute(command, data);
   };
   const drop = ({ active, over }: DragEndEvent) => {
+    setDragId(undefined);
+    setOverLane(undefined);
     if (!over || !data) return;
     const id = Number(active.id),
       target =
@@ -693,10 +710,26 @@ export function Kanban({
         </>
       ) : (
         data && (
-          <DndContext sensors={sensors} collisionDetection={closestCorners} onDragEnd={drop}>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCorners}
+            onDragStart={({ active }) => setDragId(Number(active.id))}
+            onDragOver={({ over }) => {
+              if (!over) return setOverLane(undefined);
+              const lane = statuses.find((st) => st === over.id);
+              setOverLane(
+                lane ?? data.columns.find((c) => c.task_ids.includes(Number(over.id)))?.status,
+              );
+            }}
+            onDragCancel={() => {
+              setDragId(undefined);
+              setOverLane(undefined);
+            }}
+            onDragEnd={drop}
+          >
             <div className="kanban-grid">
               {data.columns.map((c) => (
-                <Lane key={c.status} status={c.status}>
+                <Lane key={c.status} status={c.status} active={overLane === c.status}>
                   <SortableContext items={c.task_ids} strategy={verticalListSortingStrategy}>
                     {c.task_ids.map((id, i) => {
                       const task = data.tasks.find((t) => t.id === id)!;
@@ -722,6 +755,28 @@ export function Kanban({
                 </Lane>
               ))}
             </div>
+            <DragOverlay dropAnimation={{ duration: 260, easing: 'cubic-bezier(.2,.8,.2,1)' }}>
+              {dragId !== undefined &&
+                (() => {
+                  const t = data.tasks.find((x) => x.id === dragId);
+                  return t ? (
+                    <article className="kanban-card kanban-card-overlay">
+                      <div className="card-top">
+                        <span>FR-{String(t.id).padStart(3, '0')}</span>
+                      </div>
+                      <strong className="card-title">{t.title}</strong>
+                      <div className="card-group-name">
+                        {groups?.find((g) => g.id === t.group_id)?.name ?? 'Tasks'}
+                      </div>
+                      <div className="card-foot">
+                        <span className={`priority-pill ${t.priority}`}>
+                          {priorityLabel[t.priority]}
+                        </span>
+                      </div>
+                    </article>
+                  ) : null;
+                })()}
+            </DragOverlay>
           </DndContext>
         )
       )}
