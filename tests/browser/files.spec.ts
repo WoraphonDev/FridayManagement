@@ -114,8 +114,11 @@ test('T044 actual comments plaintext/pagination/dirty refresh and file upload/do
       .getByRole('button', { name: 'Refresh comments, files and history', exact: true })
       .click();
     await expect(d.getByLabel('Write a comment', { exact: true })).toHaveValue('ร่างที่ต้องอยู่');
-    page.once('dialog', (dialog) => dialog.dismiss());
     await d.getByRole('button', { name: 'Close dialog', exact: true }).click();
+    await page
+      .getByRole('dialog', { name: 'Discard changes?', exact: true })
+      .getByRole('button', { name: 'Cancel', exact: true })
+      .click();
     await expect(d).toBeVisible();
     for (let i = 0; i < 10; i++)
       expect(

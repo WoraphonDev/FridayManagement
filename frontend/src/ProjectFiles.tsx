@@ -1,3 +1,4 @@
+import { confirmDialog } from './shared/confirm';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';
@@ -167,7 +168,15 @@ export function ProjectFiles({
     }
   };
   const change = async (f: ProjectFile, restore: boolean) => {
-    if (!restore && !window.confirm(`Delete “${f.original_name}”? It can be restored for 30 days.`))
+    if (
+      !restore &&
+      !(await confirmDialog({
+        title: 'Delete file?',
+        message: `“${f.original_name}” can be restored for 30 days.`,
+        confirmLabel: 'Delete file',
+        danger: true,
+      }))
+    )
       return;
     setPending(true);
     try {

@@ -109,6 +109,8 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
     const create = page.getByRole('dialog', { name: 'Create task', exact: true });
     await create.getByLabel('Task title', { exact: true }).fill('Monthly plan');
     await create.getByLabel('Details', { exact: true }).fill('<script>literal</script>');
+    // Category is a dropdown of the project's categories with "+ New category…".
+    await create.getByLabel('Category', { exact: true }).selectOption('__new');
     await create.getByLabel('Category', { exact: true }).fill('Finance');
     await pickAssignee(page, create, 'Workspace Admin');
     await create.getByLabel('Priority', { exact: true }).selectOption('urgent');
@@ -216,11 +218,17 @@ test('T032 actual 409 draft review, unsaved close/route cancellation, offline an
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
     await expect(d.getByText('Task saved', { exact: true })).toBeVisible();
     await d.getByLabel('Task title', { exact: true }).fill('Unsaved');
-    page.once('dialog', (dialog) => dialog.dismiss());
     await closeDetail(page);
+    await page
+      .getByRole('dialog', { name: 'Discard changes?', exact: true })
+      .getByRole('button', { name: 'Cancel', exact: true })
+      .click();
     await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('Unsaved');
-    page.once('dialog', (dialog) => dialog.dismiss());
     await page.evaluate(() => history.back());
+    await page
+      .getByRole('dialog', { name: 'Discard changes?', exact: true })
+      .getByRole('button', { name: 'Cancel', exact: true })
+      .click();
     await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('Unsaved');
     await expect(page).toHaveURL(/\/projects\?project=1$/);
     await page.context().setOffline(true);
@@ -241,8 +249,11 @@ test('T032 actual 409 draft review, unsaved close/route cancellation, offline an
       true,
     );
     await page.screenshot({ path: testInfo.outputPath('T032-task-detail.png'), fullPage: true });
-    page.once('dialog', (dialog) => dialog.accept());
     await page.evaluate(() => history.back());
+    await page
+      .getByRole('dialog', { name: 'Discard changes?', exact: true })
+      .getByRole('button', { name: 'Discard draft', exact: true })
+      .click();
     await expect(page).not.toHaveURL(/\/projects\?project=1$/);
     await expect(d).toHaveCount(0);
   } finally {

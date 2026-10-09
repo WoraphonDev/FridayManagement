@@ -183,6 +183,18 @@ export function Dialog({
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const closeButton = useRef<HTMLButtonElement>(null);
+  const backdropDown = useRef(false);
+  const outside = (event: { target: EventTarget; clientX: number; clientY: number }) => {
+    const node = dialog.current;
+    if (!node || event.target !== node) return false;
+    const r = node.getBoundingClientRect();
+    return (
+      event.clientX < r.left ||
+      event.clientX > r.right ||
+      event.clientY < r.top ||
+      event.clientY > r.bottom
+    );
+  };
   const id = useId();
   useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
@@ -222,6 +234,15 @@ export function Dialog({
         event.preventDefault();
         if (dialog.current?.querySelector('[role="combobox"][aria-expanded="true"]')) return;
         onClose();
+      }}
+      // Clicking the backdrop (press and release outside the panel) closes like Esc; the
+      // caller's onClose still guards unsaved drafts.
+      onPointerDown={(event) => {
+        backdropDown.current = outside(event);
+      }}
+      onClick={(event) => {
+        if (backdropDown.current && outside(event)) onClose();
+        backdropDown.current = false;
       }}
     >
       <header className="dialog-head">

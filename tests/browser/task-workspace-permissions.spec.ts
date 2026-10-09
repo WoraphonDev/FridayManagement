@@ -56,8 +56,11 @@ test('T046/047 actual Gantt/Calendar Viewer and archive read-only; demotion pres
       timeout: 10000,
     });
     await expect(detail.getByLabel('Task title', { exact: true })).toHaveValue('Retained draft');
-    member.once('dialog', (d) => d.accept());
     await detail.getByRole('button', { name: 'Close dialog', exact: true }).click();
+    await member
+      .getByRole('dialog', { name: 'Discard changes?', exact: true })
+      .getByRole('button', { name: 'Discard draft', exact: true })
+      .click();
     await expect(jobs.getByRole('button', { name: 'New task', exact: true })).toHaveCount(0);
     await jobs.getByRole('button', { name: 'Calendar', exact: true }).click();
     await jobs.locator('.calendar-event').click();

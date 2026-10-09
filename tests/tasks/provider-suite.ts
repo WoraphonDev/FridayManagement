@@ -865,6 +865,44 @@ export function taskAcceptance(
     },
   );
   check(
+    'Owner 2026-10-09: drag order within a group, cross-group append, anchor validation and group_order sort',
+    async (f, s, a) => {
+      const g1 = await f.db.transaction((tx) =>
+        s.createGroup(tx, a, 1, { name: 'One' }, randomUUID()),
+      );
+      const g2 = await f.db.transaction((tx) =>
+        s.createGroup(tx, a, 1, { name: 'Two' }, randomUUID()),
+      );
+      const ids: number[] = [];
+      for (const title of ['A', 'B', 'C'])
+        ids.push(Number((await create(f, s, a, { title, group_id: g1.item.id })).item.id));
+      const order = async (group: number) =>
+        (await f.db.transaction((tx) => s.list(tx, a, { project: 1, sort: 'group_order' }))).items
+          .filter((t: { group_id: number | null }) => t.group_id === group)
+          .map((t: { title: string }) => t.title);
+      // C before A inside the same group.
+      await patch(f, s, a, ids[2]!, 1, { group_before_task_id: ids[0]! });
+      assert.deepEqual(await order(Number(g1.item.id)), ['C', 'A', 'B']);
+      // Move B to group Two (append), then A before B there.
+      await patch(f, s, a, ids[1]!, 1, { group_id: g2.item.id });
+      await patch(f, s, a, ids[0]!, 1, { group_id: g2.item.id, group_before_task_id: ids[1]! });
+      assert.deepEqual(await order(Number(g1.item.id)), ['C']);
+      assert.deepEqual(await order(Number(g2.item.id)), ['A', 'B']);
+      // Anchor outside the target group is rejected; the task's own id is not a valid anchor.
+      await rejected(
+        patch(f, s, a, ids[2]!, 2, { group_before_task_id: ids[0]! }),
+        'VALIDATION_FAILED',
+      );
+      await rejected(
+        patch(f, s, a, ids[2]!, 2, { group_before_task_id: ids[2]! }),
+        'VALIDATION_FAILED',
+      );
+      // The internal rank never leaks into the Task DTO.
+      const one = await f.db.transaction((tx) => s.get(tx, a, ids[0]!));
+      assert.equal('group_rank' in one.item, false);
+    },
+  );
+  check(
     'Owner Vibe: persisted groups, cross-project rejection, versions and audit rollback',
     async (f, s, a, m) => {
       await rejected(

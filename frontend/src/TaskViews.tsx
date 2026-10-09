@@ -240,9 +240,7 @@ export function GanttView({
       <div className="gantt-scroll" tabIndex={0} aria-label="Task timeline">
         <div
           className="gantt-canvas"
-          style={
-            { minWidth: 220 + days.length * 40, '--step': `${pct}%` } as React.CSSProperties
-          }
+          style={{ minWidth: 220 + days.length * 40, '--step': `${pct}%` } as React.CSSProperties}
         >
           <div className="gantt-heading">
             <strong>Task</strong>

@@ -91,6 +91,7 @@ test('Migration ledger is idempotent and persistent; no sample data is created a
       '0008_workload_threshold.sql',
       '0009_user_favorites.sql',
       '0010_user_preferences.sql',
+      '0011_task_group_order.sql',
     ]);
     assert.deepEqual(await migrate(db), []);
     await db.transaction(async (tx) =>

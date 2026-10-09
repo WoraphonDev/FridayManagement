@@ -1,6 +1,7 @@
+import { confirmDialog } from './shared/confirm';
 import { useWritable } from './shared/connection';
 import { UiIcon } from './shared/UiIcon';
-import { projectGroups, type ProjectGroup } from './task-api';
+import { projectGroups, taskPage, type ProjectGroup } from './task-api';
 import { PeoplePicker } from './shared/PeoplePicker';
 import { useSharedRefresh } from './shared/refresh';
 import { TaskCollaboration } from './TaskCollaboration';
@@ -77,7 +78,29 @@ export function TaskEditor({
   onDone: () => void;
 }) {
   const [tab, setTab] = useState('details'),
-    [groups, setGroups] = useState<ProjectGroup[]>([]);
+    [groups, setGroups] = useState<ProjectGroup[]>([]),
+    [categories, setCategories] = useState<string[]>([]),
+    [newCategory, setNewCategory] = useState(false);
+  // Category is chosen from the ones this project already uses, or typed as a new one.
+  useEffect(() => {
+    const controller = new AbortController();
+    void client
+      .request(`/api/tasks?project=${initialProject.id}&pageSize=100&sort=title_asc`, {
+        signal: controller.signal,
+        parse: (v) => taskPage.parse(v),
+      })
+      .then((r) =>
+        setCategories(
+          [...new Set(r.items.map((t) => t.category.trim()).filter(Boolean))].sort((a, b) =>
+            a.localeCompare(b),
+          ),
+        ),
+      )
+      .catch(() => {
+        /* the list is a convenience; typing a new category still works */
+      });
+    return () => controller.abort();
+  }, [initialProject.id]);
   useEffect(() => {
     const controller = new AbortController();
     void client
@@ -128,8 +151,12 @@ export function TaskEditor({
   const blocker = useBlocker(dirty);
   useEffect(() => {
     if (blocker.state === 'blocked') {
-      if (window.confirm('Discard your unsaved draft and leave this page?')) blocker.proceed();
-      else blocker.reset();
+      void confirmDialog({
+        title: 'Discard changes?',
+        message: 'This task has unsaved changes. Leaving now will discard them.',
+        confirmLabel: 'Discard draft',
+        danger: true,
+      }).then((ok) => (ok ? blocker.proceed() : blocker.reset()));
     }
   }, [blocker]);
   useEffect(() => {
@@ -239,7 +266,14 @@ export function TaskEditor({
         base.creator_id === self.user.id &&
         !project.archived_at));
   const close = () => {
-    if (!pending && (!dirty || window.confirm('Discard your unsaved draft and close?'))) onClose();
+    if (pending) return;
+    if (!dirty) return onClose();
+    void confirmDialog({
+      title: 'Discard changes?',
+      message: 'This task has unsaved changes. Closing now will discard them.',
+      confirmLabel: 'Discard draft',
+      danger: true,
+    }).then((ok) => ok && onClose());
   };
   const fail = (e: unknown) => {
     if (e instanceof ApiError) {
@@ -532,8 +566,14 @@ export function TaskEditor({
                   </label>
                   <button
                     disabled={pending}
-                    onClick={() => {
-                      if (window.confirm('Replace your unsaved draft with the latest data?')) {
+                    onClick={async () => {
+                      if (
+                        await confirmDialog({
+                          title: 'Use the latest data?',
+                          message: 'Your unsaved draft will be replaced with the latest data.',
+                          confirmLabel: 'Use latest data',
+                        })
+                      ) {
                         setChanged(false);
                         setBase(latest);
                         setDraft(draftOf(latest));
@@ -664,12 +704,50 @@ export function TaskEditor({
                   ))}
                 </select>
               </label>
-              <Field
-                label="Category"
-                value={draft.category}
-                maxLength={80}
-                onChange={(e) => change('category', e.target.value)}
-              />
+              {newCategory ? (
+                <div className="category-new">
+                  <Field
+                    label="Category"
+                    placeholder="New category name"
+                    autoFocus
+                    value={draft.category}
+                    maxLength={80}
+                    onChange={(e) => change('category', e.target.value)}
+                  />
+                  <button
+                    type="button"
+                    className="link-button"
+                    onClick={() => {
+                      setNewCategory(false);
+                      change('category', base?.category ?? '');
+                    }}
+                  >
+                    Choose existing
+                  </button>
+                </div>
+              ) : (
+                <label>
+                  Category
+                  <select
+                    aria-label="Category"
+                    value={draft.category}
+                    onChange={(e) => {
+                      if (e.target.value === '__new') {
+                        setNewCategory(true);
+                        change('category', '');
+                      } else change('category', e.target.value);
+                    }}
+                  >
+                    <option value="">No category</option>
+                    {[...new Set([...categories, draft.category].filter(Boolean))].map((c) => (
+                      <option key={c} value={c}>
+                        {c}
+                      </option>
+                    ))}
+                    <option value="__new">+ New category…</option>
+                  </select>
+                </label>
+              )}
               <Field
                 label="Start Plan"
                 type="date"

@@ -107,10 +107,12 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
               .filter(
                 (a) =>
                   a.effect instanceof KeyframeEffect &&
-                  (a.effect.target as Element)?.classList.contains('card-content-motion'),
+                  (a.effect.target as Element)?.classList.contains('kanban-card'),
               )
               .map((a) => Number(a.effect!.getTiming().duration));
-            if (durations.length || performance.now() - started > 4000) resolve(durations);
+            // Wait for the cross-column FLIP (other cards may shift with shorter motions first).
+            if (durations.some((d) => d >= 300) || performance.now() - started > 4000)
+              resolve(durations);
             else requestAnimationFrame(sample);
           };
           sample();
@@ -128,7 +130,7 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
     await expect(
       board.getByRole('region', { name: 'Column In review' }).locator('[data-task-id="1"]'),
     ).toBeVisible();
-    expect(await motion).toContain(320);
+    expect(await motion).toContain(380);
     const handle = board.getByRole('button', { name: 'Drag task #1', exact: true });
     const from = await handle.boundingBox();
     const target = await board.getByRole('region', { name: 'Column Not started' }).boundingBox();

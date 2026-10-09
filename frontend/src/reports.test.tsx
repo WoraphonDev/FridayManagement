@@ -20,13 +20,13 @@ test('T051/T054 safe offline initial surfaces, labeled controls and web-only not
     <Reports self={selfFixture()} online={false} onFailure={() => {}} />,
   );
   for (const label of [
-    "Owner team",
-    "Projects",
-    "Assignee",
-    "Date basis",
-    "From date",
-    "To date",
-    "Export CSV",
+    'Owner team',
+    'Projects',
+    'Assignee',
+    'Date basis',
+    'From date',
+    'To date',
+    'Export CSV',
   ])
     expect(html).toContain(label);
   expect(html).not.toContain('NaN');
@@ -35,7 +35,7 @@ test('T051/T054 safe offline initial surfaces, labeled controls and web-only not
     <Notifications self={selfFixture()} online={false} onFailure={() => {}} />,
   );
   expect(n).toContain('Notifications refresh');
-  expect(n).toContain("Mark all read");
+  expect(n).toContain('Mark all read');
 });
 test('T053 CSV client permits only exact export path/MIME, same-origin no-store, explicit 422 limit error', async () => {
   const fetcher = vi

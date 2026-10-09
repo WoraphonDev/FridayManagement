@@ -81,8 +81,11 @@ test('Files tab: upload, merged list with task source, search/type filter, safe 
       .toEqual([[expect.stringMatching(/^blob:/), '_blank', 'noopener']]);
     // Plain text has download only; no preview button.
     await expect(files.getByRole('button', { name: 'Preview notes.txt' })).toHaveCount(0);
-    page.once('dialog', (d) => void d.accept());
     await files.getByRole('button', { name: 'Delete notes.txt', exact: true }).click();
+    await page
+      .getByRole('dialog', { name: 'Delete file?', exact: true })
+      .getByRole('button', { name: 'Delete file', exact: true })
+      .click();
     await expect(page.getByText('File deleted')).toBeVisible();
     await expect(files.getByRole('row')).toHaveCount(4);
     await files.getByLabel('Include deleted').check();

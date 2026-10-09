@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { mutate, projectFixture, tasks } from './task-workspace-fixtures.js';
 // T-086 / AT-38 Main table local Chromium evidence (real server, SQLite).
-test('Main table: quick add, inline rename, batch with per-item 409, move by menu and drag, sticky, resize saved per user', async ({
+test('Main table: add task via drawer, F2 rename, batch with per-item 409, drag to reorder and move, sticky, resize saved per user', async ({
   page,
 }) => {
   const f = await projectFixture(page);
@@ -18,15 +18,22 @@ test('Main table: quick add, inline rename, batch with per-item 409, move by men
     const phaseA = page.getByRole('region', { name: 'Phase A · Tasks', exact: true }),
       phaseB = page.getByRole('region', { name: 'Phase B · Tasks', exact: true });
     await expect(phaseA.getByRole('row')).toHaveCount(4);
-    // Quick add at the end of a group.
-    await page.getByLabel('Add task to Phase B', { exact: true }).fill('Delta');
-    await page.getByLabel('Add task to Phase B', { exact: true }).press('Enter');
+    // "Add task" in a group opens the Create task drawer with that group selected.
+    await page.getByRole('button', { name: 'Add task to Phase B', exact: true }).click();
+    const create = page.getByRole('dialog', { name: 'Create task', exact: true });
+    await expect(create.getByLabel('Task title', { exact: true })).toBeFocused();
+    await expect(create.getByRole('combobox', { name: 'Group', exact: true })).toContainText(
+      'Phase B',
+    );
+    await create.getByLabel('Task title', { exact: true }).fill('Delta');
+    await create.getByRole('button', { name: 'New task', exact: true }).click();
+    await expect(create).toHaveCount(0);
     await expect(
       phaseB.getByRole('button', { name: /^Open task #\d+$/ }).filter({ hasText: 'Delta' }),
     ).toBeVisible();
-    // Inline rename from the row menu, and F2 from the keyboard; saved with the task version.
-    await phaseA.getByLabel('Task menu Alpha', { exact: true }).click();
-    await phaseA.getByRole('button', { name: 'Rename task', exact: true }).click();
+    // Inline rename with F2 (the row ••• menu was removed at the owner's request).
+    await phaseA.getByRole('button', { name: 'Open task #1', exact: true }).focus();
+    await page.keyboard.press('F2');
     await page.getByLabel('Task title Alpha', { exact: true }).fill('Alpha renamed');
     await page.getByLabel('Task title Alpha', { exact: true }).press('Enter');
     await expect(phaseA.getByText('Alpha renamed')).toBeVisible();
@@ -62,12 +69,35 @@ test('Main table: quick add, inline rename, batch with per-item 409, move by men
     ).not.toContainText('Done');
     await expect(phaseA.getByLabel('Select Gamma', { exact: true })).toBeChecked();
     await expect(phaseA.getByLabel('Select Beta', { exact: true })).not.toBeChecked();
-    // Keyboard/touch alternative to drag: row menu "Move to group".
-    await phaseA.getByLabel('Task menu Beta', { exact: true }).click();
-    await phaseA.getByLabel('Move Beta to group', { exact: true }).selectOption(String(b));
+    // Drag within a group: Gamma above Alpha renamed (Board order is persisted).
+    await expect(page.getByLabel('Sort by', { exact: true })).toHaveValue('group_order');
+    await phaseA
+      .getByRole('row')
+      .filter({ hasText: 'Gamma' })
+      .dragTo(phaseA.getByRole('row').filter({ hasText: 'Alpha renamed' }));
+    await expect
+      .poll(async () =>
+        (await phaseA.locator('tbody tr .task-name > button').allInnerTexts())
+          .map((t) => t.split('\n')[0])
+          .filter(Boolean),
+      )
+      .toEqual(['Gamma', 'Alpha renamed', 'Beta']);
+    await page.reload();
+    await expect
+      .poll(async () =>
+        (await phaseA.locator('tbody tr .task-name > button').allInnerTexts())
+          .map((t) => t.split('\n')[0])
+          .filter(Boolean),
+      )
+      .toEqual(['Gamma', 'Alpha renamed', 'Beta']);
+    // Drag onto a row of another group: Beta lands before Delta in Phase B.
+    await phaseA
+      .getByRole('row')
+      .filter({ hasText: 'Beta' })
+      .dragTo(phaseB.getByRole('row').filter({ hasText: 'Delta' }));
     await expect(phaseB.getByRole('row').filter({ hasText: 'Beta' })).toHaveCount(1);
     await expect(phaseA.getByRole('row').filter({ hasText: 'Beta' })).toHaveCount(0);
-    // Drag a row into another group.
+    // Drag a row onto the group itself (end of group).
     const row = phaseA.getByRole('row').filter({ hasText: 'Alpha renamed' });
     await row.dragTo(phaseB);
     await expect(phaseB.getByRole('row').filter({ hasText: 'Alpha renamed' })).toHaveCount(1);

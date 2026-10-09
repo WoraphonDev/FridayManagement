@@ -294,8 +294,11 @@ test('T038 validation rollback, two-tab conflict, lost response authoritative GE
         exact: true,
       }),
     ).toBeVisible();
-    page.once('dialog', (d) => void d.accept());
     await d.getByRole('button', { name: 'Close dialog', exact: true }).click();
+    await page
+      .getByRole('dialog', { name: 'Discard changes?', exact: true })
+      .getByRole('button', { name: 'Discard draft', exact: true })
+      .click();
     await b.getByRole('button', { name: 'Refresh board', exact: true }).click();
     await expect(
       b

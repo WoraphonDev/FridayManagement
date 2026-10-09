@@ -159,7 +159,7 @@ export function buildContract() {
     start_date: nullable(ref('Date')), due_date: nullable(ref('Date')), recurrence: enumeration(['none', 'daily', 'weekly', 'monthly'], { default: 'none' }),
   };
   schemas.CreateTask = object({ project_id: ref('Id'), ...taskFields }, ['project_id', 'title']);
-  schemas.PatchTask = object({ ...taskFields, status: ref('Status'), version: ref('Version') }, ['version'], { minProperties: 2 });
+  schemas.PatchTask = object({ ...taskFields, status: ref('Status'), group_before_task_id: nullable(ref('Id')), version: ref('Version') }, ['version'], { minProperties: 2 });
   schemas.Setup = object({ token: text(128, 32), organization_name: nonblank(100), username: ref('Username'), display_name: nonblank(100), password: ref('Password') });
   schemas.Login = object({ username: ref('Username'), password: ref('CurrentPassword') });
   schemas.PasswordChange = object({ current_password: ref('CurrentPassword'), new_password: ref('Password') });
@@ -187,7 +187,7 @@ export function buildContract() {
     status: { ...array(ref('Status'), 4), minItems: 1, uniqueItems: true }, priority: { ...array(ref('Priority'), 4), minItems: 1, uniqueItems: true },
     category: text(80), due_from: ref('Date'), due_to: ref('Date'), has_due: boolean,
     date_basis: enumeration(['created', 'due', 'completed']), date_from: ref('Date'), date_to: ref('Date'),
-    sort: enumeration(['due_asc', 'due_desc', 'created_asc', 'created_desc', 'updated_desc', 'title_asc', 'priority_desc']), ...page,
+    sort: enumeration(['group_order', 'due_asc', 'due_desc', 'created_asc', 'created_desc', 'updated_desc', 'title_asc', 'priority_desc']), ...page,
   };
   schemas.TaskQuery = object(taskQuery, []);
   schemas.ReportQuery = object(Object.fromEntries(Object.entries(taskQuery).filter(([k]) => !['page', 'pageSize', 'sort'].includes(k))), []);
@@ -315,7 +315,7 @@ export function buildContract() {
   for (const { method, path, op } of operations) paths[path] = { ...paths[path], [method]: op };
   return {
     openapi: '3.1.1', jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema',
-    info: { title: 'FridayManagement API', version: '1.7.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
+    info: { title: 'FridayManagement API', version: '1.8.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order (PatchTask.group_before_task_id, sort=group_order). Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
     servers: [{ url: '/' }], paths,
     components: { securitySchemes: { cookieSession: { type: 'apiKey', in: 'cookie', name: 'friday_session' } }, schemas },
   };

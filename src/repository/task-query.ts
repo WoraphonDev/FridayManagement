@@ -98,6 +98,7 @@ export function taskQuery(viewer: number, input: Record<string, unknown>, trash 
     bind('date_to', end, `${col}${basis === 'due' ? '<=' : '<'}@date_to`);
   }
   const orders: Record<string, string> = {
+    group_order: 'CASE WHEN t.group_rank IS NULL THEN 1 ELSE 0 END,t.group_rank ASC,t.id ASC',
     due_asc: 'CASE WHEN t.due_date IS NULL THEN 1 ELSE 0 END,t.due_date ASC,t.id ASC',
     due_desc: 'CASE WHEN t.due_date IS NULL THEN 1 ELSE 0 END,t.due_date DESC,t.id ASC',
     created_asc: 't.created_at ASC,t.id ASC',

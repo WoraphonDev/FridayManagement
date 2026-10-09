@@ -242,18 +242,26 @@ export function Kanban({
         previous = positions.current.get(id);
       next.set(id, rect);
       if (!reduced && previous && (previous.x !== rect.x || previous.y !== rect.y)) {
-        const content = card.querySelector<HTMLElement>('.card-content-motion');
-        if (content?.animate)
+        // FLIP the whole card (frame and content) from its old slot to the new one.
+        if (card.animate && !card.dataset.dragging)
           motions.current.push(
-            content.animate(
+            card.animate(
               [
                 {
-                  transform: `translate(${previous.x - rect.x}px,${previous.y - rect.y}px)`,
-                  opacity: 0.75,
+                  transform: `translate(${previous.x - rect.x}px,${previous.y - rect.y}px) scale(1.02)`,
+                  boxShadow: '0 10px 24px #292f4c26',
+                  zIndex: 5,
                 },
-                { transform: 'translate(0,0)', opacity: 1 },
+                {
+                  transform: 'translate(0,0) scale(1)',
+                  boxShadow: '0 1px 2px #292f4c14',
+                  zIndex: 5,
+                },
               ],
-              { duration: previous.x === rect.x ? 220 : 320, easing: 'cubic-bezier(.2,.8,.2,1)' },
+              {
+                duration: previous.x === rect.x ? 240 : 380,
+                easing: 'cubic-bezier(.2,.8,.2,1)',
+              },
             ),
           );
       }
@@ -528,7 +536,7 @@ export function Kanban({
             onChange={(e) => change('q', e.target.value)}
           />
         </div>
-        <details>
+        <details className="popover-menu">
           <summary>
             <UiIcon name="filter" /> Board filters
           </summary>

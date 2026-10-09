@@ -1,3 +1,4 @@
+import { ConfirmHost } from './shared/confirm';
 import { projectPage, type Project } from './workspace-api';
 import { OrganizationSettings } from './Organization';
 import { Brand, AuthArtwork } from './Brand';
@@ -118,6 +119,19 @@ export function App() {
     setEpoch((n) => n + 1);
     setSetupComplete(undefined);
     channel.current?.postMessage('changed');
+  }, []);
+  // Popup menus built on <details> close when the user clicks or taps anywhere else.
+  useEffect(() => {
+    const close = (event: PointerEvent) => {
+      // Vibe dropdown lists render in a portal; picking an option there is still "inside".
+      if ((event.target as Element).closest?.('[role="listbox"], [role="option"]')) return;
+      for (const menu of document.querySelectorAll<HTMLDetailsElement>(
+        'details[open].card-menu, details[open].card-manage, details[open].popover-menu, details[open].pwa-install',
+      ))
+        if (!menu.contains(event.target as Node)) menu.open = false;
+    };
+    document.addEventListener('pointerdown', close);
+    return () => document.removeEventListener('pointerdown', close);
   }, []);
   useEffect(() => {
     if (typeof BroadcastChannel === 'undefined') return;
@@ -608,6 +622,7 @@ export function App() {
         {!online && <Toast>Connect to save changes. Offline saving is unavailable.</Toast>}
         {online && !writable && <Toast>Checking for updates before enabling changes</Toast>}
         <Pwa mode={self ? 'update-only' : 'floating'} />
+        <ConfirmHost />
         {self?.maintenance && <Toast>Maintenance in progress. Please try again later.</Toast>}
         {self && (self.must_change_password || self.user.must_change_password) && (
           <Toast>Change your password to continue</Toast>

@@ -3,8 +3,8 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "FridayManagement API",
-    "version": "1.7.0",
-    "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
+    "version": "1.8.0",
+    "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order (PatchTask.group_before_task_id, sort=group_order). Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
   },
   "servers": [
     {
@@ -3824,6 +3824,7 @@
             "schema": {
               "type": "string",
               "enum": [
+                "group_order",
                 "due_asc",
                 "due_desc",
                 "created_asc",
@@ -15287,6 +15288,16 @@
           "status": {
             "$ref": "#/components/schemas/Status"
           },
+          "group_before_task_id": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Id"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
           "version": {
             "$ref": "#/components/schemas/Version"
           }
@@ -15870,6 +15881,7 @@
           "sort": {
             "type": "string",
             "enum": [
+              "group_order",
               "due_asc",
               "due_desc",
               "created_asc",

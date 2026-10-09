@@ -1,3 +1,4 @@
+import { confirmDialog } from './shared/confirm';
 import { UiIcon } from './shared/UiIcon';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { StatusPicker } from './shared/StatusPicker';
@@ -151,7 +152,11 @@ export function TaskWorkspace({
   });
   const [view, setView] = useState<View>(mode === 'calendar' ? 'calendar' : 'table'),
     [filters, setFilters] = useState<Filters>(() =>
-      mode === 'my' ? myWorkFilters(window.location.search) : emptyFilters,
+      mode === 'my'
+        ? myWorkFilters(window.location.search)
+        : mode === 'project'
+          ? { ...emptyFilters, sort: 'group_order' }
+          : emptyFilters,
     ),
     [q, setQ] = useState(''),
     [created, setCreated] = useState(false),
@@ -181,8 +186,8 @@ export function TaskWorkspace({
     [batchStatus, setBatchStatus] = useState(''),
     [batchGroup, setBatchGroup] = useState(''),
     [titleEdit, setTitleEdit] = useState<{ id: number; value: string }>(),
-    [quickAdd, setQuickAdd] = useState<Record<string, string>>({}),
     [dragging, setDragging] = useState<number>(),
+    [dropBefore, setDropBefore] = useState<number>(),
     [draftWidths, setDraftWidths] = useState<Record<string, number>>({});
   const prefs = usePreferences(self.csrf);
   const widths = mainColumns.map(
@@ -242,20 +247,17 @@ export function TaskWorkspace({
     if ((t.group_id ?? null) === target) return;
     void patchTask(t, { group_id: target });
   };
-  const quickCreate = async (g: string) => {
-    const title = (quickAdd[g] ?? '').trim();
-    if (!project || !title) return;
-    const ok = await mutate('/api/tasks', 'POST', {
-      project_id: project.id,
-      title: title.slice(0, 200),
-      ...(groupBy === 'groups' && g !== 'ungrouped' ? { group_id: Number(g) } : {}),
-      ...(groupBy === 'status' ? {} : {}),
-    });
-    if (ok) setQuickAdd((q) => ({ ...q, [g]: '' }));
-  };
   const runBatch = async (operation: 'patch' | 'delete', patch?: Record<string, unknown>) => {
     if (!data || !selected.length || mutationBusy.current || !online) return;
-    if (operation === 'delete' && !window.confirm(`Move ${selected.length} task(s) to trash?`))
+    if (
+      operation === 'delete' &&
+      !(await confirmDialog({
+        title: 'Move tasks to trash?',
+        message: `${selected.length} task(s) will move to trash and can be restored for 30 days.`,
+        confirmLabel: 'Move to trash',
+        danger: true,
+      }))
+    )
       return;
     mutationBusy.current = true;
     setGroupPending(true);
@@ -774,7 +776,7 @@ export function TaskWorkspace({
             >
               Search
             </button>
-            <details>
+            <details className="popover-menu">
               <summary>
                 <UiIcon name="filter" /> Filters
               </summary>
@@ -913,7 +915,9 @@ export function TaskWorkspace({
                 </fieldset>
                 <button
                   onClick={() => {
-                    setFilters(emptyFilters);
+                    setFilters(
+                      mode === 'project' ? { ...emptyFilters, sort: 'group_order' } : emptyFilters,
+                    );
                     setQ('');
                     setPage(1);
                   }}
@@ -958,6 +962,7 @@ export function TaskWorkspace({
                 onChange={(e) => update('sort', e.target.value)}
               >
                 {[
+                  ...(project ? [['group_order', 'Board order']] : []),
                   ['due_asc', 'End Plan · earliest'],
                   ['due_desc', 'End Plan · latest'],
                   ['created_desc', 'Newest created'],
@@ -1123,7 +1128,13 @@ export function TaskWorkspace({
                             e.preventDefault();
                             const t = data.items.find((x) => x.id === dragging);
                             setDragging(undefined);
-                            if (t && groupBy === 'groups') moveTask(t, g);
+                            setDropBefore(undefined);
+                            if (!t || groupBy !== 'groups') return;
+                            const target = g === 'ungrouped' ? null : Number(g);
+                            // Dropped on the group (not a row): append to the end of that group.
+                            if ((t.group_id ?? null) !== target) moveTask(t, g);
+                            else if (filters.sort === 'group_order')
+                              void patchTask(t, { group_before_task_id: null });
                           }}
                           style={{
                             color:
@@ -1218,13 +1229,40 @@ export function TaskWorkspace({
                               {...(project ? { widths, onResize: resizeColumn } : {})}
                               rowProps={(i) => {
                                 const fresh = newRows.includes(tasks[i]!.id) ? 'row-new' : '';
+                                const row = tasks[i]!;
                                 return project && writableProject && groupBy === 'groups'
                                   ? {
                                       draggable: true,
-                                      onDragStart: () => setDragging(tasks[i]!.id),
-                                      onDragEnd: () => setDragging(undefined),
+                                      onDragStart: () => setDragging(row.id),
+                                      onDragEnd: () => {
+                                        setDragging(undefined);
+                                        setDropBefore(undefined);
+                                      },
+                                      onDragOver: (e) => {
+                                        if (!dragging || dragging === row.id) return;
+                                        e.preventDefault();
+                                        setDropBefore(row.id);
+                                      },
+                                      onDrop: (e) => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        const t = data.items.find((x) => x.id === dragging);
+                                        setDragging(undefined);
+                                        setDropBefore(undefined);
+                                        if (t && t.id !== row.id)
+                                          void patchTask(t, {
+                                            group_id: g === 'ungrouped' ? null : Number(g),
+                                            ...(filters.sort === 'group_order'
+                                              ? { group_before_task_id: row.id }
+                                              : {}),
+                                          });
+                                      },
                                       className:
-                                        [dragging === tasks[i]!.id ? 'dragging' : '', fresh]
+                                        [
+                                          dragging === row.id ? 'dragging' : '',
+                                          dropBefore === row.id ? 'drop-before' : '',
+                                          fresh,
+                                        ]
                                           .filter(Boolean)
                                           .join(' ') || undefined,
                                     }
@@ -1246,44 +1284,6 @@ export function TaskWorkspace({
                                             )
                                           }
                                         />
-                                        <details className="task-row-menu">
-                                          <summary aria-label={`Task menu ${t.title}`}>
-                                            <UiIcon name="more" />
-                                          </summary>
-                                          <button onClick={() => void open(t)}>
-                                            View task details
-                                          </button>
-                                          {writableProject && (
-                                            <button
-                                              onClick={() =>
-                                                setTitleEdit({ id: t.id, value: t.title })
-                                              }
-                                            >
-                                              Rename task
-                                            </button>
-                                          )}
-                                          {writableProject && groupBy === 'groups' && (
-                                            <label>
-                                              Move to group
-                                              <select
-                                                aria-label={`Move ${t.title} to group`}
-                                                value={
-                                                  t.group_id ? String(t.group_id) : 'ungrouped'
-                                                }
-                                                onChange={(e) => moveTask(t, e.target.value)}
-                                              >
-                                                {[
-                                                  ...namedGroups.map((ng) => String(ng.id)),
-                                                  'ungrouped',
-                                                ].map((k) => (
-                                                  <option key={k} value={k}>
-                                                    {groupLabel[k]}
-                                                  </option>
-                                                ))}
-                                              </select>
-                                            </label>
-                                          )}
-                                        </details>
                                       </div>,
                                       <div className="task-name" key={t.id}>
                                         {titleEdit?.id === t.id ? (
@@ -1456,31 +1456,28 @@ export function TaskWorkspace({
                             {project &&
                               project.effective_access !== 'viewer' &&
                               !project.archived_at && (
-                                <form
+                                <button
+                                  type="button"
                                   className="group-add-row"
+                                  aria-label={`Add task to ${groupLabel[g]}`}
+                                  disabled={!online || self.maintenance || groupPending}
                                   style={{
                                     borderLeftColor:
                                       namedGroups.find((group) => String(group.id) === g)?.color ??
                                       '#579bfc',
                                   }}
-                                  onSubmit={(e) => {
-                                    e.preventDefault();
-                                    void quickCreate(g);
-                                  }}
+                                  onClick={() =>
+                                    setEditor({
+                                      project,
+                                      initialGroup:
+                                        groupBy === 'status' || g === 'ungrouped'
+                                          ? null
+                                          : Number(g),
+                                    })
+                                  }
                                 >
-                                  <UiIcon name="plus" />
-                                  <input
-                                    aria-label={`Add task to ${groupLabel[g]}`}
-                                    placeholder="Add task"
-                                    maxLength={200}
-                                    data-add
-                                    value={quickAdd[g] ?? ''}
-                                    disabled={!online || self.maintenance || groupPending}
-                                    onChange={(e) =>
-                                      setQuickAdd((q) => ({ ...q, [g]: e.target.value }))
-                                    }
-                                  />
-                                </form>
+                                  <UiIcon name="plus" /> Add task
+                                </button>
                               )}
                             <div className="group-summary">
                               {tasks.filter((t) => t.status === 'done').length} Completed ·{' '}

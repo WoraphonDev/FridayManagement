@@ -97,6 +97,8 @@ export function taskService(options: AccessOptions = {}) {
       )
     )[0];
     if (!row) throw new ApiFault('NOT_FOUND');
+    // group_rank is internal ordering state, not part of the Task DTO.
+    delete (row as Partial<Record<'group_rank', unknown>>).group_rank;
     return row;
   };
   const access = async (tx: Transaction, proof: SessionProof, project: number, write = false) => {
@@ -207,8 +209,10 @@ export function taskService(options: AccessOptions = {}) {
       )[0]!;
       assignees.push({ ...person, active: !!person.active });
     }
+    const task: Partial<Record<'group_rank', unknown>> & Task = { ...t };
+    delete task.group_rank;
     return {
-      ...t,
+      ...task,
       ...p,
       assignee_ids: ids,
       assignees,
@@ -389,6 +393,33 @@ export function taskService(options: AccessOptions = {}) {
     }
     return t;
   };
+  /** Rewrites dense group ranks with `id` placed before `before` (null = last) in its group. */
+  const placeInGroup = async (
+    tx: Transaction,
+    project: number,
+    group: number | null,
+    id: number,
+    before: number | null,
+  ) => {
+    const where =
+      group === null
+        ? 'project_id=@project AND group_id IS NULL'
+        : 'project_id=@project AND group_id=@group';
+    const ids = (
+      await tx.query<{ id: number }>(
+        sql(
+          `SELECT id FROM dbo.tasks WHERE ${where} AND deleted_at IS NULL AND id<>@id ORDER BY CASE WHEN group_rank IS NULL THEN 1 ELSE 0 END,group_rank,id`,
+          group === null ? { project, id } : { project, group, id },
+        ),
+      )
+    ).map((r) => Number(r.id));
+    if (before !== null && !ids.includes(before)) throw new ApiFault('VALIDATION_FAILED');
+    ids.splice(before === null ? ids.length : ids.indexOf(before), 0, id);
+    for (const [rank, task] of ids.entries())
+      await tx.execute(
+        sql('UPDATE dbo.tasks SET group_rank=@rank WHERE id=@task', { rank, task }),
+      );
+  };
   const patchTask = async (
     tx: Transaction,
     proof: SessionProof,
@@ -464,7 +495,13 @@ export function taskService(options: AccessOptions = {}) {
         before: JSON.stringify(beforeIds),
         after: JSON.stringify(afterIds),
       });
-    if (!changes.length && !ordering)
+    // Group order (Main table "Board order"): explicit anchor, or append when the group changes.
+    const groupPlacement = Object.hasOwn(b, 'group_before_task_id')
+      ? { before: (b.group_before_task_id as number | null) ?? null }
+      : t.group_id !== after.group_id
+        ? { before: null }
+        : undefined;
+    if (!changes.length && !ordering && !groupPlacement)
       return { item: await detail(tx, t), successor: null, affected_columns: [] };
     after.version = requireVersion(t.version, Number(b.version));
     after.updated_at = now();
@@ -483,6 +520,8 @@ export function taskService(options: AccessOptions = {}) {
       ),
     );
     await replaceAssignments(tx, id, afterIds);
+    if (groupPlacement)
+      await placeInGroup(tx, t.project_id, after.group_id as number | null, id, groupPlacement.before);
     const affected = new Set<Status>();
     if (statusChanged) {
       await append(tx, after);
@@ -493,10 +532,18 @@ export function taskService(options: AccessOptions = {}) {
       tx,
       id,
       a.id,
-      reopen ? 'reopened' : statusChanged ? 'status_changed' : ordering ? 'reordered' : 'updated',
+      reopen
+        ? 'reopened'
+        : statusChanged
+          ? 'status_changed'
+          : ordering || (groupPlacement && !changes.length)
+            ? 'reordered'
+            : 'updated',
       ordering
         ? [...changes, { field: 'before_task_id', before: null, after: ordering.before }]
-        : changes,
+        : groupPlacement && Object.hasOwn(b, 'group_before_task_id')
+          ? [...changes, { field: 'group_before_task_id', before: null, after: groupPlacement.before }]
+          : changes,
       request,
     );
     if (cleanedIds || cleanedChildren.length)

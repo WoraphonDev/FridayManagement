@@ -23,7 +23,7 @@ test('Shared form keeps draft, labels/errors and disables offline submission wit
 test('Table and shared feedback provide caption, column headers, persistent alert and live status', () => {
   const html = renderToStaticMarkup(
     <>
-      <DataTable caption="รายการงาน" columns={["Name"]} rows={[]} />
+      <DataTable caption="รายการงาน" columns={['Name']} rows={[]} />
       <Loading />
       <Toast>แจ้งข้อมูล</Toast>
       <ErrorNotice error={new ApiError('conflict', 409)} />
@@ -33,5 +33,5 @@ test('Table and shared feedback provide caption, column headers, persistent aler
   expect(html).toContain('scope="col"');
   expect(html).toContain('role="alert"');
   expect(html).toContain('aria-live="polite"');
-  expect(html).toContain("Nothing here yet");
+  expect(html).toContain('Nothing here yet');
 });

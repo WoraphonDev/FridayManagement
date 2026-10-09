@@ -1,3 +1,4 @@
+import { confirmDialog } from './shared/confirm';
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
 import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';
@@ -191,7 +192,12 @@ export function ProjectDocs({
     if (!selected || pending) return;
     if (
       !restore &&
-      !window.confirm(`Move “${selected.title}” to trash? It can be restored for 30 days.`)
+      !(await confirmDialog({
+        title: 'Move doc to trash?',
+        message: `“${selected.title}” can be restored for 30 days.`,
+        confirmLabel: 'Move to trash',
+        danger: true,
+      }))
     )
       return;
     setPending(true);

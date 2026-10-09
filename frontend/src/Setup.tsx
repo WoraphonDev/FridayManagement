@@ -81,7 +81,10 @@ export function Setup({
       aria-label="First-time setup"
       aria-busy={busy}
     >
-      <p>Use the setup token from the installer console to create your first administrator. No default credentials exist.</p>
+      <p>
+        Use the setup token from the installer console to create your first administrator. No
+        default credentials exist.
+      </p>
       <Field
         label="Setup token"
         name="token"
@@ -147,7 +150,7 @@ export function Setup({
         error && <ErrorNotice error={error} />
       )}
       <button type="submit" disabled={busy || !online}>
-        {busy ? "Setting up…" : "Create administrator and finish setup"}
+        {busy ? 'Setting up…' : 'Create administrator and finish setup'}
       </button>
     </form>
   );

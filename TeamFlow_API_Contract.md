@@ -1,10 +1,14 @@
-# TeamFlow — API/DTO contract 1.7.0
+# TeamFlow — API/DTO contract 1.8.0
 
 วันที่: 5 ตุลาคม 2026 · Task: T-003 · Business baseline1.1 + RD-01–RD-08
 
 Machine contract: [contracts/openapi.json](contracts/openapi.json) (OpenAPI3.1.1/JSON Schema2020-12). Authoring source: [scripts/build-contract.mjs](scripts/build-contract.mjs). Contract tests: [tests/contracts/contract.test.mjs](tests/contracts/contract.test.mjs).
 
 เอกสารนี้ล็อกสัญญา frontend/backend สำหรับ Node22 + SQLite local และ SQL2022 ปลายทางร่วมกัน ไม่ใช่ HTTP server, authorization implementation หรือหลักฐานว่า database transactions ผ่าน หากเปลี่ยน field/status/policy ต้องแก้ SRS/contract/tests พร้อมกัน และ regenerate JSON ก่อนปิดงาน
+
+## Addendum API 1.8.0 — group order (owner request, 9 October 2026)
+
+Contract 1.8.0 keeps 85 routes/110 schemas. `PatchTask` adds optional `group_before_task_id` (Id or null): the task is placed before that task in its (new) group, or last when null; the anchor must be an active task in the same project and target group, otherwise 422. Changing `group_id` without an anchor appends the task to the end of the target group. `TaskQuery.sort` adds `group_order` (rank, then id; unranked tasks last). Migration 0011 adds nullable `tasks.group_rank` (SQLite + SQL Server). Event `reordered` records `group_before_task_id`. SQL Server evidence for this change is NOT_RUN.
 
 ## Addendum API 1.7.0 — T-089 (8 October 2026)
 

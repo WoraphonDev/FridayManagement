@@ -1,7 +1,12 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';
-import { notificationsPage, notificationSchema, notificationText, visibleProjects } from './report-api';
+import {
+  notificationsPage,
+  notificationSchema,
+  notificationText,
+  visibleProjects,
+} from './report-api';
 import { detailReply } from './task-api';
 import { TaskEditor } from './TaskEditor';
 import type { Project } from './workspace-api';
@@ -128,7 +133,7 @@ export function Notifications({
     } catch (e) {
       if (!c.signal.aborted && e instanceof ApiError) {
         if (e.status === 404) {
-          setNotice("This task is unavailable or your access has changed");
+          setNotice('This task is unavailable or your access has changed');
           setReload((n) => n + 1);
         } else setError(e);
         onFailure(e);
@@ -140,10 +145,7 @@ export function Notifications({
   };
   return (
     <div className="notification-center">
-      <p className="muted">
-        
-        Notifications refresh while this page is open and online.
-      </p>
+      <p className="muted">Notifications refresh while this page is open and online.</p>
       <div className="report-toolbar">
         <label>
           <input
@@ -155,17 +157,15 @@ export function Notifications({
               setData(undefined);
             }}
           />
-          
           Unread only
         </label>
         <button
           disabled={!online || pending || self.maintenance || !data?.unread_count}
           onClick={() => void mark(null)}
         >
-          
           Mark all read
         </button>
-        <span role="status">unread {data?.unread_count ?? '…'}  items</span>
+        <span role="status">unread {data?.unread_count ?? '…'} items</span>
       </div>
       {notice && <p role="status">{notice}</p>}
       {error && <ErrorNotice error={error} retry={() => setReload((n) => n + 1)} />}
@@ -183,17 +183,15 @@ export function Notifications({
                   <time dateTime={n.created_at}>
                     {new Date(n.created_at).toLocaleString('en-GB', { timeZone: 'Asia/Bangkok' })}
                   </time>
-                  <span>{n.read_at ? " · Read" : " · Unread"}</span>
+                  <span>{n.read_at ? ' · Read' : ' · Unread'}</span>
                 </div>
                 <button disabled={!online || pending} onClick={() => void open(n.task_id)}>
-                  
                   Open task #{n.task_id}
                 </button>
                 <button
                   disabled={!online || pending || self.maintenance || !!n.read_at}
                   onClick={() => void mark(n.id)}
                 >
-                  
                   Read notification #{n.id}
                 </button>
               </li>
@@ -210,12 +208,10 @@ export function Notifications({
               setData(undefined);
             }}
           >
-            
             Previous
           </button>
           <span>
-            
-            Page {page} · {data.total}  items
+            Page {page} · {data.total} items
           </span>
           <button
             disabled={page * 50 >= data.total || pending}
@@ -224,7 +220,6 @@ export function Notifications({
               setData(undefined);
             }}
           >
-            
             Next
           </button>
         </div>
