@@ -188,7 +188,9 @@ export function Dialog({
     const previous = document.activeElement as HTMLElement | null;
     const node = dialog.current;
     node?.showModal();
-    closeButton.current?.focus();
+    // Prefer a field the content asked to focus (autoFocus); otherwise the close button.
+    const wanted = node?.querySelector<HTMLElement>('[data-autofocus]');
+    (wanted ?? closeButton.current)?.focus();
     return () => {
       node?.close();
       previous?.focus();

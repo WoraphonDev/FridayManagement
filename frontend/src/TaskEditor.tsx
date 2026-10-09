@@ -116,7 +116,10 @@ export function TaskEditor({
   const busy = useRef(false),
     intent = useRef<{ json: string; key: string } | undefined>(undefined),
     childIntent = useRef<{ json: string; key: string } | undefined>(undefined);
-  const formDirty = JSON.stringify(draft) !== JSON.stringify(draftOf(base));
+  // A new task starts in its chosen group; that default is not an edit.
+  const formDirty =
+    JSON.stringify(draft) !==
+    JSON.stringify(base ? draftOf(base) : { ...draftOf(), group_id: initialGroup ?? null });
   const dirty =
     panelDirty || formDirty || !!addTitle || (!!editing && childTitle !== editing.title);
   useEffect(() => {
@@ -585,6 +588,7 @@ export function TaskEditor({
               <Field
                 label="Task title"
                 placeholder="What needs to get done?"
+                data-autofocus={!id ? true : undefined}
                 value={draft.title}
                 required
                 maxLength={200}
