@@ -2374,3 +2374,183 @@ section[aria-label='Gantt'] .gantt-bar {
 .main-table .row-select {
   position: relative;
 }
+
+/* Gantt per Vibe Preview: fills the width, hairline grid, 5px-radius bars, today line. */
+section[aria-label='Gantt'] .gantt-scroll {
+  border: 1px solid #e6e9ef;
+  border-radius: 5px;
+}
+section[aria-label='Gantt'] .gantt-canvas {
+  width: 100%;
+}
+section[aria-label='Gantt'] .gantt-heading {
+  background: #fafbfe;
+  border-bottom: 1px solid #e6e9ef;
+}
+section[aria-label='Gantt'] .gantt-heading strong {
+  border-right: 1px solid #e6e9ef;
+  color: #676879;
+  font-weight: 500;
+}
+section[aria-label='Gantt'] .gantt-axis {
+  display: flex;
+}
+section[aria-label='Gantt'] .gantt-axis span {
+  flex: none;
+  border: 0;
+  color: #676879;
+  font-size: 10px;
+  text-align: center;
+}
+section[aria-label='Gantt'] .gantt-row {
+  min-height: 36px;
+  border-bottom: 1px solid #edf0f6;
+}
+section[aria-label='Gantt'] .gantt-title {
+  border-right: 1px solid #e6e9ef;
+}
+section[aria-label='Gantt'] .gantt-track {
+  position: relative;
+  min-height: 36px;
+  background: repeating-linear-gradient(
+    to right,
+    transparent 0,
+    transparent calc(var(--step) - 1px),
+    #edf0f6 calc(var(--step) - 1px),
+    #edf0f6 var(--step)
+  );
+}
+section[aria-label='Gantt'] .gantt-bar {
+  top: 9px;
+  height: 18px;
+  min-height: 18px;
+  padding: 0 6px;
+  border: 0;
+  border-radius: 4px;
+  color: #fff;
+  font-size: 10px;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+section[aria-label='Gantt'] .gantt-bar.status-todo { background: #c4c4c4; color: #323338; }
+section[aria-label='Gantt'] .gantt-bar.status-doing { background: #fdab3d; }
+section[aria-label='Gantt'] .gantt-bar.status-review { background: #a25ddc; }
+section[aria-label='Gantt'] .gantt-bar.status-done { background: #00c875; }
+section[aria-label='Gantt'] .gantt-bar.gantt-marker {
+  top: 12px;
+  width: 12px !important;
+  height: 12px;
+  min-height: 12px;
+  padding: 0;
+  border-radius: 2px;
+  margin-left: calc(var(--step) / 2 - 6px);
+  transform: rotate(45deg);
+}
+.gantt-today {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background: #0073ea;
+  pointer-events: none;
+}
+
+/* Calendar per Vibe Preview: light grid, soft events with a status edge, blue "today" dot. */
+section[aria-label='Calendar'] .calendar-scroll {
+  border: 1px solid #e6e9ef;
+  border-radius: 5px;
+}
+section[aria-label='Calendar'] .calendar-grid {
+  grid-template-columns: repeat(7, minmax(110px, 1fr));
+  min-width: 770px;
+}
+section[aria-label='Calendar'] .weekday {
+  padding: 8px;
+  background: #fafbfe;
+  border-bottom: 1px solid #e6e9ef;
+  color: #676879;
+  font-size: 11px;
+  font-weight: 500;
+}
+section[aria-label='Calendar'] .calendar-day {
+  min-height: 92px;
+  padding: 6px 8px;
+  border-top: 0;
+  border-right: 1px solid #edf0f6;
+  border-bottom: 1px solid #edf0f6;
+  box-shadow: none;
+}
+section[aria-label='Calendar'] .calendar-day.outside {
+  background: #fafbfe;
+}
+section[aria-label='Calendar'] .calendar-day.outside time {
+  color: #c3c6d4;
+}
+section[aria-label='Calendar'] .calendar-day time {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 22px;
+  margin-bottom: 2px;
+  font-size: 11px;
+  font-weight: 500;
+  color: #323338;
+}
+section[aria-label='Calendar'] .calendar-day.today {
+  box-shadow: none;
+  background: #f5f9ff;
+}
+section[aria-label='Calendar'] .calendar-day.today time {
+  border-radius: 50%;
+  background: #0073ea;
+  color: #fff;
+}
+section[aria-label='Calendar'] .calendar-event {
+  min-height: 0;
+  margin: 3px 0;
+  padding: 3px 6px;
+  border: 0;
+  border-left: 3px solid var(--tone);
+  border-radius: 3px;
+  background: var(--soft);
+  color: #323338;
+  font-size: 10px;
+  line-height: 1.4;
+}
+section[aria-label='Calendar'] .calendar-event.status-todo { --tone: #9699a6; --soft: #f0f1f5; }
+section[aria-label='Calendar'] .calendar-event.status-doing { --tone: #fdab3d; --soft: #fff4e5; }
+section[aria-label='Calendar'] .calendar-event.status-review { --tone: #a25ddc; --soft: #f4ecfb; }
+section[aria-label='Calendar'] .calendar-event.status-done { --tone: #00c875; --soft: #e5f8ee; }
+
+/* Dropdowns: native selects drawn like the Vibe Dropdown in the preview. */
+select:not(.priority-pill) {
+  appearance: none;
+  -webkit-appearance: none;
+  min-height: 32px;
+  padding: 0 30px 0 10px;
+  border: 1px solid #c3c6d4;
+  border-radius: 4px;
+  background: #fff
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%23676879' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E")
+    no-repeat right 9px center / 14px;
+  color: #323338;
+  font-size: 13px;
+  line-height: 30px;
+  cursor: pointer;
+  transition: border-color 120ms;
+}
+select:not(.priority-pill):hover:not(:disabled) {
+  border-color: #676879;
+}
+select:not(.priority-pill):focus-visible {
+  outline: none;
+  border-color: #0073ea;
+  box-shadow: 0 0 0 1px #0073ea;
+}
+select:not(.priority-pill):disabled {
+  background-color: #f6f7fb;
+  color: #9699a6;
+  cursor: not-allowed;
+}

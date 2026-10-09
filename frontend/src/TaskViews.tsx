@@ -1,3 +1,4 @@
+import type React from 'react';
 import { useState } from 'react';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { statusLabel, type Task } from './task-api';
@@ -64,7 +65,12 @@ export function CalendarView({
   open: (t: Task) => void;
 }) {
   const [month, setMonth] = useState(today.slice(0, 7) + '-01');
-  const days = [...new Set(calendarDays(month))];
+  const all = [...new Set(calendarDays(month))];
+  // Drop a trailing week that lies entirely in the next month (the mock shows 5 rows then).
+  const days =
+    all.length > 35 && all.slice(-7).every((d) => d.slice(0, 7) !== month.slice(0, 7))
+      ? all.slice(0, -7)
+      : all;
   const events = new Map<string, Task[]>();
   for (const t of tasks)
     if (t.due_date) {
@@ -162,7 +168,9 @@ export function GanttView({
   const length = { day: 14, week: 42, month: 90 }[scale],
     width = { day: 56, week: 24, month: 14 }[scale];
   const days = [...new Set(Array.from({ length }, (_, i) => dateAdd(first, i)))],
-    end = days.at(-1)!;
+    end = days.at(-1)!,
+    pct = 100 / days.length,
+    todayIndex = days.indexOf(today);
   const bars = tasks
     .map((t) => ({ task: t, placement: ganttPlacement(t, first, days.length) }))
     .filter((x) => x.placement);
@@ -230,12 +238,17 @@ export function GanttView({
         </button>
       </div>
       <div className="gantt-scroll" tabIndex={0} aria-label="Task timeline">
-        <div className="gantt-canvas" style={{ width: 220 + days.length * width }}>
+        <div
+          className="gantt-canvas"
+          style={
+            { minWidth: 220 + days.length * 40, '--step': `${pct}%` } as React.CSSProperties
+          }
+        >
           <div className="gantt-heading">
             <strong>Task</strong>
             <div className="gantt-axis">
               {groups.map((g) => (
-                <span key={g.label} style={{ width: g.span * width }}>
+                <span key={g.label} style={{ width: `${g.span * pct}%` }}>
                   {scale === 'month' ? g.label : formatPlanDate(g.label)}
                 </span>
               ))}
@@ -246,16 +259,23 @@ export function GanttView({
               <button className="gantt-title" onClick={() => open(t)} title={t.title}>
                 {t.title}
               </button>
-              <div className="gantt-track" style={{ backgroundSize: `${width}px 100%` }}>
+              <div className="gantt-track">
+                {todayIndex >= 0 && (
+                  <span
+                    className="gantt-today"
+                    aria-hidden="true"
+                    style={{ left: `${(todayIndex + 0.5) * pct}%` }}
+                  />
+                )}
                 {p && (
                   <button
                     className={`gantt-bar status-${t.status} ${p.marker ? 'gantt-marker' : ''}`}
-                    style={{ left: p.offset * width, width: p.span * width }}
+                    style={{ left: `${p.offset * pct}%`, width: `${p.span * pct}%` }}
                     onClick={() => open(t)}
                     aria-label={`Open task #${t.id} ${t.title} · ${p.marker ? 'No Start Plan · ' : ''}${t.start_date ?? ''} To ${t.due_date} · ${statusLabel[t.status]}`}
                     title={`${t.title} · ${t.start_date ?? 'No start date'} → ${t.due_date}`}
                   >
-                    {p.marker ? '◆' : p.span * width >= 72 ? t.title : ''}
+                    {p.marker ? '' : p.span * width >= 72 ? t.title : ''}
                   </button>
                 )}
               </div>

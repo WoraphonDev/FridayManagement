@@ -118,7 +118,9 @@ test('T046 actual Gantt inclusive overlap/one-day/due-only/no dates and Calendar
     const widths = await gantt
       .locator('.gantt-bar')
       .evaluateAll((nodes) => nodes.map((n) => (n as HTMLElement).style.width));
-    expect(widths.sort()).toEqual(['336px', '56px', '56px']);
+    // Bars are sized in % of the period; Overlap spans 6 days, the others one day each.
+    const days = widths.map((w) => parseFloat(w) / (100 / 14)).map((d) => Math.round(d));
+    expect(days.sort()).toEqual([1, 1, 6]);
     await expect(gantt.getByRole('button', { name: /Open task #3.*No Start Plan/ })).toBeVisible();
     await expect(
       gantt
