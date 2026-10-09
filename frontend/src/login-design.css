@@ -432,7 +432,8 @@
 }
 .project-board,
 .project-directory {
-  animation: login-form-arrive 220ms ease-out both;
+  /* backwards, not both: a retained transform would trap fixed toasts/popovers in the board. */
+  animation: login-form-arrive 220ms ease-out backwards;
 }
 .view-tabs button,
 .plan-date,
