@@ -35,13 +35,18 @@ const accepted: Record<string, Record<string, string>> = {
     'Index Scan tasks.ix_tasks_project_id_status_deleted_at':
       'narrow covering index for the scope join',
   },
+  'Kanban board': {
+    'Clustered Index Scan tasks.pk_tasks':
+      'one bulk load of the whole project (≤500 rows): a single scan is cheaper than 500 lookups',
+    'Clustered Index Scan task_assignees.pk_task_assignees':
+      'one IN-list lookup for ≤500 cards; optimizer prefers a scan while the table is small',
+  },
   'report summary': {
     'Clustered Index Scan tasks.pk_tasks': 'aggregates every visible task by design',
   },
 };
-// SRS §13.3 read budget (p95 ≤ 2 s). Kanban is a recorded finding (per-task N+1 near the budget).
+// SRS §13.3 read budget (p95 ≤ 2 s) for every path.
 const readBudgetMs = 2000;
-const timingFindings = new Set(['Kanban board']);
 
 /** Set-based §13.3 volume on top of the access fixture (20 projects, 10,000 tasks, 20,000 comments). */
 async function seed(db: Database) {
@@ -235,8 +240,7 @@ test(
         const p95 = [...r.ms].sort((a, b) => a - b)[Math.ceil(r.ms.length * 0.95) - 1]!;
         evidence[name] = { statements: r.statements, p95Ms: Math.round(p95), scans: kinds };
         assert.deepEqual(unexpected, [], `${name}: unreviewed scan of a large table`);
-        if (!timingFindings.has(name))
-          assert(p95 <= readBudgetMs, `${name}: p95 ${p95.toFixed(0)} ms over budget`);
+        assert(p95 <= readBudgetMs, `${name}: p95 ${p95.toFixed(0)} ms over budget`);
       }
       mkdirSync('reports/T-007', { recursive: true });
       writeFileSync(
@@ -248,7 +252,7 @@ test(
             dataset: '20 projects, 10,000 tasks, 20,000 comments, 5,000 notifications',
             runsPerPath: 10,
             accepted,
-            findings: { 'Kanban board': 'per-task queries (N+1); p95 close to the 2 s budget' },
+            note: 'Kanban N+1 removed 2026-10-10: batched task DTOs (was 3,011 statements, p95 ~1.96 s)',
             paths: evidence,
           },
           null,

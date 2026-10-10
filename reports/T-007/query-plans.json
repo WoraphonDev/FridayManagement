@@ -14,13 +14,15 @@
    "Clustered Index Scan notifications.pk_notifications": "scope join to visible projects; 5,000 rows",
    "Index Scan tasks.ix_tasks_project_id_status_deleted_at": "narrow covering index for the scope join"
   },
+  "Kanban board": {
+   "Clustered Index Scan tasks.pk_tasks": "one bulk load of the whole project (≤500 rows): a single scan is cheaper than 500 lookups",
+   "Clustered Index Scan task_assignees.pk_task_assignees": "one IN-list lookup for ≤500 cards; optimizer prefers a scan while the table is small"
+  },
   "report summary": {
    "Clustered Index Scan tasks.pk_tasks": "aggregates every visible task by design"
   }
  },
- "findings": {
-  "Kanban board": "per-task queries (N+1); p95 close to the 2 s budget"
- },
+ "note": "Kanban N+1 removed 2026-10-10: batched task DTOs (was 3,011 statements, p95 ~1.96 s)",
  "paths": {
   "project task list + filter": {
    "statements": 3,
@@ -30,20 +32,23 @@
    ]
   },
   "My work": {
-   "statements": 103,
-   "p95Ms": 155,
+   "statements": 7,
+   "p95Ms": 88,
    "scans": [
     "Clustered Index Scan tasks.pk_tasks"
    ]
   },
   "Kanban board": {
-   "statements": 3011,
-   "p95Ms": 1959,
-   "scans": []
+   "statements": 16,
+   "p95Ms": 43,
+   "scans": [
+    "Clustered Index Scan tasks.pk_tasks",
+    "Clustered Index Scan task_assignees.pk_task_assignees"
+   ]
   },
   "notifications": {
    "statements": 3,
-   "p95Ms": 20,
+   "p95Ms": 22,
    "scans": [
     "Clustered Index Scan notifications.pk_notifications",
     "Index Scan tasks.ix_tasks_project_id_status_deleted_at"
@@ -51,14 +56,14 @@
   },
   "report summary": {
    "statements": 6,
-   "p95Ms": 62,
+   "p95Ms": 66,
    "scans": [
     "Clustered Index Scan tasks.pk_tasks"
    ]
   },
   "directory search": {
    "statements": 11,
-   "p95Ms": 29,
+   "p95Ms": 16,
    "scans": []
   }
  }

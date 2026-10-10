@@ -32,7 +32,7 @@
 - **B:** จ้าง/ขอทีม security ภายนอกองค์กรทดสอบ (มีค่าใช้จ่าย/เวลา)
 
 ## Q-T-007-1 — เกณฑ์ตรวจ SQL Server query plans
-**คำตอบ (owner 2026-10-10):** A — implement `tests/sqlserver/query-plans.test.ts`; ผล `reports/T-007/query-plans.json`: scan ที่เหลือ 4 จุด review แล้วเป็นรายการยกเว้น (row-goal page / aggregate / scope join), ทุก path p95 ≤ 2 s ยกเว้น finding Kanban N+1 (3,011 statements, p95 ≈ 1.96 s)
+**คำตอบ (owner 2026-10-10):** A — implement `tests/sqlserver/query-plans.test.ts`; ผล `reports/T-007/query-plans.json`: scan ที่เหลือ 4 จุด review แล้วเป็นรายการยกเว้น (row-goal page / aggregate / scope join), ทุก path p95 ≤ 2 s; Kanban N+1 แก้แล้ว (batched DTOs: 3,011→16 statements, p95 1.96 s→43 ms)
 T-007 ระบุ "query plans NOT_RUN" แต่ไม่มี test case/เกณฑ์ว่าต้องตรวจ query ใด
 - **A (Recommended):** ตรวจ execution plan จริงบน SQL2022 ของ 6 query หลัก (task list ต่อโปรเจกต์+filter, My work, board columns, notifications unread, report summary, directory search) บน dataset ตาม SRS §13.3 (10,000 tasks); ผ่านเมื่อใช้ index seek ไม่มี table scan บนตารางใหญ่ และ p95 อยู่ในเกณฑ์ §13.3 — เพิ่มเป็น test SQL2022 เฉพาะ
 - **B:** ตัดข้อ query plan ออก ใช้ผล performance test (§13.3) อย่างเดียวเป็นเกณฑ์
