@@ -6,7 +6,7 @@ import { join } from 'node:path';
 import { createApp } from '../../src/api/app.js';
 import { sessionHooks } from '../../src/api/sessions.js';
 import { parseConfiguration } from '../../src/config/config.js';
-import { sqliteFixture } from '../schema/fixtures.js';
+import { sqliteFixture, type Fixture } from '../schema/fixtures.js';
 import { sessionFixture, password } from '../sessions/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 // Shared SQLite HTTP harness for the permission suites (AT-31/AT-32/AT-33 and the T-081 matrix).
@@ -22,8 +22,11 @@ const config = parseConfiguration({
   COOKIE_SECURE: 'true',
 });
 export type F = Awaited<ReturnType<typeof sessionFixture>>;
-export async function fixture(work: (base: string, f: F) => Promise<void>) {
-  const f = await sessionFixture(sqliteFixture),
+export async function fixture(
+  work: (base: string, f: F) => Promise<void>,
+  factory: () => Promise<Fixture> = sqliteFixture,
+) {
+  const f = await sessionFixture(factory),
     storage = await mkdtemp(join(tmpdir(), 'friday-permissions-files-'));
   const server = createApp(
     undefined,
