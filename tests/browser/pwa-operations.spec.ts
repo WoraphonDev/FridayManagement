@@ -6,6 +6,8 @@ for (const [name, width] of [
   ['mobile', 360],
   ['tablet', 768],
   ['desktop', 1440],
+  // 200% browser zoom on a 1440px desktop lays out as a 720 CSS px viewport.
+  ['desktop zoom 200%', 720],
 ] as const) {
   test(`T055 main authenticated screens and four views reflow ${name}`, async ({
     page,

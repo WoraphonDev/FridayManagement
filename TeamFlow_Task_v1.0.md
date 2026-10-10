@@ -378,7 +378,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-055 | Responsive และ accessible interaction review | T-054, T-037, T-024, T-018, T-044, T-046 | Medium | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN; actual Vibe integration: TeamFlow_UI_Vibe_Implementation_Report.md / reports/UI-vibe-implementation-results.json; local UI/API verified, full acceptance pending ; fidelity correction TeamFlow_UI_Vibe_Parity_Report.md / reports/UI-vibe-parity-results.json; local frontend38/browser3 PASS, formal UAT pending ; Login/logo/install/motion follow-up TeamFlow_UI_Vibe_Login_Report.md / reports/UI-vibe-login-results.json; local UI verified, formal acceptance pending |
 | T-056 | PWA manifest/icons/service worker | T-012, T-006 | Medium | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN ; Login/logo/install/motion follow-up TeamFlow_UI_Vibe_Login_Report.md / reports/UI-vibe-login-results.json; local UI verified, formal acceptance pending |
 | T-057 | Offline/reconnect/logout cache behavior | T-056, T-047, T-055 | High | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN; actual Vibe integration: TeamFlow_UI_Vibe_Implementation_Report.md / reports/UI-vibe-implementation-results.json; local UI/API verified, full acceptance pending |
-| T-058 | Browser matrix และ PWA/touch QA | T-057, T-037 | Medium | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN ; 2026-10-10 Playwright 1.63 matrix (macOS, headless): Chromium 87/88 (T059 guard-port collision with stray local server; passes alone), Firefox 87/88+1 skip (CDP touch), WebKit 87/88+1 skip; Safari fixes: checklist cancel/Tab autosave, dialog focus return + Tab trap, calendar arrow scroll; real Safari/Edge/mobile devices NOT_RUN |
+| T-058 | Browser matrix และ PWA/touch QA | T-057, T-037 | Medium | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN ; 2026-10-10 Playwright 1.63 matrix (macOS, headless): rerun after fixes: Chromium 89/89, Firefox 87/89+1 skip (CDP touch), WebKit 87/89+1 skip — the single FF/WebKit failures (boards T037/038, tasks T032) pass 2/2 alone = load-timing flaky; Safari fixes: checklist cancel/Tab autosave, dialog focus return + Tab trap, calendar arrow scroll; real Safari/Edge/mobile devices NOT_RUN |
 | T-059 | Health endpoints และ operational logs | T-006, T-009, T-040 | Medium | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN |
 | T-060 | Retention jobs และ orphan recovery | T-030, T-042, T-050, T-010, T-002 | High | IN_PROGRESS | Codex | TeamFlow_T060_T064_Test_Report.md; local SQLite/source subset; native SQL/Windows/full TC-AT pending |
 | T-061 | Write freeze และ job coordination | T-059, T-060 | High | IN_PROGRESS | Codex | TeamFlow_T060_T064_Test_Report.md; local SQLite/source subset; native SQL/Windows/full TC-AT pending |
@@ -526,7 +526,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 - [x] DB_PROVIDER=sqlite สำหรับ local / sqlserver สำหรับปลายทาง; SQLITE_DB_PATH อยู่นอก source/webroot; ไม่ fallback provider เงียบเมื่อ SQL2022 ใช้ไม่ได้
 - [x] ตรวจ APP_ORIGIN, COOKIE_SECURE, data/log paths, quota และค่าระยะเวลา
 - [x] แยก local defaults จาก production; ไม่ใช้ Host header เป็น trusted origin
-- [ ] ทำ single-instance guard; SQLite local DB อยู่นอก source/webroot; SQL2022 host แยกได้ตาม configuration
+- [x] ทำ single-instance guard; SQLite local DB อยู่นอก source/webroot; SQL2022 host แยกได้ตาม configuration — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** configuration ผิดหยุด startup พร้อมข้อความที่ไม่เผย secrets; data paths อยู่ข้างนอก webroot
 
@@ -544,7 +544,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Trace:** FR-40, NFR-03, NFR-07 · **SRS:** §5  
 **Acceptance:** ตรวจตามเกณฑ์รับงานนี้ + test manifest ที่เกี่ยวข้อง
 
-- [ ] สร้าง entities/FK/UNIQUE/CHECK/index เป็น T-SQL ทุกแถว;optionalUNIQUE ใช้ filteredindex; NO ACTION/purge ตาม SRS§5.1
+- [x] สร้าง entities/FK/UNIQUE/CHECK/index เป็น T-SQL ทุกแถว;optionalUNIQUE ใช้ filteredindex; NO ACTION/purge ตาม SRS§5.1 — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 - [x] กำหนด versions/timestamps/auth_version และ date-only ที่ชัดเจน
 - [x] แยก SQLite migrations/local fixtures จาก T-SQL migrations; เก็บผล provider-specific; SQLite ผ่านไม่ปิด SQL2022 acceptance ของ T-007
 - [x] รองรับ quota reservation/cleanup state ตาม design ที่ล็อก ไม่ทำแค่ counter ในหน่วยความจำ
@@ -567,10 +567,10 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Trace:** FR-14, FR-18, NFR-03 · **SRS:** §8, §9.1, §13.2  
 **Acceptance:** ตรวจตามเกณฑ์รับงานนี้ + test manifest ที่เกี่ยวข้อง
 
-- [ ] สร้าง transaction wrapper และ SQL Server lock-timeout/deadlock handling 503/Retry-After
+- [x] สร้าง transaction wrapper และ SQL Server lock-timeout/deadlock handling 503/Retry-After — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 - [x] สร้าง Bangkok today/date interval/UTC conversion และ monthly anchor helper
-- [ ] สร้าง optimistic version helpers และ column locks/rank สองระยะ/column version invariants ตาม SQL Server§5.1
-- [ ] ทำ deletion/archived/active checks แบบใช้ร่วมกันในทุก write
+- [x] สร้าง optimistic version helpers และ column locks/rank สองระยะ/column version invariants ตาม SQL Server§5.1 — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] ทำ deletion/archived/active checks แบบใช้ร่วมกันในทุก write — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** helper ผ่านกรณีขอบวัน/เดือนและ rollback; ไม่ใช้เวลาจาก browser ตัดสิน overdue
 
@@ -591,8 +591,8 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 
 - [x] JSON Content-Type/size limits, explicit allowlist, error envelope/requestId
 - [x] exact Origin และ CSRF hooks, secure headers/CSP, no permissive CORS
-- [ ] parameterized queries และป้องกัน sensitive fields ออก DTO
-- [ ] pagination max100 และ resource404 เมื่อไม่มี project access
+- [x] parameterized queries และป้องกัน sensitive fields ออก DTO — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] pagination max100 และ resource404 เมื่อไม่มี project access — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** middleware ใช้กับทุก route ตาม contract; error ไม่เผย stack/password/path
 
@@ -611,10 +611,10 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Trace:** FR-16, FR-18, FR-21, FR-27, NFR-03 · **SRS:** §12.1  
 **Acceptance:** AT-12, AT-17, AT-21
 
-- [ ] เก็บ key ต่อ user/route และ request hash TTL24h
-- [ ] key เดิม/body เดิมคืน response เดิม; body ต่าง409
-- [ ] ผูก key result กับ business transaction เพื่อกัน parallel retry
-- [ ] ไม่เก็บ password/upload bytes ใน table นี้ และมี cleanup job
+- [x] เก็บ key ต่อ user/route และ request hash TTL24h — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] key เดิม/body เดิมคืน response เดิม; body ต่าง409 — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] ผูก key result กับ business transaction เพื่อกัน parallel retry — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] ไม่เก็บ password/upload bytes ใน table นี้ และมี cleanup job — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** parallel requests key เดียวไม่เพิ่ม records ซ้ำ; permission ตรวจซ้ำก่อนคืน cached response
 
@@ -632,10 +632,10 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Trace:** FR-05, FR-10, FR-11, NFR-02 · **SRS:** §4  
 **Acceptance:** AT-05, AT-07, AT-08, AT-30
 
-- [ ] effective rights จาก Admin/Lead ทีมเจ้าของ/project Editor/Viewer
-- [ ] team membership/creator/assignee ไม่เพิ่มสิทธิ์เอง
-- [ ] scoping บน read/list/search/report/export/notification/file download
-- [ ] ตรวจ active/session/forced password และ archived/deleted state ก่อนทำงาน
+- [x] effective rights จาก Admin/Lead ทีมเจ้าของ/project Editor/Viewer — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] team membership/creator/assignee ไม่เพิ่มสิทธิ์เอง — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] scoping บน read/list/search/report/export/notification/file download — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] ตรวจ active/session/forced password และ archived/deleted state ก่อนทำงาน — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** permission matrix มี executable tests ทั้ง allowed/denied; frontend hiding ไม่ใช่การป้องกันเพียงอย่างเดียว
 
@@ -842,7 +842,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 - [x] (local SQLite evidence) activeownerteam หนึ่งทีม;Admin/ownerLead จัดการ
 - [x] (local SQLite evidence) cross-team Editor/Viewer explicit membership
 - [x] (local SQLite evidence) ownerteam ย้ายไม่ได้ v1;directory ตาม privacycontract
-- [ ] archive อ่านได้แต่ writes งาน/comment/file/subtask ถูกบล็อก;unarchive ตาม version
+- [x] archive อ่านได้แต่ writes งาน/comment/file/subtask ถูกบล็อก;unarchive ตาม version — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** M2 เห็นเฉพาะ Pshared;Viewer อ่านอย่างเดียว;Lead ไม่ดูทีมอื่นเพราะเป็น Lead
 
@@ -862,7 +862,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 - [x] (local SQLite evidence) teamremove คง explicitprojectmembership;สูญเสีย Lead คำนวณ rights ใหม่
 - [x] (local SQLite evidence) deactivateuserrevoke sessions/unassignopen งานทั้งองค์กร
 - [x] (local SQLite evidence) done งานคง assigneehistory;notifyownerAdmin/Lead ไม่แจ้งคนหมดสิทธิ์
-- [ ] download/notification/APIrequest ใหม่ตรวจสิทธิ์ปัจจุบัน
+- [x] download/notification/APIrequest ใหม่ตรวจสิทธิ์ปัจจุบัน — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** ทุกกรณีถอนสิทธิ์ไม่มีงานมอบหมายค้างให้คนไม่มี access และไม่มีข้อมูลรั่ว
 
@@ -1018,7 +1018,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Acceptance:** AT-13
 
 - [x] (local SQLite/Chromium evidence) creator/ownerLead/Adminsoftdelete ตาม version
-- [ ] deleted ออกจาก activequeries/positions/reminders/exports
+- [x] deleted ออกจาก activequeries/positions/reminders/exports — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 - [x] (local SQLite/Chromium evidence) trashscopedAdmin/Lead;restore ก่อน UTC cutoff deleted_at+30×24ชั่วโมง และ append เดิม
 - [x] (local SQLite/Chromium evidence) recurrencelinks/tombstones ตาม resolveddesign
 - [x] (local SQLite/Chromium evidence) ไม่ harddelete ทันทีและไม่เปิด write งานใน trash
@@ -1041,7 +1041,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 - [x] (local SQLite/Chromium evidence) searchtitle/description/category;max100chars
 - [x] (local SQLite/Chromium evidence) datebasis/dueinclusive/null-last/tie-ID
 - [x] (local SQLite/Chromium evidence) scope ก่อน count/pagination ไม่แค่กรองหน้าที่โหลด
-- [ ] sharedfilterlogic กับ calendar/report/export
+- [x] sharedfilterlogic กับ calendar/report/export — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** total/count/search ไม่รั่ว hiddenproject;filters ให้ผลสอดคล้อง
 
@@ -1102,7 +1102,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 - [x] (local SQLite/Chromium evidence) ordered4columns ตาม projectaccess
 - [x] (local SQLite/Chromium evidence) rankinvariant และ taskversions/columnversionsDTO
 - [x] (local SQLite/Chromium evidence) สร้าง/ลบ/restore/detailstatus เพิ่ม columnversion
-- [ ] >500tasksfallbackpaginatedlist/menu ไม่โหลดไม่จำกัด
+- [x] >500tasksfallbackpaginatedlist/menu ไม่โหลดไม่จำกัด — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** refresh ได้ลำดับเดียวกับ DB;ข้อมูล versions ใช้ move ได้
 
@@ -1511,7 +1511,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Trace:** FR-23, FR-35, NFR-05, NFR-06 · **SRS:** §11, §13.1  
 **Acceptance:** AT-18, AT-26
 
-- [ ] ทุก screeninventory ที่360px/tablet/desktop/200%zoom
+- [x] ทุก screeninventory ที่360px/tablet/desktop/200%zoom — 2026-10-10 T055 Chromium 360/768/1440 + 720 (200% zoom) PASS
 - [x] keyboard/focuslabels/modaldialog/escape/returnfocus
 - [x] ไม่สื่อ status ด้วยสีอย่างเดียว;touchmenualternative
 - [x] ทดสอบ controls ไม่ล้น/ข้อความไทยไม่ทับ
@@ -1556,7 +1556,7 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 - [x] offlinebanner/shell ต้อง online ไม่มี writequeue
 - [x] reconnectrefreshauthoritative ข้อมูลก่อนเปิด write
 - [x] logout ล้าง in-memoryuserdata ไม่ดึง cachedteamdata กลับ
-- [ ] SWupdate ไม่ล้าง dirtydraft หรือบังคับ reload กลาง edit
+- [x] SWupdate ไม่ล้าง dirtydraft หรือบังคับ reload กลาง edit — 2026-10-10 pwa-update spec PASS (no skipWaiting/claim; reload only after all windows close)
 
 **เกณฑ์รับงาน:** offline/logout ไม่มีข้อมูลทีมหลงใน persistentcache
 
@@ -1969,7 +1969,7 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 - [x] บันทึกการอนุมัติของเจ้าของและคำตอบ I.1–I.5
 - [x] รวม FR/NFR/BR/UX/AN เข้า Requirements และพฤติกรรม/สิทธิ์/entities/planned routes เข้า SRS
 - [x] เพิ่ม AT-31–AT-40, TC-085–TC-099, UT-21–UT-23 และ T-079–T-091
-- [ ] ปรับ manifest/checker และรัน planning/contract checks
+- [x] ปรับ manifest/checker และรัน planning/contract checks — 2026-10-10 check:contract/check:test-plan/test:test-plan PASS
 
 **เกณฑ์รับงาน:** เอกสารหลักสอดคล้องกัน, FR-46 ระบุ deferred, route ยังไม่เข้า OpenAPI และ checks ที่เกี่ยวข้องผ่าน
 
