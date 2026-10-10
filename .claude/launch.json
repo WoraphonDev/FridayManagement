@@ -29,6 +29,16 @@
       ],
       "port": 5001,
       "url": "http://127.0.0.1:5001"
+    },
+    {
+      "name": "app-merge",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "cd ../FridayManagement-merge && NODE_ENV=development DB_PROVIDER=sqlite DATA_DIR=/private/tmp/friday-merge-check LOG_DIR=/private/tmp/friday-merge-check-logs SQLITE_DB_PATH=/private/tmp/friday-merge-check/friday.sqlite PORT=5002 APP_ORIGIN=http://127.0.0.1:5002 COOKIE_SECURE=false npm start"
+      ],
+      "port": 5002,
+      "url": "http://127.0.0.1:5002"
     }
   ]
 }
