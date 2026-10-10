@@ -1,0 +1,31 @@
+# Questions
+
+รูปแบบตาม PROJECT_TEMPLATE 1.0 หมวด 10.1 — ทุกคำถามผูกเลข Ticket, มีทางเลือก A/B และ Recommended
+
+| Q-ID | Ticket | Status | Blocks |
+|---|---|---|---|
+| Q-T-092-1 | T-092 | ANSWERED 2026-10-10: B (internet) | — |
+| Q-T-092-2 | T-092 | ANSWERED 2026-10-10: A (ไม่ทำ MFA ใน v1) | — |
+| Q-T-093-1 | T-093 | ANSWERED 2026-10-10: A (มีอยู่แล้ว) | — |
+| Q-T-094-1 | T-094 | ANSWERED 2026-10-10: ระบบทดสอบอัตโนมัติ | — |
+
+## Q-T-092-1 — Production exposure และ encryption at rest
+**คำตอบ (owner 2026-10-10):** B — เปิดให้เข้าจาก internet ผ่าน reverse proxy + HTTPS/HSTS; encryption at rest ใช้ BitLocker (ค่าเริ่มต้นตาม A ยังใช้กับ disk) จนกว่าจะมีคำสั่งอื่น
+ระบบ production จะเปิดเฉพาะ internal network หรือเข้าจาก internet ได้ และ data/backup เข้ารหัสที่ระดับใด?
+- **A (Recommended):** Internal network/VPN เท่านั้น; ใช้ BitLocker ของ Windows ที่องค์กรมีกับ data + backup disk — ลด attack surface, ไม่มีค่าใช้จ่ายเพิ่ม
+- **B:** เปิด internet ผ่าน reverse proxy + HSTS; ต้องเพิ่ม pentest scope ภายนอกและ WAF/rate limit ระดับ proxy
+
+## Q-T-092-2 — MFA ใน v1
+**คำตอบ (owner 2026-10-10):** A — ไม่ทำ MFA ใน v1; risk ยอมรับโดย owner แม้ระบบเปิด internet (ดู docs/07-security.md §3)
+- **A (Recommended):** ไม่ทำใน v1 (N/A พร้อมเหตุผล: internal, 30 คน, Baseline 1.1 ไม่มี) แต่บังคับ password policy + rate limit; ทบทวนถ้าเลือก Q-T-092-1 B
+- **B:** เพิ่ม TOTP สำหรับ Admin — เป็น change request เปลี่ยน requirement/contract/migration
+
+## Q-T-093-1 — CSV export formula injection
+**คำตอบ (owner 2026-10-10):** A — ตรวจพบว่า implement แล้วที่ `src/services/reports.ts` `csvCell` และมี test ใน `tests/notifications/center-reports-suite.ts`; `npm run test:notifications` 23/23 PASS (SQLite local, 2026-10-10); ไม่ต้องเปิด ticket ใหม่
+- **A (Recommended):** prefix `'` ให้ cell ที่ขึ้นต้นด้วย `= + - @ \t \r` ใน CSV export และเพิ่ม test — แก้เล็ก, ปลอดภัยเมื่อเปิดใน Excel
+- **B:** ไม่ escape (คงข้อมูลดิบ) และระบุ risk acceptance ในคู่มือผู้ใช้
+
+## Q-T-094-1 — ผู้ทำ Pen-Test
+**คำตอบ (owner 2026-10-10):** ให้ระบบทดสอบ — automated pentest ด้วยเครื่องมือ (ZAP/Trivy/Gitleaks) + scripted negative tests ที่ Agent รันบน staging; independent human review บันทึกเป็น outstanding
+- **A (Recommended):** Self-test ตามแผนโดยผู้ที่ไม่ได้ implement + บันทึกว่า independent review ยังเป็น outstanding
+- **B:** จ้าง/ขอทีม security ภายนอกองค์กรทดสอบ (มีค่าใช้จ่าย/เวลา)

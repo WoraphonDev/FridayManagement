@@ -1869,6 +1869,44 @@
       ],
       "variants": [],
       "closureNote": "Run relevant feature checks now; later regression tasks do not replace evidence required for this task."
+    },
+    {
+      "id": "T-092",
+      "title": "Security Design + Threat model (tickets/T-092-security-design.md)",
+      "dependencies": [],
+      "effort": "Medium",
+      "suites": [],
+      "verification": "Document review (docs/07-security.md)",
+      "acceptance": [],
+      "variants": [],
+      "closureNote": "Run relevant feature checks now; later regression tasks do not replace evidence required for this task."
+    },
+    {
+      "id": "T-093",
+      "title": "OWASP Top 10 verification release 1.0 (tickets/T-093-owasp-verification.md)",
+      "dependencies": [
+        "T-091",
+        "T-092"
+      ],
+      "effort": "High",
+      "suites": [],
+      "verification": "Security scan/manual OWASP A01–A10",
+      "acceptance": [],
+      "variants": [],
+      "closureNote": "Run relevant feature checks now; later regression tasks do not replace evidence required for this task."
+    },
+    {
+      "id": "T-094",
+      "title": "Pen-Test + remediation/retest (tickets/T-094-pentest.md)",
+      "dependencies": [
+        "T-093"
+      ],
+      "effort": "High",
+      "suites": [],
+      "verification": "Pen-Test report/retest",
+      "acceptance": [],
+      "variants": [],
+      "closureNote": "Run relevant feature checks now; later regression tasks do not replace evidence required for this task."
     }
   ],
   "suites": [

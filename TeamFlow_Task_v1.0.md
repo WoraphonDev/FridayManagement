@@ -2,7 +2,7 @@
 
 **Version:** 1.62 · **วันที่:** 8 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
-**จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 85 API routes ที่ล็อก (contract 1.7.0) + planned routes SRS §12.6
+**จำนวน:** 94 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 85 API routes ที่ล็อก (contract 1.7.0) + planned routes SRS §12.6
 **ต้นทาง:** `TeamFlow_Requirements_v1.0.md` และ `TeamFlow_SRS_v1.0.md` รุ่นปัจจุบันที่อ่านเมื่อ 5 ตุลาคม 2026
 
 
@@ -316,6 +316,9 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-089 | Motion system AN-01–AN-12 + reduced-motion + Settings toggle | T-079 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T089_Test_Report.md; reports/T-089-motion-results.json + motion-trace: contract1.7.0 85 routes + migration0010 + preferences HTTP + Chromium motion 1/1 (60fps headless) + Node451 + frontend47 PASS; GPU trace/owner AT-39/SQL2022/UAT NOT_RUN |
 | T-090 | Favorites (Updates feed เลื่อนไปรอบถัดไป) | T-083 | Low | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T090_Test_Report.md; reports/T-090-favorites-results.json: contract1.6.0 83 routes + migration0009 + AT-40 HTTP1/1 + Node450 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
 | T-091 | Regression รวม addendum, SQL Server 2022 native, Windows, UAT | T-079, T-080, T-081, T-082, T-083, T-084, T-085, T-086, T-087, T-088, T-089, T-090 | High | TODO | ยังไม่มอบหมาย | — |
+| T-092 | Security Design + Threat model (tickets/T-092-security-design.md) | — | Medium | TODO | ยังไม่มอบหมาย | docs/07-security.md draft 0.1; Q-T-092-1/2 OPEN; ยังไม่ review |
+| T-093 | OWASP Top 10 verification release 1.0 (tickets/T-093-owasp-verification.md) | T-091, T-092 | High | TODO | ยังไม่มอบหมาย | docs/security/OWASP-1.0.md NOT_RUN |
+| T-094 | Pen-Test + remediation/retest (tickets/T-094-pentest.md) | T-093 | High | TODO | ยังไม่มอบหมาย | docs/security/PENTEST-1.0.md plan only |
 
 ## 5. Phase 00: Baseline และสัญญาการพัฒนา
 
@@ -2129,6 +2132,36 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 **Status:** TODO
 
 **หลักฐานเมื่อปิดงาน:** บันทึกใน Task Register; สำหรับการทดสอบระบุผลและ environment ไม่ใช้คำว่า “ผ่าน” โดยไม่มีการรัน
+
+### T-092 — Security Design + Threat model
+
+**Model:** GPT-6.1 Sol · **Effort:** Medium · **เหตุผล:** เพิ่มตาม PROJECT_TEMPLATE 1.0 หมวด 5 (2026-10-10)
+
+**Depends on:** ไม่มี
+**Trace:** NFR-02 · **SRS:** §4, §6, §9.5, §13
+**รายละเอียด:** `tickets/T-092-security-design.md` · **เอกสาร:** `docs/07-security.md`
+
+**Status:** TODO
+
+### T-093 — OWASP Top 10 verification release 1.0
+
+**Model:** GPT-6.1 Sol · **Effort:** High · **เหตุผล:** เพิ่มตาม PROJECT_TEMPLATE 1.0 หมวด 5 (2026-10-10)
+
+**Depends on:** T-091, T-092
+**Trace:** NFR-02 · **SRS:** §4, §6, §9.5, §13
+**รายละเอียด:** `tickets/T-093-owasp-verification.md` · **เอกสาร:** `docs/security/OWASP-1.0.md`
+
+**Status:** TODO
+
+### T-094 — Pen-Test + remediation/retest
+
+**Model:** GPT-6.1 Sol · **Effort:** High · **เหตุผล:** เพิ่มตาม PROJECT_TEMPLATE 1.0 หมวด 5 (2026-10-10)
+
+**Depends on:** T-093
+**Trace:** NFR-02 · **SRS:** §4, §6, §9.5, §13
+**รายละเอียด:** `tickets/T-094-pentest.md` · **เอกสาร:** `docs/security/PENTEST-1.0.md`
+
+**Status:** TODO
 
 ## 18. Functional Requirements Coverage
 

@@ -91,5 +91,5 @@ test('Candidate requires packaging reviews and does not imply final PASS',()=>{
 });
 test('Readiness honors dependency completion and carries declared effort',()=>{
   const states=new Map(manifest.tasks.map(t=>[t.id,'TODO']));['T-001','T-002','T-003','T-004'].forEach(id=>states.set(id,'DONE'));
-  const ready=taskReadiness(manifest,states).filter(t=>t.readiness==='READY');assert.deepEqual(ready.map(t=>[t.id,t.effort]),[['T-005','Medium'],['T-078','Medium']]);
+  const ready=taskReadiness(manifest,states).filter(t=>t.readiness==='READY');assert.deepEqual(ready.map(t=>[t.id,t.effort]),[['T-005','Medium'],['T-078','Medium'],['T-092','Medium']]);
 });
