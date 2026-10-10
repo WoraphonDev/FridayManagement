@@ -4,7 +4,7 @@ title: "Security Design + Threat model ที่ review แล้ว"
 type: security
 priority: P1
 owner: "ยังไม่มอบหมาย"
-status: draft
+status: done
 parent: null
 children: []
 depends_on: []
@@ -25,8 +25,8 @@ SRS §4, §6, §9.5, §13; `docs/07-security.md`
 ## Tasks
 - [x] ร่าง trust boundary, STRIDE TH-01–TH-15, applicability, verification mapping
 - [x] ปิด Q-T-092-1/2 แล้วปรับ applicability (internet + MFA risk accepted)
-- [ ] ตรวจทุก TH ว่าอ้าง SRS/test ที่มีอยู่จริง
-- [ ] Owner/reviewer review และบันทึกผู้อนุมัติ
+- [x] ตรวจทุก TH ว่าอ้าง SRS/test ที่มีอยู่จริง
+- [x] Owner review และอนุมัติ 2026-10-10
 
 ## Acceptance
 ทุก TH มี control + วิธีตรวจ; ทุก N/A มีเหตุผลและผู้ตัดสิน; ไม่ขัด SRS
@@ -41,4 +41,4 @@ Review เอกสาร; cross-check references กับ SRS และโฟ�
 Q-T-092-1, Q-T-092-2 — ANSWERED 2026-10-10
 
 ## Evidence / Review
-2026-10-10 draft 0.1 สร้างแล้ว — ยังไม่ review
+2026-10-10 draft 0.1 → owner approved 1.0 (2026-10-10); commit fd5d7ef + ปิดงาน

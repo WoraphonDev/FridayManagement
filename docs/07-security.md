@@ -1,7 +1,7 @@
 # TeamFlow — Security Design (Threat Model / Controls / Verification)
 
-**Version:** 0.1 (draft) · **วันที่:** 2026-10-10 · **Ticket:** T-092 · **Standard:** PROJECT_TEMPLATE 1.0 หมวด 5.0–5.5
-**สถานะ:** DRAFT — ยังไม่ผ่าน review; ไม่มีผล scan/pentest ในเอกสารนี้
+**Version:** 1.0 · **วันที่:** 2026-10-10 · **Ticket:** T-092 · **Standard:** PROJECT_TEMPLATE 1.0 หมวด 5.0–5.5
+**สถานะ:** APPROVED โดย owner 2026-10-10 (design เท่านั้น); ไม่มีผล scan/pentest ในเอกสารนี้
 
 แหล่งข้อกำหนดหลัก (ห้ามขัดกัน): SRS §4 Permission Model, §6 Auth, §9.5 Attachments, §13 Security/Ops, §18 RD-01–RD-08; API Contract / `contracts/openapi.json`
 
