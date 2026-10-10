@@ -1,0 +1,65 @@
+{
+ "date": "2026-10-10",
+ "provider": "SQL Server 2022 (test DB)",
+ "dataset": "20 projects, 10,000 tasks, 20,000 comments, 5,000 notifications",
+ "runsPerPath": 10,
+ "accepted": {
+  "project task list + filter": {
+   "Clustered Index Scan tasks.pk_tasks": "ORDER BY id + 20-row page: row-goal ordered PK read, stops early"
+  },
+  "My work": {
+   "Clustered Index Scan tasks.pk_tasks": "assignee spans every visible project; row-goal page and count"
+  },
+  "notifications": {
+   "Clustered Index Scan notifications.pk_notifications": "scope join to visible projects; 5,000 rows",
+   "Index Scan tasks.ix_tasks_project_id_status_deleted_at": "narrow covering index for the scope join"
+  },
+  "report summary": {
+   "Clustered Index Scan tasks.pk_tasks": "aggregates every visible task by design"
+  }
+ },
+ "findings": {
+  "Kanban board": "per-task queries (N+1); p95 close to the 2 s budget"
+ },
+ "paths": {
+  "project task list + filter": {
+   "statements": 3,
+   "p95Ms": 15,
+   "scans": [
+    "Clustered Index Scan tasks.pk_tasks"
+   ]
+  },
+  "My work": {
+   "statements": 103,
+   "p95Ms": 155,
+   "scans": [
+    "Clustered Index Scan tasks.pk_tasks"
+   ]
+  },
+  "Kanban board": {
+   "statements": 3011,
+   "p95Ms": 1959,
+   "scans": []
+  },
+  "notifications": {
+   "statements": 3,
+   "p95Ms": 20,
+   "scans": [
+    "Clustered Index Scan notifications.pk_notifications",
+    "Index Scan tasks.ix_tasks_project_id_status_deleted_at"
+   ]
+  },
+  "report summary": {
+   "statements": 6,
+   "p95Ms": 62,
+   "scans": [
+    "Clustered Index Scan tasks.pk_tasks"
+   ]
+  },
+  "directory search": {
+   "statements": 11,
+   "p95Ms": 29,
+   "scans": []
+  }
+ }
+}
