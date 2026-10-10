@@ -51,6 +51,20 @@ export interface SqlServerConfig {
   lockTimeoutMs: number;
   backupDirectory: string;
 }
+/** PostgreSQL (owner decision 2026-10-11) reuses the DB_* keys; TLS is optional on a private network. */
+export interface PostgresConfig {
+  provider: 'postgres';
+  server: string;
+  port: number;
+  name: string;
+  user: string;
+  password: string;
+  encrypt: boolean;
+  trustServerCertificate: boolean;
+  poolMax: number;
+  requestTimeoutMs: number;
+  lockTimeoutMs: number;
+}
 export interface AppConfig {
   mode: 'development' | 'test' | 'production';
   host: string;
@@ -60,7 +74,7 @@ export interface AppConfig {
   dataDirectory: string;
   logDirectory: string;
   trustedProxies: string[];
-  database: { provider: 'sqlite'; path: string } | SqlServerConfig;
+  database: { provider: 'sqlite'; path: string } | SqlServerConfig | PostgresConfig;
   maxFileBytes: number;
   totalUploadBytes: number;
   sessionAbsoluteMinutes: number;
@@ -139,6 +153,26 @@ export function parseConfiguration(env: NodeJS.ProcessEnv): AppConfig {
   if (provider === 'sqlite') {
     if (mode === 'production') invalid('DB_PROVIDER');
     database = { provider: 'sqlite', path: absolute('SQLITE_DB_PATH') };
+  } else if (provider === 'postgres') {
+    const server = text('DB_SERVER', true);
+    if (!isIP(server) && !/^[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?$/.test(server))
+      invalid('DB_SERVER');
+    const requestTimeoutMs = integer('DB_REQUEST_TIMEOUT_MS', 15000, 1, 2147483647);
+    const lockTimeoutMs = integer('DB_LOCK_TIMEOUT_MS', 5000, 1, 2147483647);
+    if (lockTimeoutMs >= requestTimeoutMs) invalid('DB_LOCK_TIMEOUT_MS');
+    database = {
+      provider: 'postgres',
+      server,
+      port: integer('DB_PORT', 5432, 1, 65535),
+      name: text('DB_NAME', true),
+      user: text('DB_USER', true),
+      password: text('DB_PASSWORD', true),
+      encrypt: bool('DB_ENCRYPT', false),
+      trustServerCertificate: bool('DB_TRUST_SERVER_CERTIFICATE', false),
+      poolMax: integer('DB_POOL_MAX', 10, 1, 100),
+      requestTimeoutMs,
+      lockTimeoutMs,
+    };
   } else {
     if (provider !== 'sqlserver') invalid('DB_PROVIDER');
     const server = text('DB_SERVER', true),

@@ -36,7 +36,7 @@ interface Ledger {
 }
 interface Manifest {
   format: 1;
-  provider: 'sqlite' | 'sqlserver';
+  provider: 'sqlite' | 'sqlserver' | 'postgres';
   appVersion: string;
   createdAt: string;
   schema: Ledger[];
@@ -159,6 +159,26 @@ export async function createSnapshot(
       } finally {
         source.close();
       }
+    } else if (config.database.provider === 'postgres') {
+      // pg_dump (custom format) from the app host; credentials go only through the environment.
+      const d = config.database;
+      await promisify(execFile)(
+        'pg_dump',
+        [
+          '--format=custom',
+          '--no-owner',
+          '--no-privileges',
+          `--file=${join(stage, dbName)}`,
+          `--host=${d.server}`,
+          `--port=${d.port}`,
+          `--username=${d.user}`,
+          d.name,
+        ],
+        {
+          env: { ...process.env, PGPASSWORD: d.password, PGSSLMODE: d.encrypt ? 'require' : 'disable' },
+          maxBuffer: 1024 * 1024,
+        },
+      );
     } else {
       // The app and SQL service must both access this configured backup directory.
       if (!isAbsolute(config.database.backupDirectory)) throw new Error('SQL_BACKUP_PATH_REQUIRED');

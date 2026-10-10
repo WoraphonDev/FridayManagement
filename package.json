@@ -57,7 +57,9 @@
     "test:performance-policy": "node --import tsx --test tests/performance/*.test.ts",
     "performance:memory": "node scripts/check-runtime.mjs && node --expose-gc --import tsx scripts/performance.ts",
     "check:sqlserver": "node scripts/check-runtime.mjs && node --import tsx scripts/check-sqlserver.ts",
-    "test:sqlserver:foundation": "npm run check:sqlserver && node --import tsx --test --test-concurrency=1 tests/sqlserver/config.test.ts tests/sqlserver/schema.test.ts tests/sqlserver/foundation.test.ts"
+    "test:sqlserver:foundation": "npm run check:sqlserver && node --import tsx --test --test-concurrency=1 tests/sqlserver/config.test.ts tests/sqlserver/schema.test.ts tests/sqlserver/foundation.test.ts",
+    "test:postgres": "node --import tsx --test --test-concurrency=1 tests/postgres/*.test.ts",
+    "migrate:postgres": "node --import tsx scripts/migrate.ts postgres"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
@@ -84,12 +86,14 @@
     "@dnd-kit/sortable": "10.0.0",
     "@dnd-kit/utilities": "3.2.2",
     "@fontsource/nunito": "5.3.0",
+    "@types/pg": "8.23.1",
     "@vibe/core": "4.5.34",
     "ajv": "8.20.0",
     "ajv-formats": "3.0.1",
     "busboy": "1.6.0",
     "express": "5.2.1",
     "mssql": "12.7.3",
+    "pg": "8.23.1",
     "react": "19.3.0",
     "react-dom": "19.3.0",
     "react-router-dom": "7.18.4",

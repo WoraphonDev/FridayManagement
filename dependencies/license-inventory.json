@@ -1,5 +1,5 @@
 {
-  "lockfileSha256": "e5fa71d56fe5a04d5c04a27d01fdca0ff76a8a20e99e629de9acb0f5bcf19304",
+  "lockfileSha256": "d9f61444e7ed81aea7516678447f74f63887c0216cd18aff35fb0a44f12f4024",
   "entries": [
     {
       "name": "@azure-rest/core-client",
@@ -642,6 +642,14 @@
       "path": "node_modules/@floating-ui/utils"
     },
     {
+      "name": "@fontsource/nunito",
+      "version": "5.3.0",
+      "license": "OFL-1.1",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/@fontsource/nunito"
+    },
+    {
       "name": "@humanfs/core",
       "version": "0.19.2",
       "license": "Apache-2.0",
@@ -1048,6 +1056,14 @@
       "dev": false,
       "optional": false,
       "path": "node_modules/@types/parse-json"
+    },
+    {
+      "name": "@types/pg",
+      "version": "8.23.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/@types/pg"
     },
     {
       "name": "@types/qs",
@@ -3866,6 +3882,70 @@
       "path": "node_modules/path-type"
     },
     {
+      "name": "pg",
+      "version": "8.23.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/pg"
+    },
+    {
+      "name": "pg-cloudflare",
+      "version": "1.4.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": true,
+      "path": "node_modules/pg-cloudflare"
+    },
+    {
+      "name": "pg-connection-string",
+      "version": "2.14.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/pg-connection-string"
+    },
+    {
+      "name": "pg-int8",
+      "version": "1.0.1",
+      "license": "ISC",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/pg-int8"
+    },
+    {
+      "name": "pg-pool",
+      "version": "3.14.0",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/pg-pool"
+    },
+    {
+      "name": "pg-protocol",
+      "version": "1.16.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/pg-protocol"
+    },
+    {
+      "name": "pg-types",
+      "version": "2.2.0",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/pg-types"
+    },
+    {
+      "name": "pgpass",
+      "version": "1.0.5",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/pgpass"
+    },
+    {
       "name": "picocolors",
       "version": "1.1.1",
       "license": "ISC",
@@ -3952,6 +4032,38 @@
       "dev": false,
       "optional": false,
       "path": "node_modules/postcss-value-parser"
+    },
+    {
+      "name": "postgres-array",
+      "version": "2.0.0",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/postgres-array"
+    },
+    {
+      "name": "postgres-bytea",
+      "version": "1.0.1",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/postgres-bytea"
+    },
+    {
+      "name": "postgres-date",
+      "version": "1.0.7",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/postgres-date"
+    },
+    {
+      "name": "postgres-interval",
+      "version": "1.2.0",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/postgres-interval"
     },
     {
       "name": "prelude-ls",
@@ -4554,6 +4666,14 @@
       "path": "node_modules/spdx-license-ids"
     },
     {
+      "name": "split2",
+      "version": "4.2.0",
+      "license": "ISC",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/split2"
+    },
+    {
       "name": "sprintf-js",
       "version": "1.1.3",
       "license": "BSD-3-Clause",
@@ -4984,6 +5104,14 @@
       "dev": false,
       "optional": false,
       "path": "node_modules/wsl-utils"
+    },
+    {
+      "name": "xtend",
+      "version": "4.0.2",
+      "license": "MIT",
+      "dev": false,
+      "optional": false,
+      "path": "node_modules/xtend"
     },
     {
       "name": "yallist",
