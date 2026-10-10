@@ -1,0 +1,17 @@
+# Permission matrix layout — 9 October 2026
+
+Owner requested permission rows down the left, members across the top, horizontal member scrolling and a frozen permission column. Declared T-082 Medium; actual model/effort NOT_VERIFIED. Trace: FR-43, partial TC-090/AT-33. Requirements/SRS updated to the requested orientation.
+
+Implemented permission rows with code, label and description; sticky left labels and top member headers, including the corner cell. Member columns scroll inside the matrix at desktop and 360px without page overflow. User ID/permission key mapping, self prohibition, filters, bulk preset, review, atomic save and conflict handling retain existing behavior. Select-all now measures only eligible members, excluding self. Header and changed cells retain dirty highlighting. Semantic row/column headers are associated with each permission cell.
+
+Validation: production build, typecheck and focused ESLint PASS; frontend 49/49 PASS. Chromium browser scenario 1/1 PASS with 19 synthetic members: measures fixed permission X during 640px horizontal scroll, member movement, fixed header Y during vertical scroll, 360px page containment, self disabled, select-all/preset/discard, single-member P-08 Save/reload with neighboring member unchanged, and stale version rejection/reload. Desktop/mobile screenshots visually inspected. Evidence: reports/permission-layout/results.json and logs, reports/UI-permissions-vertical-desktop.png and mobile.png.
+
+Actual local port5000 refreshed and visually checked with the existing four members; no grants were changed on the live database. Live screenshot remains outside the repository at /private/tmp/friday-permission-layout/live.png. Backend/API/schema unchanged; no migration/restart required, and the other agent's port43171 was untouched. Existing unrelated edits were preserved. Whole-repository lint still has the previously recorded unrelated unused `b` error; this run's focused lint passed. Full regression was not repeated for this UI-only change.
+
+SQL Server 2022, Windows, full browser/device matrix and UAT NOT_RUN. T-082 remains IN_PROGRESS. Task Register: DONE7/91, remaining84 (IN_PROGRESS82, IN_REVIEW1, TODO1). Next formal acceptance: T-091 High.
+
+## Save / Cancel color follow-up — 9 October 2026
+
+Owner requested recognizable Save/Cancel buttons. Review & Save and final Save now use the existing primary blue; Cancel changes and new confirmation Cancel use neutral gray. Cancel closes the review while keeping the draft, with no permission write; Cancel changes discards the unsaved draft. Pending state disables the new Cancel control. No auto-save, API, schema or permission change was added.
+
+Current typecheck/build/focused lint PASS. Existing Chromium scenario rerun 1/1 PASS, extended to click Cancel and independently GET the unchanged permission keys before returning to Save. Save/reload, neighboring-user correspondence, bulk/discard, freeze/360px and stale conflict checks still PASS. Two synthetic screenshots inspected: reports/UI-permissions-colored-actions.png and reports/UI-permissions-save-cancel.png. Evidence: reports/permission-layout/colors-results.json and colors-*.log. Previous frontend49 evidence was not rerun for this cosmetic follow-up. Actual local page refreshed and the new labels/colors checked without changing grants; screenshot /private/tmp/friday-permission-layout/colors-live.png remains outside the repository. Declared T-082 Medium; actual settings NOT_VERIFIED. Counts and formal acceptance remain unchanged as above.

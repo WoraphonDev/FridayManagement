@@ -1,0 +1,98 @@
+{
+  "date": "2026-10-09",
+  "scope": "Project detail and shared subforms visual follow-up",
+  "declared_effort": {
+    "T-024": "Medium",
+    "T-084": "Medium",
+    "T-088": "Medium",
+    "T-089": "Medium",
+    "shared_calendar_gantt_T-046": "High"
+  },
+  "actual_model_effort": "NOT_VERIFIED",
+  "environment": {
+    "node": "22.23.3",
+    "provider": "temporary synthetic SQLite",
+    "browser": "Chromium",
+    "test_port": 43239,
+    "claude_port_43171": "untouched"
+  },
+  "checks": {
+    "build": "PASS",
+    "typecheck": "PASS",
+    "focused_eslint": "PASS",
+    "frontend": {
+      "status": "PASS",
+      "passed": 49,
+      "total": 49
+    },
+    "final_browser": {
+      "status": "PASS",
+      "passed": 8,
+      "total": 8
+    },
+    "final_drawer_screenshot": {
+      "status": "PASS",
+      "passed": 1,
+      "total": 1
+    },
+    "test_plan_inventory": "PASS",
+    "test_plan_policy": {
+      "status": "PASS",
+      "passed": 17,
+      "total": 17
+    },
+    "git_diff_check": "PASS"
+  },
+  "trace": [
+    "FR-09",
+    "FR-10",
+    "FR-11",
+    "FR-19",
+    "FR-25",
+    "FR-48",
+    "FR-49",
+    "FR-50",
+    "FR-51",
+    "NFR-09",
+    "TC-016",
+    "TC-017",
+    "TC-018",
+    "TC-049",
+    "TC-093",
+    "TC-094",
+    "TC-095",
+    "TC-098"
+  ],
+  "screenshots": [
+    "UI-project-board-colorful-desktop.png",
+    "UI-project-board-colorful-mobile.png",
+    "UI-project-task-editor-desktop.png",
+    "UI-project-task-editor-mobile.png",
+    "UI-project-docs-colorful-desktop.png"
+  ],
+  "live_check": {
+    "origin": "http://127.0.0.1:5000",
+    "writes": false,
+    "private_screenshots_directory": "/private/tmp/friday-project-style-ui"
+  },
+  "not_run": [
+    "native SQL Server2022",
+    "Windows",
+    "owner UAT",
+    "full browser/device matrix",
+    "full backend/provider acceptance"
+  ],
+  "register": {
+    "done": 7,
+    "total": 91,
+    "in_progress": 82,
+    "in_review": 1,
+    "todo": 1,
+    "remaining": 84
+  },
+  "formal_status_changes": false,
+  "next_formal_task": {
+    "id": "T-091",
+    "effort": "High"
+  }
+}

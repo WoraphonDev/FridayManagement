@@ -382,6 +382,7 @@ export function App() {
       });
     return () => controller.abort();
   }, [orgSession, online, self?.view_revision]);
+  // Query changes select tabs/filters within the same page; keep the page stationary.
   useEffect(() => {
     if (!motionAllowed()) return;
     const page = document.querySelector('.content > section');
@@ -393,7 +394,7 @@ export function App() {
       { duration: 220, easing: 'cubic-bezier(.2,.7,.2,1)' },
     );
     return () => motion?.cancel();
-  }, [location.pathname, location.search]);
+  }, [location.pathname]);
   const navigate = useNavigate();
   // FR-53 deep link /projects/{id}/tasks/{taskId}: the task GET still enforces access.
   const deepLink = /^\/projects\/([1-9][0-9]{0,9})\/tasks\/([1-9][0-9]{0,9})$/.exec(
@@ -436,7 +437,6 @@ export function App() {
         <NavLink to="/">
           <Brand />
         </NavLink>
-        {self && organizationName && <span className="top-title">{organizationName}</span>}
         <div className="topbar-actions">
           {self && (
             <button className="icon-button" aria-label="Help" onClick={() => setHelp(true)}>
@@ -794,6 +794,11 @@ export function App() {
           </div>
           {(!self || setupRequired) && <AuthArtwork />}
         </section>
+        {self && !setupRequired && (
+          <footer className="app-footer">
+            © {new Date().getFullYear()} Blackbox Solution Co.,Ltd. All rights reserved.
+          </footer>
+        )}
       </main>
       {help && (
         <Dialog title="Workspace help" onClose={() => setHelp(false)}>

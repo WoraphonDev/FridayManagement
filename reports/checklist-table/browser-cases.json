@@ -1,0 +1,57 @@
+[
+  {
+    "file": "checklist-table.spec.ts",
+    "title": "TC-027 Checklist table: inline add/assignment, edit/cancel, persisted completion and mobile actions",
+    "status": "passed"
+  },
+  {
+    "file": "checklist-table.spec.ts",
+    "title": "Checklist autosave retains failed drafts, ignores blank adds, retries once and saves on keyboard exit",
+    "status": "passed"
+  },
+  {
+    "file": "side-panel.spec.ts",
+    "title": "Side panel: Updates/Files/Activity/Details, @mention only project members, Esc layering, focus trap, deep link, mobile",
+    "status": "passed"
+  },
+  {
+    "file": "task-editor-tabs-visual.spec.ts",
+    "title": "Task sub-tabs: empty/populated panels, compact checkboxes, drafts, cancel and mobile",
+    "status": "passed"
+  },
+  {
+    "file": "tasks.spec.ts",
+    "title": "T032/033 actual all task fields/checklist/closed guard/monthly successor/delete/restore via UI",
+    "status": "passed"
+  },
+  {
+    "file": "tasks.spec.ts",
+    "title": "T032 actual 409 draft review, unsaved close/route cancellation, offline and mobile keyboard",
+    "status": "passed"
+  },
+  {
+    "file": "tasks.spec.ts",
+    "title": "T032 Viewer detail and archived Admin are read-only; managed archived delete/restore through UI",
+    "status": "passed"
+  },
+  {
+    "file": "vibe-integration.spec.ts",
+    "title": "Owner Vibe: real groups, multiple assignees, independent checklist, centered status, CSP and Kanban",
+    "status": "passed"
+  },
+  {
+    "file": "vibe-integration.spec.ts",
+    "title": "Owner Vibe: compact mobile menu and reduced-motion drawer",
+    "status": "passed"
+  },
+  {
+    "file": "vibe-integration.spec.ts",
+    "title": "Approved design geometry, sidebar deep links, group editing and fixed create footer",
+    "status": "passed"
+  },
+  {
+    "file": "vibe-integration.spec.ts",
+    "title": "Approved Login: larger logo, eye inside password, install panel, motion and real authentication",
+    "status": "passed"
+  }
+]

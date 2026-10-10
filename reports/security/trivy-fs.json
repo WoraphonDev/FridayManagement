@@ -1,0 +1,712 @@
+{
+  "SchemaVersion": 2,
+  "CreatedAt": "2026-10-10T10:07:30.524726627Z",
+  "ArtifactName": "/repo",
+  "ArtifactType": "filesystem",
+  "Metadata": {
+    "ImageConfig": {
+      "architecture": "",
+      "created": "0001-01-01T00:00:00Z",
+      "os": "",
+      "rootfs": {
+        "type": "",
+        "diff_ids": null
+      },
+      "config": {}
+    }
+  },
+  "Results": [
+    {
+      "Target": ".claude/worktrees/nostalgic-swanson-b1bc9d/design-preview/vibe/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2026-93687",
+          "PkgID": "braces@3.0.3",
+          "PkgName": "braces",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/braces@3.0.3",
+            "UID": "fbfb1e3a8c6b7d98"
+          },
+          "InstalledVersion": "3.0.3",
+          "Status": "affected",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-93687",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "braces: braces: Denial of Service via Stack Overflow from Deeply Nested Patterns",
+          "Description": "braces through 3.0.3 contains a stack overflow vulnerability in the recursive AST walkers that lack depth guards. Attackers can supply deeply nested brace patterns under the character limit to exhaust the call stack and terminate the Node.js process with an uncaught RangeError.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-674"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+              "V3Score": 7.5,
+              "V40Score": 8.7
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-93687",
+            "https://github.com/micromatch/braces",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/compile.js#L49-L53",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/expand.js#L102-L105",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/parse.js#L38-L40",
+            "https://github.com/micromatch/braces/issues/70",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-93687",
+            "https://www.cve.org/CVERecord?id=CVE-2026-93687",
+            "https://www.vulncheck.com/advisories/braces-through-3.0.3-stack-overflow-via-deeply-nested-patterns"
+          ],
+          "PublishedDate": "2026-09-18T16:17:15.507Z",
+          "LastModifiedDate": "2026-09-22T20:25:55.87Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-45623",
+          "PkgID": "postcss@8.4.31",
+          "PkgName": "postcss",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/postcss@8.4.31",
+            "UID": "f44fa09bcb0f64c1"
+          },
+          "InstalledVersion": "8.4.31",
+          "FixedVersion": "8.5.12",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-45623",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "postcss: PostCSS: Information disclosure and denial of service via crafted CSS input",
+          "Description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. In versions 8.5.11 and prior, the PreviousMap parses the /*# sourceMappingURL=PATH */ comment from any CSS string passed to process() and dereferences PATH against the local filesystem with no scheme, allowlist, or traversal check. An attacker who controls the CSS input can cause the host process to read any file readable by Node and leak the first ~10 bytes of its content through the resulting JSON.parse SyntaxError message. The bug also yields a precise file-existence oracle and a controllable-read primitive that may be combined with large-file targets for DoS. The behaviour is triggered with PostCSS's default options — no from, no map, no plugins required — and is therefore reachable from any pipeline that runs untrusted CSS through PostCSS (CMS themes, user-uploaded styles, browser-extension/userstyle processors, build pipelines for third-party packages, blog comment renderers, etc.). This issue has been fixed in version 8.5.12.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22",
+            "CWE-200"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "nvd": 4,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+              "V3Score": 9.1
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-45623",
+            "https://advisory.echohq.com/cve/CVE-2026-45623",
+            "https://github.com/advisories/GHSA-6g55-p6wh-862q",
+            "https://github.com/postcss/postcss",
+            "https://github.com/postcss/postcss/commit/aaec7b78b3ce2792585b4b300ef1bd5dd5b3e8ad",
+            "https://github.com/postcss/postcss/commit/c64b7488d2731dfa16213739b42c34faf5a9eba3",
+            "https://github.com/postcss/postcss/releases/tag/8.5.12",
+            "https://github.com/postcss/postcss/security/advisories/GHSA-6g55-p6wh-862q",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-45623",
+            "https://www.cve.org/CVERecord?id=CVE-2026-45623"
+          ],
+          "PublishedDate": "2026-07-27T18:16:55.13Z",
+          "LastModifiedDate": "2026-08-07T00:13:41.957Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-73646",
+          "PkgID": "postcss@8.4.31",
+          "PkgName": "postcss",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/postcss@8.4.31",
+            "UID": "f44fa09bcb0f64c1"
+          },
+          "InstalledVersion": "8.4.31",
+          "FixedVersion": "8.5.18",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-73646",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "postcss: PostCSS: Information disclosure via path traversal in source map auto-loading",
+          "Description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. Prior to 8.5.18, lib/previous-map.js loadMap() passes attacker-controlled sourceMappingURL values to join(dirname(opts.from), annotation), and loadFile() permits traversed or absolute .map paths, allowing untrusted CSS processed without map: false to disclose sourcesContent from arbitrary reachable .map files through result.map. This issue is fixed in version 8.5.18.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-73646",
+            "https://advisory.echohq.com/cve/CVE-2026-73646",
+            "https://github.com/postcss/postcss",
+            "https://github.com/postcss/postcss/commit/95663d3eb7ba26f4854dd19d3b4f4425760cf56c",
+            "https://github.com/postcss/postcss/releases/tag/8.5.18",
+            "https://github.com/postcss/postcss/security/advisories/GHSA-r28c-9q8g-f849",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-73646",
+            "https://www.cve.org/CVERecord?id=CVE-2026-73646"
+          ],
+          "PublishedDate": "2026-08-17T16:17:47.257Z",
+          "LastModifiedDate": "2026-09-18T20:05:53.723Z"
+        }
+      ]
+    },
+    {
+      "Target": ".claude/worktrees/nostalgic-swanson-b1bc9d/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2026-93687",
+          "PkgID": "braces@3.0.3",
+          "PkgName": "braces",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/braces@3.0.3",
+            "UID": "84c83dc4f56286b4"
+          },
+          "InstalledVersion": "3.0.3",
+          "Status": "affected",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-93687",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "braces: braces: Denial of Service via Stack Overflow from Deeply Nested Patterns",
+          "Description": "braces through 3.0.3 contains a stack overflow vulnerability in the recursive AST walkers that lack depth guards. Attackers can supply deeply nested brace patterns under the character limit to exhaust the call stack and terminate the Node.js process with an uncaught RangeError.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-674"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+              "V3Score": 7.5,
+              "V40Score": 8.7
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-93687",
+            "https://github.com/micromatch/braces",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/compile.js#L49-L53",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/expand.js#L102-L105",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/parse.js#L38-L40",
+            "https://github.com/micromatch/braces/issues/70",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-93687",
+            "https://www.cve.org/CVERecord?id=CVE-2026-93687",
+            "https://www.vulncheck.com/advisories/braces-through-3.0.3-stack-overflow-via-deeply-nested-patterns"
+          ],
+          "PublishedDate": "2026-09-18T16:17:15.507Z",
+          "LastModifiedDate": "2026-09-22T20:25:55.87Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-45623",
+          "PkgID": "postcss@8.4.31",
+          "PkgName": "postcss",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/postcss@8.4.31",
+            "UID": "4349fa19ca93e1"
+          },
+          "InstalledVersion": "8.4.31",
+          "FixedVersion": "8.5.12",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-45623",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "postcss: PostCSS: Information disclosure and denial of service via crafted CSS input",
+          "Description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. In versions 8.5.11 and prior, the PreviousMap parses the /*# sourceMappingURL=PATH */ comment from any CSS string passed to process() and dereferences PATH against the local filesystem with no scheme, allowlist, or traversal check. An attacker who controls the CSS input can cause the host process to read any file readable by Node and leak the first ~10 bytes of its content through the resulting JSON.parse SyntaxError message. The bug also yields a precise file-existence oracle and a controllable-read primitive that may be combined with large-file targets for DoS. The behaviour is triggered with PostCSS's default options — no from, no map, no plugins required — and is therefore reachable from any pipeline that runs untrusted CSS through PostCSS (CMS themes, user-uploaded styles, browser-extension/userstyle processors, build pipelines for third-party packages, blog comment renderers, etc.). This issue has been fixed in version 8.5.12.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22",
+            "CWE-200"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "nvd": 4,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+              "V3Score": 9.1
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-45623",
+            "https://advisory.echohq.com/cve/CVE-2026-45623",
+            "https://github.com/advisories/GHSA-6g55-p6wh-862q",
+            "https://github.com/postcss/postcss",
+            "https://github.com/postcss/postcss/commit/aaec7b78b3ce2792585b4b300ef1bd5dd5b3e8ad",
+            "https://github.com/postcss/postcss/commit/c64b7488d2731dfa16213739b42c34faf5a9eba3",
+            "https://github.com/postcss/postcss/releases/tag/8.5.12",
+            "https://github.com/postcss/postcss/security/advisories/GHSA-6g55-p6wh-862q",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-45623",
+            "https://www.cve.org/CVERecord?id=CVE-2026-45623"
+          ],
+          "PublishedDate": "2026-07-27T18:16:55.13Z",
+          "LastModifiedDate": "2026-08-07T00:13:41.957Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-73646",
+          "PkgID": "postcss@8.4.31",
+          "PkgName": "postcss",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/postcss@8.4.31",
+            "UID": "4349fa19ca93e1"
+          },
+          "InstalledVersion": "8.4.31",
+          "FixedVersion": "8.5.18",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-73646",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "postcss: PostCSS: Information disclosure via path traversal in source map auto-loading",
+          "Description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. Prior to 8.5.18, lib/previous-map.js loadMap() passes attacker-controlled sourceMappingURL values to join(dirname(opts.from), annotation), and loadFile() permits traversed or absolute .map paths, allowing untrusted CSS processed without map: false to disclose sourcesContent from arbitrary reachable .map files through result.map. This issue is fixed in version 8.5.18.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-73646",
+            "https://advisory.echohq.com/cve/CVE-2026-73646",
+            "https://github.com/postcss/postcss",
+            "https://github.com/postcss/postcss/commit/95663d3eb7ba26f4854dd19d3b4f4425760cf56c",
+            "https://github.com/postcss/postcss/releases/tag/8.5.18",
+            "https://github.com/postcss/postcss/security/advisories/GHSA-r28c-9q8g-f849",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-73646",
+            "https://www.cve.org/CVERecord?id=CVE-2026-73646"
+          ],
+          "PublishedDate": "2026-08-17T16:17:47.257Z",
+          "LastModifiedDate": "2026-09-18T20:05:53.723Z"
+        }
+      ]
+    },
+    {
+      "Target": "design-preview/vibe/package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2026-93687",
+          "PkgID": "braces@3.0.3",
+          "PkgName": "braces",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/braces@3.0.3",
+            "UID": "718e7dd25a82c6e9"
+          },
+          "InstalledVersion": "3.0.3",
+          "Status": "affected",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-93687",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "braces: braces: Denial of Service via Stack Overflow from Deeply Nested Patterns",
+          "Description": "braces through 3.0.3 contains a stack overflow vulnerability in the recursive AST walkers that lack depth guards. Attackers can supply deeply nested brace patterns under the character limit to exhaust the call stack and terminate the Node.js process with an uncaught RangeError.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-674"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+              "V3Score": 7.5,
+              "V40Score": 8.7
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-93687",
+            "https://github.com/micromatch/braces",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/compile.js#L49-L53",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/expand.js#L102-L105",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/parse.js#L38-L40",
+            "https://github.com/micromatch/braces/issues/70",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-93687",
+            "https://www.cve.org/CVERecord?id=CVE-2026-93687",
+            "https://www.vulncheck.com/advisories/braces-through-3.0.3-stack-overflow-via-deeply-nested-patterns"
+          ],
+          "PublishedDate": "2026-09-18T16:17:15.507Z",
+          "LastModifiedDate": "2026-09-22T20:25:55.87Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-45623",
+          "PkgID": "postcss@8.4.31",
+          "PkgName": "postcss",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/postcss@8.4.31",
+            "UID": "21ae798ef2fbc018"
+          },
+          "InstalledVersion": "8.4.31",
+          "FixedVersion": "8.5.12",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-45623",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "postcss: PostCSS: Information disclosure and denial of service via crafted CSS input",
+          "Description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. In versions 8.5.11 and prior, the PreviousMap parses the /*# sourceMappingURL=PATH */ comment from any CSS string passed to process() and dereferences PATH against the local filesystem with no scheme, allowlist, or traversal check. An attacker who controls the CSS input can cause the host process to read any file readable by Node and leak the first ~10 bytes of its content through the resulting JSON.parse SyntaxError message. The bug also yields a precise file-existence oracle and a controllable-read primitive that may be combined with large-file targets for DoS. The behaviour is triggered with PostCSS's default options — no from, no map, no plugins required — and is therefore reachable from any pipeline that runs untrusted CSS through PostCSS (CMS themes, user-uploaded styles, browser-extension/userstyle processors, build pipelines for third-party packages, blog comment renderers, etc.). This issue has been fixed in version 8.5.12.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22",
+            "CWE-200"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "nvd": 4,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+              "V3Score": 9.1
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-45623",
+            "https://advisory.echohq.com/cve/CVE-2026-45623",
+            "https://github.com/advisories/GHSA-6g55-p6wh-862q",
+            "https://github.com/postcss/postcss",
+            "https://github.com/postcss/postcss/commit/aaec7b78b3ce2792585b4b300ef1bd5dd5b3e8ad",
+            "https://github.com/postcss/postcss/commit/c64b7488d2731dfa16213739b42c34faf5a9eba3",
+            "https://github.com/postcss/postcss/releases/tag/8.5.12",
+            "https://github.com/postcss/postcss/security/advisories/GHSA-6g55-p6wh-862q",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-45623",
+            "https://www.cve.org/CVERecord?id=CVE-2026-45623"
+          ],
+          "PublishedDate": "2026-07-27T18:16:55.13Z",
+          "LastModifiedDate": "2026-08-07T00:13:41.957Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-73646",
+          "PkgID": "postcss@8.4.31",
+          "PkgName": "postcss",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/postcss@8.4.31",
+            "UID": "21ae798ef2fbc018"
+          },
+          "InstalledVersion": "8.4.31",
+          "FixedVersion": "8.5.18",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-73646",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "postcss: PostCSS: Information disclosure via path traversal in source map auto-loading",
+          "Description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. Prior to 8.5.18, lib/previous-map.js loadMap() passes attacker-controlled sourceMappingURL values to join(dirname(opts.from), annotation), and loadFile() permits traversed or absolute .map paths, allowing untrusted CSS processed without map: false to disclose sourcesContent from arbitrary reachable .map files through result.map. This issue is fixed in version 8.5.18.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-73646",
+            "https://advisory.echohq.com/cve/CVE-2026-73646",
+            "https://github.com/postcss/postcss",
+            "https://github.com/postcss/postcss/commit/95663d3eb7ba26f4854dd19d3b4f4425760cf56c",
+            "https://github.com/postcss/postcss/releases/tag/8.5.18",
+            "https://github.com/postcss/postcss/security/advisories/GHSA-r28c-9q8g-f849",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-73646",
+            "https://www.cve.org/CVERecord?id=CVE-2026-73646"
+          ],
+          "PublishedDate": "2026-08-17T16:17:47.257Z",
+          "LastModifiedDate": "2026-09-18T20:05:53.723Z"
+        }
+      ]
+    },
+    {
+      "Target": "package-lock.json",
+      "Class": "lang-pkgs",
+      "Type": "npm",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2026-93687",
+          "PkgID": "braces@3.0.3",
+          "PkgName": "braces",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/braces@3.0.3",
+            "UID": "d4a7b733d5dff02d"
+          },
+          "InstalledVersion": "3.0.3",
+          "Status": "affected",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-93687",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "braces: braces: Denial of Service via Stack Overflow from Deeply Nested Patterns",
+          "Description": "braces through 3.0.3 contains a stack overflow vulnerability in the recursive AST walkers that lack depth guards. Attackers can supply deeply nested brace patterns under the character limit to exhaust the call stack and terminate the Node.js process with an uncaught RangeError.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-674"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V40Vector": "CVSS:4.0/AV:N/AC:L/AT:N/PR:N/UI:N/VC:N/VI:N/VA:H/SC:N/SI:N/SA:N",
+              "V3Score": 7.5,
+              "V40Score": 8.7
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-93687",
+            "https://github.com/micromatch/braces",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/compile.js#L49-L53",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/expand.js#L102-L105",
+            "https://github.com/micromatch/braces/blob/3.0.3/lib/parse.js#L38-L40",
+            "https://github.com/micromatch/braces/issues/70",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-93687",
+            "https://www.cve.org/CVERecord?id=CVE-2026-93687",
+            "https://www.vulncheck.com/advisories/braces-through-3.0.3-stack-overflow-via-deeply-nested-patterns"
+          ],
+          "PublishedDate": "2026-09-18T16:17:15.507Z",
+          "LastModifiedDate": "2026-09-22T20:25:55.87Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-45623",
+          "PkgID": "postcss@8.4.31",
+          "PkgName": "postcss",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/postcss@8.4.31",
+            "UID": "b10fb53721c6fde"
+          },
+          "InstalledVersion": "8.4.31",
+          "FixedVersion": "8.5.12",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-45623",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "postcss: PostCSS: Information disclosure and denial of service via crafted CSS input",
+          "Description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. In versions 8.5.11 and prior, the PreviousMap parses the /*# sourceMappingURL=PATH */ comment from any CSS string passed to process() and dereferences PATH against the local filesystem with no scheme, allowlist, or traversal check. An attacker who controls the CSS input can cause the host process to read any file readable by Node and leak the first ~10 bytes of its content through the resulting JSON.parse SyntaxError message. The bug also yields a precise file-existence oracle and a controllable-read primitive that may be combined with large-file targets for DoS. The behaviour is triggered with PostCSS's default options — no from, no map, no plugins required — and is therefore reachable from any pipeline that runs untrusted CSS through PostCSS (CMS themes, user-uploaded styles, browser-extension/userstyle processors, build pipelines for third-party packages, blog comment renderers, etc.). This issue has been fixed in version 8.5.12.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22",
+            "CWE-200"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "nvd": 4,
+            "redhat": 2
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "nvd": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:H",
+              "V3Score": 9.1
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-45623",
+            "https://advisory.echohq.com/cve/CVE-2026-45623",
+            "https://github.com/advisories/GHSA-6g55-p6wh-862q",
+            "https://github.com/postcss/postcss",
+            "https://github.com/postcss/postcss/commit/aaec7b78b3ce2792585b4b300ef1bd5dd5b3e8ad",
+            "https://github.com/postcss/postcss/commit/c64b7488d2731dfa16213739b42c34faf5a9eba3",
+            "https://github.com/postcss/postcss/releases/tag/8.5.12",
+            "https://github.com/postcss/postcss/security/advisories/GHSA-6g55-p6wh-862q",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-45623",
+            "https://www.cve.org/CVERecord?id=CVE-2026-45623"
+          ],
+          "PublishedDate": "2026-07-27T18:16:55.13Z",
+          "LastModifiedDate": "2026-08-07T00:13:41.957Z"
+        },
+        {
+          "VulnerabilityID": "CVE-2026-73646",
+          "PkgID": "postcss@8.4.31",
+          "PkgName": "postcss",
+          "PkgIdentifier": {
+            "PURL": "pkg:npm/postcss@8.4.31",
+            "UID": "b10fb53721c6fde"
+          },
+          "InstalledVersion": "8.4.31",
+          "FixedVersion": "8.5.18",
+          "Status": "fixed",
+          "Layer": {},
+          "SeveritySource": "ghsa",
+          "PrimaryURL": "https://avd.aquasec.com/nvd/cve-2026-73646",
+          "DataSource": {
+            "ID": "ghsa",
+            "Name": "GitHub Security Advisory npm",
+            "URL": "https://github.com/advisories?query=type%3Areviewed+ecosystem%3Anpm"
+          },
+          "Title": "postcss: PostCSS: Information disclosure via path traversal in source map auto-loading",
+          "Description": "PostCSS takes a CSS file and provides an API to analyze and modify its rules by transforming the rules into an Abstract Syntax Tree. Prior to 8.5.18, lib/previous-map.js loadMap() passes attacker-controlled sourceMappingURL values to join(dirname(opts.from), annotation), and loadFile() permits traversed or absolute .map paths, allowing untrusted CSS processed without map: false to disclose sourcesContent from arbitrary reachable .map files through result.map. This issue is fixed in version 8.5.18.",
+          "Severity": "HIGH",
+          "CweIDs": [
+            "CWE-22"
+          ],
+          "VendorSeverity": {
+            "ghsa": 3,
+            "redhat": 3
+          },
+          "CVSS": {
+            "ghsa": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            },
+            "redhat": {
+              "V3Vector": "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:N/A:N",
+              "V3Score": 7.5
+            }
+          },
+          "References": [
+            "https://access.redhat.com/security/cve/CVE-2026-73646",
+            "https://advisory.echohq.com/cve/CVE-2026-73646",
+            "https://github.com/postcss/postcss",
+            "https://github.com/postcss/postcss/commit/95663d3eb7ba26f4854dd19d3b4f4425760cf56c",
+            "https://github.com/postcss/postcss/releases/tag/8.5.18",
+            "https://github.com/postcss/postcss/security/advisories/GHSA-r28c-9q8g-f849",
+            "https://nvd.nist.gov/vuln/detail/CVE-2026-73646",
+            "https://www.cve.org/CVERecord?id=CVE-2026-73646"
+          ],
+          "PublishedDate": "2026-08-17T16:17:47.257Z",
+          "LastModifiedDate": "2026-09-18T20:05:53.723Z"
+        }
+      ]
+    }
+  ]
+}

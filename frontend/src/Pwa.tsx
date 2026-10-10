@@ -4,13 +4,11 @@ import { Brand } from './Brand';
 type InstallEvent = Event & { prompt(): Promise<void>; userChoice: Promise<{ outcome: string }> };
 /**
  * G5: the floating Install control shows only before sign-in; signed-in users install from
- * Settings › Appearance (`mode="settings"`). The update notice stays available everywhere.
+ * Settings › Appearance (`mode="settings"`). Waiting updates apply after all windows close.
  */
 export function Pwa({ mode = 'floating' }: { mode?: 'floating' | 'update-only' | 'settings' }) {
   const [install, setInstall] = useState<InstallEvent>();
-  const [update, setUpdate] = useState(false);
   useEffect(() => {
-    let disposed = false;
     const offer = (event: Event) => {
       event.preventDefault();
       setInstall(event as InstallEvent);
@@ -21,21 +19,11 @@ export function Pwa({ mode = 'floating' }: { mode?: 'floating' | 'update-only' |
     if ('serviceWorker' in navigator && window.isSecureContext && !import.meta.env.DEV) {
       void navigator.serviceWorker
         .register('/service-worker.js', { scope: '/', updateViaCache: 'none' })
-        .then((registration) => {
-          const check = () => {
-            if (!disposed) setUpdate(Boolean(registration.waiting));
-          };
-          check();
-          registration.addEventListener('updatefound', () =>
-            registration.installing?.addEventListener('statechange', check),
-          );
-        })
         .catch(() => {
           /* Browser use remains available without installation. */
         });
     }
     return () => {
-      disposed = true;
       window.removeEventListener('beforeinstallprompt', offer);
       window.removeEventListener('appinstalled', installed);
     };
@@ -83,15 +71,6 @@ export function Pwa({ mode = 'floating' }: { mode?: 'floating' | 'update-only' |
           </summary>
           {panel}
         </details>
-      )}
-      {update && (
-        <div className="pwa-update" role="status">
-          <UiIcon name="spark" />
-          <div>
-            <strong>Update ready</strong>
-            <p>Save your work, close all Friday windows, then reopen to update.</p>
-          </div>
-        </div>
       )}
     </aside>
   );

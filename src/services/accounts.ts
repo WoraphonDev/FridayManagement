@@ -6,6 +6,8 @@ import { utcNow } from '../domain/dates.js';
 import { requireVersion } from '../domain/lifecycle.js';
 import { runTransaction } from '../domain/transaction.js';
 import { sql } from '../repository/access-scope.js';
+import { userTeams } from '../repository/user-teams.js';
+import { workspaceService } from './workspaces.js';
 import { hashPassword, verifyPassword } from '../security/passwords.js';
 import { consumeSetupAttempt } from '../security/rate-limit.js';
 import { ApiFault } from '../api/errors.js';
@@ -18,12 +20,14 @@ import {
 } from './authorization.js';
 import { revokeUserSessions, type sessionService, type SessionOptions } from './sessions.js';
 const columns =
-  'id,username,display_name,org_role,active,must_change_password,version,created_at,updated_at,job_title_id,(SELECT jt.name FROM dbo.job_titles jt WHERE jt.id=users.job_title_id) AS job_title,permissions_version';
+  'id,username,display_name,email,telephone,org_role,active,must_change_password,version,created_at,updated_at,job_title_id,(SELECT jt.name FROM dbo.job_titles jt WHERE jt.id=users.job_title_id) AS job_title,permissions_version';
 const liteColumns = columns.replaceAll('dbo.', '');
 type User = Row & {
   id: number;
   username: string;
   display_name: string;
+  email: string;
+  telephone: string;
   org_role: string;
   active: number;
   must_change_password: number;
@@ -48,6 +52,7 @@ async function dto(tx: Transaction, u: User) {
     active: !!u.active,
     must_change_password: !!u.must_change_password,
     permission_keys: keys ? keys.split(',') : [],
+    teams: await userTeams(tx, u.id),
   };
 }
 async function user(tx: Transaction, id: number) {
@@ -73,6 +78,41 @@ export function accountService(
   sessions: Awaited<ReturnType<typeof sessionService>>,
   options: SessionOptions = {},
 ) {
+  const addTeams = async (
+    tx: Transaction,
+    proof: SessionProof,
+    id: number,
+    input: unknown,
+    request: string,
+  ) => {
+    if (input === undefined) return false;
+    const current = new Set((await userTeams(tx, id)).map((t) => t.id));
+    let changed = false;
+    for (const teamId of [...(input as number[])].sort((a, b) => a - b)) {
+      if (current.has(teamId)) continue;
+      const team = (
+        await tx.query<{ version: number; archived_at: string | null }>({
+          sqlite: 'SELECT version,archived_at FROM teams WHERE id=$id',
+          sqlserver:
+            'SELECT version,archived_at FROM dbo.teams WITH (UPDLOCK,HOLDLOCK) WHERE id=@id',
+          parameters: { id: teamId },
+        })
+      )[0];
+      if (!team) throw new ApiFault('VALIDATION_FAILED');
+      if (team.archived_at) throw new ApiFault('TEAM_ARCHIVED');
+      await workspaceService(options.clock ? { clock: options.clock } : {}).teamMember(
+        tx,
+        proof,
+        teamId,
+        id,
+        { version: team.version, team_role: 'member', team_position: 'dev' },
+        false,
+        request,
+      );
+      changed = true;
+    }
+    return changed;
+  };
   const actor = async (tx: Transaction, proof: SessionProof, own = false, write = true) => {
     const a = await currentActor(tx, proof, own, options);
     if (!own && a.orgRole !== 'admin') throw new ApiFault('FORBIDDEN');
@@ -187,6 +227,9 @@ export function accountService(
               username: body.username,
               display_name: body.display_name,
               org_role: body.org_role ?? 'member',
+              email: body.email ?? '',
+              telephone: body.telephone ?? '',
+              ...(body.team_ids === undefined ? {} : { team_ids: body.team_ids }),
             }
           : kind === 'reset'
             ? { version: body.version }
@@ -240,18 +283,21 @@ export function accountService(
       const now = utcNow(options.clock);
       const inserted = await tx.query<{ id: number }>({
         sqlite:
-          'INSERT INTO users(username,display_name,org_role,password_hash,active,must_change_password,created_at,updated_at) VALUES($username,$name,$role,$hash,1,1,$now,$now) RETURNING id',
+          'INSERT INTO users(username,display_name,email,telephone,org_role,password_hash,active,must_change_password,created_at,updated_at) VALUES($username,$name,$email,$telephone,$role,$hash,1,1,$now,$now) RETURNING id',
         sqlserver:
-          'INSERT INTO dbo.users(username,display_name,org_role,password_hash,active,must_change_password,created_at,updated_at) OUTPUT inserted.id VALUES(@username,@name,@role,@hash,1,1,@now,@now)',
+          'INSERT INTO dbo.users(username,display_name,email,telephone,org_role,password_hash,active,must_change_password,created_at,updated_at) OUTPUT inserted.id VALUES(@username,@name,@email,@telephone,@role,@hash,1,1,@now,@now)',
         parameters: {
           username: String(username),
           name: String(display_name),
+          email: String(p.body.email ?? ''),
+          telephone: String(p.body.telephone ?? ''),
           role: String(org_role),
           hash: p.hash,
           now,
         },
       });
       const id = inserted[0]!.id;
+      await addTeams(tx, proof, id, p.body.team_ids, requestId);
       await tx.execute(
         sql(
           'INSERT INTO dbo.user_view_revisions(user_id,revision,updated_at) VALUES(@id,@revision,@now)',
@@ -263,7 +309,16 @@ export function accountService(
         proof,
         id,
         'user_created',
-        { username, display_name, org_role, active: true, must_change_password: true },
+        {
+          username,
+          display_name,
+          org_role,
+          email: p.body.email,
+          telephone: p.body.telephone,
+          team_ids: p.body.team_ids,
+          active: true,
+          must_change_password: true,
+        },
         requestId,
       );
       await bump(tx, await accountViews(tx, id, true));
@@ -337,11 +392,16 @@ export function accountService(
         org_role?: string;
         display_name?: string;
         job_title_id?: number | null;
+        email?: string;
+        telephone?: string;
+        team_ids?: number[];
       };
       const u = await version(tx, id, body.version),
         active = body.active === undefined ? u.active : Number(body.active),
         role = body.org_role ?? u.org_role,
         name = body.display_name ?? u.display_name,
+        email = body.email ?? u.email,
+        telephone = body.telephone ?? u.telephone,
         jobTitle = body.job_title_id === undefined ? u.job_title_id : body.job_title_id;
       // BR-20: only an active title can be newly assigned; an existing assignment may stay.
       if (jobTitle !== null && jobTitle !== u.job_title_id) {
@@ -356,22 +416,31 @@ export function accountService(
           });
       }
       const titleOnly = active === u.active && role === u.org_role && name === u.display_name;
-      if (titleOnly && jobTitle === u.job_title_id) return { item: await dto(tx, u) };
+      const teamsAdded = await addTeams(tx, proof, id, body.team_ids, requestId);
+      const contactChanged = email !== u.email || telephone !== u.telephone;
+      if (titleOnly && jobTitle === u.job_title_id && !contactChanged && !teamsAdded)
+        return { item: await dto(tx, u) };
       if (titleOnly) {
         // BR-19/BR-21: a title change never touches sessions, memberships or permissions.
         const next = requireVersion(u.version, u.version);
         await tx.execute(
           sql(
-            'UPDATE dbo.users SET job_title_id=@jobTitle,version=@version,updated_at=@now WHERE id=@id',
-            { id, jobTitle, version: next, now: utcNow(options.clock) },
+            'UPDATE dbo.users SET job_title_id=@jobTitle,email=@email,telephone=@telephone,version=@version,updated_at=@now WHERE id=@id',
+            { id, jobTitle, email, telephone, version: next, now: utcNow(options.clock) },
           ),
         );
         await audit(
           tx,
           proof,
           id,
-          'user_job_title_changed',
-          { job_title_id: jobTitle, previous: { job_title_id: u.job_title_id } },
+          contactChanged || teamsAdded ? 'user_details_changed' : 'user_job_title_changed',
+          {
+            job_title_id: jobTitle,
+            email,
+            telephone,
+            team_ids: body.team_ids,
+            previous: { job_title_id: u.job_title_id, email: u.email, telephone: u.telephone },
+          },
           requestId,
         );
         await bump(tx, await accountViews(tx, id, true));
@@ -390,8 +459,8 @@ export function accountService(
         next = requireVersion(u.version, u.version);
       await tx.execute(
         sql(
-          'UPDATE dbo.users SET display_name=@name,active=@active,org_role=@role,job_title_id=@jobTitle,version=@version,updated_at=@now WHERE id=@id',
-          { id, name, active, role, jobTitle, version: next, now },
+          'UPDATE dbo.users SET display_name=@name,email=@email,telephone=@telephone,active=@active,org_role=@role,job_title_id=@jobTitle,version=@version,updated_at=@now WHERE id=@id',
+          { id, name, email, telephone, active, role, jobTitle, version: next, now },
         ),
       );
       if (active !== u.active || role !== u.org_role) await revokeUserSessions(tx, id);
@@ -406,11 +475,16 @@ export function accountService(
         'user_updated',
         {
           display_name: name,
+          email,
+          telephone,
+          team_ids: body.team_ids,
           active: !!active,
           org_role: role,
           job_title_id: jobTitle,
           previous: {
             display_name: u.display_name,
+            email: u.email,
+            telephone: u.telephone,
             active: !!u.active,
             org_role: u.org_role,
             job_title_id: u.job_title_id,

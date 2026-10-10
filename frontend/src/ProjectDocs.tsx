@@ -273,7 +273,7 @@ export function ProjectDocs({
       <aside className="docs-list" aria-label="Docs">
         <div className="toolbar">
           {writable && (
-            <button disabled={!online || pending} onClick={() => void create()}>
+            <button className="primary" disabled={!online || pending} onClick={() => void create()}>
               + New doc
             </button>
           )}
@@ -336,19 +336,21 @@ export function ProjectDocs({
               </small>
               <div className="toolbar">
                 {selected.can_edit && !editing && (
-                  <button disabled={!online} onClick={() => setEditing(true)}>
+                  <button className="primary" disabled={!online} onClick={() => setEditing(true)}>
                     Edit
                   </button>
                 )}
                 {editing && (
                   <>
                     <button
+                      className="primary"
                       disabled={!online || pending || conflict || !title.trim()}
                       onClick={() => void save()}
                     >
                       {pending ? 'Saving…' : 'Save'}
                     </button>
                     <button
+                      className="permission-cancel"
                       disabled={pending}
                       onClick={() => {
                         setEditing(false);
@@ -360,7 +362,11 @@ export function ProjectDocs({
                   </>
                 )}
                 {selected.can_delete && !editing && (
-                  <button disabled={!online || pending} onClick={() => void lifecycle(false)}>
+                  <button
+                    className="danger"
+                    disabled={!online || pending}
+                    onClick={() => void lifecycle(false)}
+                  >
                     Delete
                   </button>
                 )}

@@ -11,12 +11,19 @@ import {
   uploadFile,
   type Attachment,
 } from './collaboration-api';
-import { Dialog, ErrorNotice, Loading, Toast } from './shared/components';
+import { Dialog, EmptyState, ErrorNotice, Loading, Toast } from './shared/components';
 import { statusLabel, statuses } from './task-api';
 import { projectMembers } from './workspace-api';
 import { mentionQuery, mentionToken, splitMentions } from './mentions';
+import { UiIcon } from './shared/UiIcon';
 const client = apiClient();
 const thaiTime = (s: string) => new Date(s).toLocaleString('en-GB', { timeZone: 'Asia/Bangkok' });
+const fileSize = (bytes: number) =>
+  bytes >= 1_000_000
+    ? `${(bytes / 1_000_000).toLocaleString('en-US', { maximumFractionDigits: 1 })} MB`
+    : bytes >= 1_000
+      ? `${(bytes / 1_000).toLocaleString('en-US', { maximumFractionDigits: 1 })} KB`
+      : `${bytes} ${bytes === 1 ? 'byte' : 'bytes'}`;
 const actions: Record<string, string> = {
   created: 'New task',
   updated: 'Task updated',
@@ -52,6 +59,7 @@ const fields: Record<string, string> = {
   attachment: 'Attachments',
   position: 'Position',
   before_task_id: 'Before task',
+  group_before_task_id: 'Before task in group',
   task: 'Tasks',
   completed_at: 'Completed on',
   successor_task_id: 'Next occurrence',
@@ -69,10 +77,14 @@ function value(field: string, v: string | number | boolean | null) {
           status?: keyof typeof statusLabel;
           done?: boolean;
           id?: number;
+          remark?: string;
         };
         return [
           data.title ?? (data.id ? `#${data.id}` : 'Tasks'),
           data.status ? statusLabel[data.status] : undefined,
+          field === 'subtask' && typeof data.remark === 'string' && data.remark
+            ? `Remark: ${data.remark}`
+            : undefined,
           typeof data.done === 'boolean' ? (data.done ? 'Done' : 'Not completed') : undefined,
         ]
           .filter(Boolean)
@@ -355,8 +367,13 @@ export function TaskCollaboration({
       className="task-collaboration"
       aria-label="Comments, files and history"
     >
-      <button disabled={!online || pending} onClick={() => setRefresh((v) => v + 1)}>
-        Refresh comments, files and history
+      <button
+        className="collaboration-refresh"
+        aria-label="Refresh comments, files and history"
+        disabled={!online || pending}
+        onClick={() => setRefresh((v) => v + 1)}
+      >
+        Refresh
       </button>
       {error && <ErrorNotice error={error} />}
       {changed && <Toast>Collaboration data changed. Your draft is preserved.</Toast>}
@@ -379,7 +396,8 @@ export function TaskCollaboration({
       <section hidden={!!pane && pane !== 'comments'} aria-label="comments">
         <h3>Comments</h3>
         {!c && !error && <Loading />}
-        <ul>
+        {c && !c.items.length && <EmptyState title="No updates yet" />}
+        <ul className="task-updates-list">
           {c?.items.map((a) => (
             <li key={a.id}>
               <strong>{a.author.display_name}</strong> · <time>{thaiTime(a.created_at)}</time>
@@ -407,7 +425,7 @@ export function TaskCollaboration({
             disabled={pending}
           />
         )}
-        <label>
+        <label className="task-comment-composer">
           Write a comment
           <textarea
             ref={composer}
@@ -463,14 +481,18 @@ export function TaskCollaboration({
             ))}
           </ul>
         )}
-        <button disabled={!write || pending || !draft.trim()} onClick={() => void sendComment()}>
+        <button
+          className="primary"
+          disabled={!write || pending || !draft.trim()}
+          onClick={() => void sendComment()}
+        >
           Post comment
         </button>
       </section>
       <section hidden={!!pane && pane !== 'files'} aria-label="Attachments">
         <h3>Attachments</h3>
         {write && (
-          <label>
+          <label className="task-file-toggle">
             <input
               type="checkbox"
               checked={deleted}
@@ -483,23 +505,49 @@ export function TaskCollaboration({
             Show deleted files available to restore
           </label>
         )}
-        <ul>
+        {f && !f.items.length && (
+          <EmptyState title={deleted ? 'No deleted files to restore' : 'No attachments yet'} />
+        )}
+        <ul className="task-attachment-list">
           {f?.items.map((a) => (
             <li key={a.id}>
-              <span>
-                {a.original_name} · {a.bytes.toLocaleString()} bytes · {a.uploader.display_name}
-                {a.deleted_at && ' · Deleted'}
-              </span>
-              {!a.deleted_at && (
-                <button disabled={pending || !online} onClick={() => void download(a)}>
-                  Download {a.original_name}
-                </button>
-              )}
-              {(a.can_delete || a.can_restore) && write && (
-                <button disabled={pending} onClick={() => setConfirm(a)}>
-                  {a.deleted_at ? 'Restore' : 'Delete'} file {a.original_name}
-                </button>
-              )}
+              <div className="task-attachment-icon" aria-hidden="true">
+                <UiIcon name="file" />
+              </div>
+              <div className="task-attachment-info">
+                <strong>{a.original_name}</strong>
+                <small>
+                  <span title={`${a.bytes.toLocaleString('en-US')} bytes`}>
+                    {fileSize(a.bytes)}
+                  </span>
+                  {' · '}
+                  {a.uploader.display_name}
+                  {a.deleted_at && ' · Deleted'}
+                </small>
+              </div>
+              <div className="task-attachment-actions">
+                {!a.deleted_at && (
+                  <button
+                    className="task-file-download"
+                    aria-label={`Download ${a.original_name}`}
+                    disabled={pending || !online}
+                    onClick={() => void download(a)}
+                  >
+                    <UiIcon name="download" /> Download
+                  </button>
+                )}
+                {(a.can_delete || a.can_restore) && write && (
+                  <button
+                    aria-label={`${a.deleted_at ? 'Restore' : 'Delete'} file ${a.original_name}`}
+                    className={a.deleted_at ? 'primary' : 'danger'}
+                    disabled={pending}
+                    onClick={() => setConfirm(a)}
+                  >
+                    <UiIcon name={a.deleted_at ? 'history' : 'trash'} />{' '}
+                    {a.deleted_at ? 'Restore' : 'Delete'}
+                  </button>
+                )}
+              </div>
             </li>
           ))}
         </ul>
@@ -513,50 +561,62 @@ export function TaskCollaboration({
             disabled={pending}
           />
         )}
-        <p>Choose one file, 1 byte–10 MiB: JPG, PNG, WEBP, PDF, TXT, CSV, DOCX, XLSX, PPTX, ZIP</p>
-        <label>
-          Choose attachment
-          <input
-            ref={fileInput}
-            aria-label="Choose attachment"
-            type="file"
-            accept=".jpg,.jpeg,.png,.webp,.pdf,.txt,.csv,.docx,.xlsx,.pptx,.zip"
-            disabled={!write || pending}
-            onChange={(e) => {
-              const selected = e.target.files?.[0];
-              if (selected && (selected.size < 1 || selected.size > 10485760)) {
-                setError(new ApiError('request', 413, undefined, {}, 'FILE_TOO_LARGE'));
-                e.target.value = '';
-                setFile(undefined);
-              } else setFile(selected);
-            }}
-          />
-        </label>
-        <button disabled={!write || pending || !file} onClick={() => void sendFile()}>
-          Upload file
-        </button>
-        {file && (
+        <div className="task-upload-card">
+          <p className="task-upload-hint">
+            Choose one file, 1 byte–10 MiB: JPG, PNG, WEBP, PDF, TXT, CSV, DOCX, XLSX, PPTX, ZIP
+          </p>
+          <label>
+            Choose attachment
+            <input
+              ref={fileInput}
+              aria-label="Choose attachment"
+              type="file"
+              accept=".jpg,.jpeg,.png,.webp,.pdf,.txt,.csv,.docx,.xlsx,.pptx,.zip"
+              disabled={!write || pending}
+              onChange={(e) => {
+                const selected = e.target.files?.[0];
+                if (selected && (selected.size < 1 || selected.size > 10485760)) {
+                  setError(new ApiError('request', 413, undefined, {}, 'FILE_TOO_LARGE'));
+                  e.target.value = '';
+                  setFile(undefined);
+                } else setFile(selected);
+              }}
+            />
+          </label>
           <button
-            disabled={pending}
-            onClick={() => {
-              setFile(undefined);
-              if (fileInput.current) fileInput.current.value = '';
-            }}
+            className="primary"
+            disabled={!write || pending || !file}
+            onClick={() => void sendFile()}
           >
-            Discard selected file
+            Upload file
           </button>
-        )}
-        {progress !== undefined && (
-          <>
-            <progress max={100} value={progress} aria-label="Upload progress" />
-            <span>{progress}% · Waiting for confirmation</span>
-            <button onClick={() => controller.current?.abort()}>Cancel upload</button>
-          </>
-        )}
+          {file && (
+            <button
+              className="permission-cancel"
+              disabled={pending}
+              onClick={() => {
+                setFile(undefined);
+                if (fileInput.current) fileInput.current.value = '';
+              }}
+            >
+              Discard selected file
+            </button>
+          )}
+          {progress !== undefined && (
+            <>
+              <progress max={100} value={progress} aria-label="Upload progress" />
+              <span>{progress}% · Waiting for confirmation</span>
+              <button className="permission-cancel" onClick={() => controller.current?.abort()}>
+                Cancel upload
+              </button>
+            </>
+          )}
+        </div>
       </section>
       <section hidden={!!pane && pane !== 'history'} aria-label="Task history">
         <h3>Task history</h3>
-        <ol>
+        {h && !h.items.length && <EmptyState title="No activity yet" />}
+        <ol className="task-activity-list">
           {h?.items.map((e) => (
             <li key={e.id}>
               <strong>{actions[e.action]}</strong> · {e.actor?.display_name ?? 'System'} ·{' '}
@@ -594,10 +654,18 @@ export function TaskCollaboration({
               ? ' · Restorable for 30 days'
               : ' · Counts toward storage until permanently removed'}
           </p>
-          <button disabled={pending || !write} onClick={() => void changeFile()}>
+          <button
+            className={confirm.deleted_at ? 'primary' : 'danger'}
+            disabled={pending || !write}
+            onClick={() => void changeFile()}
+          >
             {confirm.deleted_at ? 'Restore file' : 'Delete file'}
           </button>
-          <button disabled={pending} onClick={() => setConfirm(undefined)}>
+          <button
+            className="permission-cancel"
+            disabled={pending}
+            onClick={() => setConfirm(undefined)}
+          >
             Cancel
           </button>
         </Dialog>

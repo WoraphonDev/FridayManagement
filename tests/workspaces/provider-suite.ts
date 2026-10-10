@@ -52,6 +52,169 @@ export function workspaceAcceptance(
       }
     });
   check(
+    'T021 project metadata defaults, enum constraints, reopen persistence and atomic audit rollback',
+    async (f, s, a) => {
+      const existing = (await f.db.transaction((tx) => s.projects(tx, a, {}))).items;
+      assert(
+        existing.every(
+          (p) => p.project_type === 'internal' && p.project_category === 'development',
+        ),
+      );
+      const made = await f.db.transaction((tx) =>
+        s.createProject(
+          tx,
+          a,
+          {
+            owner_team_id: 1,
+            name: 'ระบบพัฒนา 🚀',
+            project_type: 'client',
+            project_category: 'it',
+            description: 'รายละเอียด\nภาษาไทย',
+          },
+          randomUUID(),
+        ),
+      );
+      const id = made.item.id;
+      const reopened = await f.reopen();
+      const stored = (await reopened.transaction((tx) => s.projects(tx, a, {}))).items.find(
+        (p) => p.id === id,
+      )!;
+      assert.equal(stored.project_type, 'client');
+      assert.equal(stored.project_category, 'it');
+      assert.equal(stored.description, 'รายละเอียด\nภาษาไทย');
+      const beforeAudit = await reopened.transaction((tx) =>
+        tx.query(sql('SELECT id FROM dbo.admin_events')),
+      );
+      await assert.rejects(
+        reopened.transaction(async (tx) => {
+          await s.patchProject(
+            tx,
+            a,
+            id,
+            { version: 1, project_category: 'development' },
+            randomUUID(),
+          );
+          throw new Error('ROLLBACK_METADATA_AND_AUDIT');
+        }),
+        /ROLLBACK_METADATA_AND_AUDIT/,
+      );
+      const after = (await reopened.transaction((tx) => s.projects(tx, a, {}))).items.find(
+        (p) => p.id === id,
+      )!;
+      assert.equal(after.project_category, 'it');
+      assert.equal(after.version, 1);
+      assert.deepEqual(
+        await reopened.transaction((tx) => tx.query(sql('SELECT id FROM dbo.admin_events'))),
+        beforeAudit,
+      );
+      await assert.rejects(
+        reopened.transaction((tx) =>
+          tx.execute(
+            sql('UPDATE dbo.projects SET project_type=@value WHERE id=@id', {
+              id,
+              value: 'unknown',
+            }),
+          ),
+        ),
+      );
+      await assert.rejects(
+        reopened.transaction((tx) =>
+          tx.execute(
+            sql('UPDATE dbo.projects SET project_category=@value WHERE id=@id', {
+              id,
+              value: 'unknown',
+            }),
+          ),
+        ),
+      );
+    },
+  );
+  check(
+    'T020 team create includes positions atomically and position labels never confer Lead rights',
+    async (f, s, a, m) => {
+      const made = await f.db.transaction((tx) =>
+        s.createTeam(
+          tx,
+          a,
+          {
+            name: 'Development team 🚀',
+            description: 'ทีมพัฒนา\nPM / Lead / Dev',
+            members: [
+              { user_id: 1, team_position: 'pm' },
+              { user_id: 2, team_position: 'lead' },
+            ],
+          },
+          randomUUID(),
+        ),
+      );
+      assert.deepEqual(
+        made.item.members!.map((member) => [
+          member.user.id,
+          member.team_role,
+          member.team_position,
+        ]),
+        [
+          [1, 'member', 'pm'],
+          [2, 'member', 'lead'],
+        ],
+      );
+      await rejected(
+        f.db.transaction((tx) =>
+          s.createProject(
+            tx,
+            m,
+            { owner_team_id: made.item.id, name: 'Not authorized' },
+            randomUUID(),
+          ),
+        ),
+        'FORBIDDEN',
+      );
+      const updated = await f.db.transaction((tx) =>
+        s.teamMember(
+          tx,
+          a,
+          made.item.id,
+          2,
+          { version: 1, team_role: 'member', team_position: 'dev' },
+          false,
+          randomUUID(),
+        ),
+      );
+      assert.equal(
+        updated.item.members!.find((member) => member.user.id === 2)!.team_position,
+        'dev',
+      );
+      assert.equal(
+        updated.item.members!.find((member) => member.user.id === 2)!.team_role,
+        'member',
+      );
+      for (const members of [
+        [
+          { user_id: 2, team_position: 'pm' },
+          { user_id: 2, team_position: 'dev' },
+        ],
+        [{ user_id: 9999, team_position: 'dev' }],
+        [{ user_id: 2, team_position: 'admin' }],
+      ]) {
+        await assert.rejects(
+          f.db.transaction((tx) =>
+            s.createTeam(tx, a, { name: 'Must rollback', members }, randomUUID()),
+          ),
+        );
+        assert.equal(
+          (
+            await f.db.transaction((tx) =>
+              tx.query(sql("SELECT id FROM dbo.teams WHERE name='Must rollback'")),
+            )
+          ).length,
+          0,
+        );
+      }
+      const directory = await f.db.transaction((tx) => s.directory(tx, a, {}));
+      assert(directory.items.every((person) => !('email' in person) && !('telephone' in person)));
+    },
+  );
+  check(
     'T020 team create, UTF16/trim/CI uniqueness, no unauthorized or duplicate composite writes',
     async (f, s, a, m) => {
       const made = await f.db.transaction((tx) =>

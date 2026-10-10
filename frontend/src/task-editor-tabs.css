@@ -1,0 +1,442 @@
+/* Task subpanels only. Keep drafts mounted and existing save/permission behavior. */
+dialog.task-editor input[type='checkbox'] {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  padding: 0;
+  margin: 0;
+  flex: 0 0 16px;
+  accent-color: #4265cc;
+  box-sizing: border-box;
+}
+dialog.task-editor label:has(> input[type='checkbox']) {
+  flex-direction: row;
+  align-items: center;
+  gap: 9px;
+  line-height: 1.6;
+}
+dialog.task-editor :is(.checklist-panel, .task-collaboration > section) {
+  padding: 18px;
+  margin-top: 16px;
+  border: 1px solid #e2e7f1;
+  border-radius: 12px;
+  background: #fff;
+  min-width: 0;
+}
+dialog.task-editor :is(.checklist-panel, .task-collaboration) h3 {
+  margin: 0 0 18px;
+  color: #34405c;
+  font-size: 15px;
+}
+dialog.task-editor .state:has(h2) {
+  padding: 22px 14px;
+  margin: 12px 0;
+  border: 1px dashed #dce3f1;
+  border-radius: 9px;
+  background: #f8faff;
+  text-align: center;
+  color: #76819a;
+}
+dialog.task-editor .state h2 {
+  font-size: 13px;
+  font-weight: 500;
+  margin: 0;
+}
+dialog.task-editor .checklist-table-scroll {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  overflow: auto;
+  border: 1px solid #e1e6f1;
+  border-left: 4px solid #4265cc;
+  border-radius: 9px;
+}
+dialog.task-editor .checklist-table {
+  width: 100%;
+  min-width: 480px;
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 12px;
+}
+dialog.task-editor .checklist-table .checklist-name-col {
+  width: 38%;
+}
+dialog.task-editor .checklist-table .checklist-assignee-col {
+  width: 22%;
+}
+dialog.task-editor .checklist-table .checklist-status-col { width: 16%; }
+dialog.task-editor .checklist-table .checklist-remark-col {
+  width: 24%;
+}
+dialog.task-editor .checklist-table :is(th, td) {
+  height: 46px;
+  padding: 8px;
+  vertical-align: top;
+  text-align: left;
+  border-bottom: 1px solid #e7ebf3;
+  background: #fff;
+  border-right: 1px solid #e7ebf3;
+}
+dialog.task-editor .checklist-table thead th {
+  color: #76819a;
+  font-size: 11px;
+  font-weight: 500;
+  background: #f6f8fd;
+}
+dialog.task-editor .checklist-table th[scope='row'] {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+dialog.task-editor .checklist-table .checklist-empty {
+  height: auto;
+}
+dialog.task-editor .checklist-table .checklist-empty .state {
+  margin: 0;
+  border: 0;
+}
+dialog.task-editor .checklist-table tr[data-done='true'] .checklist-item-title {
+  color: #8993a7;
+  text-decoration: line-through;
+}
+dialog.task-editor .checklist-table .people-picker {
+  width: 100%;
+  min-width: 0;
+}
+dialog.task-editor .checklist-table :is(input:not([type='checkbox']), textarea) {
+  width: 100%;
+  min-width: 0;
+  min-height: 32px;
+  padding: 6px 8px;
+  font-size: 12px;
+}
+dialog.task-editor .checklist-name-cell {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+dialog.task-editor
+  .checklist-name-cell
+  > :is(input:not([type='checkbox']), .checklist-cell-edit, span) {
+  flex: 1;
+  min-width: 0;
+}
+dialog.task-editor .checklist-table .checklist-cell-edit {
+  display: block;
+  width: 100%;
+  min-height: 32px;
+  margin: 0;
+  padding: 6px 8px;
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 5px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: inherit;
+}
+dialog.task-editor .checklist-table .checklist-cell-edit:hover:not(:disabled) {
+  background: #f1f5ff;
+  border-color: #cddaff;
+}
+dialog.task-editor .checklist-table .checklist-cell-edit:focus-visible {
+  outline: 2px solid #579bfc;
+  outline-offset: 1px;
+}
+dialog.task-editor .checklist-table .checklist-cell-edit:disabled {
+  opacity: 1;
+}
+dialog.task-editor .checklist-placeholder {
+  color: #96a0b5;
+  font-weight: 400;
+}
+dialog.task-editor .checklist-remark {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+dialog.task-editor .checklist-table textarea {
+  min-height: 32px;
+  height: 32px;
+  margin: 0;
+  resize: vertical;
+}
+dialog.task-editor .checklist-table .status-picker { width: 100%; margin: 0; }
+dialog.task-editor .checklist-table .status-picker .cell-picker-trigger { min-height: 32px; height: 32px; }
+dialog.task-editor .checklist-table :is(input:not([type='checkbox']), textarea) { box-sizing: border-box; margin: 0; }
+dialog.task-editor .checklist-table :is(.checklist-edit-row, .checklist-add-row) > :first-child { position: relative; padding-right: 40px; }
+dialog.task-editor .checklist-table :is(.checklist-edit-row, .checklist-add-row) .checklist-row-actions { position: absolute; top: 8px; right: 7px; margin: 0; }
+dialog.task-editor .checklist-table .checklist-row-actions button { display: flex; align-items: center; justify-content: center; padding: 5px; width: 28px; height: 32px; }
+dialog.task-editor .checklist-table .checklist-delete {
+  padding: 5px;
+  margin: 0;
+  min-height: 30px;
+  flex-shrink: 0;
+}
+dialog.task-editor .checklist-row-actions {
+  margin-top: 8px;
+}
+dialog.task-editor .checklist-autosave-note {
+  margin: 0 0 12px;
+  font-size: 11px;
+  color: #76819a;
+}
+dialog.task-editor .checklist-add-trigger td {
+  padding: 8px;
+  background: #f7f9ff;
+}
+dialog.task-editor .checklist-add-button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  color: #4265cc;
+  font-size: 12px;
+  font-weight: 600;
+}
+dialog.task-editor .checklist-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+dialog.task-editor .checklist-row-actions button {
+  min-height: 30px;
+  margin: 0;
+  padding: 5px 8px;
+  white-space: nowrap;
+  font-size: 11px;
+}
+dialog.task-editor .checklist-table .checklist-add-row > td {
+  background: #f7f9ff;
+}
+dialog.task-editor .checklist-table tr:last-child > :is(th, td) {
+  border-bottom: 0;
+}
+dialog.task-editor .collaboration-refresh {
+  display: block;
+  margin: 0 0 12px auto;
+  color: #657087;
+  background: #f7f9fd;
+  border-color: #e0e6f2;
+  border-radius: 7px;
+}
+dialog.task-editor .task-collaboration nav {
+  margin: 16px 0;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #f6f8fc;
+  gap: 8px;
+  justify-content: space-between;
+  color: #76819a;
+  font-size: 11px;
+}
+dialog.task-editor .task-collaboration nav button {
+  font-size: 11px;
+  min-height: 30px;
+}
+dialog.task-editor :is(.task-updates-list, .task-attachment-list) {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+}
+dialog.task-editor .task-updates-list > li {
+  padding: 14px;
+  margin: 10px 0;
+  border: 1px solid #e5eaf4;
+  border-left: 3px solid #9b78d7;
+  border-radius: 9px;
+  background: #fbfaff;
+  font-size: 12px;
+  line-height: 1.7;
+}
+dialog.task-editor .task-collaboration time {
+  font-size: 11px;
+  color: #76819a;
+}
+dialog.task-editor .task-comment-composer {
+  padding: 14px;
+  margin: 16px 0 12px;
+  border: 1px solid #dde6fa;
+  border-radius: 10px;
+  background: #f5f8ff;
+}
+dialog.task-editor .task-comment-composer textarea {
+  min-height: 110px;
+  background: #fff;
+}
+dialog.task-editor .task-file-toggle {
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: #f5f7fc;
+  color: #657087;
+}
+dialog.task-editor .task-attachment-list > li {
+  display: grid;
+  grid-template-columns: 36px minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #e5eaf4;
+  border-radius: 9px;
+  background: #fafbfe;
+}
+dialog.task-editor .task-attachment-icon {
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 40px;
+  border-radius: 8px;
+  color: #7753b6;
+  background: #eee7fa;
+}
+dialog.task-editor .task-attachment-info {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+dialog.task-editor .task-attachment-info strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+}
+dialog.task-editor .task-attachment-info small {
+  display: block;
+  margin-top: 4px;
+  color: #76819a;
+  font-size: 11px;
+}
+dialog.task-editor .task-attachment-actions {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+dialog.task-editor .task-attachment-actions button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+dialog.task-editor .task-attachment-actions .task-file-download {
+  color: #4265cc;
+  background: #eef3ff;
+  border-color: #d5e0fc;
+}
+dialog.task-editor .task-attachment-list li button {
+  margin: 0;
+  min-height: 32px;
+}
+dialog.task-editor .task-upload-card {
+  padding: 16px;
+  border: 1px solid #dde6fa;
+  border-radius: 10px;
+  background: #f5f8ff;
+}
+dialog.task-editor .task-upload-hint {
+  margin: 0 0 14px;
+  color: #76819a;
+  font-size: 11px;
+  line-height: 1.7;
+}
+dialog.task-editor .task-upload-card input[type='file'] {
+  width: 100%;
+  min-width: 0;
+  padding: 6px;
+  background: #fff;
+  border-color: #d7dff0;
+}
+dialog.task-editor input[type='file']::file-selector-button {
+  margin-right: 9px;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 5px;
+  background: #e7edfc;
+  color: #4265cc;
+  font: inherit;
+}
+dialog.task-editor .task-upload-card > button {
+  margin: 12px 6px 0 0;
+}
+dialog.task-editor .task-upload-card progress {
+  display: block;
+  width: 100%;
+  margin-top: 14px;
+  accent-color: #4265cc;
+}
+dialog.task-editor .task-activity-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 0 0 16px;
+  border-left: 2px solid #e1e7f4;
+}
+dialog.task-editor .task-activity-list > li {
+  position: relative;
+  padding: 14px;
+  margin: 0 0 14px;
+  border: 1px solid #e5eaf4;
+  border-radius: 9px;
+  background: #fafbfe;
+  font-size: 12px;
+  line-height: 1.8;
+}
+dialog.task-editor .task-activity-list > li::before {
+  content: '';
+  position: absolute;
+  left: -22px;
+  top: 20px;
+  width: 8px;
+  height: 8px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  background: #7d64bd;
+}
+dialog.task-editor .task-activity-list ul {
+  margin: 8px 0 0;
+  padding-left: 16px;
+  color: #76819a;
+}
+dialog.task-editor .task-activity-list ul li {
+  padding: 3px 0;
+}
+dialog.task-editor .conflict-review {
+  margin: 14px 0;
+  padding: 14px;
+  border: 1px solid #efd8ac;
+  border-radius: 10px;
+  background: #fffaf1;
+}
+/* Several independent saves may report at once; keep notices readable in the drawer. */
+dialog.task-editor .dialog-content .toast {
+  position: relative;
+  inset: auto;
+  width: auto;
+  max-width: none;
+  margin: 12px 0;
+  padding: 10px 12px;
+  border: 1px solid #dce6fb;
+  border-radius: 8px;
+  background: #edf3ff;
+  color: #4265cc;
+  box-shadow: none;
+  font-size: 12px;
+  line-height: 1.6;
+}
+@media (max-width: 600px) {
+  dialog.task-editor :is(.checklist-panel, .task-collaboration > section) {
+    padding: 14px;
+  }
+  dialog.task-editor .task-collaboration nav {
+    justify-content: flex-start;
+  }
+  dialog.task-editor .task-collaboration nav span {
+    order: -1;
+    flex-basis: 100%;
+  }
+}

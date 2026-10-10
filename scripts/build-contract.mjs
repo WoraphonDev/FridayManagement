@@ -23,6 +23,8 @@ export function buildContract() {
   schemas.RequestId = { type: 'string', format: 'uuid' };
   schemas.Status = enumeration(['todo', 'doing', 'review', 'done']);
   schemas.Priority = enumeration(['low', 'medium', 'high', 'urgent']);
+  schemas.ProjectType = enumeration(['', 'internal', 'client', 'operations', 'other']);
+  schemas.ProjectCategory = enumeration(['', 'development', 'general', 'it', 'marketing', 'finance', 'hr', 'other']);
   schemas.Recurrence = enumeration(['none', 'daily', 'weekly', 'monthly']);
   schemas.Username = text(60, 1, { pattern: '^[A-Za-z0-9._-]+$' });
   // Password length is Unicode scalar count, not UTF16 storage length; passwords are never trimmed.
@@ -31,6 +33,9 @@ export function buildContract() {
   schemas.Empty = object({});
   schemas.VersionBody = object({ version: ref('Version') });
   schemas.Person = object({ id: ref('Id'), display_name: nonblank(100), active: boolean });
+  schemas.TeamPosition = enumeration(['pm', 'lead', 'dev']);
+  schemas.ContactEmail = text(254, 0, { anyOf: [{ const: '' }, { type: 'string', format: 'email' }] });
+  schemas.ContactTelephone = text(40, 0, { pattern: '^[0-9+(). #/-]*$' });
   // T-080/T-081: job title is a label only; permission keys are per-user Admin grants (BR-19/BR-21).
   schemas.PermissionKey = enumeration(['P-01', 'P-02', 'P-03', 'P-04', 'P-05', 'P-06', 'P-07', 'P-08', 'P-09', 'P-10']);
   schemas.PermissionKeys = { ...array(ref('PermissionKey'), 10), uniqueItems: true };
@@ -40,6 +45,8 @@ export function buildContract() {
     org_role: enumeration(['admin', 'member']), active: boolean, must_change_password: boolean,
     version: ref('Version'), created_at: ref('Timestamp'), updated_at: ref('Timestamp'),
     job_title_id: nullable(ref('Id')), job_title: nullable(nonblank(50)),
+    email: ref('ContactEmail'), telephone: ref('ContactTelephone'),
+    teams: array(object({ id: ref('Id'), name: nonblank(100), team_role: enumeration(['lead','member']), team_position: ref('TeamPosition') }),10000),
     permission_keys: ref('PermissionKeys'), permissions_version: ref('Version'),
   });
   schemas.JobTitle = object({ id: ref('Id'), name: nonblank(50), color: ref('HexColor'), is_active: boolean, sort_order: integer(0, 10000), user_count: integer(0), version: ref('Version'), created_at: ref('Timestamp'), updated_at: ref('Timestamp') });
@@ -52,18 +59,19 @@ export function buildContract() {
   schemas.PermissionMatrix = object({ changes: { ...array(object({ user_id: ref('Id'), keys: ref('PermissionKeys'), permissions_version: ref('Version') }), 100), minItems: 1 } });
   schemas.PermissionMatrixResult = object({ items: array(ref('UserPermissions'), 100) });
   schemas.Organization = object({ id: { const: 1, type: 'integer' }, name: nonblank(100), timezone: { const: 'Asia/Bangkok', type: 'string' }, workload_threshold: integer(1, 1000), version: ref('Version') });
-  schemas.TeamMember = object({ user: ref('Person'), team_role: enumeration(['lead', 'member']), joined_at: ref('Timestamp') });
+  schemas.TeamMember = object({ user: ref('Person'), team_role: enumeration(['lead', 'member']), team_position: ref('TeamPosition'), joined_at: ref('Timestamp') });
   schemas.Team = object({ id: ref('Id'), name: nonblank(100), description: text(1000), archived_at: nullable(ref('Timestamp')), version: ref('Version'), own_role: nullable(enumeration(['lead', 'member'])) });
   schemas.AdminTeam = object({ ...schemas.Team.properties, members: array(ref('TeamMember'), 10000) });
   schemas.Project = object({
     id: ref('Id'), owner_team_id: ref('Id'), owner_team_name: nonblank(100), name: nonblank(100), description: text(2000),
+    project_type: ref('ProjectType'), project_category: ref('ProjectCategory'),
     archived_at: nullable(ref('Timestamp')), version: ref('Version'), created_by: ref('Id'),
     created_at: ref('Timestamp'), updated_at: ref('Timestamp'),
     effective_access: enumeration(['admin', 'lead', 'manager', 'editor', 'viewer']),
   });
   schemas.ProjectMember = object({ user: ref('Person'), job_title: nullable(nonblank(50)), explicit_access: nullable(enumeration(['manager', 'editor', 'viewer'])), effective_access: enumeration(['admin', 'lead', 'manager', 'editor', 'viewer']), assignee_eligible: boolean });
   schemas.DirectoryPerson = object({ id: ref('Id'), display_name: nonblank(100), job_title: nullable(nonblank(50)), teams: array(object({ id: ref('Id'), name: nonblank(100) }), 10000) });
-  schemas.Subtask = object({ assignee_id: nullable(ref('Id')), id: ref('Id'), task_id: ref('Id'), title: nonblank(200), done: boolean, version: ref('Version'), created_at: ref('Timestamp') });
+  schemas.Subtask = object({ remark: text(2000), assignee_id: nullable(ref('Id')), id: ref('Id'), task_id: ref('Id'), title: nonblank(200), done: boolean, version: ref('Version'), created_at: ref('Timestamp') });
   schemas.Task = object({
     id: ref('Id'), group_id: nullable(ref('Id')), project_id: ref('Id'), project_name: nonblank(100), owner_team_id: ref('Id'), owner_team_name: nonblank(100), title: nonblank(200), description: text(10000), category: text(80),
     status: ref('Status'), priority: ref('Priority'), assignee_ids: { ...array(ref('Id'), 100), uniqueItems: true }, assignees: array(ref('Person'), 100), assignee_id: nullable(ref('Id')), assignee: nullable(ref('Person')), creator_id: ref('Id'),
@@ -76,7 +84,7 @@ export function buildContract() {
   schemas.TaskDetail = object({ ...schemas.Task.properties, subtasks: array(ref('Subtask'), 10000) });
   schemas.Comment = object({ id: ref('Id'), task_id: ref('Id'), author: ref('Person'), body: nonblank(5000), created_at: ref('Timestamp') });
   schemas.Attachment = object({ id: ref('Id'), task_id: ref('Id'), uploader: ref('Person'), original_name: nonblank(200), bytes: integer(1, 10485760), validated_type: text(100, 1), sha256: text(64, 64, { pattern: '^[a-f0-9]{64}$' }), created_at: ref('Timestamp'), deleted_at: nullable(ref('Timestamp')), can_delete: boolean, can_restore: boolean });
-  schemas.EventChange = object({ field: enumeration(['title', 'description', 'category', 'status', 'priority', 'assignee_id', 'assignee_ids', 'group_id', 'start_date', 'due_date', 'recurrence', 'recurrence_anchor_day', 'deleted_at', 'subtask', 'comment', 'attachment', 'position', 'task', 'completed_at', 'comment_id', 'before_task_id', 'successor_task_id', 'predecessor_task_id']), before: nullable({ type: ['string', 'number', 'boolean'] }), after: nullable({ type: ['string', 'number', 'boolean'] }) });
+  schemas.EventChange = object({ field: enumeration(['title', 'description', 'category', 'status', 'priority', 'assignee_id', 'assignee_ids', 'group_id', 'group_before_task_id', 'start_date', 'due_date', 'recurrence', 'recurrence_anchor_day', 'deleted_at', 'subtask', 'comment', 'attachment', 'position', 'task', 'completed_at', 'comment_id', 'before_task_id', 'successor_task_id', 'predecessor_task_id']), before: nullable({ type: ['string', 'number', 'boolean'] }), after: nullable({ type: ['string', 'number', 'boolean'] }) });
   schemas.TaskEvent = object({ id: ref('Id'), task_id: ref('Id'), actor: nullable(ref('Person')), action: enumeration(['created', 'updated', 'assigned', 'status_changed', 'reopened', 'deleted', 'restored', 'subtask_changed', 'comment_added', 'attachment_changed', 'reordered', 'recurrence_generated', 'access_cleanup']), field_changes: array(ref('EventChange'), 100), request_id: ref('RequestId'), created_at: ref('Timestamp') });
   schemas.AdminAudit = object({ id: ref('Id'), actor: nullable(ref('Person')), action: text(100,1), resource_type: text(100,1), resource_id: nullable(ref('Id')), redacted_changes: text(100000,1), request_id: ref('RequestId'), created_at: ref('Timestamp') });
   schemas.Notification = object({ id: ref('Id'), task_id: ref('Id'), type: enumeration(['assignment', 'comment', 'status', 'access_cleanup', 'due_tomorrow', 'due_today', 'overdue']), message: text(500, 1), read_at: nullable(ref('Timestamp')), created_at: ref('Timestamp') });
@@ -163,17 +171,18 @@ export function buildContract() {
   schemas.Setup = object({ token: text(128, 32), organization_name: nonblank(100), username: ref('Username'), display_name: nonblank(100), password: ref('Password') });
   schemas.Login = object({ username: ref('Username'), password: ref('CurrentPassword') });
   schemas.PasswordChange = object({ current_password: ref('CurrentPassword'), new_password: ref('Password') });
-  schemas.CreateUser = object({ username: ref('Username'), display_name: nonblank(100), temp_password: ref('Password'), org_role: enumeration(['admin', 'member'], { default: 'member' }) }, ['username', 'display_name', 'temp_password']);
-  schemas.PatchUser = object({ display_name: nonblank(100), active: boolean, org_role: enumeration(['admin', 'member']), job_title_id: nullable(ref('Id')), version: ref('Version') }, ['version'], { minProperties: 2 });
+  const memberDetails = { email: ref('ContactEmail'), telephone: ref('ContactTelephone'), team_ids: { ...array(ref('Id'),100), uniqueItems:true } };
+  schemas.CreateUser = object({ username: ref('Username'), display_name: nonblank(100), temp_password: ref('Password'), org_role: enumeration(['admin', 'member'], { default: 'member' }), ...memberDetails }, ['username', 'display_name', 'temp_password']);
+  schemas.PatchUser = object({ display_name: nonblank(100), active: boolean, org_role: enumeration(['admin', 'member']), job_title_id: nullable(ref('Id')), ...memberDetails, version: ref('Version') }, ['version'], { minProperties: 2 });
   schemas.PasswordReset = object({ admin_password: ref('CurrentPassword'), temp_password: ref('Password'), version: ref('Version') });
-  schemas.CreateTeam = object({ name: nonblank(100), description: text(1000, 0, { default: '' }) }, ['name']);
+  schemas.CreateTeam = object({ name: nonblank(100), description: text(1000, 0, { default: '' }), members: array(object({ user_id: ref('Id'), team_position: ref('TeamPosition') }),100) }, ['name']);
   schemas.PatchTeam = object({ name: nonblank(100), description: text(1000), archived: boolean, version: ref('Version') }, ['version'], { minProperties: 2 });
-  schemas.TeamMembership = object({ team_role: enumeration(['lead', 'member']), version: ref('Version') });
-  schemas.CreateProject = object({ owner_team_id: ref('Id'), name: nonblank(100), description: text(2000, 0, { default: '' }) }, ['owner_team_id', 'name']);
-  schemas.PatchProject = object({ name: nonblank(100), description: text(2000), archived: boolean, version: ref('Version') }, ['version'], { minProperties: 2 });
+  schemas.TeamMembership = object({ team_role: enumeration(['lead', 'member']), team_position: ref('TeamPosition'), version: ref('Version') }, ['team_role','version']);
+  schemas.CreateProject = object({ owner_team_id: ref('Id'), name: nonblank(100), description: text(2000, 0, { default: '' }), project_type: ref('ProjectType'), project_category: ref('ProjectCategory') }, ['owner_team_id', 'name']);
+  schemas.PatchProject = object({ name: nonblank(100), description: text(2000), project_type: ref('ProjectType'), project_category: ref('ProjectCategory'), archived: boolean, version: ref('Version') }, ['version'], { minProperties: 2 });
   schemas.ProjectMembership = object({ access: enumeration(['manager', 'editor', 'viewer']), version: ref('Version') });
-  schemas.CreateSubtask = object({ assignee_id: nullable(ref('Id')), title: nonblank(200), task_version: ref('Version') }, ['title','task_version']);
-  schemas.PatchSubtask = object({ assignee_id: nullable(ref('Id')), title: nonblank(200), done: boolean, version: ref('Version'), task_version: ref('Version') }, ['version', 'task_version'], { minProperties: 3 });
+  schemas.CreateSubtask = object({ remark: text(2000), assignee_id: nullable(ref('Id')), title: nonblank(200), task_version: ref('Version') }, ['title','task_version']);
+  schemas.PatchSubtask = object({ remark: text(2000), assignee_id: nullable(ref('Id')), title: nonblank(200), done: boolean, version: ref('Version'), task_version: ref('Version') }, ['version', 'task_version'], { minProperties: 3 });
   schemas.DeleteSubtask = object({ version: ref('Version'), task_version: ref('Version') });
   schemas.CreateComment = object({ body: nonblank(5000) });
   // File bytes are streamed; this schema describes one multipart part, not a JSON/base64 upload.
@@ -315,7 +324,7 @@ export function buildContract() {
   for (const { method, path, op } of operations) paths[path] = { ...paths[path], [method]: op };
   return {
     openapi: '3.1.1', jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema',
-    info: { title: 'FridayManagement API', version: '1.8.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order (PatchTask.group_before_task_id, sort=group_order). Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
+    info: { title: 'FridayManagement API', version: '1.11.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
     servers: [{ url: '/' }], paths,
     components: { securitySchemes: { cookieSession: { type: 'apiKey', in: 'cookie', name: 'friday_session' } }, schemas },
   };

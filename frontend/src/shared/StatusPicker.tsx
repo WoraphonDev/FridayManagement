@@ -1,5 +1,6 @@
 import { useRef } from 'react';
-import { Dropdown } from '@vibe/core';
+import { CellPopover } from './CellPopover';
+import { UiIcon } from './UiIcon';
 import { confettiFrom, replay } from '../motion';
 import { statuses, statusLabel, type Status } from '../task-api';
 export function StatusPicker({
@@ -13,7 +14,6 @@ export function StatusPicker({
   disabled?: boolean;
   onChange: (status: Status) => void;
 }) {
-  const options = statuses.map((status) => ({ value: status, label: statusLabel[status] }));
   const root = useRef<HTMLDivElement>(null);
   // AN-03 pulse on the user's choice; AN-04 confetti only when it becomes Done. The list may
   // remount after the save, so motion follows the action rather than the next render.
@@ -26,18 +26,35 @@ export function StatusPicker({
   };
   return (
     <div className="status-picker" data-status={value} ref={root}>
-      <Dropdown
-        size="small"
-        searchable={false}
-        clearable={false}
+      <CellPopover
+        label={label}
         disabled={disabled}
-        aria-label={label}
-        inputAriaLabel={label}
-        menuAriaLabel={`Options for ${label}`}
-        options={options}
-        value={options.find((o) => o.value === value)}
-        onChange={(o) => choose(o.value as Status)}
-      />
+        className="status-cell"
+        value={<span className="status-cell-label">{statusLabel[value]}</span>}
+      >
+        {(close) => (
+          <div role="listbox" aria-label={`Options for ${label}`}>
+            {statuses.map((status) => (
+              <button
+                type="button"
+                key={status}
+                role="option"
+                aria-label={statusLabel[status]}
+                aria-selected={value === status}
+                data-status={status}
+                className="status-option"
+                onClick={() => {
+                  choose(status);
+                  close();
+                }}
+              >
+                {statusLabel[status]}
+                {value === status && <UiIcon name="check" />}
+              </button>
+            ))}
+          </div>
+        )}
+      </CellPopover>
     </div>
   );
 }

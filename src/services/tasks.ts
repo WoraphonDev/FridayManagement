@@ -60,6 +60,7 @@ type Task = Row & {
 };
 type Subtask = {
   assignee_id: number | null;
+  remark: string;
   id: number;
   task_id: number;
   title: string;
@@ -147,7 +148,7 @@ export function taskService(options: AccessOptions = {}) {
     (
       await tx.query<Subtask>(
         sql(
-          'SELECT id,task_id,title,done,version,created_at,assignee_id FROM dbo.subtasks WHERE task_id=@task ORDER BY id',
+          'SELECT id,task_id,title,done,version,created_at,assignee_id,remark FROM dbo.subtasks WHERE task_id=@task ORDER BY id',
           { task },
         ),
       )
@@ -353,7 +354,7 @@ export function taskService(options: AccessOptions = {}) {
     const s = (
       await tx.query<Subtask>(
         sql(
-          'SELECT id,task_id,title,done,version,created_at,assignee_id FROM dbo.subtasks WHERE id=@id',
+          'SELECT id,task_id,title,done,version,created_at,assignee_id,remark FROM dbo.subtasks WHERE id=@id',
           {
             id,
           },
@@ -416,9 +417,7 @@ export function taskService(options: AccessOptions = {}) {
     if (before !== null && !ids.includes(before)) throw new ApiFault('VALIDATION_FAILED');
     ids.splice(before === null ? ids.length : ids.indexOf(before), 0, id);
     for (const [rank, task] of ids.entries())
-      await tx.execute(
-        sql('UPDATE dbo.tasks SET group_rank=@rank WHERE id=@task', { rank, task }),
-      );
+      await tx.execute(sql('UPDATE dbo.tasks SET group_rank=@rank WHERE id=@task', { rank, task }));
   };
   const patchTask = async (
     tx: Transaction,
@@ -521,7 +520,13 @@ export function taskService(options: AccessOptions = {}) {
     );
     await replaceAssignments(tx, id, afterIds);
     if (groupPlacement)
-      await placeInGroup(tx, t.project_id, after.group_id as number | null, id, groupPlacement.before);
+      await placeInGroup(
+        tx,
+        t.project_id,
+        after.group_id as number | null,
+        id,
+        groupPlacement.before,
+      );
     const affected = new Set<Status>();
     if (statusChanged) {
       await append(tx, after);
@@ -542,7 +547,10 @@ export function taskService(options: AccessOptions = {}) {
       ordering
         ? [...changes, { field: 'before_task_id', before: null, after: ordering.before }]
         : groupPlacement && Object.hasOwn(b, 'group_before_task_id')
-          ? [...changes, { field: 'group_before_task_id', before: null, after: groupPlacement.before }]
+          ? [
+              ...changes,
+              { field: 'group_before_task_id', before: null, after: groupPlacement.before },
+            ]
           : changes,
       request,
     );
@@ -618,10 +626,11 @@ export function taskService(options: AccessOptions = {}) {
       for (const s of await subtasks(tx, id))
         await tx.execute(
           sql(
-            'INSERT INTO dbo.subtasks(task_id,title,assignee_id,done,version,created_at) VALUES(@task,@title,@assignee,0,1,@now)',
+            'INSERT INTO dbo.subtasks(task_id,title,assignee_id,done,version,created_at,remark) VALUES(@task,@title,@assignee,0,1,@now,@remark)',
             {
               task: successor.id,
               title: s.title,
+              remark: s.remark,
               assignee:
                 s.assignee_id !== null &&
                 (await eligible(tx, after.project_id, s.assignee_id, true))
@@ -1343,12 +1352,18 @@ export function taskService(options: AccessOptions = {}) {
       const assignee = (b.assignee_id as number | null | undefined) ?? null;
       if (assignee !== null && !(await eligible(tx, t.project_id, assignee, true)))
         throw new ApiFault('ASSIGNEE_INELIGIBLE');
-      const parameters = { task: id, title: String(b.title), assignee, now: now() };
+      const parameters = {
+        task: id,
+        title: String(b.title),
+        assignee,
+        now: now(),
+        remark: String(b.remark ?? ''),
+      };
       const rows = await tx.query<{ id: number }>({
         sqlite:
-          'INSERT INTO subtasks(task_id,title,assignee_id,created_at) VALUES($task,$title,$assignee,$now) RETURNING id',
+          'INSERT INTO subtasks(task_id,title,assignee_id,created_at,remark) VALUES($task,$title,$assignee,$now,$remark) RETURNING id',
         sqlserver:
-          'INSERT INTO dbo.subtasks(task_id,title,assignee_id,created_at) OUTPUT INSERTED.id VALUES(@task,@title,@assignee,@now)',
+          'INSERT INTO dbo.subtasks(task_id,title,assignee_id,created_at,remark) OUTPUT INSERTED.id VALUES(@task,@title,@assignee,@now,@remark)',
         parameters,
       });
       await bumpTaskVersion(tx, t.project_id, id, t.version, now());
@@ -1361,7 +1376,13 @@ export function taskService(options: AccessOptions = {}) {
           {
             field: 'subtask',
             before: null,
-            after: { id: rows[0]!.id, title: b.title, done: false },
+            after: {
+              id: rows[0]!.id,
+              title: b.title,
+              done: false,
+              assignee_id: assignee,
+              remark: parameters.remark,
+            },
           },
         ],
         request,
@@ -1400,6 +1421,7 @@ export function taskService(options: AccessOptions = {}) {
           ? (b.assignee_id as number | null)
           : s.assignee_id,
         title: String(b.title ?? s.title),
+        remark: String(b.remark ?? s.remark),
         done: b.done === undefined ? s.done : Number(b.done),
         version,
       };
@@ -1413,12 +1435,13 @@ export function taskService(options: AccessOptions = {}) {
       else
         await tx.execute(
           sql(
-            'UPDATE dbo.subtasks SET title=@title,done=@done,assignee_id=@assignee,version=@version WHERE id=@id AND version=@expected',
+            'UPDATE dbo.subtasks SET title=@title,done=@done,assignee_id=@assignee,remark=@remark,version=@version WHERE id=@id AND version=@expected',
             {
               id,
               title: after.title,
               done: after.done,
               assignee: after.assignee_id,
+              remark: after.remark,
               version,
               expected: s.version,
             },

@@ -1,6 +1,73 @@
-# TeamFlow — Test Cases หลังพัฒนา v1.34
+# TeamFlow — Test Cases หลังพัฒนา v1.52
 
-**วันที่:** 7 ตุลาคม 2026 · **สถานะ:** ชุดทดสอบที่ออกแบบไว้ ยังไม่รัน
+## Subitem cells and picker regression - 10 October 2026
+
+Owner requested actual integration. Partial TC-025/027/028, FR-14/15 and AT-09/10 trace covers searchable eligible owner selection, independent assignment, clear assignment, keyboard/Escape, top-layer mobile popup geometry, compact edit/cancel, two-state child completion and persistence after reload. Parent task completion/recurrence/read-only/version guards retain existing regression coverage. Evidence: TeamFlow_Cell_Pickers_Implementation_Report.md / tests/browser/cell-pickers.spec.ts plus existing task/checklist/board/Vibe/motion cases. These scoped local runs do not mark full TC/AT/native SQL/Windows/UAT passed.
+
+## Checklist table and autosave - 9 October 2026
+
+Owner final scope supersedes earlier Start/End request: Checklist | Assign | Remark. + Add reveals a draft row; click the title/remark cell to edit; leaving the entire row by pointer or keyboard saves automatically, with no Save button. Moving between fields does not save. Cancel/Escape discards the row draft; empty rows never create items; failed saves preserve input. Delete is a trash icon with an accessible name and confirmation. Child remark is plain text, max2000 UTF16 units; omission on PATCH preserves it, empty string clears it. Provider-specific migration0014 adds only remark, defaults legacy rows to empty, preserving all old fields/versions/history. Recurrence copies remark as checklist instructions and resets completion; independent assignee eligibility and existing lifecycle/permission/version/idempotency/atomic audit guards remain. API1.11.0,85 routes/115 schemas. Declared UI T-033 Medium, schema/contracts T-008/T-003 High; actual model/effort NOT_VERIFIED. Local validation PASS: npm test511 (Node462/frontend49, contract66 and plan17 subsets);11 distinct Chromium cases PASS across runs, initial10/11 followed by corrected2/2 and final visual2/2. The initial failure was a test missing reopening the drawer after reload, not data loss. Build/typecheck/lint/check:contract PASS; lint2 existing warnings. Evidence: TeamFlow_Checklist_Table_Report.md / reports/checklist-table/results.json. Live local0014 upgrade preserves hashes of all33 legacy tables/256 rows before restart; backup kept outside repository; readiness PASS and existing Task inspected without mutations. formal tasks remain unchanged. Native SQL2022/Windows/UAT NOT_RUN. Register DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84; next formal T-091 High.
+
+## System functional precheck and compact file actions - 9 October 2026
+
+Owner requested checking other functions after the attachment screenshot. Declared T-044 Medium / T-091 local precheck High; actual model/effort NOT_VERIFIED. Compact file cards retain full accessible action names and lifecycle guards. Full check found and repaired Task textarea approved minimum92px (new CSS had90px) and an unused Main table test binding; production board behavior unchanged. npm test508PASS (Node459/frontend49, including contract65/planning17); initial browser84/85PASS then focused7/7PASS, all85 distinct cases PASS across runs. Build/typecheck/lint PASS, lint2 existing warnings. Partial FR-12/28/29/41–53, TC-025/027/035/052–059/085–099 and AT-09/14/15/21/22/31–40; no full acceptance claim. Evidence: TeamFlow_System_Functional_Check_Report.md / reports/system-functional-check/results.json. Native SQL2022/Windows/UAT/actual performance/ZIP release NOT_RUN; formal dependencies and task statuses unchanged. DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84; next formal T-091 High.
+
+
+## Task group-order history correction - 9 October 2026
+
+Owner reported Task#4 Reference ID a54f4fcd-e810-4528-b102-c7bf52c25135. Live operational log confirms INTERNAL_ERROR/HTTP500 during periodic reads; opening the unchanged task reproduces the banner before Save. Existing group-order events contain group_before_task_id, documented since API1.8, but EventChange and the frontend parser omitted it. Contract1.10.1 adds that existing field and an Activity label; no new route, database migration or mutation behavior. Declared T-003/T-040 High and T-032/T-044 Medium; actual model/effort NOT_VERIFIED. Partial FR-12/18/29, TC-025/027/035/052 and AT-09/14/15/21. Evidence: TeamFlow_Task_History_Fix_Report.md / reports/task-history-fix/results.json. Parent statuses remain unchanged; native SQL2022/Windows/UAT NOT_RUN. Register DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84; next formal T-091 High.
+
+
+## Task editor sub-tabs visual follow-up - 9 October 2026
+
+Owner requested individual review of Details, Checklist, Updates, Files and Activity from Task#11 Files screenshot. Scoped task-editor-tabs.css corrects checkbox16x16/horizontal labels; styles empty/populated checklist, comments, attachment/upload and history panels; preserves readable mobile tabs and explicit action colors. Short Checklist Edit/Delete controls retain full accessible names. Drawer notices flow vertically to avoid overlap after several independent saves. No API/schema/migration/permission/save/idempotency change. Declared T-044/T-089 Medium; actual model/effort NOT_VERIFIED. Partial FR-16/19/27/28/29, NFR-09, TC-027/035/053–058/098 and AT-15/21/22/39. Seven distinct Chromium scenarios PASS across runs (final notice regression2/2); frontend49/49, build/typecheck/focused lint PASS. Evidence: TeamFlow_Task_Editor_Tabs_Visual_Report.md / reports/task-editor-tabs-visual/results.json. Actual Task#11 inspected read-only; user data unchanged; Claude board files/port untouched. Parent statuses unchanged; native SQL2022/Windows/UAT NOT_RUN. Register DONE7/91, remaining84; next formal T-091 High.
+
+## Project details and subforms visual follow-up - 9 October 2026
+
+Owner requested Project details/subforms to match the styled menus. Dedicated project-detail-visual.css preserves the plain header and styles stationary horizontal tabs, Overview, Members, Docs, Files, Workload, filters, tables, Kanban and Calendar/Gantt surfaces. Shared Task editor uses readable mobile tabs/fields and blue Save/gray Cancel/red Delete; metadata/archive dialogs add explicit Cancel without submitting; membership/Docs controls receive action colors. Preserve permission/privacy/version/idempotency/offline/maintenance checks and existing motion/reduced motion. Declared T-024/T-084/T-088/T-089 Medium (shared Calendar/Gantt T-046 High); actual model/effort NOT_VERIFIED. Partial FR-09–11/19/25/48–51, NFR-09, TC-016/017/018/049/093/094/095/098 and AT-07/08/19/29/35/36/37/39. Final Chromium8/8, frontend49/49, build/typecheck/focused lint PASS. Evidence: TeamFlow_Project_Detail_Visual_Report.md / reports/project-detail-visual/results.json. No backend/API/schema/data change; concurrent Claude board files untouched. Parent statuses unchanged; SQL2022/Windows/UAT NOT_RUN. Register DONE7/91, remaining84; next formal T-091 High.
+
+## Plain menu headers and Add member search follow-up - 9 October 2026
+
+Owner supplied the Home plain-header reference and requested it across all styled menus while the Add member follow-up was active. Declared T-023/T-089 Medium (Calendar parent T-046 High); actual model/effort NOT_VERIFIED. New page-headers.css provides plain breadcrumb/title20px/description13px/bottom-divider headers for Home, Reports, My Work, Trash, Admin, Settings, All Projects, Work Calendar and Teams, plus the team details title; cards/buttons keep existing color. Member dialog uses aligned search controls, visible Users loading/empty states, position/access fields and Save/Cancel colors. Fix repeated/blank Search clearing Users without a fresh request by adding directoryReload to the directory effect. Preserve manual Review & Save, permissions/privacy, versions, paging, offline/maintenance guards and reduced motion. Partial FR-06/07/08 and NFR-09, TC-013/015/023/098, AT-06/07/39. Evidence: TeamFlow_Header_Member_Followup_Report.md / reports/header-member-followup/results.json. Six distinct browser scenarios PASS across focused runs, frontend49/49, typecheck/build/focused lint PASS. Parent statuses unchanged; SQL2022/Windows/UAT NOT_RUN. Register DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84; next formal T-091 High.
+
+## Teams and members visual follow-up - 9 October 2026
+
+Owner requested Teams & members to match the other styled pages. Declared T-023/T-088 Medium; partial FR-06/07/08/50, TC-013/015/023/095/098 and AT-06/07/37/39. Dedicated teams-visual.css uses tinted headers, purple/blue/green team cards, gray archived cards, stationary pill tabs, Team info/summary surfaces, position chips, Members grid/action colors and Workload card. Cards reveal by opacity only; tab panels do not animate. Mobile directory stacks, info cards stack and Members/Workload tables scroll internally. Preserve PM/Lead/Dev separate from permissions, privacy, explicit Save/Cancel/review/version behavior and actual workload counts. No API/schema/data change; Claude board files untouched. Evidence: TeamFlow_Teams_Visual_Report.md / reports/teams-visual/results.json. Five distinct Chromium scenarios PASS across focused runs, typecheck/build/focused lint PASS; parent statuses unchanged. SQL2022/Windows/UAT NOT_RUN. Register DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84; actual model/effort NOT_VERIFIED; next formal T-091 High.
+
+## Work Calendar visual follow-up - 9 October 2026
+
+Owner requested Work Calendar to match the other styled pages. Declared T-046 High, partial FR-25/TC-049/098 and AT-19/39. Dedicated work-calendar-visual.css styles only the Work calendar root: tinted header/filter card, stationary pill tabs, month controls, colored status events, explicit Today text and bordered grid, undated/range lists. CalendarView adds semantic date labels/aria-current for today. Mobile grid scrolls internally; opacity reveal380ms honors reduced motion. Preserve date-only Bangkok placement, actual counts, month/filter/detail/paging and Viewer/archived permissions. No API/schema/live-data change; Claude board files untouched. Evidence: TeamFlow_Work_Calendar_Visual_Report.md / reports/work-calendar-visual/results.json. Chromium4/4 plus final visual1/1, frontend49/49, typecheck/build/focused lint PASS. Parent T-046 remains IN_PROGRESS; SQL2022/Windows/UAT NOT_RUN. Register DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84; actual model/effort NOT_VERIFIED; next formal T-091 High.
+
+## All Projects visual follow-up - 9 October 2026
+
+Owner requested All Projects to match Home/Reports/My Work. T-024 Medium, partial FR-09/10, TC-015/016/022/098, AT-07/39. Scoped all-projects-visual.css adds a tinted header, primary Create button, purple/blue/green cards, owner-team chips, clearer progress and gray archived cards. Cards reveal with opacity only; hover does not translate. Preserve actual API counts, permission scope, card/menu/keyboard navigation, explicit Save, version handling and reduced motion. No business/API/schema/data change; concurrent Claude board files untouched. Evidence: TeamFlow_All_Projects_Visual_Report.md / reports/all-projects-visual/results.json. T-024 remains IN_PROGRESS; SQL2022/Windows/UAT NOT_RUN. Register DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84; actual model/effort NOT_VERIFIED; next formal T-091 High.
+
+## Trash / Admin / Settings visual follow-up - 9 October 2026
+
+Owner requested the Home/Reports/My Work style for Trash, Admin and Settings. Declared T-018/T-025/T-033/T-082/T-089 Medium; partial FR-03/04/17/43 and NFR-09, TC-034/075/090/098 plus existing account UI cases. Scoped management-visual.css uses tinted page headers, card surfaces, pill navigation, readable tables, colored member actions and restore controls, mobile layouts and reduced-motion-compatible opacity reveal. Trash adds gray Cancel in restore confirmation; it closes without a write and is disabled while pending. Preserve restore cutoff/idempotency/archived access, Admin permissions/versions/sticky matrix, Profile permissions read-only, Organization manual Save and Appearance preference autosave. No backend/API/schema/migration or live data change. Evidence: TeamFlow_Management_Visual_Report.md / reports/management-visual/results.json. Nine distinct Chromium scenarios PASS across focused runs (existing8 + finalvisual1), frontend49/49, typecheck/build/focused lint PASS; test-plan17/17 PASS (inventory only). Parent statuses unchanged; SQL2022/Windows/UAT NOT_RUN. DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84; actual model/effort NOT_VERIFIED; next formal T-091 High.
+
+## My Work visual follow-up - 9 October 2026
+
+Owner requested My Work to match the Home/Reports style. T-083 Medium, T-086 High (presentation-only follow-up), reusing T-089 motion. Trace FR-45/52, partial TC-091/096/098 and AT-34/38/39. Add a tinted header, pill view tabs, grouped filter card, colored due-group cards/count badges and readable grid rows. Personal Task column stays pinned; Assignee is not pinned (there is no Select column). Responsive grid has a minimum width so mobile titles remain readable and other columns scroll inside the table; document does not widen. Group reveal is opacity only; collapse does not translate content. Preserve existing query/scope/inline status/task details/calendar/Gantt/access and reduced-motion behavior. No TaskWorkspace/ProjectTasks/backend/API/schema/data change in this follow-up. Evidence: TeamFlow_My_Work_Visual_Report.md / reports/my-work-visual/results.json. Isolated Chromium5/5 plus final visual1/1, typecheck/build/focused lint PASS; formal SQL2022/Windows/UAT NOT_RUN. Parent statuses unchanged. DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84; actual model/effort NOT_VERIFIED; next formal T-091 High.
+
+## Home visual follow-up - 9 October 2026
+
+Owner requested Home to use the same colors and animation as Reports. T-083 Medium, FR-44/45, AT-34 and partial TC-091/098; existing T-089 motion helpers reused. Add a tinted welcome card with Bangkok date/open-task link, five colored/icon summary cards, bordered status/project bar panels and a full-width Up next list with status/date badges. Preserve all widget queries, API counts, permission scope, task deep links and empty states. Card reveal uses opacity; bars use scaleX650ms and existing count-up remains accessible with immediate final labels. User/OS reduced motion respected; no tab/page translation added. Home-only styles preserve shared Project overview presentation. No backend/API/schema/migration change. Evidence: TeamFlow_Home_Visual_Report.md / reports/home-visual/results.json. Browser2/2, frontend49/49, typecheck/build/focused lint PASS; test-plan17/17 PASS (inventory only). SQL2022/Windows/UAT NOT_RUN; T-083 remains IN_PROGRESS. DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84; actual model/effort NOT_VERIFIED; next formal T-091 High.
+
+## Reports visual follow-up - 9 October 2026
+
+Owner asked for a more attractive Reports dashboard with color and animation. T-054 Medium (existing T-089 motion helpers reused); FR-32/33/34 and partial TC-064/065/066/073/098, AT-24/18/26/39. Group scope/date controls in a filter card with primary CSV export, five tinted/icon KPI cards, bordered chart panels, status counts/rounded shares, assignee avatars and colored bars. Animate numbers and chart bars only; keep the filter/page stationary and honor user/OS reduced motion. Exact percentage precision, metric/date definitions, permission scope and shared CSV filters remain unchanged. No API/schema/migration change. Evidence: TeamFlow_Reports_Visual_Report.md / reports/reports-visual/results.json. Browser5/5 plus final visual1/1, frontend49/49, typecheck/build/focused lint PASS; formal SQL2022/Windows/UAT NOT_RUN. DONE7/91, remaining84; actual model/effort NOT_VERIFIED; next formal T-091 High.
+
+## Team tabs stay stationary - owner correction 9 October 2026
+
+T-023/T-089 Medium; partial TC-073/098 and AT-18/26/39. AN-01 whole-page fade/slide runs on main pathname changes only. Query-only changes such as tab/filter selection must not replay it or move the tab bar. Team keyboard tab focus uses preventScroll. Preserve URL/reload, existing scoped permissions and reduced-motion preferences. Evidence: TeamFlow_Team_Details_UX_Report.md / reports/team-details-ux/stable-results.json. Browser3/3 PASS (1280px/360px stable geometry, zero page animation calls for tab changes, one for main navigation, original motion/reduced-motion regression); typecheck/build/focused lint PASS. No API/schema/data change; SQL2022/Windows/UAT NOT_RUN. DONE7/91, remaining84; actual model/effort NOT_VERIFIED; next formal T-091 High.
+
+## Owner team details follow-up - 9 October 2026
+
+Partial TC-013/015/023/073/095 and AT-06/07/18/26/37: verify card body/keyboard entry from Teams and Admin, tabs/URL/reload, compact member grid with hidden forms, persisted position versus access, Save/Cancel/remove confirmation, info version conflict and active-project archive guard. Test 360px internal scrolling, keyboard tabs, Admin-only member privacy, workload 403 for position-only Lead, and revoked team hiding. Local subset and synthetic screenshots: TeamFlow_Team_Details_UX_Report.md. Formal testcase/provider/Windows/UAT statuses remain NOT_RUN.
+
+
+**วันที่:** 9 ตุลาคม 2026 · **สถานะ:** ชุดทดสอบที่ออกแบบไว้ ยังไม่รัน
 **จำนวน:** 99 Test Cases · 13 หมวด · ครอบคลุม FR-01–FR-53 (FR-46 deferred) และ AT-01–AT-40  
 **ใช้คู่กับ:** `TeamFlow_Test_Plan_v1.0.md` และต้นทาง Requirements/SRS/Task v1.0
 
@@ -421,6 +488,8 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 
 ### TC-013 — สร้างทีม ชื่อไม่ซ้ำ และสมาชิกหลายทีม
 
+Owner Team/Member extension 2026-10-09 (partial TC-007/012/013/014/015 / AT-03/04/05/06): create Team Name/Description with active initial members in positions PM/Lead/Dev; all initial permission roles member, position Lead alone must not grant Lead access. Edit position retains permission/session/assignments; existing permission Lead stays unchanged. Create/edit Member Name/Email/Role/Team/Tel., reload/clear/omitted contacts, stale and invalid values; team selection adds without deleting existing memberships. Verify rollback for missing/duplicate/inactive IDs and forced account/contact/audit transaction failure; migrate populated data preserving credentials/org roles/team permission roles. Desktop/360px screenshots use synthetic data. Executed local subset is in `TeamFlow_Team_Member_Details_Report.md`; full testcase/provider/UAT statuses remain NOT_RUN.
+
 **Priority:** P0 · **Role:** A · **Method:** UI + Integration  
 **Trace:** FR-06, FR-07, FR-08 · **Acceptance:** AT-06  
 **Preconditions / Test Data:** fixture ทีม1/ทีม2 พร้อม A/M1
@@ -459,6 +528,8 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 **Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
 
 ### TC-015 — Lead ดูแลได้เฉพาะทีมที่เป็นเจ้าของ
+
+Owner project-detail extension 2026-10-09 (FR-09, partial AT-07): สร้าง/แก้ Project Name, Type (default Internal), Category (default Development), Detail และเลือก Owner team เมื่อสร้าง; ตรวจ persisted enum/default/Thai/Unicode/multiline, omitted fields/clearing, stale version, invalid enum/null, immutable owner team, idempotent replay และ rollback พร้อม audit. ตรวจ dropdown/label/focus/Esc ที่ desktop และ 360px. Executed local subset is recorded separately in `TeamFlow_Project_Details_Report.md`; full TC-015/provider/UAT result remains NOT_RUN.
 
 **Priority:** P0 · **Role:** L1 · **Method:** UI + Integration  
 **Trace:** FR-05, FR-08, FR-09 · **Acceptance:** AT-06, AT-07  
@@ -708,6 +779,7 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 
 **Expected Results:**
 
+- Owner Subitem/autosave follow-up: + Add subitem opens the row; leaving row saves once; moving across fields and the owner popup does not save. Cancel/Escape discards the draft; failed save preserves title/assignee/remark; reload retains saved data. Four columns Subitem/Owner/Status/Remark; no child dates; owner avatar/search popup and colored status-cell options have no dropdown arrows. Child status only To do/Done; eligible owner0–1 remains independent. Keyboard/Escape, clear assignment, compact aligned editing, delete icon/confirmation and mobile popup/table containment remain required.
 - CRUDversion ถูก
 - incomplete422 SUBTASKS_INCOMPLETE ไม่เปลี่ยน parent
 - ติ๊กครบไม่ auto-done;กด done สำเร็จเมื่อ baseline ยืนยันแบบ SRS
@@ -1209,6 +1281,8 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 **Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
 
 ### TC-052 — Audit fields/actor/time และ immutability
+
+Owner defect regression: reorder before another task and append with null, read existing paginated history, then open Details/Activity and save Thai title without losing history. Executed local subset: TeamFlow_Task_History_Fix_Report.md / reports/task-history-fix/results.json; native SQL/Windows/full TC-052 acceptance NOT_RUN.
 
 **Priority:** P0 · **Role:** M1/A · **Method:** UI + Integration  
 **Trace:** FR-29, FR-39 · **Acceptance:** AT-21, AT-28  
@@ -1993,6 +2067,8 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 **Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
 
 ### TC-090 — Admin center + Permission matrix bulk/preset/conflict
+
+Owner layout extension 2026-10-09: permissionsเรียงแถว/memberเป็นคอลัมน์ด้านบน, เลื่อนสมาชิกแนวนอนโดยคอลัมน์ permission อยู่ที่เดิม, เลื่อนลงโดยชื่อสมาชิกยังอยู่ด้านบน. ตรวจ desktop/360px ว่าหน้าไม่ overflow; select-all/preset ไม่รวม self; ติ๊ก P-08 ของสมาชิกหนึ่งคนแล้ว Save/reload ต้องคงเฉพาะคนนั้น, stale ต้องไม่ทับสิทธิ์อีกแท็บ. Local subset evidence: `TeamFlow_Permission_Layout_Report.md`; full TC-090/provider/UAT stays NOT_RUN.
 
 **Priority:** P1 · **Role:** Admin · **Method:** UI + Integration
 **Trace:** FR-43 · **Acceptance:** AT-33

@@ -481,7 +481,11 @@ test('T036 >500 controlled boundary fixture renders paginated list and task-deta
     const open = b.getByRole('button', { name: /Open task/ }).first();
     await open.click();
     const d = detail(page);
-    await d.getByLabel('Status', { exact: true }).selectOption('doing');
+    await d.getByLabel('Status', { exact: true }).click();
+    await d
+      .getByRole('listbox', { name: 'Options for Status', exact: true })
+      .getByRole('option', { name: 'Working on it', exact: true })
+      .click();
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
     await expect(d.getByText('Task saved', { exact: true })).toBeVisible();
   } finally {

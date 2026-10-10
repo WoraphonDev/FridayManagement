@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-09",
+  "environment": {
+    "node": "22.23.3",
+    "browser": "Chrome for Testing153.0.8010.12 via Playwright1.63",
+    "os": "macOS",
+    "provider": "temporary synthetic SQLite",
+    "browserPort": 43239,
+    "mobile": "emulated viewport/touch, not real-device acceptance"
+  },
+  "effort": {
+    "T-044": "Medium",
+    "T-091 local precheck": "High",
+    "actualRuntime": "NOT_VERIFIED"
+  },
+  "checks": {
+    "npmTest": {
+      "result": "PASS",
+      "nodeTests": 459,
+      "frontendTests": 49,
+      "total": 508,
+      "includesContractTests": 65,
+      "includesTestPlanPolicy": 17,
+      "nodeSuites": 24
+    },
+    "typecheck": "PASS",
+    "build": "PASS",
+    "lint": "PASS with2 existing react-refresh warnings",
+    "browserInitial": {
+      "startTime": "2026-10-09T15:52:36.669Z",
+      "duration": 422624.026,
+      "expected": 84,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "browserFinalFocused": {
+      "startTime": "2026-10-09T16:00:39.040Z",
+      "duration": 48140.975999999995,
+      "expected": 7,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "browserDistinctCases": 85,
+    "browserDistinctResult": "PASS across runs (not one85/85 final run)",
+    "diffCheck": "PASS"
+  },
+  "repairs": [
+    "Compact file cards: filename once, accessible full action names, short icon buttons, decimal KB/MB and exact bytes tooltip",
+    "Task textarea92px approved geometry restored after new visual CSS overrode it with90px",
+    "Unused Phase B test variable removed; same fixture creation retained"
+  ],
+  "notRun": [
+    "SQL Server2022 native",
+    "Windows",
+    "Owner UAT",
+    "Full device/browser matrix",
+    "Actual performance load/memory (policy only in npm test)",
+    "Source ZIP/release gate"
+  ],
+  "taskRegister": {
+    "done": 7,
+    "total": 91,
+    "remaining": 84,
+    "inProgress": 82,
+    "inReview": 1,
+    "todo": 1
+  },
+  "T091": "TODO unchanged: owner-requested local precheck does not close formal dependencies/SQL/Windows/UAT",
+  "live": "Task4 Files inspected read-only; original attachment intact; no real upload/download/delete/restore/save; no database migration/server restart; board production files and Claude port43171 untouched; one targeted main-table test lint fix"
+}

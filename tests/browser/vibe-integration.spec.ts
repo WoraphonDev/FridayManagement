@@ -47,8 +47,9 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
     await drawer.getByRole('button', { name: 'Save task', exact: true }).click();
     await expect(drawer.getByText('Version 2 · Checklist 0/0')).toBeVisible();
     await drawer.getByRole('tab', { name: 'Checklist', exact: true }).click();
-    await drawer.getByLabel('Add checklist item', { exact: true }).fill('Check accessibility');
     await drawer.getByRole('button', { name: 'Add checklist item', exact: true }).click();
+    await drawer.getByLabel('Add checklist item', { exact: true }).fill('Check accessibility');
+    await drawer.getByRole('heading', { name: /Checklist [0-9]+\/[0-9]+/, exact: true }).click();
     await drawer
       .getByRole('combobox', { name: 'Assign checklist: Check accessibility', exact: true })
       .click();
@@ -82,7 +83,7 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
     await expect(status).toContainText('Working on it');
     const geometry = await status.evaluate((el) => {
       const outer = el.getBoundingClientRect(),
-        label = el.querySelector('[class*="typography"]')!.getBoundingClientRect();
+        label = el.querySelector('.status-cell-label')!.getBoundingClientRect();
       return {
         height: outer.height,
         dy: Math.abs(outer.y + outer.height / 2 - label.y - label.height / 2),

@@ -139,6 +139,100 @@ test('T020/21 HTTP locked DTOs, pagination, idempotent creates and scoped replay
       1,
     );
   }));
+test('T021/024 HTTP project details persist, replay, validate and preserve permissions/version', () =>
+  fixture(async (base) => {
+    const admin = await login(base),
+      member = await login(base, 'Member');
+    const headers = { ...admin.headers, 'Idempotency-Key': randomUUID() };
+    const payload = {
+      owner_team_id: 1,
+      name: '  โครงการใหม่ 🚀  ',
+      description: 'รายละเอียด\nDevelopment',
+      project_type: 'client',
+      project_category: 'development',
+    };
+    const made = await mutate(base, '/api/projects', headers, payload, 'POST');
+    assert.equal(made.status, 201);
+    assert.equal(made.body.item.name, 'โครงการใหม่ 🚀');
+    assert.equal(made.body.item.project_type, 'client');
+    assert.equal(made.body.item.project_category, 'development');
+    assert.deepEqual(await mutate(base, '/api/projects', headers, payload, 'POST'), made);
+    assert.equal(
+      (
+        await mutate(
+          base,
+          '/api/projects',
+          headers,
+          { ...payload, project_type: 'internal' },
+          'POST',
+        )
+      ).status,
+      409,
+    );
+    const path = `/api/projects/${made.body.item.id}`;
+    const updated = await mutate(base, path, admin.headers, {
+      version: 1,
+      project_type: 'operations',
+      project_category: 'finance',
+    });
+    assert.equal(updated.status, 200);
+    assert.equal(updated.body.item.description, payload.description);
+    assert.equal(updated.body.item.project_type, 'operations');
+    assert.equal(updated.body.item.project_category, 'finance');
+    assert.equal(
+      (await mutate(base, path, admin.headers, { version: 1, project_category: 'it' })).status,
+      409,
+    );
+    for (const invalid of [
+      { project_type: 'invalid' },
+      { project_category: 'invalid' },
+      { project_type: null },
+      { owner_team_id: 2 },
+    ]) {
+      assert.equal(
+        (await mutate(base, path, admin.headers, { version: 2, ...invalid })).status,
+        422,
+      );
+    }
+    const rename = await mutate(base, path, admin.headers, { version: 2, name: 'ชื่อใหม่' });
+    assert.equal(rename.status, 200);
+    assert.equal(rename.body.item.project_type, 'operations');
+    assert.equal(rename.body.item.project_category, 'finance');
+    const blank = await mutate(base, path, admin.headers, {
+      version: 3,
+      project_type: '',
+      project_category: '',
+    });
+    assert.equal(blank.status, 200);
+    assert.equal(blank.body.item.project_type, '');
+    assert.equal(blank.body.item.project_category, '');
+    const defaults = await mutate(
+      base,
+      '/api/projects',
+      { ...admin.headers, 'Idempotency-Key': randomUUID() },
+      { owner_team_id: 1, name: 'Defaults' },
+      'POST',
+    );
+    assert.equal(defaults.status, 201);
+    assert.equal(defaults.body.item.project_type, 'internal');
+    assert.equal(defaults.body.item.project_category, 'development');
+    assert.equal(
+      (
+        await mutate(
+          base,
+          '/api/projects',
+          { ...member.headers, 'Idempotency-Key': randomUUID() },
+          payload,
+          'POST',
+        )
+      ).status,
+      403,
+    );
+    assert.equal(
+      (await mutate(base, path, member.headers, { version: 4, project_category: 'it' })).status,
+      404,
+    );
+  }));
 test('T021/22 HTTP cross-team Viewer/downgrade/remove/version boundaries protect effective rights', () =>
   fixture(async (base, f) => {
     const admin = await login(base),

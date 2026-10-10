@@ -1,0 +1,28 @@
+{
+  "date": "2026-10-09",
+  "origin": "http://127.0.0.1:5000",
+  "migrationApplied": "0013_team_member_details.sql",
+  "existingBusinessTables": "UNCHANGED (legacy columns and counts compared after migration)",
+  "contacts": "EMPTY DEFAULTS",
+  "positions": "LEGACY LEAD => lead; OTHER => dev; permission roles unchanged",
+  "counts": {
+    "projects": 3,
+    "tasks": 14,
+    "teams": 2,
+    "users": 4,
+    "team_members": 6
+  },
+  "otherAgentPort43171": "NOT_TOUCHED",
+  "backup": "Private temporary backup outside repository",
+  "liveUi": "PASS: existing Member Confirm -> User saved; existing Team Save and reload; position/role table checked. Live create/contact changes NOT_RUN; isolated fixture covers them.",
+  "acceptance": "Local only; SQL2022/Windows/UAT NOT_RUN",
+  "protectedDataAfterUi": {
+    "users": true,
+    "team_members": true,
+    "user_permissions": true,
+    "projects": true,
+    "tasks": true,
+    "teamContent": true
+  },
+  "teamSaveVersionDelta": 1
+}

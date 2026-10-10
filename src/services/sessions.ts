@@ -4,6 +4,7 @@ import { utcNow, bangkokToday } from '../domain/dates.js';
 import { requireVersion } from '../domain/lifecycle.js';
 import { runTransaction } from '../domain/transaction.js';
 import { sql, projectList } from '../repository/access-scope.js';
+import { userTeams } from '../repository/user-teams.js';
 import { hashPassword, verifyPassword, isPasswordHash } from '../security/passwords.js';
 import { consumeLoginAttempt } from '../security/rate-limit.js';
 import { tokenDigest } from '../security/session-cookie.js';
@@ -85,10 +86,12 @@ export async function sessionService(database: Database, options: SessionOptions
         job_title_id: number | null;
         job_title: string | null;
         permissions_version: number;
+        email: string;
+        telephone: string;
       }
     >(
       sql(
-        'SELECT u.id,u.username,u.display_name,u.org_role,u.active,u.must_change_password,u.version,u.created_at,u.updated_at,u.job_title_id,(SELECT jt.name FROM dbo.job_titles jt WHERE jt.id=u.job_title_id) AS job_title,u.permissions_version,s.csrf_token,r.revision FROM dbo.users u JOIN dbo.sessions s ON s.user_id=u.id JOIN dbo.user_view_revisions r ON r.user_id=u.id WHERE u.id=@id AND s.token_hash=@hash',
+        'SELECT u.id,u.username,u.display_name,u.email,u.telephone,u.org_role,u.active,u.must_change_password,u.version,u.created_at,u.updated_at,u.job_title_id,(SELECT jt.name FROM dbo.job_titles jt WHERE jt.id=u.job_title_id) AS job_title,u.permissions_version,s.csrf_token,r.revision FROM dbo.users u JOIN dbo.sessions s ON s.user_id=u.id JOIN dbo.user_view_revisions r ON r.user_id=u.id WHERE u.id=@id AND s.token_hash=@hash',
         { id: proof.userId, hash: proof.tokenHash },
       ),
     );
@@ -118,6 +121,9 @@ export async function sessionService(database: Database, options: SessionOptions
         created_at: row.created_at,
         updated_at: row.updated_at,
         job_title_id: row.job_title_id,
+        email: row.email,
+        telephone: row.telephone,
+        teams: await userTeams(tx, row.id),
         job_title: row.job_title,
         // FR-43: users read their own current grants (read-only Settings view).
         permission_keys: (await permissionKeysOf(tx, row.id)).split(',').filter(Boolean),

@@ -1,5 +1,8 @@
-import { Dropdown, Avatar } from '@vibe/core';
-export type Person = { id: number; display_name: string; active?: boolean };
+import { Avatar } from '@vibe/core';
+import { useState } from 'react';
+import { CellPopover } from './CellPopover';
+import { UiIcon } from './UiIcon';
+export type Person = { id: number; display_name: string; active?: boolean; role?: string };
 export function PeoplePicker({
   label,
   people,
@@ -15,43 +18,82 @@ export function PeoplePicker({
   disabled?: boolean;
   multiple?: boolean;
 }) {
-  const options = people.map((p) => ({
-    value: String(p.id),
-    label: p.display_name,
-    disabled: p.active === false,
-  }));
-  const shared = {
-    options,
-    size: 'small' as const,
-    disabled,
-    searchable: false as const,
-    inputAriaLabel: label,
-    'aria-label': label,
-    clearAriaLabel: `Clear ${label}`,
-    menuAriaLabel: `Options for ${label}`,
-    placeholder: 'Unassigned',
-  };
+  const [search, setSearch] = useState('');
+  const filtered = people.filter((p) =>
+    `${p.display_name} ${p.role ?? ''}`
+      .toLocaleLowerCase()
+      .includes(search.trim().toLocaleLowerCase()),
+  );
   return (
     <div className="people-picker">
-      {multiple ? (
-        <Dropdown
-          {...shared}
-          multi
-          multiline
-          clearable
-          value={options.filter((o) => value.includes(Number(o.value)))}
-          onChange={(selected) => onChange(selected.map((o) => Number(o.value)))}
-        />
-      ) : (
-        <Dropdown
-          {...shared}
-          value={[{ value: '', label: 'Unassigned' }, ...options].find(
-            (o) => o.value === String(value[0] ?? ''),
-          )}
-          options={[{ value: '', label: 'Unassigned' }, ...options]}
-          onChange={(selected) => onChange(selected.value ? [Number(selected.value)] : [])}
-        />
-      )}
+      <CellPopover
+        label={label}
+        disabled={disabled}
+        multiple={multiple}
+        className="person-cell"
+        value={
+          <Assignees compact={!multiple} people={people.filter((p) => value.includes(p.id))} />
+        }
+      >
+        {(close) => (
+          <>
+            <input
+              type="search"
+              className="person-search"
+              aria-label={`Search ${label}`}
+              placeholder="Search names or roles"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <p className="picker-section-label">Suggested people</p>
+            <div role="listbox" aria-label={`Options for ${label}`} aria-multiselectable={multiple}>
+              {filtered.map((p) => (
+                <button
+                  key={p.id}
+                  type="button"
+                  role="option"
+                  aria-label={p.display_name}
+                  aria-selected={value.includes(p.id)}
+                  disabled={p.active === false}
+                  className="person-option"
+                  onClick={() => {
+                    onChange(
+                      multiple
+                        ? value.includes(p.id)
+                          ? value.filter((id) => id !== p.id)
+                          : [...value, p.id]
+                        : [p.id],
+                    );
+                    if (!multiple) {
+                      setSearch('');
+                      close();
+                    }
+                  }}
+                >
+                  <Assignees people={[p]} />
+                  {p.role && <small>{p.role}</small>}
+                  {value.includes(p.id) && <UiIcon name="check" />}
+                </button>
+              ))}
+              {!filtered.length && <p role="status">No matching people</p>}
+              <button
+                type="button"
+                role="option"
+                aria-label="Unassigned"
+                aria-selected={!value.length}
+                className="person-option unassign-option"
+                onClick={() => {
+                  onChange([]);
+                  setSearch('');
+                  close();
+                }}
+              >
+                <UiIcon name="users" /> Unassigned
+              </button>
+            </div>
+          </>
+        )}
+      </CellPopover>
     </div>
   );
 }

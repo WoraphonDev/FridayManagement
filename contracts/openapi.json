@@ -3,8 +3,8 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "FridayManagement API",
-    "version": "1.8.0",
-    "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order (PatchTask.group_before_task_id, sort=group_order). Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
+    "version": "1.11.0",
+    "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
   },
   "servers": [
     {
@@ -10804,6 +10804,29 @@
           "urgent"
         ]
       },
+      "ProjectType": {
+        "type": "string",
+        "enum": [
+          "",
+          "internal",
+          "client",
+          "operations",
+          "other"
+        ]
+      },
+      "ProjectCategory": {
+        "type": "string",
+        "enum": [
+          "",
+          "development",
+          "general",
+          "it",
+          "marketing",
+          "finance",
+          "hr",
+          "other"
+        ]
+      },
       "Recurrence": {
         "type": "string",
         "enum": [
@@ -10871,6 +10894,36 @@
           "active"
         ],
         "additionalProperties": false
+      },
+      "TeamPosition": {
+        "type": "string",
+        "enum": [
+          "pm",
+          "lead",
+          "dev"
+        ]
+      },
+      "ContactEmail": {
+        "type": "string",
+        "minLength": 0,
+        "maxLength": 254,
+        "x-utf16MaxLength": 254,
+        "anyOf": [
+          {
+            "const": ""
+          },
+          {
+            "type": "string",
+            "format": "email"
+          }
+        ]
+      },
+      "ContactTelephone": {
+        "type": "string",
+        "minLength": 0,
+        "maxLength": 40,
+        "x-utf16MaxLength": 40,
+        "pattern": "^[0-9+(). #/-]*$"
       },
       "PermissionKey": {
         "type": "string",
@@ -10964,6 +11017,48 @@
               }
             ]
           },
+          "email": {
+            "$ref": "#/components/schemas/ContactEmail"
+          },
+          "telephone": {
+            "$ref": "#/components/schemas/ContactTelephone"
+          },
+          "teams": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100,
+                  "x-utf16MaxLength": 100,
+                  "pattern": "\\S"
+                },
+                "team_role": {
+                  "type": "string",
+                  "enum": [
+                    "lead",
+                    "member"
+                  ]
+                },
+                "team_position": {
+                  "$ref": "#/components/schemas/TeamPosition"
+                }
+              },
+              "required": [
+                "id",
+                "name",
+                "team_role",
+                "team_position"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 10000
+          },
           "permission_keys": {
             "$ref": "#/components/schemas/PermissionKeys"
           },
@@ -10983,6 +11078,9 @@
           "updated_at",
           "job_title_id",
           "job_title",
+          "email",
+          "telephone",
+          "teams",
           "permission_keys",
           "permissions_version"
         ],
@@ -11306,6 +11404,9 @@
               "member"
             ]
           },
+          "team_position": {
+            "$ref": "#/components/schemas/TeamPosition"
+          },
           "joined_at": {
             "$ref": "#/components/schemas/Timestamp"
           }
@@ -11313,6 +11414,7 @@
         "required": [
           "user",
           "team_role",
+          "team_position",
           "joined_at"
         ],
         "additionalProperties": false
@@ -11468,6 +11570,12 @@
             "maxLength": 2000,
             "x-utf16MaxLength": 2000
           },
+          "project_type": {
+            "$ref": "#/components/schemas/ProjectType"
+          },
+          "project_category": {
+            "$ref": "#/components/schemas/ProjectCategory"
+          },
           "archived_at": {
             "anyOf": [
               {
@@ -11507,6 +11615,8 @@
           "owner_team_name",
           "name",
           "description",
+          "project_type",
+          "project_category",
           "archived_at",
           "version",
           "created_by",
@@ -11637,6 +11747,12 @@
       "Subtask": {
         "type": "object",
         "properties": {
+          "remark": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 2000,
+            "x-utf16MaxLength": 2000
+          },
           "assignee_id": {
             "anyOf": [
               {
@@ -11671,6 +11787,7 @@
           }
         },
         "required": [
+          "remark",
           "assignee_id",
           "id",
           "task_id",
@@ -12291,6 +12408,7 @@
               "assignee_id",
               "assignee_ids",
               "group_id",
+              "group_before_task_id",
               "start_date",
               "due_date",
               "recurrence",
@@ -15402,6 +15520,20 @@
               "member"
             ],
             "default": "member"
+          },
+          "email": {
+            "$ref": "#/components/schemas/ContactEmail"
+          },
+          "telephone": {
+            "$ref": "#/components/schemas/ContactTelephone"
+          },
+          "team_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "maxItems": 100,
+            "uniqueItems": true
           }
         },
         "required": [
@@ -15440,6 +15572,20 @@
                 "type": "null"
               }
             ]
+          },
+          "email": {
+            "$ref": "#/components/schemas/ContactEmail"
+          },
+          "telephone": {
+            "$ref": "#/components/schemas/ContactTelephone"
+          },
+          "team_ids": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Id"
+            },
+            "maxItems": 100,
+            "uniqueItems": true
           },
           "version": {
             "$ref": "#/components/schemas/Version"
@@ -15487,6 +15633,26 @@
             "maxLength": 1000,
             "x-utf16MaxLength": 1000,
             "default": ""
+          },
+          "members": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "user_id": {
+                  "$ref": "#/components/schemas/Id"
+                },
+                "team_position": {
+                  "$ref": "#/components/schemas/TeamPosition"
+                }
+              },
+              "required": [
+                "user_id",
+                "team_position"
+              ],
+              "additionalProperties": false
+            },
+            "maxItems": 100
           }
         },
         "required": [
@@ -15533,6 +15699,9 @@
               "member"
             ]
           },
+          "team_position": {
+            "$ref": "#/components/schemas/TeamPosition"
+          },
           "version": {
             "$ref": "#/components/schemas/Version"
           }
@@ -15562,6 +15731,12 @@
             "maxLength": 2000,
             "x-utf16MaxLength": 2000,
             "default": ""
+          },
+          "project_type": {
+            "$ref": "#/components/schemas/ProjectType"
+          },
+          "project_category": {
+            "$ref": "#/components/schemas/ProjectCategory"
           }
         },
         "required": [
@@ -15585,6 +15760,12 @@
             "minLength": 0,
             "maxLength": 2000,
             "x-utf16MaxLength": 2000
+          },
+          "project_type": {
+            "$ref": "#/components/schemas/ProjectType"
+          },
+          "project_category": {
+            "$ref": "#/components/schemas/ProjectCategory"
           },
           "archived": {
             "type": "boolean"
@@ -15623,6 +15804,12 @@
       "CreateSubtask": {
         "type": "object",
         "properties": {
+          "remark": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 2000,
+            "x-utf16MaxLength": 2000
+          },
           "assignee_id": {
             "anyOf": [
               {
@@ -15653,6 +15840,12 @@
       "PatchSubtask": {
         "type": "object",
         "properties": {
+          "remark": {
+            "type": "string",
+            "minLength": 0,
+            "maxLength": 2000,
+            "x-utf16MaxLength": 2000
+          },
           "assignee_id": {
             "anyOf": [
               {

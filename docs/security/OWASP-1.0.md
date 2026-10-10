@@ -21,3 +21,26 @@ Findings: ลงในตารางด้านล่างพร้อม sev
 
 | Finding | Severity | OWASP | รายละเอียด | Ticket | Retest |
 |---|---|---|---|---|---|
+
+## Pre-scan 2026-10-10 (ล่วงหน้า — ไม่ปิด T-093 เพราะ T-091 ยังไม่ปิด; build = working tree ยังไม่ commit)
+
+| ตรวจ | ผล | หมายเหตุ |
+|---|---|---|
+| `npm audit --omit=dev` | 0 critical · 6 high · 56 moderate | high ทั้งหมดอยู่ในสาย build/CSS tooling (braces, micromatch, fast-glob, globby, stylelint, postcss ผ่าน `@vibe/core`); moderate รวม `mssql`/`tedious` ผ่าน `sprintf-js` — "fix" ที่ npm เสนอเป็นการ downgrade major ใช้ไม่ได้; ต้องประเมิน reachability ใน T-093 ไม่ upgrade เองนอก T-003/T-005 |
+| Security headers (local build) | PASS | CSP ไม่มี inline/unsafe-eval, nosniff, X-Frame-Options DENY + frame-ancestors none, Referrer-Policy same-origin, Cache-Control no-store; ไม่มี X-Powered-By. HSTS ต้องตั้งที่ proxy (internet exposure) |
+| Origin/CSRF ที่ `/api/login` | PASS | cross-origin และไม่มี Origin → 403 INVALID_ORIGIN |
+| Error disclosure | PASS | 400/401/404 คืน code + ข้อความกลาง + requestId; ไม่มี stack/path; path traversal `/api/../../etc/passwd` → 404 |
+| Login failure message | PASS | INVALID_CREDENTIALS ข้อความเดียว |
+| Gitleaks v8.21.2 (git history + src/frontend/tests/scripts/migrations/docs/contracts) | PASS (no real secret) | 174 history hits = SHA-256 file digests ใน reports/*.json + fixture password ที่ตั้งใจใน tests/setup/security.test.ts — false positive ทั้งหมด; `reports/security/gitleaks-history.json` |
+| Trivy 0.57.1 fs (vuln/misconfig/secret, HIGH+) | 2 packages HIGH | `braces` 3.0.3 (CVE-2026-93687, no fix), `postcss` 8.4.31 (CVE-2026-45623/73646, fix 8.5.18) — build tooling; ไม่มี misconfig/secret; `reports/security/trivy-fs.json` |
+| ZAP 2.15.0 baseline (local test build, fresh SQLite) | 0 FAIL · 62 PASS · 5 WARN | WARN: Permissions-Policy ไม่ได้ตั้ง (F-01), suspicious comments ใน bundle, non-storable content (ตั้งใจ no-store), modern web app, ZAP out of date; `reports/security/zap-baseline.*` |
+| ZAP API active scan (OpenAPI, unauth) | 0 FAIL · 112 PASS | ครั้งแรก server ยังไม่ migrate (503 ทั้งหมด) → รันใหม่หลัง migrate |
+| ZAP API active scan (OpenAPI, Admin session + CSRF + Origin) | 0 FAIL · 111 PASS · 3 WARN | ~30k requests, **ไม่มี 5xx**; session ถูก revoke ระหว่าง scan (logout/password routes) → authenticated coverage จำกัด (2xx 31 ครั้ง); WARN Spectre site isolation (COOP/COEP) (F-02); `reports/security/zap-api-summary.json` (raw HTML/JSON ~35MB ไม่เก็บใน repo) |
+
+### Findings (pre-scan)
+| ID | Severity | OWASP | รายละเอียด | ข้อเสนอ |
+|---|---|---|---|---|
+| F-01 | Low | A05 | ไม่มี `Permissions-Policy` header | **FIXED 2026-10-10** `src/api/app.ts` + test `tests/api/http.test.ts` (15/15) + SRS §13.1; Chromium 88/88 PASS — retest ZAP ใน T-093 |
+| F-02 | Low | A05 | ไม่มี COOP/CORP (Spectre isolation) | **FIXED 2026-10-10** COOP/CORP same-origin (COEP ไม่เพิ่ม: อาจบล็อก blob/PWA) — retest ใน T-093 |
+| F-03 | Medium (ต้องประเมิน reachability) | A06 | postcss/braces HIGH ใน dependency tree | ยืนยันว่าเป็น build-time เท่านั้น; อัปเกรดผ่าน T-003/T-005 |
+| F-04 | Info | — | ZAP authenticated coverage จำกัดเพราะ session ถูก revoke | T-094: exclude logout/password/session routes และใช้ role accounts ครบ |

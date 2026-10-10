@@ -1,0 +1,535 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@22/22.23.3/bin/node",
+      "/Users/mickitang/Documents/GitHub/FridayManagement/node_modules/.bin/playwright",
+      "test",
+      "tests/browser/checklist-table.spec.ts",
+      "tests/browser/tasks.spec.ts",
+      "tests/browser/task-editor-tabs-visual.spec.ts",
+      "tests/browser/vibe-integration.spec.ts",
+      "tests/browser/side-panel.spec.ts",
+      "--reporter=json"
+    ],
+    "configFile": "/Users/mickitang/Documents/GitHub/FridayManagement/playwright.config.ts",
+    "rootDir": "/Users/mickitang/Documents/GitHub/FridayManagement/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "/Users/mickitang/Documents/GitHub/FridayManagement/tests/browser/teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/mickitang/Documents/GitHub/FridayManagement/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/mickitang/Documents/GitHub/FridayManagement/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node dist/server/api/main.js",
+      "env": {
+        "PORT": "43239",
+        "NODE_ENV": "test",
+        "DB_PROVIDER": "sqlite",
+        "DATA_DIR": "/var/folders/0d/yndyb6hn3bq0_m27b17pb8qm0000gn/T/friday-browser-vPKpPu/data",
+        "LOG_DIR": "/var/folders/0d/yndyb6hn3bq0_m27b17pb8qm0000gn/T/friday-browser-vPKpPu/logs",
+        "SQLITE_DB_PATH": "/var/folders/0d/yndyb6hn3bq0_m27b17pb8qm0000gn/T/friday-browser-vPKpPu/data/local.sqlite"
+      },
+      "url": "http://127.0.0.1:43239/health/live",
+      "reuseExistingServer": false,
+      "timeout": 15000
+    }
+  },
+  "suites": [
+    {
+      "title": "checklist-table.spec.ts",
+      "file": "checklist-table.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TC-027 Checklist table: inline add/assignment, edit/cancel, persisted completion and mobile actions",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 9176,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: 'Task details #1', exact: true }).getByRole('table', { name: 'Checklist items', exact: true }).getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true })\nExpected: \u001b[32m\"Approved 🚀\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('dialog', { name: 'Task details #1', exact: true }).getByRole('table', { name: 'Checklist items', exact: true }).getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: 'Task details #1', exact: true }).getByRole('table', { name: 'Checklist items', exact: true }).getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true })\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: 'Task details #1', exact: true }).getByRole('table', { name: 'Checklist items', exact: true }).getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true })\nExpected: \u001b[32m\"Approved 🚀\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('dialog', { name: 'Task details #1', exact: true }).getByRole('table', { name: 'Checklist items', exact: true }).getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: 'Task details #1', exact: true }).getByRole('table', { name: 'Checklist items', exact: true }).getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true })\u001b[22m\n\n    at /Users/mickitang/Documents/GitHub/FridayManagement/tests/browser/checklist-table.spec.ts:89:7",
+                    "location": {
+                      "file": "/Users/mickitang/Documents/GitHub/FridayManagement/tests/browser/checklist-table.spec.ts",
+                      "column": 7,
+                      "line": 89
+                    },
+                    "snippet": "  87 |     await expect(\n  88 |       table.getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true }),\n> 89 |     ).toHaveText('Approved 🚀');\n     |       ^\n  90 |     await table.getByLabel('ยืนยันรายการแล้ว', { exact: true }).click();\n  91 |     await expect(d.getByRole('heading', { name: 'Checklist 1/1', exact: true })).toBeVisible();\n  92 |     expect((await read()).subtasks[0].done).toBe(true);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/mickitang/Documents/GitHub/FridayManagement/tests/browser/checklist-table.spec.ts",
+                        "column": 7,
+                        "line": 89
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoHaveText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: getByRole('dialog', { name: 'Task details #1', exact: true }).getByRole('table', { name: 'Checklist items', exact: true }).getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true })\nExpected: \u001b[32m\"Approved 🚀\"\u001b[39m\nTimeout: 5000ms\nError: element(s) not found\n\nCall log:\n\u001b[2m  - Expect \"toHaveText\" getByRole('dialog', { name: 'Task details #1', exact: true }).getByRole('table', { name: 'Checklist items', exact: true }).getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true }) with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByRole('dialog', { name: 'Task details #1', exact: true }).getByRole('table', { name: 'Checklist items', exact: true }).getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true })\u001b[22m\n\n\n  87 |     await expect(\n  88 |       table.getByRole('button', { name: 'Edit remark for ยืนยันรายการแล้ว', exact: true }),\n> 89 |     ).toHaveText('Approved 🚀');\n     |       ^\n  90 |     await table.getByLabel('ยืนยันรายการแล้ว', { exact: true }).click();\n  91 |     await expect(d.getByRole('heading', { name: 'Checklist 1/1', exact: true })).toBeVisible();\n  92 |     expect((await read()).subtasks[0].done).toBe(true);\n    at /Users/mickitang/Documents/GitHub/FridayManagement/tests/browser/checklist-table.spec.ts:89:7"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:44:56.412Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/mickitang/Documents/GitHub/FridayManagement/test-results/checklist-table-TC-027-Che-d56d1-mpletion-and-mobile-actions/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/mickitang/Documents/GitHub/FridayManagement/tests/browser/checklist-table.spec.ts",
+                    "column": 7,
+                    "line": 89
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "b5c0f21252d4dbca2640-34672b4d3f9a2a8cf527",
+          "file": "checklist-table.spec.ts",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "Checklist autosave retains failed drafts, ignores blank adds, retries once and saves on keyboard exit",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3535,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:45:06.416Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b5c0f21252d4dbca2640-fe63954ac0e1d4298a9f",
+          "file": "checklist-table.spec.ts",
+          "line": 123,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "side-panel.spec.ts",
+      "file": "side-panel.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Side panel: Updates/Files/Activity/Details, @mention only project members, Esc layering, focus trap, deep link, mobile",
+          "ok": true,
+          "tags": [
+            "mention"
+          ],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5470,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:45:10.088Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "42cebfe44c9ee42d3636-ffcf7693017b22c99d2c",
+          "file": "side-panel.spec.ts",
+          "line": 5,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "task-editor-tabs-visual.spec.ts",
+      "file": "task-editor-tabs-visual.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Task sub-tabs: empty/populated panels, compact checkboxes, drafts, cancel and mobile",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5540,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:45:15.569Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "61df907345a3afbd9836-80099e00812cdb6b5991",
+          "file": "task-editor-tabs-visual.spec.ts",
+          "line": 4,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "tasks.spec.ts",
+      "file": "tasks.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "T032/033 actual all task fields/checklist/closed guard/monthly successor/delete/restore via UI",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6647,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:45:21.124Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d2d3f88df070d751ab05-3357d8031f04ed0e0de5",
+          "file": "tasks.spec.ts",
+          "line": 102,
+          "column": 1
+        },
+        {
+          "title": "T032 actual 409 draft review, unsaved close/route cancellation, offline and mobile keyboard",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9783,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:45:27.778Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d2d3f88df070d751ab05-00c73d6ec05b317aa8a1",
+          "file": "tasks.spec.ts",
+          "line": 197,
+          "column": 1
+        },
+        {
+          "title": "T032 Viewer detail and archived Admin are read-only; managed archived delete/restore through UI",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7368,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:45:37.571Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d2d3f88df070d751ab05-ae9397f43d62d904d7b7",
+          "file": "tasks.spec.ts",
+          "line": 264,
+          "column": 1
+        }
+      ]
+    },
+    {
+      "title": "vibe-integration.spec.ts",
+      "file": "vibe-integration.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Owner Vibe: real groups, multiple assignees, independent checklist, centered status, CSP and Kanban",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 60000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8878,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:45:44.965Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6cdef36eb34282d22dbe-eafa29c87694f023af1a",
+          "file": "vibe-integration.spec.ts",
+          "line": 3,
+          "column": 1
+        },
+        {
+          "title": "Owner Vibe: compact mobile menu and reduced-motion drawer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2363,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:45:53.854Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6cdef36eb34282d22dbe-56c973639d9ea9e46d3b",
+          "file": "vibe-integration.spec.ts",
+          "line": 158,
+          "column": 1
+        },
+        {
+          "title": "Approved design geometry, sidebar deep links, group editing and fixed create footer",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8928,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:45:56.223Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6cdef36eb34282d22dbe-159d3c314b094ed60287",
+          "file": "vibe-integration.spec.ts",
+          "line": 188,
+          "column": 1
+        },
+        {
+          "title": "Approved Login: larger logo, eye inside password, install panel, motion and real authentication",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2826,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:46:05.157Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "6cdef36eb34282d22dbe-b5b0f8e33c31ca824749",
+          "file": "vibe-integration.spec.ts",
+          "line": 264,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-09T16:44:54.184Z",
+    "duration": 73844.10900000001,
+    "expected": 10,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

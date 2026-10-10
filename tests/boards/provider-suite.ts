@@ -374,9 +374,17 @@ export function boardAcceptance(
     async (f, s, a) => {
       await f.db.transaction(async (tx) => {
         for (let id = 3; id <= 501; id++) {
-          await tx.execute(
-            insert('tasks', { id, project_id: 1, title: 'Boundary ' + id, creator_id: 1 }),
-          );
+          const task = insert('tasks', {
+            id,
+            project_id: 1,
+            title: 'Boundary ' + id,
+            creator_id: 1,
+          });
+          // SQL Server requires IDENTITY_INSERT for explicit fixture ids.
+          await tx.execute({
+            ...task,
+            sqlserver: `SET IDENTITY_INSERT dbo.[tasks] ON; ${task.sqlserver}; SET IDENTITY_INSERT dbo.[tasks] OFF;`,
+          });
           await tx.execute(
             insert('board_positions', { task_id: id, project_id: 1, status: 'todo', rank: id }),
           );

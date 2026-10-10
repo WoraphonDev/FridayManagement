@@ -1,0 +1,161 @@
+{
+  "config": {
+    "argv": [
+      "/opt/homebrew/Cellar/node@22/22.23.3/bin/node",
+      "/Users/mickitang/Documents/GitHub/FridayManagement/node_modules/.bin/playwright",
+      "test",
+      "tests/browser/checklist-table.spec.ts",
+      "--reporter=json"
+    ],
+    "configFile": "/Users/mickitang/Documents/GitHub/FridayManagement/playwright.config.ts",
+    "rootDir": "/Users/mickitang/Documents/GitHub/FridayManagement/tests/browser",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": "/Users/mickitang/Documents/GitHub/FridayManagement/tests/browser/teardown.ts",
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/mickitang/Documents/GitHub/FridayManagement/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "",
+        "name": "",
+        "testDir": "/Users/mickitang/Documents/GitHub/FridayManagement/tests/browser",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.63.0",
+    "workers": 1,
+    "webServer": {
+      "command": "node dist/server/api/main.js",
+      "env": {
+        "PORT": "43239",
+        "NODE_ENV": "test",
+        "DB_PROVIDER": "sqlite",
+        "DATA_DIR": "/var/folders/0d/yndyb6hn3bq0_m27b17pb8qm0000gn/T/friday-browser-LBlL40/data",
+        "LOG_DIR": "/var/folders/0d/yndyb6hn3bq0_m27b17pb8qm0000gn/T/friday-browser-LBlL40/logs",
+        "SQLITE_DB_PATH": "/var/folders/0d/yndyb6hn3bq0_m27b17pb8qm0000gn/T/friday-browser-LBlL40/data/local.sqlite"
+      },
+      "url": "http://127.0.0.1:43239/health/live",
+      "reuseExistingServer": false,
+      "timeout": 15000
+    }
+  },
+  "suites": [
+    {
+      "title": "checklist-table.spec.ts",
+      "file": "checklist-table.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "TC-027 Checklist table: inline add/assignment, edit/cancel, persisted completion and mobile actions",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5390,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:49:34.300Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b5c0f21252d4dbca2640-34672b4d3f9a2a8cf527",
+          "file": "checklist-table.spec.ts",
+          "line": 5,
+          "column": 1
+        },
+        {
+          "title": "Checklist autosave retains failed drafts, ignores blank adds, retries once and saves on keyboard exit",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "",
+              "projectName": "",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3533,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-09T16:49:39.969Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b5c0f21252d4dbca2640-fe63954ac0e1d4298a9f",
+          "file": "checklist-table.spec.ts",
+          "line": 125,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-09T16:49:32.456Z",
+    "duration": 11098.4,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

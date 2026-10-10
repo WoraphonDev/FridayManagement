@@ -28,6 +28,23 @@ export const selfSchema = z
           .max(60)
           .regex(/^[A-Za-z0-9._-]+$/),
         display_name: z.string().min(1).max(100),
+        email: z.union([z.literal(''), z.email().max(254)]),
+        telephone: z
+          .string()
+          .max(40)
+          .regex(/^[0-9+(). #/-]*$/),
+        teams: z
+          .array(
+            z
+              .object({
+                id,
+                name: z.string().min(1).max(100),
+                team_role: z.enum(['lead', 'member']),
+                team_position: z.enum(['pm', 'lead', 'dev']),
+              })
+              .strict(),
+          )
+          .max(10000),
         org_role: z.enum(['admin', 'member']),
         active: z.boolean(),
         must_change_password: z.boolean(),
@@ -74,14 +91,14 @@ export type FailureKind =
   | 'invalid'
   | 'request';
 const messages: Record<FailureKind, string> = {
-  session: "Session expired. Sign in again.",
-  forbidden: "You do not have permission for this action",
-  'not-found': "Data not found or access denied",
-  conflict: "Data changed. Review the latest version before saving again.",
-  offline: "Connect to continue",
-  unavailable: "Service unavailable. Try again later.",
-  invalid: "Invalid server response. Try again.",
-  request: "Unable to complete the action. Check your data and retry.",
+  session: 'Session expired. Sign in again.',
+  forbidden: 'You do not have permission for this action',
+  'not-found': 'Data not found or access denied',
+  conflict: 'Data changed. Review the latest version before saving again.',
+  offline: 'Connect to continue',
+  unavailable: 'Service unavailable. Try again later.',
+  invalid: 'Invalid server response. Try again.',
+  request: 'Unable to complete the action. Check your data and retry.',
 };
 export class ApiError extends Error {
   constructor(

@@ -1,0 +1,72 @@
+{
+  "date": "2026-10-09",
+  "tasks": [
+    "T-018",
+    "T-025",
+    "T-033",
+    "T-082",
+    "T-089"
+  ],
+  "declared_effort": "Medium",
+  "actual_model_effort": "NOT_VERIFIED",
+  "trace": [
+    "FR-03",
+    "FR-04",
+    "FR-17",
+    "FR-43",
+    "NFR-09",
+    "TC-034(partial)",
+    "TC-075(partial)",
+    "TC-090(partial)",
+    "TC-098(partial)"
+  ],
+  "environment": "Node22 / temporary SQLite / Chromium isolated port43239",
+  "checks": {
+    "existing_browser": {
+      "status": "PASS",
+      "passed": 8,
+      "total": 8
+    },
+    "final_visual": {
+      "status": "PASS",
+      "passed": 1,
+      "total": 1
+    },
+    "distinct_browser_scenarios": 9,
+    "initial_combined_run": {
+      "passed": 8,
+      "failed": 1,
+      "reason": "Test baseline sampled existing main-page220ms animation; corrected to await finished motion, final visual PASS."
+    },
+    "frontend": {
+      "status": "PASS",
+      "passed": 49,
+      "total": 49
+    },
+    "typecheck": "PASS",
+    "build": "PASS",
+    "focused_lint": "PASS",
+    "test_plan": {
+      "status": "PASS",
+      "passed": 17,
+      "total": 17
+    }
+  },
+  "api_schema_data_changes": false,
+  "sql_server_2022": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "uat": "NOT_RUN",
+  "formal_parent_status": "IN_PROGRESS",
+  "register": {
+    "done": 7,
+    "total": 91,
+    "in_progress": 82,
+    "in_review": 1,
+    "todo": 1,
+    "remaining": 84
+  },
+  "next_task": {
+    "id": "T-091",
+    "effort": "High"
+  }
+}

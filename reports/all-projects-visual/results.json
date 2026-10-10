@@ -1,0 +1,32 @@
+{
+  "date": "2026-10-09",
+  "task": "T-024",
+  "declared_effort": "Medium",
+  "actual_model_effort": "NOT_VERIFIED",
+  "typecheck": "PASS",
+  "build": "PASS",
+  "lint": "PASS",
+  "chromium_distinct": {
+    "passed": 4,
+    "total": 4,
+    "existing": 3,
+    "visual": 1
+  },
+  "initial_run": {
+    "passed": 3,
+    "failed": 1,
+    "cause": "Synthetic fixture POST archive route404; corrected to existing PATCH contract"
+  },
+  "parent_status": "IN_PROGRESS",
+  "register": {
+    "done": 7,
+    "total": 91,
+    "remaining": 84,
+    "in_progress": 82,
+    "in_review": 1,
+    "todo": 1
+  },
+  "sqlserver_windows_uat": "NOT_RUN",
+  "live_data_write": false,
+  "claude_board_files_changed": false
+}

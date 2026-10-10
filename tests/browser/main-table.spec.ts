@@ -8,8 +8,8 @@ test('Main table: add task via drawer, F2 rename, batch with per-item 409, drag 
   try {
     const group = async (name: string, color: string) =>
       (await mutate(page, `/api/projects/${f.project.id}/groups`, { name, color })).body.item.id;
-    const a = await group('Phase A', '#579bfc'),
-      b = await group('Phase B', '#00c875');
+    const a = await group('Phase A', '#579bfc');
+    await group('Phase B', '#00c875');
     for (const title of ['Alpha', 'Beta', 'Gamma'])
       expect(
         (await mutate(page, '/api/tasks', { project_id: f.project.id, title, group_id: a })).status,

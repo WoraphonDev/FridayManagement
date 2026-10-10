@@ -1,0 +1,59 @@
+{
+  "date": "2026-10-09",
+  "task": "T-083",
+  "declared_effort": "Medium",
+  "actual_model_effort": "NOT_VERIFIED",
+  "trace": [
+    "FR-44",
+    "FR-45",
+    "AT-34",
+    "TC-091(partial)",
+    "TC-098(partial)"
+  ],
+  "environment": "Node22 / temporary SQLite / Chromium, isolated port43239",
+  "checks": {
+    "browser": {
+      "status": "PASS",
+      "passed": 2,
+      "total": 2
+    },
+    "frontend": {
+      "status": "PASS",
+      "passed": 49,
+      "total": 49
+    },
+    "typecheck": "PASS",
+    "build": "PASS",
+    "focused_lint": {
+      "status": "PASS",
+      "errors": 0,
+      "existing_warnings": 1
+    },
+    "test_plan": {
+      "status": "PASS",
+      "passed": 17,
+      "total": 17
+    }
+  },
+  "api_schema_data_changes": false,
+  "sql_server_2022": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "uat": "NOT_RUN",
+  "formal_parent_status": "IN_PROGRESS",
+  "register": {
+    "done": 7,
+    "total": 91,
+    "in_progress": 82,
+    "in_review": 1,
+    "todo": 1,
+    "remaining": 84
+  },
+  "limitations": [
+    "Mobile Home keyboard navigation verifies URL/filter/matching destination region text; destination My work is a horizontally scrollable grid, not a full mobile My work acceptance run.",
+    "Existing exported overviewSchema Fast Refresh warning remains."
+  ],
+  "next_task": {
+    "id": "T-091",
+    "effort": "High"
+  }
+}

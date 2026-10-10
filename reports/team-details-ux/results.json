@@ -1,0 +1,54 @@
+{
+  "date": "2026-10-09",
+  "scope": "Team details UX",
+  "declared_effort": {
+    "T-023": "Medium",
+    "T-088": "Medium"
+  },
+  "actual_model_effort": "NOT_VERIFIED",
+  "profile": "Node22 / temporary SQLite / Chromium",
+  "checks": {
+    "build": "PASS",
+    "typecheck": "PASS",
+    "focused_lint": "PASS",
+    "frontend": {
+      "passed": 49,
+      "failed": 0
+    },
+    "browser_final_affected": {
+      "passed": 5,
+      "failed": 0
+    },
+    "browser_visual": {
+      "passed": 1,
+      "failed": 0
+    },
+    "distinct_browser_scenarios_passing_across_runs": 13,
+    "test_plan_check": "PASS",
+    "test_plan_tests": {
+      "passed": 17,
+      "failed": 0
+    },
+    "live_5000_read_only_team_info_members_workload": "PASS",
+    "sql_server_2022": "NOT_RUN",
+    "windows": "NOT_RUN",
+    "owner_uat": "NOT_RUN",
+    "browser_final_privacy": {
+      "passed": 1,
+      "failed": 0
+    }
+  },
+  "changes_api_schema_permissions": false,
+  "task_register": {
+    "done": 7,
+    "total": 91,
+    "remaining": 84,
+    "in_progress": 82,
+    "in_review": 1,
+    "todo": 1
+  },
+  "next": {
+    "task": "T-091",
+    "effort": "High"
+  }
+}

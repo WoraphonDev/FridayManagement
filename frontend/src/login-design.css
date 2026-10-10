@@ -663,3 +663,79 @@ dialog[open]:not(.task-editor) {
     height: 24px;
   }
 }
+
+/* Wordmark (option A, Nunito name): gradient "friday" with a colour dot, tracked caps tagline. */
+.friday-brand .brand-wordmark {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.friday-brand .brand-name {
+  display: inline-flex;
+  align-items: baseline;
+  font-family: 'Nunito', var(--font-family);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  background: linear-gradient(100deg, #2b2d42 0%, #4b3f8f 55%, #a67cea 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.friday-brand .brand-name i {
+  width: 0.2em;
+  height: 0.2em;
+  margin-left: 0.08em;
+  border-radius: 50%;
+  background: #ff7896;
+  animation: brand-dot-cycle 3.2s steps(1) infinite;
+}
+@keyframes brand-dot-cycle {
+  0% { background: #54ca94; }
+  25% { background: #ffd66d; }
+  50% { background: #a67cea; }
+  75% { background: #ff7896; }
+}
+.friday-brand .brand-wordmark small {
+  margin: 0;
+  font-size: 0.34em;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #8a8fa3;
+  -webkit-text-fill-color: #8a8fa3;
+}
+.auth-content > .friday-brand .brand-wordmark small {
+  font-size: 10px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .friday-brand .brand-name i { animation: none; }
+}
+
+/* Login: brand sits centred above the sign-in form instead of the top-left corner. */
+.auth-content > .friday-brand,
+.auth-content > .friday-brand:first-child {
+  position: static;
+  align-self: center;
+  margin: 0 0 40px;
+}
+
+/* Dark topbar: light gradient wordmark, compact tagline so it fits the bar. */
+.topbar .friday-brand .brand-name {
+  background-image: linear-gradient(100deg, #ffffff 0%, #e4dcff 55%, #c4a8f5 100%);
+}
+.topbar .friday-brand .brand-wordmark {
+  gap: 2px;
+}
+.topbar .friday-brand .brand-wordmark small {
+  font-size: 8px;
+  letter-spacing: 0.16em;
+  color: #b4b8cc;
+  -webkit-text-fill-color: #b4b8cc;
+}
+
+/* The "i" in friday carries the purple brand tile colour. */
+.friday-brand .brand-name .brand-i {
+  font-weight: inherit;
+  color: #a67cea;
+  -webkit-text-fill-color: #a67cea;
+}

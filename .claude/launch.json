@@ -19,6 +19,16 @@
       ],
       "port": 5000,
       "url": "http://127.0.0.1:5000"
+    },
+    {
+      "name": "app-nav",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "cd ../FridayManagement-nav && NODE_ENV=development DB_PROVIDER=sqlite DATA_DIR=/private/tmp/friday-nav LOG_DIR=/private/tmp/friday-nav-logs SQLITE_DB_PATH=/private/tmp/friday-nav/friday.sqlite PORT=5001 APP_ORIGIN=http://127.0.0.1:5001 COOKIE_SECURE=false npm start"
+      ],
+      "port": 5001,
+      "url": "http://127.0.0.1:5001"
     }
   ]
 }

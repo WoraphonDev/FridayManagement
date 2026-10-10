@@ -18,6 +18,13 @@ import {
 } from './authorization.js';
 import { cleanupAssignments, invalidateMembershipViews } from './access-effects.js';
 
+/** SQL Server allows one active request per transaction; resolve per-row lookups sequentially. */
+async function inOrder<T, R>(items: readonly T[], map: (item: T) => Promise<R>): Promise<R[]> {
+  const out: R[] = [];
+  for (const item of items) out.push(await map(item));
+  return out;
+}
+
 type Team = Row & {
   id: number;
   name: string;
@@ -38,6 +45,8 @@ type Project = Row & {
   owner_team_name: string;
   name: string;
   description: string;
+  project_type: string;
+  project_category: string;
   archived_at: string | null;
   version: number;
   created_by: number;
@@ -47,7 +56,7 @@ type Project = Row & {
 const teamColumns =
   't.id,t.name,t.description,t.archived_at,t.version,(SELECT m.team_role FROM dbo.team_members m WHERE m.team_id=t.id AND m.user_id=@viewer) AS own_role';
 const projectColumns =
-  'p.id,p.owner_team_id,t.name AS owner_team_name,p.name,p.description,p.archived_at,p.version,p.created_by,p.created_at,p.updated_at';
+  'p.id,p.owner_team_id,t.name AS owner_team_name,p.name,p.description,p.project_type,p.project_category,p.archived_at,p.version,p.created_by,p.created_at,p.updated_at';
 const visibleProject =
   "EXISTS(SELECT 1 FROM dbo.users au WHERE au.id=@viewer AND au.active=1 AND (au.org_role='admin' OR EXISTS(SELECT 1 FROM dbo.team_members m WHERE m.team_id=p.owner_team_id AND m.user_id=au.id AND m.team_role='lead') OR EXISTS(SELECT 1 FROM dbo.project_members pm WHERE pm.project_id=p.id AND pm.user_id=au.id)))";
 
@@ -87,6 +96,7 @@ export function workspaceService(options: AccessOptions = {}) {
     members?: {
       user: { id: number; display_name: string; active: boolean };
       team_role: string;
+      team_position: string;
       joined_at: string;
     }[];
   }> => {
@@ -99,9 +109,11 @@ export function workspaceService(options: AccessOptions = {}) {
       own_role: t.own_role,
     };
     if (!admin) return summary;
-    const members = await tx.query<User & { team_role: string; joined_at: string }>(
+    const members = await tx.query<
+      User & { team_role: string; team_position: string; joined_at: string }
+    >(
       sql(
-        'SELECT u.id,u.display_name,u.active,u.org_role,m.team_role,m.joined_at FROM dbo.team_members m JOIN dbo.users u ON u.id=m.user_id WHERE m.team_id=@id ORDER BY u.id',
+        'SELECT u.id,u.display_name,u.active,u.org_role,m.team_role,m.team_position,m.joined_at FROM dbo.team_members m JOIN dbo.users u ON u.id=m.user_id WHERE m.team_id=@id ORDER BY u.id',
         { id: t.id },
       ),
     );
@@ -110,6 +122,7 @@ export function workspaceService(options: AccessOptions = {}) {
       members: members.map((m) => ({
         user: person(m),
         team_role: m.team_role,
+        team_position: m.team_position,
         joined_at: m.joined_at,
       })),
     };
@@ -268,7 +281,7 @@ export function workspaceService(options: AccessOptions = {}) {
         );
       return {
         ...page,
-        items: await Promise.all(page.items.map((t) => teamDTO(tx, t, a.orgRole === 'admin'))),
+        items: await inOrder(page.items, (t) => teamDTO(tx, t, a.orgRole === 'admin')),
       };
     },
     async createTeam(tx: Transaction, proof: SessionProof, input: unknown, request: string) {
@@ -283,6 +296,18 @@ export function workspaceService(options: AccessOptions = {}) {
         parameters,
       });
       const id = rows[0]!.id;
+      const initialMembers = (b.members ?? []) as { user_id: number; team_position: string }[];
+      if (new Set(initialMembers.map((m) => m.user_id)).size !== initialMembers.length)
+        throw new ApiFault('VALIDATION_FAILED');
+      for (const member of [...initialMembers].sort((a, b) => a.user_id - b.user_id)) {
+        await targetUser(tx, member.user_id, true);
+        await tx.execute(
+          sql(
+            "INSERT INTO dbo.team_members(team_id,user_id,team_role,team_position,joined_at) VALUES(@team,@user,'member',@position,@now)",
+            { team: id, user: member.user_id, position: member.team_position, now: now() },
+          ),
+        );
+      }
       await audit(tx, proof, 'team', id, 'team_created', b, request);
       return { item: await teamDTO(tx, await team(tx, id, proof.userId), true) };
     },
@@ -338,11 +363,14 @@ export function workspaceService(options: AccessOptions = {}) {
         next = requireVersion(t.version, Number(b.version));
       await targetUser(tx, userId, !remove);
       const old = (
-        await tx.query<{ team_role: string }>(
-          sql('SELECT team_role FROM dbo.team_members WHERE team_id=@id AND user_id=@userId', {
-            id,
-            userId,
-          }),
+        await tx.query<{ team_role: string; team_position: string }>(
+          sql(
+            'SELECT team_role,team_position FROM dbo.team_members WHERE team_id=@id AND user_id=@userId',
+            {
+              id,
+              userId,
+            },
+          ),
         )
       )[0];
       if (remove) {
@@ -352,17 +380,27 @@ export function workspaceService(options: AccessOptions = {}) {
         );
       } else if (old)
         await tx.execute(
-          sql('UPDATE dbo.team_members SET team_role=@role WHERE team_id=@id AND user_id=@userId', {
-            id,
-            userId,
-            role: String(b.team_role),
-          }),
+          sql(
+            'UPDATE dbo.team_members SET team_role=@role,team_position=@position WHERE team_id=@id AND user_id=@userId',
+            {
+              id,
+              userId,
+              role: String(b.team_role),
+              position: String(b.team_position ?? old.team_position),
+            },
+          ),
         );
       else
         await tx.execute(
           sql(
-            'INSERT INTO dbo.team_members(team_id,user_id,team_role,joined_at) VALUES(@id,@userId,@role,@now)',
-            { id, userId, role: String(b.team_role), now: now() },
+            'INSERT INTO dbo.team_members(team_id,user_id,team_role,team_position,joined_at) VALUES(@id,@userId,@role,@position,@now)',
+            {
+              id,
+              userId,
+              role: String(b.team_role),
+              position: String(b.team_position ?? 'dev'),
+              now: now(),
+            },
           ),
         );
       await tx.execute(
@@ -372,14 +410,21 @@ export function workspaceService(options: AccessOptions = {}) {
           now: now(),
         }),
       );
-      await cleanupAssignments(tx, userId, proof.userId, request, now(), { team: id });
+      if (remove || old?.team_role !== b.team_role)
+        await cleanupAssignments(tx, userId, proof.userId, request, now(), { team: id });
       await audit(
         tx,
         proof,
         'team',
         id,
         'team_membership_changed',
-        { user_id: userId, before: old?.team_role ?? null, after: remove ? null : b.team_role },
+        {
+          user_id: userId,
+          before: old?.team_role ?? null,
+          after: remove ? null : b.team_role,
+          position_before: old?.team_position ?? null,
+          position_after: remove ? null : (b.team_position ?? old?.team_position ?? 'dev'),
+        },
         request,
       );
       return { item: await teamDTO(tx, await team(tx, id, proof.userId), true) };
@@ -400,12 +445,10 @@ export function workspaceService(options: AccessOptions = {}) {
       );
       return {
         ...page,
-        items: await Promise.all(
-          page.items.map(async (p) => ({
-            ...p,
-            effective_access: (await projectAccess(tx, a, p.id)).role,
-          })),
-        ),
+        items: await inOrder(page.items, async (p) => ({
+          ...p,
+          effective_access: (await projectAccess(tx, a, p.id)).role,
+        })),
       };
     },
     async createProject(tx: Transaction, proof: SessionProof, input: unknown, request: string) {
@@ -420,14 +463,16 @@ export function workspaceService(options: AccessOptions = {}) {
         team: t.id,
         name: String(b.name),
         description: String(b.description ?? ''),
+        project_type: String(b.project_type ?? 'internal'),
+        project_category: String(b.project_category ?? 'development'),
         actor: a.id,
         now: now(),
       };
       const rows = await tx.query<{ id: number }>({
         sqlite:
-          'INSERT INTO projects(owner_team_id,name,description,created_by,created_at,updated_at) VALUES($team,$name,$description,$actor,$now,$now) RETURNING id',
+          'INSERT INTO projects(owner_team_id,name,description,project_type,project_category,created_by,created_at,updated_at) VALUES($team,$name,$description,$project_type,$project_category,$actor,$now,$now) RETURNING id',
         sqlserver:
-          'INSERT INTO dbo.projects(owner_team_id,name,description,created_by,created_at,updated_at) OUTPUT INSERTED.id VALUES(@team,@name,@description,@actor,@now,@now)',
+          'INSERT INTO dbo.projects(owner_team_id,name,description,project_type,project_category,created_by,created_at,updated_at) OUTPUT INSERTED.id VALUES(@team,@name,@description,@project_type,@project_category,@actor,@now,@now)',
         parameters,
       });
       const id = rows[0]!.id;
@@ -477,12 +522,14 @@ export function workspaceService(options: AccessOptions = {}) {
       const updated = {
         name: String(b.name ?? p.name),
         description: String(b.description ?? p.description),
+        project_type: String(b.project_type ?? p.project_type),
+        project_category: String(b.project_category ?? p.project_category),
         archived_at:
           b.archived === undefined ? p.archived_at : b.archived ? (p.archived_at ?? now()) : null,
       };
       await tx.execute(
         sql(
-          'UPDATE dbo.projects SET name=@name,description=@description,archived_at=@archived_at,version=@version,updated_at=@now WHERE id=@id',
+          'UPDATE dbo.projects SET name=@name,description=@description,project_type=@project_type,project_category=@project_category,archived_at=@archived_at,version=@version,updated_at=@now WHERE id=@id',
           { ...updated, id, version: next, now: now() },
         ),
       );
@@ -606,19 +653,17 @@ export function workspaceService(options: AccessOptions = {}) {
         parameters: { ...parameters, size: pageSize, offset: (page - 1) * pageSize },
       });
       return {
-        items: await Promise.all(
-          rows.map(async (u) => ({
-            id: u.id,
-            display_name: u.display_name,
-            job_title: (u.job_title as string | null) ?? null,
-            teams: await tx.query<{ id: number; name: string }>(
-              sql(
-                'SELECT t.id,t.name FROM dbo.teams t JOIN dbo.team_members m ON m.team_id=t.id WHERE m.user_id=@id ORDER BY t.id',
-                { id: u.id },
-              ),
+        items: await inOrder(rows, async (u) => ({
+          id: u.id,
+          display_name: u.display_name,
+          job_title: (u.job_title as string | null) ?? null,
+          teams: await tx.query<{ id: number; name: string }>(
+            sql(
+              'SELECT t.id,t.name FROM dbo.teams t JOIN dbo.team_members m ON m.team_id=t.id WHERE m.user_id=@id ORDER BY t.id',
+              { id: u.id },
             ),
-          })),
-        ),
+          ),
+        })),
         page,
         pageSize,
         total,

@@ -1002,3 +1002,24 @@ dialog.task-editor .dialog-close {
     padding: 0 14px 20px;
   }
 }
+
+/* Desktop: topbar and sidebar stay put; Settings / Sign out / profile pinned to the sidebar bottom. */
+@media (min-width: 761px) {
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 120;
+  }
+  .sidebar {
+    top: 46px;
+    height: calc(100dvh - 46px);
+  }
+  .sidebar-bottom {
+    position: sticky;
+    bottom: -12px;
+    margin-top: auto;
+    padding-bottom: 12px;
+    background: #f6f7fb;
+    z-index: 1;
+  }
+}

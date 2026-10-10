@@ -11,12 +11,14 @@ export function ProjectTasks({
   online,
   onFailure,
   onClose,
+  initialView,
 }: {
   project: Project;
   self: Self;
   online: boolean;
   onFailure: (e: ApiError) => void;
   onClose: () => void;
+  initialView?: 'overview';
 }) {
   return (
     <section className="project-board" aria-label={`Project tasks · ${project.name}`}>
@@ -25,6 +27,7 @@ export function ProjectTasks({
           {...{ project, self, online, onFailure }}
           onScopeRemoved={onClose}
           onBack={onClose}
+          initialView={initialView}
         />
       </Suspense>
     </section>

@@ -1,0 +1,442 @@
+/* Trash / Admin / Settings owner follow-up. Load before motion.css for reduced motion. */
+.content:has(.trash-workspace, .admin-center, .settings-layout) {
+  max-width: 1536px;
+}
+.content:has(.trash-workspace, .admin-center, .settings-layout) > .page-header {
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  border: 1px solid #e0e7fa;
+  border-radius: 14px;
+  background: linear-gradient(110deg, #f0f4ff, #faf8ff 75%, #fff);
+}
+.content:has(.trash-workspace) > .page-header {
+  border-color: #d6eee3;
+  background: linear-gradient(110deg, #edf8f3, #f5f8ff 80%, #fff);
+}
+.content:has(.admin-center, .settings-layout) > .page-header h1 {
+  font-size: 26px;
+  margin: 10px 0 8px;
+}
+.content:has(.trash-workspace) > .page-header h1 {
+  font-size: 26px;
+  margin: 10px 0 8px;
+}
+.content:has(.trash-workspace, .admin-center, .settings-layout) > .page-header p {
+  margin: 0;
+  color: #727990;
+  font-size: 13px;
+}
+:is(.trash-workspace, .admin-center, .settings-layout) button:not(.dialog-close) {
+  border-radius: 7px;
+}
+:is(.trash-workspace, .admin-center, .settings-layout)
+  input:not([type='checkbox'], [type='radio'], [type='color']),
+:is(.trash-workspace, .admin-center, .settings-layout) select,
+:is(.trash-workspace, .admin-center, .settings-layout) textarea {
+  border-radius: 7px;
+  border-color: #d3daea;
+}
+:is(.trash-workspace, .admin-center, .settings-layout) input[type='checkbox'] {
+  accent-color: #4367ce;
+}
+/* Trash: green communicates restore; retention and actual timestamps stay unchanged. */
+.trash-workspace .trash-intro {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 18px;
+  border: 1px solid #dcebe5;
+  border-radius: 11px;
+  background: #f0f9f5;
+  color: #427462;
+  margin: 0 0 16px;
+}
+.trash-intro .ui-icon {
+  flex-shrink: 0;
+  color: #168467;
+}
+.trash-workspace > button {
+  margin-bottom: 16px;
+}
+.trash-workspace .table-scroll {
+  border: 1px solid #e2e7f1;
+  border-radius: 12px;
+  background: #fff;
+  margin: 0 0 16px;
+  animation: report-reveal 300ms ease-out;
+}
+.trash-workspace table {
+  min-width: 940px;
+  width: 100%;
+}
+.trash-workspace th {
+  background: #f0f8f4;
+  padding: 14px;
+  color: #577368;
+}
+.trash-workspace td {
+  padding: 14px;
+  border-color: #edf0f6;
+}
+.trash-workspace td:first-child {
+  font-weight: 500;
+  overflow-wrap: anywhere;
+  min-width: 180px;
+}
+.trash-workspace tbody tr:hover td {
+  background: #f8fcfa;
+}
+.trash-workspace .restore-action {
+  background: #168467;
+  border: 1px solid #168467;
+  color: #fff;
+}
+.trash-workspace .restore-action:hover:not(:disabled) {
+  background: #106e55;
+  border-color: #106e55;
+}
+.trash-workspace .restore-action:disabled {
+  opacity: 0.5;
+}
+.trash-workspace .trash-confirm-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+  padding-top: 16px;
+}
+.trash-workspace .trash-cancel {
+  background: #f0f2f7;
+  border-color: #d3daea;
+  color: #626981;
+}
+.trash-workspace .state {
+  padding: 40px 24px;
+  border: 1px dashed #cde6d9;
+  border-radius: 14px;
+  background: linear-gradient(120deg, #f1faf5, #fff);
+  text-align: center;
+}
+/* Admin: one stationary tab bar; panels keep permission-table scrolling/sticky rules. */
+.admin-center > [role='tablist'] {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px;
+  gap: 5px;
+  border: 1px solid #e2e7f1;
+  border-radius: 11px;
+  background: #f5f7fc;
+  margin: 0 0 18px;
+}
+.admin-center > [role='tablist'] button {
+  padding: 9px 16px;
+  border: 0;
+  background: transparent;
+  color: #727990;
+  min-height: 36px;
+}
+.admin-center > [role='tablist'] button[aria-selected='true'] {
+  background: #fff;
+  color: #4367ce;
+  box-shadow: 0 2px 8px #313c5a0f;
+}
+.admin-center > [role='tabpanel'] {
+  padding: 22px;
+  border: 1px solid #e2e7f1;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 3px 14px #313c5a05;
+  min-width: 0;
+  min-height: 420px;
+}
+.admin-center [role='tabpanel'] h2,
+.admin-center [role='tabpanel'] h3 {
+  margin: 0 0 12px;
+  font-size: 16px;
+}
+.admin-center .user-search {
+  padding: 16px;
+  border: 1px solid #e0e7fa;
+  border-radius: 11px;
+  background: linear-gradient(110deg, #f7f9ff, #faf8ff);
+  margin: 16px 0;
+  gap: 14px;
+  align-items: flex-end;
+}
+.admin-center .user-search > label {
+  font-size: 12px;
+  color: #626981;
+}
+.admin-center .user-search .field label {
+  color: #626981;
+}
+.admin-center [role='tabpanel'] > div > button,
+.admin-center [role='tabpanel'] > section > button,
+.admin-center [role='tabpanel'][aria-label='Teams'] > div > .toolbar > button:first-child {
+  margin-bottom: 16px;
+  background: #4367ce;
+  border-color: #4367ce;
+  color: #fff;
+}
+.admin-center .table-scroll:not(.permission-matrix-scroll) {
+  border: 1px solid #e2e7f1;
+  border-radius: 11px;
+  margin-top: 16px;
+}
+.admin-center .table-scroll:not(.permission-matrix-scroll) table {
+  min-width: 700px;
+  width: 100%;
+}
+.admin-center .table-scroll[aria-label='User directory'] table {
+  min-width: 1200px;
+}
+.admin-center .table-scroll:not(.permission-matrix-scroll) th {
+  padding: 12px;
+  background: #f5f6fd;
+  color: #727990;
+}
+.admin-center .table-scroll:not(.permission-matrix-scroll) td {
+  padding: 12px;
+  border-color: #edf0f6;
+}
+.admin-center .table-scroll:not(.permission-matrix-scroll) tbody tr:hover td {
+  background: #f8f9fd;
+}
+.admin-center .compact-actions {
+  flex-wrap: nowrap;
+}
+.admin-center button[aria-label^='Edit '] {
+  color: #4367ce;
+  background: #edf2ff;
+  border-color: #dce5fc;
+}
+.admin-center button[aria-label^='Deactivate '] {
+  color: #c13e58;
+  background: #fff0f3;
+  border-color: #f5dce3;
+}
+.admin-center button[aria-label^='Activate '] {
+  color: #168467;
+  background: #eaf8f2;
+  border-color: #d6eee3;
+}
+.admin-center button[aria-label^='Reset password '] {
+  color: #a86014;
+  background: #fff5e6;
+  border-color: #f3e3c7;
+}
+.admin-center .permission-matrix-scroll {
+  border-color: #e0e7fa;
+  border-radius: 12px;
+}
+.admin-center .permission-matrix-scroll .permission-heading {
+  background: #f5f3fc;
+}
+.admin-center .permission-matrix-scroll thead .permission-member-heading {
+  background: #f5f7fc;
+}
+.admin-center .permission-matrix-scroll .permission-matrix td.dirty {
+  background: #fff5e6;
+}
+.admin-center .permission-matrix-scroll .permission-title {
+  color: #62628b;
+}
+.admin-center dialog,
+.trash-workspace dialog {
+  border: 1px solid #e2e7f1;
+  border-radius: 14px;
+  box-shadow: 0 20px 70px #292f4c26;
+}
+/* Settings: generous card surfaces, stationary navigation, explicit saved actions unchanged. */
+.settings-layout {
+  grid-template-columns: 210px minmax(0, 760px);
+  gap: 20px;
+  max-width: 1100px;
+}
+.settings-layout .settings-nav {
+  gap: 6px;
+  padding: 8px;
+  border: 1px solid #e2e7f1;
+  border-radius: 12px;
+  background: #f5f7fc;
+}
+.settings-layout .settings-nav button {
+  padding: 11px 14px;
+  color: #727990;
+  min-height: 40px;
+}
+.settings-layout .settings-nav button.active {
+  background: #fff;
+  color: #4367ce;
+  box-shadow: 0 2px 8px #313c5a0f;
+}
+.settings-layout .settings-panel {
+  padding: 24px;
+  border: 1px solid #e2e7f1;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 3px 14px #313c5a05;
+  min-width: 0;
+  min-height: 440px;
+  animation: report-reveal 300ms ease-out;
+}
+.settings-layout .settings-panel h2 {
+  font-size: 18px;
+  margin: 0 0 10px;
+}
+.settings-layout .settings-lead,
+.settings-layout .hint {
+  color: #727990;
+  line-height: 1.6;
+}
+.settings-layout .profile-card {
+  padding: 18px;
+  margin: 20px 0;
+  border: 1px solid #e6dcf7;
+  border-radius: 12px;
+  background: linear-gradient(110deg, #f4eeff, #faf8ff);
+}
+.settings-layout .profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  color: #7852ba;
+  background: #e9dffb;
+  font-size: 16px;
+}
+.settings-layout .profile-card strong {
+  font-size: 16px;
+}
+.settings-layout .profile-card small {
+  margin-top: 5px;
+  font-size: 12px;
+}
+.settings-layout .profile-fields {
+  display: grid;
+  grid-template-columns: 140px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.settings-layout .profile-fields dt {
+  margin: 0;
+  color: #626981;
+  font-weight: 500;
+}
+.settings-layout .profile-fields dd {
+  padding: 12px;
+  background: #f8f9fd;
+  margin: 0;
+  border: 1px solid #edf0f6;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+.settings-layout .my-permissions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0;
+  list-style: none;
+  gap: 8px;
+}
+.settings-layout .my-permissions li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px;
+  background: #f8f9fd;
+  border: 1px solid #edf0f6;
+  border-radius: 8px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.settings-layout section[aria-label='Motion settings'] .toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid #e0e7fa;
+  border-radius: 10px;
+  background: #f7f9ff;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.settings-layout section[aria-label='Motion settings'] .toggle input {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+.settings-layout .pwa-settings .pwa-panel {
+  padding: 18px;
+  border-radius: 12px;
+  background: #f3faf6;
+  border-color: #d6eee3;
+}
+.settings-layout section[aria-label='Organization settings'] > p {
+  color: #727990;
+  font-size: 12px;
+}
+.settings-layout section[aria-label='Organization settings'] dd {
+  margin: 6px 0 16px;
+  padding: 12px;
+  background: #f8f9fd;
+  border-radius: 8px;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 720px) {
+  .content:has(.trash-workspace, .admin-center, .settings-layout) > .page-header {
+    padding: 18px;
+  }
+  .content:has(.trash-workspace, .admin-center, .settings-layout) > .page-header h1 {
+    font-size: 23px;
+  }
+  .admin-center > [role='tablist'] {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    width: 100%;
+    gap: 2px;
+  }
+  .admin-center > [role='tablist'] button {
+    padding: 9px 4px;
+    font-size: 11px;
+  }
+  .admin-center > [role='tabpanel'] {
+    padding: 16px;
+  }
+  .admin-center .user-search {
+    padding: 12px;
+    gap: 10px;
+  }
+  .admin-center .user-search .field {
+    width: 100%;
+  }
+  .settings-layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .settings-layout .settings-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .settings-layout .settings-nav button {
+    text-align: center;
+    padding: 10px 8px;
+    font-size: 12px;
+  }
+  .settings-layout .settings-panel {
+    padding: 18px;
+  }
+  .settings-layout .profile-fields {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 7px;
+  }
+  .settings-layout .profile-fields dt {
+    margin-top: 6px;
+  }
+  .settings-layout .my-permissions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .trash-workspace .trash-intro {
+    align-items: flex-start;
+    padding: 14px;
+  }
+}

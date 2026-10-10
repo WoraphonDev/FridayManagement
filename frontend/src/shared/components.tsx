@@ -232,7 +232,7 @@ export function Dialog({
       }}
       onCancel={(event) => {
         event.preventDefault();
-        if (dialog.current?.querySelector('[role="combobox"][aria-expanded="true"]')) return;
+        if (dialog.current?.querySelector('[data-cell-picker][aria-expanded="true"], [role="combobox"][aria-expanded="true"]')) return;
         onClose();
       }}
       // Clicking the backdrop (press and release outside the panel) closes like Esc; the

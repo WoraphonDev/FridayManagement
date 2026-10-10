@@ -1,0 +1,86 @@
+{
+ "zap-api": {
+  "zap": "2.15.0",
+  "generated": "Sat, 10 Oct 2026 10:09:58",
+  "alerts": [
+   {
+    "pluginid": "10116",
+    "alert": "ZAP is Out of Date",
+    "risk": "Medium (High)",
+    "count": "1"
+   },
+   {
+    "pluginid": "100000",
+    "alert": "A Server Error response code was returned by the server",
+    "risk": "Low (High)",
+    "count": "135"
+   },
+   {
+    "pluginid": "100001",
+    "alert": "Unexpected Content-Type was returned",
+    "risk": "Low (High)",
+    "count": "2"
+   },
+   {
+    "pluginid": "100000",
+    "alert": "A Client Error response code was returned by the server",
+    "risk": "Informational (High)",
+    "count": "11396"
+   },
+   {
+    "pluginid": "10111",
+    "alert": "Authentication Request Identified",
+    "risk": "Informational (Low)",
+    "count": "3"
+   },
+   {
+    "pluginid": "10049",
+    "alert": "Non-Storable Content",
+    "risk": "Informational (Medium)",
+    "count": "13"
+   }
+  ]
+ },
+ "zap-api-auth": {
+  "zap": "2.15.0",
+  "generated": "Sat, 10 Oct 2026 10:12:34",
+  "alerts": [
+   {
+    "pluginid": "10116",
+    "alert": "ZAP is Out of Date",
+    "risk": "Medium (High)",
+    "count": "1"
+   },
+   {
+    "pluginid": "90004",
+    "alert": "Insufficient Site Isolation Against Spectre Vulnerability",
+    "risk": "Low (Medium)",
+    "count": "2"
+   },
+   {
+    "pluginid": "100001",
+    "alert": "Unexpected Content-Type was returned",
+    "risk": "Low (High)",
+    "count": "2"
+   },
+   {
+    "pluginid": "100000",
+    "alert": "A Client Error response code was returned by the server",
+    "risk": "Informational (High)",
+    "count": "11526"
+   },
+   {
+    "pluginid": "10111",
+    "alert": "Authentication Request Identified",
+    "risk": "Informational (Low)",
+    "count": "3"
+   },
+   {
+    "pluginid": "10049",
+    "alert": "Non-Storable Content",
+    "risk": "Informational (Medium)",
+    "count": "12"
+   }
+  ]
+ }
+}

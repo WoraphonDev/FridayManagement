@@ -8,6 +8,7 @@ import { accessFixture, proof, now } from '../authorization/fixtures.js';
 import { insert, type Fixture } from '../schema/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { fileService } from '../../src/services/files.js';
+import { runTransaction } from '../../src/domain/transaction.js';
 import { historyService } from '../../src/services/history.js';
 import { taskService } from '../../src/services/tasks.js';
 import { ApiFault } from '../../src/api/errors.js';
@@ -30,7 +31,7 @@ export function fileAcceptance(
       const f = await accessFixture(factory),
         root = await mkdtemp(join(tmpdir(), 'friday-files-'));
       try {
-        await f.db.transaction((tx) => tx.execute(sql('DELETE FROM dbo.attachments')));
+        await runTransaction(f.db, (tx) => tx.execute(sql('DELETE FROM dbo.attachments')));
         const s = await fileService(
           f.db,
           { directory: root, maxFileBytes: 10485760, totalUploadBytes: limit },
@@ -42,7 +43,7 @@ export function fileAcceptance(
         await rm(root, { recursive: true, force: true });
       }
     });
-  const rows = (f: F, q: string) => f.db.transaction((tx) => tx.query(sql(q)));
+  const rows = (f: F, q: string) => runTransaction(f.db, (tx) => tx.query(sql(q)));
   const reject = (p: Promise<unknown>, code: string) =>
     assert.rejects(p, (e: unknown) => e instanceof ApiFault && e.code === code);
   const upload = async (
@@ -54,7 +55,7 @@ export function fileAcceptance(
   ) => {
     const p = await receive(s, proof(user), bytes, name);
     try {
-      return await f.db.transaction((tx) => s.finalize(tx, proof(user), p, randomUUID()));
+      return await runTransaction(f.db, (tx) => s.finalize(tx, proof(user), p, randomUUID()));
     } finally {
       await s.release(p.id);
     }
@@ -65,27 +66,42 @@ export function fileAcceptance(
       const tasks = taskService({ clock: () => new Date(now) }),
         h = historyService({ clock: () => new Date(now) }),
         request = randomUUID();
-      await f.db.transaction((tx) =>
+      await runTransaction(f.db, (tx) =>
         tasks.createComment(tx, proof(4), 1, { body: '<script>plain</script>' }, request),
       );
-      await f.db.transaction((tx) =>
+      await runTransaction(f.db, (tx) =>
         tasks.patch(tx, proof(4), 1, { version: 1, title: 'Changed' }, randomUUID()),
       );
-      const p = await f.db.transaction((tx) => h.page(tx, proof(5), 1, { page: 1, pageSize: 1 }));
+      const p = await runTransaction(f.db, (tx) =>
+        h.page(tx, proof(5), 1, { page: 1, pageSize: 1 }),
+      );
       assert.equal(p.total, 2);
       assert.equal(p.items[0]!.request_id, request);
       assert.equal(p.items[0]!.actor!.id, 4);
       const op = operations.find((o) => o.path === '/api/tasks/{id}/events')!.operation;
       parseSchema(op.responses['200']!.content!['application/json']!.schema, p);
+      // Group-order mutations already persist this field; history must accept it too.
+      await runTransaction(f.db, (tx) =>
+        tasks.patch(tx, proof(4), 1, { version: 2, group_before_task_id: null }, randomUUID()),
+      );
+      const ordered = await runTransaction(f.db, (tx) =>
+        h.page(tx, proof(5), 1, { page: 3, pageSize: 1 }),
+      );
+      assert.equal(ordered.total, 3);
+      assert('field_changes' in ordered.items[0]!);
+      assert.deepEqual(ordered.items[0]!.field_changes, [
+        { field: 'group_before_task_id', before: null, after: null },
+      ]);
+      parseSchema(op.responses['200']!.content!['application/json']!.schema, ordered);
       await reject(
-        f.db.transaction((tx) => h.page(tx, proof(4), 3, {})),
+        runTransaction(f.db, (tx) => h.page(tx, proof(4), 3, {})),
         'NOT_FOUND',
       );
       await reject(
-        f.db.transaction((tx) => h.page(tx, proof(4), null, {})),
+        runTransaction(f.db, (tx) => h.page(tx, proof(4), null, {})),
         'FORBIDDEN',
       );
-      await f.db.transaction((tx) =>
+      await runTransaction(f.db, (tx) =>
         tx.execute(
           insert('admin_events', {
             actor_id: 1,
@@ -100,7 +116,7 @@ export function fileAcceptance(
           }),
         ),
       );
-      const a = await f.db.transaction((tx) => h.page(tx, proof(1), null, {}));
+      const a = await runTransaction(f.db, (tx) => h.page(tx, proof(1), null, {}));
       assert(!JSON.stringify(a).includes('never-expose'));
       assert(JSON.stringify(a).includes('password_reset'));
       assert.deepEqual(
@@ -133,7 +149,9 @@ export function fileAcceptance(
       assert.equal(keys.length, 1);
       assert.match(keys[0]!, /^[a-f0-9-]{36}$/);
       assert.deepEqual(await readFile(join(root, 'attachments', keys[0]!)), bytes);
-      const d = await f.db.transaction((tx) => s.download(tx, proof(5), a.item.id, randomUUID()));
+      const d = await runTransaction(f.db, (tx) =>
+        s.download(tx, proof(5), a.item.id, randomUUID()),
+      );
       const parts = [];
       for await (const chunk of await d.open()) parts.push(chunk as Buffer);
       assert.deepEqual(Buffer.concat(parts), bytes);
@@ -229,7 +247,7 @@ export function fileAcceptance(
       );
       for (const r of ok)
         if (r.status === 'fulfilled') {
-          await f.db.transaction((tx) => s.finalize(tx, proof(4), r.value, randomUUID()));
+          await runTransaction(f.db, (tx) => s.finalize(tx, proof(4), r.value, randomUUID()));
           await s.release(r.value.id);
         }
       assert.deepEqual(await s.usage(), { stored_bytes: 19, reserved_bytes: 0 });
@@ -240,20 +258,20 @@ export function fileAcceptance(
     'T041 finalize rechecks demotion/revocation/archived/deleted parent and failed metadata transaction leaves no effects',
     async (f, s, root) => {
       let p = await receive(s, proof(4));
-      await f.db.transaction((tx) =>
+      await runTransaction(f.db, (tx) =>
         tx.execute(sql("UPDATE dbo.project_members SET access='viewer' WHERE user_id=4")),
       );
       await reject(
-        f.db.transaction((tx) => s.finalize(tx, proof(4), p, randomUUID())),
+        runTransaction(f.db, (tx) => s.finalize(tx, proof(4), p, randomUUID())),
         'FORBIDDEN',
       );
       await s.release(p.id);
-      await f.db.transaction((tx) =>
+      await runTransaction(f.db, (tx) =>
         tx.execute(sql("UPDATE dbo.project_members SET access='editor' WHERE user_id=4")),
       );
       p = await receive(s, proof(4));
       await assert.rejects(
-        f.db.transaction(async (tx) => {
+        runTransaction(f.db, async (tx) => {
           await s.finalize(tx, proof(4), p, randomUUID());
           throw new Error('Injected rollback after metadata/audit');
         }),
@@ -277,13 +295,13 @@ export function fileAcceptance(
         ],
       ] as const) {
         p = await receive(s, proof(4));
-        await f.db.transaction((tx) => tx.execute(sql(query)));
+        await runTransaction(f.db, (tx) => tx.execute(sql(query)));
         await reject(
-          f.db.transaction((tx) => s.finalize(tx, proof(4), p, randomUUID())),
+          runTransaction(f.db, (tx) => s.finalize(tx, proof(4), p, randomUUID())),
           code,
         );
         await s.release(p.id);
-        await f.db.transaction((tx) => tx.execute(sql(reset)));
+        await runTransaction(f.db, (tx) => tx.execute(sql(reset)));
       }
       assert.deepEqual(await s.usage(), { stored_bytes: 0, reserved_bytes: 0 });
       assert.equal((await rows(f, 'SELECT * FROM dbo.attachments')).length, 0);
@@ -296,39 +314,41 @@ export function fileAcceptance(
     async (f, s) => {
       const a = await upload(f, s);
       await reject(
-        f.db.transaction((tx) => s.change(tx, proof(9), a.item.id, false, randomUUID())),
+        runTransaction(f.db, (tx) => s.change(tx, proof(9), a.item.id, false, randomUUID())),
         'FORBIDDEN',
       );
       await reject(
-        f.db.transaction((tx) => s.change(tx, proof(5), a.item.id, false, randomUUID())),
+        runTransaction(f.db, (tx) => s.change(tx, proof(5), a.item.id, false, randomUUID())),
         'FORBIDDEN',
       );
-      const d = await f.db.transaction((tx) =>
+      const d = await runTransaction(f.db, (tx) =>
         s.change(tx, proof(4), a.item.id, false, randomUUID()),
       );
-      const repeat = await f.db.transaction((tx) =>
+      const repeat = await runTransaction(f.db, (tx) =>
         s.change(tx, proof(3), a.item.id, false, randomUUID()),
       );
       assert.equal(repeat.item.deleted_at, d.item.deleted_at);
       assert.equal((await rows(f, 'SELECT * FROM dbo.task_events')).length, 2);
       assert.equal(
-        (await f.db.transaction((tx) => s.list(tx, proof(9), 1, { includeDeleted: true }))).total,
+        (await runTransaction(f.db, (tx) => s.list(tx, proof(9), 1, { includeDeleted: true })))
+          .total,
         0,
       );
       await reject(
-        f.db.transaction((tx) => s.list(tx, proof(5), 1, { includeDeleted: true })),
+        runTransaction(f.db, (tx) => s.list(tx, proof(5), 1, { includeDeleted: true })),
         'FORBIDDEN',
       );
       assert.equal(
-        (await f.db.transaction((tx) => s.list(tx, proof(4), 1, { includeDeleted: true }))).total,
+        (await runTransaction(f.db, (tx) => s.list(tx, proof(4), 1, { includeDeleted: true })))
+          .total,
         1,
       );
       await reject(
-        f.db.transaction((tx) => s.download(tx, proof(4), a.item.id, randomUUID())),
+        runTransaction(f.db, (tx) => s.download(tx, proof(4), a.item.id, randomUUID())),
         'NOT_FOUND',
       );
-      await f.db.transaction((tx) => s.change(tx, proof(1), a.item.id, true, randomUUID()));
-      await f.db.transaction((tx) => s.change(tx, proof(4), a.item.id, true, randomUUID()));
+      await runTransaction(f.db, (tx) => s.change(tx, proof(1), a.item.id, true, randomUUID()));
+      await runTransaction(f.db, (tx) => s.change(tx, proof(4), a.item.id, true, randomUUID()));
       assert.equal((await rows(f, 'SELECT * FROM dbo.task_events')).length, 3);
       assert.equal((await s.usage()).stored_bytes, a.item.bytes);
     },
@@ -337,7 +357,7 @@ export function fileAcceptance(
     'T043 exact UTC30day cutoff/current archived/deleted parent/private download/missing disk safely logged',
     async (f, s, root) => {
       const a = await upload(f, s);
-      await f.db.transaction((tx) =>
+      await runTransaction(f.db, (tx) =>
         tx.execute(
           sql("UPDATE dbo.attachments SET deleted_at='2026-09-06T00:30:00.000Z' WHERE id=@id", {
             id: a.item.id,
@@ -345,28 +365,28 @@ export function fileAcceptance(
         ),
       );
       await reject(
-        f.db.transaction((tx) => s.change(tx, proof(4), a.item.id, true, randomUUID())),
+        runTransaction(f.db, (tx) => s.change(tx, proof(4), a.item.id, true, randomUUID())),
         'RETENTION_EXPIRED',
       );
-      await f.db.transaction((tx) =>
+      await runTransaction(f.db, (tx) =>
         tx.execute(
           sql("UPDATE dbo.attachments SET deleted_at='2026-09-07T00:30:00.000Z' WHERE id=@id", {
             id: a.item.id,
           }),
         ),
       );
-      await f.db.transaction((tx) => s.change(tx, proof(4), a.item.id, true, randomUUID()));
+      await runTransaction(f.db, (tx) => s.change(tx, proof(4), a.item.id, true, randomUUID()));
       await reject(
-        f.db.transaction((tx) => s.download(tx, proof(7), a.item.id, randomUUID())),
+        runTransaction(f.db, (tx) => s.download(tx, proof(7), a.item.id, randomUUID())),
         'NOT_FOUND',
       );
-      await f.db.transaction((tx) =>
+      await runTransaction(f.db, (tx) =>
         tx.execute(
           sql("UPDATE dbo.projects SET archived_at='2026-10-01T00:00:00.000Z' WHERE id=1"),
         ),
       );
       await reject(
-        f.db.transaction((tx) => s.change(tx, proof(4), a.item.id, false, randomUUID())),
+        runTransaction(f.db, (tx) => s.change(tx, proof(4), a.item.id, false, randomUUID())),
         'PROJECT_ARCHIVED',
       );
       const logs: unknown[] = [];
@@ -383,7 +403,7 @@ export function fileAcceptance(
       for (const key of await readdir(join(root, 'attachments')))
         await rm(join(root, 'attachments', key));
       const req = randomUUID();
-      const d = await f.db.transaction((tx) => logged.download(tx, proof(5), a.item.id, req));
+      const d = await runTransaction(f.db, (tx) => logged.download(tx, proof(5), a.item.id, req));
       await reject(d.open(), 'NOT_FOUND');
       assert.deepEqual(logs, [{ requestId: req, code: 'NOT_FOUND' }]);
     },
@@ -397,7 +417,7 @@ export function fileAcceptance(
       await writeFile(join(root, 'attachments', orphan), 'orphan');
       const temp = randomUUID(),
         id = randomUUID();
-      await f.db.transaction(async (tx) => {
+      await runTransaction(f.db, async (tx) => {
         await tx.execute(
           insert('upload_reservations', {
             id,
@@ -453,7 +473,7 @@ export function fileAcceptance(
       );
       await rm(join(root, 'attachments', key));
       await mkdir(join(root, 'attachments', key));
-      await f.db.transaction((tx) =>
+      await runTransaction(f.db, (tx) =>
         tx.execute(
           sql("UPDATE dbo.attachments SET deleted_at='2026-09-01T00:00:00.000Z' WHERE id=@id", {
             id: a.item.id,
@@ -465,7 +485,7 @@ export function fileAcceptance(
       assert.equal((await rows(f, 'SELECT * FROM dbo.file_cleanup_queue'))[0]!.attempts, 1);
       assert.equal((await s.usage()).stored_bytes, a.item.bytes);
       await rm(join(root, 'attachments', key), { recursive: true });
-      await f.db.transaction((tx) =>
+      await runTransaction(f.db, (tx) =>
         tx.execute(sql('UPDATE dbo.file_cleanup_queue SET next_attempt_at=@now', { now })),
       );
       await s.cleanup();

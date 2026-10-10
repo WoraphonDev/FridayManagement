@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { apiClient, ApiError, type Self } from './api';
 import { trashPage, mutationReply, statusLabel } from './task-api';
+import { UiIcon } from './shared/UiIcon';
 import { DataTable, Dialog, EmptyState, ErrorNotice, Loading, Toast } from './shared/components';
 const client = apiClient();
 export function Trash({
@@ -85,8 +86,9 @@ export function Trash({
     }
   };
   return (
-    <div>
-      <p className="settings-lead">
+    <div className="trash-workspace">
+      <p className="settings-lead trash-intro">
+        <UiIcon name="history" />
         Restore before the date shown. Permanent deletion is unavailable here.
       </p>
       {error && <ErrorNotice error={error} retry={refresh} />}
@@ -127,6 +129,7 @@ export function Trash({
                   }),
                   <button
                     key={t.id}
+                    className="restore-action"
                     disabled={
                       !online || pending || self.maintenance || now >= Date.parse(t.restore_before)
                     }
@@ -173,9 +176,22 @@ export function Trash({
             The task returns to the end of its original status column. Archived projects remain read
             only.
           </p>
-          <button disabled={!online || pending || self.maintenance} onClick={() => void run()}>
-            Restore this task
-          </button>
+          <div className="trash-confirm-actions">
+            <button
+              className="trash-cancel"
+              disabled={pending}
+              onClick={() => setRestore(undefined)}
+            >
+              Cancel
+            </button>
+            <button
+              className="restore-action"
+              disabled={!online || pending || self.maintenance}
+              onClick={() => void run()}
+            >
+              Restore this task
+            </button>
+          </div>
         </Dialog>
       )}
     </div>

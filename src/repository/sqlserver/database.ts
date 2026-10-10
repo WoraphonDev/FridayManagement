@@ -38,7 +38,20 @@ export class SqlServerDatabase implements Database {
             .filter(([, column]) => column.type === sql.Date)
             .map(([name]) => name),
         );
-        return result.recordset.map((row) => normalizeSqlRow(row, dateColumns) as R);
+        // Tedious returns BIGINT as string; decode only safe integers so comparisons stay numeric.
+        const bigintColumns = Object.entries(result.recordset.columns)
+          .filter(([, column]) => column.type === sql.BigInt)
+          .map(([name]) => name);
+        return result.recordset.map((source) => {
+          const row: Record<string, unknown> = { ...source };
+          for (const name of bigintColumns) {
+            if (typeof row[name] !== 'string') continue;
+            const decoded = Number(row[name]);
+            if (!Number.isSafeInteger(decoded)) throw new Error('DATABASE_VALUE_INVALID');
+            row[name] = decoded;
+          }
+          return normalizeSqlRow(row, dateColumns) as R;
+        });
       },
     };
     let committing = false;
@@ -59,6 +72,12 @@ export class SqlServerDatabase implements Database {
           // An uncertain outcome must never be treated as a confirmed rollback.
         }
       }
+      // Match SQLite: a business error with a confirmed rollback propagates unchanged; driver
+      // errors stay wrapped so runTransaction can classify deadlock/timeout outcomes.
+      const driverError =
+        error instanceof sql.MSSQLError ||
+        typeof (error as { number?: unknown })?.number === 'number';
+      if (!committing && rolledBack && !driverError) throw error;
       throw new TransactionFailure(!committing && rolledBack ? 'rolled_back' : 'unknown', error);
     }
   }

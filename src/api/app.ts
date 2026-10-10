@@ -35,6 +35,9 @@ export function createApp(
     response.set('X-Content-Type-Options', 'nosniff');
     response.set('X-Frame-Options', 'DENY');
     response.set('Referrer-Policy', 'same-origin');
+    response.set('Permissions-Policy', 'camera=(), microphone=(), geolocation=(), payment=(), usb=()');
+    response.set('Cross-Origin-Opener-Policy', 'same-origin');
+    response.set('Cross-Origin-Resource-Policy', 'same-origin');
     response.set(
       'Content-Security-Policy',
       "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'self'; frame-ancestors 'none'",

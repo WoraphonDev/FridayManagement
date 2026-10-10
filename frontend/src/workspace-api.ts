@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { projectTypes, projectCategories } from '../../src/domain/project-metadata';
 const id = z.number().int().min(1).max(2147483647),
   timestamp = z.string().datetime(),
   person = z.object({ id, display_name: z.string().min(1).max(100), active: z.boolean() }).strict();
@@ -13,7 +14,12 @@ export const teamSchema = z
     members: z
       .array(
         z
-          .object({ user: person, team_role: z.enum(['lead', 'member']), joined_at: timestamp })
+          .object({
+            user: person,
+            team_role: z.enum(['lead', 'member']),
+            team_position: z.enum(['pm', 'lead', 'dev']),
+            joined_at: timestamp,
+          })
           .strict(),
       )
       .max(10000)
@@ -27,6 +33,8 @@ export const projectSchema = z
     owner_team_name: z.string().min(1).max(100),
     name: z.string().min(1).max(100),
     description: z.string().max(2000),
+    project_type: z.enum(projectTypes),
+    project_category: z.enum(projectCategories),
     archived_at: timestamp.nullable(),
     version: id,
     created_by: id,

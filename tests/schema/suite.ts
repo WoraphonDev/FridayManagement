@@ -39,11 +39,16 @@ export function schemaAcceptance(
   const reject = (db: Database, query: ReturnType<typeof s>) =>
     assert.rejects(
       db.transaction((tx) => tx.execute(query)),
-      (error) =>
-        error instanceof Error &&
-        /constraint|datatype|cannot store|malformed JSON|truncated|overflow|conversion failed|converting data type|out-of-range/i.test(
-          error.message,
-        ),
+      (error) => {
+        // SQL Server wraps driver errors in TransactionFailure; inspect the driver cause.
+        const cause = error instanceof Error && error.cause instanceof Error ? error.cause : error;
+        return (
+          cause instanceof Error &&
+          /constraint|duplicate key|datatype|cannot store|malformed JSON|truncated|overflow|conversion failed|converting data type|out-of-range/i.test(
+            cause.message,
+          )
+        );
+      },
     );
   const rows = <R extends Row = Row>(db: Database, query: ReturnType<typeof s>) =>
     db.transaction((tx) => tx.query<R>(query));
