@@ -27,3 +27,8 @@ upload-temp/
 # OS metadata and packaged release archives
 .DS_Store
 deliverables/*.zip
+test-results-*/
+
+# Docker deployment secrets and snapshots (ADR-0001)
+deploy/.env
+deploy/backups/

@@ -175,60 +175,101 @@ export function taskService(options: AccessOptions = {}) {
       }
     return checklistAudit(changes);
   };
-  const dto = async (tx: Transaction, t: Task) => {
-    const p = (
-      await tx.query<{ project_name: string; owner_team_id: number; owner_team_name: string }>(
-        sql(
-          'SELECT p.name AS project_name,p.owner_team_id,t.name AS owner_team_name FROM dbo.projects p JOIN dbo.teams t ON t.id=p.owner_team_id WHERE p.id=@id',
-          { id: t.project_id },
-        ),
-      )
-    )[0]!;
-    const u =
-      t.assignee_id === null
-        ? null
-        : (
-            await tx.query<{ id: number; display_name: string; active: number }>(
-              sql('SELECT id,display_name,active FROM dbo.users WHERE id=@id', {
-                id: t.assignee_id,
-              }),
-            )
-          )[0]!;
-    const checklist = (
-      await tx.query<{ total: number; done: number }>(
-        sql(
-          'SELECT COUNT(*) AS total,COALESCE(SUM(CASE WHEN done=1 THEN 1 ELSE 0 END),0) AS done FROM dbo.subtasks WHERE task_id=@task',
-          { task: t.id },
-        ),
-      )
-    )[0]!;
-    const ids = await assignmentIds(tx, t.id, t.assignee_id);
-    const assignees = [];
-    for (const user of ids) {
-      const person = (
-        await tx.query<{ id: number; display_name: string; active: number }>(
-          sql('SELECT id,display_name,active FROM dbo.users WHERE id=@id', { id: user }),
-        )
-      )[0]!;
-      assignees.push({ ...person, active: !!person.active });
+  /** Rows for `ids`, in chunks below SQL Server's 2,100-parameter limit. */
+  const rowsByIds = async <R extends Row>(
+    tx: Transaction,
+    ids: number[],
+    query: (placeholders: string) => string,
+  ) => {
+    const rows: R[] = [];
+    const unique = [...new Set(ids)];
+    for (let at = 0; at < unique.length; at += 500) {
+      const chunk = unique.slice(at, at + 500);
+      rows.push(
+        ...(await tx.query<R>(
+          sql(
+            query(chunk.map((_, n) => `@i${n}`).join(',')),
+            Object.fromEntries(chunk.map((id, n) => [`i${n}`, id])),
+          ),
+        )),
+      );
     }
-    const task: Partial<Record<'group_rank', unknown>> & Task = { ...t };
-    delete task.group_rank;
-    return {
-      ...task,
-      ...p,
-      assignee_ids: ids,
-      assignees,
-      assignee: u ? { ...u, active: !!u.active } : null,
-      subtask_count: checklist.total,
-      subtask_done_count: checklist.done,
-      overdue:
-        t.deleted_at === null &&
-        t.status !== 'done' &&
-        t.due_date !== null &&
-        t.due_date < bangkokToday(now()),
-    };
+    return rows;
   };
+  /** Task DTOs with a fixed number of queries regardless of how many tasks (no per-task N+1). */
+  const dtos = async (tx: Transaction, list: Task[]) => {
+    if (!list.length) return [];
+    const taskIds = list.map((t) => t.id);
+    const projects = new Map(
+      (
+        await rowsByIds<{
+          id: number;
+          project_name: string;
+          owner_team_id: number;
+          owner_team_name: string;
+        }>(
+          tx,
+          list.map((t) => t.project_id),
+          (ids) =>
+            `SELECT p.id,p.name AS project_name,p.owner_team_id,t.name AS owner_team_name FROM dbo.projects p JOIN dbo.teams t ON t.id=p.owner_team_id WHERE p.id IN (${ids})`,
+        )
+      ).map(({ id, ...rest }) => [id, rest]),
+    );
+    const counts = new Map(
+      (
+        await rowsByIds<{ task_id: number; total: number; done: number }>(
+          tx,
+          taskIds,
+          (ids) =>
+            `SELECT task_id,COUNT(*) AS total,COALESCE(SUM(CASE WHEN done=1 THEN 1 ELSE 0 END),0) AS done FROM dbo.subtasks WHERE task_id IN (${ids}) GROUP BY task_id`,
+        )
+      ).map(({ task_id, ...rest }) => [task_id, rest]),
+    );
+    const assigned = new Map<number, number[]>();
+    for (const r of await rowsByIds<{ task_id: number; user_id: number }>(
+      tx,
+      taskIds,
+      (ids) =>
+        `SELECT task_id,user_id FROM dbo.task_assignees WHERE task_id IN (${ids}) ORDER BY task_id,user_id`,
+    ))
+      assigned.set(r.task_id, [...(assigned.get(r.task_id) ?? []), r.user_id]);
+    // Same fallback as assignmentIds(): legacy single assignee when no assignment rows exist.
+    const idsFor = (t: Task) => assigned.get(t.id) ?? (t.assignee_id ? [t.assignee_id] : []);
+    const people = new Map(
+      (
+        await rowsByIds<{ id: number; display_name: string; active: number }>(
+          tx,
+          list.flatMap((t) => [...idsFor(t), ...(t.assignee_id === null ? [] : [t.assignee_id])]),
+          (ids) => `SELECT id,display_name,active FROM dbo.users WHERE id IN (${ids})`,
+        )
+      ).map((u) => [u.id, u]),
+    );
+    const today = bangkokToday(now());
+    return list.map((t) => {
+      const p = projects.get(t.project_id)!;
+      const u = t.assignee_id === null ? null : people.get(t.assignee_id)!;
+      const checklist = counts.get(t.id) ?? { total: 0, done: 0 };
+      const ids = idsFor(t);
+      const assignees = ids.map((user) => {
+        const person = people.get(user)!;
+        return { ...person, active: !!person?.active };
+      });
+      const task: Partial<Record<'group_rank', unknown>> & Task = { ...t };
+      delete task.group_rank;
+      return {
+        ...task,
+        ...p,
+        assignee_ids: ids,
+        assignees,
+        assignee: u ? { ...u, active: !!u.active } : null,
+        subtask_count: checklist.total,
+        subtask_done_count: checklist.done,
+        overdue:
+          t.deleted_at === null && t.status !== 'done' && t.due_date !== null && t.due_date < today,
+      };
+    });
+  };
+  const dto = async (tx: Transaction, t: Task) => (await dtos(tx, [t]))[0]!;
   const detail = async (tx: Transaction, t: Task) => ({
     ...(await dto(tx, t)),
     subtasks: await subtasks(tx, t.id),
@@ -915,13 +956,12 @@ export function taskService(options: AccessOptions = {}) {
         throw new ApiFault('FORBIDDEN');
       const q = taskQuery(a.id, input, trash);
       const total = (await tx.query<{ total: number }>(q.count))[0]!.total;
-      const items = [];
-      for (const t of await tx.query<Task>(q.rows)) {
-        const item = await dto(tx, t);
-        items.push(
-          trash ? { ...item, restore_before: retentionWindow(t.deleted_at!, now()).cutoff } : item,
-        );
-      }
+      const rows = await tx.query<Task>(q.rows);
+      const items = (await dtos(tx, rows)).map((item, n) =>
+        trash
+          ? { ...item, restore_before: retentionWindow(rows[n]!.deleted_at!, now()).cutoff }
+          : item,
+      );
       return { items, total, page: q.page, pageSize: q.pageSize };
     },
     async trashMutation(
@@ -1075,6 +1115,17 @@ export function taskService(options: AccessOptions = {}) {
           })),
           tasks: [],
         };
+      // Load every row once, then verify board positions against it (no per-card queries).
+      const rows = new Map(
+        (
+          await tx.query<Task>(
+            sql('SELECT * FROM dbo.tasks WHERE project_id=@project AND deleted_at IS NULL', {
+              project,
+            }),
+          )
+        ).map((t) => [t.id, t]),
+      );
+      const ordered: Task[] = [];
       let seen = 0;
       for (const c of columns) {
         const positions = await tx.query<{ task_id: number; rank: number }>(
@@ -1085,10 +1136,10 @@ export function taskService(options: AccessOptions = {}) {
         );
         for (const [index, position] of positions.entries()) {
           if (position.rank !== index + 1) throw new ApiFault('DATABASE_BUSY');
-          const t = await raw(tx, position.task_id);
-          if (t.project_id !== project || t.status !== c.status)
+          const t = rows.get(position.task_id);
+          if (!t || t.project_id !== project || t.status !== c.status)
             throw new ApiFault('DATABASE_BUSY');
-          tasks.push(await dto(tx, t));
+          ordered.push(t);
           seen++;
         }
         result.push({
@@ -1098,6 +1149,7 @@ export function taskService(options: AccessOptions = {}) {
           complete: true,
         });
       }
+      tasks.push(...(await dtos(tx, ordered)));
       if (seen !== total) throw new ApiFault('DATABASE_BUSY');
       return { project_id: project, mode: 'board', total, columns: result, tasks };
     },

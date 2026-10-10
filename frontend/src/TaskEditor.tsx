@@ -1,4 +1,4 @@
-import { confirmDialog } from './shared/confirm';
+import { confirmDialog } from './shared/confirm-bus';
 import { useWritable } from './shared/connection';
 import { UiIcon } from './shared/UiIcon';
 import { projectGroups, taskPage, type ProjectGroup } from './task-api';
@@ -141,6 +141,7 @@ export function TaskEditor({
     [panelDirty, setPanelDirty] = useState(false),
     [confirmChild, setConfirmChild] = useState<Subtask>();
   const checklistDraftRow = useRef<HTMLTableRowElement>(null);
+  const pressedInRow = useRef(false);
   const mutationEpoch = useRef(0);
   const snapshot = useRef<{ dirty: boolean; base?: Detail }>({ dirty: false });
   const busy = useRef(false),
@@ -482,8 +483,15 @@ export function TaskEditor({
     return () => document.removeEventListener('pointerdown', outside, true);
   });
   const leaveChecklistRow = (event: React.FocusEvent<HTMLTableRowElement>) => {
-    if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget))
+    const next = event.relatedTarget;
+    // Safari does not focus clicked buttons, so focus falls back to the focusable table scroller
+    // that contains this row; that is not leaving the row (outside clicks save via pointerdown).
+    if (next && !event.currentTarget.contains(next) && !next.contains(event.currentTarget))
       saveChecklistDraft();
+    // Safari's Tab skips buttons and can move focus out of the page (no relatedTarget); without
+    // a pointer press in this row, that is a keyboard exit and saves too.
+    else if (!next && !pressedInRow.current) saveChecklistDraft();
+    pressedInRow.current = false;
   };
   const cancelChecklistDraft = () => {
     setAddOpen(false);
@@ -927,6 +935,9 @@ export function TaskEditor({
                           data-done={s.done}
                           ref={isEditing ? checklistDraftRow : undefined}
                           onBlur={isEditing ? leaveChecklistRow : undefined}
+                          onPointerDown={
+                            isEditing ? () => (pressedInRow.current = true) : undefined
+                          }
                           onKeyDown={(e) => {
                             if (isEditing && e.key === 'Escape') {
                               e.preventDefault();
@@ -1071,6 +1082,7 @@ export function TaskEditor({
                         className="checklist-add-row"
                         ref={checklistDraftRow}
                         onBlur={leaveChecklistRow}
+                        onPointerDown={() => (pressedInRow.current = true)}
                         onKeyDown={(e) => {
                           if (e.key === 'Escape') {
                             e.preventDefault();

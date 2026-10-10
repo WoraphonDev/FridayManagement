@@ -18,6 +18,22 @@ export async function openDatabase(
     const { SqliteDatabase } = await import('./sqlite/database.js');
     return new SqliteDatabase(config.database.path);
   }
+  if (config.database.provider === 'postgres') {
+    const pg = (await import('pg')).default;
+    const { PostgresDatabase } = await import('./postgres/database.js');
+    const d = config.database;
+    const pool = new pg.Pool({
+      host: d.server,
+      port: d.port,
+      database: d.name,
+      user: d.user,
+      password: d.password,
+      max: d.poolMax,
+      statement_timeout: d.requestTimeoutMs,
+      ssl: d.encrypt ? { rejectUnauthorized: !d.trustServerCertificate } : false,
+    });
+    return new PostgresDatabase(pool, d.lockTimeoutMs);
+  }
   const sql = (await import('mssql')).default;
   const { SqlServerDatabase } = await import('./sqlserver/database.js');
   const pool = await (options.connectSql

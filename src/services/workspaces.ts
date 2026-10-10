@@ -19,6 +19,13 @@ import {
 } from './authorization.js';
 import { cleanupAssignments, invalidateMembershipViews } from './access-effects.js';
 
+/** SQL Server allows one active request per transaction; resolve per-row lookups sequentially. */
+async function inOrder<T, R>(items: readonly T[], map: (item: T) => Promise<R>): Promise<R[]> {
+  const out: R[] = [];
+  for (const item of items) out.push(await map(item));
+  return out;
+}
+
 type Team = Row & {
   id: number;
   name: string;
@@ -276,7 +283,7 @@ export function workspaceService(options: AccessOptions = {}) {
         );
       return {
         ...page,
-        items: await Promise.all(page.items.map((t) => teamDTO(tx, t, a.orgRole === 'admin'))),
+        items: await inOrder(page.items, (t) => teamDTO(tx, t, a.orgRole === 'admin')),
       };
     },
     async createTeam(tx: Transaction, proof: SessionProof, input: unknown, request: string) {
@@ -440,12 +447,10 @@ export function workspaceService(options: AccessOptions = {}) {
       );
       return {
         ...page,
-        items: await Promise.all(
-          page.items.map(async (p) => ({
-            ...p,
-            effective_access: (await projectAccess(tx, a, p.id)).role,
-          })),
-        ),
+        items: await inOrder(page.items, async (p) => ({
+          ...p,
+          effective_access: (await projectAccess(tx, a, p.id)).role,
+        })),
       };
     },
     async createProject(tx: Transaction, proof: SessionProof, input: unknown, request: string) {
@@ -651,19 +656,17 @@ export function workspaceService(options: AccessOptions = {}) {
         parameters: { ...parameters, size: pageSize, offset: (page - 1) * pageSize },
       });
       return {
-        items: await Promise.all(
-          rows.map(async (u) => ({
-            id: u.id,
-            display_name: u.display_name,
-            job_title: (u.job_title as string | null) ?? null,
-            teams: await tx.query<{ id: number; name: string }>(
-              sql(
-                'SELECT t.id,t.name FROM dbo.teams t JOIN dbo.team_members m ON m.team_id=t.id WHERE m.user_id=@id ORDER BY t.id',
-                { id: u.id },
-              ),
+        items: await inOrder(rows, async (u) => ({
+          id: u.id,
+          display_name: u.display_name,
+          job_title: (u.job_title as string | null) ?? null,
+          teams: await tx.query<{ id: number; name: string }>(
+            sql(
+              'SELECT t.id,t.name FROM dbo.teams t JOIN dbo.team_members m ON m.team_id=t.id WHERE m.user_id=@id ORDER BY t.id',
+              { id: u.id },
             ),
-          })),
-        ),
+          ),
+        })),
         page,
         pageSize,
         total,

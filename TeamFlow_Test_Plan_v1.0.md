@@ -265,6 +265,11 @@ Suite คือแผนให้สร้าง tests ไม่ใช่รา�
 | T-089 | Motion system AN-01–AN-12 + reduced-motion + Settings toggle | UT-18 | UI/E2E/accessibility/performance trace |
 | T-090 | Favorites (Updates feed เลื่อนไปรอบถัดไป) | ไม่มี UT เฉพาะ | Integration/UI favorites/revoke |
 | T-091 | Regression รวม addendum, SQL Server 2022 native, Windows, UAT | ไม่มี UT เฉพาะ | Regression/SQL2022/Windows/UAT |
+| T-092 | Security Design + Threat model | ไม่มี UT เฉพาะ | Document review (docs/07-security.md) |
+| T-093 | OWASP Top 10 verification release 1.0 | ไม่มี UT เฉพาะ | Security scan/manual OWASP A01–A10 |
+| T-094 | Pen-Test + remediation/retest | ไม่มี UT เฉพาะ | Pen-Test report/retest |
+| T-095 | PostgreSQL provider (ADR-0001) | ไม่มี UT เฉพาะ | Provider suites on PostgreSQL (tests/postgres) |
+| T-096 | Linux + Docker deployment (ADR-0001) | ไม่มี UT เฉพาะ | Docker rehearsal + real-server install/backup/restore |
 
 ## 6. Test Data / Environments
 

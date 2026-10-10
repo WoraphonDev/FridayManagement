@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { selfFixture } from '../../frontend/src/test-fixtures.js';
+// page.route cannot see requests from a worker-controlled page (WebKit routes all fetches through it).
+test.use({ serviceWorkers: 'block' });
 test.beforeEach(async ({ page }) => {
   await page.route('**/api/meta', (route) =>
     route.fulfill({ json: { setupRequired: false, version: '0.1.0' } }),

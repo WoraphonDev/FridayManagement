@@ -1,0 +1,70 @@
+{
+ "date": "2026-10-10",
+ "provider": "SQL Server 2022 (test DB)",
+ "dataset": "20 projects, 10,000 tasks, 20,000 comments, 5,000 notifications",
+ "runsPerPath": 10,
+ "accepted": {
+  "project task list + filter": {
+   "Clustered Index Scan tasks.pk_tasks": "ORDER BY id + 20-row page: row-goal ordered PK read, stops early"
+  },
+  "My work": {
+   "Clustered Index Scan tasks.pk_tasks": "assignee spans every visible project; row-goal page and count"
+  },
+  "notifications": {
+   "Clustered Index Scan notifications.pk_notifications": "scope join to visible projects; 5,000 rows",
+   "Index Scan tasks.ix_tasks_project_id_status_deleted_at": "narrow covering index for the scope join"
+  },
+  "Kanban board": {
+   "Clustered Index Scan tasks.pk_tasks": "one bulk load of the whole project (≤500 rows): a single scan is cheaper than 500 lookups",
+   "Clustered Index Scan task_assignees.pk_task_assignees": "one IN-list lookup for ≤500 cards; optimizer prefers a scan while the table is small"
+  },
+  "report summary": {
+   "Clustered Index Scan tasks.pk_tasks": "aggregates every visible task by design"
+  }
+ },
+ "note": "Kanban N+1 removed 2026-10-10: batched task DTOs (was 3,011 statements, p95 ~1.96 s)",
+ "paths": {
+  "project task list + filter": {
+   "statements": 3,
+   "p95Ms": 15,
+   "scans": [
+    "Clustered Index Scan tasks.pk_tasks"
+   ]
+  },
+  "My work": {
+   "statements": 7,
+   "p95Ms": 88,
+   "scans": [
+    "Clustered Index Scan tasks.pk_tasks"
+   ]
+  },
+  "Kanban board": {
+   "statements": 16,
+   "p95Ms": 43,
+   "scans": [
+    "Clustered Index Scan tasks.pk_tasks",
+    "Clustered Index Scan task_assignees.pk_task_assignees"
+   ]
+  },
+  "notifications": {
+   "statements": 3,
+   "p95Ms": 22,
+   "scans": [
+    "Clustered Index Scan notifications.pk_notifications",
+    "Index Scan tasks.ix_tasks_project_id_status_deleted_at"
+   ]
+  },
+  "report summary": {
+   "statements": 6,
+   "p95Ms": 66,
+   "scans": [
+    "Clustered Index Scan tasks.pk_tasks"
+   ]
+  },
+  "directory search": {
+   "statements": 11,
+   "p95Ms": 16,
+   "scans": []
+  }
+ }
+}

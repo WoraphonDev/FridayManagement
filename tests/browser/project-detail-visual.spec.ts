@@ -35,8 +35,11 @@ test('Project detail style: stable sections, task save/cancel, docs cancel, meta
     }
     await page.setViewportSize({ width: 1440, height: 1000 });
     const board = await tasks(page);
+    // A project without a description must not borrow the Calendar/My work subtitle.
+    await expect(page.getByText('All due dates across projects you can access')).toHaveCount(0);
     const tabs = board.getByRole('region', { name: 'Task views', exact: true });
-    const before = await tabs.boundingBox();
+    // Document-relative: a shorter view may clamp scroll, which is not a layout shift.
+    const docY = () => tabs.evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
     await tabs.getByRole('button', { name: 'Overview', exact: true }).click();
     await expect(board.getByRole('region', { name: 'Project overview' })).toBeVisible();
     await expect(board.locator('.overview-tiles')).toContainText('1 of 4 tasks done');
@@ -49,6 +52,8 @@ test('Project detail style: stable sections, task save/cancel, docs cancel, meta
       fullPage: true,
       animations: 'disabled',
     });
+    // Baseline after the full-page capture, which temporarily relayouts the page.
+    const before = await docY();
     for (const name of [
       'Members',
       'Docs',
@@ -64,8 +69,7 @@ test('Project detail style: stable sections, task save/cancel, docs cancel, meta
         'aria-pressed',
         'true',
       );
-      const after = await tabs.boundingBox();
-      expect(Math.abs(after!.y - before!.y)).toBeLessThan(2);
+      await expect.poll(async () => Math.abs((await docY()) - before)).toBeLessThan(2);
     }
     await tabs.getByRole('button', { name: 'Main table', exact: true }).click();
     await board.getByRole('button', { name: 'New task', exact: true }).click();

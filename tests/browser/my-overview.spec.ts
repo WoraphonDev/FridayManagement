@@ -115,7 +115,8 @@ test('T083 Home colors, chart motion, empty state, mobile keyboard and reduced-m
     await page.goto(f.env.APP_ORIGIN + '/');
     const next = page.getByRole('link', { name: 'งานถัดไป Home colorful fixture', exact: true });
     await next.click();
-    await expect(page).toHaveURL(/\/projects\/\d+\/tasks\/\d+$/);
+    // The deep link is normalized to the query form; either is the same task route.
+    await expect(page).toHaveURL(/\/projects(\/\d+\/tasks\/\d+|\?project=\d+&task=\d+)$/);
     await expect(page.getByRole('dialog', { name: /^Task details #/ })).toBeVisible();
     await page.goto(f.env.APP_ORIGIN + '/');
     await page.setViewportSize({ width: 360, height: 900 });

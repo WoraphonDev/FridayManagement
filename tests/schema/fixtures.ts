@@ -191,3 +191,57 @@ export async function sqlFixture(initial = true): Promise<Fixture> {
     close,
   };
 }
+
+/** PostgreSQL fixture: a random schema per fixture via search_path; dropped on close. */
+export async function pgFixture(initial = true): Promise<Fixture> {
+  if (
+    process.env.RUN_POSTGRES_TESTS !== '1' ||
+    process.env.NODE_ENV !== 'test' ||
+    process.env.DB_PROVIDER !== 'postgres' ||
+    !/_test$/.test(process.env.DB_NAME ?? '')
+  )
+    throw new Error('ISOLATED_POSTGRES_TEST_REQUIRED');
+  const pg = (await import('pg')).default;
+  const { PostgresDatabase } = await import('../../src/repository/postgres/database.js');
+  const schema = `friday_t_${randomUUID().replaceAll('-', '')}`;
+  const connection = {
+    host: process.env.DB_SERVER,
+    port: Number(process.env.DB_PORT ?? 5432),
+    database: process.env.DB_NAME,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+  };
+  const admin = new pg.Pool({ ...connection, max: 1 });
+  await admin.query(`CREATE SCHEMA "${schema}"`);
+  const open = () =>
+    new PostgresDatabase(
+      new pg.Pool({ ...connection, max: 5, options: `-c search_path="${schema}"` }),
+    );
+  let db: Database = open();
+  const close = async () => {
+    try {
+      await db.close();
+    } finally {
+      await admin.query(`DROP SCHEMA "${schema}" CASCADE`);
+      await admin.end();
+    }
+  };
+  try {
+    if (initial) {
+      await migrate(db);
+      await db.transaction(seed);
+    }
+  } catch (error) {
+    await close();
+    throw error;
+  }
+  return {
+    db,
+    reopen: async () => {
+      await db.close();
+      db = open();
+      return db;
+    },
+    close,
+  };
+}

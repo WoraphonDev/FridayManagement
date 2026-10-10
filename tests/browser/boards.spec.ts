@@ -112,6 +112,16 @@ async function setupCards(page: Page) {
   return f;
 }
 async function drag(page: Page, task: number, target: ReturnType<Page['locator']>) {
+  // Measure only after entrance/FLIP animations settle, otherwise boxes can move mid-drag.
+  await page.waitForFunction(() =>
+    document
+      .getAnimations()
+      .every(
+        (animation) =>
+          animation.playState !== 'running' ||
+          animation.effect?.getComputedTiming().iterations === Infinity,
+      ),
+  );
   const handle = page.getByRole('button', { name: `Drag task #${task}`, exact: true }),
     a = await handle.boundingBox(),
     b = await target.boundingBox();
@@ -330,6 +340,10 @@ test('T037 touch scroll and long-press drag with keyboard/menu alternative on em
   page,
   browser,
 }, testInfo) => {
+  test.skip(
+    browser.browserType().name() !== 'chromium',
+    'Touch emulation uses a Chromium-only CDP session',
+  );
   const f = await setupCards(page);
   let context;
   try {

@@ -13,7 +13,7 @@ const statuses = () => new Map(rows(readFileSync('TeamFlow_Task_v1.0.md','utf8')
 
 export function checkManifest(manifest) {
   assert.deepEqual(manifest,buildTestManifest(),'Stale generated test manifest');
-  for(const [group,count] of Object.entries({tasks:91,suites:23,cases:99,acceptance:40,variants:20,uat:5,reviews:4})) {
+  for(const [group,count] of Object.entries({tasks:96,suites:23,cases:99,acceptance:40,variants:20,uat:5,reviews:4})) {
     assert.equal(manifest[group].length,count,`${group} inventory`); unique(manifest[group].map(x=>x.id),group);
   }
   unique(all(manifest).map(x=>x.id),'execution item');
@@ -61,7 +61,7 @@ export function checkManifest(manifest) {
   // final sign-off additionally requires EVERY case, not only the table subset.
   for(const rule of manifest.sequencing) assert(rule.tasks.every(t=>taskIds.has(t)) && (rule.closureRequires??[]).every(t=>taskIds.has(t)));
   for(const source of manifest.sources) assert(existsSync(source));
-  return {tasks:91,suites:23,cases:99,acceptance:40,variants:20,uat:5,smoke:30,FR:52,NFR:9,BR:23,result:'PASS'};
+  return {tasks:96,suites:23,cases:99,acceptance:40,variants:20,uat:5,smoke:30,FR:52,NFR:9,BR:23,result:'PASS'};
 }
 
 export function validateRecords(manifest, data, {verifyArtifacts=true}={}) {

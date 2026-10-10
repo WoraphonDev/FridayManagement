@@ -87,7 +87,7 @@ export async function startApplication(
       throw new Error('SQL_INSTANCE_GUARD_LOST');
     }
     // Explicit migration remains required; preserve shell-only startup when no local DB exists.
-    if (config.database.provider === 'sqlserver' || existsSync(config.database.path)) {
+    if (config.database.provider !== 'sqlite' || existsSync(config.database.path)) {
       const opened = await openDatabase(config.database.provider, { env });
       if (stopping) {
         await opened.close();

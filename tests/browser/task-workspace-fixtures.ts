@@ -76,8 +76,11 @@ async function projectFixture(page: Page) {
 }
 async function tasks(page: Page) {
   const menu = page.getByRole('button', { name: 'Toggle navigation' });
-  if (await menu.isVisible()) await menu.click();
-  await page.getByRole('link', { name: 'All projects', exact: true }).click();
+  const link = page.getByRole('link', { name: 'All projects', exact: true });
+  // Wait for the shell to render before deciding whether the mobile menu must open.
+  await expect(menu.or(link).first()).toBeVisible();
+  if (!(await link.isVisible())) await menu.click();
+  await link.click();
   await page.locator('summary[aria-label^="Project actions"]').first().click();
   await page.getByRole('button', { name: 'Tasks', exact: true }).click();
   return page.getByRole('region', { name: 'Project tasks · Task project', exact: true });

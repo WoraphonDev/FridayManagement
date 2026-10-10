@@ -50,6 +50,12 @@ export async function migrate(database: Database, root = resolve('migrations')):
           "DECLARE @result int; EXEC @result=sys.sp_getapplock @Resource=N'FridayManagement:schema-migrations', @LockMode='Exclusive', @LockOwner='Transaction', @LockTimeout=0; SELECT @result AS result;",
       });
       if (![0, 1].includes(rows[0]?.result ?? -1)) throw new Error('MIGRATION_GUARD_UNAVAILABLE');
+    } else if (database.provider === 'postgres') {
+      const rows = await transaction.query<{ locked: number }>({
+        sqlite: "SELECT CASE WHEN pg_try_advisory_xact_lock(hashtext('FridayManagement:schema-migrations')) THEN 1 ELSE 0 END AS locked",
+        sqlserver: '',
+      });
+      if (rows[0]?.locked !== 1) throw new Error('MIGRATION_GUARD_UNAVAILABLE');
     }
     const applied: string[] = [];
     for (const file of files) {

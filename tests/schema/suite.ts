@@ -39,11 +39,16 @@ export function schemaAcceptance(
   const reject = (db: Database, query: ReturnType<typeof s>) =>
     assert.rejects(
       db.transaction((tx) => tx.execute(query)),
-      (error) =>
-        error instanceof Error &&
-        /constraint|datatype|cannot store|malformed JSON|truncated|overflow|conversion failed|converting data type|out-of-range/i.test(
-          error.message,
-        ),
+      (error) => {
+        // SQL Server wraps driver errors in TransactionFailure; inspect the driver cause.
+        const cause = error instanceof Error && error.cause instanceof Error ? error.cause : error;
+        return (
+          cause instanceof Error &&
+          /constraint|duplicate key|datatype|cannot store|malformed JSON|truncated|overflow|conversion failed|converting data type|out-of-range|out of range/i.test(
+            cause.message,
+          )
+        );
+      },
     );
   const rows = <R extends Row = Row>(db: Database, query: ReturnType<typeof s>) =>
     db.transaction((tx) => tx.query<R>(query));
@@ -51,8 +56,11 @@ export function schemaAcceptance(
     'All dictionary tables, enabled/trusted NO ACTION FKs and required indexes exist',
     async (db) => {
       const sql = db.provider === 'sqlite';
+      const pg = db.provider === 'postgres';
       const actual = await rows<{ name: string }>(db, {
-        sqlite: "SELECT name FROM sqlite_master WHERE type='table'",
+        sqlite: pg
+          ? 'SELECT table_name AS name FROM information_schema.tables WHERE table_schema=current_schema()'
+          : "SELECT name FROM sqlite_master WHERE type='table'",
         sqlserver:
           "SELECT t.name FROM sys.tables t JOIN sys.schemas s ON s.schema_id=t.schema_id WHERE s.name=OBJECT_SCHEMA_NAME(OBJECT_ID(N'dbo.tasks'))",
       });
@@ -87,6 +95,57 @@ export function schemaAcceptance(
           db,
           s("SELECT name FROM sqlite_master WHERE type='index'"),
         );
+        for (const name of [
+          'ix_team_members_user_id',
+          'ix_project_members_user_id',
+          'ix_tasks_project_id_status_deleted_at',
+          'ix_tasks_assignee_id_due_date',
+          'ix_tasks_completed_at',
+          'ix_comments_task_id_id',
+          'ix_task_events_task_id_id',
+          'ix_notifications_recipient_id_read_at',
+          'ix_sessions_absolute_expires_at',
+          'ix_sessions_last_seen_at',
+          'uq_board_positions_project_id_status_rank',
+        ])
+          assert(
+            indexes.some((i) => i.name === name),
+            name,
+          );
+      } else if (pg) {
+        // PostgreSQL: every FK is NO ACTION and validated; CHECKs are validated; indexes exist.
+        const keys = await rows<{ delete_rule: string; update_rule: string; validated: number }>(
+          db,
+          s(
+            'SELECT rc.delete_rule,rc.update_rule,CASE WHEN c.convalidated THEN 1 ELSE 0 END AS validated FROM information_schema.referential_constraints rc JOIN pg_constraint c ON c.conname=rc.constraint_name AND c.connamespace=current_schema()::regnamespace WHERE rc.constraint_schema=current_schema()',
+          ),
+        );
+        assert.equal(keys.length, 51);
+        for (const key of keys)
+          assert.deepEqual(key, {
+            delete_rule: 'NO ACTION',
+            update_rule: 'NO ACTION',
+            validated: 1,
+          });
+        const checks = await rows<{ validated: number }>(
+          db,
+          s(
+            "SELECT CASE WHEN convalidated THEN 1 ELSE 0 END AS validated FROM pg_constraint WHERE contype='c' AND connamespace=current_schema()::regnamespace",
+          ),
+        );
+        assert(checks.length > 100);
+        assert(checks.every((c) => c.validated === 1));
+        const indexes = await rows<{ name: string; definition: string }>(
+          db,
+          s(
+            'SELECT indexname AS name,indexdef AS definition FROM pg_indexes WHERE schemaname=current_schema()',
+          ),
+        );
+        for (const name of ['uq_tasks_predecessor_task_id', 'uq_tasks_successor_task_id'])
+          assert.match(
+            String(indexes.find((i) => i.name === name)?.definition),
+            /UNIQUE INDEX .* WHERE .*IS NOT NULL/,
+          );
         for (const name of [
           'ix_team_members_user_id',
           'ix_project_members_user_id',
@@ -662,7 +721,7 @@ export function schemaAcceptance(
         await db.transaction(async (tx) => {
           await tx.execute(
             s(
-              'CREATE TABLE dbo.legacy_fixture (id INT NOT NULL PRIMARY KEY, label NVARCHAR(100) NOT NULL)',
+              `CREATE TABLE dbo.legacy_fixture (id INT NOT NULL PRIMARY KEY, label ${db.provider === 'postgres' ? 'TEXT' : 'NVARCHAR(100)'} NOT NULL)`,
             ),
           );
           await tx.execute(
@@ -695,13 +754,16 @@ export function schemaAcceptance(
         writeFileSync(
           join(dir, '0003_partial.sql'),
           'CREATE TABLE dbo.fixture_partial (id INT NOT NULL); INSERT INTO dbo.missing_fixture VALUES(1);'.replaceAll(
-            db.provider === 'sqlite' ? 'dbo.' : '__unused__',
+            db.provider === 'sqlserver' ? '__unused__' : 'dbo.',
             '',
           ),
         );
         await assert.rejects(migrate(db, root));
         const actual = await rows(db, {
-          sqlite: "SELECT name FROM sqlite_master WHERE name='fixture_partial'",
+          sqlite:
+            db.provider === 'postgres'
+              ? "SELECT table_name AS name FROM information_schema.tables WHERE table_schema=current_schema() AND table_name='fixture_partial'"
+              : "SELECT name FROM sqlite_master WHERE name='fixture_partial'",
           sqlserver:
             "SELECT name FROM sys.tables WHERE object_id=OBJECT_ID(N'dbo.fixture_partial')",
         });

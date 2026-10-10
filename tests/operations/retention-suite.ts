@@ -267,7 +267,7 @@ export function retentionAcceptance(
             );
           await tx.execute(
             sql(
-              "INSERT INTO dbo.idempotency_keys(user_id,route,key,request_hash,response_status,response_body,created_at,expires_at) VALUES(1,'fixture',@key,@hash,200,'{}',@created,@expires)",
+              "INSERT INTO dbo.idempotency_keys(user_id,route,[key],request_hash,response_status,response_body,created_at,expires_at) VALUES(1,'fixture',@key,@hash,200,'{}',@created,@expires)",
               {
                 key: randomUUID(),
                 hash: 'c'.repeat(64),

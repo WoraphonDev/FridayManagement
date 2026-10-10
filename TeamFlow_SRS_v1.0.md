@@ -1,12 +1,16 @@
 # TeamFlow — Software Requirements Specification (SRS)
 
 
-**เวอร์ชัน:** 1.30 · **วันที่:** 10 ตุลาคม 2026\
+**เวอร์ชัน:** 1.32 · **วันที่:** 11 ตุลาคม 2026\
 **สถานะ:** Baseline ยืนยันแล้วสำหรับพัฒนา; ยังไม่ทดสอบ  
 **Requirements ต้นทาง:** `TeamFlow_Requirements_v1.0.md`  
 **ขอบเขต:** องค์กรเดียว หลายทีม ประมาณ 30 บัญชี ไม่มีอีเมล ไม่มี AI เจ้าของระบบ deploy เอง
 
 
+
+## Database/deployment change — ADR-0001 (owner, 11 October 2026)
+
+PostgreSQL 17 on Linux + Docker replaces SQL Server 2022 on Windows ([docs/adr/ADR-0001-postgresql-linux-docker.md](docs/adr/ADR-0001-postgresql-linux-docker.md)). `DB_PROVIDER=postgres` reuses the `DB_*` keys; SQLite stays the local profile; SQL Server code is retained but retired from acceptance. Statements below that name SQL Server, Windows, IIS, Task Scheduler or `.bak` are read as PostgreSQL, Linux/Docker, the Compose HTTPS proxy, host cron and `pg_dump` snapshots respectively until rewritten. Install/backup/restore: [docs/deploy-linux-docker.md](docs/deploy-linux-docker.md).
 
 ## Subitem cells and assignment/status popovers - 10 October 2026
 
@@ -250,16 +254,19 @@ Lead ดูรายชื่อผู้ใช้ active และชื่อ�
 | Operation | Admin | Lead ทีมเจ้าของ | Manager + key | Manager ไม่มี key นั้น | Editor | Viewer |
 |---|---|---|---|---|---|---|
 | แก้ชื่อ/รายละเอียดโปรเจกต์ | ได้ | ได้ | P-01 | ไม่ได้ | ไม่ได้ | ไม่ได้ |
-| จัดการ Group | ได้ | ได้ | P-02 | ไม่ได้ | ตามเดิม | ไม่ได้ |
+| จัดการ Group | ได้ | ได้ | ได้ (P-02 เป็นป้ายแสดงสิทธิ์) | ได้ (เป็น write member) | ได้ | ไม่ได้ |
 | เพิ่ม/ถอด Editor/Viewer | ได้ | ได้ | P-03 | ไม่ได้ | ไม่ได้ | ไม่ได้ |
 | แต่งตั้ง/ถอด manager | ได้ | ได้ | ไม่ได้ | ไม่ได้ | ไม่ได้ | ไม่ได้ |
 | ลบ/คืนงานของผู้อื่น | ได้ | ได้ | P-04 | เฉพาะงานที่สร้างเอง (ลบ) | เฉพาะงานที่สร้างเอง (ลบ) | ไม่ได้ |
 | แก้/ลบ/คืน Docs ของผู้อื่น | ได้ | ได้ | P-05 | แก้ได้; ลบ/คืนเฉพาะของตน | แก้ได้; ลบ/คืนเฉพาะของตน | อ่าน |
 | ลบ/คืนไฟล์ของผู้อื่น | ได้ | ได้ | P-06 | เฉพาะที่อัปโหลดเอง | เฉพาะที่อัปโหลดเอง | ไม่ได้ |
-| Overview/Reports/CSV ของโปรเจกต์ | ได้ | ได้ | P-07 | ตาม Editor | ตามโปรเจกต์ที่เข้าถึง | ตามโปรเจกต์ที่เข้าถึง |
+| Overview/Reports/CSV ของโปรเจกต์ | ได้ | ได้ | ตามโปรเจกต์ที่เข้าถึง (P-07 เป็นป้ายแสดงสิทธิ์) | ตาม Editor | ตามโปรเจกต์ที่เข้าถึง | ตามโปรเจกต์ที่เข้าถึง |
 | สร้างโปรเจกต์ในทีมที่เป็นสมาชิก | ได้ | ในทีมตน | P-08 (ผู้สร้างเป็น manager) | ไม่ได้ | ไม่ได้ | ไม่ได้ |
-| Workload/Reports ระดับทีม | ได้ | ทีมตน | P-09/P-10 เฉพาะงานในโปรเจกต์ที่เข้าถึง | ไม่ได้ | ไม่ได้ | ไม่ได้ |
+| Workload ระดับทีม | ได้ | ทีมตน | P-09 เฉพาะงานในโปรเจกต์ที่เข้าถึง | ไม่ได้ | ไม่ได้ | ไม่ได้ |
+| Reports กรองตามทีม | ได้ | ได้ | ได้ เฉพาะงานในโปรเจกต์ที่เข้าถึง (P-10 เป็นป้ายแสดงสิทธิ์) | ได้ เฉพาะงานในโปรเจกต์ที่เข้าถึง | ได้ เฉพาะงานในโปรเจกต์ที่เข้าถึง | ได้ เฉพาะงานในโปรเจกต์ที่เข้าถึง |
 | ติ๊ก/เอาออก permission, จัดการ job title | ได้ | ไม่ได้ | ไม่ได้ | ไม่ได้ | ไม่ได้ | ไม่ได้ |
+
+Owner decision 2026-10-11 (Q-T-081-1 = A): ตารางนี้ปรับให้ตรงกับพฤติกรรมที่ implement และทดสอบแล้ว — P-02, P-07 และ P-10 ไม่ให้สิทธิ์เพิ่มเกินสิทธิ์ write/read ของโปรเจกต์ (แสดงใน catalog เพื่ออ้างอิงเท่านั้น); ข้อมูลทุกแบบยังจำกัดตามโปรเจกต์ที่เข้าถึง (BR-16) ไม่มีการลดสิทธิ์ผู้ใช้ปัจจุบัน
 
 กติกา server: แต่งตั้ง `manager` ต้องมี P-01–P-07 ≥1 ข้อมิฉะนั้น 422; ผู้ใช้แก้ permission ของตนเอง 403 แม้เป็น Admin คนเดียวให้ใช้ admin CLI; บันทึก permission ใช้ `permissions_version` ต่อผู้ใช้ (409 เมื่อ stale); เอาออกจนไม่เหลือ P-01–P-07 ให้ลด `manager` → `editor` ทุกโปรเจกต์ใน transaction เดียวกับการบันทึก + admin audit + เพิ่ม scoped view revision ของผู้ใช้; deny-by-default เมื่อ key ไม่รู้จัก
 
@@ -763,7 +770,7 @@ Response201ใช้TaskMutationResultในcontracts/openapi.json: item=TaskDet
 ### 13.1 Security
 
 - ทุก query parameterized; explicit request field allowlist; escape display text; CSP ไม่อนุญาต inline script/unsafe-eval; ไม่มี arbitrary HTML
-- headers: nosniff, frame-ancestors none, referrer-policy same-origin; HTTPS production ใช้ HSTS เมื่อ proxy/domain พร้อม
+- headers: nosniff, frame-ancestors none, referrer-policy same-origin, Permissions-Policy (camera/microphone/geolocation/payment/usb ปิด), Cross-Origin-Opener-Policy same-origin, Cross-Origin-Resource-Policy same-origin (owner 2026-10-10, OWASP pre-scan F-01/F-02); HTTPS production ใช้ HSTS เมื่อ proxy/domain พร้อม
 - cookie settings และ trusted Origin ต้องสอดคล้องกัน; ห้ามใช้ Host/X-Forwarded-Host ที่ไม่ตรวจสอบสร้าง trusted origin
 - Path traversal/download IDOR tests ครอบคลุม attachments; secret/file paths ไม่อยู่ response
 - limit request/upload size, rate limits และ timeouts; log error ใช้ requestId และ redaction; login/password/upload content ไม่บันทึก

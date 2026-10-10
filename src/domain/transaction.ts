@@ -32,7 +32,7 @@ export async function runTransaction<T>(
       const cause = error instanceof TransactionFailure ? error.cause : error;
       const number = sqlNumber(cause);
       if (
-        database.provider === 'sqlserver' &&
+        database.provider !== 'sqlite' &&
         number === 1205 &&
         error instanceof TransactionFailure &&
         error.outcome === 'rolled_back' &&

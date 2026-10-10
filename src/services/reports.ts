@@ -115,20 +115,25 @@ export function reportService(database: Database, options: AccessOptions = {}) {
         )
       )[0]!.total;
       const workloadQuery = f.statement(
-          "SELECT COALESCE(ta.user_id,t.assignee_id) AS assignee_id,(SELECT u.display_name FROM dbo.users u WHERE u.id=COALESCE(ta.user_id,t.assignee_id)) AS display_name,(SELECT u.active FROM dbo.users u WHERE u.id=COALESCE(ta.user_id,t.assignee_id)) AS active,(SELECT jt.name FROM dbo.users u JOIN dbo.job_titles jt ON jt.id=u.job_title_id WHERE u.id=COALESCE(ta.user_id,t.assignee_id)) AS job_title,SUM(CASE WHEN t.status<>'done' THEN 1 ELSE 0 END) AS open_count ",
-          ' GROUP BY COALESCE(ta.user_id,t.assignee_id) ORDER BY COALESCE(ta.user_id,t.assignee_id)',
-        );
-      workloadQuery.sqlite = workloadQuery.sqlite.replace('FROM tasks t','FROM tasks t LEFT JOIN task_assignees ta ON ta.task_id=t.id');
-      workloadQuery.sqlserver = workloadQuery.sqlserver.replace('FROM dbo.tasks t','FROM dbo.tasks t LEFT JOIN dbo.task_assignees ta ON ta.task_id=t.id');
+        // Group in a derived table, then join names: valid on SQLite, SQL Server and PostgreSQL.
+        "SELECT g.assignee_id,u.display_name,u.active,jt.name AS job_title,g.open_count FROM (SELECT COALESCE(ta.user_id,t.assignee_id) AS assignee_id,SUM(CASE WHEN t.status<>'done' THEN 1 ELSE 0 END) AS open_count ",
+        ' GROUP BY COALESCE(ta.user_id,t.assignee_id)) g LEFT JOIN dbo.users u ON u.id=g.assignee_id LEFT JOIN dbo.job_titles jt ON jt.id=u.job_title_id ORDER BY g.assignee_id',
+      );
+      workloadQuery.sqlite = workloadQuery.sqlite.replace(
+        'FROM tasks t',
+        'FROM tasks t LEFT JOIN task_assignees ta ON ta.task_id=t.id',
+      );
+      workloadQuery.sqlserver = workloadQuery.sqlserver.replace(
+        'FROM dbo.tasks t',
+        'FROM dbo.tasks t LEFT JOIN dbo.task_assignees ta ON ta.task_id=t.id',
+      );
       const workloadRows = await tx.query<{
         assignee_id: number | null;
         display_name: string | null;
         active: number | null;
         job_title: string | null;
         open_count: number;
-      }>(
-        workloadQuery,
-      );
+      }>(workloadQuery);
       return {
         metadata: {
           date_basis: f.query.date_basis,
@@ -187,14 +192,27 @@ export function reportService(database: Database, options: AccessOptions = {}) {
                 sqlserver: q.sqlserver + ' OFFSET 0 ROWS FETCH NEXT 100 ROWS ONLY',
               });
               if (!rows.length) break;
-              const parameters = Object.fromEntries(rows.map((r,i)=>['csvId'+i,Number(r.id)]));
-              const recipients = await current.query<{task_id:number;display_name:string;job_title:string|null}>(sql('SELECT ta.task_id,u.display_name,(SELECT jt.name FROM dbo.job_titles jt WHERE jt.id=u.job_title_id) AS job_title FROM dbo.task_assignees ta JOIN dbo.users u ON u.id=ta.user_id WHERE ta.task_id IN ('+rows.map((_,i)=>'@csvId'+i).join(',')+') ORDER BY ta.task_id,ta.user_id',parameters));
+              const parameters = Object.fromEntries(
+                rows.map((r, i) => ['csvId' + i, Number(r.id)]),
+              );
+              const recipients = await current.query<{
+                task_id: number;
+                display_name: string;
+                job_title: string | null;
+              }>(
+                sql(
+                  'SELECT ta.task_id,u.display_name,(SELECT jt.name FROM dbo.job_titles jt WHERE jt.id=u.job_title_id) AS job_title FROM dbo.task_assignees ta JOIN dbo.users u ON u.id=ta.user_id WHERE ta.task_id IN (' +
+                    rows.map((_, i) => '@csvId' + i).join(',') +
+                    ') ORDER BY ta.task_id,ta.user_id',
+                  parameters,
+                ),
+              );
               for (const row of rows) {
-                const own = recipients.filter(r=>r.task_id===row.id);
+                const own = recipients.filter((r) => r.task_id === row.id);
                 if (own.length) {
-                  row.assignee=own.map(r=>r.display_name).join(', ');
+                  row.assignee = own.map((r) => r.display_name).join(', ');
                   // FR-41: title column aligned with the assignee list; blank when none set.
-                  row.assignee_job_title=own.map(r=>r.job_title ?? '').join(', ');
+                  row.assignee_job_title = own.map((r) => r.job_title ?? '').join(', ');
                 }
               }
 

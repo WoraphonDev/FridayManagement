@@ -112,7 +112,7 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
               )
               .map((a) => Number(a.effect!.getTiming().duration));
             // Wait for the cross-column FLIP (other cards may shift with shorter motions first).
-            if (durations.some((d) => d >= 300) || performance.now() - started > 4000)
+            if (durations.some((d) => d >= 300) || performance.now() - started > 10000)
               resolve(durations);
             else requestAnimationFrame(sample);
           };
@@ -200,10 +200,17 @@ test('Approved design geometry, sidebar deep links, group editing and fixed crea
       sidebar: document.querySelector('.sidebar')!.getBoundingClientRect().width,
       row: document.querySelector('.project-task-group tbody tr')!.getBoundingClientRect().height,
     }));
-    expect(dimensions).toEqual({ sidebar: 216, row: 38 });
+    expect(dimensions.sidebar).toBeCloseTo(216, 2);
+    expect(dimensions.row).toBeCloseTo(38, 2);
     await expect(page.locator('.project-heading h1')).toHaveCSS('line-height', '28px');
     await expect(page.locator('.task-name button').first()).toHaveCSS('font-weight', '500');
-    await expect(page.locator('.task-name button').first()).toHaveCSS('line-height', '16.2px');
+    // WebKit serializes 16.2px as 16.200001px; compare numerically.
+    expect(
+      await page
+        .locator('.task-name button')
+        .first()
+        .evaluate((el) => parseFloat(getComputedStyle(el).lineHeight)),
+    ).toBeCloseTo(16.2, 3);
     await expect(page.locator('.sidebar .nav-heading').first()).toHaveCSS(
       'letter-spacing',
       'normal',

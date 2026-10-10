@@ -11,7 +11,7 @@ export interface Transaction {
   query<T extends Row>(statement: Statement): Promise<T[]>;
 }
 export interface Database {
-  readonly provider: 'sqlite' | 'sqlserver';
+  readonly provider: 'sqlite' | 'sqlserver' | 'postgres';
   transaction<T>(work: (transaction: Transaction) => Promise<T>): Promise<T>;
   close(): Promise<void>;
 }

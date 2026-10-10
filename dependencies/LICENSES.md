@@ -84,6 +84,7 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | @floating-ui/dom | 1.8.0 | MIT | runtime |
 | @floating-ui/react-dom | 2.1.9 | MIT | runtime |
 | @floating-ui/utils | 0.2.12 | MIT | runtime |
+| @fontsource/nunito | 5.3.0 | OFL-1.1 | runtime |
 | @humanfs/core | 0.19.2 | Apache-2.0 | dev |
 | @humanfs/node | 0.16.8 | Apache-2.0 | dev |
 | @humanfs/types | 0.15.0 | Apache-2.0 | dev |
@@ -135,6 +136,7 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | @types/node | 22.20.5 | MIT | runtime |
 | @types/normalize-package-data | 2.4.4 | MIT | runtime |
 | @types/parse-json | 4.0.2 | MIT | runtime |
+| @types/pg | 8.23.1 | MIT | runtime |
 | @types/qs | 6.15.1 | MIT | dev |
 | @types/range-parser | 1.2.7 | MIT | dev |
 | @types/react | 19.3.0 | MIT | runtime |
@@ -487,6 +489,14 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | path-parse | 1.0.7 | MIT | runtime |
 | path-to-regexp | 8.4.2 | MIT | runtime |
 | path-type | 4.0.0 | MIT | runtime |
+| pg | 8.23.1 | MIT | runtime |
+| pg-cloudflare | 1.4.1 | MIT | runtime / optional |
+| pg-connection-string | 2.14.1 | MIT | runtime |
+| pg-int8 | 1.0.1 | ISC | runtime |
+| pg-pool | 3.14.0 | MIT | runtime |
+| pg-protocol | 1.16.1 | MIT | runtime |
+| pg-types | 2.2.0 | MIT | runtime |
+| pgpass | 1.0.5 | MIT | runtime |
 | picocolors | 1.1.1 | ISC | runtime |
 | picomatch | 4.0.7 | MIT | runtime |
 | playwright | 1.63.0 | Apache-2.0 | dev |
@@ -498,6 +508,10 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | postcss-scss | 4.0.9 | MIT | runtime |
 | postcss-selector-parser | 6.1.4 | MIT | runtime |
 | postcss-value-parser | 4.2.0 | MIT | runtime |
+| postgres-array | 2.0.0 | MIT | runtime |
+| postgres-bytea | 1.0.1 | MIT | runtime |
+| postgres-date | 1.0.7 | MIT | runtime |
+| postgres-interval | 1.2.0 | MIT | runtime |
 | prelude-ls | 1.2.1 | MIT | dev |
 | prettier | 3.9.9 | MIT | dev |
 | process | 0.11.10 | MIT | runtime |
@@ -573,6 +587,7 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | spdx-exceptions | 2.5.0 | CC-BY-3.0 | runtime |
 | spdx-expression-parse | 3.0.1 | MIT | runtime |
 | spdx-license-ids | 3.0.24 | CC0-1.0 | runtime |
+| split2 | 4.2.0 | ISC | runtime |
 | sprintf-js | 1.1.3 | BSD-3-Clause | runtime |
 | statuses | 2.0.2 | MIT | runtime |
 | std-env | 4.3.0 | MIT | runtime |
@@ -627,6 +642,7 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | wrappy | 1.0.2 | ISC | runtime |
 | write-file-atomic | 4.0.2 | ISC | runtime |
 | wsl-utils | 0.1.0 | MIT | runtime |
+| xtend | 4.0.2 | MIT | runtime |
 | yallist | 3.1.1 | ISC | dev |
 | yaml | 2.9.1 | ISC | runtime / optional |
 | yargs-parser | 20.2.9 | ISC | runtime |

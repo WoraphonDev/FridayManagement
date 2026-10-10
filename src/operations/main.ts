@@ -1,4 +1,5 @@
 import { restoreSqlSnapshot } from './sql-restore.js';
+import { restorePostgresSnapshot } from './pg-restore.js';
 import { loadConfiguration } from '../config/load.js';
 import { parseConfiguration } from '../config/config.js';
 import { checkLocalAuthority } from '../cli/authority.js';
@@ -27,6 +28,7 @@ try {
       'retention',
       'clear-maintenance',
       'restore-sql',
+      'restore-postgres',
     ].includes(action ?? '') ||
     !target ||
     confirmation !== '--confirm-local-maintenance' ||
@@ -67,7 +69,7 @@ try {
         releaseSql = await acquireSqlInstance(ready.database, () => {
           lost = true;
         });
-      if (action !== 'restore-sql') {
+      if (action !== 'restore-sql' && action !== 'restore-postgres') {
         database = await openDatabase(ready.database.provider);
         await verifyLedger(database);
       }
@@ -88,6 +90,10 @@ try {
           target,
           process.env.FRIDAY_SQL_MOVES_FILE,
         );
+      } else if (action === 'restore-postgres') {
+        if (!process.env.FRIDAY_RESTORE_SOURCE || ready.dataDirectory !== target)
+          throw new Error('ISOLATED_RESTORE_TARGET_REQUIRED');
+        result = await restorePostgresSnapshot(ready, process.env.FRIDAY_RESTORE_SOURCE, target);
       } else if (!database) throw new Error('DATABASE_REQUIRED');
       else if (action === 'backup')
         result = await createSnapshot(ready, database, target, assertAuthority);

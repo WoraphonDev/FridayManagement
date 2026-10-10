@@ -1,9 +1,10 @@
 # TeamFlow — Task.md: แผนพัฒนาและตรวจความครบถ้วน
 
 
-**Version:** 1.86 · **วันที่:** 10 ตุลาคม 2026\
+**Version:** 1.87 · **วันที่:** 10 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
-**จำนวน:** 91 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 85 API routes ที่ล็อก (contract 1.11.0) + planned routes SRS §12.6
+**จำนวน:** 96 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 85 API routes ที่ล็อก (contract 1.11.0) + planned routes SRS §12.6
+**ADR-0001 (2026-10-11):** PostgreSQL บน Linux + Docker แทน SQL Server 2022 บน Windows — หลักฐาน SQL2022/Windows ในงานเดิมถือว่า superseded (ไม่ต้องใช้ปิดงาน); ใช้หลักฐาน PostgreSQL/Docker (T-095/T-096) แทน
 **ต้นทาง:** `TeamFlow_Requirements_v1.0.md` และ `TeamFlow_SRS_v1.0.md` รุ่นปัจจุบันที่อ่านเมื่อ 5 ตุลาคม 2026
 
 
@@ -326,8 +327,8 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-003 | จัด API/DTO และ error contract ให้เป็นสัญญาเดียว | T-001, T-002 | High | DONE | Codex | TeamFlow_API_Contract.md; contracts/openapi.json; TeamFlow_T003_Test_Report.md; reports/T-003-contract-results.json: 52routes/75schemas + 61/61contract tests PASS; HTTP/DB/AT/TC NOT_RUN; owner project details 2026-10-09: TeamFlow_Project_Details_Report.md (local subset; SQL2022/Windows/UAT pending) ; group-order history fix: TeamFlow_Task_History_Fix_Report.md / reports/task-history-fix/results.json; local regression, parent unchanged |
 | T-004 | จัด test plan และเกณฑ์ release | T-003 | Medium | DONE | Codex | TeamFlow_Test_Release_Manifest.md; tests/test-manifest.json; TeamFlow_T004_Test_Report.md; reports/T-004-plan-results.json: inventories/coverage/dependencies PASS + 17/17policy tests PASS; full application results NOT_RUN |
 | T-005 | โครงสร้างโปรเจกต์และชุดคำสั่งพื้นฐาน | T-003, T-004 | Medium | DONE | Codex | Node22.23.3/React/Vite/Express/TS; adapters/migrations/harness separated; 84/84combined tests + 1browser smoke PASS; fresh copy ci/build/migrate/seed/start PASS; TeamFlow_T005_Test_Report.md; reports/T-005-foundation-results.json; actualSQL2022/Windows NOT_RUN |
-| T-006 | Configuration และ startup validation | T-005 | High | IN_PROGRESS | Codex | Local/config/startup/guard evidence: TeamFlow_T006_Test_Report.md; SQL2022 real guard NOT_RUN; no SQL/Windows/AT sign-off |
-| T-007 | Schema และ migrations ครบทุก entity | T-005, T-002 | High | IN_PROGRESS | Codex | SQLite schema/migration/atomic-effects evidence: TeamFlow_T007_Test_Report.md; SQL2022 apply/trusted constraints/query plans NOT_RUN |
+| T-006 | Configuration และ startup validation | T-005 | High | IN_PROGRESS | Codex | Local/config/startup/guard evidence: TeamFlow_T006_Test_Report.md; SQL2022 real guard NOT_RUN; no SQL/Windows/AT sign-off ; 2026-10-10 SQL2022 Developer 16.0.4295.3 (Docker macOS) real application guard PASS (reports/T-091/sqlserver-test.log #43); Windows/AT-28 NOT_RUN |
+| T-007 | Schema และ migrations ครบทุก entity | T-005, T-002 | High | IN_PROGRESS | Codex | SQLite schema/migration/atomic-effects evidence: TeamFlow_T007_Test_Report.md; SQL2022 apply/trusted constraints/query plans NOT_RUN ; 2026-10-10 SQL2022 Developer container: trusted NO ACTION FKs/indexes PASS (#110), fresh/repeat/legacy upgrade PASS (#120), migration 0013 fixed + 0015 added; query plans (Q-T-007-1 A) PASS on SQL2022 container: reviewed scans only, all six paths p95 ≤ 2 s after Kanban/list N+1 removal (board 3,011→16 statements, 1,959→43 ms; reports/T-007/query-plans.json); Windows NOT_RUN |
 | T-008 | Transaction, date และ lifecycle helpers | T-007, T-003 | High | IN_PROGRESS | Codex | TeamFlow_T008_Test_Report.md; reports/T-008-helper-results.json: helpers25/25 + combined174/174 PASS; SRS5.2 local work; SQL2022/feature wiring NOT_RUN |
 | T-009 | API middleware และ validation | T-006, T-003 | High | IN_PROGRESS | Codex | TeamFlow_T009_Test_Report.md; reports/T-009-api-results.json: API12/12 + combined186/186 + browser5/5 + fresh source/runtime install PASS; real session/ACL/SQL/TLS NOT_RUN |
 | T-010 | Idempotency สำหรับคำสั่งสร้างและย้ายบอร์ด | T-007, T-009, T-008 | High | IN_PROGRESS | Codex | TeamFlow_T010_Test_Report.md; reports/T-010-idempotency-results.json: local13 + combined199 PASS; SQL28SKIP/NOT_RUN; real auth/features/scheduler pending |
@@ -378,7 +379,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-055 | Responsive และ accessible interaction review | T-054, T-037, T-024, T-018, T-044, T-046 | Medium | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN; actual Vibe integration: TeamFlow_UI_Vibe_Implementation_Report.md / reports/UI-vibe-implementation-results.json; local UI/API verified, full acceptance pending ; fidelity correction TeamFlow_UI_Vibe_Parity_Report.md / reports/UI-vibe-parity-results.json; local frontend38/browser3 PASS, formal UAT pending ; Login/logo/install/motion follow-up TeamFlow_UI_Vibe_Login_Report.md / reports/UI-vibe-login-results.json; local UI verified, formal acceptance pending |
 | T-056 | PWA manifest/icons/service worker | T-012, T-006 | Medium | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN ; Login/logo/install/motion follow-up TeamFlow_UI_Vibe_Login_Report.md / reports/UI-vibe-login-results.json; local UI verified, formal acceptance pending |
 | T-057 | Offline/reconnect/logout cache behavior | T-056, T-047, T-055 | High | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN; actual Vibe integration: TeamFlow_UI_Vibe_Implementation_Report.md / reports/UI-vibe-implementation-results.json; local UI/API verified, full acceptance pending |
-| T-058 | Browser matrix และ PWA/touch QA | T-057, T-037 | Medium | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN |
+| T-058 | Browser matrix และ PWA/touch QA | T-057, T-037 | Medium | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN ; 2026-10-10 Playwright 1.63 matrix (macOS, headless): rerun after fixes: Chromium 89/89, Firefox 87/89+1 skip (CDP touch), WebKit 87/89+1 skip — the single FF/WebKit failures (boards T037/038, tasks T032) pass 2/2 alone = load-timing flaky; Safari fixes: checklist cancel/Tab autosave, dialog focus return + Tab trap, calendar arrow scroll; real Safari/Edge/mobile devices NOT_RUN |
 | T-059 | Health endpoints และ operational logs | T-006, T-009, T-040 | Medium | IN_PROGRESS | Codex | TeamFlow_T055_T059_Test_Report.md; TeamFlow_T056_PWA_Followup_Report.md; local partial / OS install and full acceptance NOT_RUN |
 | T-060 | Retention jobs และ orphan recovery | T-030, T-042, T-050, T-010, T-002 | High | IN_PROGRESS | Codex | TeamFlow_T060_T064_Test_Report.md; local SQLite/source subset; native SQL/Windows/full TC-AT pending |
 | T-061 | Write freeze และ job coordination | T-059, T-060 | High | IN_PROGRESS | Codex | TeamFlow_T060_T064_Test_Report.md; local SQLite/source subset; native SQL/Windows/full TC-AT pending |
@@ -401,7 +402,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-078 | อนุมัติ addendum และรวมเข้า Requirements/SRS/Test Plan/Test Cases | T-003, T-004 | Medium | IN_REVIEW | Claude / 2026-10-08 | TeamFlow_T078_Addendum_Merge_Report.md; batch TeamFlow_T078_T082_Test_Report.md: build/check/test:test-plan PASS 17/17, check/test:contract PASS 64/64; owner review pending |
 | T-079 | Mock UI monday-style ใหม่ (ทุกหน้า + animation) ให้เจ้าของรีวิว | T-078 | Medium | DONE | Claude / 2026-10-08 | TeamFlow_UI_Monday_Mock.html; TeamFlow_T079_Mock_Report.md; batch 13 views×360/768/1440 no h-scroll, N/Esc, reduce toggle PASS; owner review/AT-39 pending; owner approved mock in chat 2026-10-08 with no change requests (app AT-39 stays with T-089/T-091) |
 | T-080 | Job titles: schema/API/Admin UI/filter/report/CSV | T-078 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; reports/T-078-T-082-batch-results.json; SQLite AT-31 HTTP + combined474 + browser PASS; SQL2022/Windows/UAT NOT_RUN |
-| T-081 | Permission catalog + checkbox รายคน + project role manager + authorization matrix | T-078 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; SQLite AT-32 HTTP + combined474 PASS; SQL2022 NOT_RUN; full P-key×role×endpoint matrix and two-process race pending |
+| T-081 | Permission catalog + checkbox รายคน + project role manager + authorization matrix | T-078 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; SQLite AT-32 HTTP + combined474 PASS; SQL2022 NOT_RUN; full P-key×role×endpoint matrix and two-process race pending ; 2026-10-10 tests/permissions/matrix.test.ts SQLite HTTP: P-01/03/04/05/06 × 4 roles, P-08 own/other team, P-09 workload, same-version save race 200/409, revoke-then-act 403 PASS (mutation-checked); P-02/P-07/P-10 resolved by Q-T-081-1 = A (SRS §4.4 v1.31 aligned; P-02/P-10 behaviour locked by test); 2026-10-11 SQLite two-process races (tests/permissions/concurrency.test.ts) + SQL2022 HTTP matrix (tests/sqlserver/permissions-matrix.test.ts) PASS; SQL2022 same-version loser may be the deadlock victim (503 DATABASE_BUSY per contract, retry → 409); Windows/AT-32 sign-off NOT_RUN |
 | T-082 | Admin center + Permission matrix (checkbox/bulk/preset) | T-080, T-081 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T078_T082_Test_Report.md; SQLite AT-33 HTTP + browser preset/summary/409/375px/Settings PASS; SQL2022/Windows/UAT NOT_RUN; TeamFlow_Permission_Layout_Report.md: owner vertical layout, sticky labels/headers, 19-member Chromium1 + frontend49 PASS; native/full acceptance pending ; TeamFlow_Management_Visual_Report.md: scoped management color/mobile/cancel/restore/settings/admin local9 Chromium + frontend49 PASS; parent status unchanged |
 | T-083 | My overview + My work grouped table | T-078 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T083_Test_Report.md; reports/T-083-my-overview-results.json: addendum5/5 (AT-34×2) + Node441 + frontend42 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN ; TeamFlow_Home_Visual_Report.md: color/motion/mobile/deep-link browser2 + frontend49 PASS; formal status unchanged ; TeamFlow_My_Work_Visual_Report.md: scoped My Work style/sticky/mobile/motion Chromium5 + visual1 PASS; parent status unchanged |
 | T-084 | Project Docs (schema/API/editor/sanitize/version/trash) | T-081 | High | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T084_Test_Report.md; reports/T-084-docs-results.json: XSS corpus47 + AT-35 HTTP2/2 + Node445 + frontend44 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
@@ -411,7 +412,12 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-088 | Workload + Project overview | T-080 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T088_Test_Report.md; reports/T-088-workload-results.json: contract1.5.0 80 routes + migration0008 + AT-37 HTTP1/1 + Node449 + frontend47 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN ; TeamFlow_Team_Details_UX_Report.md: unified team tabs/local browser subset PASS, formal acceptance unchanged |
 | T-089 | Motion system AN-01–AN-12 + reduced-motion + Settings toggle | T-079 | Medium | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T089_Test_Report.md; reports/T-089-motion-results.json + motion-trace: contract1.7.0 85 routes + migration0010 + preferences HTTP + Chromium motion 1/1 (60fps headless) + Node451 + frontend47 PASS; GPU trace/owner AT-39/SQL2022/UAT NOT_RUN ; stable tabs follow-up: reports/team-details-ux/stable-results.json Chromium3/3 PASS, no formal status change ; TeamFlow_Management_Visual_Report.md: scoped management color/mobile/cancel/restore/settings/admin local9 Chromium + frontend49 PASS; parent status unchanged |
 | T-090 | Favorites (Updates feed เลื่อนไปรอบถัดไป) | T-083 | Low | IN_PROGRESS | Claude / 2026-10-08 | TeamFlow_T090_Test_Report.md; reports/T-090-favorites-results.json: contract1.6.0 83 routes + migration0009 + AT-40 HTTP1/1 + Node450 + Chromium1/1 PASS SQLite; SQL2022/Windows/UAT NOT_RUN |
-| T-091 | Regression รวม addendum, SQL Server 2022 native, Windows, UAT | T-079, T-080, T-081, T-082, T-083, T-084, T-085, T-086, T-087, T-088, T-089, T-090 | High | TODO | ยังไม่มอบหมาย | — ; owner local functional precheck: TeamFlow_System_Functional_Check_Report.md / reports/system-functional-check/results.json;85 distinct browser cases PASS across runs, formal status unchanged |
+| T-091 | Regression รวม addendum, SQL Server 2022 native, Windows, UAT | T-079, T-080, T-081, T-082, T-083, T-084, T-085, T-086, T-087, T-088, T-089, T-090 | High | IN_PROGRESS | Claude / 2026-10-10 | TeamFlow_T091_Test_Report.md; reports/T-091/: SQLite node462+frontend49 PASS, Chromium88/88 PASS; SQL2022 Developer (Docker macOS) 187/190 + fixes rerun 24/24 PASS; 6 SQL Server defects fixed incl. migration0015; Windows native/UAT NOT_RUN |
+| T-092 | Security Design + Threat model (tickets/T-092-security-design.md) | — | Medium | DONE | Claude / 2026-10-10 | docs/07-security.md 1.0 owner-approved 2026-10-10; Q-T-092-1 B, Q-T-092-2 A; document task only (controls verified in T-093/T-094) |
+| T-093 | OWASP Top 10 verification release 1.0 (tickets/T-093-owasp-verification.md) | T-091, T-092 | High | TODO | ยังไม่มอบหมาย | docs/security/OWASP-1.0.md NOT_RUN |
+| T-094 | Pen-Test + remediation/retest (tickets/T-094-pentest.md) | T-093 | High | TODO | ยังไม่มอบหมาย | docs/security/PENTEST-1.0.md plan only |
+| T-095 | PostgreSQL provider: adapter, migrations, provider suites (ADR-0001) | — | High | DONE | Claude / 2026-10-11 | docs/adr/ADR-0001-postgresql-linux-docker.md; src/repository/postgres; migrations/postgres 0000–0015; tests/postgres 184/184 PASS (PostgreSQL 17 Docker); SQLite npm test unchanged PASS |
+| T-096 | Linux + Docker deployment, HTTPS proxy, pg_dump backup/restore (ADR-0001) | T-095 | High | IN_PROGRESS | Claude / 2026-10-11 | Dockerfile, deploy/ (compose, Caddyfile, .env.example), src/operations/pg-restore.ts, docs/deploy-linux-docker.md; local rehearsal PASS (HTTPS headers, setup→Kanban, backup→verify→isolated restore); real Linux server/DNS/Let's Encrypt/cron/UAT NOT_RUN |
 
 ## 5. Phase 00: Baseline และสัญญาการพัฒนา
 
@@ -523,7 +529,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 - [x] DB_PROVIDER=sqlite สำหรับ local / sqlserver สำหรับปลายทาง; SQLITE_DB_PATH อยู่นอก source/webroot; ไม่ fallback provider เงียบเมื่อ SQL2022 ใช้ไม่ได้
 - [x] ตรวจ APP_ORIGIN, COOKIE_SECURE, data/log paths, quota และค่าระยะเวลา
 - [x] แยก local defaults จาก production; ไม่ใช้ Host header เป็น trusted origin
-- [ ] ทำ single-instance guard; SQLite local DB อยู่นอก source/webroot; SQL2022 host แยกได้ตาม configuration
+- [x] ทำ single-instance guard; SQLite local DB อยู่นอก source/webroot; SQL2022 host แยกได้ตาม configuration — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** configuration ผิดหยุด startup พร้อมข้อความที่ไม่เผย secrets; data paths อยู่ข้างนอก webroot
 
@@ -541,7 +547,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Trace:** FR-40, NFR-03, NFR-07 · **SRS:** §5  
 **Acceptance:** ตรวจตามเกณฑ์รับงานนี้ + test manifest ที่เกี่ยวข้อง
 
-- [ ] สร้าง entities/FK/UNIQUE/CHECK/index เป็น T-SQL ทุกแถว;optionalUNIQUE ใช้ filteredindex; NO ACTION/purge ตาม SRS§5.1
+- [x] สร้าง entities/FK/UNIQUE/CHECK/index เป็น T-SQL ทุกแถว;optionalUNIQUE ใช้ filteredindex; NO ACTION/purge ตาม SRS§5.1 — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 - [x] กำหนด versions/timestamps/auth_version และ date-only ที่ชัดเจน
 - [x] แยก SQLite migrations/local fixtures จาก T-SQL migrations; เก็บผล provider-specific; SQLite ผ่านไม่ปิด SQL2022 acceptance ของ T-007
 - [x] รองรับ quota reservation/cleanup state ตาม design ที่ล็อก ไม่ทำแค่ counter ในหน่วยความจำ
@@ -564,10 +570,10 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Trace:** FR-14, FR-18, NFR-03 · **SRS:** §8, §9.1, §13.2  
 **Acceptance:** ตรวจตามเกณฑ์รับงานนี้ + test manifest ที่เกี่ยวข้อง
 
-- [ ] สร้าง transaction wrapper และ SQL Server lock-timeout/deadlock handling 503/Retry-After
+- [x] สร้าง transaction wrapper และ SQL Server lock-timeout/deadlock handling 503/Retry-After — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 - [x] สร้าง Bangkok today/date interval/UTC conversion และ monthly anchor helper
-- [ ] สร้าง optimistic version helpers และ column locks/rank สองระยะ/column version invariants ตาม SQL Server§5.1
-- [ ] ทำ deletion/archived/active checks แบบใช้ร่วมกันในทุก write
+- [x] สร้าง optimistic version helpers และ column locks/rank สองระยะ/column version invariants ตาม SQL Server§5.1 — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] ทำ deletion/archived/active checks แบบใช้ร่วมกันในทุก write — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** helper ผ่านกรณีขอบวัน/เดือนและ rollback; ไม่ใช้เวลาจาก browser ตัดสิน overdue
 
@@ -588,8 +594,8 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 
 - [x] JSON Content-Type/size limits, explicit allowlist, error envelope/requestId
 - [x] exact Origin และ CSRF hooks, secure headers/CSP, no permissive CORS
-- [ ] parameterized queries และป้องกัน sensitive fields ออก DTO
-- [ ] pagination max100 และ resource404 เมื่อไม่มี project access
+- [x] parameterized queries และป้องกัน sensitive fields ออก DTO — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] pagination max100 และ resource404 เมื่อไม่มี project access — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** middleware ใช้กับทุก route ตาม contract; error ไม่เผย stack/password/path
 
@@ -608,10 +614,10 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Trace:** FR-16, FR-18, FR-21, FR-27, NFR-03 · **SRS:** §12.1  
 **Acceptance:** AT-12, AT-17, AT-21
 
-- [ ] เก็บ key ต่อ user/route และ request hash TTL24h
-- [ ] key เดิม/body เดิมคืน response เดิม; body ต่าง409
-- [ ] ผูก key result กับ business transaction เพื่อกัน parallel retry
-- [ ] ไม่เก็บ password/upload bytes ใน table นี้ และมี cleanup job
+- [x] เก็บ key ต่อ user/route และ request hash TTL24h — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] key เดิม/body เดิมคืน response เดิม; body ต่าง409 — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] ผูก key result กับ business transaction เพื่อกัน parallel retry — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] ไม่เก็บ password/upload bytes ใน table นี้ และมี cleanup job — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** parallel requests key เดียวไม่เพิ่ม records ซ้ำ; permission ตรวจซ้ำก่อนคืน cached response
 
@@ -629,10 +635,10 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Trace:** FR-05, FR-10, FR-11, NFR-02 · **SRS:** §4  
 **Acceptance:** AT-05, AT-07, AT-08, AT-30
 
-- [ ] effective rights จาก Admin/Lead ทีมเจ้าของ/project Editor/Viewer
-- [ ] team membership/creator/assignee ไม่เพิ่มสิทธิ์เอง
-- [ ] scoping บน read/list/search/report/export/notification/file download
-- [ ] ตรวจ active/session/forced password และ archived/deleted state ก่อนทำงาน
+- [x] effective rights จาก Admin/Lead ทีมเจ้าของ/project Editor/Viewer — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] team membership/creator/assignee ไม่เพิ่มสิทธิ์เอง — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] scoping บน read/list/search/report/export/notification/file download — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
+- [x] ตรวจ active/session/forced password และ archived/deleted state ก่อนทำงาน — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** permission matrix มี executable tests ทั้ง allowed/denied; frontend hiding ไม่ใช่การป้องกันเพียงอย่างเดียว
 
@@ -839,7 +845,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 - [x] (local SQLite evidence) activeownerteam หนึ่งทีม;Admin/ownerLead จัดการ
 - [x] (local SQLite evidence) cross-team Editor/Viewer explicit membership
 - [x] (local SQLite evidence) ownerteam ย้ายไม่ได้ v1;directory ตาม privacycontract
-- [ ] archive อ่านได้แต่ writes งาน/comment/file/subtask ถูกบล็อก;unarchive ตาม version
+- [x] archive อ่านได้แต่ writes งาน/comment/file/subtask ถูกบล็อก;unarchive ตาม version — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** M2 เห็นเฉพาะ Pshared;Viewer อ่านอย่างเดียว;Lead ไม่ดูทีมอื่นเพราะเป็น Lead
 
@@ -859,7 +865,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 - [x] (local SQLite evidence) teamremove คง explicitprojectmembership;สูญเสีย Lead คำนวณ rights ใหม่
 - [x] (local SQLite evidence) deactivateuserrevoke sessions/unassignopen งานทั้งองค์กร
 - [x] (local SQLite evidence) done งานคง assigneehistory;notifyownerAdmin/Lead ไม่แจ้งคนหมดสิทธิ์
-- [ ] download/notification/APIrequest ใหม่ตรวจสิทธิ์ปัจจุบัน
+- [x] download/notification/APIrequest ใหม่ตรวจสิทธิ์ปัจจุบัน — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** ทุกกรณีถอนสิทธิ์ไม่มีงานมอบหมายค้างให้คนไม่มี access และไม่มีข้อมูลรั่ว
 
@@ -1015,7 +1021,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Acceptance:** AT-13
 
 - [x] (local SQLite/Chromium evidence) creator/ownerLead/Adminsoftdelete ตาม version
-- [ ] deleted ออกจาก activequeries/positions/reminders/exports
+- [x] deleted ออกจาก activequeries/positions/reminders/exports — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 - [x] (local SQLite/Chromium evidence) trashscopedAdmin/Lead;restore ก่อน UTC cutoff deleted_at+30×24ชั่วโมง และ append เดิม
 - [x] (local SQLite/Chromium evidence) recurrencelinks/tombstones ตาม resolveddesign
 - [x] (local SQLite/Chromium evidence) ไม่ harddelete ทันทีและไม่เปิด write งานใน trash
@@ -1038,7 +1044,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 - [x] (local SQLite/Chromium evidence) searchtitle/description/category;max100chars
 - [x] (local SQLite/Chromium evidence) datebasis/dueinclusive/null-last/tie-ID
 - [x] (local SQLite/Chromium evidence) scope ก่อน count/pagination ไม่แค่กรองหน้าที่โหลด
-- [ ] sharedfilterlogic กับ calendar/report/export
+- [x] sharedfilterlogic กับ calendar/report/export — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** total/count/search ไม่รั่ว hiddenproject;filters ให้ผลสอดคล้อง
 
@@ -1099,7 +1105,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 - [x] (local SQLite/Chromium evidence) ordered4columns ตาม projectaccess
 - [x] (local SQLite/Chromium evidence) rankinvariant และ taskversions/columnversionsDTO
 - [x] (local SQLite/Chromium evidence) สร้าง/ลบ/restore/detailstatus เพิ่ม columnversion
-- [ ] >500tasksfallbackpaginatedlist/menu ไม่โหลดไม่จำกัด
+- [x] >500tasksfallbackpaginatedlist/menu ไม่โหลดไม่จำกัด — 2026-10-10 local SQLite + SQL2022 container suites PASS (reports/T-091)
 
 **เกณฑ์รับงาน:** refresh ได้ลำดับเดียวกับ DB;ข้อมูล versions ใช้ move ได้
 
@@ -1508,7 +1514,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 **Trace:** FR-23, FR-35, NFR-05, NFR-06 · **SRS:** §11, §13.1  
 **Acceptance:** AT-18, AT-26
 
-- [ ] ทุก screeninventory ที่360px/tablet/desktop/200%zoom
+- [x] ทุก screeninventory ที่360px/tablet/desktop/200%zoom — 2026-10-10 T055 Chromium 360/768/1440 + 720 (200% zoom) PASS
 - [x] keyboard/focuslabels/modaldialog/escape/returnfocus
 - [x] ไม่สื่อ status ด้วยสีอย่างเดียว;touchmenualternative
 - [x] ทดสอบ controls ไม่ล้น/ข้อความไทยไม่ทับ
@@ -1553,7 +1559,7 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 - [x] offlinebanner/shell ต้อง online ไม่มี writequeue
 - [x] reconnectrefreshauthoritative ข้อมูลก่อนเปิด write
 - [x] logout ล้าง in-memoryuserdata ไม่ดึง cachedteamdata กลับ
-- [ ] SWupdate ไม่ล้าง dirtydraft หรือบังคับ reload กลาง edit
+- [x] SWupdate ไม่ล้าง dirtydraft หรือบังคับ reload กลาง edit — 2026-10-10 pwa-update spec PASS (no skipWaiting/claim; reload only after all windows close)
 
 **เกณฑ์รับงาน:** offline/logout ไม่มีข้อมูลทีมหลงใน persistentcache
 
@@ -1966,7 +1972,7 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 - [x] บันทึกการอนุมัติของเจ้าของและคำตอบ I.1–I.5
 - [x] รวม FR/NFR/BR/UX/AN เข้า Requirements และพฤติกรรม/สิทธิ์/entities/planned routes เข้า SRS
 - [x] เพิ่ม AT-31–AT-40, TC-085–TC-099, UT-21–UT-23 และ T-079–T-091
-- [ ] ปรับ manifest/checker และรัน planning/contract checks
+- [x] ปรับ manifest/checker และรัน planning/contract checks — 2026-10-10 check:contract/check:test-plan/test:test-plan PASS
 
 **เกณฑ์รับงาน:** เอกสารหลักสอดคล้องกัน, FR-46 ระบุ deferred, route ยังไม่เข้า OpenAPI และ checks ที่เกี่ยวข้องผ่าน
 
@@ -2025,7 +2031,7 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 - [x] authorization service อ่าน permission ทุก request deny-by-default
 - [x] GET/PUT permissions พร้อม version/audit/self-block
 - [x] demote manager→editor ใน transaction เดียว + view revision
-- [ ] negative tests ทุก P-key × role × endpoint และ race
+- [x] negative tests ทุก P-key × role × endpoint และ race — 2026-10-11 matrix-suite SQLite + SQL2022 HTTP 4/4, SQLite two-process save/save + revoke/act races PASS
 
 **เกณฑ์รับงาน:** AT-32 ผ่านจริงบน provider ที่กำหนด; ไม่มีเส้นทางยกระดับสิทธิ์
 
@@ -2222,9 +2228,57 @@ Local evidence only: see TeamFlow_T055_T059_Test_Report.md and TeamFlow_T056_PWA
 
 **เกณฑ์รับงาน:** AT-31–AT-40 และ regression ผ่านจริง; ไม่มี critical/major open
 
-**Status:** TODO
+**Status:** IN_PROGRESS
 
 **หลักฐานเมื่อปิดงาน:** บันทึกใน Task Register; สำหรับการทดสอบระบุผลและ environment ไม่ใช้คำว่า “ผ่าน” โดยไม่มีการรัน
+
+### T-092 — Security Design + Threat model
+
+**Model:** GPT-6.1 Sol · **Effort:** Medium · **เหตุผล:** เพิ่มตาม PROJECT_TEMPLATE 1.0 หมวด 5 (2026-10-10)
+
+**Depends on:** ไม่มี
+**Trace:** NFR-02 · **SRS:** §4, §6, §9.5, §13
+**รายละเอียด:** `tickets/T-092-security-design.md` · **เอกสาร:** `docs/07-security.md`
+
+**Status:** DONE (เอกสาร; owner approved 2026-10-10)
+
+### T-093 — OWASP Top 10 verification release 1.0
+
+**Model:** GPT-6.1 Sol · **Effort:** High · **เหตุผล:** เพิ่มตาม PROJECT_TEMPLATE 1.0 หมวด 5 (2026-10-10)
+
+**Depends on:** T-091, T-092
+**Trace:** NFR-02 · **SRS:** §4, §6, §9.5, §13
+**รายละเอียด:** `tickets/T-093-owasp-verification.md` · **เอกสาร:** `docs/security/OWASP-1.0.md`
+
+**Status:** TODO
+
+### T-094 — Pen-Test + remediation/retest
+
+**Model:** GPT-6.1 Sol · **Effort:** High · **เหตุผล:** เพิ่มตาม PROJECT_TEMPLATE 1.0 หมวด 5 (2026-10-10)
+
+**Depends on:** T-093
+**Trace:** NFR-02 · **SRS:** §4, §6, §9.5, §13
+**รายละเอียด:** `tickets/T-094-pentest.md` · **เอกสาร:** `docs/security/PENTEST-1.0.md`
+
+**Status:** TODO
+
+### T-095 — PostgreSQL provider: adapter, migrations, provider suites (ADR-0001)
+
+**Model:** GPT-6.1 Sol · **Effort:** High · **เหตุผล:** owner decision 2026-10-11 แทน SQL Server/Windows
+
+**Depends on:** ไม่มี
+**Trace:** NFR-03, NFR-07, D-12 (amended by ADR-0001) · **SRS:** §5
+
+**Status:** DONE (provider suites PASS on PostgreSQL 17; SQLite unchanged)
+
+### T-096 — Linux + Docker deployment, HTTPS proxy, pg_dump backup/restore (ADR-0001)
+
+**Model:** GPT-6.1 Sol · **Effort:** High · **เหตุผล:** แทน Windows install/backup (T-065, T-062–T-064 Windows parts)
+
+**Depends on:** T-095
+**Trace:** NFR-04, NFR-05, NFR-08 · **SRS:** §13.4–13.5 (amended by ADR-0001)
+
+**Status:** IN_PROGRESS (local Docker rehearsal PASS; real server NOT_RUN)
 
 ## 18. Functional Requirements Coverage
 

@@ -98,7 +98,9 @@ test('Motion: pulse + confetti on Done, actions stay usable, reduce toggle and O
     const saved = page.locator('.toast').filter({ hasText: 'Animation preference saved' });
     await expect(saved).toBeVisible();
     // AN-12 toast is collapsed to ~0 ms once motion is reduced.
-    expect(await saved.evaluate((el) => getComputedStyle(el).animationDuration)).toBe('1e-05s');
+    expect(await saved.evaluate((el) => parseFloat(getComputedStyle(el).animationDuration))).toBe(
+      0.00001,
+    );
     await page.reload();
     await expect(page.getByLabel('Reduce animations')).toBeChecked();
     await expect(page.locator('html')).toHaveClass(/reduce-motion/);
@@ -121,8 +123,10 @@ test('Motion: pulse + confetti on Done, actions stay usable, reduce toggle and O
     );
     await expect(page.locator('.confetti-piece')).toHaveCount(0);
     expect(
-      await page.locator('.task-filters').evaluate((el) => getComputedStyle(el).animationDuration),
-    ).toBe('1e-05s');
+      await page
+        .locator('.task-filters')
+        .evaluate((el) => parseFloat(getComputedStyle(el).animationDuration)),
+    ).toBe(0.00001);
   } finally {
     await f.close();
   }

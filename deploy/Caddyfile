@@ -1,0 +1,8 @@
+# HTTPS reverse proxy. FRIDAY_TLS: an e-mail address for a public certificate (Let's Encrypt),
+# or "internal" for a local/rehearsal certificate from Caddy's own CA.
+{$FRIDAY_HOST} {
+	tls {$FRIDAY_TLS}
+	encode zstd gzip
+	header Strict-Transport-Security "max-age=31536000"
+	reverse_proxy 172.30.0.20:3000
+}

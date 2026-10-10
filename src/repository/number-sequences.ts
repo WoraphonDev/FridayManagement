@@ -5,7 +5,7 @@ import { bangkokToday } from '../domain/dates.js';
 async function next(tx: Transaction, scope: string): Promise<number> {
   const rows = await tx.query<{ last_value: number }>({
     sqlite:
-      'INSERT INTO number_sequences(scope,last_value) VALUES($scope,1) ON CONFLICT(scope) DO UPDATE SET last_value=last_value+1 RETURNING last_value',
+      'INSERT INTO number_sequences(scope,last_value) VALUES($scope,1) ON CONFLICT(scope) DO UPDATE SET last_value=number_sequences.last_value+1 RETURNING last_value',
     sqlserver:
       'MERGE dbo.number_sequences WITH (HOLDLOCK) AS s USING (SELECT @scope AS scope) AS v ON s.scope=v.scope WHEN MATCHED THEN UPDATE SET last_value=s.last_value+1 WHEN NOT MATCHED THEN INSERT(scope,last_value) VALUES(v.scope,1) OUTPUT INSERTED.last_value;',
     parameters: { scope },

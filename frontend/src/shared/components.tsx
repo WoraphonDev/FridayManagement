@@ -11,6 +11,7 @@ import {
 } from 'react';
 import { useWritable } from './connection';
 import type { ApiError } from '../api';
+import { focusOpener } from './opener';
 import { Button, LayerProvider } from '@vibe/core';
 /** AN-08: shimmer skeleton; the text stays for screen readers and reduced motion. */
 export function Loading() {
@@ -207,7 +208,7 @@ export function Dialog({
   };
   const id = useId();
   useEffect(() => {
-    const previous = document.activeElement as HTMLElement | null;
+    const previous = focusOpener();
     const node = dialog.current;
     node?.showModal();
     // Prefer a field the content asked to focus (autoFocus); otherwise the close button.
@@ -224,25 +225,33 @@ export function Dialog({
       ref={dialog}
       aria-labelledby={id}
       onKeyDown={(event) => {
-        if (event.key !== 'Tab') return;
+        if (event.key !== 'Tab' || event.defaultPrevented) return;
         const items = Array.from(
           dialog.current?.querySelectorAll<HTMLElement>(
             'button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])',
           ) ?? [],
         ).filter((item) => item.getClientRects().length > 0);
-        const first = items[0],
-          last = items.at(-1);
-        if (event.shiftKey && document.activeElement === first) {
-          event.preventDefault();
-          last?.focus();
-        } else if (!event.shiftKey && document.activeElement === last) {
-          event.preventDefault();
-          first?.focus();
-        }
+        if (!items.length) return;
+        // Move focus ourselves: Safari's Tab skips buttons and would leave the modal entirely.
+        event.preventDefault();
+        const at = items.indexOf(document.activeElement as HTMLElement);
+        const next = event.shiftKey
+          ? at <= 0
+            ? items.length - 1
+            : at - 1
+          : at === -1 || at === items.length - 1
+            ? 0
+            : at + 1;
+        items[next]?.focus();
       }}
       onCancel={(event) => {
         event.preventDefault();
-        if (dialog.current?.querySelector('[data-cell-picker][aria-expanded="true"], [role="combobox"][aria-expanded="true"]')) return;
+        if (
+          dialog.current?.querySelector(
+            '[data-cell-picker][aria-expanded="true"], [role="combobox"][aria-expanded="true"]',
+          )
+        )
+          return;
         onClose();
       }}
       // Clicking the backdrop (press and release outside the panel) closes like Esc; the

@@ -159,6 +159,12 @@ test('Origin is exact configured value, independent of spoofed Host/forwarded he
       assert.equal(response.headers.get('x-content-type-options'), 'nosniff');
       assert.equal(response.headers.get('x-frame-options'), 'DENY');
       assert.equal(response.headers.get('referrer-policy'), 'same-origin');
+      assert.equal(
+        response.headers.get('permissions-policy'),
+        'camera=(), microphone=(), geolocation=(), payment=(), usb=()',
+      );
+      assert.equal(response.headers.get('cross-origin-opener-policy'), 'same-origin');
+      assert.equal(response.headers.get('cross-origin-resource-policy'), 'same-origin');
       const csp = response.headers.get('content-security-policy')!;
       assert(csp.includes("frame-ancestors 'none'"));
       assert(!csp.includes('unsafe-inline'));
