@@ -24,7 +24,7 @@
     "test:foundation": "node --import tsx --test tests/foundation/*.test.ts",
     "test:frontend": "vitest run --config vitest.config.ts",
     "test:sqlite": "npm run test:foundation",
-    "test:sqlserver": "node --import tsx --test tests/sqlserver/*.test.ts",
+    "test:sqlserver": "node --import tsx --test --test-concurrency=1 tests/sqlserver/*.test.ts",
     "test:ui": "playwright test",
     "migrate:sqlite": "node --import tsx scripts/migrate.ts sqlite",
     "migrate:sqlserver": "node --import tsx scripts/migrate.ts sqlserver",
