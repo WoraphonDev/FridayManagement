@@ -5,7 +5,7 @@ import { sql } from '../../src/repository/access-scope.js';
 import { fixture, login, call, projectVersion, type F, type Session } from './http-fixture.js';
 // T-081 SQLite HTTP matrix: every enforced P-key × (manager with key, manager without key,
 // editor, viewer) on its endpoint, plus same-version and revoke-then-act races (SRS §4.4).
-// P-02/P-07/P-10 are not distinct rights in the implementation; see Q-T-081-1.
+// P-02/P-07/P-10 add no rights beyond project access (SRS §4.4 v1.31, Q-T-081-1 = A).
 
 const actors = ['managerWithKey', 'managerWithoutKey', 'editor', 'viewer'] as const;
 type Actor = (typeof actors)[number];
@@ -230,5 +230,29 @@ test('T-081 races: one of two same-version permission saves wins; revocation app
       ).status,
       403,
     );
+    void f;
+  }));
+
+test('T-081 SRS §4.4 (Q-T-081-1 = A): P-02/P-10 add no rights beyond project access', () =>
+  fixture(async (base, f) => {
+    await roles(f);
+    const admin = await login(base);
+    const s = await sessions(base);
+    await grant(base, admin, ids.managerWithKey, ['P-02', 'P-10']);
+    await grant(base, admin, ids.managerWithoutKey, ['P-01']);
+    const group = async (a: Session) =>
+      (await call(base, a, '/api/projects/1/groups', 'POST', { name: randomUUID().slice(0, 8) }))
+        .status;
+    const teamReport = async (a: Session) =>
+      (await call(base, a, '/api/reports/summary?team=1')).status;
+    const results = {} as Record<Actor, { group: number; teamReport: number }>;
+    for (const actor of actors)
+      results[actor] = { group: await group(s[actor]), teamReport: await teamReport(s[actor]) };
+    assert.deepEqual(results, {
+      managerWithKey: { group: 201, teamReport: 200 },
+      managerWithoutKey: { group: 201, teamReport: 200 },
+      editor: { group: 201, teamReport: 200 },
+      viewer: { group: 403, teamReport: 200 },
+    });
     void f;
   }));
