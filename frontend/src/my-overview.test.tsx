@@ -1,7 +1,8 @@
 import { test, expect } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { MemoryRouter } from 'react-router-dom';
-import { OverviewBody, overviewSchema } from './MyOverview';
+import { OverviewBody } from './MyOverview';
+import { overviewSchema } from './overview-schema';
 import { selfFixture } from './test-fixtures';
 import { emptyFilters, myWorkFilters, taskParameters } from './task-list';
 import { bangkokWeekEnd, myWorkGroup } from './task-dates';

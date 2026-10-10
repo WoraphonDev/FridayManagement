@@ -1,4 +1,4 @@
-import { confirmDialog } from './shared/confirm';
+import { confirmDialog } from './shared/confirm-bus';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';

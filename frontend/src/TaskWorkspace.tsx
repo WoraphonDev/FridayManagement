@@ -1,4 +1,4 @@
-import { confirmDialog } from './shared/confirm';
+import { confirmDialog } from './shared/confirm-bus';
 import { UiIcon } from './shared/UiIcon';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { StatusPicker } from './shared/StatusPicker';

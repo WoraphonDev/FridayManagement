@@ -542,6 +542,9 @@ for (const width of [1280, 360]) {
         };
       });
       const tabs = page.getByRole('tablist', { name: 'Team sections' });
+      // Bring tabs into view first so Playwright's own click auto-scroll cannot move the page.
+      await tabs.scrollIntoViewIfNeeded();
+      const startScroll = await page.evaluate(() => scrollY);
       const before = await tabs.boundingBox();
       const members = page.getByRole('tab', { name: /^Members/ });
       for (const target of [
@@ -563,7 +566,7 @@ for (const width of [1280, 360]) {
       const entrances = () =>
         page.evaluate(() => (window as unknown as { pageEntrances: number }).pageEntrances);
       expect(await entrances()).toBe(0);
-      expect(await page.evaluate(() => scrollY)).toBe(0);
+      expect(await page.evaluate(() => scrollY)).toBe(startScroll);
       if (width === 1280) {
         await page.getByRole('link', { name: 'All projects', exact: true }).click();
         await expect(page.getByRole('heading', { name: 'Projects', exact: true })).toBeVisible();

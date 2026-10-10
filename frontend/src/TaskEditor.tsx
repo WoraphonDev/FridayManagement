@@ -1,4 +1,4 @@
-import { confirmDialog } from './shared/confirm';
+import { confirmDialog } from './shared/confirm-bus';
 import { useWritable } from './shared/connection';
 import { UiIcon } from './shared/UiIcon';
 import { projectGroups, taskPage, type ProjectGroup } from './task-api';

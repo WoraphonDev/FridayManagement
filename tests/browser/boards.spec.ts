@@ -112,6 +112,16 @@ async function setupCards(page: Page) {
   return f;
 }
 async function drag(page: Page, task: number, target: ReturnType<Page['locator']>) {
+  // Measure only after entrance/FLIP animations settle, otherwise boxes can move mid-drag.
+  await page.waitForFunction(() =>
+    document
+      .getAnimations()
+      .every(
+        (animation) =>
+          animation.playState !== 'running' ||
+          animation.effect?.getComputedTiming().iterations === Infinity,
+      ),
+  );
   const handle = page.getByRole('button', { name: `Drag task #${task}`, exact: true }),
     a = await handle.boundingBox(),
     b = await target.boundingBox();
