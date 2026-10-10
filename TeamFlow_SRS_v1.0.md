@@ -1,12 +1,16 @@
 # TeamFlow — Software Requirements Specification (SRS)
 
 
-**เวอร์ชัน:** 1.31 · **วันที่:** 11 ตุลาคม 2026\
+**เวอร์ชัน:** 1.32 · **วันที่:** 11 ตุลาคม 2026\
 **สถานะ:** Baseline ยืนยันแล้วสำหรับพัฒนา; ยังไม่ทดสอบ  
 **Requirements ต้นทาง:** `TeamFlow_Requirements_v1.0.md`  
 **ขอบเขต:** องค์กรเดียว หลายทีม ประมาณ 30 บัญชี ไม่มีอีเมล ไม่มี AI เจ้าของระบบ deploy เอง
 
 
+
+## Database/deployment change — ADR-0001 (owner, 11 October 2026)
+
+PostgreSQL 17 on Linux + Docker replaces SQL Server 2022 on Windows ([docs/adr/ADR-0001-postgresql-linux-docker.md](docs/adr/ADR-0001-postgresql-linux-docker.md)). `DB_PROVIDER=postgres` reuses the `DB_*` keys; SQLite stays the local profile; SQL Server code is retained but retired from acceptance. Statements below that name SQL Server, Windows, IIS, Task Scheduler or `.bak` are read as PostgreSQL, Linux/Docker, the Compose HTTPS proxy, host cron and `pg_dump` snapshots respectively until rewritten. Install/backup/restore: [docs/deploy-linux-docker.md](docs/deploy-linux-docker.md).
 
 ## Subitem cells and assignment/status popovers - 10 October 2026
 

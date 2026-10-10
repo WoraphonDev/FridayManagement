@@ -151,7 +151,12 @@ export async function createSnapshot(
     await mkdir(stage, { mode: 0o700 });
     await mkdir(join(stage, 'attachments'), { mode: 0o700 });
     const files: Entry[] = [];
-    const dbName = config.database.provider === 'sqlite' ? 'database.sqlite' : 'database.bak';
+    const dbName =
+      config.database.provider === 'sqlite'
+        ? 'database.sqlite'
+        : config.database.provider === 'postgres'
+          ? 'database.dump'
+          : 'database.bak';
     if (config.database.provider === 'sqlite') {
       const source = new DatabaseSync(config.database.path, { readOnly: true });
       try {
@@ -175,7 +180,11 @@ export async function createSnapshot(
           d.name,
         ],
         {
-          env: { ...process.env, PGPASSWORD: d.password, PGSSLMODE: d.encrypt ? 'require' : 'disable' },
+          env: {
+            ...process.env,
+            PGPASSWORD: d.password,
+            PGSSLMODE: d.encrypt ? 'require' : 'disable',
+          },
           maxBuffer: 1024 * 1024,
         },
       );
@@ -269,7 +278,7 @@ export async function verifySnapshot(source: string): Promise<Manifest> {
   const version: unknown = JSON.parse(await readFile(resolve('package.json'), 'utf8')).version;
   if (
     manifest.format !== 1 ||
-    !['sqlite', 'sqlserver'].includes(manifest.provider) ||
+    !['sqlite', 'sqlserver', 'postgres'].includes(manifest.provider) ||
     manifest.appVersion !== version ||
     !Array.isArray(manifest.schema) ||
     !Array.isArray(manifest.files) ||
@@ -279,7 +288,12 @@ export async function verifySnapshot(source: string): Promise<Manifest> {
   )
     throw new Error('MANIFEST_INVALID');
   await compatibleLedger(manifest.provider, manifest.schema);
-  const expectedDb = manifest.provider === 'sqlite' ? 'database.sqlite' : 'database.bak';
+  const expectedDb =
+    manifest.provider === 'sqlite'
+      ? 'database.sqlite'
+      : manifest.provider === 'postgres'
+        ? 'database.dump'
+        : 'database.bak';
   const seen = new Set<string>();
   for (const item of manifest.files) {
     if (

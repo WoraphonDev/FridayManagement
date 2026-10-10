@@ -115,9 +115,9 @@ export function reportService(database: Database, options: AccessOptions = {}) {
         )
       )[0]!.total;
       const workloadQuery = f.statement(
-        // Subqueries read the group key through MIN(): standard SQL (PostgreSQL rejects bare outer columns).
-        "SELECT COALESCE(ta.user_id,t.assignee_id) AS assignee_id,(SELECT u.display_name FROM dbo.users u WHERE u.id=MIN(COALESCE(ta.user_id,t.assignee_id))) AS display_name,(SELECT u.active FROM dbo.users u WHERE u.id=MIN(COALESCE(ta.user_id,t.assignee_id))) AS active,(SELECT jt.name FROM dbo.users u JOIN dbo.job_titles jt ON jt.id=u.job_title_id WHERE u.id=MIN(COALESCE(ta.user_id,t.assignee_id))) AS job_title,SUM(CASE WHEN t.status<>'done' THEN 1 ELSE 0 END) AS open_count ",
-        ' GROUP BY COALESCE(ta.user_id,t.assignee_id) ORDER BY COALESCE(ta.user_id,t.assignee_id)',
+        // Group in a derived table, then join names: valid on SQLite, SQL Server and PostgreSQL.
+        "SELECT g.assignee_id,u.display_name,u.active,jt.name AS job_title,g.open_count FROM (SELECT COALESCE(ta.user_id,t.assignee_id) AS assignee_id,SUM(CASE WHEN t.status<>'done' THEN 1 ELSE 0 END) AS open_count ",
+        ' GROUP BY COALESCE(ta.user_id,t.assignee_id)) g LEFT JOIN dbo.users u ON u.id=g.assignee_id LEFT JOIN dbo.job_titles jt ON jt.id=u.job_title_id ORDER BY g.assignee_id',
       );
       workloadQuery.sqlite = workloadQuery.sqlite.replace(
         'FROM tasks t',

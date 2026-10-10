@@ -4,8 +4,8 @@
 
 | รายการ | ค่า |
 |---|---|
-| Task Register | `TeamFlow_Task_v1.0.md` — DONE 8/94 · IN_PROGRESS 83 · IN_REVIEW 1 · TODO 2 · remaining 86 |
-| Phase ปัจจุบัน | Implementation/verification บน SQLite local; SQL Server 2022/Windows/UAT ยัง NOT_RUN |
+| Task Register | `TeamFlow_Task_v1.0.md` — DONE 9/96 · IN_PROGRESS 84 · IN_REVIEW 1 · TODO 2 · remaining 87 |
+| Phase ปัจจุบัน | ADR-0001: PostgreSQL + Linux/Docker แทน SQL Server/Windows; provider PASS, Docker rehearsal PASS; real server + UAT ยัง NOT_RUN |
 | Security | `docs/07-security.md` 1.0 APPROVED; OWASP/Pen-Test NOT_RUN |
 | Open questions | 0 |
 

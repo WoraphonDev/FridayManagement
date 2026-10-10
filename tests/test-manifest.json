@@ -1907,6 +1907,30 @@
       "acceptance": [],
       "variants": [],
       "closureNote": "Run relevant feature checks now; later regression tasks do not replace evidence required for this task."
+    },
+    {
+      "id": "T-095",
+      "title": "PostgreSQL provider: adapter, migrations, provider suites (ADR-0001)",
+      "dependencies": [],
+      "effort": "High",
+      "suites": [],
+      "verification": "Provider suites on PostgreSQL (tests/postgres)",
+      "acceptance": [],
+      "variants": [],
+      "closureNote": "Run relevant feature checks now; later regression tasks do not replace evidence required for this task."
+    },
+    {
+      "id": "T-096",
+      "title": "Linux + Docker deployment, HTTPS proxy, pg_dump backup/restore (ADR-0001)",
+      "dependencies": [
+        "T-095"
+      ],
+      "effort": "High",
+      "suites": [],
+      "verification": "Docker rehearsal + real-server install/backup/restore",
+      "acceptance": [],
+      "variants": [],
+      "closureNote": "Run relevant feature checks now; later regression tasks do not replace evidence required for this task."
     }
   ],
   "suites": [
