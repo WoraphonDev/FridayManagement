@@ -635,12 +635,16 @@ export function TaskWorkspace({
               </button>
             )}
           </div>
-          <p>
-            {project?.description ||
-              (mode === 'my'
+          {/* A project shows only its own description; the generic copy belongs to My work/Calendar. */}
+          {project ? (
+            project.description && <p>{project.description}</p>
+          ) : (
+            <p>
+              {mode === 'my'
                 ? 'Prioritize your work and focus on what matters today'
-                : 'All due dates across projects you can access')}
-          </p>
+                : 'All due dates across projects you can access'}
+            </p>
+          )}
           {project && (
             <div className="header-meta">
               <UiIcon name="team" /> {project.owner_team_name} <span>•</span> {taskTotal ?? '…'}{' '}
