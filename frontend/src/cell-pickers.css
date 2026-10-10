@@ -1,0 +1,168 @@
+.cell-picker {
+  min-width: 0;
+  width: 100%;
+}
+.cell-picker > .cell-picker-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-width: 0;
+  min-height: 32px;
+  margin: 0;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  background: transparent;
+}
+.cell-picker-trigger:hover:not(:disabled),
+.cell-picker-trigger[aria-expanded='true'] {
+  background: #f1f5ff;
+  border-color: #cddaff;
+}
+.cell-picker-trigger .task-assignees {
+  flex-wrap: wrap;
+  justify-content: center;
+  min-width: 0;
+}
+.cell-picker-trigger .person-chip {
+  min-width: 0;
+  max-width: 100%;
+  white-space: normal;
+}
+.cell-picker-trigger .person-chip > span:last-child {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.cell-picker .cell-popover {
+  position: fixed;
+  inset: auto;
+  margin: 0;
+  padding: 14px;
+  width: min(330px, calc(100vw - 24px));
+  max-width: calc(100vw - 24px);
+  box-sizing: border-box;
+  overflow-y: auto;
+  border: 1px solid #dfe5f1;
+  border-radius: 10px;
+  background: #fff;
+  color: #34405c;
+  box-shadow: 0 10px 32px #26375926;
+  font-size: 13px;
+}
+.cell-popover:popover-open {
+  display: block !important;
+}
+.cell-popover-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+.cell-popover-header button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  min-height: 30px;
+  border: 0;
+  background: transparent;
+  margin: 0;
+}
+.cell-popover .person-search {
+  width: 100%;
+  min-height: 38px;
+  box-sizing: border-box;
+  padding: 8px 10px;
+  border: 1px solid #4265cc;
+  border-radius: 6px;
+}
+.cell-popover .picker-section-label {
+  color: #76819a;
+  margin: 14px 4px 7px;
+  font-size: 12px;
+}
+.cell-popover .person-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 44px;
+  padding: 8px;
+  margin: 0;
+  text-align: left;
+  border: 0;
+  background: transparent;
+}
+.cell-popover .person-option[aria-selected='true'] {
+  background: #f0f4ff;
+}
+.cell-popover .person-option .task-assignees {
+  flex: 1;
+  min-width: 0;
+}
+.cell-popover .person-option .person-chip {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+}
+.cell-popover .person-option small {
+  color: #76819a;
+  font-size: 11px;
+}
+.cell-popover .person-option .ui-icon {
+  flex-shrink: 0;
+}
+.cell-popover .unassign-option {
+  border-top: 1px solid #e3e8f1;
+  border-radius: 0;
+  margin-top: 8px;
+}
+.status-cell .cell-popover {
+  width: min(230px, calc(100vw - 24px));
+}
+.status-picker .cell-picker > .cell-picker-trigger {
+  height: 26px;
+  min-height: 26px;
+  border: 0;
+  border-radius: 4px;
+  background: var(--status-color);
+  color: var(--status-ink);
+  font-size: 11px;
+  padding: 0 8px;
+}
+.cell-popover .status-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  min-height: 36px;
+  margin: 6px 0;
+  border: 0;
+  border-radius: 5px;
+  padding: 7px 10px;
+  background: #c4c7d3;
+  color: #30354c;
+}
+.cell-popover .status-option[data-status='doing'] {
+  background: #fdab3d;
+  color: #4d3300;
+}
+.cell-popover .status-option[data-status='review'] {
+  background: #8d4bc5;
+  color: #fff;
+}
+.cell-popover .status-option[data-status='done'] {
+  background: #00c875;
+  color: #143b2a;
+}
+@media (pointer: coarse) {
+  .cell-popover :is(.person-option, .status-option, .cell-popover-header button) {
+    min-height: 44px;
+  }
+  .cell-popover .person-search {
+    font-size: 16px;
+  }
+}

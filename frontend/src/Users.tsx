@@ -11,6 +11,7 @@ import {
 import { currentPassword, newPassword, username, displayName, failureMessage } from './auth-policy';
 import { Field, Form, DataTable, Dialog, EmptyState, Loading, Toast } from './shared/components';
 import { loadJobTitles, type JobTitle } from './admin-api';
+import { teamPage, type Team } from './workspace-api';
 const client = apiClient();
 type Action = 'create' | 'edit' | 'active' | 'reset';
 export function Users({
@@ -146,12 +147,25 @@ export function Users({
             {!data.items.length && <EmptyState title="No users match these filters" />}
             <DataTable
               caption="User directory"
-              columns={['Username', 'Display name', 'Job title', 'Access', 'Status', 'Management']}
+              columns={[
+                'Username',
+                'Member Name',
+                'Email',
+                'Role',
+                'Team',
+                'Tel.',
+                'Job title',
+                'Status',
+                'Management',
+              ]}
               rows={data.items.map((u) => [
                 u.username,
                 u.display_name,
-                u.job_title ?? '—',
+                u.email || '—',
                 u.org_role,
+                u.teams.map((t) => t.name).join(', ') || '—',
+                u.telephone || '—',
+                u.job_title ?? '—',
                 <span key={u.id} className="user-status">
                   <span className={`status-chip ${u.active ? 'on' : 'off'}`}>
                     {u.active ? 'Active' : 'Inactive'}
@@ -254,6 +268,10 @@ function UserAction({
 }) {
   const [current, setCurrent] = useState(user),
     [name, setName] = useState(user?.display_name ?? ''),
+    [email, setEmail] = useState(user?.email ?? ''),
+    [telephone, setTelephone] = useState(user?.telephone ?? ''),
+    [team, setTeam] = useState(''),
+    [availableTeams, setAvailableTeams] = useState<Team[]>([]),
     [login, setLogin] = useState(''),
     [role, setRole] = useState(user?.org_role ?? 'member'),
     [jobTitle, setJobTitle] = useState(user?.job_title_id ? String(user.job_title_id) : ''),
@@ -266,6 +284,28 @@ function UserAction({
   const busy = useRef(false),
     controller = useRef<AbortController>(null);
   useEffect(() => () => controller.current?.abort(), []);
+  useEffect(() => {
+    if (!['create', 'edit'].includes(kind)) return;
+    const abort = new AbortController();
+    void (async () => {
+      const all: Team[] = [];
+      for (let page = 1; ; page++) {
+        const result = await client.request(`/api/teams?page=${page}&pageSize=100`, {
+          signal: abort.signal,
+          parse: (v) => teamPage.parse(v),
+        });
+        all.push(...result.items);
+        if (page * result.pageSize >= result.total) break;
+      }
+      if (!abort.signal.aborted) setAvailableTeams(all);
+    })().catch((e) => {
+      if (!abort.signal.aborted) {
+        setFailure(failureMessage(e));
+        if (e instanceof ApiError) onFailure(e);
+      }
+    });
+    return () => abort.abort();
+  }, [kind, onFailure]);
   const title =
     kind === 'create'
       ? 'Add user'
@@ -285,6 +325,9 @@ function UserAction({
       if (!latest) throw new ApiError('not-found', 404);
       setCurrent(latest);
       setName(latest.display_name);
+      setEmail(latest.email);
+      setTelephone(latest.telephone);
+      setTeam('');
       setRole(latest.org_role);
       setJobTitle(latest.job_title_id ? String(latest.job_title_id) : '');
       setConflict(false);
@@ -299,6 +342,7 @@ function UserAction({
   };
   return (
     <Dialog
+      className={kind === 'create' || kind === 'edit' ? 'member-details-dialog' : undefined}
       title={title}
       onClose={() => {
         if (!busy.current) onClose();
@@ -333,6 +377,12 @@ function UserAction({
                   display_name: displayName,
                   org_role: z.enum(['admin', 'member']),
                   temp_password: newPassword,
+                  email: z.union([z.literal(''), z.email().max(254)]),
+                  telephone: z
+                    .string()
+                    .max(40)
+                    .regex(/^[0-9+(). #/-]*$/),
+                  team_ids: z.array(z.number().int().min(1)).optional(),
                 })
               : kind === 'edit'
                 ? z.object({
@@ -340,6 +390,12 @@ function UserAction({
                     org_role: z.enum(['admin', 'member']),
                     job_title_id: z.number().int().min(1).nullable(),
                     version: z.number(),
+                    email: z.union([z.literal(''), z.email().max(254)]),
+                    telephone: z
+                      .string()
+                      .max(40)
+                      .regex(/^[0-9+(). #/-]*$/),
+                    team_ids: z.array(z.number().int().min(1)).optional(),
                   })
                 : kind === 'reset'
                   ? z.object({
@@ -350,13 +406,24 @@ function UserAction({
                   : z.object({ active: z.boolean(), version: z.number() });
           const input =
             kind === 'create'
-              ? { username: login, display_name: name, org_role: role, temp_password: temp }
+              ? {
+                  username: login,
+                  display_name: name,
+                  org_role: role,
+                  temp_password: temp,
+                  email: email.trim(),
+                  telephone: telephone.trim(),
+                  ...(team ? { team_ids: [Number(team)] } : {}),
+                }
               : kind === 'edit'
                 ? {
                     display_name: name,
                     org_role: role,
                     job_title_id: jobTitle ? Number(jobTitle) : null,
                     version: current!.version,
+                    email: email.trim(),
+                    telephone: telephone.trim(),
+                    ...(team ? { team_ids: [Number(team)] } : {}),
                   }
                 : kind === 'reset'
                   ? { admin_password: admin, temp_password: temp, version: current!.version }
@@ -426,18 +493,63 @@ function UserAction({
         {(kind === 'create' || kind === 'edit') && (
           <>
             <Field
-              label="Display name"
+              label="Member Name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               error={errors.display_name}
             />
+            <Field
+              label="Email"
+              type="email"
+              value={email}
+              maxLength={254}
+              onChange={(e) => setEmail(e.target.value)}
+              error={errors.email}
+              autoComplete="email"
+            />
+            <Field
+              label="Tel."
+              type="tel"
+              value={telephone}
+              maxLength={40}
+              onChange={(e) => setTelephone(e.target.value)}
+              error={errors.telephone}
+              autoComplete="tel"
+            />
             <label>
-              Access{' '}
+              Role{' '}
               <select value={role} onChange={(e) => setRole(e.target.value as 'admin' | 'member')}>
                 <option value="member">Member</option>
                 <option value="admin">Admin</option>
               </select>
             </label>
+            {current?.teams.length ? (
+              <p className="hint">
+                Current teams:{' '}
+                {current.teams
+                  .map(
+                    (t) =>
+                      `${t.name} (${t.team_position === 'pm' ? 'PM' : t.team_position === 'lead' ? 'Lead' : 'Dev'})`,
+                  )
+                  .join(', ')}
+              </p>
+            ) : null}
+            <label>
+              Team
+              <select value={team} onChange={(e) => setTeam(e.target.value)}>
+                <option value="">{kind === 'create' ? 'No team yet' : 'Keep current teams'}</option>
+                {availableTeams.map((t) => (
+                  <option key={t.id} value={t.id}>
+                    {t.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <p className="hint">
+              Select a team to add this member as Dev. Existing memberships stay in place; positions
+              and removal are managed from Teams → Members.
+            </p>
+            {errors.team_ids && <p role="alert">{errors.team_ids}</p>}
             {kind === 'edit' && (
               <label>
                 Job title{' '}

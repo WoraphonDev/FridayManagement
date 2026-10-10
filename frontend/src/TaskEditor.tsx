@@ -3,6 +3,8 @@ import { useWritable } from './shared/connection';
 import { UiIcon } from './shared/UiIcon';
 import { projectGroups, taskPage, type ProjectGroup } from './task-api';
 import { PeoplePicker } from './shared/PeoplePicker';
+import { StatusPicker } from './shared/StatusPicker';
+import { ChecklistStatusPicker } from './shared/ChecklistStatusPicker';
 import { useSharedRefresh } from './shared/refresh';
 import { TaskCollaboration } from './TaskCollaboration';
 import { useEffect, useRef, useState } from 'react';
@@ -15,13 +17,12 @@ import {
   mutationReply,
   subtaskReply,
   taskReply,
-  statuses,
   priorities,
   statusLabel,
   type Detail,
   type Subtask,
 } from './task-api';
-import { Dialog, ErrorNotice, Field, Form, Loading, Toast } from './shared/components';
+import { Dialog, EmptyState, ErrorNotice, Field, Form, Loading, Toast } from './shared/components';
 const client = apiClient();
 type Draft = {
   group_id: number | null;
@@ -127,13 +128,19 @@ export function TaskEditor({
     [conflict, setConflict] = useState(false),
     [members, setMembers] = useState<ReturnType<typeof projectMembers.parse>>(),
     [reload, setReload] = useState(0),
+    [addOpen, setAddOpen] = useState(false),
     [addTitle, setAddTitle] = useState(''),
+    [addAssignee, setAddAssignee] = useState<number | null>(null),
+    [addRemark, setAddRemark] = useState(''),
     [editing, setEditing] = useState<Subtask>(),
     [childTitle, setChildTitle] = useState(''),
+    [childRemark, setChildRemark] = useState(''),
+    [editingField, setEditingField] = useState<'title' | 'remark'>('title'),
     [confirmDelete, setConfirmDelete] = useState(false),
     [deleteBefore, setDeleteBefore] = useState(0),
     [panelDirty, setPanelDirty] = useState(false),
     [confirmChild, setConfirmChild] = useState<Subtask>();
+  const checklistDraftRow = useRef<HTMLTableRowElement>(null);
   const mutationEpoch = useRef(0);
   const snapshot = useRef<{ dirty: boolean; base?: Detail }>({ dirty: false });
   const busy = useRef(false),
@@ -144,7 +151,12 @@ export function TaskEditor({
     JSON.stringify(draft) !==
     JSON.stringify(base ? draftOf(base) : { ...draftOf(), group_id: initialGroup ?? null });
   const dirty =
-    panelDirty || formDirty || !!addTitle || (!!editing && childTitle !== editing.title);
+    panelDirty ||
+    formDirty ||
+    !!addTitle ||
+    addAssignee !== null ||
+    !!addRemark ||
+    (!!editing && (childTitle !== editing.title || childRemark !== editing.remark));
   useEffect(() => {
     snapshot.current = { dirty, base };
   }, [dirty, base]);
@@ -266,7 +278,7 @@ export function TaskEditor({
         base.creator_id === self.user.id &&
         !project.archived_at));
   const close = () => {
-    if (pending) return;
+    if (busy.current) return;
     if (!dirty) return onClose();
     void confirmDialog({
       title: 'Discard changes?',
@@ -314,6 +326,17 @@ export function TaskEditor({
   const save = async () => {
     if (busy.current || !write) return;
     busy.current = true;
+    const ok = await confirmDialog({
+      title: id ? 'Save changes?' : 'Create task?',
+      message: id
+        ? `Save your changes to “${draft.title.trim() || 'this task'}”?`
+        : `Create “${draft.title.trim() || 'Untitled task'}” in ${project.name}?`,
+      confirmLabel: id ? 'Save changes' : 'Create task',
+    });
+    if (!ok) {
+      busy.current = false;
+      return;
+    }
     mutationEpoch.current++;
     setPending(true);
     setError(undefined);
@@ -399,6 +422,9 @@ export function TaskEditor({
       setBase(fresh.item);
       setDraft(draftOf(fresh.item));
       setAddTitle('');
+      setAddAssignee(null);
+      setAddRemark('');
+      setAddOpen(false);
       setEditing(undefined);
       setConfirmChild(undefined);
       setNotice('Checklist saved');
@@ -409,6 +435,62 @@ export function TaskEditor({
       busy.current = false;
       setPending(false);
     }
+  };
+  const saveChecklistDraft = () => {
+    if (!base || busy.current || !write || formDirty) return;
+    if (editing) {
+      if (childTitle === editing.title && childRemark === editing.remark) {
+        setEditing(undefined);
+        return;
+      }
+      if (!childTitle.trim()) {
+        setNotice('Enter a checklist name before saving');
+        return;
+      }
+      void childMutation(`/api/subtasks/${editing.id}`, 'PATCH', {
+        version: editing.version,
+        task_version: base.version,
+        title: childTitle.trim(),
+        remark: childRemark,
+      });
+    } else if (addOpen) {
+      if (!addTitle.trim()) {
+        if (!addTitle && !addRemark && addAssignee === null) setAddOpen(false);
+        else setNotice('Enter a checklist name before saving');
+        return;
+      }
+      void childMutation(`/api/tasks/${base.id}/subtasks`, 'POST', {
+        title: addTitle.trim(),
+        assignee_id: addAssignee,
+        remark: addRemark,
+        task_version: base.version,
+      });
+    }
+  };
+  // Save only when leaving the whole row, never while moving between its fields.
+  useEffect(() => {
+    if (!editing && !addOpen) return;
+    const outside = (event: PointerEvent) => {
+      if (event.target instanceof Node && !checklistDraftRow.current?.contains(event.target)) {
+        const menu =
+          event.target instanceof Element ? event.target.closest('[role="listbox"]') : null;
+        if (menu?.getAttribute('aria-label') === 'Options for Assign new checklist item') return;
+        saveChecklistDraft();
+      }
+    };
+    document.addEventListener('pointerdown', outside, true);
+    return () => document.removeEventListener('pointerdown', outside, true);
+  });
+  const leaveChecklistRow = (event: React.FocusEvent<HTMLTableRowElement>) => {
+    if (event.relatedTarget && !event.currentTarget.contains(event.relatedTarget))
+      saveChecklistDraft();
+  };
+  const cancelChecklistDraft = () => {
+    setAddOpen(false);
+    setAddTitle('');
+    setAddAssignee(null);
+    setAddRemark('');
+    setEditing(undefined);
   };
   const remove = async () => {
     if (!base || !canDelete || busy.current || dirty) return;
@@ -488,7 +570,7 @@ export function TaskEditor({
       }
     >
       {changed && (
-        <Toast>Data changed. Your draft is preserved. Saving checks the latest version.</Toast>
+        <Toast persist>Data changed. Your draft is preserved. Saving checks the latest version.</Toast>
       )}
       {error && (
         <ErrorNotice error={error} retry={!loaded ? () => setReload((n) => n + 1) : undefined} />
@@ -668,7 +750,11 @@ export function TaskEditor({
                   people={
                     members?.items
                       .filter((m) => m.assignee_eligible || draft.assignee_ids.includes(m.user.id))
-                      .map((m) => ({ ...m.user, active: m.assignee_eligible })) ?? []
+                      .map((m) => ({
+                        ...m.user,
+                        active: m.assignee_eligible,
+                        role: m.job_title ?? m.effective_access,
+                      })) ?? []
                   }
                   value={draft.assignee_ids}
                   disabled={!write || pending || !online}
@@ -691,18 +777,12 @@ export function TaskEditor({
               </label>
               <label>
                 Status
-                <select
-                  aria-label="Status"
-                  disabled={!id}
+                <StatusPicker
+                  label="Status"
+                  disabled={!id || !write || pending || !online}
                   value={draft.status}
-                  onChange={(e) => change('status', e.target.value as Draft['status'])}
-                >
-                  {statuses.map((s) => (
-                    <option key={s} value={s}>
-                      {statusLabel[s]}
-                    </option>
-                  ))}
-                </select>
+                  onChange={(status) => change('status', status)}
+                />
               </label>
               {newCategory ? (
                 <div className="category-new">
@@ -796,113 +876,293 @@ export function TaskEditor({
               <h3>
                 Checklist {base.subtask_done_count}/{base.subtask_count}
               </h3>
-              {dirty && <p>Save your task draft before changing the checklist</p>}
+              <p className="checklist-autosave-note">
+                Click a name or remark to edit. Click outside the row to save automatically.
+              </p>
+              {formDirty && <p>Save your task draft before changing the checklist</p>}
               {base.status === 'done' && (
                 <p>Reopen this completed task before adding or unchecking checklist items</p>
               )}
-              <ul>
-                {base.subtasks.map((s) => (
-                  <li key={s.id}>
-                    <label>
-                      <input
-                        type="checkbox"
-                        checked={s.done}
-                        disabled={!write || pending || dirty || base.status === 'done'}
-                        onChange={(e) =>
-                          void childMutation(`/api/subtasks/${s.id}`, 'PATCH', {
-                            version: s.version,
-                            task_version: base.version,
-                            done: e.target.checked,
-                          })
-                        }
-                      />
-                      {s.title}
-                    </label>
-                    <PeoplePicker
-                      label={`Assign checklist: ${s.title}`}
-                      multiple={false}
-                      people={
-                        members?.items.filter((m) => m.assignee_eligible).map((m) => m.user) ?? []
-                      }
-                      value={s.assignee_id ? [s.assignee_id] : []}
-                      disabled={!write || pending || dirty || base.status === 'done'}
-                      onChange={(ids) =>
-                        void childMutation(`/api/subtasks/${s.id}`, 'PATCH', {
-                          version: s.version,
-                          task_version: base.version,
-                          assignee_id: ids[0] ?? null,
-                        })
-                      }
-                    />
-                    {write && (
-                      <>
-                        <button
-                          disabled={pending || dirty}
-                          onClick={() => {
-                            setEditing(s);
-                            setChildTitle(s.title);
+              <div
+                className="checklist-table-scroll"
+                role="region"
+                aria-label="Checklist table"
+                tabIndex={0}
+              >
+                <table className="checklist-table" aria-label="Checklist items">
+                  <colgroup>
+                    <col className="checklist-name-col" />
+                    <col className="checklist-assignee-col" />
+                    <col className="checklist-status-col" />
+                    <col className="checklist-remark-col" />
+                  </colgroup>
+                  <thead>
+                    <tr>
+                      <th scope="col">Subitem</th>
+                      <th scope="col">Owner</th>
+                      <th scope="col">Status</th>
+                      <th scope="col">Remark</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {!base.subtasks.length && (
+                      <tr>
+                        <td colSpan={4} className="checklist-empty">
+                          <EmptyState title="No checklist items yet" />
+                        </td>
+                      </tr>
+                    )}
+                    {base.subtasks.map((s) => {
+                      const isEditing = editing?.id === s.id;
+                      const beginEdit = (field: 'title' | 'remark') => {
+                        setEditing(s);
+                        setChildTitle(s.title);
+                        setChildRemark(s.remark);
+                        setEditingField(field);
+                      };
+                      return (
+                        <tr
+                          key={s.id}
+                          className={isEditing ? 'checklist-edit-row' : undefined}
+                          data-done={s.done}
+                          ref={isEditing ? checklistDraftRow : undefined}
+                          onBlur={isEditing ? leaveChecklistRow : undefined}
+                          onKeyDown={(e) => {
+                            if (isEditing && e.key === 'Escape') {
+                              e.preventDefault();
+                              e.stopPropagation();
+                              cancelChecklistDraft();
+                            }
                           }}
                         >
-                          Edit checklist item {s.title}
-                        </button>
-                        <button disabled={pending || dirty} onClick={() => setConfirmChild(s)}>
-                          Delete checklist item {s.title}
-                        </button>
-                      </>
+                          <th scope="row">
+                            <div className="checklist-name-cell">
+                              <input
+                                type="checkbox"
+                                aria-label={s.title}
+                                checked={s.done}
+                                disabled={!write || pending || dirty || base.status === 'done'}
+                                onChange={(e) =>
+                                  void childMutation(`/api/subtasks/${s.id}`, 'PATCH', {
+                                    version: s.version,
+                                    task_version: base.version,
+                                    done: e.target.checked,
+                                  })
+                                }
+                              />
+                              {isEditing ? (
+                                <input
+                                  aria-label="New checklist item"
+                                  value={childTitle}
+                                  autoFocus={editingField === 'title'}
+                                  maxLength={200}
+                                  disabled={pending || !write}
+                                  onChange={(e) => setChildTitle(e.target.value)}
+                                />
+                              ) : write ? (
+                                <button
+                                  className="checklist-cell-edit checklist-item-title"
+                                  aria-label={`Edit checklist item ${s.title}`}
+                                  title="Click to edit"
+                                  disabled={pending || dirty}
+                                  onClick={() => beginEdit('title')}
+                                >
+                                  {s.title}
+                                </button>
+                              ) : (
+                                <span className="checklist-item-title">{s.title}</span>
+                              )}
+                              {write && !isEditing && (
+                                <button
+                                  className="danger checklist-delete"
+                                  aria-label={`Delete checklist item ${s.title}`}
+                                  title="Delete checklist item"
+                                  disabled={pending || dirty}
+                                  onClick={() => setConfirmChild(s)}
+                                >
+                                  <UiIcon name="trash" />
+                                </button>
+                              )}
+                            </div>
+                            {isEditing && (
+                              <div className="checklist-row-actions">
+                                <button
+                                  className="permission-cancel"
+                                  aria-label="Cancel checklist edit"
+                                  disabled={pending}
+                                  onClick={() => setEditing(undefined)}
+                                >
+                                  <UiIcon name="close" />
+                                </button>
+                              </div>
+                            )}
+                          </th>
+                          <td>
+                            <PeoplePicker
+                              label={`Assign checklist: ${s.title}`}
+                              multiple={false}
+                              people={
+                                members?.items
+                                  .filter((m) => m.assignee_eligible)
+                                  .map((m) => ({
+                                    ...m.user,
+                                    role: m.job_title ?? m.effective_access,
+                                  })) ?? []
+                              }
+                              value={s.assignee_id ? [s.assignee_id] : []}
+                              disabled={
+                                !write || pending || dirty || !!editing || base.status === 'done'
+                              }
+                              onChange={(ids) =>
+                                void childMutation(`/api/subtasks/${s.id}`, 'PATCH', {
+                                  version: s.version,
+                                  task_version: base.version,
+                                  assignee_id: ids[0] ?? null,
+                                })
+                              }
+                            />
+                          </td>
+                          <td>
+                            <ChecklistStatusPicker
+                              done={s.done}
+                              label={`Status for checklist: ${s.title}`}
+                              disabled={!write || pending || dirty || base.status === 'done'}
+                              onChange={(done) =>
+                                void childMutation(`/api/subtasks/${s.id}`, 'PATCH', {
+                                  version: s.version,
+                                  task_version: base.version,
+                                  done,
+                                })
+                              }
+                            />
+                          </td>
+                          <td>
+                            {isEditing ? (
+                              <textarea
+                                aria-label="Edit checklist remark"
+                                value={childRemark}
+                                autoFocus={editingField === 'remark'}
+                                maxLength={2000}
+                                rows={1}
+                                disabled={pending || !write}
+                                onChange={(e) => setChildRemark(e.target.value)}
+                              />
+                            ) : write ? (
+                              <button
+                                className="checklist-cell-edit checklist-remark"
+                                aria-label={`Edit remark for ${s.title}`}
+                                title="Click to edit"
+                                disabled={pending || dirty}
+                                onClick={() => beginEdit('remark')}
+                              >
+                                {s.remark || (
+                                  <span className="checklist-placeholder">Add remark…</span>
+                                )}
+                              </button>
+                            ) : (
+                              <span className="checklist-remark">{s.remark || '—'}</span>
+                            )}
+                          </td>
+                        </tr>
+                      );
+                    })}
+                    {write && base.status !== 'done' && addOpen && (
+                      <tr
+                        className="checklist-add-row"
+                        ref={checklistDraftRow}
+                        onBlur={leaveChecklistRow}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Escape') {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            cancelChecklistDraft();
+                          }
+                        }}
+                      >
+                        <td>
+                          <div className="checklist-name-cell">
+                            <UiIcon name="plus" />
+                            <input
+                              aria-label="Add checklist item"
+                              autoFocus
+                              placeholder="Add a checklist item…"
+                              value={addTitle}
+                              maxLength={200}
+                              disabled={pending || formDirty || !!editing}
+                              onChange={(e) => setAddTitle(e.target.value)}
+                            />
+                          </div>
+                          <div className="checklist-row-actions">
+                            {(addTitle || addAssignee !== null || addRemark) && (
+                              <button
+                                className="permission-cancel"
+                                aria-label="Cancel new checklist item"
+                                disabled={pending}
+                                onClick={cancelChecklistDraft}
+                              >
+                                <UiIcon name="close" />
+                              </button>
+                            )}
+                          </div>
+                        </td>
+                        <td>
+                          <PeoplePicker
+                            label="Assign new checklist item"
+                            multiple={false}
+                            people={
+                              members?.items
+                                .filter((m) => m.assignee_eligible)
+                                .map((m) => ({
+                                  ...m.user,
+                                  role: m.job_title ?? m.effective_access,
+                                })) ?? []
+                            }
+                            value={addAssignee ? [addAssignee] : []}
+                            disabled={pending || formDirty || !!editing}
+                            onChange={(ids) => setAddAssignee(ids[0] ?? null)}
+                          />
+                        </td>
+                        <td>
+                          <ChecklistStatusPicker
+                            done={false}
+                            label="Status for new checklist item"
+                            disabled
+                            onChange={() => {}}
+                          />
+                        </td>
+                        <td>
+                          <textarea
+                            aria-label="New checklist remark"
+                            placeholder="Add remark…"
+                            value={addRemark}
+                            maxLength={2000}
+                            rows={1}
+                            disabled={pending || formDirty || !!editing}
+                            onChange={(e) => setAddRemark(e.target.value)}
+                          />
+                        </td>
+                      </tr>
                     )}
-                  </li>
-                ))}
-              </ul>
-              {editing && (
-                <div>
-                  <Field
-                    label="New checklist item"
-                    value={childTitle}
-                    maxLength={200}
-                    onChange={(e) => setChildTitle(e.target.value)}
-                  />
-                  <button
-                    disabled={pending || !write || !childTitle.trim()}
-                    onClick={() =>
-                      void childMutation(`/api/subtasks/${editing.id}`, 'PATCH', {
-                        version: editing.version,
-                        task_version: base.version,
-                        title: childTitle.trim(),
-                      })
-                    }
-                  >
-                    Save checklist title
-                  </button>
-                  <button disabled={pending} onClick={() => setEditing(undefined)}>
-                    Cancel checklist edit
-                  </button>
-                </div>
-              )}
-              {write && base.status !== 'done' && (
-                <div>
-                  <Field
-                    label="Add checklist item"
-                    value={addTitle}
-                    maxLength={200}
-                    onChange={(e) => setAddTitle(e.target.value)}
-                  />
-                  <button
-                    disabled={
-                      pending ||
-                      !addTitle.trim() ||
-                      JSON.stringify(draft) !== JSON.stringify(draftOf(base))
-                    }
-                    onClick={() =>
-                      void childMutation(`/api/tasks/${base.id}/subtasks`, 'POST', {
-                        title: addTitle.trim(),
-                        task_version: base.version,
-                      })
-                    }
-                  >
-                    Add checklist item
-                  </button>
-                </div>
-              )}
+                    {write && base.status !== 'done' && !addOpen && (
+                      <tr className="checklist-add-trigger">
+                        <td colSpan={4}>
+                          <button
+                            className="checklist-add-button"
+                            aria-label="Add checklist item"
+                            disabled={pending || formDirty || !!editing}
+                            onClick={() => {
+                              setNotice('');
+                              setAddOpen(true);
+                            }}
+                          >
+                            <UiIcon name="plus" /> Add subitem
+                          </button>
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
+              </div>
             </section>
           )}
           {base && (

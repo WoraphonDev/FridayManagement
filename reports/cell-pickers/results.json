@@ -1,0 +1,80 @@
+{
+  "date": "2026-10-10",
+  "scope": "Actual Subitem/Owner/Status/Remark and Assign/Status cell popovers",
+  "declared_effort": {
+    "T-033": "Medium",
+    "T-044": "Medium"
+  },
+  "actual_model_effort": "NOT_VERIFIED",
+  "environment": {
+    "node": "22.23.3",
+    "platform": "darwin",
+    "provider": "temporary synthetic SQLite",
+    "browser": "Playwright1.63 Chromium",
+    "port": 43259
+  },
+  "browser": {
+    "initial": {
+      "pass": 7,
+      "fail": 2,
+      "reason": "stale status label and Vibe markup assertions"
+    },
+    "intermediate": {
+      "pass": 12,
+      "fail": 0
+    },
+    "final": {
+      "pass": 20,
+      "fail": 0
+    }
+  },
+  "frontend": {
+    "pass": 49,
+    "fail": 0
+  },
+  "checks": {
+    "build": "PASS",
+    "typecheck": "PASS",
+    "lint": "PASS (2 existing warnings)",
+    "check_contract": "PASS (85 routes/115 schemas)",
+    "check_test_plan": "PASS (plan only)"
+  },
+  "local5000": {
+    "status": 200,
+    "servesCurrentFrontend": true,
+    "readOnly": true,
+    "restart": false
+  },
+  "native_sqlserver": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "full_browser_matrix": "NOT_RUN",
+  "uat": "NOT_RUN",
+  "task_register": {
+    "DONE": 7,
+    "IN_PROGRESS": 82,
+    "IN_REVIEW": 1,
+    "TODO": 1,
+    "total": 91,
+    "remaining": 84
+  },
+  "next_formal": {
+    "task": "T-091",
+    "effort": "High"
+  },
+  "source_sha256": {
+    "frontend/src/shared/CellPopover.tsx": "cc4a8222f92c0822a0e131e7cef57a951f58c40e97624ef83a968cccc1608e81",
+    "frontend/src/shared/PeoplePicker.tsx": "6ba1f1a9b934a316e855a1bb6a8328f33e103f4f0696b9e791a2179b6351cfc3",
+    "frontend/src/shared/StatusPicker.tsx": "99d9b75d17b074f74177d24e189eae07b9cf806a2e0dfb5d17e90f0e3e85d04f",
+    "frontend/src/shared/ChecklistStatusPicker.tsx": "a29b0c28a476548a6d10ecaf158b328255bfe050a1dedfdc321a1d96296d3014",
+    "frontend/src/shared/components.tsx": "7e8830a50e1fc0a305aa64054582fd774eb8d4bf0afbc31ae38d163fe21feb90",
+    "frontend/src/TaskEditor.tsx": "fdf9923f1884f6d7f02bdf1313fe478bd241c24460a6b116fb2d1c94a11cabfc",
+    "frontend/src/task-editor-tabs.css": "4b04da06f802c57db87513d10902674276bd789aec9314496af6ffea7b91e0bc",
+    "frontend/src/cell-pickers.css": "69db8dea4e8a23fa749f0099670ba8420fdb6880beaf2257044554abbed824a8",
+    "frontend/src/main.tsx": "1fca72c354283f3b42bc900fbbbed1b59f9b247176d0f25042b603f59c789ca7",
+    "tests/browser/cell-pickers.spec.ts": "118b9693cf724dcc98c281859259106b64cecf47ae0093cf5321f66be0fca516",
+    "tests/browser/checklist-table.spec.ts": "81387da33bfcc09c79b05c20673809bf1043ebe71735f1ebe6abdc21c48bf135",
+    "tests/browser/tasks.spec.ts": "6805976381304ffae43fcdc3c4e583fca71058a9d18d4d8a3c1ea5015de7d7ab",
+    "tests/browser/boards.spec.ts": "856a523729f895904a02a44b510d97fd05d6feedf01d1b38f49af2f3514ee329",
+    "tests/browser/vibe-integration.spec.ts": "22c9e3bfb37191fb507dff560618416b59de1c5d073bd04d35ca765ac87fb319"
+  }
+}

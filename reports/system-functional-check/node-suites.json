@@ -1,0 +1,146 @@
+[
+  {
+    "suite": "test:config",
+    "pass": 43,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:foundation",
+    "pass": 5,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:schema",
+    "pass": 15,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:helpers",
+    "pass": 27,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:api",
+    "pass": 15,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:idempotency",
+    "pass": 13,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:authorization",
+    "pass": 14,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:setup",
+    "pass": 17,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:sessions",
+    "pass": 19,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:accounts",
+    "pass": 20,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:admin-cli",
+    "pass": 15,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:workspaces",
+    "pass": 20,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:tasks",
+    "pass": 32,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:task-views",
+    "pass": 18,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:boards",
+    "pass": 15,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:files",
+    "pass": 18,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:notifications",
+    "pass": 23,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:permissions",
+    "pass": 3,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:addendum",
+    "pass": 13,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:contract",
+    "pass": 65,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:test-plan",
+    "pass": 17,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:operations",
+    "pass": 14,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:regression",
+    "pass": 16,
+    "fail": 0,
+    "skip": 0
+  },
+  {
+    "suite": "test:performance-policy",
+    "pass": 2,
+    "fail": 0,
+    "skip": 0
+  }
+]

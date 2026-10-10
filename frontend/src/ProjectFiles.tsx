@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';
 import type { Project } from './workspace-api';
+import { UiIcon } from './shared/UiIcon';
 import { Dialog, EmptyState, ErrorNotice, Loading, Toast } from './shared/components';
 const client = apiClient();
 const id = z.number().int().min(1),
@@ -277,57 +278,62 @@ export function ProjectFiles({
           {writable && <p>Upload a project file or attach files to tasks.</p>}
         </EmptyState>
       ) : (
-        <div className="table-scroll" role="region" aria-label="Files" tabIndex={0}>
-          <table>
-            <caption>Files</caption>
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Size</th>
-                <th scope="col">Uploaded by</th>
-                <th scope="col">Uploaded</th>
-                <th scope="col">From</th>
-                <th scope="col">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.items.map((f) => (
-                <tr key={`${f.source}:${f.id}`} className={f.deleted_at ? 'deleted' : undefined}>
-                  <th scope="row">
-                    {f.original_name}
-                    {f.deleted_at ? ' (deleted)' : ''}
-                  </th>
-                  <td>{size(f.bytes)}</td>
-                  <td>{f.uploader.display_name}</td>
-                  <td>
-                    {new Date(f.created_at).toLocaleDateString('en-GB', {
-                      timeZone: 'Asia/Bangkok',
-                    })}
-                  </td>
-                  <td>{f.source === 'project' ? 'Project' : `Task: ${f.task_title}`}</td>
-                  <td className="row-actions">
-                    {!f.deleted_at && previewable(f.validated_type) && (
-                      <button onClick={() => void show(f)}>Preview {f.original_name}</button>
-                    )}
-                    {!f.deleted_at && (
-                      <button onClick={() => void save(f)}>Download {f.original_name}</button>
-                    )}
-                    {f.can_delete && (
-                      <button disabled={!online || pending} onClick={() => void change(f, false)}>
-                        Delete {f.original_name}
-                      </button>
-                    )}
-                    {f.can_restore && (
-                      <button disabled={!online || pending} onClick={() => void change(f, true)}>
-                        Restore {f.original_name}
-                      </button>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+        <ul className="task-attachment-list project-file-list" aria-label="Files">
+          {data.items.map((f) => (
+            <li key={`${f.source}:${f.id}`} className={f.deleted_at ? 'deleted' : undefined}>
+              <div className="task-attachment-icon" aria-hidden="true">
+                <UiIcon name="file" />
+              </div>
+              <div className="task-attachment-info">
+                <strong>{f.original_name}</strong>
+                <small>
+                  {size(f.bytes)} · {f.uploader.display_name} ·{' '}
+                  {new Date(f.created_at).toLocaleDateString('en-GB', {
+                    timeZone: 'Asia/Bangkok',
+                  })}{' '}
+                  · {f.source === 'project' ? 'Project' : `Task: ${f.task_title}`}
+                  {f.deleted_at && ' · Deleted'}
+                </small>
+              </div>
+              <div className="task-attachment-actions">
+                {!f.deleted_at && previewable(f.validated_type) && (
+                  <button aria-label={`Preview ${f.original_name}`} onClick={() => void show(f)}>
+                    <UiIcon name="eye" /> Preview
+                  </button>
+                )}
+                {!f.deleted_at && (
+                  <button
+                    className="task-file-download"
+                    aria-label={`Download ${f.original_name}`}
+                    onClick={() => void save(f)}
+                  >
+                    <UiIcon name="download" /> Download
+                  </button>
+                )}
+                {f.can_delete && (
+                  <button
+                    className="danger"
+                    aria-label={`Delete ${f.original_name}`}
+                    disabled={!online || pending}
+                    onClick={() => void change(f, false)}
+                  >
+                    <UiIcon name="trash" /> Delete
+                  </button>
+                )}
+                {f.can_restore && (
+                  <button
+                    className="primary"
+                    aria-label={`Restore ${f.original_name}`}
+                    disabled={!online || pending}
+                    onClick={() => void change(f, true)}
+                  >
+                    <UiIcon name="history" /> Restore
+                  </button>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
       )}
       {data && data.total > data.pageSize && (
         <div className="toolbar">

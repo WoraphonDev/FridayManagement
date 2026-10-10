@@ -1,0 +1,39 @@
+{
+  "date": "2026-10-09",
+  "tasks": [
+    "T-023",
+    "T-089"
+  ],
+  "declared_effort": "Medium (Calendar parent T-046 High)",
+  "actual_model_effort": "NOT_VERIFIED",
+  "checks": {
+    "typecheck": "PASS",
+    "build": "PASS",
+    "focused_lint": "PASS",
+    "frontend": "49/49 PASS",
+    "chromium_existing": "5/5 PASS",
+    "chromium_followup": "1/1 PASS",
+    "chromium_final_screenshot": "1/1 PASS",
+    "test_plan": "Inventory +17/17 PASS (plan only)"
+  },
+  "initial_run": {
+    "pass": 5,
+    "fail": 1,
+    "cause": "Test Settings name expected instead of Profile & settings; tuple typing corrected"
+  },
+  "header_menus_verified": 9,
+  "distinct_scenarios": 6,
+  "fixed_bug": "Same/blank Search cleared Users without rerunning directory effect",
+  "parent_status": "IN_PROGRESS",
+  "register": {
+    "done": 7,
+    "total": 91,
+    "remaining": 84,
+    "in_progress": 82,
+    "in_review": 1,
+    "todo": 1
+  },
+  "SQL2022_Windows_UAT": "NOT_RUN",
+  "live_data_writes": false,
+  "claude_board_files_changed": false
+}

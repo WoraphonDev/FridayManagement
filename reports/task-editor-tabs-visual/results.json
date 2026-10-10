@@ -1,0 +1,114 @@
+{
+  "date": "2026-10-09",
+  "scope": "Task editor Details, Checklist, Updates, Files, Activity",
+  "declared_effort": {
+    "T-044": "Medium",
+    "T-089": "Medium"
+  },
+  "actual_model_effort": "NOT_VERIFIED",
+  "environment": {
+    "node": "22.23.3",
+    "provider": "temporary synthetic SQLite",
+    "browser": "Chromium",
+    "test_port": 43239,
+    "claude_port_43171": "untouched"
+  },
+  "checks": {
+    "build": "PASS",
+    "typecheck": "PASS",
+    "focused_eslint": "PASS",
+    "frontend": {
+      "status": "PASS",
+      "passed": 49,
+      "total": 49
+    },
+    "existing_browser_scenarios": {
+      "status": "PASS",
+      "passed": 6,
+      "total": 6
+    },
+    "new_visual_scenario": {
+      "status": "PASS",
+      "passed": 1,
+      "total": 1
+    },
+    "final_notice_regression": {
+      "status": "PASS",
+      "passed": 2,
+      "total": 2
+    },
+    "distinct_browser_scenarios": 7,
+    "test_plan_inventory": "PASS",
+    "test_plan_policy": {
+      "status": "PASS",
+      "passed": 17,
+      "total": 17
+    },
+    "git_diff_check": "PASS"
+  },
+  "trace": [
+    "FR-16",
+    "FR-19",
+    "FR-27",
+    "FR-28",
+    "FR-29",
+    "NFR-09",
+    "TC-027",
+    "TC-035",
+    "TC-053",
+    "TC-054",
+    "TC-055",
+    "TC-056",
+    "TC-057",
+    "TC-058",
+    "TC-059",
+    "TC-098"
+  ],
+  "screenshots": [
+    "UI-task-tab-details-desktop.png",
+    "UI-task-tab-details-mobile.png",
+    "UI-task-tab-checklist-desktop.png",
+    "UI-task-tab-checklist-mobile.png",
+    "UI-task-tab-updates-desktop.png",
+    "UI-task-tab-updates-mobile.png",
+    "UI-task-tab-files-desktop.png",
+    "UI-task-tab-files-mobile.png",
+    "UI-task-tab-activity-desktop.png",
+    "UI-task-tab-activity-mobile.png",
+    "UI-task-tab-files-empty-desktop.png"
+  ],
+  "live_check": {
+    "origin": "http://127.0.0.1:5000",
+    "task_id": 11,
+    "inspected_tabs": [
+      "Details",
+      "Checklist",
+      "Updates",
+      "Files",
+      "Activity"
+    ],
+    "writes": false,
+    "private_screenshots_directory": "/private/tmp/friday-task-tabs-ui"
+  },
+  "not_run": [
+    "native SQL Server2022",
+    "Windows",
+    "owner UAT",
+    "full browser/device matrix",
+    "full provider/backend acceptance"
+  ],
+  "register": {
+    "done": 7,
+    "total": 91,
+    "in_progress": 82,
+    "in_review": 1,
+    "todo": 1,
+    "remaining": 84
+  },
+  "formal_status_changes": false,
+  "remaining_visual_menu": "Notifications",
+  "next_formal_task": {
+    "id": "T-091",
+    "effort": "High"
+  }
+}

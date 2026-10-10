@@ -1,0 +1,37 @@
+{
+  "date": "2026-10-09",
+  "scope": "FR-43/T-082/partial TC-090/AT-33",
+  "declaredEffort": "Medium",
+  "actualModelEffort": "NOT_VERIFIED",
+  "typecheck": "PASS",
+  "build": "PASS",
+  "focusedLint": "PASS",
+  "frontend": "49/49 PASS",
+  "chromium": "1/1 PASS",
+  "syntheticMembers": 19,
+  "checks": [
+    "permission rows/member columns",
+    "fixed left labels during horizontal scroll",
+    "sticky member headers during vertical scroll",
+    "360px contained scroll",
+    "self blocked/select-all excludes self",
+    "preset/discard",
+    "single-member/key save+reload, neighbor unchanged",
+    "stale conflict/reload"
+  ],
+  "live": "Read-only layout verification PASS; grants unchanged",
+  "apiSchema": "UNCHANGED",
+  "fullRegression": "NOT_RUN for this UI-only change",
+  "sqlserver": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "uat": "NOT_RUN",
+  "tasks": {
+    "done": 7,
+    "total": 91,
+    "remaining": 84,
+    "inProgress": 82,
+    "inReview": 1,
+    "todo": 1,
+    "next": "T-091 High"
+  }
+}

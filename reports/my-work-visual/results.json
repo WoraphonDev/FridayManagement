@@ -1,0 +1,62 @@
+{
+  "date": "2026-10-09",
+  "tasks": [
+    {
+      "id": "T-083",
+      "declared_effort": "Medium"
+    },
+    {
+      "id": "T-086",
+      "declared_effort": "High"
+    }
+  ],
+  "actual_model_effort": "NOT_VERIFIED",
+  "trace": [
+    "FR-45",
+    "FR-52",
+    "TC-091(partial)",
+    "TC-096(partial)",
+    "TC-098(partial)",
+    "AT-34",
+    "AT-38",
+    "AT-39"
+  ],
+  "environment": "Node22 / temporary SQLite / Chromium port43239",
+  "checks": {
+    "browser": {
+      "status": "PASS",
+      "passed": 5,
+      "total": 5
+    },
+    "final_visual": {
+      "status": "PASS",
+      "passed": 1,
+      "total": 1
+    },
+    "typecheck": "PASS",
+    "build": "PASS",
+    "focused_lint": "PASS",
+    "test_plan": {
+      "status": "PASS",
+      "passed": 17,
+      "total": 17
+    }
+  },
+  "api_schema_data_changes": false,
+  "sql_server_2022": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "uat": "NOT_RUN",
+  "formal_parent_status": "IN_PROGRESS",
+  "register": {
+    "done": 7,
+    "total": 91,
+    "in_progress": 82,
+    "in_review": 1,
+    "todo": 1,
+    "remaining": 84
+  },
+  "next_task": {
+    "id": "T-091",
+    "effort": "High"
+  }
+}

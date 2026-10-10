@@ -118,7 +118,13 @@ export function CalendarView({
               className={`calendar-day ${d === today ? 'today' : ''} ${d.slice(0, 7) !== month.slice(0, 7) ? 'outside' : ''}`}
               key={d}
             >
-              <time dateTime={d}>{Number(d.slice(8))}</time>
+              <time
+                dateTime={d}
+                aria-current={d === today ? 'date' : undefined}
+                aria-label={d === today ? `${d}, Today` : d}
+              >
+                {Number(d.slice(8))}
+              </time>
               {(events.get(d) ?? []).slice(0, 3).map((t) => (
                 <button
                   key={t.id}

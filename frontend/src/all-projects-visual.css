@@ -1,0 +1,179 @@
+/* All Projects directory only; project boards retain their own presentation. */
+.content:has(.project-directory) > .page-header {
+  padding: 22px 24px;
+  margin-bottom: 20px;
+  border: 1px solid #e0e7fa;
+  border-radius: 14px;
+  background: linear-gradient(110deg, #f0f4ff, #faf8ff 75%, #fff);
+}
+.content:has(.project-directory) > .page-header h1 {
+  font-size: 26px;
+  margin: 10px 0 8px;
+}
+.content:has(.project-directory) > .page-header p {
+  margin: 0;
+  color: #727990;
+}
+.project-directory > .toolbar:first-of-type {
+  padding: 14px 16px;
+  gap: 12px;
+  border: 1px solid #e3e8f3;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 3px 12px #34467505;
+}
+.project-directory > .toolbar button {
+  border-radius: 7px;
+}
+.project-directory > .toolbar:first-of-type > button:first-child {
+  border-color: #4265cc;
+  background: #4265cc;
+  color: #fff;
+  box-shadow: 0 3px 8px #4265cc20;
+}
+.project-directory > .toolbar:first-of-type > button:first-child:hover:not(:disabled) {
+  background: #3556b7;
+}
+.project-directory > .toolbar input[type='checkbox'] {
+  accent-color: #4265cc;
+}
+.project-directory .project-card-section h2 {
+  margin: 24px 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 14px;
+  color: #4d5672;
+}
+.project-directory .project-card-section h2::before {
+  content: '';
+  width: 5px;
+  height: 17px;
+  border-radius: 4px;
+  background: #8c62d9;
+}
+.project-directory .project-card-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 290px), 1fr));
+  gap: 18px;
+  margin: 0 0 24px;
+}
+.project-directory .project-directory-card {
+  --project-tint: #f3edff;
+  --project-accent: #8052c8;
+  --project-line: #e6daf8;
+  gap: 10px;
+  padding: 16px 18px 20px;
+  min-width: 0;
+  border: 1px solid #e3e7f0;
+  border-top: 3px solid var(--project-accent);
+  border-radius: 12px;
+  box-shadow: 0 3px 13px #34467505;
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+  animation: report-reveal 380ms ease-out both;
+}
+.project-directory .project-directory-card:nth-child(3n + 2) {
+  --project-tint: #eaf5fc;
+  --project-accent: #227dab;
+  --project-line: #cce6f5;
+  animation-delay: 45ms;
+}
+.project-directory .project-directory-card:nth-child(3n) {
+  --project-tint: #eaf7f1;
+  --project-accent: #25846a;
+  --project-line: #cdebdc;
+  animation-delay: 90ms;
+}
+.project-directory .project-directory-card.archived {
+  --project-tint: #f1f3f7;
+  --project-accent: #7b8499;
+  --project-line: #e0e4ed;
+}
+.project-directory .project-directory-card:hover,
+.project-directory .project-directory-card:focus-within {
+  transform: none;
+  border-color: var(--project-accent);
+  box-shadow: 0 7px 22px #34467510;
+}
+.project-directory .project-card-band {
+  padding: 12px;
+  margin: 0 0 6px;
+  border-radius: 9px;
+  background: linear-gradient(110deg, var(--project-tint), #fff);
+  border: 1px solid var(--project-line);
+}
+.project-directory .project-card-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  color: #fff;
+  background: var(--project-accent);
+  font-size: 21px;
+}
+.project-directory .project-state {
+  margin: 0;
+  padding: 4px 9px;
+  border-radius: 20px;
+  color: #147958;
+  background: #e4f6ed;
+  font-weight: 600;
+}
+.project-directory .archived .project-state {
+  color: #657087;
+  background: #e5e9f0;
+}
+.project-directory .project-card-title {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #303851;
+  overflow-wrap: anywhere;
+}
+.project-directory .project-directory-card > p {
+  font-size: 12px;
+  line-height: 1.7;
+  min-height: 40px;
+  overflow-wrap: anywhere;
+}
+.project-directory .card-team {
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 4px 9px;
+  margin: auto 0 3px;
+  border-radius: 6px;
+  color: var(--project-accent);
+  background: var(--project-tint);
+  overflow-wrap: anywhere;
+}
+.project-directory .card-progress {
+  height: 7px;
+  border-radius: 5px;
+}
+.project-directory .card-count {
+  color: #727990;
+  padding-right: 32px;
+}
+.project-directory .card-menu {
+  bottom: 15px;
+  right: 16px;
+}
+.project-directory .card-menu summary {
+  border-radius: 6px;
+  color: #657087;
+}
+.project-directory .card-menu[open] {
+  z-index: 3;
+}
+@media (max-width: 600px) {
+  .content:has(.project-directory) > .page-header {
+    padding: 18px 16px;
+  }
+  .project-directory > .toolbar:first-of-type {
+    padding: 12px;
+  }
+  .project-directory > .toolbar > label {
+    margin-left: 0;
+  }
+}

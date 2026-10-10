@@ -1,10 +1,27 @@
-# TeamFlow — API/DTO contract 1.8.0
+# TeamFlow — API/DTO contract 1.11.0
 
 วันที่: 5 ตุลาคม 2026 · Task: T-003 · Business baseline1.1 + RD-01–RD-08
 
 Machine contract: [contracts/openapi.json](contracts/openapi.json) (OpenAPI3.1.1/JSON Schema2020-12). Authoring source: [scripts/build-contract.mjs](scripts/build-contract.mjs). Contract tests: [tests/contracts/contract.test.mjs](tests/contracts/contract.test.mjs).
 
 เอกสารนี้ล็อกสัญญา frontend/backend สำหรับ Node22 + SQLite local และ SQL2022 ปลายทางร่วมกัน ไม่ใช่ HTTP server, authorization implementation หรือหลักฐานว่า database transactions ผ่าน หากเปลี่ยน field/status/policy ต้องแก้ SRS/contract/tests พร้อมกัน และ regenerate JSON ก่อนปิดงาน
+
+## API1.11.0 - Checklist remark (9 October 2026)
+
+85 routes / 115 schemas unchanged. Subtask adds required remark:string (max2000 UTF16 units). Create/Patch accept optional remark; create default is empty, omitted PATCH retains stored text, empty string clears it. Plain text and whitespace are preserved. Child dates remain excluded. Provider-specific0014 adds only remark with an empty legacy default; old IDs/titles/assignments/completion/versions/history are preserved. Recurrence copies remark as checklist instructions. Parent/child versions, POST idempotency, current project rights, eligible assignment, completion guard and atomic audit/notifications retain their existing contracts. UI + Add reveals a row, title/remark editing starts on cell click, and leaving the whole row saves automatically without a Save button; failed drafts remain visible. SQL2022 native execution remains NOT_RUN.
+
+## API1.10.1 — Group-order history response correction (9 October 2026)
+
+85 routes / 115 schemas unchanged. EventChange.field now includes group_before_task_id, already documented and persisted by the API1.8 group-order feature. Before/after remain nullable scalar values; old records and null append anchors read without rewriting audit history. Frontend parser accepts the same field and Activity displays Before task in group. All unknown fields remain rejected. No database migration or permission/version/idempotency/mutation change. Regression and limits: TeamFlow_Task_History_Fix_Report.md; native SQL2022/Windows/UAT NOT_RUN.
+
+
+## Addendum API 1.10.0 — Team / Member details (owner request, 9 October 2026)
+
+85 routes / 115 schemas. `AdminUser` and own `Self.item` require `email`, `telephone`, and `teams[{id,name,team_role,team_position}]`; directory/Person keep their existing public fields. CreateUser/PatchUser accept optional contact fields (email empty or valid format ≤254, telephone empty or `^[0-9+(). #/-]*$` ≤40), plus unique `team_ids` ≤100. Team assignment is additive: active new teams are added as permission member / position dev in the same account transaction, existing memberships stay unchanged, omission/empty array removes nothing. Contacts-only changes retain sessions. `TeamMember` requires `team_position` (pm/lead/dev); TeamMembership accepts it optionally (omission retains position, new member defaults dev). CreateTeam accepts optional `members[{user_id,team_position}]` ≤100; duplicate/inactive/unknown IDs reject atomically, initial permission is always member. Existing role, version, CSRF, idempotency, last-admin and audit boundaries remain enforced. Position never grants permissions. Migration 0013 preserves account data/roles and supplies empty contacts and legacy Lead/dev positions. Provider-specific migration files are separate; native SQL Server acceptance NOT_RUN.
+
+## Addendum API 1.9.0 — project details (owner request, 9 October 2026)
+
+85 routes / 112 schemas. `Project` now requires `project_type` and `project_category`; `CreateProject` and `PatchProject` accept these fields. Type enum: empty string / internal / client / operations / other (creation default internal). Category enum: empty string / development / general / it / marketing / finance / hr / other (creation default development). Omitted PATCH fields retain their values; explicit empty string clears selection. Unknown values/null → 422. Name remains free text ≤100; Project Detail maps to existing `description` ≤2000. Owner team selection remains `owner_team_id` on create only; PATCH cannot change it. Existing version, permission, CSRF, idempotency and transactional audit rules apply. Migration 0012 (separate SQLite/SQL Server files) gives existing projects the same defaults without changing their other fields. Native SQL Server evidence NOT_RUN.
 
 ## Addendum API 1.8.0 — group order (owner request, 9 October 2026)
 

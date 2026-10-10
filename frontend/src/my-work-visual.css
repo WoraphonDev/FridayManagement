@@ -1,0 +1,283 @@
+/* Owner My Work visual follow-up: scoped to this page, preserving project board styles. */
+.task-workspace[aria-label='My work'] {
+  width: calc(100% - 48px);
+  max-width: 1480px;
+  min-width: 0;
+  margin: 24px;
+  background: transparent;
+}
+.task-workspace[aria-label='My work'] .project-heading {
+  padding: 24px;
+  border: 1px solid #e0e7fa;
+  border-radius: 14px;
+  background: linear-gradient(110deg, #f0f4ff, #faf8ff 75%, #fff);
+}
+.task-workspace[aria-label='My work'] .project-heading h1 {
+  font-size: 26px;
+  margin: 10px 0 8px;
+}
+.task-workspace[aria-label='My work'] .project-heading p {
+  font-size: 13px;
+  color: #727990;
+}
+.task-workspace[aria-label='My work'] > .view-tabs {
+  width: fit-content;
+  padding: 5px;
+  margin: 18px 0;
+  gap: 5px;
+  border: 1px solid #e2e7f1;
+  border-radius: 11px;
+  background: #f5f7fc;
+}
+.task-workspace[aria-label='My work'] .view-tabs button {
+  border-radius: 7px;
+  border: 0;
+  padding: 9px 14px;
+  color: #727990;
+  min-height: 36px;
+}
+.task-workspace[aria-label='My work'] .view-tabs button[aria-pressed='true'] {
+  background: #fff;
+  color: #4367ce;
+  box-shadow: 0 2px 8px #313c5a0f;
+}
+.task-workspace[aria-label='My work'] .my-work-scope {
+  padding: 18px 20px 12px;
+  margin: 0;
+  border: 1px solid #e2e7f1;
+  border-bottom: 0;
+  border-radius: 14px 14px 0 0;
+  background: linear-gradient(110deg, #f7f9ff, #faf8ff);
+  flex-wrap: wrap;
+}
+.task-workspace[aria-label='My work'] .my-work-scope span {
+  color: #727990;
+  font-size: 12px;
+}
+.task-workspace[aria-label='My work'] .task-filters {
+  margin: 0 0 20px;
+  padding: 0 20px 18px;
+  border: 1px solid #e2e7f1;
+  border-top: 0;
+  border-radius: 0 0 14px 14px;
+  background: #f9faff;
+  gap: 12px;
+  align-items: center;
+  overflow: visible;
+}
+.task-workspace[aria-label='My work'] .task-filters > label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+.task-workspace[aria-label='My work'] select:not(.priority-pill) {
+  min-height: 36px;
+  border-radius: 7px;
+  border-color: #d3daea;
+  font-size: 12px;
+}
+.task-workspace[aria-label='My work'] .board-search {
+  width: 270px;
+  min-height: 36px;
+  border-color: #d3daea;
+  border-radius: 7px;
+  background: #fff;
+}
+.task-workspace[aria-label='My work'] .task-filters .popover-menu > summary {
+  border: 1px solid #d3daea;
+  border-radius: 7px;
+  background: #fff;
+  min-height: 36px;
+  padding: 7px 10px;
+  color: #626981;
+}
+.task-workspace[aria-label='My work'] .task-filters .filter-grid {
+  border-radius: 12px;
+  border-color: #d3daea;
+  box-shadow: 0 8px 24px #292f4c18;
+}
+.task-workspace[aria-label='My work'] .task-group {
+  --work-color: #4367ce;
+  --work-tint: #edf2ff;
+  --work-border: #dce5fc;
+  padding: 0;
+  margin: 18px 0 !important;
+  border: 1px solid var(--work-border) !important;
+  border-left: 3px solid var(--work-color) !important;
+  border-radius: 12px;
+  background: #fff !important;
+  box-shadow: 0 3px 12px #313c5a05;
+  animation: report-reveal 360ms ease-out;
+}
+.task-workspace[aria-label='My work'] #my-group-overdue {
+  --work-color: #c13e58;
+  --work-tint: #fff0f3;
+  --work-border: #f5dce3;
+}
+.task-workspace[aria-label='My work'] #my-group-today {
+  --work-color: #a86014;
+  --work-tint: #fff5e6;
+  --work-border: #f3e3c7;
+}
+.task-workspace[aria-label='My work'] #my-group-next_week,
+.task-workspace[aria-label='My work'] #my-group-later {
+  --work-color: #587ba2;
+  --work-tint: #eef5fc;
+  --work-border: #dde8f2;
+}
+.task-workspace[aria-label='My work'] #my-group-none {
+  --work-color: #7852ba;
+  --work-tint: #f4eeff;
+  --work-border: #e6dcf7;
+}
+.task-workspace[aria-label='My work'] #my-group-done {
+  --work-color: #168467;
+  --work-tint: #eaf8f2;
+  --work-border: #d6eee3;
+}
+.task-workspace[aria-label='My work'] .group-heading {
+  margin: 0;
+  padding: 12px 16px;
+  border-radius: 10px 10px 0 0;
+  background: linear-gradient(110deg, var(--work-tint), #fff);
+  gap: 10px;
+}
+.task-workspace[aria-label='My work'] .group-heading button {
+  margin: 0;
+  padding: 2px 0;
+  color: var(--work-color);
+  font-size: 14px;
+  font-weight: 600;
+}
+.task-workspace[aria-label='My work'] .group-heading > span {
+  background: #fff;
+  border: 1px solid var(--work-border);
+  color: var(--work-color);
+  padding: 3px 8px;
+  border-radius: 20px;
+  font-size: 11px;
+}
+/* Opacity on group mount only; expanding the grid must not slide the page. */
+.task-workspace[aria-label='My work'] .task-group > div:not([hidden]) {
+  animation: none;
+}
+.task-workspace[aria-label='My work'] .task-group .table-scroll {
+  border: 0;
+  border-radius: 0;
+  max-height: 460px;
+  overflow: auto;
+}
+.task-workspace[aria-label='My work'] .my-work-table {
+  min-width: 930px;
+  width: 100%;
+}
+.task-workspace[aria-label='My work'] .my-work-table th:first-child {
+  width: auto;
+  visibility: visible;
+}
+.task-workspace[aria-label='My work'] .my-work-table th {
+  padding: 10px 14px;
+  background: #f8f9fd;
+  color: #727990;
+}
+.task-workspace[aria-label='My work'] .my-work-table td {
+  padding: 10px 14px;
+  text-align: left;
+  border-color: #edf0f6;
+}
+.task-workspace[aria-label='My work'] .my-work-table tr > :first-child {
+  left: 0;
+  box-shadow: 1px 0 0 #e6e9ef;
+}
+/* Personal grid has Task first, no Select column; only the task cell stays pinned. */
+.task-workspace[aria-label='My work'] .my-work-table tr > :nth-child(2) {
+  position: static;
+  box-shadow: none;
+}
+.task-workspace[aria-label='My work'] .my-work-table thead tr > :nth-child(2) {
+  position: sticky;
+  top: 0;
+  left: auto;
+  z-index: 3;
+}
+.task-workspace[aria-label='My work'] .my-work-table tbody tr:hover td {
+  background: #f7f9ff;
+}
+.task-workspace[aria-label='My work'] .task-name > button {
+  text-align: left;
+  width: 100%;
+  min-width: 0;
+  line-height: 1.5;
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+.task-workspace[aria-label='My work'] .task-name small {
+  color: #8a91a3;
+  font-size: 11px;
+  margin-top: 3px;
+}
+.task-workspace[aria-label='My work'] .group-summary {
+  padding: 10px 16px;
+  border: 0;
+  border-top: 1px solid #edf0f6;
+  border-radius: 0 0 10px 10px;
+  background: #fafbfe;
+  color: #727990;
+}
+.task-workspace[aria-label='My work'] > section:is([aria-label='Calendar'], [aria-label='Gantt']) {
+  margin: 20px 0;
+}
+@media (max-width: 650px) {
+  .task-workspace[aria-label='My work'] {
+    width: calc(100% - 28px);
+    margin: 18px 14px;
+  }
+  .task-workspace[aria-label='My work'] .project-heading {
+    padding: 18px;
+  }
+  .task-workspace[aria-label='My work'] .project-heading h1 {
+    font-size: 23px;
+  }
+  .task-workspace[aria-label='My work'] > .view-tabs {
+    width: 100%;
+    gap: 2px;
+  }
+  .task-workspace[aria-label='My work'] .view-tabs button {
+    flex: 1;
+    padding: 9px 8px;
+    font-size: 12px;
+  }
+  .task-workspace[aria-label='My work'] .my-work-scope {
+    padding: 16px 14px 12px;
+    gap: 8px;
+  }
+  .task-workspace[aria-label='My work'] .task-filters {
+    padding: 0 14px 16px;
+    gap: 10px;
+  }
+  .task-workspace[aria-label='My work'] .board-search {
+    width: 100%;
+  }
+  .task-workspace[aria-label='My work'] .task-filters > label {
+    flex-wrap: wrap;
+  }
+  .task-workspace[aria-label='My work'] .task-filters .popover-menu .filter-grid {
+    width: min(290px, calc(100vw - 48px));
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  .task-workspace[aria-label='My work'] .group-heading {
+    padding: 12px;
+  }
+  /* A readable pinned title leaves room to reach other columns by scrolling. */
+  .task-workspace[aria-label='My work'] .my-work-table th:first-child {
+    width: 190px;
+  }
+  .task-workspace[aria-label='My work'] .my-work-table {
+    min-width: 830px;
+  }
+  .task-workspace[aria-label='My work'] .my-work-table td {
+    padding: 10px;
+  }
+}

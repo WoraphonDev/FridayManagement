@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-09",
+  "result": "PASS",
+  "origin": "http://127.0.0.1:5000",
+  "migrationApplied": "0012_project_metadata.sql",
+  "counts": {
+    "projects": 3,
+    "tasks": 13,
+    "teams": 2,
+    "users": 4
+  },
+  "existingProjectContent": "UNCHANGED",
+  "existingTasksTeamsUsers": "UNCHANGED",
+  "liveSave": "PASS: existing project saved unchanged; version incremented once; Saved toast; reload verified",
+  "dataBackup": "Private temporary backup outside repository",
+  "otherAgentPort43171": "NOT_TOUCHED",
+  "acceptance": "Local live repair only; SQL2022/Windows/UAT NOT_RUN"
+}

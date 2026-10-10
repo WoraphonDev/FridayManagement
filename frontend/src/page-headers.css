@@ -1,0 +1,38 @@
+/* Owner reference: one plain breadcrumb/title/description header for styled menus.
+   Match the specificity of page-specific decorations; cards retain their colors. */
+.content.content > .page-header.page-header,
+.task-workspace:is([aria-label='My work'], [aria-label='Work calendar']) .project-heading,
+.team-details .team-details-header {
+  padding: 0 0 20px;
+  margin: 0 0 20px;
+  border: 0;
+  border-bottom: 1px solid #e2e7f1;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.content.content > .page-header.page-header h1,
+.task-workspace:is([aria-label='My work'], [aria-label='Work calendar']) .project-heading h1,
+.team-details .team-details-header h1 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 600;
+  color: #323338;
+}
+.content.content > .page-header.page-header p,
+.task-workspace:is([aria-label='My work'], [aria-label='Work calendar']) .project-heading p,
+.team-details .team-details-header p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #676879;
+}
+.content.content > .page-header.page-header .breadcrumb,
+.task-workspace:is([aria-label='My work'], [aria-label='Work calendar'])
+  .project-heading
+  .breadcrumb {
+  margin: 0 0 14px;
+  font-size: 11px;
+  color: #676879;
+}

@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-09",
+  "declared_effort": {
+    "T-023": "Medium",
+    "T-089": "Medium"
+  },
+  "actual_model_effort": "NOT_VERIFIED",
+  "cause": "whole-page entrance animation replayed on query changes",
+  "checks": {
+    "typecheck": "PASS",
+    "build": "PASS",
+    "focused_lint": "PASS",
+    "browser": {
+      "passed": 3,
+      "failed": 0,
+      "scenarios": [
+        "1280px stationary tabs, keyboard, scroll and main-page animation",
+        "360px stationary tabs, keyboard and scroll",
+        "existing motion/per-user/OS reduced-motion regression"
+      ]
+    },
+    "test_plan_check": "PASS",
+    "test_plan_policy": {
+      "passed": 17,
+      "failed": 0
+    },
+    "live_5000_tab_geometry": "PASS",
+    "sql2022": "NOT_RUN",
+    "windows": "NOT_RUN",
+    "uat": "NOT_RUN"
+  },
+  "live_tab_geometry": {
+    "before": {
+      "x": 240,
+      "y": 308.9453125
+    },
+    "after": {
+      "x": 240,
+      "y": 308.9453125
+    }
+  },
+  "existing_user_form_preserved": true,
+  "task_register": {
+    "done": 7,
+    "total": 91,
+    "remaining": 84
+  },
+  "next": {
+    "task": "T-091",
+    "effort": "High"
+  }
+}

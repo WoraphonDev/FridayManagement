@@ -270,7 +270,7 @@ async function allTeams(signal: AbortSignal) {
   }
 }
 
-/** FR-43/AT-33: rows=users × P-01–P-10; bulk preset; summary; all-or-nothing save; stale 409. */
+/** FR-43/AT-33: permission rows × member columns; bulk preset; atomic save; stale 409. */
 function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
   const [catalog, setCatalog] = useState<Catalog>(),
     [base, setBase] = useState<Row[]>(),
@@ -384,6 +384,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
   if (failure && !base) return <p role="alert">{failure}</p>;
   if (!catalog || !base) return <Loading />;
   const preset = presetPmSm(catalog);
+  const selectable = visible.filter((r) => r.user.id !== self.user.id);
   const nameOf = (id: number) => base.find((r) => r.user.id === id)?.user.display_name ?? `#${id}`;
   return (
     <section>
@@ -438,94 +439,127 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
           Clear selected
         </button>
         <button
+          className="primary"
           disabled={!changes.length || pending || !online || self.maintenance}
           onClick={() => setReview(true)}
         >
-          Review {changes.length} change(s)
+          Review &amp; Save {changes.length} change(s)
         </button>
-        <button disabled={!changes.length || pending} onClick={() => setDraft(new Map())}>
-          Discard changes
+        <button
+          className="permission-cancel"
+          disabled={!changes.length || pending}
+          onClick={() => setDraft(new Map())}
+        >
+          Cancel changes
         </button>
       </div>
       {visible.length === 0 ? (
         <EmptyState title="No users match these filters" />
       ) : (
-        <div className="table-scroll" role="region" aria-label="Permission matrix" tabIndex={0}>
+        <div
+          className="table-scroll permission-matrix-scroll"
+          role="region"
+          aria-label="Permission matrix"
+          tabIndex={0}
+        >
           <table className="permission-matrix">
             <caption>Permission matrix</caption>
             <thead>
               <tr>
-                <th scope="col">
-                  <input
-                    type="checkbox"
-                    aria-label="Select all visible users"
-                    checked={visible.every((r) => selected.has(r.user.id))}
-                    onChange={(e) =>
-                      setSelected(
-                        e.target.checked
-                          ? new Set(
-                              visible
-                                .filter((r) => r.user.id !== self.user.id)
-                                .map((r) => r.user.id),
-                            )
-                          : new Set(),
-                      )
-                    }
-                  />
+                <th scope="col" className="permission-heading">
+                  <span className="permission-title">Permission</span>
+                  <label className="permission-select-all">
+                    <input
+                      type="checkbox"
+                      aria-label="Select all visible users"
+                      disabled={!selectable.length || pending}
+                      checked={
+                        selectable.length > 0 && selectable.every((r) => selected.has(r.user.id))
+                      }
+                      onChange={(e) =>
+                        setSelected(
+                          e.target.checked ? new Set(selectable.map((r) => r.user.id)) : new Set(),
+                        )
+                      }
+                    />
+                    Select all members
+                  </label>
                 </th>
-                <th scope="col">Member</th>
-                {catalog.map((c) => (
-                  <th key={c.key} scope="col" title={`${c.label} — ${c.description}`}>
-                    {c.key}
-                  </th>
-                ))}
+                {visible.map((r) => {
+                  const own = r.user.id === self.user.id;
+                  const dirty = draft.has(r.user.id) && !sameKeys(keysOf(r), r.keys);
+                  return (
+                    <th
+                      key={r.user.id}
+                      id={`permission-member-${r.user.id}`}
+                      scope="col"
+                      className={`permission-member-heading${dirty ? ' dirty' : ''}`}
+                    >
+                      <label className="permission-member-name">
+                        <input
+                          type="checkbox"
+                          aria-label={`Select ${r.user.display_name}`}
+                          disabled={own || pending}
+                          checked={selected.has(r.user.id)}
+                          onChange={(e) =>
+                            setSelected((s) => {
+                              const n = new Set(s);
+                              if (e.target.checked) n.add(r.user.id);
+                              else n.delete(r.user.id);
+                              return n;
+                            })
+                          }
+                        />
+                        <span>{r.user.display_name}</span>
+                      </label>
+                      {r.user.job_title && (
+                        <span className="permission-member-detail">{r.user.job_title}</span>
+                      )}
+                      {r.user.org_role === 'admin' && (
+                        <span className="permission-member-detail">Admin</span>
+                      )}
+                      {!r.user.active && <span className="permission-member-detail">Inactive</span>}
+                      {own && <span className="permission-member-detail">You — use admin CLI</span>}
+                      {stale.includes(r.user.id) && (
+                        <span className="permission-member-detail">Changed elsewhere</span>
+                      )}
+                    </th>
+                  );
+                })}
               </tr>
             </thead>
             <tbody>
-              {visible.map((r) => {
-                const own = r.user.id === self.user.id,
-                  keys = keysOf(r),
-                  dirty = draft.has(r.user.id) && !sameKeys(keys, r.keys);
-                return (
-                  <tr key={r.user.id} className={dirty ? 'dirty' : undefined}>
-                    <td>
+              {catalog.map((c) => (
+                <tr key={c.key}>
+                  <th
+                    scope="row"
+                    id={`permission-row-${c.key}`}
+                    className="permission-heading"
+                    title={c.description}
+                  >
+                    <span className="permission-code">{c.key}</span>
+                    <span className="permission-title">{c.label}</span>
+                    <span className="permission-description">{c.description}</span>
+                  </th>
+                  {visible.map((r) => (
+                    <td
+                      key={r.user.id}
+                      headers={`permission-row-${c.key} permission-member-${r.user.id}`}
+                      className={
+                        draft.has(r.user.id) && !sameKeys(keysOf(r), r.keys) ? 'dirty' : undefined
+                      }
+                    >
                       <input
                         type="checkbox"
-                        aria-label={`Select ${r.user.display_name}`}
-                        disabled={own}
-                        checked={selected.has(r.user.id)}
-                        onChange={(e) =>
-                          setSelected((s) => {
-                            const n = new Set(s);
-                            if (e.target.checked) n.add(r.user.id);
-                            else n.delete(r.user.id);
-                            return n;
-                          })
-                        }
+                        aria-label={`${c.key} ${c.label} for ${r.user.display_name}`}
+                        disabled={r.user.id === self.user.id || pending || self.maintenance}
+                        checked={keysOf(r).has(c.key)}
+                        onChange={() => toggle(r, c.key)}
                       />
                     </td>
-                    <th scope="row">
-                      {r.user.display_name}
-                      {r.user.job_title ? ` · ${r.user.job_title}` : ''}
-                      {r.user.org_role === 'admin' ? ' · Admin' : ''}
-                      {!r.user.active ? ' (Inactive)' : ''}
-                      {own ? ' (you — use admin CLI)' : ''}
-                      {stale.includes(r.user.id) ? ' — changed elsewhere' : ''}
-                    </th>
-                    {catalog.map((c) => (
-                      <td key={c.key}>
-                        <input
-                          type="checkbox"
-                          aria-label={`${c.key} ${c.label} for ${r.user.display_name}`}
-                          disabled={own || pending || self.maintenance}
-                          checked={keys.has(c.key)}
-                          onChange={() => toggle(r, c.key)}
-                        />
-                      </td>
-                    ))}
-                  </tr>
-                );
-              })}
+                  ))}
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -548,9 +582,18 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
           title="Confirm permission changes"
           onClose={() => !pending && setReview(false)}
           footer={
-            <button disabled={pending || !online} onClick={save}>
-              {pending ? 'Saving…' : `Save ${changes.length} change(s)`}
-            </button>
+            <div className="permission-confirm-actions">
+              <button
+                className="permission-cancel"
+                disabled={pending}
+                onClick={() => setReview(false)}
+              >
+                Cancel
+              </button>
+              <button className="primary" disabled={pending || !online} onClick={save}>
+                {pending ? 'Saving…' : `Save ${changes.length} change(s)`}
+              </button>
+            </div>
           }
         >
           <p>All changes are saved together or not at all.</p>

@@ -3,14 +3,17 @@ export function Brand() {
     <span className="friday-brand">
       <svg className="brand-symbol" aria-hidden="true" viewBox="0 0 36 36" fill="none">
         <g transform="rotate(-9 18 18)">
-          <rect x="3" y="4" width="13" height="13" rx="4.5" fill="#54ca94" />
-          <rect x="20" y="4" width="13" height="13" rx="4.5" fill="#ffd66d" />
-          <rect x="3" y="21" width="13" height="13" rx="4.5" fill="#ff7896" />
-          <rect x="20" y="21" width="13" height="13" rx="4.5" fill="#a67cea" />
+          <rect className="brand-tile" x="3" y="4" width="13" height="13" rx="4.5" fill="#54ca94" />
+          <rect className="brand-tile" x="20" y="4" width="13" height="13" rx="4.5" fill="#ffd66d" />
+          <rect className="brand-tile" x="3" y="21" width="13" height="13" rx="4.5" fill="#ff7896" />
+          <rect className="brand-tile" x="20" y="21" width="13" height="13" rx="4.5" fill="#a67cea" />
         </g>
       </svg>
-      <span>
-        friday<small>work management</small>
+      <span className="brand-wordmark">
+        <span className="brand-name">
+          fr<b className="brand-i">i</b>day<i aria-hidden="true" />
+        </span>
+        <small>Work management</small>
       </span>
     </span>
   );

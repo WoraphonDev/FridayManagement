@@ -61,10 +61,10 @@ test('Workload highlights above threshold, lists cell tasks; Overview matches da
       o.getByRole('region', { name: 'Recent activity' }).getByRole('listitem'),
     ).toHaveCount(3);
     // Team workload from the Teams page (Admin).
-    await page.getByRole('link', { name: 'Teams & members', exact: true }).click();
-    await page.locator('summary[aria-label^="Team actions"]').first().click();
-    await page.getByRole('button', { name: 'Workload', exact: true }).first().click();
-    const teamDialog = page.getByRole('dialog', { name: 'Workload · Task team' });
+    await page.getByRole('link', { name: /^(Your|All) teams$/ }).click();
+    await page.locator('.team-card-title').first().click();
+    await page.getByRole('tab', { name: 'Workload', exact: true }).click();
+    const teamDialog = page.getByRole('tabpanel', { name: 'Workload', exact: true });
     await expect(
       teamDialog.getByRole('region', { name: 'Workload table' }).getByRole('rowheader', {
         name: 'Workspace Admin',

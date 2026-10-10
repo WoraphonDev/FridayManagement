@@ -1,10 +1,12 @@
 import { formatPlanDate } from './shared/formatPlanDate';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import { Link } from 'react-router-dom';
 import { apiClient, ApiError, type Self } from './api';
 import { statusLabel, statuses } from './task-api';
 import { dateAdd } from './task-dates';
 import { Count } from './shared/Count';
+import { UiIcon } from './shared/UiIcon';
+import { taskPage } from './task-api';
 import { useSharedRefresh } from './shared/refresh';
 import { Dialog, EmptyState, ErrorNotice, Loading } from './shared/components';
 import {
@@ -201,10 +203,45 @@ export function WorkloadView({
 }
 
 /** FR-51 body; pure for verification. */
-export function OverviewBody({ data }: { data: ProjectOverviewData }) {
+export type DueCounts = {
+  due_today: number;
+  due_this_week: number;
+  no_date: number;
+  done_last_7_days: number;
+};
+const dueTiles: [string, keyof DueCounts | 'overdue', string, string, string][] = [
+  ['Overdue', 'overdue', 'overdue', 'history', 'Past due and unfinished'],
+  ['Due today', 'due_today', 'today', 'calendar', 'Ready for today'],
+  ['Later this week', 'due_this_week', 'this_week', 'workload', 'After today, this week'],
+  ['No date', 'no_date', 'none', 'file', 'Without a due date'],
+  ['Done in 7 days', 'done_last_7_days', 'done', 'check', 'Completed in the last 7 days'],
+];
+export function OverviewBody({ data, due }: { data: ProjectOverviewData; due?: DueCounts }) {
   const max = Math.max(1, ...statuses.map((s) => data.by_status[s]));
   return (
     <div className="project-overview-body">
+      {due && (
+        <div className="overview-tiles project-due-tiles" aria-label="Due summary">
+          {dueTiles.map(([label, key, group, icon, hint], index) => (
+            <div
+              key={group}
+              className={`overview-tile tile-${group}`}
+              style={{ '--report-delay': `${index * 45}ms` } as CSSProperties}
+            >
+              <span className="overview-tile-heading">
+                {label}
+                <span className="overview-tile-icon">
+                  <UiIcon name={icon} />
+                </span>
+              </span>
+              <strong>
+                <Count value={key === 'overdue' ? data.overdue : due[key]} />
+              </strong>
+              <small>{hint}</small>
+            </div>
+          ))}
+        </div>
+      )}
       <div className="overview-tiles">
         <div className="overview-tile">
           <span>Progress</span>
@@ -216,12 +253,14 @@ export function OverviewBody({ data }: { data: ProjectOverviewData }) {
             {data.done} of {data.total} tasks done
           </small>
         </div>
-        <div className={`overview-tile ${data.overdue ? 'tile-overdue' : ''}`}>
-          <span>Overdue</span>
-          <strong>
-            <Count value={data.overdue} />
-          </strong>
-        </div>
+        {!due && (
+          <div className={`overview-tile ${data.overdue ? 'tile-overdue' : ''}`}>
+            <span>Overdue</span>
+            <strong>
+              <Count value={data.overdue} />
+            </strong>
+          </div>
+        )}
       </div>
       <div className="overview-panels">
         <section aria-labelledby="po-status">
@@ -345,6 +384,7 @@ export function ProjectOverview({
   onFailure: (e: ApiError) => void;
 }) {
   const [data, setData] = useState<ProjectOverviewData>(),
+    [due, setDue] = useState<DueCounts>(),
     [error, setError] = useState<ApiError>();
   const read = useCallback(
     async (signal: AbortSignal) => {
@@ -353,8 +393,30 @@ export function ProjectOverview({
           signal,
           parse: (x) => overviewSchema.parse(x),
         });
+        // Same buckets as Home (Monday-start Bangkok week), counted with /api/tasks totals.
+        const today = v.bangkok_today;
+        const sinceMonday = (new Date(`${today}T00:00:00Z`).getUTCDay() + 6) % 7;
+        const open = 'status=todo&status=doing&status=review';
+        const count = (query: string) =>
+          client
+            .request(`/api/tasks?project=${projectId}&pageSize=1&${query}`, {
+              signal,
+              parse: (x) => taskPage.parse(x),
+            })
+            .then((r) => r.total);
+        const [due_today, due_this_week, no_date, done_last_7_days] = await Promise.all([
+          count(`${open}&due_from=${today}&due_to=${today}`),
+          sinceMonday === 6
+            ? Promise.resolve(0)
+            : count(
+                `${open}&due_from=${dateAdd(today, 1)}&due_to=${dateAdd(today, 6 - sinceMonday)}`,
+              ),
+          count(`${open}&has_due=false`),
+          count(`status=done&date_basis=completed&date_from=${dateAdd(today, -6)}&date_to=${today}`),
+        ]);
         if (!signal.aborted) {
           setData(v);
+          setDue({ due_today, due_this_week, no_date, done_last_7_days });
           setError(undefined);
         }
       } catch (e) {
@@ -382,7 +444,7 @@ export function ProjectOverview({
       ) : !data ? (
         <Loading />
       ) : (
-        <OverviewBody data={data} />
+        <OverviewBody data={data} due={due} />
       )}
     </section>
   );

@@ -1,0 +1,38 @@
+{
+  "date": "2026-10-09",
+  "task": "T-046",
+  "declared_effort": "High",
+  "actual_model_effort": "NOT_VERIFIED",
+  "trace": [
+    "FR-25",
+    "TC-049 (partial)",
+    "TC-098 (partial)",
+    "AT-19 (partial)",
+    "AT-39 (partial)"
+  ],
+  "checks": {
+    "typecheck": "PASS",
+    "build": "PASS",
+    "focused_lint": "PASS",
+    "frontend": "49/49 PASS",
+    "chromium_initial": "4/4 PASS",
+    "chromium_final_visual": "1/1 PASS",
+    "test_plan": "Inventory +17/17 PASS (plan only)"
+  },
+  "parent_status": "IN_PROGRESS",
+  "register": {
+    "done": 7,
+    "total": 91,
+    "remaining": 84,
+    "in_progress": 82,
+    "in_review": 1,
+    "todo": 1
+  },
+  "SQL2022_Windows_UAT": "NOT_RUN",
+  "live_data_writes": false,
+  "claude_board_files_changed": false,
+  "screenshots": [
+    "reports/UI-work-calendar-colorful-desktop.png",
+    "reports/UI-work-calendar-colorful-mobile.png"
+  ]
+}

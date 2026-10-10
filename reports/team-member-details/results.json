@@ -1,0 +1,52 @@
+{
+  "date": "2026-10-09",
+  "contract": {
+    "version": "1.10.0",
+    "routes": 85,
+    "schemas": 115,
+    "generation": "PASS",
+    "check": "PASS",
+    "tests": 64
+  },
+  "tests": {
+    "accounts": 20,
+    "workspaces": 20,
+    "schema": 15,
+    "node": 458,
+    "frontend": 49,
+    "npmTotal": 507,
+    "planning": 17,
+    "browserFinal": 10,
+    "browserInitial": {
+      "passed": 9,
+      "failed": 1,
+      "reason": "New test tab/combobox selectors corrected; focused scenario rerun PASS"
+    }
+  },
+  "typecheck": "PASS",
+  "build": "PASS",
+  "focusedLint": "PASS",
+  "repositoryLint": "FAIL: pre-existing unused b at tests/browser/main-table.spec.ts:12, plus two existing warnings",
+  "screenshots": "Four desktop/mobile synthetic screenshots inspected; mobile includes Add Member row",
+  "sqlserver": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "fullBrowserMatrix": "NOT_RUN",
+  "uat": "NOT_RUN",
+  "declaredEffort": {
+    "T-003": "High",
+    "T-016": "High",
+    "T-020": "High",
+    "T-018": "Medium",
+    "T-023": "Medium"
+  },
+  "actualModelEffort": "NOT_VERIFIED",
+  "tasks": {
+    "done": 7,
+    "total": 91,
+    "remaining": 84,
+    "inProgress": 82,
+    "inReview": 1,
+    "todo": 1,
+    "next": "T-091 High"
+  }
+}

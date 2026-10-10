@@ -133,7 +133,7 @@ export function OrganizationSettings({
       {error && (
         <ErrorNotice error={error} retry={!item ? () => setReload((n) => n + 1) : undefined} />
       )}
-      {changed && <Toast>Data changed. Your draft is preserved.</Toast>}
+      {changed && <Toast persist>Data changed. Your draft is preserved.</Toast>}
       {saved && <Toast>Organization settings saved</Toast>}
       {!item ? (
         !error && <Loading />

@@ -1,5 +1,5 @@
 import { formatPlanDate } from './shared/formatPlanDate';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useState, type CSSProperties } from 'react';
 import { z } from 'zod';
 import { Link } from 'react-router-dom';
 import { apiClient, ApiError, type Self } from './api';
@@ -7,6 +7,7 @@ import { statusLabel, statuses, taskSchema } from './task-api';
 import { useSharedRefresh } from './shared/refresh';
 import { dateAdd } from './task-dates';
 import { Count } from './shared/Count';
+import { UiIcon } from './shared/UiIcon';
 import { EmptyState, ErrorNotice, Loading } from './shared/components';
 const client = apiClient();
 const count = z.number().int().min(0);
@@ -98,47 +99,108 @@ export function OverviewBody({ self, data }: { self: Self; data: Overview }) {
     ],
   ];
   const max = Math.max(1, ...statuses.map((s) => data.by_status[s]));
+  const projectMax = Math.max(1, ...data.by_project.map((p) => p.open_count));
+  const icons = ['history', 'calendar', 'workload', 'file', 'check'];
+  const hints = [
+    'Past due and unfinished',
+    'Ready for today',
+    'After today, this week',
+    'Without a due date',
+    'Completed in the last 7 days',
+  ];
   return (
     <section className="my-overview" aria-labelledby="my-overview-title">
-      <h2 id="my-overview-title">Good to see you, {self.user.display_name}</h2>
-      <p className="hint">
-        My overview · {data.open_total} open tasks assigned to you · {data.bangkok_today}
-      </p>
+      <header className="overview-welcome">
+        <div>
+          <span className="overview-eyebrow">
+            <UiIcon name="spark" /> My overview
+          </span>
+          <h2 id="my-overview-title">Good to see you, {self.user.display_name}</h2>
+          <p className="hint">Your tasks, priorities and progress in one place.</p>
+        </div>
+        <div className="overview-welcome-meta">
+          <Link className="overview-open" to="/my-tasks">
+            <strong>
+              <Count value={data.open_total} />
+            </strong>{' '}
+            open tasks assigned to you <UiIcon name="arrow" />
+          </Link>
+          <span className="overview-date">
+            <UiIcon name="calendar" /> {formatPlanDate(data.bangkok_today)} · Asia/Bangkok
+          </span>
+        </div>
+      </header>
       <div className="overview-tiles">
-        {tiles.map(([label, value, group, query]) => (
+        {tiles.map(([label, value, group, query], index) => (
           <Link
             key={group}
             className={`overview-tile tile-${group}`}
+            style={{ '--report-delay': `${index * 45}ms` } as CSSProperties}
             to={`/my-tasks?${query}#my-group-${group}`}
           >
-            <span>{label}</span>
+            <span className="overview-tile-heading">
+              {label}
+              <span className="overview-tile-icon">
+                <UiIcon name={icons[index] ?? 'table'} />
+              </span>
+            </span>
             <strong>
               <Count value={value} />
             </strong>
+            <small>{hints[index]}</small>
           </Link>
         ))}
       </div>
       <div className="overview-panels">
         <section aria-labelledby="ov-status">
-          <h3 id="ov-status">My tasks by status</h3>
+          <div className="overview-panel-heading">
+            <div>
+              <h3 id="ov-status">My tasks by status</h3>
+              <p className="hint">All tasks assigned to you</p>
+            </div>
+            <span className="overview-panel-icon">
+              <UiIcon name="overview" />
+            </span>
+          </div>
           {statuses.map((s) => (
             <div className="overview-bar" key={s}>
               <Link to={`/my-tasks?status=${s}`}>{statusLabel[s]}</Link>
-              <span
-                className={`bar status-${s}`}
-                style={{ width: `${(data.by_status[s] / max) * 100}%` }}
-              />
+              <span className="overview-bar-track">
+                <span
+                  className={`bar status-${s}`}
+                  style={{ width: `${(data.by_status[s] / max) * 100}%` }}
+                />
+              </span>
               <strong>{data.by_status[s]}</strong>
             </div>
           ))}
         </section>
         <section aria-labelledby="ov-projects">
-          <h3 id="ov-projects">Open work by project</h3>
+          <div className="overview-panel-heading">
+            <div>
+              <h3 id="ov-projects">Open work by project</h3>
+              <p className="hint">Unfinished tasks across your projects</p>
+            </div>
+            <span className="overview-panel-icon">
+              <UiIcon name="files" />
+            </span>
+          </div>
           {data.by_project.length ? (
-            <ul className="overview-list">
-              {data.by_project.map((p) => (
-                <li key={p.project_id}>
-                  <Link to={`/my-tasks?project=${p.project_id}`}>{p.project_name}</Link>
+            <ul className="overview-list overview-projects">
+              {data.by_project.map((p, index) => (
+                <li key={p.project_id} className={`project-color-${index % 4}`}>
+                  <Link to={`/my-tasks?project=${p.project_id}`}>
+                    <span className="overview-project-icon">
+                      <UiIcon name="files" />
+                    </span>
+                    {p.project_name}
+                  </Link>
+                  <span className="overview-bar-track">
+                    <span
+                      className="bar"
+                      style={{ width: `${(p.open_count / projectMax) * 100}%` }}
+                    />
+                  </span>
                   <strong>{p.open_count}</strong>
                 </li>
               ))}
@@ -147,14 +209,29 @@ export function OverviewBody({ self, data }: { self: Self; data: Overview }) {
             <EmptyState title="No assigned work yet" />
           )}
         </section>
-        <section aria-labelledby="ov-next">
-          <h3 id="ov-next">Up next</h3>
+        <section className="overview-next-panel" aria-labelledby="ov-next">
+          <div className="overview-panel-heading">
+            <div>
+              <h3 id="ov-next">Up next</h3>
+              <p className="hint">Your next 5 tasks, ordered by due date</p>
+            </div>
+            <Link className="overview-view-all" to="/my-tasks">
+              View my work <UiIcon name="arrow" />
+            </Link>
+          </div>
           {data.next_up.length ? (
-            <ol className="overview-list">
-              {data.next_up.map((t) => (
+            <ol className="overview-list overview-next">
+              {data.next_up.map((t, index) => (
                 <li key={t.id}>
+                  <span className="overview-next-number" aria-hidden="true">
+                    {index + 1}
+                  </span>
                   <Link to={`/projects/${t.project_id}/tasks/${t.id}`}>{t.title}</Link>
-                  <span className={t.overdue ? 'overdue' : ''}>
+                  <span className={`overview-status status-${t.status}`}>
+                    {statusLabel[t.status]}
+                  </span>
+                  <span className={`overview-due ${t.overdue ? 'overdue' : ''}`}>
+                    <UiIcon name="calendar" />
                     {t.due_date ? formatPlanDate(t.due_date) : 'No date'}
                   </span>
                 </li>

@@ -1,3 +1,4 @@
+import { taskNumber } from './task-number';
 import { UiIcon } from './shared/UiIcon';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { StatusPicker } from './shared/StatusPicker';
@@ -112,7 +113,7 @@ function Card({
       {...(controls && !disabled ? listeners : {})}
     >
       <div className="card-top">
-        <span>FR-{String(task.id).padStart(3, '0')}</span>
+        <span>{taskNumber(task)}</span>
         {controls && (
           <button
             className="drag-handle"
@@ -762,7 +763,7 @@ export function Kanban({
                   return t ? (
                     <article className="kanban-card kanban-card-overlay">
                       <div className="card-top">
-                        <span>FR-{String(t.id).padStart(3, '0')}</span>
+                        <span>{taskNumber(t)}</span>
                       </div>
                       <strong className="card-title">{t.title}</strong>
                       <div className="card-group-name">

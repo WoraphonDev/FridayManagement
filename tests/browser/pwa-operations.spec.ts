@@ -26,9 +26,9 @@ for (const [name, width] of [
         'Home',
         'My work',
         'Work calendar',
-        'Reports overview',
+        'Organization reports',
         'Notifications',
-        'Teams & members',
+        'All teams',
         'All projects',
         'Trash',
         'Admin',
@@ -37,6 +37,10 @@ for (const [name, width] of [
         if (label === 'Notifications') {
           await page.getByRole('button', { name: /^Notify/ }).click();
           await page.getByRole('button', { name: 'View all notifications →', exact: true }).click();
+        } else if (label === 'Settings') {
+          // Settings lives in the profile menu, not the sidebar.
+          await page.getByRole('button', { name: /^Profile of / }).click();
+          await page.getByRole('menuitem', { name: 'Settings', exact: true }).click();
         } else {
           // Narrow layouts keep the sidebar behind the menu button.
           const menu = page.getByRole('button', { name: 'Toggle navigation' });

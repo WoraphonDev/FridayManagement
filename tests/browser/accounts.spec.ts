@@ -55,7 +55,13 @@ async function mutation(page: Page, path: string, body: unknown, method = 'POST'
       const self = await (await fetch('/api/me')).json();
       const response = await fetch(path, {
         method,
-        headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': self.csrf },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': self.csrf,
+          ...(path === '/api/teams' && method === 'POST'
+            ? { 'Idempotency-Key': crypto.randomUUID() }
+            : {}),
+        },
         body: JSON.stringify(body),
       });
       return { status: response.status, body: await response.json() };
@@ -68,13 +74,105 @@ async function create(page: Page, user = 'BatchMember') {
   await page.getByRole('button', { name: 'Add user', exact: true }).click();
   const dialog = page.getByRole('dialog');
   await dialog.getByLabel('New username').fill(user);
-  await dialog.getByLabel('Display name').fill('Batch Member');
+  await dialog.getByLabel('Member Name').fill('Batch Member');
   expect(await dialog.getByLabel('Temporary password').inputValue()).toBe('');
   await dialog.getByLabel('Temporary password').fill(temp);
   await dialog.getByRole('button', { name: 'Create user', exact: true }).click();
   await expect(dialog).toHaveCount(0);
   await expect(page.getByRole('cell', { name: user, exact: true })).toBeVisible();
 }
+test('owner team/member details: atomic initial members, contact/team persistence, positions and 360px', async ({
+  page,
+}) => {
+  test.setTimeout(60000);
+  const f = await fixture(page);
+  try {
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.getByRole('link', { name: 'Admin', exact: true }).click();
+    await page.getByRole('tab', { name: 'Teams', exact: true }).click();
+    await page.getByRole('button', { name: 'Create team', exact: true }).click();
+    let dialog = page.getByRole('dialog');
+    await dialog.getByLabel('Team Name', { exact: true }).fill('ทีม Development 🚀');
+    await dialog.getByLabel('Team Description', { exact: true }).fill('ทีมพัฒนา\nPM / Lead / Dev');
+    await dialog.getByRole('button', { name: 'Add Member', exact: true }).click();
+    await dialog
+      .getByRole('combobox', { name: 'Member 1', exact: true })
+      .selectOption({ label: 'Batch Admin' });
+    await dialog.getByRole('combobox', { name: 'Position 1', exact: true }).selectOption('pm');
+    await page.screenshot({ path: 'reports/UI-team-details-desktop.png', animations: 'disabled' });
+    await dialog.getByRole('button', { name: 'Save', exact: true }).click();
+    await expect(dialog).toHaveCount(0);
+    await page.getByRole('tab', { name: 'Members', exact: true }).click();
+    await page.getByRole('button', { name: 'Add user', exact: true }).click();
+    dialog = page.getByRole('dialog');
+    await dialog.getByLabel('New username').fill('DetailsMember');
+    await dialog.getByLabel('Member Name', { exact: true }).fill('สมาชิก Dev 🚀');
+    await dialog.getByLabel('Email', { exact: true }).fill('member@example.invalid');
+    await dialog.getByLabel('Tel.', { exact: true }).fill('+66 81-234-5678');
+    await dialog
+      .getByRole('combobox', { name: 'Team', exact: true })
+      .selectOption({ label: 'ทีม Development 🚀' });
+    await dialog.getByLabel('Temporary password').fill(temp);
+    await page.screenshot({
+      path: 'reports/UI-member-details-desktop.png',
+      animations: 'disabled',
+    });
+    await dialog.getByRole('button', { name: 'Create user', exact: true }).click();
+    await expect(dialog).toHaveCount(0);
+    await page.reload();
+    await page.getByRole('button', { name: 'Edit DetailsMember', exact: true }).click();
+    dialog = page.getByRole('dialog');
+    await expect(dialog.getByLabel('Email', { exact: true })).toHaveValue('member@example.invalid');
+    await expect(dialog.getByLabel('Tel.', { exact: true })).toHaveValue('+66 81-234-5678');
+    await expect(dialog.getByText('Current teams:', { exact: false })).toContainText(
+      'ทีม Development 🚀 (Dev)',
+    );
+    await dialog.getByLabel('Email', { exact: true }).fill('edited@example.invalid');
+    await dialog.getByRole('button', { name: 'Confirm', exact: true }).click();
+    await expect(dialog).toHaveCount(0);
+    await expect(
+      page.getByRole('cell', { name: 'edited@example.invalid', exact: true }),
+    ).toBeVisible();
+    await page.getByRole('tab', { name: 'Teams', exact: true }).click();
+    await page.locator('.team-card-title').first().click();
+    await page.getByRole('tab', { name: /^Members/ }).click();
+    const memberRow = page
+      .getByRole('tabpanel', { name: /^Members/ })
+      .getByRole('row')
+      .filter({ hasText: 'สมาชิก Dev 🚀' });
+    await memberRow.getByRole('button', { name: 'Edit member', exact: true }).click();
+    dialog = page.getByRole('dialog');
+    await dialog.getByRole('combobox', { name: 'Team Position', exact: true }).selectOption('lead');
+    await expect(dialog.getByLabel('Team access', { exact: true })).toHaveValue('member');
+    await dialog.getByRole('button', { name: 'Review & Save', exact: true }).click();
+    await dialog.getByRole('button', { name: 'Save', exact: true }).click();
+    await expect(memberRow.getByRole('cell', { name: 'Lead', exact: true })).toBeVisible();
+    await expect(memberRow.getByRole('cell', { name: 'Member', exact: true })).toBeVisible();
+    await page.getByRole('link', { name: 'Admin', exact: true }).click();
+    await page.getByRole('tab', { name: 'Teams', exact: true }).click();
+    await page.setViewportSize({ width: 360, height: 900 });
+    await page.getByRole('button', { name: 'Create team', exact: true }).click();
+    dialog = page.getByRole('dialog');
+    await dialog.getByRole('button', { name: 'Add Member', exact: true }).click();
+    await dialog
+      .getByRole('combobox', { name: 'Member 1', exact: true })
+      .selectOption({ label: 'สมาชิก Dev 🚀' });
+    await expect(dialog.getByRole('combobox', { name: 'Position 1', exact: true })).toHaveValue(
+      'dev',
+    );
+    expect(await dialog.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
+    await page.screenshot({ path: 'reports/UI-team-details-mobile.png', animations: 'disabled' });
+    await dialog.getByRole('button', { name: 'Close dialog' }).click();
+    await page.getByRole('tab', { name: 'Members', exact: true }).click();
+    await page.getByRole('button', { name: 'Edit DetailsMember', exact: true }).click();
+    dialog = page.getByRole('dialog');
+    expect(await dialog.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
+    await expect(dialog.getByLabel('Email', { exact: true })).toHaveValue('edited@example.invalid');
+    await page.screenshot({ path: 'reports/UI-member-details-mobile.png', animations: 'disabled' });
+  } finally {
+    await f.close();
+  }
+});
 test('T017/018 actual create → login → forced password → profile → logout; rotates/revokes other browser session', async ({
   page,
   browser,
@@ -143,7 +241,7 @@ test('T018 actual edit/last-admin/deactivate/reactivate/reset confirmations and 
     );
     await page.getByRole('button', { name: 'Close dialog', exact: true }).click();
     await page.getByRole('button', { name: 'Edit BatchMember', exact: true }).click();
-    await page.getByRole('dialog').getByLabel('Display name').fill('Draft name');
+    await page.getByRole('dialog').getByLabel('Member Name').fill('Draft name');
     const users = await page.evaluate(
       async () =>
         (await (await fetch('/api/users')).json()).items as Array<{
@@ -166,8 +264,8 @@ test('T018 actual edit/last-admin/deactivate/reactivate/reset confirmations and 
     await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(page.getByRole('dialog').getByRole('alert')).toContainText(/changed/i);
     await page.getByRole('button', { name: 'Load latest data' }).click();
-    await expect(page.getByRole('dialog').getByLabel('Display name')).toHaveValue('External name');
-    await page.getByRole('dialog').getByLabel('Display name').fill('Saved name');
+    await expect(page.getByRole('dialog').getByLabel('Member Name')).toHaveValue('External name');
+    await page.getByRole('dialog').getByLabel('Member Name').fill('Saved name');
     await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(page.getByRole('cell', { name: 'Saved name', exact: true })).toBeVisible();
     await page.getByRole('button', { name: 'Deactivate BatchMember', exact: true }).click();

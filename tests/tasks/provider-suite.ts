@@ -377,6 +377,53 @@ export function taskAcceptance(
       assert.equal((await rows(f, 'SELECT id FROM dbo.subtasks')).length, 0);
     },
   );
+  check(
+    'Owner checklist remark preserves Unicode/whitespace, omission, clear, versions and audit',
+    async (f, s, a) => {
+      const t = (await create(f, s, a)).item;
+      let sub = await f.db.transaction((tx) =>
+        s.createSubtask(
+          tx,
+          a,
+          t.id,
+          { title: 'Checklist', task_version: 1, remark: '  Notes \u{1f680}\nSecond line  ' },
+          randomUUID(),
+        ),
+      );
+      assert.equal(sub.item.remark, '  Notes \u{1f680}\nSecond line  ');
+      const update = (b: Record<string, unknown>) =>
+        f.db.transaction((tx) =>
+          s.patchSubtask(
+            tx,
+            a,
+            sub.item.id,
+            { version: sub.item.version, task_version: sub.task.version, ...b },
+            false,
+            randomUUID(),
+          ),
+        );
+      sub = await update({ title: 'Edited' });
+      assert.equal(sub.item.remark, '  Notes \u{1f680}\nSecond line  ');
+      const before = (await f.db.transaction((tx) => s.get(tx, a, t.id))).item;
+      for (const remark of [null, '\u{1f600}'.repeat(1001)])
+        await rejected(update({ remark }), 'VALIDATION_FAILED');
+      assert.deepEqual((await f.db.transaction((tx) => s.get(tx, a, t.id))).item, before);
+      sub = await update({ remark: '\u{1f600}'.repeat(1000) });
+      assert.equal(sub.item.remark.length, 2000);
+      sub = await update({ remark: '' });
+      assert.equal(sub.item.remark, '');
+      assert.equal(sub.item.version, 4);
+      assert.equal(sub.task.version, 5);
+      const events = await rows(
+        f,
+        `SELECT field_changes FROM dbo.task_events WHERE task_id=${t.id} AND action='subtask_changed' ORDER BY id`,
+      );
+      assert.equal(events.length, 4);
+      const last = JSON.parse(String(events.at(-1)!.field_changes))[0];
+      assert.equal(last.before.remark.length, 2000);
+      assert.equal(last.after.remark, '');
+    },
+  );
   check('T028 unknown child dates/invalid titles and viewer cannot mutate', async (f, s, a, m) => {
     for (const b of [
       { title: ' ' },
@@ -475,7 +522,17 @@ export function taskAcceptance(
           })
         ).item;
         let sub = await f.db.transaction((tx) =>
-          s.createSubtask(tx, a, t.id, { title: 'ต้องตรวจ', task_version: 1 }, randomUUID()),
+          s.createSubtask(
+            tx,
+            a,
+            t.id,
+            {
+              title: '\u0e15\u0e49\u0e2d\u0e07\u0e15\u0e23\u0e27\u0e08',
+              task_version: 1,
+              remark: 'Recurring instructions',
+            },
+            randomUUID(),
+          ),
         );
         sub = await f.db.transaction((tx) =>
           s.patchSubtask(
@@ -493,6 +550,7 @@ export function taskAcceptance(
         assert.equal(feb.subtask_count, 1);
         assert.equal(feb.subtask_done_count, 0);
         t = (await f.db.transaction((tx) => s.get(tx, a, feb.id))).item;
+        assert.equal(t.subtasks[0]!.remark, 'Recurring instructions');
         await f.db.transaction((tx) =>
           s.patchSubtask(
             tx,
@@ -765,7 +823,7 @@ export function taskAcceptance(
             fault(tx),
             a,
             sub.item.id,
-            { version: 1, task_version: 2, done: true },
+            { version: 1, task_version: 2, done: true, remark: 'Rollback' },
             false,
             randomUUID(),
           ),

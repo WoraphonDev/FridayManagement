@@ -1,3 +1,4 @@
+import { taskNumber } from './task-number';
 import { confirmDialog } from './shared/confirm';
 import { UiIcon } from './shared/UiIcon';
 import { formatPlanDate } from './shared/formatPlanDate';
@@ -82,7 +83,8 @@ const ProjectOverview = lazy(() =>
 const ProjectFiles = lazy(() =>
   import('./ProjectFiles').then((m) => ({ default: m.ProjectFiles })),
 );
-type View = 'table' | 'calendar' | 'gantt' | 'kanban' | 'docs' | 'files' | 'workload' | 'overview';
+type ProjectMemberRow = z.infer<typeof projectMembers>['items'][number];
+type View = 'table' | 'calendar' | 'gantt' | 'kanban' | 'docs' | 'files' | 'workload' | 'overview' | 'members';
 /** Vibe date cell: shows "📅 1 Oct"; the native picker opens on click and stays keyboard-editable. */
 function PlanDateCell({
   label,
@@ -127,6 +129,7 @@ export function TaskWorkspace({
   mode = 'project',
   onScopeRemoved,
   onBack,
+  initialView,
 }: {
   project?: Project;
   self: Self;
@@ -135,6 +138,7 @@ export function TaskWorkspace({
   mode?: 'project' | 'my' | 'calendar';
   onScopeRemoved?: () => void;
   onBack?: () => void;
+  initialView?: View;
 }) {
   const [project, setProject] = useState(initialProject);
   const knownRows = useRef<{ key: string; ids: Set<number> }>(undefined),
@@ -150,7 +154,9 @@ export function TaskWorkspace({
   useEffect(() => {
     closeScope.current = onScopeRemoved;
   });
-  const [view, setView] = useState<View>(mode === 'calendar' ? 'calendar' : 'table'),
+  const [view, setView] = useState<View>(
+      initialView ?? (mode === 'calendar' ? 'calendar' : 'table'),
+    ),
     [filters, setFilters] = useState<Filters>(() =>
       mode === 'my'
         ? myWorkFilters(window.location.search)
@@ -375,7 +381,8 @@ export function TaskWorkspace({
     opening = useRef(false);
   const [projects, setProjects] = useState<Project[]>([]),
     [teams, setTeams] = useState<Team[]>([]),
-    [people, setPeople] = useState<{ id: number; display_name: string }[]>([]);
+    [people, setPeople] = useState<{ id: number; display_name: string }[]>([]),
+    [memberRows, setMemberRows] = useState<ProjectMemberRow[]>([]);
   useEffect(() => {
     const controller = new AbortController();
     const collect = async <T,>(
@@ -413,6 +420,7 @@ export function TaskWorkspace({
           setProjects(p);
           setTeams(t);
           setPeople(m?.items.map((i) => i.user) ?? []);
+          setMemberRows(m?.items ?? []);
         }
       })
       .catch((e) => {
@@ -636,6 +644,11 @@ export function TaskWorkspace({
           </p>
           {project && (
             <div className="header-meta">
+              {project.code && (
+                <>
+                  <strong className="project-code">{project.code}</strong> <span>•</span>{' '}
+                </>
+              )}
               <UiIcon name="team" /> {project.owner_team_name} <span>•</span> {taskTotal ?? '…'}{' '}
               Tasks <span>•</span> Access {project.effective_access}
             </div>
@@ -666,11 +679,12 @@ export function TaskWorkspace({
       <div className="view-tabs" role="region" tabIndex={0} aria-label="Task views">
         {(
           [
+            ...(project ? ['overview'] : []),
             'table',
             ...(project ? ['kanban'] : []),
             'calendar',
             'gantt',
-            ...(project ? ['docs', 'files', 'workload', 'overview'] : []),
+            ...(project ? ['members', 'workload', 'docs', 'files'] : []),
           ] as View[]
         ).map((v) => (
           <button
@@ -681,7 +695,7 @@ export function TaskWorkspace({
               setPage(1);
             }}
           >
-            <UiIcon name={v} />{' '}
+            <UiIcon name={v === 'members' ? 'users' : v} />{' '}
             {
               {
                 table: 'Main table',
@@ -692,6 +706,7 @@ export function TaskWorkspace({
                 files: 'Files',
                 workload: 'Workload',
                 overview: 'Overview',
+                members: 'Members',
               }[v]
             }
           </button>
@@ -729,6 +744,36 @@ export function TaskWorkspace({
         <Suspense fallback={<Loading />}>
           <ProjectOverview projectId={project.id} {...{ self, online, onFailure }} />
         </Suspense>
+      ) : view === 'members' && project ? (
+        <section className="project-members-tab" aria-label="Project members">
+          <table>
+            <thead>
+              <tr>
+                <th>Member</th>
+                <th>Job title</th>
+                <th>Access</th>
+              </tr>
+            </thead>
+            <tbody>
+              {memberRows.map((m) => (
+                <tr key={m.user.id}>
+                  <td>
+                    <Assignees people={[m.user]} /> {m.user.display_name}
+                  </td>
+                  <td>{m.job_title ?? '—'}</td>
+                  <td>
+                    {m.effective_access}
+                    {m.explicit_access && m.explicit_access !== m.effective_access
+                      ? ` (explicit ${m.explicit_access})`
+                      : ''}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {!memberRows.length && <p>No explicit members</p>}
+          <p className="muted">Assignment does not change project access.</p>
+        </section>
       ) : view === 'files' && project ? (
         <Suspense fallback={<Loading />}>
           <ProjectFiles {...{ project, self, online, onFailure }} />
@@ -1321,7 +1366,7 @@ export function TaskWorkspace({
                                           >
                                             {t.title}
                                             <small>
-                                              FR-{String(t.id).padStart(3, '0')}
+                                              {taskNumber(t)}
                                               {t.category ? ` · ${t.category}` : ''}
                                             </small>
                                           </button>
@@ -1420,7 +1465,7 @@ export function TaskWorkspace({
                                         >
                                           {t.title}
                                           <small>
-                                            FR-{String(t.id).padStart(3, '0')} · {t.project_name}
+                                            {taskNumber(t)} · {t.project_name}
                                           </small>
                                         </button>
                                       </div>,

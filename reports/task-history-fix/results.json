@@ -1,0 +1,84 @@
+{
+  "date": "2026-10-09",
+  "declaredEffort": {
+    "T-003": "High",
+    "T-040": "High",
+    "T-032": "Medium",
+    "T-044": "Medium"
+  },
+  "actualModelEffort": "NOT_VERIFIED",
+  "trace": [
+    "FR-12",
+    "FR-18",
+    "FR-29",
+    "TC-025",
+    "TC-027",
+    "TC-035",
+    "TC-052",
+    "AT-09",
+    "AT-14",
+    "AT-15",
+    "AT-21"
+  ],
+  "defect": {
+    "referenceId": "a54f4fcd-e810-4528-b102-c7bf52c25135",
+    "status": 500,
+    "code": "INTERNAL_ERROR",
+    "cause": "Group-order audit field omitted from API EventChange enum and frontend parser",
+    "reproduced": "PASS before fix, history GET returned500"
+  },
+  "contract": "1.10.1",
+  "checks": {
+    "build": "PASS",
+    "typecheck": "PASS",
+    "focusedLint": "PASS",
+    "contractInventory": "PASS 85 routes /115 schemas",
+    "contractTests": "PASS 65/65",
+    "frontend": "PASS 49/49",
+    "providerHistory": "PASS SQLite1/1",
+    "browserExisting": "PASS6 scenarios",
+    "browserNew": "PASS1/1 after correcting text locator",
+    "browserDistinct": "7 PASS across runs; initial combined6PASS/1 locator failure, final new1PASS",
+    "testPlanInventory": "PASS",
+    "testPlanPolicy": "PASS17/17 (planning only)",
+    "diffCheck": "PASS"
+  },
+  "live": {
+    "origin": "http://127.0.0.1:5000",
+    "api": "1.10.1",
+    "readiness": "PASS",
+    "businessTablesUnchanged": {
+      "users": true,
+      "teams": true,
+      "team_members": true,
+      "projects": true,
+      "tasks": true,
+      "subtasks": true,
+      "task_events": true,
+      "project_groups": true,
+      "project_members": true,
+      "user_permissions": true
+    },
+    "migration": "NONE",
+    "claudePort43171": "NOT_TOUCHED"
+  },
+  "liveUi": "PASS Task4 Details/latest review/Activity read-only; no red banner; version7 and7 historical events retained",
+  "notRun": [
+    "Native SQL Server2022",
+    "Windows",
+    "Owner UAT",
+    "Full provider acceptance"
+  ],
+  "taskRegister": {
+    "done": 7,
+    "total": 91,
+    "remaining": 84,
+    "inProgress": 82,
+    "inReview": 1,
+    "todo": 1
+  },
+  "nextFormal": {
+    "task": "T-091",
+    "effort": "High"
+  }
+}

@@ -77,6 +77,17 @@ export function fileAcceptance(
       assert.equal(p.items[0]!.actor!.id, 4);
       const op = operations.find((o) => o.path === '/api/tasks/{id}/events')!.operation;
       parseSchema(op.responses['200']!.content!['application/json']!.schema, p);
+      // Group-order mutations already persist this field; history must accept it too.
+      await f.db.transaction((tx) =>
+        tasks.patch(tx, proof(4), 1, { version: 2, group_before_task_id: null }, randomUUID()),
+      );
+      const ordered = await f.db.transaction((tx) => h.page(tx, proof(5), 1, { page: 3, pageSize: 1 }));
+      assert.equal(ordered.total, 3);
+      assert('field_changes' in ordered.items[0]!);
+      assert.deepEqual(ordered.items[0]!.field_changes, [
+        { field: 'group_before_task_id', before: null, after: null },
+      ]);
+      parseSchema(op.responses['200']!.content!['application/json']!.schema, ordered);
       await reject(
         f.db.transaction((tx) => h.page(tx, proof(4), 3, {})),
         'NOT_FOUND',

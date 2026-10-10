@@ -1,0 +1,424 @@
+/* Project boards and their shared editors; preserve the plain owner-approved header. */
+.project-board > .task-workspace {
+  width: calc(100% - 48px);
+  min-width: 0;
+  margin: 24px;
+  background: transparent;
+}
+.project-board .project-heading {
+  padding: 0 0 20px;
+  margin: 0 0 16px;
+  border-bottom: 1px solid #e2e7f1;
+  background: transparent;
+}
+.project-board .project-heading h1 {
+  font-size: 20px;
+  margin: 0 0 8px;
+  overflow-wrap: anywhere;
+}
+.project-board .project-heading p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+.project-board .breadcrumb {
+  margin-bottom: 14px;
+}
+.project-board .header-meta {
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+  color: #657087;
+}
+.project-board .board-members {
+  position: static;
+  justify-content: flex-end;
+  margin: 0 0 16px;
+}
+.project-board .view-tabs {
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 5px;
+  padding: 5px;
+  margin: 0 0 20px;
+  border: 1px solid #e2e7f1;
+  border-radius: 11px;
+  background: #f5f7fc;
+  overflow-x: auto;
+}
+.project-board .view-tabs button {
+  flex: 0 0 auto;
+  min-height: 36px;
+  border: 0;
+  border-radius: 7px;
+  padding: 9px 13px;
+  white-space: nowrap;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease;
+}
+.project-board .view-tabs button[aria-pressed='true'] {
+  color: #4265cc;
+  background: #fff;
+  box-shadow: 0 2px 8px #313c5a0f;
+}
+.project-board .task-filters {
+  padding: 16px;
+  margin-bottom: 18px;
+  border: 1px solid #e2e7f1;
+  border-radius: 12px;
+  background: #f9faff;
+}
+.project-board .task-table-scroll,
+.project-board .table-scroll,
+.project-board .gantt-scroll,
+.project-board .calendar-scroll {
+  max-width: 100%;
+  border: 1px solid #e3e8f3;
+  border-radius: 10px;
+}
+.project-board .kanban-grid {
+  padding: 0 0 20px;
+}
+.project-board .kanban-lane {
+  border-radius: 12px;
+  box-shadow: 0 3px 12px #34467506;
+}
+.project-board .kanban-card {
+  border-radius: 9px;
+}
+.project-board .calendar-toolbar,
+.project-board .project-files > .toolbar {
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border: 1px solid #e3e8f3;
+  border-radius: 10px;
+  background: #f7f9fe;
+  flex-wrap: wrap;
+}
+.project-board .calendar-day.today {
+  box-shadow: inset 0 0 0 1px #8babe4;
+}
+.project-board .calendar-day.today time {
+  background: #4265cc;
+  color: #fff;
+}
+.project-board .calendar-event {
+  border-radius: 5px;
+}
+.project-board .gantt-heading {
+  background: #f5f7fc;
+  color: #657087;
+}
+.project-board .workload-table button {
+  color: #4265cc;
+  border-radius: 6px;
+  background: #edf3ff;
+}
+.project-board .workload-over button {
+  color: #a96419;
+  background: #fff3df;
+}
+.project-board :is(.project-overview, .project-members-tab, .project-files, .workload-view) {
+  min-width: 0;
+  padding: 20px;
+  border: 1px solid #e3e8f3;
+  border-radius: 14px;
+  background: #fff;
+  box-shadow: 0 3px 12px #34467505;
+}
+.project-board :is(.project-overview, .project-files, .workload-view) > h2 {
+  margin-top: 0;
+  font-size: 16px;
+  color: #34405c;
+}
+.project-board .overview-tiles {
+  margin: 18px 0 22px;
+  gap: 16px;
+}
+.project-board .overview-tile {
+  padding: 20px;
+  border-color: #dbe5fb;
+  border-top: 3px solid #4265cc;
+  background: linear-gradient(120deg, #f0f5ff, #fff);
+  border-radius: 12px;
+  transform: none;
+}
+.project-board .overview-tile.tile-overdue {
+  border-color: #f5dbe0;
+  border-top-color: #d45c72;
+  background: linear-gradient(120deg, #fff1f4, #fff);
+}
+.project-board .overview-tile strong {
+  color: #4265cc;
+  margin: 5px 0;
+}
+.project-board .overview-tile.tile-overdue strong {
+  color: #bb3854;
+}
+.project-board .overview-tile progress {
+  width: 100%;
+  height: 8px;
+  accent-color: #2c9576;
+}
+.project-board .overview-panels > section {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #e3e8f3;
+  border-radius: 12px;
+  background: #fff;
+  overflow-x: auto;
+}
+.project-board .overview-panels h3 {
+  margin: 0 0 16px;
+  color: #4d5672;
+  font-size: 14px;
+}
+.project-board .overview-bar {
+  margin: 12px 0;
+}
+.project-board .project-members-tab {
+  overflow-x: auto;
+}
+.project-board :is(.project-members-tab, .project-files, .workload-view, .compact-table) th {
+  background: #f6f8fd;
+  color: #66718a;
+}
+.project-board .project-members-tab tbody tr:hover {
+  background: #f9faff;
+}
+.project-board .project-docs {
+  gap: 20px;
+  min-width: 0;
+}
+.project-board :is(.docs-list, .doc-view) {
+  padding: 18px;
+  min-width: 0;
+  border: 1px solid #e3e8f3;
+  border-radius: 12px;
+  background: #fff;
+}
+.project-board .docs-list li {
+  margin-top: 8px;
+}
+.project-board .docs-list li button {
+  padding: 12px;
+  border: 1px solid #e6eaf3;
+  border-radius: 8px;
+  gap: 6px;
+}
+.project-board .docs-list button[aria-current='true'] {
+  border-color: #c9d8fb;
+  background: #edf3ff;
+  color: #3556b7;
+}
+.project-board .doc-head {
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #e3e8f3;
+}
+.project-board .doc-tools {
+  padding: 10px;
+  border-radius: 9px;
+  background: #f5f7fc;
+}
+.project-board .doc-body {
+  min-height: 220px;
+  padding: 16px;
+  border-radius: 9px;
+  overflow-wrap: anywhere;
+}
+/* Dialogs remain in the DOM scope of the board even on the native top layer. */
+.project-board dialog:not(.task-editor),
+dialog.project-members-dialog,
+dialog.project-action-dialog,
+dialog.project-details-dialog {
+  box-sizing: border-box;
+  max-width: calc(100vw - 32px);
+  border: 1px solid #e0e6f2;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 24px 80px #29344d26;
+}
+dialog.project-members-dialog {
+  width: 760px;
+}
+dialog.project-members-dialog .toolbar {
+  align-items: flex-end;
+  padding: 12px;
+  border: 1px solid #e3e8f3;
+  border-radius: 9px;
+  background: #f7f9fe;
+}
+dialog.project-members-dialog .toolbar .field {
+  flex: 1;
+  min-width: 140px;
+}
+dialog.project-members-dialog label:has(select) {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 12px 0;
+}
+dialog.project-members-dialog select {
+  width: 100%;
+}
+dialog.project-members-dialog .membership-confirm {
+  margin-top: 18px;
+  padding: 14px;
+  border: 1px solid #efd8ac;
+  border-radius: 9px;
+  background: #fffaf1;
+}
+.project-board dialog:not(.task-editor) > .dialog-head,
+dialog.project-members-dialog > .dialog-head,
+dialog.project-action-dialog > .dialog-head,
+dialog.project-details-dialog > .dialog-head {
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  border-radius: 9px;
+  background: linear-gradient(110deg, #edf3ff, #f7f2ff);
+  color: #34405c;
+  font-size: 18px;
+}
+.project-board dialog:not(.task-editor) .dialog-head h2,
+dialog.project-members-dialog .dialog-head h2,
+dialog.project-action-dialog .dialog-head h2,
+dialog.project-details-dialog .dialog-head h2 {
+  margin: 0;
+  font-size: 18px;
+}
+dialog:is(.project-details-dialog, .project-action-dialog) fieldset {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 14px;
+}
+dialog:is(.project-details-dialog, .project-action-dialog) fieldset > * {
+  grid-column: 1 / -1;
+}
+dialog:is(.project-details-dialog, .project-action-dialog) fieldset > .permission-cancel {
+  grid-column: 1;
+}
+dialog:is(.project-details-dialog, .project-action-dialog) fieldset > button[type='submit'] {
+  grid-column: 2;
+  background: #4265cc;
+  color: #fff;
+  border-color: #4265cc;
+  border-radius: 7px;
+}
+.project-board button.primary,
+dialog.project-details-dialog button.primary,
+dialog.project-members-dialog button.primary,
+dialog.task-editor button.primary {
+  background: #4265cc;
+  border-color: #4265cc;
+  color: #fff;
+  box-shadow: 0 3px 8px #4265cc20;
+}
+.project-board button.primary:hover:not(:disabled),
+dialog.task-editor button.primary:hover:not(:disabled) {
+  background: #3556b7;
+}
+dialog.task-editor {
+  border: 1px solid #e0e6f2;
+  border-radius: 14px;
+  box-shadow: 0 24px 80px #29344d26;
+}
+dialog.task-editor .dialog-head {
+  background: linear-gradient(110deg, #edf3ff, #f7f2ff);
+}
+dialog.task-editor .editor-tabs {
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  gap: 4px;
+  padding: 5px;
+  margin: 18px 0;
+  border: 1px solid #e2e7f1;
+  border-radius: 9px;
+  background: #f5f7fc;
+}
+dialog.task-editor .editor-tabs button {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  padding: 9px 12px;
+  border-radius: 6px;
+}
+dialog.task-editor .editor-tabs button[aria-selected='true'] {
+  border: 0;
+  color: #4265cc;
+  background: #fff;
+  box-shadow: 0 2px 8px #313c5a0f;
+}
+dialog.task-editor :is(input:not([type='checkbox']), select, textarea),
+dialog.project-details-dialog :is(input:not([type='checkbox']), select, textarea),
+dialog.project-members-dialog :is(input:not([type='checkbox']), select) {
+  border-radius: 7px;
+  min-height: 38px;
+  box-sizing: border-box;
+  max-width: 100%;
+}
+dialog.task-editor .dialog-footer {
+  padding: 16px 20px;
+  border-top: 1px solid #e2e7f1;
+  background: #f8faff;
+}
+dialog.task-editor .dialog-content textarea {
+  min-height: 92px;
+}
+dialog.task-editor .dialog-footer button:not(.primary):not(.delete-task) {
+  color: #4d5672;
+  background: #eef1f6;
+  border-color: #d3dbe9;
+}
+dialog.task-editor .delete-task {
+  color: #b53b53;
+  border-color: #f0ced6;
+  background: #fff0f3;
+}
+.project-board :is(button, a, input, select, textarea):focus-visible,
+dialog.project-members-dialog :is(button, input, select):focus-visible {
+  outline: 2px solid #4265cc;
+  outline-offset: 3px;
+}
+@media (max-width: 760px) {
+  .project-board > .task-workspace {
+    width: calc(100% - 28px);
+    margin: 18px 14px;
+  }
+  .project-board .view-tabs {
+    margin-bottom: 16px;
+  }
+  .project-board
+    :is(
+      .project-overview,
+      .project-members-tab,
+      .project-files,
+      .workload-view,
+      .docs-list,
+      .doc-view
+    ) {
+    padding: 14px;
+  }
+  .project-board .overview-panels {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .project-board .overview-bar {
+    grid-template-columns: 100px minmax(0, 1fr) 24px;
+  }
+  .project-board .kanban-grid {
+    padding: 0 0 16px;
+  }
+  dialog.project-members-dialog,
+  dialog.project-details-dialog {
+    padding: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .project-board .view-tabs button {
+    transition: none;
+  }
+}

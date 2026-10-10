@@ -42,6 +42,125 @@ export function accountAcceptance(
       (e: unknown) => (e instanceof ApiFault || e instanceof OperationError) && e.code === code,
     );
   check(
+    'T016 member contacts and additive teams persist atomically without changing existing roles or sessions',
+    async (f, a, proof) => {
+      await f.db.transaction((tx) =>
+        tx.execute(
+          insert('team_members', {
+            team_id: 1,
+            user_id: 2,
+            team_role: 'lead',
+            team_position: 'pm',
+          }),
+        ),
+      );
+      const before = await f.db.transaction((tx) =>
+        tx.query(sql('SELECT token_hash FROM dbo.sessions ORDER BY token_hash')),
+      );
+      const update = await f.db.transaction((tx) =>
+        a.patch(
+          tx,
+          proof,
+          2,
+          {
+            version: 1,
+            email: 'dev+one@example.invalid',
+            telephone: '+66 (0) 81-234-5678',
+            team_ids: [1, 2],
+          },
+          randomUUID(),
+        ),
+      );
+      assert.equal(update.item.email, 'dev+one@example.invalid');
+      assert.equal(update.item.telephone, '+66 (0) 81-234-5678');
+      assert.equal(update.item.org_role, 'member');
+      assert.deepEqual(
+        update.item.teams.map((t) => [t.id, t.team_role, t.team_position]),
+        [
+          [1, 'lead', 'pm'],
+          [2, 'member', 'dev'],
+        ],
+      );
+      assert.deepEqual(
+        await f.db.transaction((tx) =>
+          tx.query(sql('SELECT token_hash FROM dbo.sessions ORDER BY token_hash')),
+        ),
+        before,
+      );
+      const omit = await f.db.transaction((tx) =>
+        a.patch(tx, proof, 2, { version: 2, display_name: 'สมาชิก Dev' }, randomUUID()),
+      );
+      assert.equal(omit.item.email, 'dev+one@example.invalid');
+      assert.equal(omit.item.teams.length, 2);
+      await assert.rejects(
+        f.db.transaction((tx) =>
+          a.patch(tx, proof, 2, { version: 2, email: 'stale@example.invalid' }, randomUUID()),
+        ),
+      );
+      for (const invalid of [
+        { email: 'invalid' },
+        { telephone: 'call me' },
+        { team_ids: [1, 1] },
+        { team_ids: [9999] },
+      ])
+        await assert.rejects(
+          f.db.transaction((tx) => a.patch(tx, proof, 2, { version: 3, ...invalid }, randomUUID())),
+        );
+      const counts = await f.db.transaction((tx) =>
+        tx.query(sql('SELECT id FROM dbo.admin_events')),
+      );
+      await assert.rejects(
+        f.db.transaction(async (tx) => {
+          await a.patch(
+            tx,
+            proof,
+            2,
+            { version: 3, email: 'rollback@example.invalid' },
+            randomUUID(),
+          );
+          throw new Error('ROLLBACK_CONTACT_AUDIT');
+        }),
+        /ROLLBACK_CONTACT_AUDIT/,
+      );
+      assert.deepEqual(
+        await f.db.transaction((tx) => tx.query(sql('SELECT id FROM dbo.admin_events'))),
+        counts,
+      );
+      const clear = await f.db.transaction((tx) =>
+        a.patch(tx, proof, 2, { version: 3, email: '', telephone: '', team_ids: [] }, randomUUID()),
+      );
+      assert.equal(clear.item.email, '');
+      assert.equal(clear.item.telephone, '');
+      assert.equal(clear.item.teams.length, 2);
+      const prepared = await a.prepare('create', proof, {
+        username: 'DetailsUser',
+        display_name: 'สมาชิกใหม่ 🚀',
+        temp_password: next,
+        email: 'new@example.invalid',
+        telephone: '0812345678',
+        team_ids: [1],
+      });
+      const created = await f.db.transaction((tx) => a.create(tx, proof, prepared, randomUUID()));
+      assert.equal(created.item.email, 'new@example.invalid');
+      assert.equal(created.item.teams[0]!.team_role, 'member');
+      const bad = await a.prepare('create', proof, {
+        username: 'RolledBackUser',
+        display_name: 'Rollback',
+        temp_password: next,
+        team_ids: [9999],
+      });
+      await assert.rejects(f.db.transaction((tx) => a.create(tx, proof, bad, randomUUID())));
+      assert.equal(
+        (
+          await f.db.transaction((tx) =>
+            tx.query(sql("SELECT id FROM dbo.users WHERE username='RolledBackUser'")),
+          )
+        ).length,
+        0,
+      );
+    },
+  );
+  check(
     'T015 rotates token/CSRF, revokes others, preserves absolute lifetime and clears forced gate',
     async (f, a, proof) => {
       const other = await f.service.login({ username: 'Admin', password }, '127.0.0.2');
@@ -322,7 +441,7 @@ export function accountAcceptance(
       );
       assert.deepEqual(JSON.parse(String(events[0]!.field_changes)), [
         { field: 'assignee_id', before: 2, after: null },
-        {field:'assignee_ids',before:'[2]',after:'[]'},
+        { field: 'assignee_ids', before: '[2]', after: '[]' },
       ]);
       const notices = await f.db.transaction((tx) =>
         tx.query(sql('SELECT recipient_id FROM dbo.notifications')),

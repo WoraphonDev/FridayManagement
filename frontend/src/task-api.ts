@@ -6,13 +6,18 @@ const id = z.number().int().min(1).max(2147483647),
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .nullable();
 export const statuses = ['todo', 'doing', 'review', 'done'] as const;
-export const statusLabel = { todo: "Not started", doing: "Working on it", review: "In review", done: "Done" };
+export const statusLabel = {
+  todo: 'Not started',
+  doing: 'Working on it',
+  review: 'In review',
+  done: 'Done',
+};
 export const priorities = ['low', 'medium', 'high', 'urgent'] as const;
 export const taskSchema = z
   .object({
     id,
     group_id: id.nullable().optional(),
-  project_id: id,
+    project_id: id,
     project_name: z.string().min(1).max(100),
     owner_team_id: id,
     owner_team_name: z.string().min(1).max(100),
@@ -22,7 +27,10 @@ export const taskSchema = z
     status: z.enum(statuses),
     priority: z.enum(priorities),
     assignee_ids: z.array(id).max(100).optional(),
-    assignees: z.array(z.object({id,display_name:z.string(),active:z.boolean()}).strict()).max(100).optional(),
+    assignees: z
+      .array(z.object({ id, display_name: z.string(), active: z.boolean() }).strict())
+      .max(100)
+      .optional(),
     assignee_id: id.nullable(),
     assignee: z
       .object({ id, display_name: z.string().min(1).max(100), active: z.boolean() })
@@ -35,6 +43,7 @@ export const taskSchema = z
     recurrence_anchor_day: z.number().int().min(1).max(31).nullable(),
     predecessor_task_id: id.nullable(),
     successor_task_id: id.nullable(),
+    task_no: z.string().min(1).max(32).nullable(),
     version: id,
     created_at: time,
     updated_at: time,
@@ -48,7 +57,8 @@ export const taskSchema = z
   .strict();
 export const subtaskSchema = z
   .object({
-    assignee_id:id.nullable().optional(),
+    remark: z.string().max(2000),
+    assignee_id: id.nullable().optional(),
     id,
     task_id: id,
     title: z.string().min(1).max(200),
@@ -112,8 +122,18 @@ export const moveReply = z
 export type Board = z.infer<typeof boardSchema>;
 export type Status = (typeof statuses)[number];
 
-export const priorityLabel = { low: "Low", medium: "Medium", high: "High", urgent: "Urgent" };
+export const priorityLabel = { low: 'Low', medium: 'Medium', high: 'High', urgent: 'Urgent' };
 
-export const projectGroup=z.object({id,project_id:id,name:z.string().min(1).max(100),color:z.string().regex(/^#[0-9a-fA-F]{6}$/),position:z.number().int().nonnegative(),version:id,created_at:z.string()}).strict();
-export const projectGroups=z.object({items:z.array(projectGroup).max(1000)}).strict();
-export type ProjectGroup=z.infer<typeof projectGroup>;
+export const projectGroup = z
+  .object({
+    id,
+    project_id: id,
+    name: z.string().min(1).max(100),
+    color: z.string().regex(/^#[0-9a-fA-F]{6}$/),
+    position: z.number().int().nonnegative(),
+    version: id,
+    created_at: z.string(),
+  })
+  .strict();
+export const projectGroups = z.object({ items: z.array(projectGroup).max(1000) }).strict();
+export type ProjectGroup = z.infer<typeof projectGroup>;

@@ -27,7 +27,7 @@ async function fixture(page: Page) {
     await page.getByLabel('Username', { exact: true }).fill('WorkspaceAdmin');
     await page.getByLabel('Password', { exact: true }).fill(password);
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await expect(page.getByRole('link', { name: 'Teams & members', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: /^(Your|All) teams$/ })).toBeVisible();
     return {
       ...f,
       restart: async () => {
@@ -125,15 +125,20 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
     await expect(d.getByLabel('Details', { exact: true })).toHaveValue('<script>literal</script>');
     await expect(d.getByText('Workspace Admin', { exact: true }).first()).toBeVisible();
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
-    await d.getByLabel('Add checklist item', { exact: true }).fill('Review');
     await d.getByRole('button', { name: 'Add checklist item', exact: true }).click();
+    await d.getByLabel('Add checklist item', { exact: true }).fill('Review');
+    await d.getByRole('heading', { name: /Checklist [0-9]+\/[0-9]+/, exact: true }).click();
     await expect(d.getByRole('heading', { name: 'Checklist 0/1', exact: true })).toBeVisible();
     await d.getByRole('button', { name: 'Edit checklist item Review', exact: true }).click();
     await d.getByLabel('New checklist item', { exact: true }).fill('Review final');
-    await d.getByRole('button', { name: 'Save checklist title', exact: true }).click();
+    await d.getByRole('heading', { name: /Checklist [0-9]+\/[0-9]+/, exact: true }).click();
     await expect(d.getByLabel('Review final', { exact: true })).toBeVisible();
     await d.getByRole('tab', { name: 'Details', exact: true }).click();
-    await d.getByLabel('Status', { exact: true }).selectOption('done');
+    await d.getByLabel('Status', { exact: true }).click();
+    await d
+      .getByRole('listbox', { name: 'Options for Status', exact: true })
+      .getByRole('option', { name: 'Done', exact: true })
+      .click();
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
     await expect(
       d.getByText('Complete every checklist item before marking Done', { exact: true }),
@@ -142,15 +147,23 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
     await d.getByLabel('Review final', { exact: true }).click();
     await expect(d.getByRole('heading', { name: 'Checklist 1/1', exact: true })).toBeVisible();
     await d.getByRole('tab', { name: 'Details', exact: true }).click();
-    await expect(d.getByLabel('Status', { exact: true })).toHaveValue('todo');
-    await d.getByLabel('Status', { exact: true }).selectOption('done');
+    await expect(d.getByLabel('Status', { exact: true })).toHaveText('Not started');
+    await d.getByLabel('Status', { exact: true }).click();
+    await d
+      .getByRole('listbox', { name: 'Options for Status', exact: true })
+      .getByRole('option', { name: 'Done', exact: true })
+      .click();
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
     await expect(d.getByText('Saved · Next occurrence created #2', { exact: true })).toBeVisible();
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await expect(d.getByLabel('Review final', { exact: true })).toBeDisabled();
     await expect(d.getByLabel('Add checklist item', { exact: true })).toHaveCount(0);
     await d.getByRole('tab', { name: 'Details', exact: true }).click();
-    await d.getByLabel('Status', { exact: true }).selectOption('doing');
+    await d.getByLabel('Status', { exact: true }).click();
+    await d
+      .getByRole('listbox', { name: 'Options for Status', exact: true })
+      .getByRole('option', { name: 'Working on it', exact: true })
+      .click();
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
     await expect(d.getByText('Task saved', { exact: true })).toBeVisible();
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();

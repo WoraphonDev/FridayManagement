@@ -27,7 +27,7 @@ async function fixture(page: Page) {
     await page.getByLabel('Username', { exact: true }).fill('WorkspaceAdmin');
     await page.getByLabel('Password', { exact: true }).fill(password);
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await expect(page.getByRole('link', { name: 'Teams & members', exact: true })).toBeVisible();
+    await expect(page.getByRole('link', { name: /^(Your|All) teams$/ })).toBeVisible();
     return {
       ...f,
       freeze: () => app.maintenance!.freeze(),

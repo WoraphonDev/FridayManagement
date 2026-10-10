@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-09",
+  "scope": "Checklist | Assign | Remark; + Add, inline edit, autosave outside row, trash icon",
+  "declared_effort": {
+    "T-033": "Medium",
+    "T-003/T-008/T-028": "High"
+  },
+  "actual_model_effort": "NOT_VERIFIED",
+  "npm_test": {
+    "status": "PASS",
+    "node": 462,
+    "frontend": 49,
+    "total": 511,
+    "contract_subset": 66,
+    "test_plan_subset": 17
+  },
+  "browser": {
+    "initial": {
+      "pass": 10,
+      "fail": 1,
+      "reason": "Test reloaded the page but did not reopen Task details; saved API data already verified"
+    },
+    "corrected": {
+      "pass": 2,
+      "fail": 0
+    },
+    "final_visual": {
+      "pass": 2,
+      "fail": 0
+    },
+    "distinct_latest_pass": 11,
+    "distinct_total": 11,
+    "port": 43239,
+    "synthetic_sqlite_only": true
+  },
+  "checks": {
+    "build": "PASS",
+    "typecheck": "PASS",
+    "lint": "PASS (2 existing warnings)",
+    "check_contract": "PASS (85 routes / 115 schemas)"
+  },
+  "local_upgrade": {
+    "migration": {
+      "provider": "sqlite",
+      "applied": [
+        "0014_checklist_remark.sql"
+      ],
+      "scope": "business schema; provider-specific acceptance recorded separately"
+    },
+    "legacyTables": 33,
+    "legacyRows": 256,
+    "legacyHashesPreserved": true,
+    "ready": true,
+    "backupOutsideRepository": true
+  },
+  "native_sqlserver": "NOT_RUN",
+  "windows": "NOT_RUN",
+  "uat": "NOT_RUN",
+  "task_register": {
+    "DONE": 7,
+    "IN_PROGRESS": 82,
+    "IN_REVIEW": 1,
+    "TODO": 1,
+    "total": 91,
+    "remaining": 84
+  },
+  "next_formal": {
+    "task": "T-091",
+    "effort": "High"
+  }
+}

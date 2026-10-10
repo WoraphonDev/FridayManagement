@@ -41,6 +41,7 @@ export function App() {
   const [self, setSelf] = useState<Self>();
   const [organizationName, setOrganizationName] = useState<string>();
   const [notifyOpen, setNotifyOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [settingsSection, setSettingsSectionState] = useState<SettingsSection>(() => {
     const s =
       typeof window === 'undefined'
@@ -382,6 +383,7 @@ export function App() {
       });
     return () => controller.abort();
   }, [orgSession, online, self?.view_revision]);
+  // Query changes select tabs/filters within the same page; keep the page stationary.
   useEffect(() => {
     if (!motionAllowed()) return;
     const page = document.querySelector('.content > section');
@@ -393,7 +395,7 @@ export function App() {
       { duration: 220, easing: 'cubic-bezier(.2,.7,.2,1)' },
     );
     return () => motion?.cancel();
-  }, [location.pathname, location.search]);
+  }, [location.pathname]);
   const navigate = useNavigate();
   // FR-53 deep link /projects/{id}/tasks/{taskId}: the task GET still enforces access.
   const deepLink = /^\/projects\/([1-9][0-9]{0,9})\/tasks\/([1-9][0-9]{0,9})$/.exec(
@@ -405,6 +407,12 @@ export function App() {
       navigate(`/projects?project=${linkProject}&task=${linkTask}`, { replace: true });
   }, [linkProject, linkTask, navigate]);
   const nav = allowedPages(self);
+  const isAdmin = self?.user.org_role === 'admin';
+  const role: Role = isAdmin
+    ? 'admin'
+    : self?.effective_summary.lead_team_ids.length
+      ? 'lead'
+      : 'member';
   const page = pages.find((p) => p.path === location.pathname);
   const allowed = nav.some((p) => p.path === location.pathname);
   const heading = setupComplete
@@ -436,7 +444,6 @@ export function App() {
         <NavLink to="/">
           <Brand />
         </NavLink>
-        {self && organizationName && <span className="top-title">{organizationName}</span>}
         <div className="topbar-actions">
           {self && (
             <button className="icon-button" aria-label="Help" onClick={() => setHelp(true)}>
@@ -469,13 +476,68 @@ export function App() {
             </div>
           )}
           {self && (
-            <NavLink
-              className="topbar-avatar"
-              to="/settings"
-              aria-label={`Profile of ${self.user.display_name}`}
-            >
-              {initials(self.user.display_name)}
-            </NavLink>
+            <div className="notify-anchor">
+              <button
+                className="topbar-avatar"
+                aria-label={`Profile of ${self.user.display_name}`}
+                aria-haspopup="menu"
+                aria-expanded={profileOpen}
+                onClick={() => setProfileOpen((v) => !v)}
+              >
+                {initials(self.user.display_name)}
+              </button>
+              {profileOpen && (
+                <>
+                  <button
+                    className="popover-backdrop"
+                    aria-label="Close profile menu"
+                    onClick={() => setProfileOpen(false)}
+                  />
+                  <div className="profile-menu" role="menu">
+                    <div className="profile-menu-head">
+                      <strong>{self.user.display_name}</strong>
+                      <small>
+                        {self.user.username} · {roleNames[role]}
+                      </small>
+                    </div>
+                    <NavLink
+                      role="menuitem"
+                      to="/settings?section=profile"
+                      onClick={() => {
+                        setSettingsSectionState('profile');
+                        setProfileOpen(false);
+                      }}
+                    >
+                      <NavIcon path={navIcons.profile} />
+                      <span>Profile</span>
+                    </NavLink>
+                    <NavLink
+                      role="menuitem"
+                      to="/settings?section=appearance"
+                      onClick={() => {
+                        setSettingsSectionState('appearance');
+                        setProfileOpen(false);
+                      }}
+                    >
+                      <NavIcon path={navIcons['/settings']} />
+                      <span>Settings</span>
+                    </NavLink>
+                    <button
+                      role="menuitem"
+                      className="profile-menu-signout"
+                      disabled={!online || !writable || logoutPending}
+                      onClick={() => {
+                        setProfileOpen(false);
+                        void logout();
+                      }}
+                    >
+                      <NavIcon path={navIcons.logout} />
+                      <span>Sign out</span>
+                    </button>
+                  </div>
+                </>
+              )}
+            </div>
           )}
         </div>
       </div>
@@ -495,71 +557,78 @@ export function App() {
           </span>
         </NavLink>
         <nav aria-label="Main navigation">
-          {!!orgSession && !!favorites.items.length && (
-            <div className="nav-section project-navigation" aria-label="Favorites">
-              <p className="nav-heading">Favorites</p>
-              {favorites.items.map((f) => (
+          <div className="nav-section">
+            {nav
+              .filter((p) => ['/', '/my-tasks', '/calendar'].includes(p.path))
+              .map((p) => (
+                <NavLink key={p.path} to={p.path} end onClick={() => setMenuOpen(false)}>
+                  <NavIcon path={navIcons[p.path]} />
+                  <span>{navLabels[p.path] ?? p.label}</span>
+                </NavLink>
+              ))}
+          </div>
+          {!!orgSession && nav.some((p) => p.path === '/projects') && (
+            <div className="nav-section project-navigation" aria-label="Projects">
+              <p className="nav-heading">Projects</p>
+              {[
+                ...favorites.items.map((f) => ({
+                  id: f.project_id,
+                  name: f.project_name,
+                  team: f.owner_team_name,
+                  star: true,
+                })),
+                ...sidebarProjects
+                  .filter((project) => !favorites.items.some((f) => f.project_id === project.id))
+                  .map((project) => ({
+                    id: project.id,
+                    name: project.name,
+                    team: project.owner_team_name,
+                    star: false,
+                  })),
+              ].map((item) => (
                 <NavLink
-                  key={f.project_id}
-                  to={`/projects?project=${f.project_id}`}
+                  key={item.id}
+                  to={`/projects?project=${item.id}`}
                   onClick={() => setMenuOpen(false)}
-                  aria-current={boardProject?.id === f.project_id ? 'page' : false}
-                  className={boardProject?.id === f.project_id ? 'project-active' : ''}
+                  aria-current={boardProject?.id === item.id ? 'page' : false}
+                  className={boardProject?.id === item.id ? 'project-active' : ''}
                 >
-                  <span className="nav-star" aria-hidden="true">
-                    ★
-                  </span>
+                  {item.star ? (
+                    <span className="nav-star" aria-hidden="true">
+                      ★
+                    </span>
+                  ) : (
+                    <NavIcon path={navIcons.project} />
+                  )}
                   <span className="nav-label">
-                    {f.project_name}
-                    <small>{f.owner_team_name}</small>
+                    {item.name}
+                    <small>{item.team}</small>
                   </span>
                 </NavLink>
               ))}
+              <NavLink
+                to="/projects"
+                end
+                className={({ isActive }) => (isActive && !boardProject ? 'active' : '')}
+                aria-current={location.pathname === '/projects' && !boardProject ? 'page' : false}
+                onClick={() => setMenuOpen(false)}
+              >
+                <NavIcon path={navIcons['/projects']} />
+                <span>{isAdmin ? 'All projects' : 'Browse projects'}</span>
+              </NavLink>
             </div>
           )}
-          {[
-            { label: 'Personal', paths: ['/', '/my-tasks'] },
-            { label: 'Workspace', paths: ['/projects', '/teams', '/calendar', '/reports'] },
-          ].map((section) => (
-            <div className="nav-section" key={section.label}>
-              <p className="nav-heading">{section.label}</p>
+          {nav.some((p) => ['/teams', '/reports'].includes(p.path)) && (
+            <div className="nav-section">
+              <p className="nav-heading">Team</p>
               {nav
-                .filter((p) => section.paths.includes(p.path))
+                .filter((p) => ['/teams', '/reports'].includes(p.path))
                 .map((p) => (
-                  <NavLink
-                    key={p.path}
-                    to={p.path}
-                    end
-                    aria-current={p.path === '/projects' && boardProject ? false : 'page'}
-                    className={({ isActive }) =>
-                      isActive && !(p.path === '/projects' && boardProject) ? 'active' : ''
-                    }
-                    onClick={() => setMenuOpen(false)}
-                  >
+                  <NavLink key={p.path} to={p.path} end onClick={() => setMenuOpen(false)}>
                     <NavIcon path={navIcons[p.path]} />
-                    <span>{navLabels[p.path] ?? p.label}</span>
+                    <span>{roleLabels[p.path]?.[role] ?? p.label}</span>
                   </NavLink>
                 ))}
-            </div>
-          ))}
-          {!!orgSession && !!sidebarProjects.length && (
-            <div className="nav-section project-navigation">
-              <p className="nav-heading">Your projects</p>
-              {sidebarProjects.map((project) => (
-                <NavLink
-                  key={project.id}
-                  to={`/projects?project=${project.id}`}
-                  onClick={() => setMenuOpen(false)}
-                  aria-current={boardProject?.id === project.id ? 'page' : false}
-                  className={boardProject?.id === project.id ? 'project-active' : ''}
-                >
-                  <NavIcon path={navIcons.project} />
-                  <span className="nav-label">
-                    {project.name}
-                    <small>{project.owner_team_name}</small>
-                  </span>
-                </NavLink>
-              ))}
             </div>
           )}
           {nav.some((p) => ['/trash', '/users'].includes(p.path)) && (
@@ -576,31 +645,6 @@ export function App() {
             </div>
           )}
         </nav>
-        {self && (
-          <div className="sidebar-bottom">
-            {nav.some((p) => p.path === '/settings') && (
-              <NavLink to="/settings" end onClick={() => setMenuOpen(false)}>
-                <NavIcon path={navIcons['/settings']} />
-                <span>Settings</span>
-              </NavLink>
-            )}
-            <button
-              className="sidebar-signout"
-              disabled={!online || !writable || logoutPending}
-              onClick={() => void logout()}
-            >
-              <NavIcon path={navIcons.logout} />
-              <span>Sign out</span>
-            </button>
-            <div className="sidebar-profile">
-              <span className="profile-initials">{initials(self.user.display_name)}</span>
-              <span>
-                <strong>{self.user.display_name}</strong>
-                <small>{self.user.org_role}</small>
-              </span>
-            </div>
-          </div>
-        )}
       </aside>
       <main
         id="main-content"
@@ -619,13 +663,13 @@ export function App() {
           </h1>
           {page && pageDescriptions[page.path] && <p>{pageDescriptions[page.path]}</p>}
         </header>
-        {!online && <Toast>Connect to save changes. Offline saving is unavailable.</Toast>}
-        {online && !writable && <Toast>Checking for updates before enabling changes</Toast>}
+        {!online && <Toast persist>Connect to save changes. Offline saving is unavailable.</Toast>}
+        {online && !writable && <Toast persist>Checking for updates before enabling changes</Toast>}
         <Pwa mode={self ? 'update-only' : 'floating'} />
         <ConfirmHost />
-        {self?.maintenance && <Toast>Maintenance in progress. Please try again later.</Toast>}
+        {self?.maintenance && <Toast persist>Maintenance in progress. Please try again later.</Toast>}
         {self && (self.must_change_password || self.user.must_change_password) && (
-          <Toast>Change your password to continue</Toast>
+          <Toast persist>Change your password to continue</Toast>
         )}
         <section aria-label="Page content">
           <div className={!self || setupRequired ? 'auth-content' : undefined}>
@@ -794,6 +838,11 @@ export function App() {
           </div>
           {(!self || setupRequired) && <AuthArtwork />}
         </section>
+        {self && !setupRequired && (
+          <footer className="app-footer">
+            © {new Date().getFullYear()} Blackbox Solution Co.,Ltd. All rights reserved.
+          </footer>
+        )}
       </main>
       {help && (
         <Dialog title="Workspace help" onClose={() => setHelp(false)}>
@@ -851,6 +900,12 @@ const pageDescriptions: Record<string, string> = {
   '/users': 'Manage members, teams, job titles and permissions',
   '/settings': 'Manage your profile and preferences',
 };
+type Role = 'member' | 'lead' | 'admin';
+const roleNames: Record<Role, string> = { member: 'Member', lead: 'Team lead', admin: 'Admin' };
+const roleLabels: Record<string, Record<Role, string>> = {
+  '/teams': { member: 'Your teams', lead: 'Your teams', admin: 'All teams' },
+  '/reports': { member: 'Your reports', lead: 'Team reports', admin: 'Organization reports' },
+};
 const navLabels: Record<string, string> = {
   '/projects': 'All projects',
   '/calendar': 'Work calendar',
@@ -885,6 +940,7 @@ const navIcons: Record<string, string> = {
   help: 'M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20M9.1 9a3 3 0 0 1 5.8 1c0 2-3 3-3 3M12 17h.01',
   logout: 'M9 21H5V3h4M16 17l5-5-5-5M21 12H9',
   project: 'M3 4h18v16H3zM3 10h18M9 4v16',
+  profile: 'M12 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8M4 21a8 8 0 0 1 16 0',
   '/': 'M3 11 12 3l9 8M5 9v12h5v-7h4v7h5V9',
   '/my-tasks': 'M4 5h16v16H4zM8 3v4m8-4v4M8 13l2 2 5-5',
   '/projects': 'M3 7h7l2-3h9v16H3z',

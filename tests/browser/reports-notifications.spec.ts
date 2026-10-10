@@ -383,3 +383,90 @@ test('T054 Monday-style report mobile360, keyboard controls, 200% text zoom and 
     await f.close();
   }
 });
+
+test('T054 colorful dashboard: exact animated decimals, scoped chart motion and reduced-motion preferences', async ({
+  page,
+}) => {
+  const f = await projectFixture(page);
+  try {
+    for (let i = 0; i < 6; i++) {
+      const task = await create(page, `Colorful report fixture ${i}`, {
+        assignee_id: i ? 1 : null,
+      });
+      if (i >= 2)
+        expect(
+          (
+            await mutate(
+              page,
+              `/api/tasks/${task.id}`,
+              { version: 1, status: ['doing', 'review', 'done', 'done'][i - 2] },
+              'PATCH',
+            )
+          ).status,
+        ).toBe(200);
+    }
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await reports(page);
+    const cards = page.locator('.report-metric');
+    await expect(cards).toHaveCount(5);
+    const rate = page.locator('.metric-violet dd');
+    await expect(rate.locator('[aria-label="33.33%"]')).toBeVisible();
+    await expect(rate).toHaveText('33.33%');
+    expect(
+      await cards.evaluateAll(
+        (items) =>
+          new Set(
+            items.map((item) => getComputedStyle(item).getPropertyValue('--metric-color').trim()),
+          ).size,
+      ),
+    ).toBe(5);
+    const bar = page.locator('.bar-track i').first();
+    expect(await bar.evaluate((el) => getComputedStyle(el).animationName)).toBe('report-bar-fill');
+    expect(await bar.evaluate((el) => getComputedStyle(el).animationDuration)).toBe('0.65s');
+    await page.screenshot({
+      path: 'reports/UI-reports-colorful-desktop.png',
+      animations: 'disabled',
+      fullPage: true,
+    });
+    await page.setViewportSize({ width: 360, height: 900 });
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+      true,
+    );
+    await page.screenshot({
+      path: 'reports/UI-reports-colorful-mobile.png',
+      animations: 'disabled',
+      fullPage: true,
+    });
+    await page.emulateMedia({ reducedMotion: 'reduce' });
+    await page.getByLabel('Assignee', { exact: true }).selectOption('1');
+    await expect(rate).toHaveText('40.00%');
+    expect(
+      await page
+        .locator('.bar-track i')
+        .first()
+        .evaluate((el) => parseFloat(getComputedStyle(el).animationDuration)),
+    ).toBeLessThan(0.001);
+    await page.emulateMedia({ reducedMotion: 'no-preference' });
+    expect(
+      (await mutate(page, '/api/me/preferences', { reduce_motion: true }, 'PATCH')).status,
+    ).toBe(200);
+    await page.reload();
+    await expect(page.locator('html')).toHaveClass(/reduce-motion/);
+    await expect(rate).toHaveText('33.33%');
+    expect(
+      await page
+        .locator('.bar-track i')
+        .first()
+        .evaluate((el) => parseFloat(getComputedStyle(el).animationDuration)),
+    ).toBeLessThan(0.001);
+    await page.getByLabel('Assignee', { exact: true }).selectOption('1');
+    await expect(rate).toHaveText('40.00%');
+    const accessible = await page.evaluate(
+      async () =>
+        (await (await fetch('/api/reports/summary?assignee=1')).json()).completion_percentage,
+    );
+    expect(accessible).toBe(40);
+  } finally {
+    await f.close();
+  }
+});

@@ -1,0 +1,49 @@
+{
+  "date": "2026-10-09",
+  "scope": "Reports colors/layout/chart motion",
+  "declared_effort": {
+    "T-054": "Medium"
+  },
+  "reused_motion_task": "T-089",
+  "actual_model_effort": "NOT_VERIFIED",
+  "profile": "Node22 / temporary SQLite / Chromium",
+  "checks": {
+    "typecheck": "PASS",
+    "build": "PASS",
+    "focused_lint": "PASS",
+    "frontend": {
+      "passed": 49,
+      "failed": 0
+    },
+    "browser": {
+      "passed": 5,
+      "failed": 0
+    },
+    "final_visual": {
+      "passed": 1,
+      "failed": 0
+    },
+    "test_plan_check": "PASS",
+    "test_plan_policy": {
+      "passed": 17,
+      "failed": 0
+    },
+    "live_5000_read_only": "PASS",
+    "sql2022": "NOT_RUN",
+    "windows": "NOT_RUN",
+    "uat": "NOT_RUN"
+  },
+  "api_schema_permission_changes": false,
+  "task_register": {
+    "done": 7,
+    "total": 91,
+    "remaining": 84,
+    "in_progress": 82,
+    "in_review": 1,
+    "todo": 1
+  },
+  "next": {
+    "task": "T-091",
+    "effort": "High"
+  }
+}

@@ -10,6 +10,11 @@ const move = { task_id: 101, task_version: 3, from_status: 'todo', to_status: 'd
 const validTask = (body) => validateRequest('POST', '/api/tasks', body).valid;
 
 test('T-003 route/owner/schema/policy inventory matches SRS and Task Register', () => assert.equal(checkContract().result, 'PASS'));
+test('TC-052 group-order EventChange accepts persisted anchors while rejecting unknown fields', () => {
+  const validate = schemaValidator('EventChange');
+  for (const after of [12, null]) assert(validate({ field: 'group_before_task_id', before: null, after }));
+  assert.equal(validate({ field: 'unknown_history_field', before: null, after: 12 }), false);
+});
 test('SRS create-task JSON example validates without altering it', () => {
   const srs = readFileSync('TeamFlow_SRS_v1.0.md', 'utf8');
   const example = JSON.parse(srs.split('### 12.3 Example create task')[1].match(/```json\n([\s\S]+?)\n```/)[1]);
@@ -124,7 +129,7 @@ test('bodyless commands reject extra body; 204 never has a content schema', () =
 });
 test('Task DTO includes scoped display context and rejects nested private account fields', () => {
   const time = '2026-10-05T00:00:00.000Z';
-  const dto = { group_id: null, id: 101, project_id: 12, project_name: 'รายงาน', owner_team_id: 1, owner_team_name: 'ทีมทดสอบ', title: 'ตรวจยอด', description: '', category: '', status: 'todo', priority: 'medium', assignee_ids: [7], assignees: [{ id: 7, display_name: 'ผู้ทดสอบ', active: true }], assignee_id: 7, assignee: { id: 7, display_name: 'ผู้ทดสอบ', active: true }, creator_id: 1, start_date: null, due_date: null, recurrence: 'none', recurrence_anchor_day: null, predecessor_task_id: null, successor_task_id: null, version: 1, created_at: time, updated_at: time, completed_at: null, deleted_at: null, deleted_by: null, subtask_count: 0, subtask_done_count: 0, overdue: false };
+  const dto = { group_id: null, id: 101, task_no: 'TK26100001', project_id: 12, project_name: 'รายงาน', owner_team_id: 1, owner_team_name: 'ทีมทดสอบ', title: 'ตรวจยอด', description: '', category: '', status: 'todo', priority: 'medium', assignee_ids: [7], assignees: [{ id: 7, display_name: 'ผู้ทดสอบ', active: true }], assignee_id: 7, assignee: { id: 7, display_name: 'ผู้ทดสอบ', active: true }, creator_id: 1, start_date: null, due_date: null, recurrence: 'none', recurrence_anchor_day: null, predecessor_task_id: null, successor_task_id: null, version: 1, created_at: time, updated_at: time, completed_at: null, deleted_at: null, deleted_by: null, subtask_count: 0, subtask_done_count: 0, overdue: false };
   const v = schemaValidator('Task'); assert(v(dto));
   assert.equal(v({ ...dto, assignee: { ...dto.assignee, password_hash: 'private' } }), false);
   assert.equal(v({ ...dto, storage_path: 'private' }), false);
@@ -137,4 +142,14 @@ test('board fallback signals incomplete ordering instead of pretending a partial
   const columns = ['todo', 'doing', 'review', 'done'].map((status) => ({ status, version: 1, task_ids: [], complete: false }));
   assert(v({ project_id: 1, mode: 'list_required', total: 501, columns, tasks: [] }));
   assert.equal(v({ project_id: 1, mode: 'list_required', total: 501, columns: columns.map(({ complete, ...rest }) => rest), tasks: [] }), false);
+});
+
+test('checklist remark accepts plain text, supports empty clear and rejects dates/null/oversize', () => {
+  const create = (b) => validateRequest('POST', '/api/tasks/{id}/subtasks', { title: 'Checklist', task_version: 1, ...b }).valid;
+  const patch = (b) => validateRequest('PATCH', '/api/subtasks/{id}', { version: 1, task_version: 2, ...b }).valid;
+  assert(create({ remark: '  Notes \u{1f680}\nSecond line  ' }));
+  assert(create({ remark: '\u{1f600}'.repeat(1000) }));
+  assert(patch({ remark: '' }));
+  for (const remark of [null, '\u{1f600}'.repeat(1001)]) { assert.equal(create({ remark }), false); assert.equal(patch({ remark }), false); }
+  for (const field of ['start_date', 'due_date']) { assert.equal(create({ [field]: '2026-10-09' }), false); assert.equal(patch({ [field]: '2026-10-09' }), false); }
 });

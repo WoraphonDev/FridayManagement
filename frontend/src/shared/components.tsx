@@ -1,7 +1,9 @@
+import { UiIcon } from './UiIcon';
 import {
   useEffect,
   useId,
   useRef,
+  useState,
   type InputHTMLAttributes,
   type HTMLAttributes,
   type FormEvent,
@@ -42,11 +44,19 @@ export function ErrorNotice({ error, retry }: { error: ApiError; retry?: () => v
     </div>
   );
 }
-export function Toast({ children }: { children: ReactNode }) {
+/** Popup notice at the bottom-right. Transient notices hide after 2 s; `persist` keeps a status visible. */
+export function Toast({ children, persist = false }: { children: ReactNode; persist?: boolean }) {
+  const [hidden, setHidden] = useState<ReactNode>(null);
+  useEffect(() => {
+    if (persist) return;
+    const timer = window.setTimeout(() => setHidden(children), 2000);
+    return () => window.clearTimeout(timer);
+  }, [children, persist]);
+  if (!persist && hidden === children) return null;
   return (
-    <div role="status" aria-live="polite" className="toast">
+    <div role="status" aria-live="polite" className={`toast ${persist ? 'toast-persist' : ''}`}>
       {children}
-      <i className="toast-progress" aria-hidden="true" />
+      {!persist && <i className="toast-progress" aria-hidden="true" />}
     </div>
   );
 }
@@ -232,7 +242,7 @@ export function Dialog({
       }}
       onCancel={(event) => {
         event.preventDefault();
-        if (dialog.current?.querySelector('[role="combobox"][aria-expanded="true"]')) return;
+        if (dialog.current?.querySelector('[data-cell-picker][aria-expanded="true"], [role="combobox"][aria-expanded="true"]')) return;
         onClose();
       }}
       // Clicking the backdrop (press and release outside the panel) closes like Esc; the
@@ -262,7 +272,7 @@ export function Dialog({
         autoFocus
         onClick={onClose}
       >
-        ×
+        <UiIcon name="close" />
       </button>
     </dialog>
   );
