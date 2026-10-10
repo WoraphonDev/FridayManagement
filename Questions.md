@@ -9,6 +9,7 @@
 | Q-T-093-1 | T-093 | ANSWERED 2026-10-10: A (มีอยู่แล้ว) | — |
 | Q-T-094-1 | T-094 | ANSWERED 2026-10-10: ระบบทดสอบอัตโนมัติ | — |
 | Q-T-007-1 | T-007 | ANSWERED 2026-10-10: A | — |
+| Q-T-081-1 | T-081 | OPEN | ปิดข้อ negative matrix ของ T-081 (P-02/P-10) |
 
 ## Q-T-092-1 — Production exposure และ encryption at rest
 **คำตอบ (owner 2026-10-10):** B — เปิดให้เข้าจาก internet ผ่าน reverse proxy + HTTPS/HSTS; encryption at rest ใช้ BitLocker (ค่าเริ่มต้นตาม A ยังใช้กับ disk) จนกว่าจะมีคำสั่งอื่น
@@ -36,3 +37,12 @@
 T-007 ระบุ "query plans NOT_RUN" แต่ไม่มี test case/เกณฑ์ว่าต้องตรวจ query ใด
 - **A (Recommended):** ตรวจ execution plan จริงบน SQL2022 ของ 6 query หลัก (task list ต่อโปรเจกต์+filter, My work, board columns, notifications unread, report summary, directory search) บน dataset ตาม SRS §13.3 (10,000 tasks); ผ่านเมื่อใช้ index seek ไม่มี table scan บนตารางใหญ่ และ p95 อยู่ในเกณฑ์ §13.3 — เพิ่มเป็น test SQL2022 เฉพาะ
 - **B:** ตัดข้อ query plan ออก ใช้ผล performance test (§13.3) อย่างเดียวเป็นเกณฑ์
+
+## Q-T-081-1 — P-02 / P-07 / P-10 ไม่ตรงกับตาราง SRS §4.4
+ตรวจโค้ด 2026-10-10 (T-081 matrix): P-01/P-03/P-04/P-05/P-06/P-08/P-09 บังคับตาม SRS และมี test แล้ว แต่ 3 key ไม่มีผลในโค้ด
+- **P-02 จัดการ Group:** โค้ดให้ทุกคนที่มีสิทธิ์เขียนโปรเจกต์ (editor และ manager ทุกคน) จัดการ Group ได้; SRS บอก "Manager ไม่มี key → ไม่ได้" แต่ "Editor → ตามเดิม" ซึ่งขัดกันเอง (manager ไม่มี key จะมีสิทธิ์น้อยกว่า editor)
+- **P-07 Overview/Reports/CSV:** SRS ให้คนไม่มี key ได้ "ตาม Editor/ตามโปรเจกต์ที่เข้าถึง" อยู่แล้ว → key ไม่เพิ่มสิทธิ์ใด ๆ; โค้ดตรงกับ SRS แต่ key นี้ไม่มีความหมาย
+- **P-10 Team reports:** `/api/reports/summary?team=` ไม่ตรวจ P-10; ผลยังจำกัดตามโปรเจกต์ที่เข้าถึง (ไม่มีข้อมูลรั่ว) แต่ "ไม่ได้" ของ SRS ไม่ถูกบังคับ
+
+- **A (Recommended):** แก้ SRS ให้ตรงกับพฤติกรรมจริง — P-02: manager ทุกคนจัดการ Group ได้เหมือน editor (ตัดคอลัมน์ "ไม่ได้"); P-07/P-10: ระบุว่าเป็นป้ายแสดงสิทธิ์ (no-op) หรือนำออกจาก catalog ใน release ถัดไป; ไม่เปลี่ยนโค้ด/สิทธิ์ผู้ใช้ปัจจุบัน
+- **B:** แก้โค้ดให้ตรง SRS — P-02 ปฏิเสธ manager ที่ไม่มี key (editor ยังทำได้), P-10 ปฏิเสธ `?team=` เมื่อไม่ใช่ Admin/Lead/ผู้ถือ P-10; เป็นการลดสิทธิ์ผู้ใช้ปัจจุบัน ต้องแจ้งผู้ใช้และเพิ่ม test
