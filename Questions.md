@@ -8,6 +8,7 @@
 | Q-T-092-2 | T-092 | ANSWERED 2026-10-10: A (ไม่ทำ MFA ใน v1) | — |
 | Q-T-093-1 | T-093 | ANSWERED 2026-10-10: A (มีอยู่แล้ว) | — |
 | Q-T-094-1 | T-094 | ANSWERED 2026-10-10: ระบบทดสอบอัตโนมัติ | — |
+| Q-T-007-1 | T-007 | OPEN | ปิด T-007 (SQL2022 query plans) |
 
 ## Q-T-092-1 — Production exposure และ encryption at rest
 **คำตอบ (owner 2026-10-10):** B — เปิดให้เข้าจาก internet ผ่าน reverse proxy + HTTPS/HSTS; encryption at rest ใช้ BitLocker (ค่าเริ่มต้นตาม A ยังใช้กับ disk) จนกว่าจะมีคำสั่งอื่น
@@ -29,3 +30,8 @@
 **คำตอบ (owner 2026-10-10):** ให้ระบบทดสอบ — automated pentest ด้วยเครื่องมือ (ZAP/Trivy/Gitleaks) + scripted negative tests ที่ Agent รันบน staging; independent human review บันทึกเป็น outstanding
 - **A (Recommended):** Self-test ตามแผนโดยผู้ที่ไม่ได้ implement + บันทึกว่า independent review ยังเป็น outstanding
 - **B:** จ้าง/ขอทีม security ภายนอกองค์กรทดสอบ (มีค่าใช้จ่าย/เวลา)
+
+## Q-T-007-1 — เกณฑ์ตรวจ SQL Server query plans
+T-007 ระบุ "query plans NOT_RUN" แต่ไม่มี test case/เกณฑ์ว่าต้องตรวจ query ใด
+- **A (Recommended):** ตรวจ execution plan จริงบน SQL2022 ของ 6 query หลัก (task list ต่อโปรเจกต์+filter, My work, board columns, notifications unread, report summary, directory search) บน dataset ตาม SRS §13.3 (10,000 tasks); ผ่านเมื่อใช้ index seek ไม่มี table scan บนตารางใหญ่ และ p95 อยู่ในเกณฑ์ §13.3 — เพิ่มเป็น test SQL2022 เฉพาะ
+- **B:** ตัดข้อ query plan ออก ใช้ผล performance test (§13.3) อย่างเดียวเป็นเกณฑ์

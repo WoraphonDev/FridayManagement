@@ -7,7 +7,7 @@
 | Task Register | `TeamFlow_Task_v1.0.md` — DONE 8/94 · IN_PROGRESS 83 · IN_REVIEW 1 · TODO 2 · remaining 86 |
 | Phase ปัจจุบัน | Implementation/verification บน SQLite local; SQL Server 2022/Windows/UAT ยัง NOT_RUN |
 | Security | `docs/07-security.md` 1.0 APPROVED; OWASP/Pen-Test NOT_RUN |
-| Open questions | 0 (ตอบครบ 2026-10-10) |
+| Open questions | 1 (Q-T-007-1) |
 
 ## Next
 1. T-091 (High) — regression รวม + SQL Server 2022 native + Windows + UAT
