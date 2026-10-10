@@ -106,7 +106,19 @@ export function CalendarView({
         </span>
         <button onClick={() => setMonth(today.slice(0, 7) + '-01')}>Today</button>
       </div>
-      <div className="calendar-scroll" tabIndex={0} aria-label="Calendar month">
+      <div
+        className="calendar-scroll"
+        tabIndex={0}
+        aria-label="Calendar month"
+        onKeyDown={(event) => {
+          // Safari does not arrow-scroll a focused overflow region; do it explicitly everywhere.
+          if (event.target !== event.currentTarget) return;
+          const step = event.key === 'ArrowRight' ? 80 : event.key === 'ArrowLeft' ? -80 : 0;
+          if (!step) return;
+          event.preventDefault();
+          event.currentTarget.scrollBy({ left: step });
+        }}
+      >
         <div className="calendar-grid">
           {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
             <strong className="weekday" key={d}>

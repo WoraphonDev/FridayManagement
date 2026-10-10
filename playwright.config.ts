@@ -12,7 +12,8 @@ export default defineConfig({
   retries: 0,
   use: {
     baseURL: `http://127.0.0.1:${port}`,
-    browserName: 'chromium',
+    // Default Chromium; FRIDAY_BROWSER_NAME=firefox|webkit runs the same suite for the T-058 matrix.
+    browserName: (process.env.FRIDAY_BROWSER_NAME as 'chromium' | 'firefox' | 'webkit') ?? 'chromium',
     ...(process.env.FRIDAY_BROWSER_CHANNEL === 'chrome' ? { channel: 'chrome' } : {}),
   },
   webServer: {

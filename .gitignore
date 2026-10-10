@@ -27,3 +27,4 @@ upload-temp/
 # OS metadata and packaged release archives
 .DS_Store
 deliverables/*.zip
+test-results-*/

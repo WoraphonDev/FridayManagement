@@ -340,6 +340,10 @@ test('T037 touch scroll and long-press drag with keyboard/menu alternative on em
   page,
   browser,
 }, testInfo) => {
+  test.skip(
+    browser.browserType().name() !== 'chromium',
+    'Touch emulation uses a Chromium-only CDP session',
+  );
   const f = await setupCards(page);
   let context;
   try {
