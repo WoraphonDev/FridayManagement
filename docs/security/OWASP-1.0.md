@@ -42,5 +42,5 @@ Findings: ลงในตารางด้านล่างพร้อม sev
 |---|---|---|---|---|
 | F-01 | Low | A05 | ไม่มี `Permissions-Policy` header | **FIXED 2026-10-10** `src/api/app.ts` + test `tests/api/http.test.ts` (15/15) + SRS §13.1; Chromium 88/88 PASS — retest ZAP ใน T-093 |
 | F-02 | Low | A05 | ไม่มี COOP/CORP (Spectre isolation) | **FIXED 2026-10-10** COOP/CORP same-origin (COEP ไม่เพิ่ม: อาจบล็อก blob/PWA) — retest ใน T-093 |
-| F-03 | Medium (ต้องประเมิน reachability) | A06 | postcss/braces HIGH ใน dependency tree | ยืนยันว่าเป็น build-time เท่านั้น; อัปเกรดผ่าน T-003/T-005 |
+| F-03 | Low (re-rated) | A06 | postcss/braces HIGH ใน dependency tree | **ASSESSED 2026-10-10 → Low, not reachable**: path `@vibe/core@4.5.34 → @vibe/style@4.1.0 → postcss@8.4.31 / stylelint@14.16.1 → micromatch → braces@3.0.3`; ไม่มี import ใน src/frontend และ `dist/` ไม่มีโค้ดของแพ็กเกจเหล่านี้ (มีแค่ CSS comment) → ไม่ถูกเรียกตอน runtime; ติดตามอัปเกรดเมื่อ @vibe ออกรุ่นใหม่ผ่าน T-003/T-005 (ไม่ override เอง) |
 | F-04 | Info | — | ZAP authenticated coverage จำกัดเพราะ session ถูก revoke | T-094: exclude logout/password/session routes และใช้ role accounts ครบ |
