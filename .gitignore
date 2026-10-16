@@ -32,3 +32,4 @@ test-results-*/
 deploy/.env
 deploy/backups/
 deliverables/
+scripts/pack-split.sh
