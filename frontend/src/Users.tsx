@@ -12,6 +12,7 @@ import { currentPassword, newPassword, username, displayName, failureMessage } f
 import { Field, Form, DataTable, Dialog, EmptyState, Loading, Toast } from './shared/components';
 import { loadJobTitles, type JobTitle } from './admin-api';
 import { teamPage, type Team } from './workspace-api';
+import { registrationsPage } from './registration-api';
 const client = apiClient();
 type Action = 'create' | 'edit' | 'active' | 'reset';
 export function Users({
@@ -19,11 +20,13 @@ export function Users({
   online,
   onFailure,
   onSelfChange,
+  onReviewRegistrations,
 }: {
   self: Self;
   online: boolean;
   onFailure: (error: ApiError) => void;
   onSelfChange: () => void;
+  onReviewRegistrations?: () => void;
 }) {
   const [data, setData] = useState<z.infer<typeof userPageSchema>>(),
     [q, setQ] = useState(''),
@@ -36,7 +39,28 @@ export function Users({
     [loading, setLoading] = useState(true),
     [failure, setFailure] = useState(''),
     [notice, setNotice] = useState(''),
-    [action, setAction] = useState<{ kind: Action; user?: AdminUser }>();
+    [action, setAction] = useState<{ kind: Action; user?: AdminUser }>(),
+    [unreviewed, setUnreviewed] = useState<Set<number>>(new Set());
+  // Self-registered accounts are activated only by approval in Admin → Registrations.
+  useEffect(() => {
+    const controller = new AbortController();
+    void Promise.all(
+      (['pending', 'rejected'] as const).map((status) =>
+        client.request(`/api/registrations?status=${status}&page=1&pageSize=100`, {
+          signal: controller.signal,
+          parse: (v) => registrationsPage.parse(v),
+        }),
+      ),
+    )
+      .then((pages) => {
+        if (!controller.signal.aborted)
+          setUnreviewed(new Set(pages.flatMap((p) => p.items.map((r) => r.user_id))));
+      })
+      .catch(() => {
+        /* advisory only; the server still rejects activation */
+      });
+    return () => controller.abort();
+  }, [reload]);
   useEffect(() => {
     const controller = new AbortController();
     const params = new URLSearchParams({
@@ -182,13 +206,22 @@ export function Users({
                   >
                     Edit
                   </button>
-                  <button
-                    aria-label={`${u.active ? 'Deactivate' : 'Activate'} ${u.username}`}
-                    disabled={!online || self.maintenance}
-                    onClick={() => setAction({ kind: 'active', user: u })}
-                  >
-                    {u.active ? 'Deactivate' : 'Activate'}
-                  </button>
+                  {!u.active && unreviewed.has(u.id) && onReviewRegistrations ? (
+                    <button
+                      aria-label={`Review ${u.username} in Registrations`}
+                      onClick={onReviewRegistrations}
+                    >
+                      Review in Registrations
+                    </button>
+                  ) : (
+                    <button
+                      aria-label={`${u.active ? 'Deactivate' : 'Activate'} ${u.username}`}
+                      disabled={!online || self.maintenance}
+                      onClick={() => setAction({ kind: 'active', user: u })}
+                    >
+                      {u.active ? 'Deactivate' : 'Activate'}
+                    </button>
+                  )}
                   <button
                     aria-label={`Reset password ${u.username}`}
                     disabled={!online || self.maintenance}
@@ -358,6 +391,7 @@ function UserAction({
               : 'Enter a temporary password. The user must change it at their first sign-in.'}
       </p>
       {failure && <p role="alert">{failure}</p>}
+      {errors.active && <p role="alert">{errors.active}</p>}
       {conflict && (
         <button disabled={pending || !online} onClick={() => void load()}>
           Load latest data

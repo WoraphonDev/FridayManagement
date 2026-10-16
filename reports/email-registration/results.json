@@ -1,0 +1,105 @@
+{
+  "date": "2026-10-12",
+  "runtime": "Node22.23.3",
+  "declared_effort": {
+    "T-014": "High",
+    "T-016": "High",
+    "T-017": "Medium",
+    "T-018": "Medium"
+  },
+  "actual_model_effort": "NOT_VERIFIED",
+  "api": {
+    "version": "1.13.0",
+    "routes": 89,
+    "schemas": 120
+  },
+  "full_regression": {
+    "status": "PASS",
+    "node": 478,
+    "frontend": 49,
+    "total": 527,
+    "note": "Before final bounded-version helper refinement; final relevant checks below"
+  },
+  "final_focused": {
+    "status": "PASS",
+    "sqlite_registration": 7,
+    "http": 2,
+    "populated_upgrade": 1,
+    "total": 10
+  },
+  "native": {
+    "postgres": {
+      "status": "PASS",
+      "distinct_cases": 7,
+      "final_affected": 5
+    },
+    "sqlserver": {
+      "status": "PASS",
+      "distinct_cases": 7,
+      "final_affected": 5
+    }
+  },
+  "browser": {
+    "status": "PASS",
+    "distinct_cases": 9,
+    "initial_batch": {
+      "pass": 7,
+      "fail": 2
+    },
+    "corrected": {
+      "pass": 2,
+      "fail": 0
+    },
+    "final_email_flow": {
+      "pass": 1,
+      "fail": 0
+    }
+  },
+  "checks": {
+    "typecheck": "PASS",
+    "build": "PASS",
+    "lint": "PASS",
+    "contract": "PASS",
+    "test_plan": "PASS"
+  },
+  "not_run": [
+    "Windows native",
+    "full browser/device matrix",
+    "human UAT",
+    "live migration/deployment"
+  ],
+  "register": {
+    "completed": 9,
+    "total": 96,
+    "remaining": 87,
+    "in_progress": 84,
+    "in_review": 1,
+    "todo": 2
+  },
+  "sha256": {
+    "admin-desktop.png": "d31b0a234a05394ad13529146011459da74b3385e9c5b75af68bb9272708bb7e",
+    "admin-mobile.png": "5af54896cbae97efa81e9d8d4cf616d26aac92d897f9bc9b74d8e28c6babf365",
+    "browser-correction.log": "5aba7705f26c46fdca514ecfde2f21a8ff3720894a2e204a43579b0baf63b8de",
+    "browser-final.log": "ed2380fc53cfe395cc28aaa1b5a8c30f2c311b93944f3a46be0633b6e3c77635",
+    "browser-initial.log": "c2a46d619eecdd4ccca21d2f6efb587c1f805703c9c799830fa90ad835348e8d",
+    "browser-last.log": "d47eb7d19728c533bbb821c9faa4f37313ad26ef9364c50475c4cb0b8263d7b9",
+    "build.log": "cf795f84b5b648bcb4bc9f476a115d66eb2700cb995118788e0b49af643416e2",
+    "contract.log": "59890ba1eda497cf519830d57d73bec4f3250cd7f7a22df679f3d20381d717e8",
+    "focused-final.log": "a94c110bb4eaf991c5eacddc8caf5d517b015d84c767bada2eac6722590dc5c3",
+    "focused-initial.log": "b734843579f9c94b68d4abd298218d93b9baac989520c7fb6dfb2eaee441eedf",
+    "http-sandbox-fail.log": "105b474b62fa6c5861cb164ac22d579f0539203d0dab3baccb80e23f0c341f87",
+    "lint.log": "625e5bc66a2d478396610f73ba2e7eac1537b64851820d54526fbada7924421c",
+    "plan.log": "d2230dca95173409b94c21103ba2e011a3a37e83af92595e01ce5b3e84b3beea",
+    "postgres-contact.log": "784e958daba27981487b0dab8339f5655e2c9fe6b07e0b019d9a4432dfbacbcb",
+    "postgres-core.log": "f9689541d5043848e7d3a56c54648b538834572cb99f9bb15b3551827b28cda8",
+    "postgres-final.log": "ee773f24a946cffd5aa42961db9895e852c6edcce1eda09f333a853d1386ce9b",
+    "regression-final.log": "e27573fa889fbdd903c9d0634de609e850bf94d289f7734c42bed824791d355e",
+    "regression-initial.log": "88b60cf24ac01c6d4693db1c0f87355f6aba19363e414bccfc7ff30eb4f18005",
+    "signup-mobile.png": "f9c2de0c960153cd7c7a3b1f4c7fac6b8f33203e34e934a4cc22afbdefbab085",
+    "sqlite-initial-fail.log": "93a31fcd64bd2509cceb1d3b9d45ac68a06594db9ea393c6723f0cc6f734fc7d",
+    "sqlserver-contact.log": "52bd0d50d35b6b9081a0b9bea7bdf2e29f8d37b5515bdf5cc421a7ab201393f3",
+    "sqlserver-core.log": "5534d7b444817f6cd96bfaa1f4f31c389b711b76d7edc61eaf642ea846f70b21",
+    "sqlserver-final.log": "ec8cc801ee81edc608d9c23f00df626a02adcf490509ae613150c45f4725e739",
+    "typecheck.log": "f3d5216c26c518f8e28bfa66508f50c58326ae569dac9ed76432ca96d57b5111"
+  }
+}

@@ -39,3 +39,9 @@ npm run check:test-plan
 API1.1.0/DTO/wire format เป็น locked contract: [API Contract](TeamFlow_API_Contract.md), contracts/openapi.json; เปลี่ยน schema ให้ `build:contract`/`check:contract`/`test:contract`. Permission ต้องตรวจ server/transaction ไม่ใช้ UI hiding. Tests/fixtures cookies/CSRF/key/clock ดู [Regression harness](TeamFlow_Regression_Harness.md); run SQL2022 แยกจริง ไม่แปลง local PASS เป็น SQL PASS. Test-plan checkerตรวจinventory ไม่ใช่ application acceptance.
 
 Configuration/migration/sample-data/recovery: [Configuration](TeamFlow_Configuration.md), [Windows installation](TeamFlow_Windows_Installation.md), [Backup/Recovery](TeamFlow_Backup_Recovery.md), [Database schema](TeamFlow_Database_Schema.md), README. Envไม่โหลดเองใช้ Node --env-file หรือ process environment; ไม่ commit secrets/DB/uploads. ไม่มี source ZIP/production-ready sign-off จน finalgates ผ่าน; T-065/T-066/T-067–069และ native SQL/Windows/browser/UAT criteria ยังต้องปิดด้วยหลักฐานจริง.
+
+## สมัครสมาชิกด้วยอีเมล —12October2026
+
+จากหน้า Sign in กด Create an account ใส่ Member name, Email, Password และ Confirm password แล้วกด Register. ต้องรอ Admin อนุมัติก่อนเข้าสู่ระบบ; ไม่มีอีเมลยืนยันหรือข้อความส่งอัตโนมัติ. Admin ไป Admin→Registrations เลือก Pending ตรวจตัวตน แล้ว Approve/Reject→Confirm; Cancel ไม่เปลี่ยนข้อมูล. หลังอนุมัติใช้ email/password ที่สมัครในช่อง Username เพื่อเข้าสู่ระบบ. Admin จัดทีมและสิทธิ์โปรเจกต์ผ่าน Members/Teams แยกต่างหาก.
+
+อีเมลสำหรับ login คงเป็นอีเมลตอนสมัคร; การแก้ Contact Email ไม่เปลี่ยนอีเมล login. บัญชีที่ Admin สร้างเดิมยังใช้ username. สมัครซ้ำไม่เปลี่ยนรหัสผ่านหรือเปิดคำขอที่ถูกปฏิเสธ; ให้ติดต่อ Admin เพื่อจัดการบัญชี. ก่อนใช้ source รุ่นนี้ต้องรัน migration0017 ตาม provider ที่ติดตั้ง; อย่ารัน migrationกับระบบที่กำลังเปิดใช้งาน.

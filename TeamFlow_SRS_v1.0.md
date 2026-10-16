@@ -1,7 +1,17 @@
 # TeamFlow — Software Requirements Specification (SRS)
 
+## Owner-approved email registration — 12 October 2026
 
-**เวอร์ชัน:** 1.32 · **วันที่:** 11 ตุลาคม 2026\
+Owner requested email registration and selected email/password with Admin approval in this chat. This supersedes the prior no-public-registration rule for this flow only; the application still has no email delivery. Declared effort T-016/T-014 High and T-018/T-017 Medium; actual model/effort NOT_VERIFIED.
+
+Applicants submit Member name, email and a password using the existing 6–128 Unicode-scalar policy. POST /api/register returns the same HTTP202 message for new and duplicate normalized email addresses, including approved/rejected requests; duplicates never replace the password or reopen a decision. No session/cookie is issued. New accounts are inactive Member, must_change_password=false, with no teams, projects or permission grants. Admin reviews pending requests in Admin → Registrations; approval activates Member sign-in, rejection leaves the account inactive. Team/project rights are assigned separately through existing screens. Pending/rejected users cannot be activated, promoted or added to teams through account PATCH.
+
+Registration email is a normalized, unique, immutable login identifier independent of editable contact email. Approved applicants can sign in using email/password (case-insensitive email); Admin-created accounts retain username/password. No existing contact email is converted into a login identifier or merged automatically. Email ownership is NOT verified; Admin must confirm the applicant belongs to the organization. Rejected applicants contact Admin; repeat signup does not reset the request.
+
+Backend rechecks Admin/CSRF/current account and registration version. Approve/reject require Idempotency-Key; signup follows the credential-route exception without persisting password-derived idempotency fingerprints. Registration is limited to10 attempts/15minutes/IP before hashing; same-origin is mandatory and maintenance blocks writes. Account, request, view revision and redacted audit are atomic. Provider-specific0017 migrations add registrations without changing legacy user rows. API1.13.0 has89routes/120schemas. Trace: FR-02/03/05, BR-01/02/05, TC-004/005/007/012/014, AT-02/03/04; partial checks do not close full AT/UAT. Evidence: TeamFlow_Email_Registration_Report.md.
+
+
+**เวอร์ชัน:** 1.33 · **วันที่:** 12 ตุลาคม 2026\
 **สถานะ:** Baseline ยืนยันแล้วสำหรับพัฒนา; ยังไม่ทดสอบ  
 **Requirements ต้นทาง:** `TeamFlow_Requirements_v1.0.md`  
 **ขอบเขต:** องค์กรเดียว หลายทีม ประมาณ 30 บัญชี ไม่มีอีเมล ไม่มี AI เจ้าของระบบ deploy เอง
@@ -304,6 +314,8 @@ IDs ใช้ positive integer ภายใน API; ไม่ถือว่า 
 | schema_migrations | version UNIQUE, checksum, applied_at |
 
 Index ขั้นต่ำ: team_members(user_id), project_members(user_id), tasks(project_id,status,deleted_at), tasks(assignee_id,due_date), tasks(completed_at), comments(task_id,id), task_events(task_id,id), notifications(recipient_id,read_at), sessions(absolute_expires_at), sessions(last_seen_at), board_positions(project_id,status,rank). ตรวจ query plan และ pagination จากงานจริง
+
+Owner extension0017: `registrations` stores id, unique user_id (FK users), unique normalized sign-in email, pending/approved/rejected status, version, reviewer and UTC created/reviewed timestamps. Passwords remain hashed only in users. Sign-in email is independent of contact email; legacy contacts are unchanged.
 
 ### 5.1 SQL Server 2022 Physical Mapping / Concurrency
 
@@ -624,6 +636,10 @@ Home/My overview, My work grouped table, Favorites ใน sidebar, Project Docs,
 | GET /api/meta | — | Public: setupRequired/version |
 | POST /api/setup | token, organization_name, username, display_name, password | เฉพาะ initial setup; 201 |
 | POST /api/login | username,password | Public+origin+rate limit; user/csrf + cookie |
+| POST /api/register | email,display_name,password; 202 generic response; inactive Member, approval required | — |
+| GET /api/registrations | Admin only; page,pageSize,status | — |
+| POST /api/registrations/{id}/approve | Admin+CSRF+Idempotency-Key+version; activate Member, no team/project grants | — |
+| POST /api/registrations/{id}/reject | Admin+CSRF+Idempotency-Key+version; keep inactive | — |
 | GET /api/me | — | Auth: Self user/effective summary/csrf/must_change_password/maintenance/scopedview_revision |
 | POST /api/session/activity | — | Auth+CSRF; update intentional activity |
 | POST /api/logout | — | Auth+CSRF; 204 |

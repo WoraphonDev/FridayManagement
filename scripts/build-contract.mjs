@@ -169,7 +169,12 @@ export function buildContract() {
   schemas.CreateTask = object({ project_id: ref('Id'), ...taskFields }, ['project_id', 'title']);
   schemas.PatchTask = object({ ...taskFields, status: ref('Status'), group_before_task_id: nullable(ref('Id')), version: ref('Version') }, ['version'], { minProperties: 2 });
   schemas.Setup = object({ token: text(128, 32), organization_name: nonblank(100), username: ref('Username'), display_name: nonblank(100), password: ref('Password') });
-  schemas.Login = object({ username: ref('Username'), password: ref('CurrentPassword') });
+  schemas.LoginIdentifier = { anyOf: [ref('Username'), text(254, 3, { format: 'email' })] };
+  schemas.Login = object({ username: ref('LoginIdentifier'), password: ref('CurrentPassword') });
+  schemas.Register = object({ email: text(254, 3, { format: 'email' }), display_name: nonblank(100), password: ref('Password') });
+  schemas.RegistrationAccepted = object({ message: { type: 'string', const: 'Registration received. Contact your Admin for approval before signing in.' } });
+  schemas.Registration = object({ id: ref('Id'), user_id: ref('Id'), email: text(254, 3, { format: 'email' }), display_name: nonblank(100), status: enumeration(['pending','approved','rejected']), version: ref('Version'), created_at: ref('Timestamp'), reviewed_at: nullable(ref('Timestamp')) });
+  schemas.RegistrationsPage = object({ items: array(ref('Registration'), 100), total: integer(0), page: integer(), pageSize: integer(1,100) });
   schemas.PasswordChange = object({ current_password: ref('CurrentPassword'), new_password: ref('Password') });
   const memberDetails = { email: ref('ContactEmail'), telephone: ref('ContactTelephone'), team_ids: { ...array(ref('Id'),100), uniqueItems:true } };
   schemas.CreateUser = object({ username: ref('Username'), display_name: nonblank(100), temp_password: ref('Password'), org_role: enumeration(['admin', 'member'], { default: 'member' }), ...memberDetails }, ['username', 'display_name', 'temp_password']);
@@ -229,6 +234,10 @@ export function buildContract() {
   add('GET', '/api/meta', 'public', 200, ref('Meta'));
   add('POST', '/api/setup', 'initial_setup', 201, item('AdminUser'), ref('Setup'), undefined, 'setup_guard');
   add('POST', '/api/login', 'public', 200, ref('Self'), ref('Login'), undefined, 'auth_exception');
+  add('POST', '/api/register', 'public', 202, ref('RegistrationAccepted'), ref('Register'), undefined, 'auth_exception');
+  add('GET', '/api/registrations', 'admin', 200, ref('RegistrationsPage'), null, object({ ...page, status: enumeration(['pending','approved','rejected','all']) }, []));
+  add('POST', '/api/registrations/{id}/approve', 'admin', 200, item('Registration'), ref('VersionBody'), undefined, 'required');
+  add('POST', '/api/registrations/{id}/reject', 'admin', 200, item('Registration'), ref('VersionBody'), undefined, 'required');
   add('GET', '/api/me', 'authenticated_password_gate_exception', 200, ref('Self'));
   add('POST', '/api/session/activity', 'authenticated_password_gate_exception', 204, null, null, undefined, 'natural_noop');
   add('POST', '/api/logout', 'authenticated_password_gate_exception', 204, null, null, undefined, 'natural_noop');
@@ -324,7 +333,7 @@ export function buildContract() {
   for (const { method, path, op } of operations) paths[path] = { ...paths[path], [method]: op };
   return {
     openapi: '3.1.1', jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema',
-    info: { title: 'FridayManagement API', version: '1.12.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark; owner 2026-10-10 project code and task number. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
+    info: { title: 'FridayManagement API', version: '1.13.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark; owner 2026-10-10 project code and task number. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
     servers: [{ url: '/' }], paths,
     components: { securitySchemes: { cookieSession: { type: 'apiKey', in: 'cookie', name: 'friday_session' } }, schemas },
   };

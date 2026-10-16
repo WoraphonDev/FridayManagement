@@ -1,5 +1,15 @@
 # TeamFlow — Test Cases หลังพัฒนา v1.52
 
+## Owner-approved email registration — 12 October 2026
+
+Owner requested email registration and selected email/password with Admin approval in this chat. This supersedes the prior no-public-registration rule for this flow only; the application still has no email delivery. Declared effort T-016/T-014 High and T-018/T-017 Medium; actual model/effort NOT_VERIFIED.
+
+Applicants submit Member name, email and a password using the existing 6–128 Unicode-scalar policy. POST /api/register returns the same HTTP202 message for new and duplicate normalized email addresses, including approved/rejected requests; duplicates never replace the password or reopen a decision. No session/cookie is issued. New accounts are inactive Member, must_change_password=false, with no teams, projects or permission grants. Admin reviews pending requests in Admin → Registrations; approval activates Member sign-in, rejection leaves the account inactive. Team/project rights are assigned separately through existing screens. Pending/rejected users cannot be activated, promoted or added to teams through account PATCH.
+
+Registration email is a normalized, unique, immutable login identifier independent of editable contact email. Approved applicants can sign in using email/password (case-insensitive email); Admin-created accounts retain username/password. No existing contact email is converted into a login identifier or merged automatically. Email ownership is NOT verified; Admin must confirm the applicant belongs to the organization. Rejected applicants contact Admin; repeat signup does not reset the request.
+
+Backend rechecks Admin/CSRF/current account and registration version. Approve/reject require Idempotency-Key; signup follows the credential-route exception without persisting password-derived idempotency fingerprints. Registration is limited to10 attempts/15minutes/IP before hashing; same-origin is mandatory and maintenance blocks writes. Account, request, view revision and redacted audit are atomic. Provider-specific0017 migrations add registrations without changing legacy user rows. API1.13.0 has89routes/120schemas. Trace: FR-02/03/05, BR-01/02/05, TC-004/005/007/012/014, AT-02/03/04; partial checks do not close full AT/UAT. Evidence: TeamFlow_Email_Registration_Report.md.
+
 ## Subitem cells and picker regression - 10 October 2026
 
 Owner requested actual integration. Partial TC-025/027/028, FR-14/15 and AT-09/10 trace covers searchable eligible owner selection, independent assignment, clear assignment, keyboard/Escape, top-layer mobile popup geometry, compact edit/cancel, two-state child completion and persistence after reload. Parent task completion/recurrence/read-only/version guards retain existing regression coverage. Evidence: TeamFlow_Cell_Pickers_Implementation_Report.md / tests/browser/cell-pickers.spec.ts plus existing task/checklist/board/Vibe/motion cases. These scoped local runs do not mark full TC/AT/native SQL/Windows/UAT passed.
@@ -382,6 +392,8 @@ Smoke มีทั้ง UI และการตรวจเทคนิค; �
 - เปลี่ยนสำเร็จแล้วใช้ app ได้ตามสิทธิ์ ไม่มี password ใน response/log
 
 **Actual / Evidence / Defect:** รอทดสอบ — บันทึกผลใน Test Run Register พร้อม Build/Role/วันที่; ลบ cookie/token/password จากภาพหรือ log ก่อนแนบ
+
+Additional TC-007/AT-03 branch (owner2026-10-12): open Create an account; submit Thai/Unicode name + email/password/confirmation. Verify HTTP202 without cookie, inactive Member/no grants, duplicate normalized email keeps original hash, pending login401. Member review403, missing Origin/CSRF/key rejected. Admin Cancel preserves pending; Confirm approve activates Member, case-insensitive email login200 and empty project/permission scope; Confirm reject leaves login401. Concurrent reviews have one winner, stale409 reports current version, same-key replay does not duplicate audit. Failed audit rolls back account/request/approval;10 signup attempts per15minutes/IP then429. Contacts-only editing does not alter sign-in email. Desktop/360px views fit and keyboard controls are usable. Formal TC-007 and AT-03 remain NOT_RUN until the whole case on required profiles and sign-off are complete.
 
 ### TC-008 — เปลี่ยนรหัส own account และยกเลิก session อื่น
 

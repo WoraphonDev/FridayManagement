@@ -3,6 +3,7 @@ import { apiClient, ApiError, selfSchema, type Self } from './api';
 import { UiIcon } from './shared/UiIcon';
 import { loginSchema, passwordSchema, failureMessage } from './auth-policy';
 import { Field, Form, Toast, Dialog } from './shared/components';
+import { Register } from './Register';
 const client = apiClient();
 type Props = {
   online: boolean;
@@ -10,6 +11,7 @@ type Props = {
   onFailure: (error: ApiError) => void;
 };
 export function Login({ online, onDone, onFailure }: Props) {
+  const [registering, setRegistering] = useState(false);
   const [help, setHelp] = useState(false);
   const [username, setUsername] = useState(''),
     [password, setPassword] = useState(''),
@@ -27,6 +29,7 @@ export function Login({ online, onDone, onFailure }: Props) {
     const timer = setInterval(() => setNow(Date.now()), 1000);
     return () => clearInterval(timer);
   }, [retryAt]);
+  if (registering) return <Register online={online} onBack={() => setRegistering(false)} />;
   return (
     <div className="setup-form login-form">
       <p className="eyebrow">YOUR WORK, IN SYNC</p>
@@ -83,8 +86,8 @@ export function Login({ online, onDone, onFailure }: Props) {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           autoComplete="username"
-          placeholder="Username provided by your Admin"
-          maxLength={100}
+          placeholder="Username or approved email"
+          maxLength={254}
           error={errors.username}
         />
         <div className="login-password">
@@ -116,7 +119,7 @@ export function Login({ online, onDone, onFailure }: Props) {
       </Form>
       {help && (
         <Dialog title="Sign-in help" onClose={() => setHelp(false)}>
-          <p>Use the username and password provided by your organization’s Admin.</p>
+          <p>Use your Admin-provided username or your approved registration email and password.</p>
           <p>
             If you forgot your password or your account is inactive, contact your Admin to restore
             access. There is no email reset link.
@@ -126,6 +129,9 @@ export function Login({ online, onDone, onFailure }: Props) {
       {now < retryAt && (
         <p role="status">Try again in {Math.ceil((retryAt - now) / 1000)} seconds</p>
       )}
+      <button type="button" disabled={pending} onClick={() => setRegistering(true)}>
+        Create an account
+      </button>
     </div>
   );
 }

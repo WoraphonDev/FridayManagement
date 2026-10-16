@@ -21,12 +21,14 @@ import { insightService } from '../services/insights.js';
 import { favoriteService } from '../services/favorites.js';
 import { preferenceService } from '../services/preferences.js';
 import { taskBatchService } from '../services/task-batch.js';
+import { registrationService } from '../services/registrations.js';
 export async function sessionHooks(
   database: Database,
   options: SessionOptions & { cookieSecure: boolean; storage?: StorageOptions },
   additionalHandlers: NonNullable<ApiHooks['handlers']> = {},
 ) {
   const service = await sessionService(database, options);
+  const registrations = registrationService(database, options);
   const proof = (context: ApiContext) => {
     const hash = cookieProof(context.request);
     if (!hash || !context.principal) throw new ApiFault('UNAUTHENTICATED');
@@ -48,7 +50,13 @@ export async function sessionHooks(
   const accounts = accountService(database, service, {
     ...options,
     checkVersions: async (tx, request) => {
-      if (request.path === '/api/organization') await organization.checkVersions(tx, request);
+      if (request.path.startsWith('/api/registrations/'))
+        await registrations.checkVersions(
+          tx,
+          request.params!.id!,
+          (request.body as { version: number }).version,
+        );
+      else if (request.path === '/api/organization') await organization.checkVersions(tx, request);
       else if (request.path === '/api/job-titles/{id}') await jobTitles.checkVersions(tx, request);
       else if (request.path.startsWith('/api/docs/'))
         await docs.checkVersions(
@@ -83,6 +91,36 @@ export async function sessionHooks(
   const secure = sessionCookieOptions(options.cookieSecure);
   const batch = taskBatchService(tasks, { ...options, checkVersions: accounts.checkVersions });
   const handlers: NonNullable<ApiHooks['handlers']> = {
+    post_api_register: async (c) => ({
+      status: 202,
+      body: await registrations.register(c.body, c.request.ip ?? '', requestId(c)),
+    }),
+    get_api_registrations: async (c) => ({
+      status: 200,
+      body: await registrations.list(tx(c), proof(c), c.query),
+    }),
+    post_api_registrations_id_approve: async (c) => ({
+      status: 200,
+      body: await registrations.review(
+        tx(c),
+        proof(c),
+        c.params.id!,
+        c.body,
+        'approved',
+        requestId(c),
+      ),
+    }),
+    post_api_registrations_id_reject: async (c) => ({
+      status: 200,
+      body: await registrations.review(
+        tx(c),
+        proof(c),
+        c.params.id!,
+        c.body,
+        'rejected',
+        requestId(c),
+      ),
+    }),
     get_api_me_overview: async (c) => ({
       status: 200,
       body: await tasks.overview(tx(c), proof(c)),

@@ -213,7 +213,8 @@ test('T017/018 actual create → login → forced password → profile → logou
     expect((await ctx.cookies())[0]!.value).not.toBe(cookie);
     await before.reload();
     await expect(before.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
-    await member.getByRole('link', { name: 'Settings' }).click();
+    await member.getByRole('button', { name: 'Profile of Batch Member', exact: true }).click();
+    await member.getByRole('menuitem', { name: 'Profile', exact: true }).click();
     await expect(member.getByRole('heading', { name: 'Profile', exact: true })).toBeVisible();
     await expect(member.getByText('BatchMember', { exact: true })).toBeVisible();
     await member.getByRole('link', { name: 'My work', exact: true }).click();
@@ -221,7 +222,8 @@ test('T017/018 actual create → login → forced password → profile → logou
     expect(
       await member.evaluate(() => [localStorage.length, sessionStorage.length, document.cookie]),
     ).toEqual([0, 0, '']);
-    await member.getByRole('button', { name: 'Sign out', exact: true }).click();
+    await member.getByRole('button', { name: 'Profile of Batch Member', exact: true }).click();
+    await member.getByRole('menuitem', { name: 'Sign out', exact: true }).click();
     await expect(member.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
   } finally {
     for (const c of contexts) await c.close();
@@ -322,7 +324,8 @@ test('T017 passive polling never renews idle; trusted interaction does; logout c
     expect(await seen()).toBe(initial);
     await page.keyboard.press('Tab');
     await expect.poll(seen).not.toBe(initial);
-    await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+    await page.getByRole('button', { name: 'Profile of Batch Admin', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Sign out', exact: true }).click();
     await expect(second.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
     await expect(second.getByLabel('New password', { exact: true })).toHaveCount(0);
     await second.close();

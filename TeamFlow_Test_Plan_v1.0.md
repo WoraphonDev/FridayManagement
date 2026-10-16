@@ -1,5 +1,15 @@
 # TeamFlow — Test Plan v1.53
 
+## Owner-approved email registration — 12 October 2026
+
+Owner requested email registration and selected email/password with Admin approval in this chat. This supersedes the prior no-public-registration rule for this flow only; the application still has no email delivery. Declared effort T-016/T-014 High and T-018/T-017 Medium; actual model/effort NOT_VERIFIED.
+
+Applicants submit Member name, email and a password using the existing 6–128 Unicode-scalar policy. POST /api/register returns the same HTTP202 message for new and duplicate normalized email addresses, including approved/rejected requests; duplicates never replace the password or reopen a decision. No session/cookie is issued. New accounts are inactive Member, must_change_password=false, with no teams, projects or permission grants. Admin reviews pending requests in Admin → Registrations; approval activates Member sign-in, rejection leaves the account inactive. Team/project rights are assigned separately through existing screens. Pending/rejected users cannot be activated, promoted or added to teams through account PATCH.
+
+Registration email is a normalized, unique, immutable login identifier independent of editable contact email. Approved applicants can sign in using email/password (case-insensitive email); Admin-created accounts retain username/password. No existing contact email is converted into a login identifier or merged automatically. Email ownership is NOT verified; Admin must confirm the applicant belongs to the organization. Rejected applicants contact Admin; repeat signup does not reset the request.
+
+Backend rechecks Admin/CSRF/current account and registration version. Approve/reject require Idempotency-Key; signup follows the credential-route exception without persisting password-derived idempotency fingerprints. Registration is limited to10 attempts/15minutes/IP before hashing; same-origin is mandatory and maintenance blocks writes. Account, request, view revision and redacted audit are atomic. Provider-specific0017 migrations add registrations without changing legacy user rows. API1.13.0 has89routes/120schemas. Trace: FR-02/03/05, BR-01/02/05, TC-004/005/007/012/014, AT-02/03/04; partial checks do not close full AT/UAT. Evidence: TeamFlow_Email_Registration_Report.md.
+
 ## Subitem cells and picker regression - 10 October 2026
 
 Owner approved actual Subitem/Owner/Status/Remark integration with cell popovers. Run focused Chromium synthetic-SQLite coverage in tests/browser/cell-pickers.spec.ts and existing checklist-table/tasks/boards/Vibe/main-table/my-overview/motion suites, with frontend/type/build/lint/contract checks. Trace partial FR-14/15, TC-025/027/028 and AT-09/10; verify eligible one-owner child assignment, parent multi-assignees, no premature autosave, cancel/error preservation, boolean child completion, parent completion/recurrence guard, viewer/archived/offline guards and mobile top-layer geometry. Evidence is local only; formal execution records, native SQL2022, Windows, full browser matrix and UAT are not closed by these checks. Report: TeamFlow_Cell_Pickers_Implementation_Report.md.

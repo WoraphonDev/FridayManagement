@@ -19,6 +19,8 @@ import {
 import { teamPage, type Team } from './workspace-api';
 import { failureMessage } from './auth-policy';
 import { Users } from './Users';
+import { Registrations } from './Registrations';
+import './registrations.css';
 import { Workspaces } from './Workspaces';
 import { DataTable, Dialog, EmptyState, Field, Form, Loading, Toast } from './shared/components';
 const client = apiClient();
@@ -28,7 +30,7 @@ type Props = {
   onFailure: (e: ApiError) => void;
   onSelfChange: () => void;
 };
-const tabs = ['Members', 'Teams', 'Job titles', 'Permissions'] as const;
+const tabs = ['Members', 'Teams', 'Job titles', 'Permissions', 'Registrations'] as const;
 type Tab = (typeof tabs)[number];
 
 /** FR-43 Admin center. Every control is advisory; the server rechecks Admin/not-self/version. */
@@ -51,11 +53,13 @@ export function AdminCenter(props: Props) {
       </div>
       <div role="tabpanel" aria-label={tab}>
         {tab === 'Members' ? (
-          <Users {...props} />
+          <Users {...props} onReviewRegistrations={() => setTab('Registrations')} />
         ) : tab === 'Teams' ? (
           <Workspaces kind="teams" {...props} onBoardChange={() => undefined} />
         ) : tab === 'Job titles' ? (
           <JobTitles {...props} />
+        ) : tab === 'Registrations' ? (
+          <Registrations {...props} />
         ) : (
           <PermissionMatrix {...props} />
         )}

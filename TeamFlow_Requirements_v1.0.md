@@ -1,7 +1,17 @@
 # TeamFlow — Business & Functional Requirements
 
+## Owner-approved email registration — 12 October 2026
 
-**เวอร์ชัน:** 1.28 · **วันที่:** 10 ตุลาคม 2026\
+Owner requested email registration and selected email/password with Admin approval in this chat. This supersedes the prior no-public-registration rule for this flow only; the application still has no email delivery. Declared effort T-016/T-014 High and T-018/T-017 Medium; actual model/effort NOT_VERIFIED.
+
+Applicants submit Member name, email and a password using the existing 6–128 Unicode-scalar policy. POST /api/register returns the same HTTP202 message for new and duplicate normalized email addresses, including approved/rejected requests; duplicates never replace the password or reopen a decision. No session/cookie is issued. New accounts are inactive Member, must_change_password=false, with no teams, projects or permission grants. Admin reviews pending requests in Admin → Registrations; approval activates Member sign-in, rejection leaves the account inactive. Team/project rights are assigned separately through existing screens. Pending/rejected users cannot be activated, promoted or added to teams through account PATCH.
+
+Registration email is a normalized, unique, immutable login identifier independent of editable contact email. Approved applicants can sign in using email/password (case-insensitive email); Admin-created accounts retain username/password. No existing contact email is converted into a login identifier or merged automatically. Email ownership is NOT verified; Admin must confirm the applicant belongs to the organization. Rejected applicants contact Admin; repeat signup does not reset the request.
+
+Backend rechecks Admin/CSRF/current account and registration version. Approve/reject require Idempotency-Key; signup follows the credential-route exception without persisting password-derived idempotency fingerprints. Registration is limited to10 attempts/15minutes/IP before hashing; same-origin is mandatory and maintenance blocks writes. Account, request, view revision and redacted audit are atomic. Provider-specific0017 migrations add registrations without changing legacy user rows. API1.13.0 has89routes/120schemas. Trace: FR-02/03/05, BR-01/02/05, TC-004/005/007/012/014, AT-02/03/04; partial checks do not close full AT/UAT. Evidence: TeamFlow_Email_Registration_Report.md.
+
+
+**เวอร์ชัน:** 1.29 · **วันที่:** 12 ตุลาคม 2026\
 **สถานะ:** Baseline ยืนยันแล้ว; รอพัฒนา  
 **เอกสารคู่กัน:** `TeamFlow_SRS_v1.0.md`  
 **ชื่อ TeamFlow:** ชื่อทำงานชั่วคราว ยังไม่ใช่ชื่อที่เจ้าของระบบเลือก
@@ -194,8 +204,8 @@ Admin มีสิทธิ์ระดับองค์กร; Team Lead ผ�
 | ID | ความต้องการ | ผลลัพธ์ที่ต้องยอมรับได้ |
 |---|---|---|
 | FR-01 | ตั้งผู้ดูแลคนแรก | ไม่มีบัญชีเริ่มต้นรหัสผ่านตายตัว ตั้งค่าครั้งแรกได้เฉพาะผู้มี setup token |
-| FR-02 | เข้าสู่ระบบและออกจากระบบ | ใช้ username/password; session ถูกยกเลิกเมื่อ logout |
-| FR-03 | จัดการผู้ใช้ | Admin สร้าง แก้ไขชื่อ/บทบาท และปิดใช้งานบัญชี; ห้ามปิด Admin คนสุดท้าย |
+| FR-02 | เข้าสู่ระบบและออกจากระบบ | ใช้ username/password หรืออีเมล/รหัสผ่านของสมาชิกที่ Admin อนุมัติแล้ว; session ถูกยกเลิกเมื่อ logout |
+| FR-03 | จัดการผู้ใช้ | Admin สร้าง แก้ไขชื่อ/บทบาท และปิดใช้งานบัญชี; สมาชิกสมัครด้วยอีเมล/รหัสผ่านและรอ Admin อนุมัติ; ห้ามปิด Admin คนสุดท้าย |
 | FR-04 | เปลี่ยนและรีเซ็ตรหัสผ่าน | สมาชิกเปลี่ยนของตนด้วยรหัสปัจจุบัน; Admin reset ให้; บังคับเปลี่ยนรหัสชั่วคราว |
 | FR-05 | บังคับสิทธิ์ทุกช่องทาง | ผู้ไม่มีสิทธิ์เข้าถึงงาน/ไฟล์ไม่ได้ แม้ใช้ URL หรือ API โดยตรง |
 
@@ -309,7 +319,7 @@ FR-46 Updates feed **DEFERRED** ไปรอบถัดไปตามคำต
 
 | ID | กติกา |
 |---|---|
-| BR-01 | หนึ่งระบบให้บริการหนึ่งองค์กร; ผู้ใช้ username ไม่ซ้ำและไม่มี public registration |
+| BR-01 | หนึ่งระบบให้บริการหนึ่งองค์กร; ผู้ใช้ username ไม่ซ้ำ; สมัครด้วยอีเมลได้ตาม owner amendment 2026-10-12 โดยต้องรอ Admin อนุมัติ |
 | BR-02 | Admin อย่างน้อยหนึ่งคนต้อง active อยู่เสมอ |
 | BR-03 | ทีมมีสมาชิกหลายคน; คนเดียวอยู่หลายทีมได้; Lead แต่งตั้งโดย Admin |
 | BR-04 | โปรเจกต์มีทีมเจ้าของหนึ่งทีม; Admin/Lead ทีมเจ้าของมีสิทธิ์ดูแล; ผู้ใช้คนอื่นต้องมี project membership |

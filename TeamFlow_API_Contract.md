@@ -1,4 +1,4 @@
-# TeamFlow — API/DTO contract 1.11.0
+# TeamFlow — API/DTO contract 1.13.0
 
 วันที่: 5 ตุลาคม 2026 · Task: T-003 · Business baseline1.1 + RD-01–RD-08
 
@@ -298,3 +298,11 @@ BoardMoveResult.affected_columns maxItems เพิ่ม2→3: moving a recurri
 ## T-040–T-044 additive clarification — 2026-10-06
 
 Contract1.1.0 has53 routes/77 schemas. GET /api/audit is Admin-only; AdminAuditPage uses standard ID-ascending pagination50/max100 and redacted_changes serialized JSON. Secret field names are recursively redacted at persistence/read, including legacy rows and before/after secret descriptors; boolean reset markers and installer authority markers remain readable. TaskEvent supports existing task/completed_at/comment_id/before_task_id/predecessor/successor fields; structured values are serialized JSON strings to preserve scalar EventChange values. No mutation endpoint for history. Files use locked existing routes/DTOs: streamed actual fingerprints, private random UUID storage outside static serving, reservation cleanup on replay/error, current finalize/download/lifecycle authorization. Size minimum is1 byte per schema, maximum10MiB; signatures/type validation is not antivirus scanning. Production guard/readiness remain unchanged.
+
+## Email registration — API1.13.0 / owner12October2026
+
+89 routes /120schemas. POST /api/register accepts strict `{email,display_name,password}` and returns202 `{message:"Registration received. Contact your Admin for approval before signing in."}` for new/duplicate requests. No token/cookie/user ID/status is returned; passwords are not persisted in idempotency. Login keeps the field `username`, now accepts either the legacy Username or a valid email≤254; only approved registration emails resolve accounts. Contact email alone does not grant login.
+
+GET /api/registrations is Admin-only with page/pageSize(1–100)/status(pending default,approved,rejected,all). DTO contains id,user_id,email,display_name,status,version,created_at,reviewed_at; no credentials. POST /api/registrations/{id}/approve and /reject require current Admin, Origin, CSRF, UUID Idempotency-Key and strict `{version}`; respond200 `{item:Registration}`. Stale version409 with currentVersion, missing row404, non-Admin403. Repeat same key replays the committed response without a second audit; a new key cannot change a completed review. Approval grants no teams/projects/P-keys. Existing Error wire format is unchanged.
+
+Contact email remains editable independently of immutable registration email. Signup is allowed only after setup and outside maintenance,10attempts/15minutes/IP; duplicate submissions never update credentials. Email ownership is unverified; no verification email or SMTP is provided.

@@ -160,7 +160,11 @@ export function apiClient(
       if (!online()) throw new ApiError('offline', 0);
       const method = options.method ?? 'GET';
       if (method !== 'GET' && !canWrite()) throw new ApiError('unavailable', 0);
-      if (method !== 'GET' && !['/api/login', '/api/setup'].includes(url.pathname) && !options.csrf)
+      if (
+        method !== 'GET' &&
+        !['/api/login', '/api/setup', '/api/register'].includes(url.pathname) &&
+        !options.csrf
+      )
         throw new ApiError('forbidden', 403);
       const headers: Record<string, string> = {
         Accept: options.csv ? 'text/csv' : 'application/json',

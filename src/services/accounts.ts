@@ -403,6 +403,19 @@ export function accountService(
         email = body.email ?? u.email,
         telephone = body.telephone ?? u.telephone,
         jobTitle = body.job_title_id === undefined ? u.job_title_id : body.job_title_id;
+      const registration = (
+        await tx.query<{ status: string }>(
+          sql('SELECT status FROM dbo.registrations WHERE user_id=@id', { id }),
+        )
+      )[0];
+      if (
+        registration &&
+        registration.status !== 'approved' &&
+        (active || role !== 'member' || (body.team_ids?.length ?? 0) > 0)
+      )
+        throw new ApiFault('VALIDATION_FAILED', undefined, undefined, {
+          active: ['Review this account in Admin → Registrations first'],
+        });
       // BR-20: only an active title can be newly assigned; an existing assignment may stay.
       if (jobTitle !== null && jobTitle !== u.job_title_id) {
         const title = (

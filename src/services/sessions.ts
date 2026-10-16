@@ -175,17 +175,21 @@ export async function sessionService(database: Database, options: SessionOptions
     },
     async login(input: unknown, address: string, oldHash?: string | null) {
       const body = requestBody(loginOperation, input) as { username: string; password: string };
+      const emailLogin = body.username.includes('@');
+      const identifier = emailLogin ? body.username.toLowerCase() : body.username;
       await consumeLoginAttempt(database, body.username, address, options.clock);
       const account = await runTransaction(
         database,
         async (tx) =>
           (
             await tx.query<Account>({
-              sqlite:
-                'SELECT id,username,password_hash,active,auth_version FROM users WHERE username_ci_key=friday_ci_key($username)',
-              sqlserver:
-                'SELECT id,username,password_hash,active,auth_version FROM dbo.users WHERE username=@username',
-              parameters: { username: body.username },
+              sqlite: emailLogin
+                ? "SELECT u.id,u.username,u.password_hash,u.active,u.auth_version FROM users u JOIN registrations r ON r.user_id=u.id WHERE r.email=$username AND r.status='approved'"
+                : 'SELECT id,username,password_hash,active,auth_version FROM users WHERE username_ci_key=friday_ci_key($username)',
+              sqlserver: emailLogin
+                ? "SELECT u.id,u.username,u.password_hash,u.active,u.auth_version FROM dbo.users u JOIN dbo.registrations r ON r.user_id=u.id WHERE r.email=@username AND r.status='approved'"
+                : 'SELECT id,username,password_hash,active,auth_version FROM dbo.users WHERE username=@username',
+              parameters: { username: identifier },
             })
           )[0],
       );
@@ -211,7 +215,7 @@ export async function sessionService(database: Database, options: SessionOptions
           !current?.active ||
           current.auth_version !== account!.auth_version ||
           current.password_hash !== account!.password_hash ||
-          current.username.toLowerCase() !== body.username.toLowerCase()
+          current.username !== account!.username
         )
           throw new ApiFault('INVALID_CREDENTIALS');
         if ((await tx.query(sql('SELECT id FROM dbo.maintenance_state WHERE id=1'))).length)
