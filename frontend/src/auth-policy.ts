@@ -33,7 +33,7 @@ export const passwordSchema = z
   });
 export function failureMessage(error: unknown) {
   if (error instanceof Error && 'code' in error) {
-    if (error.code === 'INVALID_CREDENTIALS') return 'Incorrect username or password';
+    if (error.code === 'INVALID_CREDENTIALS') return 'Incorrect username or password, or your account is awaiting Admin approval';
     if (error.code === 'LAST_ACTIVE_ADMIN') return 'At least one active administrator is required';
     if (error.code === 'PASSWORD_CHANGE_REQUIRED') return 'Change your password to continue';
     if (error.code === 'RATE_LIMITED')

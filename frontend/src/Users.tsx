@@ -15,6 +15,11 @@ import { teamPage, type Team } from './workspace-api';
 import { registrationsPage } from './registration-api';
 const client = apiClient();
 type Action = 'create' | 'edit' | 'active' | 'reset';
+/** Self-registered accounts get a generated username and sign in by email; show their name instead. */
+const generatedLogin = /^member\.[0-9a-f]{32}$/;
+const shownName = (u: { username: string; display_name: string }) =>
+  generatedLogin.test(u.username) ? u.display_name : u.username;
+
 export function Users({
   self,
   online,
@@ -183,7 +188,13 @@ export function Users({
                 'Management',
               ]}
               rows={data.items.map((u) => [
-                u.username,
+                generatedLogin.test(u.username) ? (
+                  <span className="hint" key="login">
+                    Email sign-in
+                  </span>
+                ) : (
+                  u.username
+                ),
                 u.display_name,
                 u.email || '—',
                 u.org_role,
@@ -200,7 +211,7 @@ export function Users({
                 </span>,
                 <div className="row-actions compact-actions" key={u.id}>
                   <button
-                    aria-label={`Edit ${u.username}`}
+                    aria-label={`Edit ${shownName(u)}`}
                     disabled={!online || self.maintenance}
                     onClick={() => setAction({ kind: 'edit', user: u })}
                   >
@@ -208,14 +219,14 @@ export function Users({
                   </button>
                   {!u.active && unreviewed.has(u.id) && onReviewRegistrations ? (
                     <button
-                      aria-label={`Review ${u.username} in Registrations`}
+                      aria-label={`Review ${shownName(u)} in Registrations`}
                       onClick={onReviewRegistrations}
                     >
                       Review in Registrations
                     </button>
                   ) : (
                     <button
-                      aria-label={`${u.active ? 'Deactivate' : 'Activate'} ${u.username}`}
+                      aria-label={`${u.active ? 'Deactivate' : 'Activate'} ${shownName(u)}`}
                       disabled={!online || self.maintenance}
                       onClick={() => setAction({ kind: 'active', user: u })}
                     >
@@ -223,7 +234,7 @@ export function Users({
                     </button>
                   )}
                   <button
-                    aria-label={`Reset password ${u.username}`}
+                    aria-label={`Reset password ${shownName(u)}`}
                     disabled={!online || self.maintenance}
                     onClick={() => setAction({ kind: 'reset', user: u })}
                   >
@@ -342,7 +353,7 @@ function UserAction({
   const title =
     kind === 'create'
       ? 'Add user'
-      : `${kind === 'edit' ? 'Edit' : kind === 'reset' ? 'Reset password' : current?.active ? 'Deactivate' : 'Activate'} ${user!.username}`;
+      : `${kind === 'edit' ? 'Edit' : kind === 'reset' ? 'Reset password' : current?.active ? 'Deactivate' : 'Activate'} ${shownName(user!)}`;
   const load = async () => {
     if (busy.current) return;
     busy.current = true;
