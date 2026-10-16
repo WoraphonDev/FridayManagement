@@ -7,34 +7,27 @@ test('Star a project: Favorites appears first in the sidebar, survives reload, u
   const f = await projectFixture(page);
   try {
     await tasks(page);
-    const nav = page.getByRole('navigation', { name: 'Main navigation' });
-    await expect(nav.getByText('Favorites', { exact: true })).toHaveCount(0);
+    // Role-nav UI: favorites lead the Projects section with a ★ instead of a separate heading.
+    const projects = () =>
+      page
+        .getByRole('navigation', { name: 'Main navigation' })
+        .getByLabel('Projects', { exact: true });
+    const firstProject = () => projects().getByRole('link').first();
+    await expect(projects().locator('.nav-star')).toHaveCount(0);
     await page.getByRole('button', { name: 'Add to favorites', exact: true }).click();
     const star = page.getByRole('button', { name: 'Remove from favorites', exact: true });
     await expect(star).toHaveAttribute('aria-pressed', 'true');
-    const section = nav.locator('.nav-section').first();
-    await expect(section.locator('.nav-heading')).toHaveText('Favorites');
-    await expect(section.getByRole('link', { name: /Task project/ })).toBeVisible();
+    await expect(firstProject()).toContainText('Task project');
+    await expect(firstProject().locator('.nav-star')).toHaveCount(1);
     await page.reload();
-    await expect(
-      page.getByRole('navigation', { name: 'Main navigation' }).locator('.nav-section').first(),
-    ).toContainText('Task project');
-    await page
-      .getByRole('navigation', { name: 'Main navigation' })
-      .locator('.nav-section')
-      .first()
-      .getByRole('link', { name: /Task project/ })
-      .click();
+    await expect(firstProject().locator('.nav-star')).toHaveCount(1);
+    await firstProject().click();
     await expect(
       page.getByRole('button', { name: 'Remove from favorites', exact: true }),
     ).toBeVisible();
     await page.getByRole('button', { name: 'Remove from favorites', exact: true }).click();
     await expect(page.getByRole('button', { name: 'Add to favorites', exact: true })).toBeVisible();
-    await expect(
-      page
-        .getByRole('navigation', { name: 'Main navigation' })
-        .getByText('Favorites', { exact: true }),
-    ).toHaveCount(0);
+    await expect(projects().locator('.nav-star')).toHaveCount(0);
   } finally {
     await f.close();
   }

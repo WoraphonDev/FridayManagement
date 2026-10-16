@@ -39,7 +39,9 @@ test('Admin and Lead privileged navigation comes only from validated Self; force
   );
   await page.reload();
   await expect(page.getByRole('link', { name: 'My work', exact: true })).toHaveCount(0);
-  await expect(page.getByRole('link', { name: 'Settings', exact: true })).toBeVisible();
+  // Settings stays reachable from the profile menu while the password change is forced.
+  await page.getByRole('button', { name: /^Profile of / }).click();
+  await expect(page.getByRole('menuitem', { name: 'Settings', exact: true })).toBeVisible();
 });
 test('Native help dialog traps focus, closes with Escape, returns focus; 200% text reflows at mobile width', async ({
   page,

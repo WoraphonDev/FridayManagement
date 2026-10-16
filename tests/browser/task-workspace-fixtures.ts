@@ -76,7 +76,8 @@ async function projectFixture(page: Page) {
 }
 async function tasks(page: Page) {
   const menu = page.getByRole('button', { name: 'Toggle navigation' });
-  const link = page.getByRole('link', { name: 'All projects', exact: true });
+  // Admins see "All projects"; members and viewers see "Browse projects" (role-nav UI).
+  const link = page.getByRole('link', { name: /^(All|Browse) projects$/ });
   // Wait for the shell to render before deciding whether the mobile menu must open.
   await expect(menu.or(link).first()).toBeVisible();
   if (!(await link.isVisible())) await menu.click();

@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { projectFixture, mutate, tasks } from './task-workspace-fixtures.js';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
+import { signOut } from './ui-actions';
 for (const [name, width] of [
   ['mobile', 360],
   ['tablet', 768],
@@ -142,8 +143,7 @@ test('T056/T057 native worker cache and logout/offline', async ({ page, context,
     await expect
       .poll(() => page.evaluate(() => Boolean(navigator.serviceWorker.controller)))
       .toBe(true);
-    await expect(page.getByRole('button', { name: 'Sign out', exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+    await signOut(page);
     await expect(page.getByLabel('Username', { exact: true })).toBeVisible();
     const cached = await page.evaluate(async () => {
       const output: { url: string; text: string }[] = [];

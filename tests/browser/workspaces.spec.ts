@@ -82,7 +82,7 @@ test('T023/024 actual create/edit/archive/project membership UI and active-proje
   const f = await fixture(page);
   try {
     await createTeam(page);
-    await page.getByRole('link', { name: 'All projects', exact: true }).click();
+    await page.getByRole('link', { name: /^(All|Browse) projects$/ }).click();
     await page.getByRole('button', { name: 'Create project', exact: true }).click();
     let dialog = page.getByRole('dialog');
     await dialog.getByLabel('Project Name', { exact: true }).fill('Website Launch');
@@ -109,7 +109,7 @@ test('T023/024 actual create/edit/archive/project membership UI and active-proje
     await dialog.getByRole('button', { name: 'Confirm', exact: true }).click();
     await expect(dialog.getByRole('alert')).toBeVisible();
     await dialog.getByRole('button', { name: 'Close dialog' }).click();
-    await page.getByRole('link', { name: 'All projects', exact: true }).click();
+    await page.getByRole('link', { name: /^(All|Browse) projects$/ }).click();
     await openCardMenu(page);
     await page.getByRole('button', { name: 'Archive', exact: true }).click();
     await page.getByRole('dialog').getByRole('button', { name: 'Confirm', exact: true }).click();
@@ -137,7 +137,7 @@ test('owner project detail form: defaults, Unicode, persisted edits and 360px la
   try {
     await createTeam(page);
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.getByRole('link', { name: 'All projects', exact: true }).click();
+    await page.getByRole('link', { name: /^(All|Browse) projects$/ }).click();
     await page.getByRole('button', { name: 'Create project', exact: true }).click();
     let dialog = page.getByRole('dialog', { name: 'Create project', exact: true });
     await expect(dialog.getByLabel('Project Name')).toBeFocused();
@@ -298,7 +298,7 @@ test('T024 cross-team Viewer reads only shared project, revoke hides modal and l
     await member.getByLabel('New password', { exact: true }).fill('Viewer-new-fixture-password');
     await member.getByLabel('Confirm new password').fill('Viewer-new-fixture-password');
     await member.getByRole('button', { name: 'Change password', exact: true }).click();
-    await member.getByRole('link', { name: 'All projects', exact: true }).click();
+    await member.getByRole('link', { name: /^(All|Browse) projects$/ }).click();
     await expect(
       member.locator('.project-directory-card').filter({ hasText: 'Shared private project' }),
     ).toBeVisible();
@@ -568,7 +568,7 @@ for (const width of [1280, 360]) {
       expect(await entrances()).toBe(0);
       expect(await page.evaluate(() => scrollY)).toBe(startScroll);
       if (width === 1280) {
-        await page.getByRole('link', { name: 'All projects', exact: true }).click();
+        await page.getByRole('link', { name: /^(All|Browse) projects$/ }).click();
         await expect(page.getByRole('heading', { name: 'Projects', exact: true })).toBeVisible();
         await expect.poll(entrances).toBe(1);
       }

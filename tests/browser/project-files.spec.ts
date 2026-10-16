@@ -33,7 +33,8 @@ test('Files tab: upload, merged list with task source, search/type filter, safe 
       mimeType: 'application/octet-stream',
       buffer: Buffer.from('MZ'),
     });
-    await expect(files.getByRole('row')).toHaveCount(4);
+    // Role-nav UI lists files as list items (no header row).
+    await expect(files.getByRole('listitem')).toHaveCount(3);
     // A task attachment appears with its source task.
     const taskFile = await page.evaluate(async () => {
       const self = await (await fetch('/api/me')).json();
@@ -49,14 +50,14 @@ test('Files tab: upload, merged list with task source, search/type filter, safe 
     expect(taskFile).toBe(201);
     await files.getByLabel('File type', { exact: true }).selectOption('document');
     await files.getByLabel('File type', { exact: true }).selectOption('');
-    await expect(files.getByRole('cell', { name: 'Task: Source task', exact: true })).toBeVisible();
+    await expect(files.getByText(/· Task: Source task$/)).toBeVisible();
     await files.getByLabel('Search files', { exact: true }).fill('ผัง');
-    await expect(files.getByRole('row')).toHaveCount(2);
+    await expect(files.getByRole('listitem')).toHaveCount(1);
     await files.getByLabel('Search files', { exact: true }).fill('');
     await files.getByLabel('File type', { exact: true }).selectOption('pdf');
-    await expect(files.getByRole('row')).toHaveCount(2);
+    await expect(files.getByRole('listitem')).toHaveCount(1);
     await files.getByLabel('File type', { exact: true }).selectOption('');
-    await expect(files.getByRole('row')).toHaveCount(5);
+    await expect(files.getByRole('listitem')).toHaveCount(4);
     // Image preview renders inside the dialog from a typed blob URL.
     await files.getByRole('button', { name: 'Preview ผังระบบ.png', exact: true }).click();
     const preview = page.getByRole('dialog', { name: 'ผังระบบ.png' }).locator('img.file-preview');
@@ -87,14 +88,14 @@ test('Files tab: upload, merged list with task source, search/type filter, safe 
       .getByRole('button', { name: 'Delete file', exact: true })
       .click();
     await expect(page.getByText('File deleted')).toBeVisible();
-    await expect(files.getByRole('row')).toHaveCount(4);
+    await expect(files.getByRole('listitem')).toHaveCount(3);
     await files.getByLabel('Include deleted').check();
     await files.getByRole('button', { name: 'Restore notes.txt', exact: true }).click();
     await expect(page.getByText('File restored')).toBeVisible();
     await files.getByLabel('Include deleted').uncheck();
-    await expect(files.getByRole('row')).toHaveCount(5);
+    await expect(files.getByRole('listitem')).toHaveCount(4);
     await page.setViewportSize({ width: 375, height: 800 });
-    await expect(files.getByRole('region', { name: 'Files' })).toBeVisible();
+    await expect(files.getByRole('list', { name: 'Files' })).toBeVisible();
     expect(
       await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth),
     ).toBe(true);

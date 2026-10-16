@@ -2,6 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { rmSync } from 'node:fs';
 import { startupFixture } from '../setup/fixtures.js';
 import { startApplication } from '../../src/api/start.js';
+import { openSettings } from './ui-actions';
 const password = 'Workspace-admin-fixture-password';
 async function fixture(page: Page) {
   const f = await startupFixture();
@@ -68,7 +69,7 @@ test('T025 actual settings rename, sidebar, competing version preserves draft, o
 }, testInfo) => {
   const f = await fixture(page);
   try {
-    await page.getByRole('link', { name: 'Settings', exact: true }).click();
+    await openSettings(page);
     await page
       .getByRole('navigation', { name: 'Settings sections' })
       .getByRole('button', { name: 'Organization', exact: true })
@@ -144,7 +145,7 @@ test('T025 actual member settings read-only and public page does not disclose or
       .getByLabel('Confirm new password', { exact: true })
       .fill('Org-member-changed-password');
     await member.getByRole('button', { name: 'Change password', exact: true }).click();
-    await member.getByRole('link', { name: 'Settings', exact: true }).click();
+    await openSettings(member);
     await member
       .getByRole('navigation', { name: 'Settings sections' })
       .getByRole('button', { name: 'Organization', exact: true })

@@ -34,7 +34,7 @@ async function create(
   return r.body.item;
 }
 const reports = async (page: Page) => {
-  await page.getByRole('link', { name: 'Reports overview', exact: true }).click();
+  await page.getByRole('link', { name: /^(Organization|Team|Your) reports$/ }).click();
   await expect(page.getByRole('heading', { name: 'Reports', exact: true })).toBeVisible();
   await expect(page.locator('.report-metrics')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Export CSV', exact: true })).toBeEnabled();
@@ -249,7 +249,7 @@ test('T054 actual dashboard metrics/status/workload and date/team/project/person
     await page.getByLabel('Assignee', { exact: true }).selectOption('1');
     await expect(page.locator('.report-metrics>div').first().locator('dd')).toHaveText('5');
     await page.getByLabel('Owner team', { exact: true }).selectOption('1');
-    await page.getByLabel('Projects', { exact: true }).selectOption('1');
+    await page.getByRole('combobox', { name: 'Projects', exact: true }).selectOption('1');
     await expect(page.locator('.report-metrics>div').first().locator('dd')).toHaveText('6');
     await page.getByLabel('Date basis', { exact: true }).selectOption('completed');
     await expect(page.locator('.report-metrics>div').first().locator('dd')).toHaveText('2');
@@ -290,7 +290,7 @@ test('T053/054 actual download120+ full rows BOM and CSV text safeguards share d
     }
     await reports(page);
     await expect(page.locator('.report-metrics>div').first().locator('dd')).toHaveText('123');
-    await page.getByLabel('Projects', { exact: true }).selectOption('1');
+    await page.getByRole('combobox', { name: 'Projects', exact: true }).selectOption('1');
     const download = page.waitForEvent('download');
     await page.getByRole('button', { name: 'Export CSV', exact: true }).click();
     const d = await download,

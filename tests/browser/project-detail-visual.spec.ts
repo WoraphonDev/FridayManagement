@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { projectFixture, mutate, tasks } from './task-workspace-fixtures.js';
+import { confirmTaskSave } from './ui-actions';
 
 test('Project detail style: stable sections, task save/cancel, docs cancel, metadata and mobile', async ({
   page,
@@ -42,8 +43,15 @@ test('Project detail style: stable sections, task save/cancel, docs cancel, meta
     const docY = () => tabs.evaluate((el) => el.getBoundingClientRect().top + window.scrollY);
     await tabs.getByRole('button', { name: 'Overview', exact: true }).click();
     await expect(board.getByRole('region', { name: 'Project overview' })).toBeVisible();
-    await expect(board.locator('.overview-tiles')).toContainText('1 of 4 tasks done');
-    await expect(board.locator('.overview-tile').first().locator('strong')).toHaveText('25%');
+    await expect(board.locator('.overview-tiles:not(.project-due-tiles)')).toContainText(
+      '1 of 4 tasks done',
+    );
+    await expect(
+      board
+        .locator('.overview-tiles:not(.project-due-tiles) .overview-tile')
+        .first()
+        .locator('strong'),
+    ).toHaveText('25%');
     await expect
       .poll(() => board.locator('.project-overview').evaluate((el) => getComputedStyle(el).opacity))
       .toBe('1');
@@ -81,6 +89,7 @@ test('Project detail style: stable sections, task save/cancel, docs cancel, meta
       animations: 'disabled',
     });
     await editor.getByRole('button', { name: 'New task', exact: true }).click();
+    await confirmTaskSave(editor);
     await expect(editor).toHaveCount(0);
     await page.reload();
     await tasks(page);
@@ -121,7 +130,12 @@ test('Project detail style: stable sections, task save/cancel, docs cancel, meta
     await page.getByRole('button', { name: 'Task project', exact: true }).click();
     await tabs.getByRole('button', { name: 'Overview', exact: true }).click();
     await expect(board.getByRole('region', { name: 'Project overview' })).toBeVisible();
-    await expect(board.locator('.overview-tile').first().locator('strong')).toHaveText('20%');
+    await expect(
+      board
+        .locator('.overview-tiles:not(.project-due-tiles) .overview-tile')
+        .first()
+        .locator('strong'),
+    ).toHaveText('20%');
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );

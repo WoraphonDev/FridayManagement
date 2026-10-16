@@ -47,13 +47,20 @@ export function ErrorNotice({ error, retry }: { error: ApiError; retry?: () => v
 }
 /** Popup notice at the bottom-right. Transient notices hide after 2 s; `persist` keeps a status visible. */
 export function Toast({ children, persist = false }: { children: ReactNode; persist?: boolean }) {
-  const [hidden, setHidden] = useState<ReactNode>(null);
+  const [shown, setShown] = useState<ReactNode>(children),
+    [expired, setExpired] = useState(false);
+  // Any new message restarts the toast, even one equal to an earlier expired message
+  // (e.g. a second "Position saved" after "Saving position…").
+  if (shown !== children) {
+    setShown(children);
+    setExpired(false);
+  }
   useEffect(() => {
     if (persist) return;
-    const timer = window.setTimeout(() => setHidden(children), 2000);
+    const timer = window.setTimeout(() => setExpired(true), 2000);
     return () => window.clearTimeout(timer);
   }, [children, persist]);
-  if (!persist && hidden === children) return null;
+  if (!persist && expired) return null;
   return (
     <div role="status" aria-live="polite" className={`toast ${persist ? 'toast-persist' : ''}`}>
       {children}
