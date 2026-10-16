@@ -45,6 +45,10 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
       .getByRole('option', { name: 'Ton', exact: true })
       .click();
     await drawer.getByRole('button', { name: 'Save task', exact: true }).click();
+    await page
+      .getByRole('dialog', { name: 'Save changes?', exact: true })
+      .getByRole('button', { name: 'Save changes', exact: true })
+      .click();
     await expect(drawer.getByText('Version 2 · Checklist 0/0')).toBeVisible();
     await drawer.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await drawer.getByRole('button', { name: 'Add checklist item', exact: true }).click();
@@ -202,7 +206,7 @@ test('Approved design geometry, sidebar deep links, group editing and fixed crea
     }));
     expect(dimensions.sidebar).toBeCloseTo(216, 2);
     expect(dimensions.row).toBeCloseTo(38, 2);
-    await expect(page.locator('.project-heading h1')).toHaveCSS('line-height', '28px');
+    await expect(page.locator('.project-heading h1')).toHaveCSS('line-height', '25px');
     await expect(page.locator('.task-name button').first()).toHaveCSS('font-weight', '500');
     // WebKit serializes 16.2px as 16.200001px; compare numerically.
     expect(
@@ -250,6 +254,10 @@ test('Approved design geometry, sidebar deep links, group editing and fixed crea
     expect(Math.abs(geometry.footer - geometry.viewport)).toBeLessThanOrEqual(1);
     await drawer.getByLabel('Task title', { exact: true }).fill('Created from footer');
     await drawer.getByRole('button', { name: 'New task', exact: true }).click();
+    await page
+      .getByRole('dialog', { name: 'Create task?', exact: true })
+      .getByRole('button', { name: 'Create task', exact: true })
+      .click();
     await expect(drawer).toBeHidden();
     await expect(board.getByRole('button', { name: 'Open task #2', exact: true })).toBeVisible();
     const created = await (await page.request.get(f.env.APP_ORIGIN + '/api/tasks/2')).json();
@@ -274,7 +282,8 @@ test('Approved Login: larger logo, eye inside password, install panel, motion an
   const f = await projectFixture(page);
   try {
     await page.setViewportSize({ width: 1440, height: 900 });
-    await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+    await page.getByRole('button', { name: 'Profile of Workspace Admin', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Sign out', exact: true }).click();
     await expect(page.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
     await expect(
       page.getByRole('heading', { name: 'Clear work Move forward together' }),
@@ -324,7 +333,7 @@ test('Approved Login: larger logo, eye inside password, install panel, motion an
     await expect(password).toHaveAttribute('type', 'password');
     await page.getByRole('button', { name: 'Need help signing in?', exact: true }).click();
     const help = page.getByRole('dialog', { name: 'Sign-in help', exact: true });
-    await expect(help).toContainText('organization’s Admin');
+    await expect(help).toContainText('contact your Admin');
     await help.press('Escape');
     await expect(help).toBeHidden();
     await password.fill('');
@@ -345,8 +354,8 @@ test('Approved Login: larger logo, eye inside password, install panel, motion an
     await expect(password).toHaveValue('');
     await password.fill('Workspace-admin-fixture-password');
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();
-    await expect(page.getByRole('button', { name: 'Sign out', exact: true })).toBeVisible();
-    await page.getByRole('button', { name: 'Sign out', exact: true }).click();
+    await page.getByRole('button', { name: 'Profile of Workspace Admin', exact: true }).click();
+    await page.getByRole('menuitem', { name: 'Sign out', exact: true }).click();
     await page.setViewportSize({ width: 360, height: 800 });
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await expect(page.getByRole('heading', { name: 'Welcome back', exact: true })).toBeVisible();
