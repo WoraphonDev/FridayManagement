@@ -9,7 +9,7 @@
 .task-workspace[aria-label='My work'] .project-heading {
   padding: 24px;
   border: 1px solid #e0e7fa;
-  border-radius: 14px;
+  border-radius: 4px;
   background: linear-gradient(110deg, #f0f4ff, #faf8ff 75%, #fff);
 }
 .task-workspace[aria-label='My work'] .project-heading h1 {
@@ -26,11 +26,11 @@
   margin: 18px 0;
   gap: 5px;
   border: 1px solid #e2e7f1;
-  border-radius: 11px;
+  border-radius: 4px;
   background: #f5f7fc;
 }
 .task-workspace[aria-label='My work'] .view-tabs button {
-  border-radius: 7px;
+  border-radius: 4px;
   border: 0;
   padding: 9px 14px;
   color: #727990;
@@ -46,7 +46,7 @@
   margin: 0;
   border: 1px solid #e2e7f1;
   border-bottom: 0;
-  border-radius: 14px 14px 0 0;
+  border-radius: 4px 4px 0 0;
   background: linear-gradient(110deg, #f7f9ff, #faf8ff);
   flex-wrap: wrap;
 }
@@ -59,7 +59,7 @@
   padding: 0 20px 18px;
   border: 1px solid #e2e7f1;
   border-top: 0;
-  border-radius: 0 0 14px 14px;
+  border-radius: 0 0 4px 4px;
   background: #f9faff;
   gap: 12px;
   align-items: center;
@@ -73,7 +73,7 @@
 }
 .task-workspace[aria-label='My work'] select:not(.priority-pill) {
   min-height: 36px;
-  border-radius: 7px;
+  border-radius: 4px;
   border-color: #d3daea;
   font-size: 12px;
 }
@@ -81,19 +81,19 @@
   width: 270px;
   min-height: 36px;
   border-color: #d3daea;
-  border-radius: 7px;
+  border-radius: 4px;
   background: #fff;
 }
 .task-workspace[aria-label='My work'] .task-filters .popover-menu > summary {
   border: 1px solid #d3daea;
-  border-radius: 7px;
+  border-radius: 4px;
   background: #fff;
   min-height: 36px;
   padding: 7px 10px;
   color: #626981;
 }
 .task-workspace[aria-label='My work'] .task-filters .filter-grid {
-  border-radius: 12px;
+  border-radius: 4px;
   border-color: #d3daea;
   box-shadow: 0 8px 24px #292f4c18;
 }
@@ -105,7 +105,7 @@
   margin: 18px 0 !important;
   border: 1px solid var(--work-border) !important;
   border-left: 3px solid var(--work-color) !important;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #fff !important;
   box-shadow: 0 3px 12px #313c5a05;
   animation: report-reveal 360ms ease-out;
@@ -139,7 +139,7 @@
 .task-workspace[aria-label='My work'] .group-heading {
   margin: 0;
   padding: 12px 16px;
-  border-radius: 10px 10px 0 0;
+  border-radius: 4px 4px 0 0;
   background: linear-gradient(110deg, var(--work-tint), #fff);
   gap: 10px;
 }
@@ -155,7 +155,7 @@
   border: 1px solid var(--work-border);
   color: var(--work-color);
   padding: 3px 8px;
-  border-radius: 20px;
+  border-radius: 4px;
   font-size: 11px;
 }
 /* Opacity on group mount only; expanding the grid must not slide the page. */
@@ -221,7 +221,7 @@
   padding: 10px 16px;
   border: 0;
   border-top: 1px solid #edf0f6;
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 4px 4px;
   background: #fafbfe;
   color: #727990;
 }
@@ -280,4 +280,13 @@
   .task-workspace[aria-label='My work'] .my-work-table td {
     padding: 10px;
   }
+}
+
+/* Column dividers for the My work grid, matching the project grid. */
+.task-workspace[aria-label='My work'] .my-work-table th,
+.task-workspace[aria-label='My work'] .my-work-table td {
+  border-right: 1px solid #e6e9ef;
+}
+.task-workspace[aria-label='My work'] .my-work-table tr > :last-child {
+  border-right: 0;
 }

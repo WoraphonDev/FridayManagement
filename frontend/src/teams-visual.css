@@ -3,7 +3,7 @@
   padding: 22px 24px;
   margin-bottom: 20px;
   border: 1px solid #e0e7fa;
-  border-radius: 14px;
+  border-radius: 4px;
   background: linear-gradient(110deg, #f2edff, #f1f7ff 75%, #fff);
 }
 .content:has(.team-card-grid):not(:has(.admin-center)) > .page-header h1 {
@@ -19,14 +19,14 @@
   margin-bottom: 20px;
   gap: 12px;
   border: 1px solid #e3e8f3;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #fff;
 }
 .workspace-manager:has(> .team-card-grid) > .toolbar:first-of-type > button:first-child {
   background: #4265cc;
   border-color: #4265cc;
   color: #fff;
-  border-radius: 7px;
+  border-radius: 4px;
 }
 .workspace-manager:has(> .team-card-grid) > .toolbar input {
   accent-color: #4265cc;
@@ -44,7 +44,7 @@
   min-width: 0;
   border: 1px solid #e3e7f0;
   border-top: 3px solid var(--team-accent);
-  border-radius: 12px;
+  border-radius: 4px;
   box-shadow: 0 3px 13px #34467505;
   animation: report-reveal 380ms ease-out both;
   transition:
@@ -77,20 +77,20 @@
 .team-card-grid .team-card-head {
   padding: 12px;
   border: 1px solid var(--team-line);
-  border-radius: 9px;
+  border-radius: 4px;
   background: linear-gradient(110deg, var(--team-tint), #fff);
 }
 .team-card-grid .team-card-icon {
   width: 34px;
   height: 34px;
-  border-radius: 9px;
+  border-radius: 4px;
   background: var(--team-accent);
   font-size: 17px;
 }
 .team-card-grid .team-state,
 .team-details .team-state {
   padding: 4px 9px;
-  border-radius: 20px;
+  border-radius: 4px;
   font-weight: 600;
 }
 .team-card-grid .team-card h3 {
@@ -137,11 +137,11 @@
 .team-details .team-details-header {
   padding: 22px 24px;
   border: 1px solid #e0e7fa;
-  border-radius: 14px;
+  border-radius: 4px;
   background: linear-gradient(110deg, #f2edff, #f1f7ff 75%, #fff);
 }
 .team-details-header .team-card-icon {
-  border-radius: 11px;
+  border-radius: 4px;
   background: #8052c8;
   box-shadow: 0 4px 10px #8052c820;
 }
@@ -151,14 +151,14 @@
   margin: 18px 0 22px;
   gap: 5px;
   border: 1px solid #e2e7f1;
-  border-radius: 11px;
+  border-radius: 4px;
   background: #f5f7fc;
 }
 .team-details .team-tabs button {
   min-height: 36px;
   padding: 9px 14px;
   border: 0;
-  border-radius: 7px;
+  border-radius: 4px;
   color: #727990;
 }
 .team-details .team-tabs button[aria-selected='true'] {
@@ -176,7 +176,7 @@
   animation: none;
 }
 .team-details .team-info-card {
-  border-radius: 12px;
+  border-radius: 4px;
   border-color: #e3e7f0;
   box-shadow: 0 3px 13px #34467505;
 }
@@ -208,13 +208,13 @@
 .team-details .team-members-toolbar {
   padding: 16px 18px;
   border: 1px solid #e2e7f1;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #f7f9ff;
   margin-bottom: 18px;
 }
 .team-details .team-members-grid .table-scroll {
   border: 1px solid #e3e7f0;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #fff;
 }
 .team-details .team-member-table th {
@@ -238,11 +238,11 @@
   color: #4265cc;
   border-color: #d5dff8;
   background: #f2f6ff;
-  border-radius: 7px;
+  border-radius: 4px;
 }
 .team-details .workload-view {
   border: 1px solid #e2e7f1;
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 18px;
   background: #fff;
 }
@@ -253,7 +253,7 @@
 }
 .team-details .workload-view .calendar-toolbar .icon-button {
   border: 1px solid #e0e5f1;
-  border-radius: 7px;
+  border-radius: 4px;
   background: #f7f9ff;
 }
 .team-details .workload-table th {
@@ -262,7 +262,7 @@
 }
 .team-details .workload-view .state {
   background: #f7f9ff;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 .team-member-editor .toolbar {
   gap: 10px;
@@ -273,13 +273,13 @@ dialog.team-member-editor {
   max-width: calc(100vw - 32px);
   padding: 24px;
   border: 1px solid #e0e7fa;
-  border-radius: 14px;
+  border-radius: 4px;
 }
 .team-member-editor .dialog-head {
   padding: 16px 18px;
   margin: 0 0 18px;
   border: 1px solid #e6def5;
-  border-radius: 10px;
+  border-radius: 4px;
   background: linear-gradient(110deg, #f2edff, #f1f7ff);
 }
 .team-member-editor .dialog-head h2 {
@@ -300,7 +300,7 @@ dialog.team-member-editor {
   padding: 14px;
   margin-bottom: 18px;
   border: 1px solid #e2e7f1;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #f8faff;
 }
 .team-member-editor .toolbar .field {
@@ -315,14 +315,14 @@ dialog.team-member-editor {
   width: 100%;
   min-height: 38px;
   border-color: #d3daea;
-  border-radius: 7px;
+  border-radius: 4px;
 }
 .team-member-editor form.toolbar > button {
   min-height: 38px;
   color: #4265cc;
   background: #edf2ff;
   border-color: #d5dff8;
-  border-radius: 7px;
+  border-radius: 4px;
 }
 .team-member-editor .dialog-content > label {
   margin: 16px 0;
@@ -333,7 +333,7 @@ dialog.team-member-editor {
 .team-member-editor .dialog-content > label select {
   min-height: 38px;
   border-color: #d3daea;
-  border-radius: 7px;
+  border-radius: 4px;
   font-weight: 400;
 }
 .team-member-editor .dialog-content > .toolbar:not(form) {
@@ -344,12 +344,12 @@ dialog.team-member-editor {
 .team-member-editor .dialog-content > .toolbar:not(form) button {
   padding: 5px 8px;
   font-size: 11px;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 .team-member-editor .member-editor-selected {
   padding: 10px 12px;
   border: 1px solid #d6eee3;
-  border-radius: 8px;
+  border-radius: 4px;
   color: #168467;
   background: #eaf8f2;
   overflow-wrap: anywhere;
@@ -357,7 +357,7 @@ dialog.team-member-editor {
 .team-member-editor .dialog-content > button {
   min-height: 38px;
   margin-top: 6px;
-  border-radius: 7px;
+  border-radius: 4px;
 }
 @media (max-width: 600px) {
   dialog.team-member-editor {

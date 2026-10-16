@@ -210,7 +210,7 @@
 }
 .auth-board {
   margin-top: 26px;
-  border-radius: 6px;
+  border-radius: 4px;
   padding: 18px;
   transform: rotate(-2deg);
 }
@@ -295,7 +295,7 @@
   right: -8px;
   padding: 10px 12px;
   border: 1px solid #e6e9ef;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #fff;
   box-shadow: 0 12px 36px #292f4c1f;
   font-size: 11px;
@@ -503,7 +503,7 @@ dialog[open]:not(.task-editor) {
   background: #fff;
   color: #53586c;
   border: 1px solid #dfe3eb;
-  border-radius: 9px;
+  border-radius: 4px;
   padding: 9px 12px;
   font-size: 11px;
   font-weight: 500;
@@ -531,7 +531,7 @@ dialog[open]:not(.task-editor) {
   width: 290px;
   padding: 18px;
   border: 1px solid #e6e9ef;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #fff;
   box-shadow: 0 12px 40px #292f4c22;
   color: #323338;
@@ -579,7 +579,7 @@ dialog[open]:not(.task-editor) {
   padding: 12px;
   margin-top: 8px;
   border: 1px solid #dbe7ff;
-  border-radius: 10px;
+  border-radius: 4px;
   color: #4666a1;
   background: #f5f8ff;
   box-shadow: 0 3px 12px #292f4c0a;

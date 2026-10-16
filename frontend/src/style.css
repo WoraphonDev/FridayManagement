@@ -25,7 +25,7 @@ a {
 button {
   background: #fff;
   border: 1px solid #78958c;
-  border-radius: 0.55rem;
+  border-radius: 4px;
   padding: 0.65rem 1rem;
   color: #193b37;
   cursor: pointer;
@@ -67,7 +67,7 @@ nav {
 }
 nav a {
   padding: 0.8rem 1rem;
-  border-radius: 0.5rem;
+  border-radius: 4px;
   text-decoration: none;
 }
 nav a[aria-current='page'] {
@@ -109,7 +109,7 @@ p {
   margin-top: 2rem;
   padding: clamp(1rem, 3vw, 2rem);
   border: 1px solid #d4e2d9;
-  border-radius: 1rem;
+  border-radius: 4px;
   background: white;
 }
 .muted {
@@ -125,7 +125,7 @@ p {
   margin-top: 1rem;
   background: #edf4ff;
   border: 1px solid #8ba7c3;
-  border-radius: 0.5rem;
+  border-radius: 4px;
 }
 .skip-link {
   position: fixed;
@@ -152,7 +152,7 @@ fieldset {
 .field input {
   padding: 0.65rem;
   border: 1px solid #78958c;
-  border-radius: 0.4rem;
+  border-radius: 4px;
   width: 100%;
   min-width: 0;
 }
@@ -183,7 +183,7 @@ dialog {
   max-height: calc(100dvh - 2rem);
   overflow: auto;
   border: 1px solid #78958c;
-  border-radius: 1rem;
+  border-radius: 4px;
   padding: 1.5rem;
   color: #193b37;
 }
@@ -261,7 +261,7 @@ dd {
 .membership-confirm {
   padding: 1rem;
   border: 1px solid #bd9d61;
-  border-radius: 0.5rem;
+  border-radius: 4px;
   margin-top: 1rem;
 }
 textarea,
@@ -270,7 +270,7 @@ select {
   max-width: 100%;
   padding: 0.65rem;
   border: 1px solid #78958c;
-  border-radius: 0.4rem;
+  border-radius: 4px;
 }
 textarea {
   display: block;
@@ -281,7 +281,7 @@ textarea {
 .conflict-review {
   border: 1px solid #ae7826;
   padding: 1rem;
-  border-radius: 0.5rem;
+  border-radius: 4px;
 }
 [aria-label='Checklist'] ul {
   list-style: none;
@@ -309,7 +309,7 @@ dialog input[type='checkbox'] {
 .kanban-lane {
   flex: 0 0 245px;
   background: #f5f6fa;
-  border-radius: 10px;
+  border-radius: 4px;
   border-top: 4px solid #579bfc;
   padding: 0.75rem;
   min-height: 12rem;
@@ -326,7 +326,7 @@ dialog input[type='checkbox'] {
 .kanban-card {
   background: white;
   border: 1px solid #d5d9e2;
-  border-radius: 8px;
+  border-radius: 4px;
   margin: 0.75rem 0;
   padding: 0.75rem;
   box-shadow: 0 2px 4px #18243a0d;
@@ -418,7 +418,7 @@ nav a:hover {
 button {
   color: #323338;
   border-color: #c3c6d4;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 button.primary {
   background: #6161ff;
@@ -493,7 +493,7 @@ button.primary {
   gap: 1rem;
   padding: 1rem;
   border: 1px solid #d0d4e4;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .filter-grid fieldset label {
   display: block;
@@ -518,7 +518,7 @@ button.primary {
 }
 .task-group .table-scroll {
   border: 1px solid #d0d4e4;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .task-group td {
   vertical-align: middle;
@@ -572,7 +572,7 @@ button.primary {
   color: var(--task-color, #4848bf);
 }
 .timeline-pill {
-  border-radius: 20px;
+  border-radius: 4px;
   padding: 0.4rem 0.7rem;
   display: block;
   background: #f1f2fb;
@@ -603,7 +603,7 @@ button.primary {
   overflow: auto;
   max-width: 100%;
   border: 1px solid #d0d4e4;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .calendar-grid {
   display: grid;
@@ -688,7 +688,7 @@ button.primary {
   min-width: 0;
   padding: 0.25rem 0.35rem;
   border: 1px solid var(--task-color, #6161ff);
-  border-radius: 20px;
+  border-radius: 4px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -787,7 +787,7 @@ button.primary {
   max-width: 100%;
   padding: 0.55rem;
   border: 1px solid #d9dce8;
-  border-radius: 6px;
+  border-radius: 4px;
   background: white;
 }
 .report-metrics {
@@ -797,7 +797,7 @@ button.primary {
 }
 .report-metrics > div {
   border: 1px solid #e3e5ef;
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 1rem;
   background: #fff;
 }
@@ -821,7 +821,7 @@ button.primary {
   justify-content: space-between;
   gap: 0.5rem;
   padding: 0.75rem;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 .notification-list {
   list-style: none;
@@ -835,7 +835,7 @@ button.primary {
   padding: 1rem;
   margin: 0.5rem 0;
   border: 1px solid #e3e5ef;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .notification-list li > div {
   flex: 1;
@@ -856,7 +856,7 @@ button.primary {
   padding: 0.05rem 0.45rem;
   background: #6762df;
   color: white;
-  border-radius: 1rem;
+  border-radius: 4px;
 }
 @media (max-width: 600px) {
   .report-statuses {

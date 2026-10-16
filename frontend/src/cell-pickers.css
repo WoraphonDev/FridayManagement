@@ -13,7 +13,7 @@
   margin: 0;
   padding: 5px 8px;
   border: 1px solid transparent;
-  border-radius: 5px;
+  border-radius: 4px;
   background: transparent;
 }
 .cell-picker-trigger:hover:not(:disabled),
@@ -45,7 +45,7 @@
   box-sizing: border-box;
   overflow-y: auto;
   border: 1px solid #dfe5f1;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #fff;
   color: #34405c;
   box-shadow: 0 10px 32px #26375926;
@@ -78,7 +78,7 @@
   box-sizing: border-box;
   padding: 8px 10px;
   border: 1px solid #4265cc;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 .cell-popover .picker-section-label {
   color: #76819a;
@@ -141,7 +141,7 @@
   min-height: 36px;
   margin: 6px 0;
   border: 0;
-  border-radius: 5px;
+  border-radius: 4px;
   padding: 7px 10px;
   background: #c4c7d3;
   color: #30354c;

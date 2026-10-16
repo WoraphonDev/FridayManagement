@@ -25,7 +25,7 @@ button {
   min-height: 32px;
   padding: 6px 11px;
   border: 1px solid #d7dbe5;
-  border-radius: 5px;
+  border-radius: 4px;
   color: #323338;
   background: #fff;
   transition:
@@ -45,7 +45,7 @@ input,
 select,
 textarea {
   border: 1px solid #c3c6d4;
-  border-radius: 5px;
+  border-radius: 4px;
   padding: 7px 10px;
   color: #323338;
   background: white;
@@ -102,7 +102,7 @@ p {
   align-items: center;
   padding: 5px 10px;
   border: 1px solid #ffffff30;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 .friday-brand {
   display: inline-flex;
@@ -157,7 +157,7 @@ p {
 }
 .sidebar nav a {
   padding: 9px 11px;
-  border-radius: 5px;
+  border-radius: 4px;
   text-decoration: none;
   font-size: 12px;
 }
@@ -207,7 +207,7 @@ p {
 .card,
 .state {
   border-color: var(--line);
-  border-radius: 7px;
+  border-radius: 4px;
 }
 .project-heading {
   padding: 16px 0;
@@ -248,12 +248,12 @@ td {
   background: #f6f7fb;
   border: 1px solid var(--line);
   border-top: 3px solid #c4c7d3;
-  border-radius: 6px;
+  border-radius: 4px;
 }
 .kanban-card {
   background: white;
   border: 1px solid #e1e4ee;
-  border-radius: 7px;
+  border-radius: 4px;
   padding: 12px;
   box-shadow: 0 2px 6px #292f4c06;
 }
@@ -294,7 +294,7 @@ td {
 }
 dialog {
   border: 1px solid var(--line);
-  border-radius: 9px;
+  border-radius: 4px;
   padding: 20px;
   color: #323338;
   box-shadow: 0 20px 70px #292f4c26;
@@ -349,7 +349,7 @@ button.permission-cancel:hover:not(:disabled) {
 .permission-matrix-scroll {
   max-height: min(70vh, 720px);
   border: 1px solid var(--line);
-  border-radius: 6px;
+  border-radius: 4px;
   isolation: isolate;
 }
 .permission-matrix-scroll .permission-matrix {
@@ -518,7 +518,7 @@ dialog.project-board-dialog {
   border: 0;
   padding: 12px 16px;
   max-width: min(380px, calc(100vw - 36px));
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 10px 30px #292f4c22;
   animation: toast-enter 180ms ease-out;
 }
@@ -605,7 +605,7 @@ dialog.project-board-dialog {
   background: white;
   border: 1px solid #e2e0ed;
   padding: 18px;
-  border-radius: 9px;
+  border-radius: 4px;
   transform: rotate(-2deg);
   box-shadow: 0 24px 60px #38305814;
 }
@@ -646,7 +646,7 @@ dialog.project-board-dialog {
   right: -8px;
   padding: 14px;
   background: white;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 12px 36px #292f4c16;
   font-size: 11px;
 }
@@ -737,7 +737,7 @@ dialog.project-board-dialog {
 }
 .content .task-group {
   margin: 22px 0 28px;
-  border-radius: 5px;
+  border-radius: 4px;
   border: 1px solid #e6e9ef;
   border-left: 3px solid #579bfc;
 }
@@ -914,7 +914,7 @@ dialog.task-editor .checklist-panel li > label {
   background: #f6f7fb !important;
   border-top: 3px solid #c4c7d3 !important;
   padding: 10px !important;
-  border-radius: 6px !important;
+  border-radius: 4px !important;
 }
 .kanban-lane.lane-doing {
   border-top-color: #fdab3d !important;
@@ -1178,7 +1178,7 @@ dialog.task-editor fieldset > label:has(select[aria-label='Repeat']) {
   min-height: 160px;
   padding: 12px;
   border: 1px solid transparent;
-  border-radius: 6px;
+  border-radius: 4px;
   overflow-wrap: anywhere;
   overflow-x: auto;
 }
@@ -1307,7 +1307,7 @@ img.file-preview {
   gap: 4px;
   padding: 12px;
   border: 1px solid var(--ui-border-color, #c3c6d4);
-  border-radius: 8px;
+  border-radius: 4px;
   color: inherit;
   text-decoration: none;
 }
@@ -1334,7 +1334,7 @@ img.file-preview {
   display: block;
   height: 10px;
   min-width: 2px;
-  border-radius: 5px;
+  border-radius: 4px;
   background: #579bfc;
 }
 .overview-bar .bar.status-doing {
@@ -1364,7 +1364,7 @@ img.file-preview {
   display: inline-block;
   margin-left: 6px;
   padding: 0 6px;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #e6e9ef;
   font-size: 11px;
   font-weight: 500;
@@ -1446,7 +1446,7 @@ img.file-preview {
   max-height: 220px;
   overflow: auto;
   border: 1px solid var(--ui-border-color, #c3c6d4);
-  border-radius: 6px;
+  border-radius: 4px;
   background: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
 }
@@ -1557,7 +1557,7 @@ img.file-preview {
   display: inline-block;
   min-width: 18px;
   padding: 0 6px;
-  border-radius: 9px;
+  border-radius: 4px;
   background: #e6e9ef;
   font-size: 11px;
   text-align: center;
@@ -1674,7 +1674,7 @@ button.notify-link {
   max-width: calc(100vw - 24px);
   background: #fff;
   color: #323338;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 12px 32px #292f4c33;
   outline: none;
 }
@@ -1693,7 +1693,7 @@ button.notify-link {
 }
 .notify-unread {
   padding: 1px 8px;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #e7f0fd;
   color: #0060b9;
   font-size: 11px;
@@ -1785,7 +1785,7 @@ button.notify-link {
   padding: 10px 14px 14px;
   border: 1px solid #e6e9ef;
   border-top: 1px solid #e6e9ef;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fff;
 }
 .project-card-band {
@@ -1794,7 +1794,7 @@ button.notify-link {
   justify-content: space-between;
   margin: 0 -4px 8px;
   padding: 8px 10px;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #f0eafb;
 }
 .project-directory-card.archived .project-card-band {
@@ -1874,7 +1874,7 @@ button.notify-link {
   min-width: 140px;
   padding: 6px;
   background: #fff;
-  border-radius: 6px;
+  border-radius: 4px;
   box-shadow: 0 8px 24px #292f4c26;
 }
 .card-menu .row-actions button {
@@ -1894,7 +1894,7 @@ button.notify-link {
   gap: 4px;
   padding: 14px 16px;
   border: 1px solid #e6e9ef;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fff;
 }
 .team-card-head {
@@ -1907,7 +1907,7 @@ button.notify-link {
   place-items: center;
   width: 24px;
   height: 24px;
-  border-radius: 5px;
+  border-radius: 4px;
   background: #a25ddc;
   color: #fff;
   font-size: 12px;
@@ -2098,7 +2098,7 @@ select[aria-label='Sort by'] {
 }
 .report-filter-card {
   border: 1px solid #e2e6f1;
-  border-radius: 14px;
+  border-radius: 4px;
   padding: 20px;
   background: linear-gradient(125deg, #f6f8ff 0%, #fdfdff 65%);
 }
@@ -2128,7 +2128,7 @@ select[aria-label='Sort by'] {
   place-items: center;
   width: 36px;
   height: 36px;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #e9edff;
   color: #5268c7;
   flex-shrink: 0;
@@ -2168,7 +2168,7 @@ select[aria-label='Sort by'] {
   box-sizing: border-box;
   background: white;
   height: 36px;
-  border-radius: 7px;
+  border-radius: 4px;
 }
 .report-timezone {
   display: flex;
@@ -2216,7 +2216,7 @@ select[aria-label='Sort by'] {
   position: relative;
   padding: 18px;
   border: 1px solid var(--metric-border);
-  border-radius: 12px;
+  border-radius: 4px;
   background: linear-gradient(135deg, var(--metric-tint), #fff 90%);
   box-shadow: 0 3px 12px #263c6610;
   overflow: hidden;
@@ -2272,7 +2272,7 @@ select[aria-label='Sort by'] {
   width: 30px;
   height: 30px;
   background: #ffffffaa;
-  border-radius: 8px;
+  border-radius: 4px;
   color: var(--metric-color);
   flex-shrink: 0;
 }
@@ -2298,7 +2298,7 @@ select[aria-label='Sort by'] {
 .reports-workspace .report-panel {
   padding: 22px;
   border: 1px solid #e1e6f0;
-  border-radius: 14px;
+  border-radius: 4px;
   background: white;
   min-width: 0;
   box-shadow: 0 4px 20px #263c6609;
@@ -2361,7 +2361,7 @@ select[aria-label='Sort by'] {
   gap: 8px;
   padding: 12px;
   background: #f8f9fc;
-  border-radius: 8px;
+  border-radius: 4px;
   font-size: 12px;
 }
 .report-panel .status-cell i {
@@ -2405,7 +2405,7 @@ select[aria-label='Sort by'] {
   align-items: center;
   gap: 12px;
   padding: 10px 12px;
-  border-radius: 9px;
+  border-radius: 4px;
   background: #f8f9fd;
   font-size: 12px;
   --assignee-color: #8560c5;
@@ -2432,7 +2432,7 @@ select[aria-label='Sort by'] {
   place-items: center;
   width: 32px;
   height: 32px;
-  border-radius: 9px;
+  border-radius: 4px;
   background: var(--assignee-tint);
   color: var(--assignee-color);
   font-size: 11px;
@@ -2446,7 +2446,7 @@ select[aria-label='Sort by'] {
 }
 .bar-track {
   height: 9px;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #e6eaf3;
   overflow: hidden;
 }
@@ -2473,7 +2473,7 @@ select[aria-label='Sort by'] {
   gap: 9px;
   align-items: start;
   padding: 12px;
-  border-radius: 9px;
+  border-radius: 4px;
   background: #eef4ff;
   color: #4c6b9a;
   font-size: 11px;
@@ -2511,7 +2511,7 @@ select[aria-label='Sort by'] {
 @media (max-width: 650px) {
   .report-filter-card {
     padding: 16px;
-    border-radius: 12px;
+    border-radius: 4px;
   }
   .report-filter-heading {
     align-items: start;
@@ -2588,7 +2588,7 @@ select[aria-label='Sort by'] {
 /* Shared overview defaults retained for Project overview. */
 .overview-tiles .overview-tile {
   border: 1px solid #e6e9ef;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fff;
   padding: 14px 16px;
   text-decoration: none;
@@ -2600,7 +2600,7 @@ select[aria-label='Sort by'] {
 .overview-panels > section {
   padding: 16px;
   border: 1px solid #e6e9ef;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fff;
 }
 .overview-panels h3 {
@@ -2623,7 +2623,7 @@ select[aria-label='Sort by'] {
   gap: 24px;
   padding: 24px;
   border: 1px solid #e0e7fa;
-  border-radius: 14px;
+  border-radius: 4px;
   background: linear-gradient(110deg, #f0f4ff, #faf8ff 75%, #fff);
 }
 .overview-eyebrow {
@@ -2658,7 +2658,7 @@ select[aria-label='Sort by'] {
   background: #fff;
   padding: 10px 14px;
   border: 1px solid #e0e7fa;
-  border-radius: 10px;
+  border-radius: 4px;
   text-decoration: none;
   font-size: 12px;
 }
@@ -2686,7 +2686,7 @@ select[aria-label='Sort by'] {
   gap: 10px;
   border: 1px solid var(--tile-border);
   border-left: 3px solid var(--tile-color);
-  border-radius: 12px;
+  border-radius: 4px;
   background: linear-gradient(125deg, var(--tile-tint), #fff);
   box-shadow: 0 3px 12px #313c5a05;
   animation: report-reveal 360ms ease-out both;
@@ -2734,7 +2734,7 @@ select[aria-label='Sort by'] {
   place-items: center;
   width: 32px;
   height: 32px;
-  border-radius: 9px;
+  border-radius: 4px;
   background: var(--tile-tint, #f0edfa);
   color: var(--tile-color, #8265b6);
   flex-shrink: 0;
@@ -2755,7 +2755,7 @@ select[aria-label='Sort by'] {
 .my-overview .overview-panels > section {
   padding: 22px;
   border: 1px solid #e2e7f1;
-  border-radius: 14px;
+  border-radius: 4px;
   box-shadow: 0 3px 14px #313c5a05;
   min-width: 0;
 }
@@ -2788,14 +2788,14 @@ select[aria-label='Sort by'] {
   padding: 13px 12px;
   margin: 8px 0;
   background: #f8f9fd;
-  border-radius: 9px;
+  border-radius: 4px;
   font-size: 12px;
 }
 .overview-bar-track {
   display: block;
   height: 9px;
   background: #e6eaf3;
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
 }
 .my-overview .overview-bar-track .bar {
@@ -2830,7 +2830,7 @@ select[aria-label='Sort by'] {
   gap: 14px;
   border: 0;
   padding: 10px 12px;
-  border-radius: 9px;
+  border-radius: 4px;
   background: #f8f9fd;
   margin: 8px 0;
   font-size: 12px;
@@ -2848,7 +2848,7 @@ select[aria-label='Sort by'] {
   place-items: center;
   width: 32px;
   height: 32px;
-  border-radius: 9px;
+  border-radius: 4px;
   color: var(--project-color);
   background: var(--project-tint);
   flex-shrink: 0;
@@ -2892,7 +2892,7 @@ select[aria-label='Sort by'] {
   place-items: center;
   width: 26px;
   height: 26px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #f0edfa;
   color: #8265b6;
   font-size: 11px;
@@ -2901,7 +2901,7 @@ select[aria-label='Sort by'] {
   display: inline-block;
   justify-self: start;
   padding: 5px 8px;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 11px;
   background: #edf0f6;
   color: #626981;
@@ -3008,7 +3008,7 @@ select[aria-label='Sort by'] {
 .project-overview-body .overview-panels > section {
   padding: 16px;
   border: 1px solid #e6e9ef;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fff;
 }
 .project-overview-body .overview-panels h3 {
@@ -3111,7 +3111,7 @@ section[aria-label='Gantt'] .calendar-month {
   gap: 4px;
   min-width: 160px;
   padding: 8px;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #fff;
   box-shadow: 0 8px 24px #292f4c26;
 }
@@ -3134,7 +3134,7 @@ section[aria-label='Gantt'] .calendar-month {
   gap: 4px;
   padding: 40px 16px;
   border: 1px dashed #c3c6d4;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #fafbfc;
   text-align: center;
   color: #676879;
@@ -3234,7 +3234,7 @@ section[aria-label='Gantt'] .gantt-bar {
   min-height: 20px;
   padding: 0 8px;
   border-width: 0;
-  border-radius: 10px;
+  border-radius: 4px;
   font-size: 11px;
   line-height: 20px;
 }
@@ -3276,7 +3276,7 @@ section[aria-label='Gantt'] .gantt-bar {
   gap: 2px;
   min-width: 200px;
   padding: 6px;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #fff;
   box-shadow: 0 8px 24px #292f4c33;
   text-align: left;
@@ -3306,7 +3306,7 @@ section[aria-label='Gantt'] .gantt-bar {
 /* Gantt per Vibe Preview: fills the width, hairline grid, 5px-radius bars, today line. */
 section[aria-label='Gantt'] .gantt-scroll {
   border: 1px solid #e6e9ef;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 section[aria-label='Gantt'] .gantt-canvas {
   width: 100%;
@@ -3397,7 +3397,7 @@ section[aria-label='Gantt'] .gantt-bar.gantt-marker {
 /* Calendar per Vibe Preview: light grid, soft events with a status edge, blue "today" dot. */
 section[aria-label='Calendar'] .calendar-scroll {
   border: 1px solid #e6e9ef;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 section[aria-label='Calendar'] .calendar-grid {
   grid-template-columns: repeat(7, minmax(110px, 1fr));
@@ -3722,7 +3722,7 @@ button.team-back {
 }
 .team-tab-count {
   font-size: 11px;
-  border-radius: 12px;
+  border-radius: 4px;
   padding: 2px 7px;
   background: #eef0f8;
   color: #62677c;
@@ -3734,7 +3734,7 @@ button.team-back {
 }
 .team-details .team-info-card {
   border: 1px solid #e0e3ef;
-  border-radius: 10px;
+  border-radius: 4px;
   padding: 22px;
   background: white;
   min-width: 0;
@@ -3775,7 +3775,7 @@ button.team-back {
 }
 .team-position-summary span {
   padding: 6px 10px;
-  border-radius: 6px;
+  border-radius: 4px;
   background: #f3f2fa;
 }
 .team-position-summary strong {
@@ -3982,7 +3982,7 @@ button.danger:hover:not(:disabled) {
   padding: 6px;
   background: #fff;
   color: #323338;
-  border-radius: 8px;
+  border-radius: 4px;
   box-shadow: 0 12px 32px #292f4c33;
 }
 .profile-menu-head {
@@ -4003,7 +4003,7 @@ button.danger:hover:not(:disabled) {
   width: 100%;
   padding: 8px 10px;
   border: 0;
-  border-radius: 6px;
+  border-radius: 4px;
   background: transparent;
   color: inherit;
   font: inherit;
@@ -4021,7 +4021,7 @@ button.danger:hover:not(:disabled) {
 .profile-menu .profile-menu-signout {
   color: #d83a52;
   border-top: 1px solid #e6e9ef;
-  border-radius: 0 0 6px 6px;
+  border-radius: 0 0 4px 4px;
   margin-top: 4px;
 }
 
@@ -4059,7 +4059,7 @@ button.danger:hover:not(:disabled) {
 }
 .project-overview .project-due-tiles .overview-tile {
   padding: 8px 10px;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .project-overview .project-due-tiles .overview-tile strong {
   font-size: 18px;
@@ -4080,7 +4080,7 @@ button.danger:hover:not(:disabled) {
   height: auto;
   padding: 10px 14px;
   gap: 4px;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .project-overview .overview-tiles:not(.project-due-tiles) .overview-tile strong {
   font-size: 18px;
@@ -4094,7 +4094,7 @@ button.danger:hover:not(:disabled) {
 /* Compact Home overview. */
 .my-overview .overview-welcome {
   padding: 14px 18px;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 .my-overview .overview-welcome h2 {
   font-size: 20px;
@@ -4119,7 +4119,7 @@ button.danger:hover:not(:disabled) {
   height: auto;
   padding: 8px 10px;
   gap: 2px;
-  border-radius: 8px;
+  border-radius: 4px;
 }
 .my-overview .overview-tile strong {
   font-size: 18px;
@@ -4141,7 +4141,7 @@ button.danger:hover:not(:disabled) {
 }
 .my-overview .overview-panels > section {
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: 4px;
 }
 .my-overview .overview-panels h3 {
   font-size: 15px;
@@ -4183,7 +4183,7 @@ button.danger:hover:not(:disabled) {
   gap: 10px;
   padding: 8px 12px;
   border: 1px solid #e5eaf4;
-  border-radius: 9px;
+  border-radius: 4px;
   background: #fafbfe;
 }
 .project-file-list > li.deleted {
@@ -4194,7 +4194,7 @@ button.danger:hover:not(:disabled) {
   place-items: center;
   width: 32px;
   height: 34px;
-  border-radius: 8px;
+  border-radius: 4px;
   color: #7753b6;
   background: #eee7fa;
 }
@@ -4228,7 +4228,7 @@ button.danger:hover:not(:disabled) {
   padding: 4px 12px;
   white-space: nowrap;
   border: 1px solid #d5dbe8;
-  border-radius: 7px;
+  border-radius: 4px;
   background: #fff;
 }
 .project-file-list .task-attachment-actions .task-file-download {
@@ -4253,4 +4253,15 @@ button.danger:hover:not(:disabled) {
     grid-column: 2;
     justify-content: flex-start;
   }
+}
+
+/* Minimal corners: cap shared radius tokens at 4px. */
+:root:root {
+  --border-radius-8: 4px;
+  --border-radius-12: 4px;
+  --border-radius-16: 4px;
+  --border-radius-medium: 4px;
+  --border-radius-big: 4px;
+  --border-radius-multiplier: 0.5;
+  --friday-control-radius: 4px;
 }

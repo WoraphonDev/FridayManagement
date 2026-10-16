@@ -3,7 +3,7 @@
   padding: 22px 24px;
   margin-bottom: 20px;
   border: 1px solid #e0e7fa;
-  border-radius: 14px;
+  border-radius: 4px;
   background: linear-gradient(110deg, #f0f4ff, #faf8ff 75%, #fff);
 }
 .content:has(.project-directory) > .page-header h1 {
@@ -18,12 +18,12 @@
   padding: 14px 16px;
   gap: 12px;
   border: 1px solid #e3e8f3;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #fff;
   box-shadow: 0 3px 12px #34467505;
 }
 .project-directory > .toolbar button {
-  border-radius: 7px;
+  border-radius: 4px;
 }
 .project-directory > .toolbar:first-of-type > button:first-child {
   border-color: #4265cc;
@@ -66,7 +66,7 @@
   min-width: 0;
   border: 1px solid #e3e7f0;
   border-top: 3px solid var(--project-accent);
-  border-radius: 12px;
+  border-radius: 4px;
   box-shadow: 0 3px 13px #34467505;
   transition:
     border-color 180ms ease,
@@ -99,7 +99,7 @@
 .project-directory .project-card-band {
   padding: 12px;
   margin: 0 0 6px;
-  border-radius: 9px;
+  border-radius: 4px;
   background: linear-gradient(110deg, var(--project-tint), #fff);
   border: 1px solid var(--project-line);
 }
@@ -108,7 +108,7 @@
   place-items: center;
   width: 34px;
   height: 34px;
-  border-radius: 9px;
+  border-radius: 4px;
   color: #fff;
   background: var(--project-accent);
   font-size: 21px;
@@ -116,7 +116,7 @@
 .project-directory .project-state {
   margin: 0;
   padding: 4px 9px;
-  border-radius: 20px;
+  border-radius: 4px;
   color: #147958;
   background: #e4f6ed;
   font-weight: 600;
@@ -142,14 +142,14 @@
   max-width: 100%;
   padding: 4px 9px;
   margin: auto 0 3px;
-  border-radius: 6px;
+  border-radius: 4px;
   color: var(--project-accent);
   background: var(--project-tint);
   overflow-wrap: anywhere;
 }
 .project-directory .card-progress {
   height: 7px;
-  border-radius: 5px;
+  border-radius: 4px;
 }
 .project-directory .card-count {
   color: #727990;
@@ -160,7 +160,7 @@
   right: 16px;
 }
 .project-directory .card-menu summary {
-  border-radius: 6px;
+  border-radius: 4px;
   color: #657087;
 }
 .project-directory .card-menu[open] {

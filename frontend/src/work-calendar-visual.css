@@ -9,7 +9,7 @@
 .task-workspace[aria-label='Work calendar'] .project-heading {
   padding: 24px;
   border: 1px solid #dceaf4;
-  border-radius: 14px;
+  border-radius: 4px;
   background: linear-gradient(110deg, #eef7fc, #f5f3ff 75%, #fff);
 }
 .task-workspace[aria-label='Work calendar'] .project-heading h1 {
@@ -26,11 +26,11 @@
   margin: 18px 0;
   gap: 5px;
   border: 1px solid #e2e7f1;
-  border-radius: 11px;
+  border-radius: 4px;
   background: #f5f7fc;
 }
 .task-workspace[aria-label='Work calendar'] .view-tabs button {
-  border-radius: 7px;
+  border-radius: 4px;
   border: 0;
   padding: 9px 14px;
   color: #727990;
@@ -45,7 +45,7 @@
   margin: 0 0 20px;
   padding: 16px 18px;
   border: 1px solid #e2e7f1;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #f9faff;
   gap: 12px;
   overflow: visible;
@@ -54,30 +54,30 @@
   width: 270px;
   min-height: 36px;
   border-color: #d3daea;
-  border-radius: 7px;
+  border-radius: 4px;
   background: #fff;
 }
 .task-workspace[aria-label='Work calendar'] .task-filters .popover-menu > summary {
   border: 1px solid #d3daea;
-  border-radius: 7px;
+  border-radius: 4px;
   background: #fff;
   min-height: 36px;
   padding: 7px 10px;
   color: #626981;
 }
 .task-workspace[aria-label='Work calendar'] .task-filters .filter-grid {
-  border-radius: 12px;
+  border-radius: 4px;
   border-color: #d3daea;
   box-shadow: 0 8px 24px #292f4c18;
 }
 .task-workspace[aria-label='Work calendar'] .task-filters select {
-  border-radius: 7px;
+  border-radius: 4px;
 }
 .task-workspace[aria-label='Work calendar'] > section[aria-label='Calendar'] {
   margin: 0;
   padding: 18px;
   border: 1px solid #e2e7f1;
-  border-radius: 14px;
+  border-radius: 4px;
   background: #fff;
   box-shadow: 0 4px 16px #34467505;
   animation: report-reveal 380ms ease-out;
@@ -91,7 +91,7 @@
   min-height: 34px;
   width: 34px;
   border: 1px solid #e0e5f1;
-  border-radius: 8px;
+  border-radius: 4px;
   color: #536c9f;
   background: #f7f9ff;
   font-size: 23px;
@@ -104,19 +104,19 @@
 }
 .task-workspace[aria-label='Work calendar'] .calendar-hint {
   padding: 5px 9px;
-  border-radius: 20px;
+  border-radius: 4px;
   background: #f1f4fb;
   font-size: 11px;
 }
 .task-workspace[aria-label='Work calendar'] .calendar-toolbar > button:last-child {
   border: 1px solid #4265cc;
-  border-radius: 7px;
+  border-radius: 4px;
   background: #4265cc;
   color: #fff;
 }
 .task-workspace[aria-label='Work calendar'] .calendar-scroll {
   border-color: #dfe6f1;
-  border-radius: 10px;
+  border-radius: 4px;
   overflow: auto;
 }
 .task-workspace[aria-label='Work calendar'] .weekday {
@@ -162,7 +162,7 @@
 }
 .task-workspace[aria-label='Work calendar'] .calendar-event {
   padding: 5px 7px;
-  border-radius: 5px;
+  border-radius: 4px;
   margin: 4px 0;
   font-size: 11px;
   transition: box-shadow 160ms ease;
@@ -173,7 +173,7 @@
 .task-workspace[aria-label='Work calendar'] .calendar-more {
   display: inline-block;
   padding: 3px 6px;
-  border-radius: 5px;
+  border-radius: 4px;
   background: #f2effb;
   color: #7852ba;
 }
@@ -181,7 +181,7 @@
   margin: 18px 0 0;
   padding: 16px;
   border: 1px solid #e5ddf6;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #faf8ff;
 }
 .task-workspace[aria-label='Work calendar'] .date-list h3 {
@@ -192,7 +192,7 @@
 .task-workspace[aria-label='Work calendar'] .date-list .count-badge {
   background: #eee6fb;
   color: #7852ba;
-  border-radius: 20px;
+  border-radius: 4px;
 }
 .task-workspace[aria-label='Work calendar'] .date-list li {
   padding: 8px 0;
@@ -206,7 +206,7 @@
 .task-workspace[aria-label='Work calendar'] .calendar-all > summary {
   padding: 12px 14px;
   border: 1px solid #dde6f6;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #f4f7fe;
   color: #536c9f;
   cursor: pointer;

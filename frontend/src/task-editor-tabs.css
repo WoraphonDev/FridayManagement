@@ -20,7 +20,7 @@ dialog.task-editor :is(.checklist-panel, .task-collaboration > section) {
   padding: 18px;
   margin-top: 16px;
   border: 1px solid #e2e7f1;
-  border-radius: 12px;
+  border-radius: 4px;
   background: #fff;
   min-width: 0;
 }
@@ -33,7 +33,7 @@ dialog.task-editor .state:has(h2) {
   padding: 22px 14px;
   margin: 12px 0;
   border: 1px dashed #dce3f1;
-  border-radius: 9px;
+  border-radius: 4px;
   background: #f8faff;
   text-align: center;
   color: #76819a;
@@ -51,7 +51,7 @@ dialog.task-editor .checklist-table-scroll {
   overflow: auto;
   border: 1px solid #e1e6f1;
   border-left: 4px solid #4265cc;
-  border-radius: 9px;
+  border-radius: 4px;
 }
 dialog.task-editor .checklist-table {
   width: 100%;
@@ -134,7 +134,7 @@ dialog.task-editor .checklist-table .checklist-cell-edit {
   font-weight: 500;
   border: 1px solid transparent;
   background: transparent;
-  border-radius: 5px;
+  border-radius: 4px;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
   color: inherit;
@@ -223,12 +223,12 @@ dialog.task-editor .collaboration-refresh {
   color: #657087;
   background: #f7f9fd;
   border-color: #e0e6f2;
-  border-radius: 7px;
+  border-radius: 4px;
 }
 dialog.task-editor .task-collaboration nav {
   margin: 16px 0;
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #f6f8fc;
   gap: 8px;
   justify-content: space-between;
@@ -249,7 +249,7 @@ dialog.task-editor .task-updates-list > li {
   margin: 10px 0;
   border: 1px solid #e5eaf4;
   border-left: 3px solid #9b78d7;
-  border-radius: 9px;
+  border-radius: 4px;
   background: #fbfaff;
   font-size: 12px;
   line-height: 1.7;
@@ -262,7 +262,7 @@ dialog.task-editor .task-comment-composer {
   padding: 14px;
   margin: 16px 0 12px;
   border: 1px solid #dde6fa;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #f5f8ff;
 }
 dialog.task-editor .task-comment-composer textarea {
@@ -271,7 +271,7 @@ dialog.task-editor .task-comment-composer textarea {
 }
 dialog.task-editor .task-file-toggle {
   padding: 10px 12px;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #f5f7fc;
   color: #657087;
 }
@@ -283,7 +283,7 @@ dialog.task-editor .task-attachment-list > li {
   padding: 12px;
   margin: 10px 0;
   border: 1px solid #e5eaf4;
-  border-radius: 9px;
+  border-radius: 4px;
   background: #fafbfe;
 }
 dialog.task-editor .task-attachment-icon {
@@ -291,7 +291,7 @@ dialog.task-editor .task-attachment-icon {
   place-items: center;
   width: 36px;
   height: 40px;
-  border-radius: 8px;
+  border-radius: 4px;
   color: #7753b6;
   background: #eee7fa;
 }
@@ -336,7 +336,7 @@ dialog.task-editor .task-attachment-list li button {
 dialog.task-editor .task-upload-card {
   padding: 16px;
   border: 1px solid #dde6fa;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #f5f8ff;
 }
 dialog.task-editor .task-upload-hint {
@@ -356,7 +356,7 @@ dialog.task-editor input[type='file']::file-selector-button {
   margin-right: 9px;
   padding: 7px 10px;
   border: 0;
-  border-radius: 5px;
+  border-radius: 4px;
   background: #e7edfc;
   color: #4265cc;
   font: inherit;
@@ -381,7 +381,7 @@ dialog.task-editor .task-activity-list > li {
   padding: 14px;
   margin: 0 0 14px;
   border: 1px solid #e5eaf4;
-  border-radius: 9px;
+  border-radius: 4px;
   background: #fafbfe;
   font-size: 12px;
   line-height: 1.8;
@@ -409,7 +409,7 @@ dialog.task-editor .conflict-review {
   margin: 14px 0;
   padding: 14px;
   border: 1px solid #efd8ac;
-  border-radius: 10px;
+  border-radius: 4px;
   background: #fffaf1;
 }
 /* Several independent saves may report at once; keep notices readable in the drawer. */
@@ -421,7 +421,7 @@ dialog.task-editor .dialog-content .toast {
   margin: 12px 0;
   padding: 10px 12px;
   border: 1px solid #dce6fb;
-  border-radius: 8px;
+  border-radius: 4px;
   background: #edf3ff;
   color: #4265cc;
   box-shadow: none;
