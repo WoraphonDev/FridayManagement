@@ -2,7 +2,7 @@ import type React from 'react';
 import { useState } from 'react';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { statusLabel, type Task } from './task-api';
-import { calendarDays, dateAdd, ganttPlacement, monthAdd } from './task-dates';
+import { calendarDays, dateAdd, dueGroup, ganttFit, ganttPlacement, monthAdd } from './task-dates';
 function PagedTasks({
   tasks,
   title,
@@ -180,8 +180,9 @@ export function GanttView({
   today: string;
   open: (t: Task) => void;
 }) {
-  const [first, setFirst] = useState(dateAdd(today, -3)),
-    [scale, setScale] = useState<'day' | 'week' | 'month'>('day'),
+  const fit = () => ganttFit(tasks, today);
+  const [first, setFirst] = useState(() => fit().first),
+    [scale, setScale] = useState<'day' | 'week' | 'month'>(() => fit().scale),
     [page, setPage] = useState(1);
   const length = { day: 14, week: 42, month: 90 }[scale],
     width = { day: 56, week: 24, month: 14 }[scale];
@@ -191,7 +192,16 @@ export function GanttView({
     todayIndex = days.indexOf(today);
   const bars = tasks
     .map((t) => ({ task: t, placement: ganttPlacement(t, first, days.length) }))
-    .filter((x) => x.placement);
+    .filter((x) => x.placement)
+    // Chronological rows read as a plan: earliest start first, then End Plan, then task number.
+    .sort(
+      (a, b) =>
+        (a.task.start_date ?? a.task.due_date!).localeCompare(
+          b.task.start_date ?? b.task.due_date!,
+        ) ||
+        a.task.due_date!.localeCompare(b.task.due_date!) ||
+        a.task.id - b.task.id,
+    );
   const last = Math.max(1, Math.ceil(bars.length / 50)),
     current = Math.min(page, last);
   const groups: { label: string; span: number }[] = [];
@@ -248,6 +258,16 @@ export function GanttView({
         </span>
         <button
           onClick={() => {
+            const f = fit();
+            setFirst(f.first);
+            setScale(f.scale);
+            setPage(1);
+          }}
+        >
+          Fit open tasks
+        </button>
+        <button
+          onClick={() => {
             setFirst(dateAdd(today, -3));
             setPage(1);
           }}
@@ -270,33 +290,36 @@ export function GanttView({
               ))}
             </div>
           </div>
-          {bars.slice((current - 1) * 50, current * 50).map(({ task: t, placement: p }) => (
-            <div className="gantt-row" key={t.id}>
-              <button className="gantt-title" onClick={() => open(t)} title={t.title}>
-                {t.title}
-              </button>
-              <div className="gantt-track">
-                {todayIndex >= 0 && (
-                  <span
-                    className="gantt-today"
-                    aria-hidden="true"
-                    style={{ left: `${(todayIndex + 0.5) * pct}%` }}
-                  />
-                )}
-                {p && (
-                  <button
-                    className={`gantt-bar status-${t.status} ${p.marker ? 'gantt-marker' : ''}`}
-                    style={{ left: `${p.offset * pct}%`, width: `${p.span * pct}%` }}
-                    onClick={() => open(t)}
-                    aria-label={`Open task #${t.id} ${t.title} · ${p.marker ? 'No Start Plan · ' : ''}${t.start_date ?? ''} To ${t.due_date} · ${statusLabel[t.status]}`}
-                    title={`${t.title} · ${t.start_date ?? 'No start date'} → ${t.due_date}`}
-                  >
-                    {p.marker ? '' : p.span * width >= 72 ? t.title : ''}
-                  </button>
-                )}
+          {bars.slice((current - 1) * 50, current * 50).map(({ task: t, placement: p }) => {
+            const late = dueGroup(t, today) === 'overdue';
+            return (
+              <div className="gantt-row" key={t.id}>
+                <button className="gantt-title" onClick={() => open(t)} title={t.title}>
+                  {t.title}
+                </button>
+                <div className="gantt-track">
+                  {todayIndex >= 0 && (
+                    <span
+                      className="gantt-today"
+                      aria-hidden="true"
+                      style={{ left: `${(todayIndex + 0.5) * pct}%` }}
+                    />
+                  )}
+                  {p && (
+                    <button
+                      className={`gantt-bar status-${t.status} ${p.marker ? 'gantt-marker' : ''} ${late ? 'gantt-overdue' : ''}`}
+                      style={{ left: `${p.offset * pct}%`, width: `${p.span * pct}%` }}
+                      onClick={() => open(t)}
+                      aria-label={`Open task #${t.id} ${t.title} · ${p.marker ? 'No Start Plan · ' : ''}${t.start_date ?? ''} To ${t.due_date} · ${statusLabel[t.status]}${late ? ' · Overdue' : ''}`}
+                      title={`${t.title} · ${t.start_date ?? 'No start date'} → ${t.due_date}`}
+                    >
+                      {p.marker ? '' : p.span * width >= 72 ? t.title : ''}
+                    </button>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       {!bars.length && <p>No tasks in this range</p>}

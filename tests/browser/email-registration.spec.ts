@@ -61,9 +61,10 @@ test('email registration → pending → Admin approval/cancel/rejection → sco
     await admin.getByRole('link', { name: 'Admin', exact: true }).click();
     // Pending self-registrations route the Admin to Registrations instead of Activate.
     await admin.getByRole('button', { name: /^Review .* in Registrations$/ }).click();
-    await expect(
-      admin.getByRole('tab', { name: 'Registrations', exact: true }),
-    ).toHaveAttribute('aria-selected', 'true');
+    await expect(admin.getByRole('tab', { name: 'Registrations', exact: true })).toHaveAttribute(
+      'aria-selected',
+      'true',
+    );
     await expect(
       admin.getByRole('cell', { name: 'new.member@example.invalid', exact: true }),
     ).toBeVisible();

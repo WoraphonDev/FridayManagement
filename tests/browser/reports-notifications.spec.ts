@@ -87,7 +87,7 @@ test('T051 stale notification opens current detail and deleted-task 404 clears s
     await notify(f.path);
     await center(page);
     await page.getByRole('button', { name: 'Open task #1', exact: true }).click();
-    const modal = page.getByRole('dialog', { name: 'Task details #1', exact: true });
+    const modal = page.getByRole('dialog', { name: 'Task details', exact: true });
     await expect(modal.getByLabel('Task title', { exact: true })).toHaveValue(
       'Report synthetic task',
     );
@@ -189,7 +189,7 @@ test('T051 notification editor retains dirty draft on polling and revocation hid
     await m.getByRole('button', { name: 'Change password', exact: true }).click();
     await center(m);
     await m.getByRole('button', { name: 'Open task #1', exact: true }).click();
-    const modal = m.getByRole('dialog', { name: 'Task details #1', exact: true });
+    const modal = m.getByRole('dialog', { name: 'Task details', exact: true });
     await modal.getByLabel('Task title', { exact: true }).fill('Retained notification draft');
     expect(
       (await mutate(page, '/api/tasks/1', { version: 2, title: 'Remote title' }, 'PATCH')).status,

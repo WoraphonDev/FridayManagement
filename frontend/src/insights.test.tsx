@@ -2,7 +2,13 @@ import { test, expect } from 'vitest';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { MemoryRouter } from 'react-router-dom';
 import { OverviewBody, WorkloadTable } from './ProjectInsights';
-import { cellTasks, overThreshold, overviewSchema, workloadSchema } from './insights-api';
+import {
+  cellTasks,
+  overdueTasks,
+  overThreshold,
+  overviewSchema,
+  workloadSchema,
+} from './insights-api';
 const person = (id: number, name: string) => ({ id, display_name: name, active: true });
 const task = (id: number, start: string | null, due: string | null) => ({
   id,
@@ -21,6 +27,7 @@ const workload = workloadSchema.parse({
       user: person(2, 'สมชาย'),
       job_title: 'PM',
       counts: [11, 10],
+      overdue: 1,
       no_date: 1,
       tasks: [
         task(1, '2026-10-11', '2026-10-12'),
@@ -32,6 +39,7 @@ const workload = workloadSchema.parse({
       user: null,
       job_title: null,
       counts: [0, 1],
+      overdue: 0,
       no_date: 0,
       tasks: [task(4, '2026-10-19', null)],
     },
@@ -40,7 +48,9 @@ const workload = workloadSchema.parse({
 });
 test('T088 threshold highlights only counts above it (10 no, 11 yes)', () => {
   expect([overThreshold(10, 10), overThreshold(11, 10)]).toEqual([false, true]);
-  const html = renderToStaticMarkup(<WorkloadTable data={workload} onOpen={() => {}} />);
+  const html = renderToStaticMarkup(
+    <WorkloadTable data={workload} today="2026-10-13" onOpen={() => {}} />,
+  );
   expect(html.match(/workload-over/g)).toHaveLength(1);
   expect(html).toContain('aria-label="สมชาย: 11 tasks in week of 2026-10-05, over threshold"');
   expect(html).toContain('aria-label="สมชาย: 10 tasks in week of 2026-10-12"');
@@ -52,6 +62,13 @@ test('T088 cell task lists match week overlap and the No date column', () => {
   expect(cellTasks(row, '2026-10-05').map((t) => t.id)).toEqual([1]);
   expect(cellTasks(row, '2026-10-12').map((t) => t.id)).toEqual([1, 2]);
   expect(cellTasks(row, null).map((t) => t.id)).toEqual([3]);
+});
+test('Workload Overdue column lists open tasks due before today', () => {
+  const html = renderToStaticMarkup(
+    <WorkloadTable data={workload} today="2026-10-13" onOpen={() => {}} />,
+  );
+  expect(html).toContain('aria-label="สมชาย: 1 overdue tasks"');
+  expect(overdueTasks(workload.rows[0]!, '2026-10-13').map((t) => t.id)).toEqual([1]);
 });
 test('T088 overview renders percent, status counts, overdue and job titles', () => {
   const data = overviewSchema.parse({

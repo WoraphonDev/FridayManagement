@@ -18,7 +18,7 @@ test('Task sub-tabs: empty/populated panels, compact checkboxes, drafts, cancel 
     await board
       .getByRole('button', { name: `Open task #${task.body.item.id}`, exact: true })
       .click();
-    const d = page.getByRole('dialog', { name: `Task details #${task.body.item.id}`, exact: true });
+    const d = page.getByRole('dialog', { name: 'Task details', exact: true });
     const tabs = d.getByRole('tablist', { name: 'Task sections' });
     await expect.poll(() => d.evaluate((el) => getComputedStyle(el).opacity)).toBe('1');
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();

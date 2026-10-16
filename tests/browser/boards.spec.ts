@@ -79,7 +79,7 @@ async function tasks(page: Page) {
   await page.getByRole('button', { name: 'Tasks', exact: true }).click();
   return page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
 }
-const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details #/ });
+const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details$/ });
 async function board(page: Page) {
   const jobs = await tasks(page);
   await jobs.getByRole('button', { name: 'Kanban', exact: true }).click();

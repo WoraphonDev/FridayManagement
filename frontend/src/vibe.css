@@ -1284,6 +1284,10 @@ img.file-preview {
 .workload-table td.workload-over button {
   color: #a3001b;
 }
+.workload-table td.workload-late button {
+  color: #d83a52;
+  font-weight: 700;
+}
 .project-overview-body progress {
   width: 100%;
 }
@@ -3374,6 +3378,9 @@ section[aria-label='Gantt'] .gantt-bar.status-review {
 }
 section[aria-label='Gantt'] .gantt-bar.status-done {
   background: #00c875;
+}
+section[aria-label='Gantt'] .gantt-bar.gantt-overdue {
+  box-shadow: inset 0 0 0 2px #d83a52;
 }
 section[aria-label='Gantt'] .gantt-bar.gantt-marker {
   top: 12px;

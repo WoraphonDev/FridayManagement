@@ -1,3 +1,4 @@
+import { taskNumber } from './task-number';
 import { confirmDialog } from './shared/confirm-bus';
 import { useWritable } from './shared/connection';
 import { UiIcon } from './shared/UiIcon';
@@ -537,10 +538,13 @@ export function TaskEditor({
   return (
     <Dialog
       className="task-editor"
-      title={id ? `Task details #${id}` : 'Create task'}
+      title={id ? 'Task details' : 'Create task'}
       onClose={close}
+      // One task number everywhere: the same TK… code shown in tables, boards and My work.
       eyebrow={
-        id ? `${project.name.toUpperCase()} / FR-${String(id).padStart(3, '0')}` : 'NEW TASK'
+        id
+          ? `${project.name.toUpperCase()} / ${taskNumber(base ?? { id, task_no: null })}`
+          : 'NEW TASK'
       }
       footer={
         <>
@@ -578,7 +582,9 @@ export function TaskEditor({
       }
     >
       {changed && (
-        <Toast persist>Data changed. Your draft is preserved. Saving checks the latest version.</Toast>
+        <Toast persist>
+          Data changed. Your draft is preserved. Saving checks the latest version.
+        </Toast>
       )}
       {error && (
         <ErrorNotice error={error} retry={!loaded ? () => setReload((n) => n + 1) : undefined} />

@@ -11,6 +11,7 @@ import { useSharedRefresh } from './shared/refresh';
 import { Dialog, EmptyState, ErrorNotice, Loading } from './shared/components';
 import {
   cellTasks,
+  overdueTasks,
   overThreshold,
   overviewSchema,
   workloadSchema,
@@ -28,9 +29,11 @@ const shortDate = (iso: string) =>
 /** FR-50 table body; pure so thresholds and cell links can be verified without the network. */
 export function WorkloadTable({
   data,
+  today,
   onOpen,
 }: {
   data: Workload;
+  today: string;
   onOpen: (title: string, tasks: Workload['rows'][number]['tasks']) => void;
 }) {
   if (!data.rows.length) return <EmptyState title="No open work in these weeks" />;
@@ -41,6 +44,7 @@ export function WorkloadTable({
         <thead>
           <tr>
             <th scope="col">Person</th>
+            <th scope="col">Overdue</th>
             {data.weeks.map((w) => (
               <th scope="col" key={w}>
                 {shortDate(w)}–{shortDate(dateAdd(w, 6))}
@@ -58,6 +62,18 @@ export function WorkloadTable({
                   {who}
                   {r.job_title && <span className="job-title-badge">{r.job_title}</span>}
                 </th>
+                <td className={r.overdue ? 'workload-late' : undefined}>
+                  {r.overdue ? (
+                    <button
+                      aria-label={`${who}: ${r.overdue} overdue tasks`}
+                      onClick={() => onOpen(`${who} · overdue`, overdueTasks(r, today))}
+                    >
+                      {r.overdue}
+                    </button>
+                  ) : (
+                    <span aria-hidden="true">·</span>
+                  )}
+                </td>
                 {r.counts.map((n, i) => {
                   const over = overThreshold(n, data.threshold);
                   return (
@@ -181,7 +197,11 @@ export function WorkloadView({
       ) : (
         <>
           {data.truncated && <p role="status">Showing the first 5,000 open tasks.</p>}
-          <WorkloadTable data={data} onOpen={(title, tasks) => setCell({ title, tasks })} />
+          <WorkloadTable
+            data={data}
+            today={self.bangkok_today}
+            onOpen={(title, tasks) => setCell({ title, tasks })}
+          />
         </>
       )}
       {cell && (
@@ -412,7 +432,9 @@ export function ProjectOverview({
                 `${open}&due_from=${dateAdd(today, 1)}&due_to=${dateAdd(today, 6 - sinceMonday)}`,
               ),
           count(`${open}&has_due=false`),
-          count(`status=done&date_basis=completed&date_from=${dateAdd(today, -6)}&date_to=${today}`),
+          count(
+            `status=done&date_basis=completed&date_from=${dateAdd(today, -6)}&date_to=${today}`,
+          ),
         ]);
         if (!signal.aborted) {
           setData(v);

@@ -37,7 +37,7 @@ test('TC-052 group reorder history loads and task details can still save', async
     ]);
     const board = await tasks(page);
     await board.getByRole('button', { name: `Open task #${task.id}`, exact: true }).click();
-    const dialog = page.getByRole('dialog', { name: `Task details #${task.id}`, exact: true });
+    const dialog = page.getByRole('dialog', { name: 'Task details', exact: true });
     await dialog.getByRole('tab', { name: 'Activity', exact: true }).click();
     await expect(dialog.getByText(/^Before task in group:/)).toHaveCount(2);
     await expect(dialog.getByRole('alert')).toHaveCount(0);

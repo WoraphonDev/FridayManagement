@@ -186,7 +186,7 @@ test('T057 reconnect blocks writes until authoritative reads finish and retains 
     await mutate(page, '/api/tasks', { project_id: 1, title: 'Server original', assignee_id: 1 });
     const jobs = await tasks(page);
     await jobs.getByRole('button', { name: /Open task #1/ }).click();
-    const detail = page.getByRole('dialog', { name: 'Task details #1', exact: true });
+    const detail = page.getByRole('dialog', { name: 'Task details', exact: true });
     const title = detail.getByLabel('Task title', { exact: true });
     await title.fill('My unsaved draft');
     await context.setOffline(true);

@@ -74,7 +74,7 @@ test('Work Calendar colorful: month navigation, undated separation, filters, tas
     });
     await task.focus();
     await page.keyboard.press('Enter');
-    const detail = page.getByRole('dialog', { name: 'Task details #1', exact: true });
+    const detail = page.getByRole('dialog', { name: 'Task details', exact: true });
     await expect(detail.getByLabel('End Plan', { exact: true })).toHaveValue(today);
     await detail.getByRole('button', { name: 'Close dialog', exact: true }).click();
     await work.locator('summary').filter({ hasText: 'Filters' }).click();

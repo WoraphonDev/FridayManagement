@@ -1,10 +1,14 @@
-# TeamFlow — API/DTO contract 1.13.0
+# TeamFlow — API/DTO contract 1.14.0
 
 วันที่: 5 ตุลาคม 2026 · Task: T-003 · Business baseline1.1 + RD-01–RD-08
 
 Machine contract: [contracts/openapi.json](contracts/openapi.json) (OpenAPI3.1.1/JSON Schema2020-12). Authoring source: [scripts/build-contract.mjs](scripts/build-contract.mjs). Contract tests: [tests/contracts/contract.test.mjs](tests/contracts/contract.test.mjs).
 
 เอกสารนี้ล็อกสัญญา frontend/backend สำหรับ Node22 + SQLite local และ SQL2022 ปลายทางร่วมกัน ไม่ใช่ HTTP server, authorization implementation หรือหลักฐานว่า database transactions ผ่าน หากเปลี่ยน field/status/policy ต้องแก้ SRS/contract/tests พร้อมกัน และ regenerate JSON ก่อนปิดงาน
+
+## API1.14.0 - Workload overdue column (owner request, 17 October 2026)
+
+89 routes / 120 schemas unchanged. Each Workload row now requires `overdue` (integer ≥0): open tasks in the same visibility scope whose `due_date` is before Bangkok today, counted regardless of the requested weeks. Those tasks are also included in the row's `tasks` list (still ≤1000) so the UI can list them. Week counts, No date, threshold and permissions are unchanged. No database migration. Native SQL2022/Windows/UAT NOT_RUN.
 
 ## API1.11.0 - Checklist remark (9 October 2026)
 

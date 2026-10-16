@@ -4,7 +4,7 @@ import { SqliteDatabase } from '../../src/repository/sqlite/database.js';
 import { insert } from '../schema/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { dateAdd } from '../../frontend/src/task-dates.js';
-const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details #/ });
+const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details$/ });
 async function today(page: Page) {
   return page.evaluate(async () => {
     const s = await (await fetch('/api/me')).json();

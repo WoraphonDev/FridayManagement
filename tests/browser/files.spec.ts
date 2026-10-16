@@ -79,7 +79,7 @@ async function tasks(page: Page) {
   await page.getByRole('button', { name: 'Tasks', exact: true }).click();
   return page.getByRole('region', { name: 'Project tasks · Task project', exact: true });
 }
-const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details #/ });
+const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details$/ });
 /** The side panel shows one pane at a time: Updates (comments), Files, Activity (history). */
 const pane = (page: Page, name: string) =>
   detail(page).getByRole('tab', { name, exact: true }).click();

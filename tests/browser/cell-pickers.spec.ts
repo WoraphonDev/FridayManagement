@@ -19,7 +19,7 @@ test('TC-027 actual Subitem cells: searchable owner popup, status persistence, c
     )
       .getByRole('button', { name: `Open task #${id}`, exact: true })
       .click();
-    const d = page.getByRole('dialog', { name: `Task details #${id}`, exact: true });
+    const d = page.getByRole('dialog', { name: 'Task details', exact: true });
     await expect(d.locator('select[aria-label="Status"]')).toHaveCount(0);
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     const table = d.getByRole('table', { name: 'Checklist items', exact: true });

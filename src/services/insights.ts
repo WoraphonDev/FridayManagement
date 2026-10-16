@@ -117,6 +117,7 @@ export function insightService(options: AccessOptions = {}) {
           user: known?.person ?? null,
           job_title: known?.job_title ?? null,
           counts: weeks.map(() => 0),
+          overdue: 0,
           no_date: 0,
           tasks: [] as Pick<
             ScopedTask,
@@ -132,9 +133,12 @@ export function insightService(options: AccessOptions = {}) {
           if (user !== null && !directory.has(user)) continue;
           const r = table.get(user) ?? row(user);
           table.set(user, r);
+          // Open work past its due date stays visible regardless of the selected weeks.
+          const late = t.due_date !== null && t.due_date < today;
+          if (late) r.overdue++;
           if (hits === null) r.no_date++;
           else for (const i of hits) r.counts[i]!++;
-          if (hits === null || hits.length) {
+          if (late || hits === null || hits.length) {
             if (r.tasks.length < 1000)
               r.tasks.push({
                 id: t.id,

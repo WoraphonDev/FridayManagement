@@ -45,7 +45,7 @@ test('T046/047 actual Gantt/Calendar Viewer and archive read-only; demotion pres
     const jobs = await tasks(member);
     await jobs.getByRole('button', { name: 'Gantt', exact: true }).click();
     await jobs.getByRole('button', { name: /Open task #1 Scoped timeline/ }).click();
-    const detail = member.getByRole('dialog', { name: 'Task details #1', exact: true });
+    const detail = member.getByRole('dialog', { name: 'Task details', exact: true });
     await detail.getByLabel('Task title', { exact: true }).fill('Retained draft');
     expect(
       (await mutate(page, '/api/projects/1/members/2', { version: 2, access: 'viewer' }, 'PUT'))
@@ -92,7 +92,7 @@ test('T046/047 actual Gantt/Calendar Viewer and archive read-only; demotion pres
     await adminJobs.getByRole('button', { name: /Open task #1 Scoped timeline/ }).click();
     await expect(
       page
-        .getByRole('dialog', { name: 'Task details #1', exact: true })
+        .getByRole('dialog', { name: 'Task details', exact: true })
         .getByLabel('End Plan', { exact: true }),
     ).toBeDisabled();
   } finally {

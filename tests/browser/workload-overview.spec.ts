@@ -43,7 +43,11 @@ test('Workload highlights above threshold, lists cell tasks; Overview matches da
     // Threshold 1: this week holds yesterday's and today's task (2 > 1, highlighted) unless
     // today is Monday, when yesterday falls in the previous week (1, not highlighted).
     const monday = new Date(`${bangkok(0)}T00:00:00Z`).getUTCDay() === 1;
-    const thisWeek = w.locator('tbody tr').first().locator('td').first();
+    // Column 1 is Overdue (yesterday's open task), then the shown weeks.
+    await expect(
+      w.getByRole('button', { name: 'Workspace Admin: 1 overdue tasks', exact: true }),
+    ).toBeVisible();
+    const thisWeek = w.locator('tbody tr').first().locator('td').nth(1);
     await expect(thisWeek).toHaveText(monday ? '1' : '2');
     await expect(thisWeek).toHaveClass(monday ? /^$/ : /workload-over/);
     const noDate = w.getByRole('button', { name: 'Workspace Admin: 1 tasks with no date' });
@@ -73,7 +77,7 @@ test('Workload highlights above threshold, lists cell tasks; Overview matches da
     await teamDialog.getByRole('button', { name: 'Next week', exact: true }).click();
     // Next week: dated tasks drop out of every shown week; the undated task stays in No date.
     const teamTable = teamDialog.getByRole('region', { name: 'Workload table' });
-    await expect(teamTable.locator('tbody tr').first().locator('td').first()).toHaveText('·');
+    await expect(teamTable.locator('tbody tr').first().locator('td').nth(1)).toHaveText('·');
     await expect(
       teamTable.getByRole('button', { name: 'Workspace Admin: 1 tasks with no date' }),
     ).toBeVisible();

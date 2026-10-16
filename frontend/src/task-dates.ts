@@ -47,6 +47,27 @@ export function ganttPlacement(
     marker: false,
   };
 }
+/**
+ * Opening Gantt window: covers today and every unfinished dated task (or all dated tasks when
+ * everything is done), choosing the smallest scale that fits so overdue work is never off-screen.
+ */
+export function ganttFit(
+  tasks: Pick<Task, 'status' | 'start_date' | 'due_date'>[],
+  today: string,
+): { first: string; scale: 'day' | 'week' | 'month' } {
+  const dated = tasks.filter((t) => t.due_date);
+  const pool = dated.some((t) => t.status !== 'done')
+    ? dated.filter((t) => t.status !== 'done')
+    : dated;
+  if (!pool.length) return { first: dateAdd(today, -3), scale: 'day' };
+  const starts = pool.map((t) => t.start_date ?? t.due_date!),
+    ends = pool.map((t) => t.due_date!);
+  const from = [today, ...starts].sort()[0]!,
+    to = [today, ...ends].sort().at(-1)!;
+  const span = dateNumber(to) - dateNumber(from) + 3;
+  const scale = span <= 14 ? 'day' : span <= 42 ? 'week' : 'month';
+  return { first: dateAdd(from, -1), scale };
+}
 export function dueGroup(task: Pick<Task, 'status' | 'due_date'>, today: string) {
   if (task.status === 'done') return 'done';
   if (!task.due_date) return 'none';

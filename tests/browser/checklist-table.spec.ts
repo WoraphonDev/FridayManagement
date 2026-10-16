@@ -17,7 +17,7 @@ test('TC-027 Checklist table: inline add/assignment, edit/cancel, persisted comp
       (await (await page.request.get(`${f.env.APP_ORIGIN}/api/tasks/${id}`)).json()).item;
     const board = await tasks(page);
     await board.getByRole('button', { name: `Open task #${id}`, exact: true }).click();
-    const d = page.getByRole('dialog', { name: `Task details #${id}`, exact: true });
+    const d = page.getByRole('dialog', { name: 'Task details', exact: true });
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     const table = d.getByRole('table', { name: 'Checklist items', exact: true });
     await expect(table.getByRole('columnheader')).toHaveText([
@@ -148,7 +148,7 @@ test('Checklist autosave retains failed drafts, ignores blank adds, retries once
     )
       .getByRole('button', { name: `Open task #${id}`, exact: true })
       .click();
-    const d = page.getByRole('dialog', { name: `Task details #${id}`, exact: true });
+    const d = page.getByRole('dialog', { name: 'Task details', exact: true });
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     const add = d.getByRole('button', { name: 'Add checklist item', exact: true });
     await add.click();

@@ -116,7 +116,7 @@ test('My Work colorful groups: scope, mobile pinned title, dropdowns, stable tab
     await collapse.press('Enter');
     await expect(title).toBeVisible();
     await title.click();
-    await expect(page.getByRole('dialog', { name: /^Task details #/ })).toBeVisible();
+    await expect(page.getByRole('dialog', { name: /^Task details$/ })).toBeVisible();
     await page.keyboard.press('Escape');
     await page.emulateMedia({ reducedMotion: 'reduce' });
     await page.reload();

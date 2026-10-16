@@ -18,6 +18,7 @@ export const workloadSchema = z
             user: person.nullable(),
             job_title: z.string().min(1).max(50).nullable(),
             counts: z.array(count).max(12),
+            overdue: count,
             no_date: count,
             tasks: z
               .array(
@@ -93,6 +94,9 @@ export const overviewSchema = z
 export type ProjectOverviewData = z.infer<typeof overviewSchema>;
 /** FR-50: a cell is highlighted only when open tasks exceed the threshold (10 → no, 11 → yes). */
 export const overThreshold = (count: number, threshold: number) => count > threshold;
+/** Open tasks past their due date (the "Overdue" column), whatever weeks are shown. */
+export const overdueTasks = (row: Workload['rows'][number], today: string) =>
+  row.tasks.filter((t) => t.due_date !== null && t.due_date < today);
 /** Tasks behind one workload cell: overlapping that week, or undated for the "No date" column. */
 export function cellTasks(row: Workload['rows'][number], week: string | null) {
   if (week === null) return row.tasks.filter((t) => !t.start_date && !t.due_date);

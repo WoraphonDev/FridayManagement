@@ -126,7 +126,7 @@ export function buildContract() {
   });
   // T-088 FR-50/FR-51 workload (open tasks per person per Monday-start Bangkok week) and project overview.
   const workloadTask = object({ id: ref('Id'), project_id: ref('Id'), title: nonblank(200), start_date: nullable(ref('Date')), due_date: nullable(ref('Date')) });
-  const workloadRow = object({ user: nullable(ref('Person')), job_title: nullable(nonblank(50)), counts: array(integer(0), 12), no_date: integer(0), tasks: array(workloadTask, 1000) });
+  const workloadRow = object({ user: nullable(ref('Person')), job_title: nullable(nonblank(50)), counts: array(integer(0), 12), overdue: integer(0), no_date: integer(0), tasks: array(workloadTask, 1000) });
   schemas.Workload = object({ scope: enumeration(['project', 'team']), scope_id: ref('Id'), threshold: integer(1, 1000), weeks: { ...array(ref('Date'), 12), minItems: 1 }, rows: array(workloadRow, 1000), truncated: boolean });
   schemas.WorkloadQuery = object({ from: ref('Date'), weeks: { ...integer(1, 12), default: 6 } }, []);
   const overviewTask = object({ id: ref('Id'), title: nonblank(200), due_date: nullable(ref('Date')), status: ref('Status') });
@@ -333,7 +333,7 @@ export function buildContract() {
   for (const { method, path, op } of operations) paths[path] = { ...paths[path], [method]: op };
   return {
     openapi: '3.1.1', jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema',
-    info: { title: 'FridayManagement API', version: '1.13.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark; owner 2026-10-10 project code and task number. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
+    info: { title: 'FridayManagement API', version: '1.14.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark; owner 2026-10-10 project code and task number; owner 2026-10-17 workload overdue column. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
     servers: [{ url: '/' }], paths,
     components: { securitySchemes: { cookieSession: { type: 'apiKey', in: 'cookie', name: 'friday_session' } }, schemas },
   };

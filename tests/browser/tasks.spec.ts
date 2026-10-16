@@ -96,7 +96,7 @@ async function pickAssignee(page: Page, scope: ReturnType<Page['getByRole']>, na
     .click();
   await page.keyboard.press('Escape');
 }
-const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details #/ });
+const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details$/ });
 const closeDetail = (page: Page) =>
   detail(page).getByRole('button', { name: 'Close dialog', exact: true }).click();
 test('T032/033 actual all task fields/checklist/closed guard/monthly successor/delete/restore via UI', async ({

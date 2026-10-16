@@ -35,7 +35,7 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
       timeout: 10000,
     });
     await board.getByRole('button', { name: 'Open task #1', exact: true }).click();
-    const drawer = page.getByRole('dialog', { name: 'Task details #1', exact: true });
+    const drawer = page.getByRole('dialog', { name: 'Task details', exact: true });
     await drawer
       .getByRole('combobox', { name: 'Group', exact: true })
       .selectOption({ label: 'Phase 1' });

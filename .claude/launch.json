@@ -39,6 +39,16 @@
       ],
       "port": 5002,
       "url": "http://127.0.0.1:5002"
+    },
+    {
+      "name": "ux-review",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": [
+        "-c",
+        "NODE_ENV=development DB_PROVIDER=sqlite DATA_DIR=/private/tmp/friday-ux LOG_DIR=/private/tmp/friday-ux-logs SQLITE_DB_PATH=/private/tmp/friday-ux/friday.sqlite PORT=5010 APP_ORIGIN=http://127.0.0.1:5010 COOKIE_SECURE=false npm start"
+      ],
+      "port": 5010,
+      "url": "http://127.0.0.1:5010"
     }
   ]
 }
