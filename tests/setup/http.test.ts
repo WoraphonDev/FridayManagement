@@ -4,7 +4,7 @@ import { createApp } from '../../src/api/app.js';
 import { setupService } from '../../src/services/setup.js';
 import { setupHandlers } from '../../src/api/setup.js';
 import { sql } from '../../src/repository/access-scope.js';
-import { sqliteFixture } from '../schema/fixtures.js';
+import { providerFixture } from '../schema/fixtures.js';
 import { emptyFixture, input, time, snapshot, password } from './provider-suite.js';
 const origin = 'https://friday.invalid';
 async function http(
@@ -15,7 +15,7 @@ async function http(
     logs: unknown[],
   ) => Promise<void>,
 ) {
-  const f = await emptyFixture(sqliteFixture);
+  const f = await emptyFixture(providerFixture);
   let token = '';
   const logs: unknown[] = [];
   const service = await setupService(f.db, {

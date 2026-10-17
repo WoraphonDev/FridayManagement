@@ -112,6 +112,8 @@ test('Motion: pulse + confetti on Done, actions stay usable, reduce toggle and O
     await expect(page.locator('.confetti-piece')).toHaveCount(0);
     // OS-level reduced motion wins even when the preference is off.
     await page.goto(f.env.APP_ORIGIN + '/settings?section=appearance');
+    // Wait for the saved preference to load before toggling (the box starts at the default).
+    await expect(page.getByLabel('Reduce animations')).toBeChecked();
     await page.getByLabel('Reduce animations').uncheck();
     await expect(page.getByText('Animation preference saved')).toBeVisible();
     await page.emulateMedia({ reducedMotion: 'reduce' });

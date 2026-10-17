@@ -1,8 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { rmSync } from 'node:fs';
-import { startupFixture } from '../setup/fixtures.js';
+import { startupFixture, fixtureDatabase } from '../setup/fixtures.js';
 import { startApplication } from '../../src/api/start.js';
-import { SqliteDatabase } from '../../src/repository/sqlite/database.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { verifyPassword } from '../../src/security/passwords.js';
 const fixturePassword = '  Browser-fixture-password  ';
@@ -13,8 +12,8 @@ async function fill(page: Page, token: string) {
   await page.getByLabel('Display name', { exact: true }).fill('Browser Admin');
   await page.getByLabel('New password', { exact: true }).fill(fixturePassword);
 }
-async function checkDatabase(path: string) {
-  const db = new SqliteDatabase(path);
+async function checkDatabase(f: { path: string; env: Record<string, string> }) {
+  const db = await fixtureDatabase(f);
   try {
     await db.transaction(async (tx) => {
       const users = await tx.query<{ password_hash: string; org_role: string }>(
@@ -90,7 +89,7 @@ test('real setup form validates, rejects wrong token, clears secrets, completes 
       await page.evaluate(() => ({ local: localStorage.length, session: sessionStorage.length })),
     ).toEqual({ local: 0, session: 0 });
     expect(await context.cookies()).toEqual([]);
-    await checkDatabase(f.path);
+    await checkDatabase(f);
     expect(errors).toEqual([]);
   } finally {
     await app.stop();
@@ -140,7 +139,7 @@ test('pending setup blocks double submit; lost success response checks meta with
     // Lost response: meta check reports the configured state without resending credentials.
     await expect(page.getByText('Already configured', { exact: true })).toBeVisible();
     expect(posts).toBe(1);
-    await checkDatabase(f.path);
+    await checkDatabase(f);
   } finally {
     release();
     await app.stop();

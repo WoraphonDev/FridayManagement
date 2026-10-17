@@ -1,6 +1,6 @@
 import { test, expect, type Page } from '@playwright/test';
 import { rmSync } from 'node:fs';
-import { startupFixture } from '../setup/fixtures.js';
+import { startupFixture, fixtureDatabase } from '../setup/fixtures.js';
 import { startApplication } from '../../src/api/start.js';
 const password = 'Workspace-admin-fixture-password';
 async function fixture(page: Page) {
@@ -442,6 +442,14 @@ test('T037/038 actual Member demotion rolls stale move back; Viewer controls and
     await ctx.setOffline(false);
     await member.evaluate(() => window.dispatchEvent(new Event('online')));
     await expect(b.getByRole('button', { name: 'Drag task #1', exact: true })).toBeEnabled();
+    // Hold the member's 5s board refresh so the demotion cannot reach the UI before the stale
+    // move (otherwise the test races the poll; slower providers lose the race).
+    let release!: () => void;
+    const held = new Promise<void>((r) => (release = r));
+    await member.route('**/api/projects/1/board', async (route) => {
+      if (route.request().method() === 'GET') await held;
+      await route.fallback();
+    });
     await mutate(
       page,
       `/api/projects/1/members/${user.body.item.id}`,
@@ -450,6 +458,8 @@ test('T037/038 actual Member demotion rolls stale move back; Viewer controls and
     );
     await b.getByLabel('Manage task #1', { exact: true }).click();
     await setBoardStatus(b.page(), 1, 'doing');
+    release();
+    await member.unroute('**/api/projects/1/board');
     await expect(b.getByRole('alert')).toBeVisible();
     await expect(b.getByRole('button', { name: /Drag task/ })).toHaveCount(0);
     await expect(
@@ -470,9 +480,8 @@ test('T036 >500 controlled boundary fixture renders paginated list and task-deta
   page,
 }) => {
   const f = await setupCards(page);
-  const { SqliteDatabase } = await import('../../src/repository/sqlite/database.js'),
-    { insert } = await import('../schema/fixtures.js');
-  const db = new SqliteDatabase(f.env.SQLITE_DB_PATH!);
+  const { insert } = await import('../schema/fixtures.js');
+  const db = await fixtureDatabase(f);
   try {
     await db.transaction(async (tx) => {
       for (let id = 4; id <= 501; id++) {

@@ -9,7 +9,7 @@ import { createApp } from '../../src/api/app.js';
 import { sessionHooks } from '../../src/api/sessions.js';
 import { parseConfiguration } from '../../src/config/config.js';
 import { sessionFixture, password } from '../sessions/fixtures.js';
-import { sqliteFixture } from '../schema/fixtures.js';
+import { providerFixture } from '../schema/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 const origin = 'https://files.invalid';
 async function fixture(
@@ -20,7 +20,7 @@ async function fixture(
     restart: () => Promise<string>,
   ) => Promise<void>,
 ) {
-  const f = await sessionFixture(sqliteFixture),
+  const f = await sessionFixture(providerFixture),
     root = await mkdtemp(join(tmpdir(), 'friday-files-http-'));
   const config = parseConfiguration({
     NODE_ENV: 'test',

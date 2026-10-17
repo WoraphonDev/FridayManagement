@@ -124,15 +124,19 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
     await card
       .getByRole('combobox', { name: 'Status for Launch checklist', exact: true })
       .press('Enter');
+    // The status change is a board move; drags stay disabled until the server acknowledges it.
+    const statusMove = page.waitForResponse((r) => r.url().endsWith('/board/move'));
     await page
       .getByRole('listbox', { name: 'Options for Status for Launch checklist', exact: true })
       .getByRole('option', { name: 'In review', exact: true })
       .click();
+    expect((await statusMove).status()).toBe(200);
     await expect(
       board.getByRole('region', { name: 'Column In review' }).locator('[data-task-id="1"]'),
     ).toBeVisible();
     expect(await motion).toContain(380);
     const handle = board.getByRole('button', { name: 'Drag task #1', exact: true });
+    await expect(handle).toBeEnabled();
     const from = await handle.boundingBox();
     const target = await board.getByRole('region', { name: 'Column Not started' }).boundingBox();
     expect(from).not.toBeNull();
@@ -234,6 +238,11 @@ test('Approved design geometry, sidebar deep links, group editing and fixed crea
     await board.getByRole('button', { name: 'New task', exact: true }).click();
     const drawer = page.getByRole('dialog', { name: 'Create task', exact: true });
     await expect(drawer).toBeVisible();
+    // Measure after the open animation settles (it scales/slides the drawer in).
+    await drawer.evaluate((el) =>
+      Promise.all(el.getAnimations({ subtree: true }).map((a) => a.finished)),
+    );
+    await expect.poll(() => drawer.evaluate((el) => el.getBoundingClientRect().width)).toBe(590);
     const geometry = await drawer.evaluate((el) => ({
       width: el.getBoundingClientRect().width,
       footer: el.querySelector('.dialog-footer')!.getBoundingClientRect().bottom,

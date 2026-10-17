@@ -1,15 +1,15 @@
 import { test, expect } from '@playwright/test';
 import { randomUUID } from 'node:crypto';
-import { SqliteDatabase } from '../../src/repository/sqlite/database.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { fixture, mutate } from './task-workspace-fixtures.js';
+import { fixtureDatabase } from '../setup/fixtures.js';
 
 test('T082 vertical permissions: frozen labels/member headers, horizontal members, save and conflict', async ({
   page,
 }) => {
   const f = await fixture(page);
   try {
-    const db = new SqliteDatabase(f.path);
+    const db = await fixtureDatabase(f);
     try {
       await db.transaction(async (tx) => {
         for (let id = 2; id <= 19; id++) {

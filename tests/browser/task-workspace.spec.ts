@@ -1,10 +1,11 @@
 import { test, expect, type Page } from '@playwright/test';
 import { projectFixture, tasks, mutate } from './task-workspace-fixtures.js';
-import { SqliteDatabase } from '../../src/repository/sqlite/database.js';
 import { insert } from '../schema/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { dateAdd } from '../../frontend/src/task-dates.js';
 import { signOut } from './ui-actions';
+import { fixtureDatabase } from '../setup/fixtures.js';
+import type { Database } from '../../src/domain/database.js';
 const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details$/ });
 async function today(page: Page) {
   return page.evaluate(async () => {
@@ -190,10 +191,10 @@ test('T046 loads all 205 API rows, bounded Gantt pages and accessible Calendar o
   page,
 }, testInfo) => {
   const f = await projectFixture(page);
-  let db: SqliteDatabase | undefined;
+  let db: Database | undefined;
   try {
     const d = await today(page);
-    db = new SqliteDatabase(f.path);
+    db = await fixtureDatabase(f);
     await db.transaction(async (tx) => {
       for (let i = 1; i <= 205; i++) {
         await tx.execute(
@@ -317,13 +318,13 @@ test('T047 focus immediate refresh, hidden/offline pause, GET polling leaves idl
 }) => {
   test.setTimeout(60000);
   const f = await projectFixture(page);
-  let db: SqliteDatabase | undefined;
+  let db: Database | undefined;
   try {
     await create(page, 'Session task', { assignee_id: 1 });
     await page.getByRole('link', { name: 'My work', exact: true }).click();
     await expect(page.getByRole('button', { name: 'Open task #1', exact: true })).toBeVisible();
     await page.waitForTimeout(300);
-    db = new SqliteDatabase(f.path);
+    db = await fixtureDatabase(f);
     const seen = await db.transaction((tx) =>
       tx.query(sql('SELECT last_seen_at FROM dbo.sessions')),
     );

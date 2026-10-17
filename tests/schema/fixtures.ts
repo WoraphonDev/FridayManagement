@@ -192,6 +192,15 @@ export async function sqlFixture(initial = true): Promise<Fixture> {
   };
 }
 
+/**
+ * HTTP/integration suites use this: SQLite by default; PostgreSQL 17 when
+ * FRIDAY_FIXTURE_PROVIDER=postgres (ADR-0001 TC/AT evidence runs, isolated *_test database).
+ */
+export function providerFixture(initial = true): Promise<Fixture> {
+  return process.env.FRIDAY_FIXTURE_PROVIDER === 'postgres'
+    ? pgFixture(initial)
+    : sqliteFixture(initial);
+}
 /** PostgreSQL fixture: a random schema per fixture via search_path; dropped on close. */
 export async function pgFixture(initial = true): Promise<Fixture> {
   if (

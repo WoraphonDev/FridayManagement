@@ -32,7 +32,7 @@ npm run test:test-plan
 | Performance | ผู้พัฒนา; fixture 30 users/15 active, load/spec/version/latency/error/memory ตาม TC-083/084 |
 | UAT | เจ้าของ/ตัวแทน Admin/Lead/Member; 5 journeys พร้อมชื่อผู้ทดสอบ actual และ sign-off |
 
-`pure-node22` ใช้เฉพาะ pure/review; `sqlite-local` คือ local ชั่วคราว; `sqlserver2022` ต้อง SQL Server2022 จริง; `windows-sqlserver2022` ต้อง Windows+SQL2022 จริง ใช้ Node22 ทุก profile ผล SQLite ไม่ปิด SQL acceptance และ macOS ไม่ปิด Windows acceptance ผล browser ต้องบันทึก Chrome/Edge/Firefox/Safari รุ่นปัจจุบันและก่อนหน้าหนึ่งรุ่น ณวันรัน; ระบุ real device/emulation และ device ที่ยังขาด
+`pure-node22` ใช้เฉพาะ pure/review; `sqlite-local` คือ local ชั่วคราว; `postgres17` ต้อง PostgreSQL 17 จริง (product PostgreSQL, version 17.x); `linux-docker-postgres17` ต้อง Linux + Docker Compose + PostgreSQL 17 จริง (ADR-0001, 2026-10-17 แทน `sqlserver2022`/`windows-sqlserver2022` ซึ่งเหลือไว้อ้างอิงเท่านั้นและปิดกรณีไม่ได้) ใช้ Node22 ทุก profile ผล SQLite ไม่ปิด PostgreSQL acceptance และ macOS ไม่ปิด Linux/Docker acceptance ผล browser ต้องบันทึก Chrome/Edge/Firefox/Safari รุ่นปัจจุบันและก่อนหน้าหนึ่งรุ่น ณวันรัน; ระบุ real device/emulation และ device ที่ยังขาด
 
 ## Fixtures และการรันซ้ำ
 

@@ -3,16 +3,15 @@ import { randomUUID } from 'node:crypto';
 import assert from 'node:assert/strict';
 import { rmSync } from 'node:fs';
 import { setTimeout as delay } from 'node:timers/promises';
-import { startupFixture } from '../setup/fixtures.js';
+import { startupFixture, fixtureDatabase } from '../setup/fixtures.js';
 import { startApplication } from '../../src/api/start.js';
-import { SqliteDatabase } from '../../src/repository/sqlite/database.js';
 import { seed, insert } from '../schema/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { hashPassword } from '../../src/security/passwords.js';
 import { bangkokToday } from '../../src/domain/dates.js';
 test('T049 actual server reminder runs without browser/GET; GET list/detail/board/me do not dispatch or extend idle', async () => {
   const f = await startupFixture(),
-    db = new SqliteDatabase(f.path);
+    db = await fixtureDatabase(f);
   let app: Awaited<ReturnType<typeof startApplication>> | undefined;
   const rows = (q: string) => db.transaction((tx) => tx.query(sql(q)));
   try {

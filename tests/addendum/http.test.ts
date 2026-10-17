@@ -7,7 +7,7 @@ import { join } from 'node:path';
 import { createApp } from '../../src/api/app.js';
 import { sessionHooks } from '../../src/api/sessions.js';
 import { parseConfiguration } from '../../src/config/config.js';
-import { sqliteFixture } from '../schema/fixtures.js';
+import { providerFixture } from '../schema/fixtures.js';
 import { sessionFixture, password } from '../sessions/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { retentionService } from '../../src/services/retention.js';
@@ -17,7 +17,7 @@ import { myWorkGroup } from '../../frontend/src/task-dates.js';
 const origin = 'https://addendum.invalid';
 type F = Awaited<ReturnType<typeof sessionFixture>>;
 async function fixture(work: (base: string, f: F, root: string) => Promise<void>) {
-  const f = await sessionFixture(sqliteFixture),
+  const f = await sessionFixture(providerFixture),
     root = await mkdtemp(join(tmpdir(), 'friday-addendum-'));
   const config = parseConfiguration({
     NODE_ENV: 'test',

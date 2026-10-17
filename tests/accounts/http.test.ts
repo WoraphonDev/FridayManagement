@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { createApp } from '../../src/api/app.js';
 import { sessionHooks } from '../../src/api/sessions.js';
 import { parseConfiguration } from '../../src/config/config.js';
-import { sqliteFixture } from '../schema/fixtures.js';
+import { providerFixture } from '../schema/fixtures.js';
 import { sessionFixture, password } from '../sessions/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import type { ApiHooks } from '../../src/api/middleware.js';
@@ -22,7 +22,7 @@ async function fixture(
   work: (base: string, f: Awaited<ReturnType<typeof sessionFixture>>) => Promise<void>,
   additional: NonNullable<ApiHooks['handlers']> = {},
 ) {
-  const f = await sessionFixture(sqliteFixture);
+  const f = await sessionFixture(providerFixture);
   const server = createApp(
     undefined,
     config,
@@ -216,7 +216,7 @@ test('T016 same-role self edit is no-op and does not clear valid cookie', () =>
   }));
 
 test('T015 unknown password commit never sends rotated cookie or retries credentials; authoritative fresh login resolves outcome', async () => {
-  const f = await sessionFixture(sqliteFixture);
+  const f = await sessionFixture(providerFixture);
   let lost = false,
     writes = 0;
   const db: import('../../src/domain/database.js').Database = {

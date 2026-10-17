@@ -1,8 +1,7 @@
 import { test, expect, type Page, type BrowserContext } from '@playwright/test';
 import { rmSync } from 'node:fs';
-import { startupFixture } from '../setup/fixtures.js';
+import { startupFixture, fixtureDatabase } from '../setup/fixtures.js';
 import { startApplication } from '../../src/api/start.js';
-import { SqliteDatabase } from '../../src/repository/sqlite/database.js';
 import { sql } from '../../src/repository/access-scope.js';
 const password = 'Batch-admin-fixture-password',
   temp = 'Batch-temp-fixture-password',
@@ -300,7 +299,7 @@ test('T017 passive polling never renews idle; trusted interaction does; logout c
   context,
 }) => {
   const f = await fixture(page);
-  const db = new SqliteDatabase(f.path);
+  const db = await fixtureDatabase(f);
   try {
     const second = await context.newPage();
     await second.goto(f.env.APP_ORIGIN + '/settings');

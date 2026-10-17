@@ -2,15 +2,14 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { rmSync } from 'node:fs';
-import { startupFixture } from '../setup/fixtures.js';
+import { startupFixture, fixtureDatabase } from '../setup/fixtures.js';
 import { startApplication } from '../../src/api/start.js';
-import { SqliteDatabase } from '../../src/repository/sqlite/database.js';
 import { seed, insert } from '../schema/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { hashPassword } from '../../src/security/passwords.js';
 test('T050-054 actual HTTP notification/read CSRF/own scope, GET nonmutation, streamed CSV headers/error/filter and scheduler retention', async () => {
   const f = await startupFixture(),
-    db = new SqliteDatabase(f.path);
+    db = await fixtureDatabase(f);
   let app: Awaited<ReturnType<typeof startApplication>> | undefined;
   const password = 'Center-http-fixture-password',
     at = new Date().toISOString(),

@@ -1,8 +1,7 @@
 import { test, expect, type Page } from '@playwright/test';
 import { rmSync } from 'node:fs';
-import { startupFixture } from '../setup/fixtures.js';
+import { startupFixture, fixtureDatabase } from '../setup/fixtures.js';
 import { startApplication } from '../../src/api/start.js';
-import { SqliteDatabase } from '../../src/repository/sqlite/database.js';
 import { sql } from '../../src/repository/access-scope.js';
 const password = 'Browser-session-fixture';
 async function prepare(page: Page) {
@@ -110,7 +109,7 @@ test('actual browser session survives process restart; current auth-version revo
     expect(announced).toBe(false);
     await page.reload();
     await expect(page.getByRole('link', { name: 'Admin', exact: true })).toBeVisible();
-    const db = new SqliteDatabase(f.path);
+    const db = await fixtureDatabase(f);
     try {
       await db.transaction((tx) =>
         tx.execute(

@@ -89,7 +89,9 @@ export function validateRecords(manifest, data, {verifyArtifacts=true}={}) {
     assert(r.environment.db?.provider===profile.db,'Provider/profile mismatch');
     if(profile.db!=='none') assert(nonempty(r.environment.db.version) && nonempty(r.environment.db.driver),'Record actual DB/driver versions');
     if(profile.db==='sqlserver2022') assert(r.environment.db.product==='SQL Server 2022','Actual SQL2022 required');
+    if(profile.db==='postgres17') assert(r.environment.db.product==='PostgreSQL' && /^17\./.test(r.environment.db.version),'Actual PostgreSQL 17 required');
     if(profile.os==='windows')assert(r.environment.os==='windows','Windows result must run on Windows');
+    if(profile.os==='linux')assert(r.environment.os==='linux','Linux/Docker result must run on Linux');
     if(r.status==='BLOCKED') {assert(nonempty(r.reason),'BLOCKED requires reason; tester is responsible owner');continue;}
     assert(nonempty(r.actual),'Execution requires actual results');
     if(r.status==='FAIL')assert(data.defects.some(d=>d.id===r.defectId),'FAIL requires defect ID');
@@ -120,13 +122,14 @@ export function validateRecords(manifest, data, {verifyArtifacts=true}={}) {
 
 function requiredProfile(manifest,item) {
   if(item.requiredProfile)return item.requiredProfile;
-  if(item.profiles)return item.profiles.includes('windows-sqlserver2022')?'windows-sqlserver2022':item.profiles.includes('sqlserver2022')?'sqlserver2022':item.profiles[0];
+  // ADR-0001: PostgreSQL 17 (and Linux/Docker for operations) replaces SQL Server/Windows.
+  if(item.profiles)return item.profiles.includes('linux-docker-postgres17')?'linux-docker-postgres17':item.profiles.includes('postgres17')?'postgres17':item.profiles[0];
   const childProfiles=item.cases.map(id=>manifest.cases.find(tc=>tc.id===id).requiredProfile);
-  return childProfiles.includes('windows-sqlserver2022')?'windows-sqlserver2022':childProfiles.includes('sqlserver2022')?'sqlserver2022':'pure-node22';
+  return childProfiles.includes('linux-docker-postgres17')?'linux-docker-postgres17':childProfiles.includes('postgres17')?'postgres17':'pure-node22';
 }
 function acceptableProfile(required,actual) {
   if(required==='pure-node22')return true;
-  if(required==='sqlserver2022')return ['sqlserver2022','windows-sqlserver2022'].includes(actual);
+  if(required==='postgres17')return ['postgres17','linux-docker-postgres17'].includes(actual);
   return required===actual;
 }
 export function evaluateGates(manifest,data,{build,sourceSha256,taskStatuses=statuses()}={}) {

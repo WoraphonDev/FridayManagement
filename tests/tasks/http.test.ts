@@ -4,7 +4,7 @@ import { randomUUID } from 'node:crypto';
 import { createApp } from '../../src/api/app.js';
 import { sessionHooks } from '../../src/api/sessions.js';
 import { parseConfiguration } from '../../src/config/config.js';
-import { sqliteFixture } from '../schema/fixtures.js';
+import { providerFixture } from '../schema/fixtures.js';
 import { sessionFixture, password } from '../sessions/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 const origin = 'https://tasks.invalid',
@@ -25,7 +25,7 @@ async function fixture(
     restart: () => Promise<string>,
   ) => Promise<void>,
 ) {
-  const f = await sessionFixture(sqliteFixture);
+  const f = await sessionFixture(providerFixture);
   const start = async () => {
     const server = createApp(
       undefined,

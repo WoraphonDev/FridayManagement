@@ -6,7 +6,7 @@ import { idempotencyHook } from '../../src/api/idempotency.js';
 import { ApiFault } from '../../src/api/errors.js';
 import type { ApiHooks } from '../../src/api/middleware.js';
 import { operations } from '../../src/api/contract.js';
-import { sqliteFixture, statement as s, time } from '../schema/fixtures.js';
+import { providerFixture, statement as s, time } from '../schema/fixtures.js';
 import { comment, counts } from './provider-suite.js';
 const origin = 'https://friday.invalid',
   csrf = 'a'.repeat(64);
@@ -23,7 +23,7 @@ async function http(hooks: ApiHooks, work: (base: string) => Promise<void>) {
   }
 }
 test('HTTP replay has fresh requestId; real SQLite tx and repeated guard; missing engine fails closed', async () => {
-  const f = await sqliteFixture();
+  const f = await providerFixture();
   const operation = operations.find(
     (o) => o.method === 'POST' && o.path === '/api/tasks/{id}/comments',
   )!;

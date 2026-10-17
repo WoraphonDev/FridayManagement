@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { randomUUID } from 'node:crypto';
 import { createApp } from '../../src/api/app.js';
 import { sessionHooks } from '../../src/api/sessions.js';
-import { sqliteFixture } from '../schema/fixtures.js';
+import { providerFixture } from '../schema/fixtures.js';
 import { sessionFixture, password } from '../sessions/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 const origin = 'https://registrations.invalid';
@@ -12,7 +12,7 @@ const input = { email: 'new@example.invalid', display_name: 'สมาชิก�
 async function fixture(
   work: (base: string, f: Awaited<ReturnType<typeof sessionFixture>>) => Promise<void>,
 ) {
-  const f = await sessionFixture(sqliteFixture);
+  const f = await sessionFixture(providerFixture);
   const server = createApp(undefined, undefined, {
     origin,
     ...(await sessionHooks(f.db, { clock: f.clock, cookieSecure: true })),

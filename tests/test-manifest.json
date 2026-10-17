@@ -34,19 +34,31 @@
       "id": "sqlite-local",
       "db": "sqlite",
       "os": "any",
-      "purpose": "Temporary local integration/UI; cannot close SQL Server or Windows sign-off"
+      "purpose": "Temporary local integration/UI; cannot close PostgreSQL or Linux/Docker sign-off"
+    },
+    {
+      "id": "postgres17",
+      "db": "postgres17",
+      "os": "any",
+      "purpose": "Actual PostgreSQL 17 integration/constraints/concurrency/faults/backup (ADR-0001)"
+    },
+    {
+      "id": "linux-docker-postgres17",
+      "db": "postgres17",
+      "os": "linux",
+      "purpose": "Actual Linux + Docker Compose deploy/HTTPS proxy/restart/scheduled pg_dump backup and restore (ADR-0001)"
     },
     {
       "id": "sqlserver2022",
       "db": "sqlserver2022",
       "os": "any",
-      "purpose": "Actual SQL2022 integration/constraints/concurrency/faults/backup"
+      "purpose": "RETIRED by ADR-0001: reference only; never a required profile"
     },
     {
       "id": "windows-sqlserver2022",
       "db": "sqlserver2022",
       "os": "windows",
-      "purpose": "Actual Windows install/service/HTTPS/ACL/scheduler/backup restore"
+      "purpose": "RETIRED by ADR-0001: reference only; never a required profile"
     }
   ],
   "fixturePolicy": {
@@ -2209,7 +2221,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-001",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2232,7 +2244,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-002",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2256,7 +2268,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-003",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2280,7 +2292,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-004",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2304,7 +2316,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-005",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2328,7 +2340,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-006",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2355,7 +2367,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-007",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2382,7 +2394,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-008",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2409,7 +2421,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-009",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2433,7 +2445,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-010",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2457,7 +2469,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-011",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2481,7 +2493,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-012",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2505,7 +2517,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-013",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2530,7 +2542,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-014",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2558,7 +2570,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-015",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2583,7 +2595,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-016",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2608,7 +2620,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-017",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2634,7 +2646,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-018",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2660,7 +2672,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-019",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2689,7 +2701,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-020",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2722,7 +2734,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-021",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2746,7 +2758,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-022",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2774,7 +2786,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-023",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2798,7 +2810,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-024",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2822,7 +2834,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-025",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2851,7 +2863,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-026",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2877,7 +2889,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-027",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2908,7 +2920,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-028",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2932,7 +2944,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-029",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2956,7 +2968,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-030",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -2981,7 +2993,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-031",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3008,7 +3020,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-032",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3037,7 +3049,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-033",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3063,7 +3075,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-034",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3088,7 +3100,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-035",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3113,7 +3125,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-036",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3138,7 +3150,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-037",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3169,7 +3181,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-038",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3194,7 +3206,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-039",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3219,7 +3231,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-040",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3244,7 +3256,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-041",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3269,7 +3281,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-042",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3319,7 +3331,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-044",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3348,7 +3360,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-045",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3373,7 +3385,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-046",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3398,7 +3410,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-047",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3424,7 +3436,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-048",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3449,7 +3461,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-049",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3474,7 +3486,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-050",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3500,7 +3512,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-051",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3536,7 +3548,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-052",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3564,7 +3576,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-053",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3592,7 +3604,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-054",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3620,7 +3632,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-055",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3655,7 +3667,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-056",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3683,7 +3695,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-057",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3721,7 +3733,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-058",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3753,7 +3765,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-059",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3779,7 +3791,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-060",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3805,7 +3817,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-061",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3831,7 +3843,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-062",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3863,7 +3875,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-063",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3888,7 +3900,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-064",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3913,7 +3925,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-065",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3942,7 +3954,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-066",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3967,7 +3979,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-067",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -3993,7 +4005,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-068",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4025,7 +4037,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-069",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4051,7 +4063,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-070",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4200,7 +4212,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-075",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4226,7 +4238,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-076",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4252,7 +4264,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-077",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4286,7 +4298,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-078",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4321,7 +4333,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-079",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4351,7 +4363,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-080",
       "result": "NOT_RUN",
-      "requiredProfile": "windows-sqlserver2022",
+      "requiredProfile": "linux-docker-postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4386,7 +4398,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-081",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4425,7 +4437,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-082",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4447,7 +4459,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-083",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4484,7 +4496,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-084",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4508,7 +4520,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-085",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4532,7 +4544,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-086",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4556,7 +4568,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-087",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4580,7 +4592,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-088",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4605,7 +4617,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-089",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4628,7 +4640,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-090",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4651,7 +4663,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-091",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4674,7 +4686,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-092",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4698,7 +4710,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-093",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": false,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4721,7 +4733,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-094",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4744,7 +4756,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-095",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4768,7 +4780,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-096",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4792,7 +4804,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-097",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -4839,7 +4851,7 @@
       ],
       "source": "TeamFlow_Test_Cases_v1.0.md#TC-099",
       "result": "NOT_RUN",
-      "requiredProfile": "sqlserver2022",
+      "requiredProfile": "postgres17",
       "requiresBrowser": true,
       "evidence": [
         "steps/expected/actual for entire case",
@@ -5880,7 +5892,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Archived project; deleted and active tasks; separate Admin, owner Lead, Editor creator and Viewer sessions.",
       "steps": [
@@ -5911,7 +5923,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Two active Admins; target assigned open and done tasks across Admin-only, owner-Lead and explicit-Editor projects.",
       "steps": [
@@ -5943,7 +5955,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Done and deleted non-done tasks; assignee separately inactive, Viewer, revoked, eligible Editor or owner Lead.",
       "steps": [
@@ -5973,7 +5985,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Archived team/project plus active team/project; two independent connections and deterministic barriers.",
       "steps": [
@@ -6007,7 +6019,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Task/file deleted_at fixed in controlled UTC clock; cutoff = deleted_at + 30*24h; include a daylight-saving calendar date.",
       "steps": [
@@ -6040,7 +6052,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Expired deleted attachment/task with stored bytes; inject unlink denial or missing bytes in isolated storage.",
       "steps": [
@@ -6074,7 +6086,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Jan31 monthly task with generated successor; leap/non-leap February; daily/weekly/none fixtures.",
       "steps": [
@@ -6110,7 +6122,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Independent revoker/writer connections; pause writer after reading access but before mutation commit.",
       "steps": [
@@ -6143,7 +6155,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Recurring task with one checklist item; separate check/uncheck and completion requests with known versions.",
       "steps": [
@@ -6177,7 +6189,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Same-column and cross-column boards; distinct sessions, shared versions, deterministic commit barriers.",
       "steps": [
@@ -6213,7 +6225,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Quota near limit; two uploads, durable reservations, active streams, backup request and clock barriers.",
       "steps": [
@@ -6242,12 +6254,12 @@
         "T-008",
         "T-010"
       ],
-      "title": "SQL Server lock timeout",
+      "title": "Database lock timeout",
       "level": "integration",
       "profiles": [
-        "sqlserver2022"
+        "postgres17"
       ],
-      "setup": "Isolated SQL Server2022; connection A holds a row/range lock; connection B uses bounded lock timeout.",
+      "setup": "Isolated PostgreSQL 17; connection A holds a row/range lock; connection B uses bounded lock timeout.",
       "steps": [
         "Block a real write, exhaust bounded retry budget, release lock and retry same key."
       ],
@@ -6274,12 +6286,12 @@
         "T-010",
         "T-035"
       ],
-      "title": "SQL Server deadlock victim",
+      "title": "Database deadlock / serialization victim",
       "level": "integration",
       "profiles": [
-        "sqlserver2022"
+        "postgres17"
       ],
-      "setup": "Two independent SQL Server2022 transactions update resources in deliberately reversed order; barrier after first lock.",
+      "setup": "Two independent PostgreSQL 17 SERIALIZABLE transactions update resources in deliberately reversed order; barrier after first lock.",
       "steps": [
         "Force a deadlock victim, observe bounded retry; force repeated victims to exhaust retry."
       ],
@@ -6305,12 +6317,12 @@
         "T-010",
         "T-042"
       ],
-      "title": "SQL connection loss before commit",
+      "title": "Database connection loss before commit",
       "level": "integration",
       "profiles": [
-        "sqlserver2022"
+        "postgres17"
       ],
-      "setup": "Isolated SQL2022 test connection; kill/disconnect after writes but before commit acknowledgement.",
+      "setup": "Isolated PostgreSQL 17 test connection; kill/disconnect after writes but before commit acknowledgement.",
       "steps": [
         "Break connection before commit; recover with a new connection; inspect authoritative state before key retry."
       ],
@@ -6340,9 +6352,9 @@
       "title": "Query timeout and unknown commit acknowledgement",
       "level": "integration",
       "profiles": [
-        "sqlserver2022"
+        "postgres17"
       ],
-      "setup": "Isolated SQL2022 proxy/harness can delay response before commit or drop acknowledgement after successful commit.",
+      "setup": "Isolated PostgreSQL 17 proxy/harness can delay response before commit or drop acknowledgement after successful commit.",
       "steps": [
         "Run both definitely-uncommitted timeout and committed-but-response-lost branches.",
         "Reconnect, resolve key/state, retry same request; try same key/different body and revoked access replay."
@@ -6381,7 +6393,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Two browser tabs, isolated profile, controlled session clock, same-origin proxy/cache and dirty task draft.",
       "steps": [
@@ -6416,7 +6428,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Two visible online sessions; fake Bangkok midnight for date cases; unrelated private project for revision privacy.",
       "steps": [
@@ -6453,24 +6465,24 @@
         "T-064",
         "T-065"
       ],
-      "title": "Runtime/migration/backup roles and Windows recovery",
+      "title": "Runtime/migration/backup roles and Linux/Docker recovery",
       "level": "integration",
       "profiles": [
-        "windows-sqlserver2022"
+        "linux-docker-postgres17"
       ],
-      "setup": "Clean Windows target; SQL Server2022 edition/build recorded; separate runtime/migration/backup accounts and synthetic fixture.",
+      "setup": "Clean Linux host with Docker Compose; PostgreSQL 17 build recorded; separate runtime/migration/backup roles and synthetic fixture.",
       "steps": [
-        "Install exact candidate ZIP; check service restart/HTTPS/ACL/scheduler and least privilege.",
-        "Back up then RESTORE into clean instance with paired uploads; upgrade/rollback supported schema and local Admin recovery."
+        "Deploy exact candidate source/image; check container restart, HTTPS proxy, file permissions, scheduled backup and least privilege.",
+        "pg_dump then restore into a clean instance with paired uploads; upgrade/rollback supported schema and local Admin recovery."
       ],
       "expected": [
-        "Runtime cannot migrate/read backup secrets; service and SQL paths/ACL are verified.",
-        "Actual restore validates rows/bytes/checksums and revokes sessions; VERIFYONLY alone is insufficient; no default account."
+        "Runtime cannot migrate/read backup secrets; volumes/paths/permissions are verified.",
+        "Actual restore validates rows/bytes/checksums and revokes sessions; a dump listing alone is insufficient; no default account."
       ],
       "evidence": [
-        "Windows/SQL build",
-        "account privilege tests",
-        "ZIP/schema hashes",
+        "Linux/Docker/PostgreSQL build",
+        "role privilege tests",
+        "image/schema hashes",
         "restore/restart result"
       ],
       "result": "NOT_RUN"
@@ -6493,7 +6505,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Same user/key and distinct users/routes; multipart identical content with differing boundaries, changed bytes or metadata.",
       "steps": [
@@ -6530,7 +6542,7 @@
       "level": "integration",
       "profiles": [
         "sqlite-local",
-        "sqlserver2022"
+        "postgres17"
       ],
       "setup": "Foundation-level real DB harness, eligible recipients and synthetic actor; event/notification insert failure switches.",
       "steps": [
@@ -6561,7 +6573,7 @@
       "title": "Setup, temporary password, team/project sharing and scope",
       "level": "uat",
       "profiles": [
-        "windows-sqlserver2022"
+        "linux-docker-postgres17"
       ],
       "result": "NOT_RUN",
       "evidence": [
@@ -6587,7 +6599,7 @@
       "title": "Assignment, notification, board/checklist/file, done and report",
       "level": "uat",
       "profiles": [
-        "windows-sqlserver2022"
+        "linux-docker-postgres17"
       ],
       "result": "NOT_RUN",
       "evidence": [
@@ -6610,7 +6622,7 @@
       "title": "Cross-team Editor/Viewer and revoke all channels",
       "level": "uat",
       "profiles": [
-        "windows-sqlserver2022"
+        "linux-docker-postgres17"
       ],
       "result": "NOT_RUN",
       "evidence": [
@@ -6631,7 +6643,7 @@
       "title": "Concurrent edit/move and explicit conflict recovery",
       "level": "uat",
       "profiles": [
-        "windows-sqlserver2022"
+        "linux-docker-postgres17"
       ],
       "result": "NOT_RUN",
       "evidence": [
@@ -6652,7 +6664,7 @@
       "title": "Clean restore, permissions/files/checksums and new login",
       "level": "uat",
       "profiles": [
-        "windows-sqlserver2022"
+        "linux-docker-postgres17"
       ],
       "result": "NOT_RUN",
       "evidence": [
@@ -6709,15 +6721,15 @@
         "T-074",
         "T-077"
       ],
-      "title": "Fresh unzip quick start on Windows",
+      "title": "Fresh Linux/Docker quick start",
       "evidence": [
-        "exact ZIP hash",
-        "clean Windows install/test report"
+        "exact source/image hash",
+        "clean Linux + Docker install/test report"
       ],
-      "profile": "windows-sqlserver2022",
+      "profile": "linux-docker-postgres17",
       "level": "review",
       "profiles": [
-        "windows-sqlserver2022"
+        "linux-docker-postgres17"
       ],
       "result": "NOT_RUN"
     },
@@ -6733,10 +6745,10 @@
         "defect register and retest results",
         "owner final sign-off"
       ],
-      "profile": "windows-sqlserver2022",
+      "profile": "linux-docker-postgres17",
       "level": "review",
       "profiles": [
-        "windows-sqlserver2022"
+        "linux-docker-postgres17"
       ],
       "result": "NOT_RUN"
     }
@@ -6784,7 +6796,7 @@
         "T-076",
         "T-077"
       ],
-      "rule": "Produce labeled candidate ZIP in pre-release/T-065 for Windows/UAT; T-074/T-076/T-077 remain incomplete until real required evidence and dependencies pass."
+      "rule": "Produce labeled candidate source/image in pre-release/T-065 (T-096) for Linux/Docker UAT; T-074/T-076/T-077 remain incomplete until real required evidence and dependencies pass."
     }
   ],
   "requirementsCoverage": {
@@ -7716,10 +7728,10 @@
       "purpose": "Labeled test candidate only; include all pending results and known defects; does not close final tasks"
     },
     "final": {
-      "requires": "all 99 cases on required profiles + 40 AT sign-offs + all required variants + 5 human UAT journeys + 4 release reviews; no Critical/Major open defects; Windows/SQL2022 evidence; all implementation tasks through T-076 plus T-078–T-091 and manuals complete"
+      "requires": "all 99 cases on required profiles + 40 AT sign-offs + all required variants + 5 human UAT journeys + 4 release reviews; no Critical/Major open defects; Linux/Docker PostgreSQL 17 evidence (ADR-0001); all implementation tasks through T-076 plus T-078–T-091 and manuals complete"
     },
     "production": {
-      "requires": "final + owner Windows/HTTPS/service/backup/restore/UAT evidence; owner deploys; no DNS/server actions authorized"
+      "requires": "final + owner Linux/Docker/HTTPS/restart/pg_dump backup/restore/UAT evidence; owner deploys; no DNS/server actions authorized"
     }
   }
 }

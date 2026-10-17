@@ -6,7 +6,7 @@ import { authorizationHooks } from '../../src/api/authorization.js';
 import type { ApiHooks } from '../../src/api/middleware.js';
 import { operations } from '../../src/api/contract.js';
 import { notificationScope, readNotifications, sql } from '../../src/repository/access-scope.js';
-import { sqliteFixture, time } from '../schema/fixtures.js';
+import { providerFixture, time } from '../schema/fixtures.js';
 import { accessFixture, proof, now, csrf } from './fixtures.js';
 import { comment } from '../idempotency/provider-suite.js';
 const origin = 'https://friday.invalid';
@@ -27,7 +27,7 @@ async function http(hooks: ApiHooks, work: (base: string) => Promise<void>) {
 const session = async () => ({ id: 4, active: true, mustChangePassword: false, csrf });
 const headers = { Origin: origin, 'X-CSRF-Token': csrf, 'Content-Type': 'application/json' };
 test('HTTP actual DB authorization/idempotency: archived replay, new write denial and revoked membership/session', async () => {
-  const f = await accessFixture(sqliteFixture);
+  const f = await accessFixture(providerFixture);
   try {
     const handlers = {
       [op('POST', '/api/tasks/{id}/comments')]: async (
@@ -81,7 +81,7 @@ test('HTTP actual DB authorization/idempotency: archived replay, new write denia
   }
 });
 test('HTTP scoped list/count/read-all and response rollback; forced-password activity exception works end to end', async () => {
-  const f = await accessFixture(sqliteFixture);
+  const f = await accessFixture(providerFixture);
   let bad = true,
     forced = false;
   try {

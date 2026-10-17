@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 import { createApp } from '../../src/api/app.js';
 import { sessionHooks } from '../../src/api/sessions.js';
 import { parseConfiguration } from '../../src/config/config.js';
-import { sqliteFixture } from '../schema/fixtures.js';
+import { providerFixture } from '../schema/fixtures.js';
 import { sessionFixture, password } from './fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import type { ApiHooks } from '../../src/api/middleware.js';
@@ -39,7 +39,7 @@ async function http(hooks: ApiHooks, work: (base: string) => Promise<void>, logs
 }
 const cookie = (response: Response) => response.headers.get('set-cookie')!.split(';')[0]!;
 test('real login cookie/Self/no-store, readonly me, Origin+CSRF activity, logout commit and old-cookie401', async () => {
-  const f = await sessionFixture(sqliteFixture);
+  const f = await sessionFixture(providerFixture);
   try {
     await http(await sessionHooks(f.db, { clock: f.clock, cookieSecure: true }), async (base) => {
       const login = await fetch(base + '/api/login', { method: 'POST', headers, body });
@@ -114,7 +114,7 @@ test('real login cookie/Self/no-store, readonly me, Origin+CSRF activity, logout
   }
 });
 test('generic login errors, strict ingress, duplicate/malformed cookies and caller fields cannot authenticate', async () => {
-  const f = await sessionFixture(sqliteFixture),
+  const f = await sessionFixture(providerFixture),
     logs: unknown[] = [];
   try {
     await http(
@@ -178,7 +178,7 @@ test('generic login errors, strict ingress, duplicate/malformed cookies and call
   }
 });
 test('real session resolver/current authorization: forced gate, polling idle cutoff, maintenance state and scoped Self', async () => {
-  const f = await sessionFixture(sqliteFixture);
+  const f = await sessionFixture(providerFixture);
   try {
     await http(
       await sessionHooks(
@@ -250,7 +250,7 @@ test('real session resolver/current authorization: forced gate, polling idle cut
   }
 });
 test('rollback and unknown login/logout commit outcomes never emit credential/success cookies; errors redact details', async () => {
-  const f = await sessionFixture(sqliteFixture),
+  const f = await sessionFixture(providerFixture),
     logs: unknown[] = [];
   let mode: 'rollback' | 'loginLost' | 'logoutLost' | 'normal' = 'rollback';
   const db: Database = {

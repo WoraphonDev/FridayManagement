@@ -22,7 +22,7 @@ export function buildTestManifest() {
     return {id:r[0],priority:r[1],title:r[2],levels:r[3],trace:body.match(/\*\*Trace:\*\* (.*?) ·/)?.[1]??'',
       acceptance:acceptanceIds, tasks:[...new Set(acceptance.filter(a=>a.cases.includes(r[0])).flatMap(a=>a.tasks))],
       source:`TeamFlow_Test_Cases_v1.0.md#${r[0]}`, result:'NOT_RUN',
-      requiredProfile:r[0]==='TC-080'?'windows-sqlserver2022':needsDB?'sqlserver2022':'pure-node22',
+      requiredProfile:r[0]==='TC-080'?'linux-docker-postgres17':needsDB?'postgres17':'pure-node22',
       requiresBrowser:/UI/.test(r[3]), evidence:['steps/expected/actual for entire case','build/schema/provider/OS/runtime/role/tester/date','redacted HTTP/DB/bytes/UI/operation evidence appropriate to levels']};
   });
   const suites=rows(plan,'UT-').map(r=>({id:r[0],module:r[1],tasks:ids(r[2],'T'),assertions:r[3],result:'NOT_RUN',
@@ -43,8 +43,8 @@ export function buildTestManifest() {
     smoke:ids(casesText.match(/\*\*Smoke subset:\*\* ([^\n]+)/)[1],'TC'),
     gates:{G0:{tasks:['T-001','T-002','T-003','T-004'],purpose:'Plan/contract ready for T-005, not application acceptance'},
       candidate:{requiredReviews:['REL-01','REL-02'],purpose:'Labeled test candidate only; include all pending results and known defects; does not close final tasks'},
-      final:{requires:'all 99 cases on required profiles + 40 AT sign-offs + all required variants + 5 human UAT journeys + 4 release reviews; no Critical/Major open defects; Windows/SQL2022 evidence; all implementation tasks through T-076 plus T-078–T-091 and manuals complete'},
-      production:{requires:'final + owner Windows/HTTPS/service/backup/restore/UAT evidence; owner deploys; no DNS/server actions authorized'}}};
+      final:{requires:'all 99 cases on required profiles + 40 AT sign-offs + all required variants + 5 human UAT journeys + 4 release reviews; no Critical/Major open defects; Linux/Docker PostgreSQL 17 evidence (ADR-0001); all implementation tasks through T-076 plus T-078–T-091 and manuals complete'},
+      production:{requires:'final + owner Linux/Docker/HTTPS/restart/pg_dump backup/restore/UAT evidence; owner deploys; no DNS/server actions authorized'}}};
 }
 if(process.argv[1]?.endsWith('/build-test-manifest.mjs')) {
   const manifest=buildTestManifest(); writeFileSync('tests/test-manifest.json',JSON.stringify(manifest,null,2)+'\n');

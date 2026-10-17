@@ -1,5 +1,5 @@
 // T-004 authoring policy. These are planned tests, not execution results.
-const variant = (id, cases, tasks, title, setup, steps, expected, evidence, profiles = ['sqlite-local', 'sqlserver2022']) => ({
+const variant = (id, cases, tasks, title, setup, steps, expected, evidence, profiles = ['sqlite-local', 'postgres17']) => ({
   id, cases, tasks, title, level: 'integration', profiles, setup, steps, expected, evidence, result: 'NOT_RUN'
 });
 export const variants = [
@@ -47,22 +47,22 @@ export const variants = [
     'Quota near limit; two uploads, durable reservations, active streams, backup request and clock barriers.',
     ['Race reservation/finalization with freeze acquisition; test both orders and crash after filesystem rename.', 'Backup waits for accepted requests; restart recovery then actual restore.'],
     ['Stored plus reserved bytes never exceed quota; freeze rejects new writes and waits for accepted work/jobs.', 'Snapshot contains matching DB/files; reservations/cleanup converge once after crash.'], ['reservation/quota rows','active-request timeline','backup manifest','restore byte hashes']),
-  variant('RV-12', ['TC-082'], ['T-007','T-008','T-010'], 'SQL Server lock timeout',
-    'Isolated SQL Server2022; connection A holds a row/range lock; connection B uses bounded lock timeout.',
+  variant('RV-12', ['TC-082'], ['T-007','T-008','T-010'], 'Database lock timeout',
+    'Isolated PostgreSQL 17; connection A holds a row/range lock; connection B uses bounded lock timeout.',
     ['Block a real write, exhaust bounded retry budget, release lock and retry same key.'],
-    ['503 with Retry-After when exhausted; no partial state; retry succeeds once; readiness safe.'], ['SQL error class redacted','retry count/duration','HTTP','DB/key rows'], ['sqlserver2022']),
-  variant('RV-13', ['TC-033','TC-040','TC-082'], ['T-008','T-010','T-035'], 'SQL Server deadlock victim',
-    'Two independent SQL Server2022 transactions update resources in deliberately reversed order; barrier after first lock.',
+    ['503 with Retry-After when exhausted; no partial state; retry succeeds once; readiness safe.'], ['SQL error class redacted','retry count/duration','HTTP','DB/key rows'], ['postgres17']),
+  variant('RV-13', ['TC-033','TC-040','TC-082'], ['T-008','T-010','T-035'], 'Database deadlock / serialization victim',
+    'Two independent PostgreSQL 17 SERIALIZABLE transactions update resources in deliberately reversed order; barrier after first lock.',
     ['Force a deadlock victim, observe bounded retry; force repeated victims to exhaust retry.'],
-    ['Victim fully rolled back; successful retry creates one outcome; exhausted retries503 without partial state.'], ['deadlock/victim evidence redacted','retry timeline','rows/versions/key'], ['sqlserver2022']),
-  variant('RV-14', ['TC-033','TC-058','TC-082'], ['T-008','T-010','T-042'], 'SQL connection loss before commit',
-    'Isolated SQL2022 test connection; kill/disconnect after writes but before commit acknowledgement.',
+    ['Victim fully rolled back; successful retry creates one outcome; exhausted retries503 without partial state.'], ['deadlock/victim evidence redacted','retry timeline','rows/versions/key'], ['postgres17']),
+  variant('RV-14', ['TC-033','TC-058','TC-082'], ['T-008','T-010','T-042'], 'Database connection loss before commit',
+    'Isolated PostgreSQL 17 test connection; kill/disconnect after writes but before commit acknowledgement.',
     ['Break connection before commit; recover with a new connection; inspect authoritative state before key retry.'],
-    ['Uncommitted transaction rolls back; no orphan reservation/bytes; same-key retry never duplicates.'], ['fault timing','new-connection authoritative rows','cleanup/key rows'], ['sqlserver2022']),
+    ['Uncommitted transaction rolls back; no orphan reservation/bytes; same-key retry never duplicates.'], ['fault timing','new-connection authoritative rows','cleanup/key rows'], ['postgres17']),
   variant('RV-15', ['TC-031','TC-041','TC-082'], ['T-010','T-027','T-029','T-035'], 'Query timeout and unknown commit acknowledgement',
-    'Isolated SQL2022 proxy/harness can delay response before commit or drop acknowledgement after successful commit.',
+    'Isolated PostgreSQL 17 proxy/harness can delay response before commit or drop acknowledgement after successful commit.',
     ['Run both definitely-uncommitted timeout and committed-but-response-lost branches.', 'Reconnect, resolve key/state, retry same request; try same key/different body and revoked access replay.'],
-    ['Do not assume timeout means rollback; authoritative key/state determines result.', 'Exactly one task/successor/move/event; permission rechecked; conflicting reuse409.'], ['commit barrier proof','timeout class','key/state comparison','replay HTTP'], ['sqlserver2022']),
+    ['Do not assume timeout means rollback; authoritative key/state determines result.', 'Exactly one task/successor/move/event; permission rechecked; conflicting reuse409.'], ['commit barrier proof','timeout class','key/state comparison','replay HTTP'], ['postgres17']),
   variant('RV-16', ['TC-006','TC-010','TC-011','TC-050','TC-068','TC-071','TC-072'], ['T-014','T-017','T-047','T-056','T-057'], 'Expiry/logout across tabs and cache',
     'Two browser tabs, isolated profile, controlled session clock, same-origin proxy/cache and dirty task draft.',
     ['Logout/expire/reset session in tab A then poll/write/back/forward/reload in tab B; use old CSRF.', 'Inspect HTTP headers, browser/proxy/SW cache and history; reconnect while draft is dirty.'],
@@ -71,10 +71,10 @@ export const variants = [
     'Two visible online sessions; fake Bangkok midnight for date cases; unrelated private project for revision privacy.',
     ['Measure from committed mutation to visible UI across poll schedule and response latency.', 'Cross Bangkok midnight with unchanged revision; mutate hidden project; revoke access while form dirty.'],
     ['Visible updates within10s; overdue/date buckets refresh at Bangkok midnight.', 'Opaque revision leaks no unrelated private activity; revoked content clears and authorized draft is preserved.'], ['commit/UI timestamps','revision comparisons','rendered date buckets']),
-  variant('RV-18', ['TC-075','TC-076','TC-077','TC-078','TC-080','TC-081'], ['T-006','T-007','T-019','T-062','T-063','T-064','T-065'], 'Runtime/migration/backup roles and Windows recovery',
-    'Clean Windows target; SQL Server2022 edition/build recorded; separate runtime/migration/backup accounts and synthetic fixture.',
-    ['Install exact candidate ZIP; check service restart/HTTPS/ACL/scheduler and least privilege.', 'Back up then RESTORE into clean instance with paired uploads; upgrade/rollback supported schema and local Admin recovery.'],
-    ['Runtime cannot migrate/read backup secrets; service and SQL paths/ACL are verified.', 'Actual restore validates rows/bytes/checksums and revokes sessions; VERIFYONLY alone is insufficient; no default account.'], ['Windows/SQL build','account privilege tests','ZIP/schema hashes','restore/restart result'], ['windows-sqlserver2022']),
+  variant('RV-18', ['TC-075','TC-076','TC-077','TC-078','TC-080','TC-081'], ['T-006','T-007','T-019','T-062','T-063','T-064','T-065'], 'Runtime/migration/backup roles and Linux/Docker recovery',
+    'Clean Linux host with Docker Compose; PostgreSQL 17 build recorded; separate runtime/migration/backup roles and synthetic fixture.',
+    ['Deploy exact candidate source/image; check container restart, HTTPS proxy, file permissions, scheduled backup and least privilege.', 'pg_dump then restore into a clean instance with paired uploads; upgrade/rollback supported schema and local Admin recovery.'],
+    ['Runtime cannot migrate/read backup secrets; volumes/paths/permissions are verified.', 'Actual restore validates rows/bytes/checksums and revokes sessions; a dump listing alone is insufficient; no default account.'], ['Linux/Docker/PostgreSQL build','role privilege tests','image/schema hashes','restore/restart result'], ['linux-docker-postgres17']),
   variant('RV-19', ['TC-041','TC-051','TC-053','TC-057'], ['T-010','T-039','T-041','T-042'], 'Multipart and idempotency scope',
     'Same user/key and distinct users/routes; multipart identical content with differing boundaries, changed bytes or metadata.',
     ['Replay identical request; reuse key with altered canonical JSON or actual file content; expire key by controlled clock.', 'Replay after access revocation; verify retention exception routes and bodyless/DELETE-version wire shape.'],
@@ -98,9 +98,11 @@ export const fixturePolicy = {
 };
 export const profiles = [
   {id:'pure-node22', db:'none', os:'any', purpose:'Pure unit/contract/review; cannot close HTTP/DB/UI acceptance'},
-  {id:'sqlite-local', db:'sqlite', os:'any', purpose:'Temporary local integration/UI; cannot close SQL Server or Windows sign-off'},
-  {id:'sqlserver2022', db:'sqlserver2022', os:'any', purpose:'Actual SQL2022 integration/constraints/concurrency/faults/backup'},
-  {id:'windows-sqlserver2022', db:'sqlserver2022', os:'windows', purpose:'Actual Windows install/service/HTTPS/ACL/scheduler/backup restore'},
+  {id:'sqlite-local', db:'sqlite', os:'any', purpose:'Temporary local integration/UI; cannot close PostgreSQL or Linux/Docker sign-off'},
+  {id:'postgres17', db:'postgres17', os:'any', purpose:'Actual PostgreSQL 17 integration/constraints/concurrency/faults/backup (ADR-0001)'},
+  {id:'linux-docker-postgres17', db:'postgres17', os:'linux', purpose:'Actual Linux + Docker Compose deploy/HTTPS proxy/restart/scheduled pg_dump backup and restore (ADR-0001)'},
+  {id:'sqlserver2022', db:'sqlserver2022', os:'any', purpose:'RETIRED by ADR-0001: reference only; never a required profile'},
+  {id:'windows-sqlserver2022', db:'sqlserver2022', os:'windows', purpose:'RETIRED by ADR-0001: reference only; never a required profile'},
 ];
 export const uat = [
   {id:'UAT-01', owner:'Owner/Admin/Lead/Member', cases:['TC-001','TC-007','TC-013','TC-016','TC-017'], title:'Setup, temporary password, team/project sharing and scope'},
@@ -108,17 +110,17 @@ export const uat = [
   {id:'UAT-03', owner:'Lead/Editor/Viewer', cases:['TC-016','TC-017','TC-018','TC-056','TC-063'], title:'Cross-team Editor/Viewer and revoke all channels'},
   {id:'UAT-04', owner:'Two Members', cases:['TC-035','TC-040','TC-041'], title:'Concurrent edit/move and explicit conflict recovery'},
   {id:'UAT-05', owner:'Owner/installer/Member', cases:['TC-076','TC-077','TC-080'], title:'Clean restore, permissions/files/checksums and new login'},
-].map(x=>({...x, level:'uat', profiles:['windows-sqlserver2022'], result:'NOT_RUN', evidence:['named human tester/role/date','steps/expected/actual','candidate build/hash','redacted result and owner sign-off']}));
+].map(x=>({...x, level:'uat', profiles:['linux-docker-postgres17'], result:'NOT_RUN', evidence:['named human tester/role/date','steps/expected/actual','candidate build/hash','redacted result and owner sign-off']}));
 export const reviews = [
   {id:'REL-01', tasks:['T-065','T-077'], title:'Candidate ZIP inventory/no secrets/live data', evidence:['ZIP SHA256','inventory/exclusion scan','manual redacted review'], profile:'pure-node22'},
   {id:'REL-02', tasks:['T-005','T-066','T-077'], title:'Runtime/package lock/license/README/config/source completeness', evidence:['Node22/package-lock/license inventory','README/env.example/migrations/scripts/tests review'], profile:'pure-node22'},
-  {id:'REL-03', tasks:['T-065','T-074','T-077'], title:'Fresh unzip quick start on Windows', evidence:['exact ZIP hash','clean Windows install/test report'], profile:'windows-sqlserver2022'},
-  {id:'REL-04', tasks:['T-076','T-077'], title:'Coverage and no open Critical/Major defect', evidence:['FR/NFR/BR/API/screen trace review','defect register and retest results','owner final sign-off'], profile:'windows-sqlserver2022'},
+  {id:'REL-03', tasks:['T-065','T-074','T-077'], title:'Fresh Linux/Docker quick start', evidence:['exact source/image hash','clean Linux + Docker install/test report'], profile:'linux-docker-postgres17'},
+  {id:'REL-04', tasks:['T-076','T-077'], title:'Coverage and no open Critical/Major defect', evidence:['FR/NFR/BR/API/screen trace review','defect register and retest results','owner final sign-off'], profile:'linux-docker-postgres17'},
 ].map(x=>({...x, level:'review', profiles:[x.profile], result:'NOT_RUN'}));
 export const sequencing = [
   {tasks:['T-005','T-007','T-008','T-010','T-011'], rule:'Provide minimal real provider-specific fixtures/transaction harness plus atomic audit/notification persistence before feature closure. T-067 expands harness later; it is not the first test execution.'},
   {tasks:['T-016'], closureRequires:['T-022'], rule:'Full deactivate/demote acceptance cannot close until effective-rights cleanup is implemented and tested; partial implementation stays IN_PROGRESS.'},
   {tasks:['T-027'], closureRequires:['T-029'], rule:'Full recurring completion cannot close until atomic successor/dedupe behavior is tested; non-recurring subset alone is partial.'},
   {tasks:['T-040','T-048'], rule:'Finalize history/dispatch features on top of foundation persistence; earlier feature transactions must already store required events/notifications.'},
-  {tasks:['T-065','T-074','T-076','T-077'], rule:'Produce labeled candidate ZIP in pre-release/T-065 for Windows/UAT; T-074/T-076/T-077 remain incomplete until real required evidence and dependencies pass.'},
+  {tasks:['T-065','T-074','T-076','T-077'], rule:'Produce labeled candidate source/image in pre-release/T-065 (T-096) for Linux/Docker UAT; T-074/T-076/T-077 remain incomplete until real required evidence and dependencies pass.'},
 ];

@@ -2,11 +2,15 @@ import { test, expect, type Page } from '@playwright/test';
 import { randomUUID } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { projectFixture, mutate } from './task-workspace-fixtures.js';
-import { SqliteDatabase } from '../../src/repository/sqlite/database.js';
 import { insert } from '../schema/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
-const notify = async (path: string, recipient_id = 1, count = 1) => {
-  const db = new SqliteDatabase(path);
+import { fixtureDatabase } from '../setup/fixtures.js';
+const notify = async (
+  f: { path: string; env: Record<string, string> },
+  recipient_id = 1,
+  count = 1,
+) => {
+  const db = await fixtureDatabase(f);
   try {
     await db.transaction(async (tx) => {
       for (let i = 0; i < count; i++)
@@ -51,7 +55,7 @@ test('T051 notification page50/read-one/read-all/current badge persists across r
   const f = await projectFixture(page);
   try {
     await create(page);
-    await notify(f.path, 1, 55);
+    await notify(f, 1, 55);
     await center(page);
     await expect(page.locator('.notification-list li')).toHaveCount(50);
     await page.getByRole('button', { name: 'Next', exact: true }).click();
@@ -84,7 +88,7 @@ test('T051 stale notification opens current detail and deleted-task 404 clears s
   const f = await projectFixture(page);
   try {
     await create(page);
-    await notify(f.path);
+    await notify(f);
     await center(page);
     await page.getByRole('button', { name: 'Open task #1', exact: true }).click();
     const modal = page.getByRole('dialog', { name: 'Task details', exact: true });
@@ -114,7 +118,7 @@ test('T051 actual shared refresh/focus/read-only poll, offline stops requests an
   const f = await projectFixture(page);
   try {
     await create(page);
-    await notify(f.path);
+    await notify(f);
     await center(page);
     await expect(page.getByLabel('unread 1 items', { exact: true })).toBeVisible({
       timeout: 10000,
@@ -123,7 +127,7 @@ test('T051 actual shared refresh/focus/read-only poll, offline stops requests an
     await expect(
       page.getByText('Connect to save changes. Offline saving is unavailable.', { exact: true }),
     ).toBeVisible();
-    await notify(f.path);
+    await notify(f);
     let requests = 0;
     page.on('request', (r) => {
       if (r.url().includes('/api/notifications?')) requests++;
@@ -136,7 +140,7 @@ test('T051 actual shared refresh/focus/read-only poll, offline stops requests an
     });
     await page.evaluate(() => window.dispatchEvent(new Event('focus')));
     await page.waitForTimeout(600);
-    const db = new SqliteDatabase(f.path);
+    const db = await fixtureDatabase(f);
     try {
       const rows = await db.transaction((tx) =>
         tx.query(sql('SELECT COUNT(*) AS total FROM dbo.notifications')),
@@ -272,7 +276,7 @@ test('T053/054 actual download120+ full rows BOM and CSV text safeguards share d
   const f = await projectFixture(page);
   try {
     await create(page);
-    const db = new SqliteDatabase(f.path);
+    const db = await fixtureDatabase(f);
     try {
       await db.transaction(async (tx) => {
         for (let i = 0; i < 122; i++)
