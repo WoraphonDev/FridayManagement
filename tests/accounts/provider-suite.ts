@@ -348,6 +348,49 @@ export function accountAcceptance(
     },
   );
   check(
+    'TC-012 concurrent mutual demotion of the last two Admins keeps at least one active Admin',
+    async (f, a, proof) => {
+      await f.db.transaction((tx) =>
+        a.patch(tx, proof, 2, { org_role: 'admin', version: 1 }, randomUUID()),
+      );
+      const second = await f.service.login({ username: 'Member', password }, '127.0.0.2');
+      const proof2 = { userId: 2, tokenHash: tokenDigest(second.token) };
+      const versions = await f.db.transaction((tx) =>
+        tx.query<{ id: number; version: number }>(
+          sql('SELECT id,version FROM dbo.users WHERE id IN (1,2) ORDER BY id'),
+        ),
+      );
+      const results = await Promise.allSettled([
+        f.db.transaction((tx) =>
+          a.patch(
+            tx,
+            proof,
+            2,
+            { org_role: 'member', version: versions[1]!.version },
+            randomUUID(),
+          ),
+        ),
+        f.db.transaction((tx) =>
+          a.patch(
+            tx,
+            proof2,
+            1,
+            { org_role: 'member', version: versions[0]!.version },
+            randomUUID(),
+          ),
+        ),
+      ]);
+      // At most one demotion may win; the other is refused (last Admin, busy or revoked actor).
+      assert(results.filter((r) => r.status === 'fulfilled').length <= 1);
+      const admins = await f.db.transaction((tx) =>
+        tx.query<{ id: number }>(
+          sql("SELECT id FROM dbo.users WHERE org_role='admin' AND active=1"),
+        ),
+      );
+      assert(admins.length >= 1);
+    },
+  );
+  check(
     'T015/016 reset confirms actor password, rejects stale version, revokes and forces target only',
     async (f, a, proof) => {
       const member = await f.service.login({ username: 'Member', password }, '127.0.0.2');

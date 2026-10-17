@@ -1,0 +1,689 @@
+{
+  "formatVersion": 1,
+  "purpose": "Per-case review of TeamFlow_Test_Cases steps/expected results against automated assertions (ADR-0001 PostgreSQL TC/AT step 2). 'covered' means every step and expected result is asserted by the listed tests on postgres17 (provider/HTTP) and Chromium on PostgreSQL where the case needs UI. Only covered cases may become execution records, on a run of the same build.",
+  "reviewer": "Claude (automated-suite review)",
+  "cases": {
+    "TC-001": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/setup/provider-suite.ts: setup token 256-bit / wrong token INVALID_SETUP_TOKEN with zero business rows / valid setup one active Admin + organization + audit / configured setup SETUP_ALREADY_COMPLETED",
+        "tests/setup/http.test.ts: HTTP wrong token 403, create 201, duplicate 409; logs contain neither token nor password",
+        "tests/browser/setup.spec.ts: real setup form rejects wrong token, clears secrets, completes once"
+      ],
+      "notes": "No default account: a freshly migrated database has zero users (provider snapshot)."
+    },
+    "TC-002": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/setup/provider-suite.ts: parallel setup commands create exactly one complete set and the loser 409; snapshot [1,1,1,1]",
+        "tests/setup/provider-suite.ts: audit failure rolls back organization/user/revision (no half set)"
+      ]
+    },
+    "TC-003": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/sessions/provider-suite: case-insensitive login creates independent hash-only sessions and scoped Self",
+        "tests/sessions/http.test.ts: real login cookie/Self/no-store and reload",
+        "tests/browser/accounts.spec.ts: actual login → profile → reload in browser"
+      ]
+    },
+    "TC-004": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/sessions/provider-suite: wrong/unknown/inactive/corrupt failures are generic; spaces are significant",
+        "tests/sessions/http.test.ts: generic login errors at HTTP"
+      ]
+    },
+    "TC-005": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/sessions/provider-suite: username limit 10 ignores case/IP, restart preserves, exact 15-minute boundary resets",
+        "tests/sessions/provider-suite: IP limit 30 spans usernames and survives a successful login",
+        "tests/browser/accounts.spec.ts: login 429 handling"
+      ]
+    },
+    "TC-006": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/sessions/http.test.ts: logout commit and old cookie 401",
+        "tests/browser/sessions.spec.ts: logout clears cookie, reload shows sign-in",
+        "tests/browser/tcat-gaps.spec.ts: TC-006 UI logout, Back cannot reopen the task, replayed pre-logout cookie 401 on /api/me and the task"
+      ],
+      "notes": "Back-navigation step added 2026-10-17 (tcat-gaps.spec.ts)."
+    },
+    "TC-007": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/accounts/provider-suite.ts: create forces change, no secrets",
+        "tests/accounts/http.test.ts: forced gate (PASSWORD_CHANGE_REQUIRED) and secret-free create",
+        "tests/browser/accounts.spec.ts: create → login → forced password → profile"
+      ]
+    },
+    "TC-008": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/accounts/provider-suite.ts: rejects wrong current, short/long passwords without mutation; exact 12 scalars accepted; rotates token/CSRF and revokes others",
+        "tests/accounts/http.test.ts: forced gate rotates cookie+CSRF after commit and revokes other sessions",
+        "tests/browser/accounts.spec.ts: rotates/revokes the other browser session"
+      ]
+    },
+    "TC-009": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/accounts/provider-suite.ts: reset confirms actor password (wrong → INVALID_CREDENTIALS, no change), revokes and forces target only",
+        "tests/regression (provider): reset revokes old cookie and keeps audit secret-free",
+        "tests/browser/accounts.spec.ts: reset confirmation dialog"
+      ]
+    },
+    "TC-010": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/sessions/provider-suite: reads do not renew idle; CSRF activity renews only before exact 60-minute expiry",
+        "tests/sessions/http.test.ts: polling idle cutoff",
+        "tests/browser/accounts.spec.ts: passive polling never renews idle; trusted interaction does"
+      ]
+    },
+    "TC-011": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/sessions/http.test.ts: Set-Cookie HttpOnly, SameSite=Strict, Secure, Path=/ with secure cookies",
+        "tests/sessions/provider-suite: activity never extends the 12-hour absolute expiry; hash-only session storage"
+      ]
+    },
+    "TC-012": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/accounts/provider-suite.ts: last active Admin guard for deactivate/demote; edit name; optimistic version",
+        "tests/accounts/provider-suite.ts: TC-012 concurrent mutual demotion of the last two Admins keeps at least one active Admin (added 2026-10-17, PostgreSQL)",
+        "tests/browser/accounts.spec.ts: edit/last-admin/deactivate/reactivate confirmations"
+      ],
+      "notes": "Concurrent step previously ran only on SQLite workers."
+    },
+    "TC-013": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/workspaces/provider-suite: team create UTF16/trim/case-insensitive uniqueness; positions never confer Lead rights; no unauthorized composite writes",
+        "tests/accounts/provider-suite.ts: additive teams and contacts persist atomically without changing roles/sessions",
+        "tests/schema (PostgreSQL): fresh/repeat/legacy upgrade preserves populated data",
+        "tests/browser/workspaces.spec.ts: team details, Dev/Lead position grants no access, 360px"
+      ]
+    },
+    "TC-014": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/workspaces/provider-suite: team-only membership excludes projects and totals",
+        "tests/regression (PostgreSQL) T069: scope across search/count/report/CSV/notification and file IDOR"
+      ]
+    },
+    "TC-015": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/authorization (PostgreSQL): foreign Lead does not grant project access",
+        "tests/workspaces/provider-suite: project metadata defaults/enums/reopen/audit rollback; owner team immutable",
+        "tests/workspaces/http.test.ts: project details persist, replay, validate",
+        "tests/browser/workspaces.spec.ts: project detail form defaults, Unicode and 360px"
+      ]
+    },
+    "TC-016": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/authorization (PostgreSQL): role matrix Editor/Viewer and no implicit team project access",
+        "tests/workspaces/http.test.ts: cross-team boundaries",
+        "tests/browser/workspaces.spec.ts: cross-team sharing reads only the shared project"
+      ]
+    },
+    "TC-017": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/regression (PostgreSQL) T069: Viewer write matrix preserves DB rows and attachment bytes across all task actions",
+        "tests/browser/tasks.spec.ts: Viewer detail read-only"
+      ]
+    },
+    "TC-018": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/regression (PostgreSQL) T069: revoke open detail prevents new reads/write/replay and cleans open assignment",
+        "tests/authorization (PostgreSQL): notification reads require current parent access",
+        "tests/browser/workspaces.spec.ts: revoke hides modal and list on next refresh"
+      ]
+    },
+    "TC-019": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/workspaces/provider-suite T022: Editor→Viewer unassigns open work, preserves done; reducing explicit Editor does not clean up an owner Lead"
+      ]
+    },
+    "TC-020": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/workspaces/provider-suite T022: removing/reducing Lead preserves explicit Editor and cleans up only lost effective write; done history kept"
+      ]
+    },
+    "TC-021": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/accounts/provider-suite.ts: deactivation cleans unfinished work, keeps done/history",
+        "tests/workspaces/provider-suite T022: deactivate revokes live sessions",
+        "tests/workspaces/provider-suite T021: directory is active-only (picker)"
+      ]
+    },
+    "TC-022": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/regression (PostgreSQL) T069: archived project rejects normal writes, owner lifecycle exception and unarchive",
+        "tests/authorization (PostgreSQL): RD-01 exceptions",
+        "tests/browser/tasks.spec.ts: archived Admin read-only; managed delete/restore via UI"
+      ]
+    },
+    "TC-023": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/workspaces/provider-suite: active-project archive guard; archived team cannot create/unarchive projects",
+        "tests/workspaces/provider-suite T021 + authorization: directory privacy"
+      ]
+    },
+    "TC-024": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/tasks/provider-suite T026: create defaults/nullable fields, merged patch, roles/assignee, atomic events",
+        "tests/browser/tasks.spec.ts: all task fields via UI and reload"
+      ]
+    },
+    "TC-025": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/tasks/provider-suite T026: every field rejects invalid lengths/enums/real dates/ranges/unknown/immutable fields; ineligible assignee; no partial record",
+        "tests/tasks/http.test.ts: validation has no partial effects"
+      ]
+    },
+    "TC-026": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/tasks/provider-suite T026: nullable assignee/dates",
+        "tests/task-views/provider-suite T031: assignee null vs omitted",
+        "tests/notifications/center (PostgreSQL): report unassigned",
+        "tests/browser/task-workspace.spec.ts: no-date lists in My tasks/Calendar/Gantt"
+      ]
+    },
+    "TC-027": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/tasks/provider-suite T028: checklist create/edit/toggle/delete, no auto-done, parent guard",
+        "tests/browser/checklist-table.spec.ts and cell-pickers.spec.ts (TC-027): inline add/edit/cancel, autosave and persistence"
+      ]
+    },
+    "TC-028": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/tasks/provider-suite T028: done parent guard; T027 reopen clears completed_at",
+        "tests/task-views/provider-suite T031: completed excludes reopened tasks"
+      ]
+    },
+    "TC-029": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/tasks/provider-suite T029: daily/weekly due+offset, copied fields, checklist reset, no comments/files/audit cloned, series link"
+      ]
+    },
+    "TC-030": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/tasks/provider-suite T029: monthly Jan31→Feb28→Mar31 and Jan31→Feb29→Mar31 keep the anchor"
+      ]
+    },
+    "TC-031": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/regression (PostgreSQL) T070: concurrent same-key retry, reopen → one successor",
+        "tests/tasks/http.test.ts: restart replays durable completion key without another successor"
+      ]
+    },
+    "TC-032": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/tasks/provider-suite T029: no overdue catch-up; none cancels; T026 recurrence without due rejected"
+      ]
+    },
+    "TC-033": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/tasks/provider-suite T027: rollback at every atomic effect; T029 successor atomicity",
+        "tests/helpers (PostgreSQL): effect failure rolls back ranks/versions/audit/notification"
+      ]
+    },
+    "TC-034": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/task-views/provider-suite T030: creator vs non-creator/Viewer, delete excludes active scopes, restore appends to column, 30-day cutoff",
+        "tests/browser/tasks.spec.ts: delete/restore through UI"
+      ]
+    },
+    "TC-035": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/tasks/provider-suite T026: conflict no overwrite",
+        "tests/browser/tasks.spec.ts: 409 draft review",
+        "tests/browser/task-workspace.spec.ts: version conflict keeps draft"
+      ]
+    },
+    "TC-036": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/boards/provider-suite T035: cross-column insertion and versions only on affected columns",
+        "tests/browser/boards.spec.ts T036: mouse drag persists after refresh and in a second tab"
+      ]
+    },
+    "TC-037": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/boards/provider-suite T035: same-column before/append stable contiguous ranks",
+        "tests/browser/boards.spec.ts T036: in-column drag"
+      ]
+    },
+    "TC-038": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/boards/provider-suite T035: checklist gate and recurrence on drag to Done",
+        "tests/browser/boards.spec.ts T038: validation rollback returns the card"
+      ]
+    },
+    "TC-039": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/browser/boards.spec.ts T036/T037/038: pending ack before saved, offline disables drag, demotion rolls stale move back",
+        "tests/boards/provider-suite T035: Viewer/hidden rights leave DB unchanged"
+      ]
+    },
+    "TC-040": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/boards/provider-suite + helpers (PostgreSQL): stale versions rejected, no duplicate ranks or lost tasks",
+        "tests/browser/boards.spec.ts T038: two-tab conflict then retry with fresh versions"
+      ]
+    },
+    "TC-041": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/browser/boards.spec.ts T038: lost response → authoritative GET → same-key replay",
+        "tests/boards/http.test.ts: key replay persists across restart"
+      ]
+    },
+    "TC-042": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/browser/boards.spec.ts T037: every filter disables reorder; clearing restores controls; status menu still available"
+      ]
+    },
+    "TC-043": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/browser/boards.spec.ts T037: keyboard status/up/down; touch scroll and long-press with menu alternative; Viewer has no write controls",
+        "tests/boards/provider-suite T035: Viewer moves blocked server-side"
+      ]
+    },
+    "TC-044": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/boards/provider-suite T035: wrong/self/missing/other-column anchors and stale versions leave the snapshot intact"
+      ]
+    },
+    "TC-045": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/task-views/provider-suite T034: 500 vs 501 list_required, complete pagination",
+        "tests/browser/boards.spec.ts T036: >500 fallback list and status menu"
+      ]
+    },
+    "TC-046": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/browser/task-workspace.spec.ts T045: My tasks default assignee, created view, Bangkok groups"
+      ]
+    },
+    "TC-047": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/helpers/dates.test.ts: Bangkok midnight boundaries (16:59Z/17:00Z)",
+        "tests/addendum/http.test.ts AT-34: overview switches at Bangkok midnight",
+        "tests/browser/tcat-gaps.spec.ts TC-047: date-only End Plan stays on its calendar day in UTC−7 and UTC+14 browsers"
+      ],
+      "notes": "Browser-timezone step added 2026-10-17."
+    },
+    "TC-048": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/task-views/provider-suite T031: scoped count, AND/OR filters, Thai/literal search, seven sorts with null-last and ID ties",
+        "tests/regression (PostgreSQL) T071: complete paginated rows",
+        "tests/browser/task-workspace.spec.ts T045: filters and debounce"
+      ]
+    },
+    "TC-049": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/browser/task-workspace.spec.ts T046: Gantt inclusive/one-day/due-only/no dates, Calendar month/filter/keyboard, 205 rows and paging",
+        "tests/browser/task-workspace.spec.ts T071: four views keep dates after restart"
+      ]
+    },
+    "TC-050": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/browser/task-workspace.spec.ts T047: second-tab edit refresh, dirty draft badge, 409, hidden/offline pause, focus refresh, polling leaves idle unchanged"
+      ]
+    },
+    "TC-051": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/boards/provider-suite T039: plaintext comments, validation, immutable history",
+        "tests/regression (PostgreSQL) T072: same-key concurrency stores one comment; different body rejected",
+        "tests/browser/files.spec.ts T044: comment renders as text, pagination, reload"
+      ]
+    },
+    "TC-052": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/files/provider-suite T040: paginated scoped history with actor/time/request and recursive redaction",
+        "tests/browser/task-history-group-order.spec.ts (TC-052): reorder/append history loads and Thai title save keeps history"
+      ]
+    },
+    "TC-053": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/files/provider-suite T041: streamed fingerprint, UUID storage name, exact bytes, private download DTO",
+        "tests/files/http.test.ts: authorized binary download with safe headers (attachment/nosniff) and hash",
+        "tests/browser/files.spec.ts T044: upload/download in UI"
+      ]
+    },
+    "TC-054": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/files/provider-suite T041: 1 byte / 10 MiB / max+1 / empty, temps released",
+        "tests/files/http.test.ts: real 10 MiB accepted, max+1 refused without residual reservation"
+      ]
+    },
+    "TC-055": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/files/provider-suite T041: extension allowlist, magic check, bounded ZIP/Office directory (no extraction), fatal UTF-8"
+      ]
+    },
+    "TC-056": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/files/provider-suite T041: UUID storage names (no client path)",
+        "tests/files/http.test.ts: /uploads static path not served",
+        "tests/regression (PostgreSQL) T069: byte-authorized file IDOR returns 404"
+      ]
+    },
+    "TC-057": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/files/provider-suite T042: concurrent quota reservation never exceeds remaining space; failure releases bytes"
+      ]
+    },
+    "TC-058": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/files/provider-suite T041/T042: failed metadata transaction leaves no effects; file move failure tracked; restart recovery keeps referenced files and releases reservations"
+      ]
+    },
+    "TC-059": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/files/provider-suite T043: uploader/owner Lead/Admin vs other Editor/Viewer, deleted scope, restore within exact 30-day cutoff, quota on purge"
+      ]
+    },
+    "TC-060": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/notifications/provider-suite T048: assignment/comment/status recipients deduped, self/inactive/no-access suppressed"
+      ]
+    },
+    "TC-061": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/notifications/provider-suite T049: tomorrow/today/overdue in Bangkok, repeated run and restart deduped, exclusions done/deleted/archived/unassigned/inactive/no access"
+      ]
+    },
+    "TC-062": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/notifications/center (PostgreSQL) T050: read one / read all persist, only own rows",
+        "tests/browser/reports-notifications.spec.ts T051: badge persists across reload"
+      ]
+    },
+    "TC-063": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/notifications/center (PostgreSQL) T050: revoked parents hidden; exact 90 UTC-day cutoff",
+        "tests/browser/reports-notifications.spec.ts T051: stale notification opens current detail; revocation hides list/detail/badge"
+      ]
+    },
+    "TC-064": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/notifications/center (PostgreSQL) T052: totals/status 6, overdue/unassigned, 33.33%, zero and hidden/deleted/archived",
+        "tests/browser/reports-notifications.spec.ts T054: dashboard metrics and zero/archive exclusion"
+      ]
+    },
+    "TC-065": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/notifications/center (PostgreSQL) T052: Bangkok created/completed boundaries, due inclusive, owner team vs assignee team, reopen clears done period"
+      ]
+    },
+    "TC-066": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/notifications/center (PostgreSQL) T053: 120+ rows UTF-8 BOM RFC 4180, formula neutralization, shared filters, no secret columns",
+        "tests/browser/reports-notifications.spec.ts T053/054: parsed download matches displayed filters"
+      ],
+      "notes": "Formula neutralization is asserted on the parsed CSV; opening it in Excel is not part of the automated run."
+    },
+    "TC-067": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/notifications/center (PostgreSQL) T053: 50,001 rejected before streaming; exactly 50,000 streams in bounded batches"
+      ]
+    },
+    "TC-068": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/api/http.test.ts: exact Origin, CSRF fail-closed",
+        "tests/regression (PostgreSQL) T069: missing Origin/CSRF and spoofed proxy rejected without mutation"
+      ]
+    },
+    "TC-069": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/regression (PostgreSQL) T069: parameterized SQL injection and plaintext XSS",
+        "tests/api/http.test.ts: malformed JSON/media/oversize/unknown fields rejected; safe redacted errors"
+      ]
+    },
+    "TC-070": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/api/http.test.ts: Origin independent of spoofed Host/forwarded headers; CSP/security headers; HSTS only via trusted proxy",
+        "tests/config/config.test.ts: production configuration with COOKIE_SECURE=false rejected"
+      ]
+    },
+    "TC-071": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Step 1 needs an OS-level PWA install, which headless Chromium cannot perform. Manifest/icons, static-only cache and logout/offline are covered by pwa-operations.spec.ts T056/T057."
+    },
+    "TC-072": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/browser/pwa-operations.spec.ts T057: reconnect blocks writes until authoritative reads finish and keeps the dirty draft",
+        "tests/browser/pwa-update.spec.ts: service-worker update waits and preserves an open draft"
+      ]
+    },
+    "TC-073": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/browser/pwa-operations.spec.ts T055: main screens and four views reflow at mobile/tablet/desktop/200% zoom; dialog Escape restores the opener",
+        "tests/browser/shell.spec.ts: help dialog focus trap and return focus",
+        "tests/browser/boards.spec.ts T037: touch menu alternative; Viewer controls read-only"
+      ]
+    },
+    "TC-074": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Requires Chrome, Edge, Firefox and Safari (current and previous) with recorded versions and devices; only Playwright Chromium ran on PostgreSQL."
+    },
+    "TC-075": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Operations/Performance case: needs the real Linux + Docker server (T-096) or the 30-user performance fixture; not run."
+    },
+    "TC-076": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Operations/Performance case: needs the real Linux + Docker server (T-096) or the 30-user performance fixture; not run."
+    },
+    "TC-077": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Operations/Performance case: needs the real Linux + Docker server (T-096) or the 30-user performance fixture; not run."
+    },
+    "TC-078": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Operations/Performance case: needs the real Linux + Docker server (T-096) or the 30-user performance fixture; not run."
+    },
+    "TC-079": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Operations/Performance case: needs the real Linux + Docker server (T-096) or the 30-user performance fixture; not run."
+    },
+    "TC-080": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Operations/Performance case: needs the real Linux + Docker server (T-096) or the 30-user performance fixture; not run."
+    },
+    "TC-081": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Operations/Performance case: needs the real Linux + Docker server (T-096) or the 30-user performance fixture; not run."
+    },
+    "TC-082": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/postgres/lock-timeout.test.ts (TC-082): real row lock past lock_timeout → 503 DATABASE_BUSY Retry-After 5, whole transaction rolled back, retry succeeds once (added 2026-10-17)",
+        "tests/idempotency (PostgreSQL): same-key replay does not duplicate",
+        "tests/browser/pwa-operations.spec.ts T059 + tests/config/sql-readiness.test.ts: readiness fails safely"
+      ]
+    },
+    "TC-083": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Operations/Performance case: needs the real Linux + Docker server (T-096) or the 30-user performance fixture; not run."
+    },
+    "TC-084": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Operations/Performance case: needs the real Linux + Docker server (T-096) or the 30-user performance fixture; not run."
+    },
+    "TC-085": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/permissions/http.test.ts AT-31: job title CRUD/audit, rights unchanged by title",
+        "tests/browser/management-visual.spec.ts: Admin job title tab"
+      ]
+    },
+    "TC-086": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/permissions/http.test.ts AT-31: title label in members/report/CSV and filters"
+      ]
+    },
+    "TC-087": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/permissions/matrix-suite (PostgreSQL): P-key per role grants only its endpoints",
+        "tests/permissions/http.test.ts AT-32: deny-by-default, per-key manager rights"
+      ]
+    },
+    "TC-088": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/permissions/http.test.ts AT-32: removal takes effect on the next request; BR-22 demotion",
+        "tests/permissions/matrix-suite (PostgreSQL): revoke-then-act 403, same-version race"
+      ]
+    },
+    "TC-089": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/permissions/http.test.ts AT-32/AT-33: non-Admin and self changes 403; manager appointment rules; unknown keys rejected"
+      ]
+    },
+    "TC-090": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/permissions/http.test.ts AT-33: Admin only, all-or-nothing, stale 409 per user",
+        "tests/browser/permission-matrix.spec.ts: vertical layout, frozen labels/headers, save and conflict"
+      ]
+    },
+    "TC-091": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/addendum/http.test.ts AT-34: every Home widget equals its My work query; Bangkok midnight switch; assigned/created toggle",
+        "tests/browser/my-overview.spec.ts: widgets open My work with the same filter"
+      ]
+    },
+    "TC-092": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/addendum/http.test.ts AT-35: Viewer read-only, 409 + history, own/P-05 delete, restore, 30-day window, boundaries, concurrent save",
+        "tests/browser/project-docs.spec.ts: conflict keeps text"
+      ]
+    },
+    "TC-093": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/addendum/sanitizer.test.ts + AT-35: server-side sanitizer corpus",
+        "tests/browser/project-docs.spec.ts: stored XSS stays inert in the browser"
+      ]
+    },
+    "TC-094": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/addendum/http.test.ts AT-36: upload validation/quota boundary, merged list, own/P-06 delete, restore, safe download",
+        "tests/browser/project-files.spec.ts: search/type filter, previews, delete/restore"
+      ]
+    },
+    "TC-095": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/addendum/http.test.ts AT-37: workload weeks/threshold/P-09 scope and overview numbers",
+        "tests/browser/workload-overview.spec.ts: threshold highlight, cell tasks, overdue column, team workload"
+      ]
+    },
+    "TC-096": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/addendum/http.test.ts AT-38: batch per-item outcomes without silent partial updates",
+        "tests/browser/main-table.spec.ts: inline F2 rename, batch with per-item 409, drag reorder/move, sticky columns, resize saved per user"
+      ]
+    },
+    "TC-097": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/browser/side-panel.spec.ts: Updates/Files/Activity/Details tabs, @mention limited to project members, Esc layering, deep link",
+        "tests/addendum/http.test.ts AT-38: @mention notifies only project users"
+      ]
+    },
+    "TC-098": {
+      "verdict": "not-covered",
+      "evidence": [],
+      "notes": "Step 1 compares screens with the owner-reviewed T-079 mock and step 4 needs a performance trace review; both are owner judgements. Reduced motion/toggle/confetti/360px/keyboard are automated in motion.spec.ts and visual specs."
+    },
+    "TC-099": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/addendum/http.test.ts AT-40: favorites private, never widen access, vanish on revocation",
+        "tests/browser/favorites.spec.ts: starred project leads the sidebar and survives reload"
+      ]
+    }
+  }
+}
