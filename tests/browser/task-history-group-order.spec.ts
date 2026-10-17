@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { projectFixture, mutate, tasks } from './task-workspace-fixtures.js';
-import { confirmTaskSave } from './ui-actions';
 
 test('TC-052 group reorder history loads and task details can still save', async ({ page }) => {
   const f = await projectFixture(page);
@@ -45,7 +44,6 @@ test('TC-052 group reorder history loads and task details can still save', async
     await dialog.getByRole('tab', { name: 'Details', exact: true }).click();
     await dialog.getByLabel('Task title', { exact: true }).fill('Saved after reorder · ทดสอบ');
     await dialog.getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(dialog);
     await expect(dialog.getByText('Task saved', { exact: true })).toBeVisible();
     const saved = await (await page.request.get(`${f.env.APP_ORIGIN}/api/tasks/${task.id}`)).json();
     expect(saved.item.title).toBe('Saved after reorder · ทดสอบ');

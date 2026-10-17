@@ -2,7 +2,6 @@ import { test, expect, type Page } from '@playwright/test';
 import { rmSync } from 'node:fs';
 import { startupFixture } from '../setup/fixtures.js';
 import { startApplication } from '../../src/api/start.js';
-import { confirmTaskSave } from './ui-actions';
 const password = 'Workspace-admin-fixture-password';
 async function fixture(page: Page) {
   const f = await startupFixture();
@@ -86,7 +85,6 @@ async function make(page: Page, title: string) {
   const d = page.getByRole('dialog', { name: 'Create task', exact: true });
   await d.getByLabel('Task title', { exact: true }).fill(title);
   await d.getByRole('button', { name: 'New task', exact: true }).click();
-  await confirmTaskSave(d);
   await expect(d).toHaveCount(0);
   return jobs;
 }
@@ -121,7 +119,6 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
     await expect(create.getByRole('button', { name: 'New task', exact: true })).toBeDisabled();
     await create.getByLabel('End Plan', { exact: true }).fill('2027-01-31');
     await create.getByRole('button', { name: 'New task', exact: true }).click();
-    await confirmTaskSave(create);
     await expect(create).toHaveCount(0);
     await jobs.getByRole('button', { name: 'Open task #1', exact: true }).click();
     let d = detail(page);
@@ -143,7 +140,6 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
       .getByRole('option', { name: 'Done', exact: true })
       .click();
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(d);
     await expect(
       d.getByText('Complete every checklist item before marking Done', { exact: true }),
     ).toBeVisible();
@@ -158,7 +154,6 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
       .getByRole('option', { name: 'Done', exact: true })
       .click();
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(d);
     await expect(d.getByText('Saved · Next occurrence created #2', { exact: true })).toBeVisible();
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await expect(d.getByLabel('Review final', { exact: true })).toBeDisabled();
@@ -170,7 +165,6 @@ test('T032/033 actual all task fields/checklist/closed guard/monthly successor/d
       .getByRole('option', { name: 'Working on it', exact: true })
       .click();
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(d);
     await expect(d.getByText('Task saved', { exact: true })).toBeVisible();
     await d.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await d.getByLabel('Review final', { exact: true }).click();
@@ -229,14 +223,12 @@ test('T032 actual 409 draft review, unsaved close/route cancellation, offline an
     );
     expect(other.status).toBe(200);
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(d);
     await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('My draft');
     await d.getByRole('button', { name: 'Load latest and compare', exact: true }).click();
     await expect(d.getByText(/Latest data: Remote update/)).toBeVisible();
     await expect(d.getByRole('button', { name: 'Save task', exact: true })).toBeDisabled();
     await d.getByLabel('I have reviewed the latest data and my draft').check();
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(d);
     await expect(d.getByText('Task saved', { exact: true })).toBeVisible();
     await d.getByLabel('Task title', { exact: true }).fill('Unsaved');
     await closeDetail(page);

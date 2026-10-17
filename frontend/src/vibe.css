@@ -4272,3 +4272,38 @@ button.danger:hover:not(:disabled) {
   --border-radius-multiplier: 0.5;
   --friday-control-radius: 4px;
 }
+.kanban-lane h3 .lane-count {
+  display: inline-block;
+  min-width: 20px;
+  margin-left: 4px;
+  padding: 0 6px;
+  border-radius: 10px;
+  background: #eceff8;
+  color: #676879;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 20px;
+  text-align: center;
+}
+.card-count .card-overdue {
+  color: #d83a52;
+  font-weight: 600;
+}
+/* Phones: keep Task + Status in view. Task narrows and wraps; Assignees (also in the
+   task drawer) is dropped so Status sits beside the sticky Task column. */
+@media (max-width: 640px) {
+  .main-table tr > :nth-child(2) {
+    width: 150px !important;
+    min-width: 150px !important;
+    max-width: 150px !important;
+    white-space: normal;
+  }
+  .main-table tr > :nth-child(2) .task-name button,
+  .main-table tr > :nth-child(2) button {
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+  .main-table tr > :nth-child(3) {
+    display: none;
+  }
+}

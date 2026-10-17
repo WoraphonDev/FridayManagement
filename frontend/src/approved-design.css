@@ -572,6 +572,18 @@ dialog.task-editor .dialog-close {
   font-size: 10px;
   min-height: 24px;
   padding: 3px 7px;
+  /* Low-emphasis refresh: a text action, not a primary-looking button. */
+  border-color: transparent;
+  background: transparent;
+  color: #676879;
+}
+.review-latest:hover:not(:disabled) {
+  color: #0073ea;
+  text-decoration: underline;
+}
+.editor-overdue {
+  color: #d83a52;
+  font-weight: 600;
 }
 .editor-version {
   font-size: 10px;

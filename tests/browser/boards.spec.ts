@@ -2,7 +2,6 @@ import { test, expect, type Page } from '@playwright/test';
 import { rmSync } from 'node:fs';
 import { startupFixture } from '../setup/fixtures.js';
 import { startApplication } from '../../src/api/start.js';
-import { confirmTaskSave } from './ui-actions';
 const password = 'Workspace-admin-fixture-password';
 async function fixture(page: Page) {
   const f = await startupFixture();
@@ -299,7 +298,6 @@ test('T038 validation rollback, two-tab conflict, lost response authoritative GE
     await d.getByLabel('Task title', { exact: true }).fill('My draft');
     await mutate(page, '/api/tasks/3', { version: 2, status: 'review' }, 'PATCH');
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(d);
     await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('My draft');
     await expect(
       d.getByText('Your draft is preserved. Review the latest data before saving.', {
@@ -503,7 +501,6 @@ test('T036 >500 controlled boundary fixture renders paginated list and task-deta
       .getByRole('option', { name: 'Working on it', exact: true })
       .click();
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(d);
     await expect(d.getByText('Task saved', { exact: true })).toBeVisible();
   } finally {
     await db.close();

@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { projectFixture, mutate, tasks } from './task-workspace-fixtures.js';
-import { confirmTaskSave } from './ui-actions';
 
 test('Project detail style: stable sections, task save/cancel, docs cancel, metadata and mobile', async ({
   page,
@@ -89,7 +88,6 @@ test('Project detail style: stable sections, task save/cancel, docs cancel, meta
       animations: 'disabled',
     });
     await editor.getByRole('button', { name: 'New task', exact: true }).click();
-    await confirmTaskSave(editor);
     await expect(editor).toHaveCount(0);
     await page.reload();
     await tasks(page);

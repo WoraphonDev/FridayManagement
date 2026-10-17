@@ -188,10 +188,12 @@ function Lane({
   status,
   children,
   active,
+  count,
 }: {
   status: Status;
   children: React.ReactNode;
   active?: boolean;
+  count: number;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: status });
   return (
@@ -200,7 +202,12 @@ function Lane({
       className={`kanban-lane lane-${status} ${isOver || active ? 'lane-over' : ''}`}
       aria-label={`Column ${statusLabel[status]}`}
     >
-      <h3>{statusLabel[status]}</h3>
+      <h3>
+        {statusLabel[status]}{' '}
+        <span className="lane-count" aria-label={`${count} tasks`}>
+          {count}
+        </span>
+      </h3>
       {children}
     </section>
   );
@@ -730,7 +737,16 @@ export function Kanban({
           >
             <div className="kanban-grid">
               {data.columns.map((c) => (
-                <Lane key={c.status} status={c.status} active={overLane === c.status}>
+                <Lane
+                  key={c.status}
+                  status={c.status}
+                  active={overLane === c.status}
+                  count={
+                    visible
+                      ? c.task_ids.filter((id) => visible.some((t) => t.id === id)).length
+                      : c.task_ids.length
+                  }
+                >
                   <SortableContext items={c.task_ids} strategy={verticalListSortingStrategy}>
                     {c.task_ids.map((id, i) => {
                       const task = data.tasks.find((t) => t.id === id)!;

@@ -45,10 +45,6 @@ test('Owner Vibe: real groups, multiple assignees, independent checklist, center
       .getByRole('option', { name: 'Ton', exact: true })
       .click();
     await drawer.getByRole('button', { name: 'Save task', exact: true }).click();
-    await page
-      .getByRole('dialog', { name: 'Save changes?', exact: true })
-      .getByRole('button', { name: 'Save changes', exact: true })
-      .click();
     await expect(drawer.getByText('Version 2 · Checklist 0/0')).toBeVisible();
     await drawer.getByRole('tab', { name: 'Checklist', exact: true }).click();
     await drawer.getByRole('button', { name: 'Add checklist item', exact: true }).click();
@@ -254,10 +250,6 @@ test('Approved design geometry, sidebar deep links, group editing and fixed crea
     expect(Math.abs(geometry.footer - geometry.viewport)).toBeLessThanOrEqual(1);
     await drawer.getByLabel('Task title', { exact: true }).fill('Created from footer');
     await drawer.getByRole('button', { name: 'New task', exact: true }).click();
-    await page
-      .getByRole('dialog', { name: 'Create task?', exact: true })
-      .getByRole('button', { name: 'Create task', exact: true })
-      .click();
     await expect(drawer).toBeHidden();
     await expect(board.getByRole('button', { name: 'Open task #2', exact: true })).toBeVisible();
     const created = await (await page.request.get(f.env.APP_ORIGIN + '/api/tasks/2')).json();

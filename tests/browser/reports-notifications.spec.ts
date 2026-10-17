@@ -289,6 +289,8 @@ test('T053/054 actual download120+ full rows BOM and CSV text safeguards share d
       await db.close();
     }
     await reports(page);
+    // These fixtures have no End Plan; read them by creation date (default is End Plan).
+    await page.getByLabel('Date basis', { exact: true }).selectOption('created');
     await expect(page.locator('.report-metrics>div').first().locator('dd')).toHaveText('123');
     await page.getByRole('combobox', { name: 'Projects', exact: true }).selectOption('1');
     const download = page.waitForEvent('download');
@@ -318,6 +320,8 @@ test('T054 explicit cap/error recovery, offline disabled CSV and current filter 
     await create(page, 'Assigned', { assignee_id: 1 });
     await create(page, 'Unassigned');
     await reports(page);
+    // These fixtures have no End Plan; read them by creation date (default is End Plan).
+    await page.getByLabel('Date basis', { exact: true }).selectOption('created');
     await page.route('**/api/export/tasks.csv?**', (route) =>
       route.fulfill({
         status: 422,
@@ -407,6 +411,8 @@ test('T054 colorful dashboard: exact animated decimals, scoped chart motion and 
     }
     await page.setViewportSize({ width: 1440, height: 1000 });
     await reports(page);
+    // These fixtures have no End Plan; read them by creation date (default is End Plan).
+    await page.getByLabel('Date basis', { exact: true }).selectOption('created');
     const cards = page.locator('.report-metric');
     await expect(cards).toHaveCount(5);
     const rate = page.locator('.metric-violet dd');
@@ -452,6 +458,7 @@ test('T054 colorful dashboard: exact animated decimals, scoped chart motion and 
     ).toBe(200);
     await page.reload();
     await expect(page.locator('html')).toHaveClass(/reduce-motion/);
+    await page.getByLabel('Date basis', { exact: true }).selectOption('created');
     await expect(rate).toHaveText('33.33%');
     expect(
       await page

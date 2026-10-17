@@ -1,6 +1,5 @@
 import { test, expect } from '@playwright/test';
 import { mutate, projectFixture, tasks } from './task-workspace-fixtures.js';
-import { confirmTaskSave } from './ui-actions';
 // T-086 / AT-38 Main table local Chromium evidence (real server, SQLite).
 test('Main table: add task via drawer, F2 rename, batch with per-item 409, drag to reorder and move, sticky, resize saved per user', async ({
   page,
@@ -28,7 +27,6 @@ test('Main table: add task via drawer, F2 rename, batch with per-item 409, drag 
     );
     await create.getByLabel('Task title', { exact: true }).fill('Delta');
     await create.getByRole('button', { name: 'New task', exact: true }).click();
-    await confirmTaskSave(create);
     await expect(create).toHaveCount(0);
     await expect(
       phaseB.getByRole('button', { name: /^Open task #\d+$/ }).filter({ hasText: 'Delta' }),

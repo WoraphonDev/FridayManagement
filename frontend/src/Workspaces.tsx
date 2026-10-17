@@ -61,6 +61,8 @@ function CardProgress({ id, online }: { id: number; online: boolean }) {
       </div>
       <small className="card-count">
         {data.total ? `${data.total} Tasks · ${data.done} Done` : 'No tasks yet'}
+        {/* Portfolio view: overdue work is the first thing a PM scans for. */}
+        {data.overdue > 0 && <span className="card-overdue"> · {data.overdue} Overdue</span>}
       </small>
     </>
   );
@@ -271,7 +273,9 @@ export function Workspaces({
   return (
     <div className={`workspace-manager ${kind === 'projects' ? 'project-directory' : ''}`}>
       {changed && (
-        <Toast persist>Data changed. Your dialog draft is preserved. Saving checks the version.</Toast>
+        <Toast persist>
+          Data changed. Your dialog draft is preserved. Saving checks the version.
+        </Toast>
       )}
       {notice && <Toast>{notice}</Toast>}
       {error && <p role="alert">{error}</p>}

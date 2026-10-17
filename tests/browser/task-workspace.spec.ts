@@ -4,7 +4,7 @@ import { SqliteDatabase } from '../../src/repository/sqlite/database.js';
 import { insert } from '../schema/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { dateAdd } from '../../frontend/src/task-dates.js';
-import { confirmTaskSave, signOut } from './ui-actions';
+import { signOut } from './ui-actions';
 const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details$/ });
 async function today(page: Page) {
   return page.evaluate(async () => {
@@ -140,7 +140,6 @@ test('T046 actual Gantt inclusive overlap/one-day/due-only/no dates and Calendar
       (r) => r.method() === 'PATCH' && new URL(r.url()).pathname === '/api/tasks/2',
     );
     await detail(page).getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(detail(page));
     expect((await patchRequest).postDataJSON()).toMatchObject({
       version: 1,
       start_date: dateAdd(d, 1),
@@ -295,7 +294,6 @@ test('T047 actual second-tab edit refreshes clean detail; dirty draft badge, ver
     await tab('Details');
     await expect(d.getByLabel('Task title', { exact: true })).toHaveValue('My draft');
     await d.getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(d);
     await expect(
       d.getByRole('button', { name: 'Load latest and compare', exact: true }),
     ).toBeVisible();
@@ -409,7 +407,6 @@ test('T071 four views retain authoritative dates/null dates after edit and actua
     await expect(detail(page).getByLabel('End Plan', { exact: true })).toHaveValue('');
     await detail(page).getByLabel('Task title', { exact: true }).fill('Across views revised');
     await detail(page).getByRole('button', { name: 'Save task', exact: true }).click();
-    await confirmTaskSave(detail(page));
     await expect(detail(page).getByText('Task saved', { exact: true })).toBeVisible();
     await closeDetail(page);
     await f.restart();

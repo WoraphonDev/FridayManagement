@@ -83,7 +83,8 @@ export function monthFilters(now = new Date()): ReportFilters {
     project: '',
     assignee: '',
     job_title: '',
-    date_basis: 'created',
+    // PMs read reports by deadline: default to End Plan (due date) within the month.
+    date_basis: 'due',
     date_from: `${year}-${String(month + 1).padStart(2, '0')}-01`,
     date_to: new Date(Date.UTC(year, month + 1, 0)).toISOString().slice(0, 10),
   };

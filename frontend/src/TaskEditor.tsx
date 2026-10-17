@@ -1,4 +1,5 @@
 import { taskNumber } from './task-number';
+import { formatPlanDate } from './shared/formatPlanDate';
 import { confirmDialog } from './shared/confirm-bus';
 import { useWritable } from './shared/connection';
 import { UiIcon } from './shared/UiIcon';
@@ -328,17 +329,7 @@ export function TaskEditor({
   const save = async () => {
     if (busy.current || !write) return;
     busy.current = true;
-    const ok = await confirmDialog({
-      title: id ? 'Save changes?' : 'Create task?',
-      message: id
-        ? `Save your changes to “${draft.title.trim() || 'this task'}”?`
-        : `Create “${draft.title.trim() || 'Untitled task'}” in ${project.name}?`,
-      confirmLabel: id ? 'Save changes' : 'Create task',
-    });
-    if (!ok) {
-      busy.current = false;
-      return;
-    }
+    // Saving is routine and reversible (history + versions); only deletion asks to confirm.
     mutationEpoch.current++;
     setPending(true);
     setError(undefined);
@@ -628,6 +619,12 @@ export function TaskEditor({
           {base && (
             <p className="editor-version">
               Version {base.version} · Checklist {base.subtask_done_count}/{base.subtask_count}
+              {base.status !== 'done' && base.due_date && base.due_date < self.bangkok_today && (
+                <span className="editor-overdue">
+                  {' '}
+                  · Overdue since {formatPlanDate(base.due_date)}
+                </span>
+              )}
             </p>
           )}
           {conflict && (
