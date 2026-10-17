@@ -33,3 +33,7 @@ deploy/.env
 deploy/backups/
 deliverables/
 scripts/pack-split.sh
+
+# RV-18 kit outputs (contain synthetic fixture credentials until cleanup) and rehearsal override
+rv18-results/
+deploy/.rv18-rehearsal.override.yml
