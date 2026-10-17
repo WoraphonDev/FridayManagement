@@ -1,0 +1,151 @@
+{
+  "task": "T-007",
+  "date": "2026-10-17",
+  "timezone": "Asia/Bangkok",
+  "result": "PASS",
+  "scope": "PostgreSQL 17 schema/migration acceptance per ADR-0001 (replaces retired SQL Server 2022 acceptance)",
+  "sourceCommit": "bd4709f69f4a6c8e3c61bebeef7d5ac15ce9b2d5",
+  "declared": {
+    "model": "GPT-6.1 Sol",
+    "effort": "High",
+    "speed": "Standard"
+  },
+  "actualRuntimeSettings": "NOT_VERIFIED (run by Claude Opus 5.5)",
+  "environment": {
+    "os": "Darwin arm64 host, PostgreSQL in Docker (colima)",
+    "node": "v22.23.3",
+    "postgres": "postgres (PostgreSQL) 17.11 (Debian 17.11-1.pgdg13+2)",
+    "database": "isolated friday_test",
+    "command": "RUN_POSTGRES_TESTS=1 node --import tsx --test --test-concurrency=1 tests/postgres/schema.test.ts"
+  },
+  "migrations": [
+    {
+      "file": "0000_foundation.sql",
+      "sha256": "296028d6b5eb24019f353bd6cdc7f6d78c4b7de9a8edd4a32f7fae3424febd85"
+    },
+    {
+      "file": "0001_business_schema.sql",
+      "sha256": "1a791907f216e63e334feb12f61c9ff3d97a7fa269f4cfc3d2f274e0605f1292"
+    },
+    {
+      "file": "0002_review_status.sql",
+      "sha256": "6e0f58da20cbf8f2abe5fb9fcc2648593a04aae0bd54ca5c2d44502225bb58a0"
+    },
+    {
+      "file": "0003_multi_assignments.sql",
+      "sha256": "0945c324de7e8ee30814fbb23e2d2d96324760ab5670da147568e689ec45ac02"
+    },
+    {
+      "file": "0004_task_groups.sql",
+      "sha256": "a1f71f9a3d97a4733cf51688ffa9b5a33a49c2b89fd64c17bac3e9fff343ed54"
+    },
+    {
+      "file": "0005_job_titles.sql",
+      "sha256": "451e9dbcffcf9ced41bd81ecb7c32d6270d99c7e25d1906a4a617715bdae6bdf"
+    },
+    {
+      "file": "0006_permissions.sql",
+      "sha256": "cff774c23936f4330c35d35ce9ea6c4195edc4da7d6c6a1b2c5c47dd070afecc"
+    },
+    {
+      "file": "0007_docs_files.sql",
+      "sha256": "c6b3b71560244193e20163b37a8adf67fff2e81870de6b0f66c12eedebacea84"
+    },
+    {
+      "file": "0008_workload_threshold.sql",
+      "sha256": "566d5b742a52042f5699c4384de4dd65a773433bdda359c31d19bd8d0dfe95e7"
+    },
+    {
+      "file": "0009_user_favorites.sql",
+      "sha256": "20bb3553eb96f58dd35fd887ca4fd4aa55b7a3e38f5b24dfa889083ebb6314f9"
+    },
+    {
+      "file": "0010_user_preferences.sql",
+      "sha256": "5cbe0e10c0c93fd7f179f80f6d73c7414bb1cecc576c23a39b5e072e54ff5aa0"
+    },
+    {
+      "file": "0011_task_group_order.sql",
+      "sha256": "82f5304ace11ee8a2846b3ebb9f5b829e47e21ef05e2825227c589307773536d"
+    },
+    {
+      "file": "0012_project_metadata.sql",
+      "sha256": "806f59dd97f897186a59b85e8808ae13838523b78ec648c527105e331861bdf4"
+    },
+    {
+      "file": "0013_team_member_details.sql",
+      "sha256": "f522511a09adba5929e858f1258c67bde8fd6dcc79fc3dc70ce6739648b8da76"
+    },
+    {
+      "file": "0014_checklist_remark.sql",
+      "sha256": "3133df4332263554cc53671679ae44726d62fe93790a6a1009ed43d1f2037559"
+    },
+    {
+      "file": "0015_task_numbers.sql",
+      "sha256": "5000d72c259f5fb86192218dbfef775a037e95b23980ad0e6df0ca3d6652f1fa"
+    },
+    {
+      "file": "0016_sqlserver_check_fixes.sql",
+      "sha256": "7e54e812ce7f059c6e2bf3e5676bcdd22b2dd7dab68993ece57655b8452d1ade"
+    },
+    {
+      "file": "0017_email_registration.sql",
+      "sha256": "b98004498d77012d63eed27baea2591ce723e0859f242255e92f95c5e5a5b19a"
+    }
+  ],
+  "cases": [
+    {
+      "name": "PostgreSQL 17: All dictionary tables, enabled/trusted NO ACTION FKs and required indexes exist",
+      "result": "PASS"
+    },
+    {
+      "name": "PostgreSQL 17: Case-insensitive username/team uniqueness, Thai/Unicode and memberships enforce boundaries",
+      "result": "PASS"
+    },
+    {
+      "name": "PostgreSQL 17: UTF16 text storage matches DTO limits including emoji and Thai trailing spaces",
+      "result": "PASS"
+    },
+    {
+      "name": "PostgreSQL 17: Subtask/comment/attachment/admin records enforce FK, JSON, UUID, byte and version boundaries",
+      "result": "PASS"
+    },
+    {
+      "name": "PostgreSQL 17: Date-only leap boundaries and UTC millisecond timestamps serialize as provider-independent primitives",
+      "result": "PASS"
+    },
+    {
+      "name": "PostgreSQL 17: Task enums, recurrence links/anchor, optional UNIQUE, completion and trash pairs enforce consistency",
+      "result": "PASS"
+    },
+    {
+      "name": "PostgreSQL 17: Board uniqueness is immediate; negative ranks support two-phase swaps and status/project FKs",
+      "result": "PASS"
+    },
+    {
+      "name": "PostgreSQL 17: Explicit purge retains recurrence tombstones and cleanup snapshots, with no identity reuse",
+      "result": "PASS"
+    },
+    {
+      "name": "PostgreSQL 17: Quota, reservations, cleanup, idempotency, sessions and maintenance survive reopen",
+      "result": "PASS"
+    },
+    {
+      "name": "PostgreSQL 17: Actual task/audit/notification writes commit atomically and roll back when an effect fails",
+      "result": "PASS"
+    },
+    {
+      "name": "PostgreSQL 17: Fresh/repeat/legacy upgrade preserve data; changed, missing and partial-failure migrations are rejected atomically",
+      "result": "PASS"
+    }
+  ],
+  "tap": {
+    "path": "reports/T-007/postgres-schema.tap",
+    "sha256": "d4ffc6fb73a659b10dad2ddd6a33d39b66570d20c4f4f79d2a2234d059148cda"
+  },
+  "acceptanceMapping": {
+    "schema matches DTO": "cases 2-7 (DTO limits, enums, UUID/JSON/byte bounds) + check:contract PASS",
+    "migration repeat without data loss": "case 11 fresh/repeat/legacy upgrade; checksum mismatch, missing and partial failure rejected atomically",
+    "FK/constraints enabled and trusted": "case 1 pg_constraint.convalidated for all FK/CHECK, NO ACTION rules"
+  },
+  "notCovered": "Linux server host run (T-096); SQL Server evidence retired, not claimed"
+}

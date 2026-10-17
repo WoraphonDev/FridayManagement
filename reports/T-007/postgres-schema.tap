@@ -1,0 +1,78 @@
+TAP version 13
+# (node:30649) ExperimentalWarning: SQLite is an experimental feature and might change at any time
+# (Use `node --trace-warnings ...` to show where the warning was created)
+# Subtest: PostgreSQL 17: All dictionary tables, enabled/trusted NO ACTION FKs and required indexes exist
+ok 1 - PostgreSQL 17: All dictionary tables, enabled/trusted NO ACTION FKs and required indexes exist
+  ---
+  duration_ms: 339.946125
+  type: 'test'
+  ...
+# Subtest: PostgreSQL 17: Case-insensitive username/team uniqueness, Thai/Unicode and memberships enforce boundaries
+ok 2 - PostgreSQL 17: Case-insensitive username/team uniqueness, Thai/Unicode and memberships enforce boundaries
+  ---
+  duration_ms: 241.847708
+  type: 'test'
+  ...
+# Subtest: PostgreSQL 17: UTF16 text storage matches DTO limits including emoji and Thai trailing spaces
+ok 3 - PostgreSQL 17: UTF16 text storage matches DTO limits including emoji and Thai trailing spaces
+  ---
+  duration_ms: 265.78225
+  type: 'test'
+  ...
+# Subtest: PostgreSQL 17: Subtask/comment/attachment/admin records enforce FK, JSON, UUID, byte and version boundaries
+ok 4 - PostgreSQL 17: Subtask/comment/attachment/admin records enforce FK, JSON, UUID, byte and version boundaries
+  ---
+  duration_ms: 361.653416
+  type: 'test'
+  ...
+# Subtest: PostgreSQL 17: Date-only leap boundaries and UTC millisecond timestamps serialize as provider-independent primitives
+ok 5 - PostgreSQL 17: Date-only leap boundaries and UTC millisecond timestamps serialize as provider-independent primitives
+  ---
+  duration_ms: 202.295208
+  type: 'test'
+  ...
+# Subtest: PostgreSQL 17: Task enums, recurrence links/anchor, optional UNIQUE, completion and trash pairs enforce consistency
+ok 6 - PostgreSQL 17: Task enums, recurrence links/anchor, optional UNIQUE, completion and trash pairs enforce consistency
+  ---
+  duration_ms: 216.522125
+  type: 'test'
+  ...
+# Subtest: PostgreSQL 17: Board uniqueness is immediate; negative ranks support two-phase swaps and status/project FKs
+ok 7 - PostgreSQL 17: Board uniqueness is immediate; negative ranks support two-phase swaps and status/project FKs
+  ---
+  duration_ms: 213.7395
+  type: 'test'
+  ...
+# Subtest: PostgreSQL 17: Explicit purge retains recurrence tombstones and cleanup snapshots, with no identity reuse
+ok 8 - PostgreSQL 17: Explicit purge retains recurrence tombstones and cleanup snapshots, with no identity reuse
+  ---
+  duration_ms: 205.102042
+  type: 'test'
+  ...
+# Subtest: PostgreSQL 17: Quota, reservations, cleanup, idempotency, sessions and maintenance survive reopen
+ok 9 - PostgreSQL 17: Quota, reservations, cleanup, idempotency, sessions and maintenance survive reopen
+  ---
+  duration_ms: 209.17025
+  type: 'test'
+  ...
+# Subtest: PostgreSQL 17: Actual task/audit/notification writes commit atomically and roll back when an effect fails
+ok 10 - PostgreSQL 17: Actual task/audit/notification writes commit atomically and roll back when an effect fails
+  ---
+  duration_ms: 230.174667
+  type: 'test'
+  ...
+# Subtest: PostgreSQL 17: Fresh/repeat/legacy upgrade preserve data; changed, missing and partial-failure migrations are rejected atomically
+ok 11 - PostgreSQL 17: Fresh/repeat/legacy upgrade preserve data; changed, missing and partial-failure migrations are rejected atomically
+  ---
+  duration_ms: 176.725333
+  type: 'test'
+  ...
+1..11
+# tests 11
+# suites 0
+# pass 11
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2821.963917
