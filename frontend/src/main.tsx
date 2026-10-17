@@ -20,6 +20,7 @@ import './page-headers.css';
 import './motion.css';
 import './cell-pickers.css';
 import './compact.css';
+import './responsive-fixes.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

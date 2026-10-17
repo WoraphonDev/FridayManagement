@@ -1,5 +1,5 @@
 import type React from 'react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { statusLabel, type Task } from './task-api';
 import { calendarDays, dateAdd, dueGroup, ganttFit, ganttPlacement, monthAdd } from './task-dates';
@@ -49,6 +49,28 @@ function PagedTasks({
     </section>
   );
 }
+const agendaDate = (day: string) =>
+  new Date(`${day}T00:00:00Z`).toLocaleDateString('en-GB', {
+    weekday: 'short',
+    day: 'numeric',
+    month: 'short',
+    timeZone: 'UTC',
+  });
+// The 7-column month grid cannot fit a phone; below this width the calendar lists days instead.
+const NARROW_QUERY = '(max-width: 600px)';
+function useNarrowScreen() {
+  const media = () =>
+    typeof window === 'undefined' ? undefined : window.matchMedia?.(NARROW_QUERY);
+  const [narrow, setNarrow] = useState(() => media()?.matches ?? false);
+  useEffect(() => {
+    const query = media();
+    if (!query) return;
+    const update = () => setNarrow(query.matches);
+    query.addEventListener('change', update);
+    return () => query.removeEventListener('change', update);
+  }, []);
+  return narrow;
+}
 const monthTitle = (month: string) =>
   new Date(`${month}T00:00:00Z`).toLocaleDateString('en-GB', {
     month: 'long',
@@ -81,6 +103,8 @@ export function CalendarView({
   const inMonth = tasks.filter(
     (t) => t.due_date && t.due_date >= days[0]! && t.due_date <= days.at(-1)!,
   );
+  const narrow = useNarrowScreen();
+  const agendaDays = days.filter((d) => d.slice(0, 7) === month.slice(0, 7) && events.has(d));
   return (
     <section aria-label="Calendar">
       <div className="calendar-toolbar">
@@ -106,55 +130,79 @@ export function CalendarView({
         </span>
         <button onClick={() => setMonth(today.slice(0, 7) + '-01')}>Today</button>
       </div>
-      <div
-        className="calendar-scroll"
-        tabIndex={0}
-        aria-label="Calendar month"
-        onKeyDown={(event) => {
-          // Safari does not arrow-scroll a focused overflow region; do it explicitly everywhere.
-          if (event.target !== event.currentTarget) return;
-          const step = event.key === 'ArrowRight' ? 80 : event.key === 'ArrowLeft' ? -80 : 0;
-          if (!step) return;
-          event.preventDefault();
-          event.currentTarget.scrollBy({ left: step });
-        }}
-      >
-        <div className="calendar-grid">
-          {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
-            <strong className="weekday" key={d}>
-              {d}
-            </strong>
-          ))}
-          {days.map((d) => (
-            <div
-              className={`calendar-day ${d === today ? 'today' : ''} ${d.slice(0, 7) !== month.slice(0, 7) ? 'outside' : ''}`}
-              key={d}
-            >
-              <time
-                dateTime={d}
-                aria-current={d === today ? 'date' : undefined}
-                aria-label={d === today ? `${d}, Today` : d}
-              >
-                {Number(d.slice(8))}
+      {narrow ? (
+        <ol className="calendar-agenda" aria-label="Calendar month by day">
+          {agendaDays.map((d) => (
+            <li key={d} className={d === today ? 'today' : undefined}>
+              <time dateTime={d} aria-current={d === today ? 'date' : undefined}>
+                {agendaDate(d)}
+                {d === today ? ' · Today' : ''}
               </time>
-              {(events.get(d) ?? []).slice(0, 3).map((t) => (
+              {events.get(d)!.map((t) => (
                 <button
                   key={t.id}
                   className={`calendar-event status-${t.status}`}
                   onClick={() => open(t)}
-                  title={t.title}
                   aria-label={`Open task #${t.id} ${t.title}`}
                 >
                   {t.title}
                 </button>
               ))}
-              {(events.get(d)?.length ?? 0) > 3 && (
-                <span className="calendar-more">+{(events.get(d)?.length ?? 0) - 3} more</span>
-              )}
-            </div>
+            </li>
           ))}
+          {!agendaDays.length && <li className="muted">No tasks due this month</li>}
+        </ol>
+      ) : (
+        <div
+          className="calendar-scroll"
+          tabIndex={0}
+          aria-label="Calendar month"
+          onKeyDown={(event) => {
+            // Safari does not arrow-scroll a focused overflow region; do it explicitly everywhere.
+            if (event.target !== event.currentTarget) return;
+            const step = event.key === 'ArrowRight' ? 80 : event.key === 'ArrowLeft' ? -80 : 0;
+            if (!step) return;
+            event.preventDefault();
+            event.currentTarget.scrollBy({ left: step });
+          }}
+        >
+          <div className="calendar-grid">
+            {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((d) => (
+              <strong className="weekday" key={d}>
+                {d}
+              </strong>
+            ))}
+            {days.map((d) => (
+              <div
+                className={`calendar-day ${d === today ? 'today' : ''} ${d.slice(0, 7) !== month.slice(0, 7) ? 'outside' : ''}`}
+                key={d}
+              >
+                <time
+                  dateTime={d}
+                  aria-current={d === today ? 'date' : undefined}
+                  aria-label={d === today ? `${d}, Today` : d}
+                >
+                  {Number(d.slice(8))}
+                </time>
+                {(events.get(d) ?? []).slice(0, 3).map((t) => (
+                  <button
+                    key={t.id}
+                    className={`calendar-event status-${t.status}`}
+                    onClick={() => open(t)}
+                    title={t.title}
+                    aria-label={`Open task #${t.id} ${t.title}`}
+                  >
+                    {t.title}
+                  </button>
+                ))}
+                {(events.get(d)?.length ?? 0) > 3 && (
+                  <span className="calendar-more">+{(events.get(d)?.length ?? 0) - 3} more</span>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
       <PagedTasks
         tasks={tasks.filter((t) => !t.due_date)}
         title="Tasks without End Plan"
@@ -315,6 +363,15 @@ export function GanttView({
                     >
                       {p.marker ? '' : p.span * width >= 72 ? t.title : ''}
                     </button>
+                  )}
+                  {p && !p.marker && p.span * width < 72 && (
+                    <span
+                      className="gantt-outside-label"
+                      aria-hidden="true"
+                      style={{ left: `${(p.offset + p.span) * pct}%` }}
+                    >
+                      {t.title}
+                    </span>
                   )}
                 </div>
               </div>

@@ -94,14 +94,11 @@ test('Work Calendar colorful: month navigation, undated separation, filters, tas
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
       true,
     );
-    const scroll = calendar.locator('.calendar-scroll');
-    expect(await scroll.evaluate((el) => el.scrollWidth > el.clientWidth)).toBe(true);
-    await scroll.focus();
-    await page.keyboard.press('ArrowRight');
-    await expect.poll(() => scroll.evaluate((el) => el.scrollLeft)).toBeGreaterThan(0);
-    await scroll.evaluate((el) => {
-      el.scrollLeft = 0;
-    });
+    // UI audit 2026-10-17 #1: phones get a day list instead of a sideways-scrolling 7-column grid.
+    await expect(calendar.locator('.calendar-scroll')).toHaveCount(0);
+    const agenda = calendar.getByRole('list', { name: 'Calendar month by day' });
+    await expect(agenda.locator('.calendar-event')).toHaveCount(4);
+    expect(await agenda.evaluate((el) => el.scrollWidth <= el.clientWidth)).toBe(true);
     await calendar.getByRole('button', { name: 'Today', exact: true }).click();
     await page.screenshot({
       path: 'reports/UI-work-calendar-colorful-mobile.png',

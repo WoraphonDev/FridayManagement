@@ -1,0 +1,133 @@
+/* UI audit 2026-10-17 follow-ups (docs/reports/TeamFlow_UI_Audit_2026-10-17.md). Loaded last. */
+
+/* #5 Project header text lines up with the tab row and toolbar below it (compact.css pads with !important). */
+.project-board .task-workspace .project-heading {
+  padding-inline: 0 !important;
+}
+
+/* #6 Short Gantt bars carry their title beside the bar instead of none. */
+.gantt-outside-label {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-left: 6px;
+  max-width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 11px;
+  color: #4b5568;
+  pointer-events: none;
+}
+
+/* #1 Mobile calendar: day list replaces the 7-column grid (see CalendarView). */
+.calendar-agenda {
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  display: grid;
+  gap: 10px;
+}
+.calendar-agenda > li {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 1px solid #e2e7f1;
+  border-radius: 6px;
+  background: #fff;
+}
+.calendar-agenda > li.today {
+  border-color: #4265cc;
+}
+.calendar-agenda time {
+  font-weight: 700;
+  font-size: 13px;
+}
+.calendar-agenda .calendar-event {
+  width: 100%;
+  min-height: 36px;
+  text-align: left;
+  white-space: normal;
+}
+
+/* #2 The tab row shows an edge shadow while more tabs are off-screen.
+   !important: page visual files reset these with the `background` shorthand at higher specificity. */
+.view-tabs {
+  background-image:
+    linear-gradient(to right, var(--scroll-cover, #fff), var(--scroll-cover, #fff)),
+    linear-gradient(to left, var(--scroll-cover, #fff), var(--scroll-cover, #fff)),
+    linear-gradient(to right, #1f2a441f, transparent),
+    linear-gradient(to left, #1f2a4438, transparent) !important;
+  background-position:
+    left center,
+    right center,
+    left center,
+    right center !important;
+  background-repeat: no-repeat !important;
+  background-size:
+    16px 100%,
+    16px 100%,
+    12px 100%,
+    12px 100% !important;
+  background-attachment: local, local, scroll, scroll !important;
+}
+.project-board .view-tabs {
+  --scroll-cover: #f5f7fc;
+  background-color: #f5f7fc;
+  scroll-snap-type: x proximity;
+}
+.project-board .view-tabs button {
+  scroll-snap-align: start;
+}
+
+/* #3 Wide tables: cells paint opaque backgrounds, so fade the right edge with a mask instead.
+   Where scroll-driven animations exist, the fade clears once the table is scrolled to its end. */
+@media (max-width: 760px) {
+  :is(.table-scroll, .checklist-table-scroll) {
+    mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  }
+  @supports (animation-timeline: scroll()) {
+    :is(.table-scroll, .checklist-table-scroll) {
+      animation: table-scroll-hint linear both;
+      animation-timeline: scroll(self inline);
+    }
+  }
+}
+@keyframes table-scroll-hint {
+  0%,
+  96% {
+    mask-image: linear-gradient(to right, #000 calc(100% - 32px), transparent);
+  }
+  100% {
+    mask-image: none;
+  }
+}
+
+/* #4 Touch targets: at least 24px (WCAG 2.2 SC 2.5.8) on small screens; visuals stay compact.
+   min-* only ever enlarges, so !important is needed to beat page-specific class rules without other side effects. */
+@media (max-width: 760px) {
+  :is(button, summary, [role='button'], select) {
+    min-height: 24px !important;
+  }
+  .mobile-menu {
+    min-width: 40px;
+    min-height: 40px;
+  }
+  :is(.drag-handle, .cell-picker-trigger) {
+    min-width: 28px !important;
+    min-height: 28px !important;
+  }
+  .kanban-card summary,
+  details > summary[aria-label^='Manage task'] {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    min-height: 28px;
+  }
+  input[type='checkbox'] {
+    width: 24px;
+    height: 24px;
+    margin: 2px;
+  }
+}

@@ -1,0 +1,468 @@
+[
+  {
+    "viewport": "desktop",
+    "id": "home",
+    "url": "/",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 252,
+    "smallTargets": 10,
+    "title": "Home · Friday Management",
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    ]
+  },
+  {
+    "viewport": "desktop",
+    "id": "my-tasks",
+    "url": "/my-tasks",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 216,
+    "smallTargets": 8,
+    "title": "My work · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "projects",
+    "url": "/projects",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 252,
+    "smallTargets": 1,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "calendar",
+    "url": "/calendar",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 216,
+    "smallTargets": 20,
+    "title": "Calendar · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "teams",
+    "url": "/teams",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 252,
+    "smallTargets": 1,
+    "title": "Teams · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "reports",
+    "url": "/reports",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 252,
+    "smallTargets": 0,
+    "title": "Reports · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "notifications",
+    "url": "/notifications",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 252,
+    "smallTargets": 1,
+    "title": "Notifications · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "trash",
+    "url": "/trash",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 252,
+    "smallTargets": 0,
+    "title": "Trash · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "users",
+    "url": "/users",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "TABLE",
+      "CAPTION",
+      "THEAD",
+      "TR",
+      "TH"
+    ],
+    "contentLeft": 252,
+    "smallTargets": 0,
+    "title": "Admin · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "settings",
+    "url": "/settings",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 252,
+    "smallTargets": 10,
+    "title": "Profile & settings · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "project-main-table",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 216,
+    "smallTargets": 18,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "project-kanban",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 216,
+    "smallTargets": 50,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "project-gantt",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "gantt-canvas",
+      "gantt-heading",
+      "gantt-axis",
+      "SPAN",
+      "SPAN"
+    ],
+    "contentLeft": 216,
+    "smallTargets": 18,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "project-calendar",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 216,
+    "smallTargets": 26,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "project-docs",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 216,
+    "smallTargets": 1,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "project-files",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 216,
+    "smallTargets": 1,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "project-workload",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 216,
+    "smallTargets": 0,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "desktop",
+    "id": "project-overview",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 216,
+    "smallTargets": 17,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "home",
+    "url": "/",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 28,
+    "smallTargets": 10,
+    "title": "Home · Friday Management",
+    "consoleErrors": [
+      "Failed to load resource: the server responded with a status of 401 (Unauthorized)"
+    ]
+  },
+  {
+    "viewport": "mobile",
+    "id": "my-tasks",
+    "url": "/my-tasks",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "main-table my-work-table",
+      "THEAD",
+      "TR",
+      "TH",
+      "TH"
+    ],
+    "contentLeft": 0,
+    "smallTargets": 0,
+    "title": "My work · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "projects",
+    "url": "/projects",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "row-actions",
+      "BUTTON",
+      "BUTTON",
+      "BUTTON",
+      "row-actions"
+    ],
+    "contentLeft": 28,
+    "smallTargets": 0,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "calendar",
+    "url": "/calendar",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 0,
+    "smallTargets": 0,
+    "title": "Calendar · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "teams",
+    "url": "/teams",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 28,
+    "smallTargets": 0,
+    "title": "Teams · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "reports",
+    "url": "/reports",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 28,
+    "smallTargets": 0,
+    "title": "Reports · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "notifications",
+    "url": "/notifications",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 28,
+    "smallTargets": 0,
+    "title": "Notifications · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "trash",
+    "url": "/trash",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 28,
+    "smallTargets": 0,
+    "title": "Trash · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "users",
+    "url": "/users",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "TABLE",
+      "CAPTION",
+      "THEAD",
+      "TR",
+      "TH"
+    ],
+    "contentLeft": 28,
+    "smallTargets": 0,
+    "title": "Admin · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "settings",
+    "url": "/settings",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 28,
+    "smallTargets": 0,
+    "title": "Profile & settings · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "project-main-table",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "BUTTON",
+      "BUTTON",
+      "[object SVGAnimatedString]",
+      "[object SVGAnimatedString]",
+      "BUTTON"
+    ],
+    "contentLeft": 0,
+    "smallTargets": 0,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "project-kanban",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "BUTTON",
+      "BUTTON",
+      "[object SVGAnimatedString]",
+      "[object SVGAnimatedString]",
+      "BUTTON"
+    ],
+    "contentLeft": 0,
+    "smallTargets": 0,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "project-gantt",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "BUTTON",
+      "BUTTON",
+      "[object SVGAnimatedString]",
+      "[object SVGAnimatedString]",
+      "BUTTON"
+    ],
+    "contentLeft": 0,
+    "smallTargets": 0,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "project-calendar",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "BUTTON",
+      "BUTTON",
+      "[object SVGAnimatedString]",
+      "[object SVGAnimatedString]",
+      "BUTTON"
+    ],
+    "contentLeft": 0,
+    "smallTargets": 0,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "project-docs",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 0,
+    "smallTargets": 0,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "project-files",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [],
+    "contentLeft": 0,
+    "smallTargets": 0,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "project-workload",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "workload-table",
+      "CAPTION",
+      "THEAD",
+      "TR",
+      "TH"
+    ],
+    "contentLeft": 0,
+    "smallTargets": 0,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  },
+  {
+    "viewport": "mobile",
+    "id": "project-overview",
+    "url": "/projects?project=1",
+    "pageOverflowX": 0,
+    "overflowing": [
+      "BUTTON",
+      "BUTTON",
+      "[object SVGAnimatedString]",
+      "[object SVGAnimatedString]",
+      "BUTTON"
+    ],
+    "contentLeft": 0,
+    "smallTargets": 7,
+    "title": "Projects · Friday Management",
+    "consoleErrors": []
+  }
+]
