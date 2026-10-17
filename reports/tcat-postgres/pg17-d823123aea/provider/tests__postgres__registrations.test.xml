@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: email registration is inactive, preserves passwords on duplicate/concurrent submission, rejects injected rights" time="0.860738" classname="test"/>
+	<testcase name="PostgreSQL 17: email registration Admin approval unlocks case-insensitive email login with no memberships or permissions" time="0.896110" classname="test"/>
+	<testcase name="PostgreSQL 17: email registration reject/stale review cannot activate accounts or bypass approval through account PATCH" time="0.737402" classname="test"/>
+	<testcase name="PostgreSQL 17: email registration business rows roll back with failed audit on submission and approval" time="0.696966" classname="test"/>
+	<testcase name="PostgreSQL 17: email registration rate limits public submissions and maintenance blocks new accounts" time="1.301262" classname="test"/>
+	<testcase name="PostgreSQL 17: email registration version counter limits never partially approve or activate an account" time="0.591525" classname="test"/>
+	<testcase name="PostgreSQL 17: email registration contact edits preserve immutable email login and persistence after reopening" time="1.006141" classname="test"/>
+	<!-- tests 7 -->
+	<!-- suites 0 -->
+	<!-- pass 7 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 6337.6105 -->
+</testsuites>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="T015 HTTP forced gate rotates cookie+CSRF only after commit, revokes other sessions and grants current scoped reads" time="1.360339" classname="test"/>
+	<testcase name="T016 HTTP origin/CSRF/access/strict input/version/last-admin and secret-free create/list/reset" time="1.092330" classname="test"/>
+	<testcase name="T016 same-role self edit is no-op and does not clear valid cookie" time="0.582158" classname="test"/>
+	<testcase name="T015 unknown password commit never sends rotated cookie or retries credentials; authoritative fresh login resolves outcome" time="0.794731" classname="test"/>
+	<!-- tests 4 -->
+	<!-- suites 0 -->
+	<!-- pass 4 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 4242.01575 -->
+</testsuites>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="T025 HTTP authenticated name only, current admin/CSRF/version" time="0.904865" classname="test"/>
+	<testcase name="T026–029 HTTP locked task/checklist/status DTOs, persisted idempotent retry and scoped replay" time="0.925833" classname="test"/>
+	<testcase name="T026 HTTP validation/permissions/current lifecycle versions have no partial effects" time="0.707717" classname="test"/>
+	<testcase name="T029 actual HTTP restart replays durable completion key without another successor" time="0.766183" classname="test"/>
+	<!-- tests 4 -->
+	<!-- suites 0 -->
+	<!-- pass 4 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 3631.566417 -->
+</testsuites>

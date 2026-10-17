@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: T040 paginated current-scope task history/legacy structured values/admin recursive redaction and mutation actor/time/request" time="0.377401" classname="test"/>
+	<testcase name="PostgreSQL 17: T041 streamed fingerprint/name/UUID storage/exact bytes and private download DTO" time="0.219395" classname="test"/>
+	<testcase name="PostgreSQL 17: T041 allowlist magic bounded ZIP/Office directory and fatal UTF8" time="0.724181" classname="test"/>
+	<testcase name="PostgreSQL 17: T041 actual 1byte/10MiB/max+1/empty and multipart single-file/unknown-field rejection releases temps" time="0.385366" classname="test"/>
+	<testcase name="PostgreSQL 17: T042 concurrent quota reservation cannot exceed remaining space; failure releases bytes" time="0.226717" classname="test"/>
+	<testcase name="PostgreSQL 17: T041 finalize rechecks demotion/revocation/archived/deleted parent and failed metadata transaction leaves no effects" time="0.358271" classname="test"/>
+	<testcase name="PostgreSQL 17: T043 uploader/owner Lead/Admin vs other Editor/Viewer; deleted metadata scope; active restore and repeated delete no-op" time="0.272032" classname="test"/>
+	<testcase name="PostgreSQL 17: T043 exact UTC30day cutoff/current archived/deleted parent/private download/missing disk safely logged" time="0.229884" classname="test"/>
+	<testcase name="PostgreSQL 17: T042 restart recovery receiving/finalizing/orphan preserves referenced file and accounts reservation release" time="0.269859" classname="test"/>
+	<testcase name="PostgreSQL 17: T041 file move failure remains tracked until repair/recovery, without metadata or audit" time="0.225858" classname="test"/>
+	<testcase name="PostgreSQL 17: T043 purge queues before disk removal; cleanup retries retain bytes and metadata-only loss never double releases" time="0.224922" classname="test"/>
+	<!-- tests 11 -->
+	<!-- suites 0 -->
+	<!-- pass 11 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 3846.212584 -->
+</testsuites>

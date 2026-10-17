@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: role matrix: admin/owner lead/editor/viewer; team/foreign lead/creator/assignee do not grant project access" time="0.339856" classname="test"/>
+	<testcase name="PostgreSQL 17: DB scopes hide private rows/counts/search/export; owner-team and literal search filters are bound" time="0.220975" classname="test"/>
+	<testcase name="PostgreSQL 17: current membership revocation and role downgrade affect every descendant; independent lead/editor grants preserved" time="0.277044" classname="test"/>
+	<testcase name="PostgreSQL 17: session hash/user/version/revocation/active/absolute and idle cutoffs revalidated without extending activity" time="0.215047" classname="test"/>
+	<testcase name="PostgreSQL 17: forced password allows exactly me/password/logout/activity; current DB CSRF checked; GET never touches session" time="0.206638" classname="test"/>
+	<testcase name="PostgreSQL 17: archived/deleted lifecycle and RD01 exceptions; version hook precedes state errors; expired restore denied" time="0.238074" classname="test"/>
+	<testcase name="PostgreSQL 17: attachment ownership/read visibility/deleted listing/restore cutoff; Viewer never writes" time="0.252939" classname="test"/>
+	<testcase name="PostgreSQL 17: notification read-one/read-all SQL enforces recipient and current parent access" time="0.220794" classname="test"/>
+	<testcase name="PostgreSQL 17: team/directory privacy and create/unarchive parent invariant; all protected contract operations covered" time="0.401115" classname="test"/>
+	<testcase name="PostgreSQL 17: idempotent replay rechecks real session/rights and cached child existence; archived readable replay allowed" time="0.255594" classname="test"/>
+	<!-- tests 10 -->
+	<!-- suites 0 -->
+	<!-- pass 10 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 2931.403 -->
+</testsuites>

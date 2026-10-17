@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="All 89 declared operations share fail-closed ingress; unknown route/method/path/query is rejected" time="0.150970" classname="test"/>
+	<testcase name="JSON media/UTF8/syntax/1MiB limit and compressed ingress reject before any handler" time="0.010701" classname="test"/>
+	<testcase name="Origin is exact configured value, independent of spoofed Host/forwarded headers; no CORS" time="0.012590" classname="test"/>
+	<testcase name="Session/CSRF hooks fail closed; forced-password exceptions and hidden project404 preserve boundaries" time="0.006114" classname="test"/>
+	<testcase name="Body allowlist/trim/null/coercion and idempotency UUID validation leave secrets untouched" time="0.011591" classname="test"/>
+	<testcase name="Pagination/query wire is strict with page1/size50 defaults and max100; export cannot paginate" time="0.020056" classname="test"/>
+	<testcase name="Public response schema rejects sensitive fields; safe error/logger/requestId/currentVersion/retry headers match wire" time="0.003696" classname="test"/>
+	<testcase name="No-body command rejects injected JSON and 204 emits no response body" time="0.001954" classname="test"/>
+	<testcase name="Merged task validation is deferred to authoritative transaction state, not request omissions" time="0.003239" classname="test"/>
+	<testcase name="Health routes preserve wire/query allowlist; HSTS respects configured trusted proxy" time="0.005604" classname="test"/>
+	<!-- tests 10 -->
+	<!-- suites 0 -->
+	<!-- pass 10 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 556.735041 -->
+</testsuites>

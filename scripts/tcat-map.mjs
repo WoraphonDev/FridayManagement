@@ -35,6 +35,19 @@ const providerTasks = {
   retention: ['T-060'],
   regression: ['T-067'],
 };
+// Browser specs whose titles carry no task IDs: owner by spec file (Task Register owners).
+const browserTasks = {
+  'setup.spec.ts': ['T-013'],
+  'project-docs.spec.ts': ['T-084'],
+  'project-files.spec.ts': ['T-085'],
+  'workload-overview.spec.ts': ['T-088'],
+  'main-table.spec.ts': ['T-086'],
+  'side-panel.spec.ts': ['T-087'],
+  'motion.spec.ts': ['T-089'],
+  'favorites.spec.ts': ['T-090'],
+  'my-overview.spec.ts': ['T-083'],
+  'permission-matrix.spec.ts': ['T-082'],
+};
 const pad = (n) => `T-${String(n).padStart(3, '0')}`;
 function taskIds(title) {
   const ids = new Set();
@@ -83,12 +96,15 @@ if (existsSync(join(dir, 'browser.json'))) {
         const last = t.results?.at(-1);
         const status =
           last?.status === 'passed' ? 'passed' : last?.status === 'skipped' ? 'skipped' : 'failed';
+        const specFile = spec.file ?? file;
+        const ids = taskIds(spec.title);
+        for (const t of browserTasks[specFile] ?? []) ids.add(t);
         tests.push({
           layer: 'browser',
-          file: `tests/browser/${spec.file ?? file}`,
+          file: `tests/browser/${specFile}`,
           title: spec.title,
           status,
-          tasks: [...taskIds(spec.title)],
+          tasks: [...ids],
           explicit: [...explicit(spec.title)],
         });
       }
@@ -100,7 +116,10 @@ if (existsSync(join(dir, 'browser.json'))) {
 const rows = [];
 for (const tc of manifest.cases) {
   const candidates = tests.filter(
-    (t) => t.explicit.includes(tc.id) || t.tasks.some((id) => tc.tasks.includes(id)),
+    (t) =>
+      t.explicit.includes(tc.id) ||
+      t.explicit.some((id) => tc.acceptance.includes(id)) ||
+      t.tasks.some((id) => tc.tasks.includes(id)),
   );
   const layers = new Set(candidates.map((t) => t.layer));
   const integration = layers.has('http') || layers.has('provider');

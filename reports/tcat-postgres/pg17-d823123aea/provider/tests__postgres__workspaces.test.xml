@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: T021 project metadata defaults, enum constraints, reopen persistence and atomic audit rollback" time="0.716783" classname="test"/>
+	<testcase name="PostgreSQL 17: T020 team create includes positions atomically and position labels never confer Lead rights" time="0.595531" classname="test"/>
+	<testcase name="PostgreSQL 17: T020 team create, UTF16/trim/CI uniqueness, no unauthorized or duplicate composite writes" time="0.599663" classname="test"/>
+	<testcase name="PostgreSQL 17: T020/21 active-project archive guard, archived team create/unarchive guard, no cascade" time="0.572762" classname="test"/>
+	<testcase name="PostgreSQL 17: T020/21 version conflict rejects all effects and owner team remains immutable" time="0.564498" classname="test"/>
+	<testcase name="PostgreSQL 17: T021 team-only membership excludes projects/total; explicit sharing and owner Lead are scoped" time="0.559642" classname="test"/>
+	<testcase name="PostgreSQL 17: T021 directory privacy/no usernames/secrets and active-only search/pagination" time="0.526623" classname="test"/>
+	<testcase name="PostgreSQL 17: T022 Editor->Viewer atomically unassigns open/deleted but preserves done, versions, audit and scoped notification" time="0.585247" classname="test"/>
+	<testcase name="PostgreSQL 17: T022 removing/reducing Lead preserves explicit Editor and cleanup only losing effective write" time="0.570720" classname="test"/>
+	<testcase name="PostgreSQL 17: T022 reducing explicit Editor does not cleanup an owner Lead" time="0.527575" classname="test"/>
+	<testcase name="PostgreSQL 17: T022 deactivate uses shared cleanup, revokes live sessions and preserves done history" time="0.519821" classname="test"/>
+	<testcase name="PostgreSQL 17: T022 cleanup notification/audit failure rolls back membership/task/version/revisions together" time="0.593491" classname="test"/>
+	<testcase name="PostgreSQL 17: T020/21 stale/revoked sessions and maintenance reject mutation" time="0.522612" classname="test"/>
+	<testcase name="PostgreSQL 17: T021 archived projects remain readable and real authorization forbids normal writes" time="0.545503" classname="test"/>
+	<!-- tests 14 -->
+	<!-- suites 0 -->
+	<!-- pass 14 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 8330.256292 -->
+</testsuites>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17 T-081 matrix: P-01/P-03/P-04/P-05/P-06 allow only the manager holding that key" time="1.894660" classname="test"/>
+	<testcase name="PostgreSQL 17 T-081 matrix: P-08 creates only in own team; P-09 team workload only with the key" time="1.033467" classname="test"/>
+	<testcase name="PostgreSQL 17 T-081 races: one of two same-version permission saves wins; revocation applies to the next request" time="1.005373" classname="test"/>
+	<testcase name="PostgreSQL 17 T-081 SRS §4.4 (Q-T-081-1 = A): P-02/P-10 add no rights beyond project access" time="1.014268" classname="test"/>
+	<!-- tests 4 -->
+	<!-- suites 0 -->
+	<!-- pass 4 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 5306.402834 -->
+</testsuites>

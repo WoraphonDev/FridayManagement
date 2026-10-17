@@ -1,0 +1,248 @@
+{
+  "build": "pg17-d823123aea",
+  "head": "d823123aea9b685f634a71240c0f96b46ce02155",
+  "dirty": false,
+  "sourceSha256": "224d86e665367be07caecd6124e40b3cacab36410ba0afe0cc78ee7a620537f7",
+  "date": "2026-10-17T12:41:40.385Z",
+  "environment": {
+    "node": "22.23.3",
+    "os": "macos",
+    "osVersion": "24.6.0",
+    "db": {
+      "provider": "postgres17",
+      "product": "PostgreSQL",
+      "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+      "driver": "pg 8.23.1"
+    },
+    "browser": {
+      "name": "Chromium",
+      "version": "chromium (Playwright 1.63.0)"
+    }
+  },
+  "layers": [
+    {
+      "name": "provider/tests__postgres__accounts.test",
+      "started": "2026-10-17T12:30:04.267Z",
+      "finished": "2026-10-17T12:30:15.380Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__authorization.test",
+      "started": "2026-10-17T12:30:15.380Z",
+      "finished": "2026-10-17T12:30:18.383Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__boards.test",
+      "started": "2026-10-17T12:30:18.383Z",
+      "finished": "2026-10-17T12:30:26.487Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__center-reports.test",
+      "started": "2026-10-17T12:30:26.487Z",
+      "finished": "2026-10-17T12:31:31.558Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__files.test",
+      "started": "2026-10-17T12:31:31.558Z",
+      "finished": "2026-10-17T12:31:35.489Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__helpers.test",
+      "started": "2026-10-17T12:31:35.490Z",
+      "finished": "2026-10-17T12:31:36.628Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__idempotency.test",
+      "started": "2026-10-17T12:31:36.628Z",
+      "finished": "2026-10-17T12:31:38.980Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__notifications.test",
+      "started": "2026-10-17T12:31:38.980Z",
+      "finished": "2026-10-17T12:31:43.125Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__permissions-matrix.test",
+      "started": "2026-10-17T12:31:43.126Z",
+      "finished": "2026-10-17T12:31:48.521Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__registrations.test",
+      "started": "2026-10-17T12:31:48.522Z",
+      "finished": "2026-10-17T12:31:54.933Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__regression.test",
+      "started": "2026-10-17T12:31:54.933Z",
+      "finished": "2026-10-17T12:32:09.391Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__retention.test",
+      "started": "2026-10-17T12:32:09.391Z",
+      "finished": "2026-10-17T12:32:10.670Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__schema.test",
+      "started": "2026-10-17T12:32:10.670Z",
+      "finished": "2026-10-17T12:32:13.094Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__sessions.test",
+      "started": "2026-10-17T12:32:13.095Z",
+      "finished": "2026-10-17T12:32:19.946Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__setup.test",
+      "started": "2026-10-17T12:32:19.946Z",
+      "finished": "2026-10-17T12:32:22.479Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__task-views.test",
+      "started": "2026-10-17T12:32:22.479Z",
+      "finished": "2026-10-17T12:32:31.692Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__tasks.test",
+      "started": "2026-10-17T12:32:31.692Z",
+      "finished": "2026-10-17T12:32:47.851Z",
+      "exitCode": 0
+    },
+    {
+      "name": "provider/tests__postgres__workspaces.test",
+      "started": "2026-10-17T12:32:47.851Z",
+      "finished": "2026-10-17T12:32:56.260Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__accounts__http.test",
+      "started": "2026-10-17T12:32:56.276Z",
+      "finished": "2026-10-17T12:33:00.589Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__accounts__registration-http.test",
+      "started": "2026-10-17T12:33:00.589Z",
+      "finished": "2026-10-17T12:33:03.005Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__addendum__http.test",
+      "started": "2026-10-17T12:33:03.005Z",
+      "finished": "2026-10-17T12:33:13.707Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__api__http.test",
+      "started": "2026-10-17T12:33:13.707Z",
+      "finished": "2026-10-17T12:33:14.335Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__authorization__http.test",
+      "started": "2026-10-17T12:33:14.335Z",
+      "finished": "2026-10-17T12:33:15.438Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__boards__http.test",
+      "started": "2026-10-17T12:33:15.438Z",
+      "finished": "2026-10-17T12:33:17.942Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__files__http.test",
+      "started": "2026-10-17T12:33:17.942Z",
+      "finished": "2026-10-17T12:33:22.127Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__foundation__http.test",
+      "started": "2026-10-17T12:33:22.127Z",
+      "finished": "2026-10-17T12:33:22.529Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__idempotency__http.test",
+      "started": "2026-10-17T12:33:22.529Z",
+      "finished": "2026-10-17T12:33:23.204Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__notifications__center-http.test",
+      "started": "2026-10-17T12:33:23.204Z",
+      "finished": "2026-10-17T12:33:24.914Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__notifications__http.test",
+      "started": "2026-10-17T12:33:24.914Z",
+      "finished": "2026-10-17T12:33:28.649Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__permissions__http.test",
+      "started": "2026-10-17T12:33:28.649Z",
+      "finished": "2026-10-17T12:33:32.033Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__sessions__http.test",
+      "started": "2026-10-17T12:33:32.034Z",
+      "finished": "2026-10-17T12:33:35.704Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__setup__http.test",
+      "started": "2026-10-17T12:33:35.704Z",
+      "finished": "2026-10-17T12:33:36.753Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__task-views__http.test",
+      "started": "2026-10-17T12:33:36.753Z",
+      "finished": "2026-10-17T12:33:39.080Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__tasks__http.test",
+      "started": "2026-10-17T12:33:39.080Z",
+      "finished": "2026-10-17T12:33:42.785Z",
+      "exitCode": 0
+    },
+    {
+      "name": "http/tests__workspaces__http.test",
+      "started": "2026-10-17T12:33:42.785Z",
+      "finished": "2026-10-17T12:33:46.465Z",
+      "exitCode": 0
+    },
+    {
+      "name": "build",
+      "started": "2026-10-17T12:33:46.465Z",
+      "finished": "2026-10-17T12:33:49.310Z",
+      "exitCode": 0
+    },
+    {
+      "name": "browser",
+      "started": "2026-10-17T12:33:49.310Z",
+      "finished": "2026-10-17T12:41:36.296Z",
+      "exitCode": 1
+    }
+  ],
+  "droppedFixtureDatabases": 87,
+  "browserJson": true
+}
