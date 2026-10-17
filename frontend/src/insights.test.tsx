@@ -74,6 +74,9 @@ test('T088 overview renders percent, status counts, overdue and job titles', () 
   const data = overviewSchema.parse({
     project_id: 1,
     bangkok_today: '2026-10-07',
+    start_date: '2026-10-01',
+    end_date: '2026-10-20',
+    leads: [person(2, 'สมชาย')],
     total: 7,
     done: 1,
     progress_percent: 14,

@@ -4307,3 +4307,14 @@ button.danger:hover:not(:disabled) {
     display: none;
   }
 }
+.card-plan {
+  /* Leave room for the absolutely positioned card menu (⋯) at the bottom-right. */
+  padding-right: 36px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 2px 12px;
+  margin-top: 4px;
+  color: #676879;
+  font-size: 12px;
+}

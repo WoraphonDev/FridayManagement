@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import { formatPlanDate } from './shared/formatPlanDate';
 import { useSharedRefresh } from './shared/refresh';
 import { ProjectTasks } from './ProjectTasks';
 import { useCallback, useEffect, useState, type ReactNode } from 'react';
@@ -63,6 +64,16 @@ function CardProgress({ id, online }: { id: number; online: boolean }) {
         {data.total ? `${data.total} Tasks · ${data.done} Done` : 'No tasks yet'}
         {/* Portfolio view: overdue work is the first thing a PM scans for. */}
         {data.overdue > 0 && <span className="card-overdue"> · {data.overdue} Overdue</span>}
+      </small>
+      <small className="card-plan">
+        <span title="Earliest Start Plan → latest End Plan">
+          {data.start_date
+            ? `${formatPlanDate(data.start_date)} – ${formatPlanDate(data.end_date)}`
+            : 'No plan dates'}
+        </span>
+        <span>
+          Lead: {data.leads.length ? data.leads.map((l) => l.display_name).join(', ') : '—'}
+        </span>
       </small>
     </>
   );

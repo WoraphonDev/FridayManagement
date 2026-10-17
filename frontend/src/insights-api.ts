@@ -45,6 +45,9 @@ export const overviewSchema = z
   .object({
     project_id: id,
     bangkok_today: date,
+    start_date: date.nullable(),
+    end_date: date.nullable(),
+    leads: z.array(person).max(10),
     total: count,
     done: count,
     progress_percent: z.number().int().min(0).max(100),

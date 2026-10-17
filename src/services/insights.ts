@@ -216,9 +216,24 @@ export function insightService(options: AccessOptions = {}) {
         events.map((e) => e.actor_id),
       );
       const total = rows.length;
+      // Planned span of the visible work: earliest start (or End Plan) → latest End Plan (or start).
+      const firsts = rows.map((t) => t.start_date ?? t.due_date).filter((d): d is string => !!d),
+        lasts = rows.map((t) => t.due_date ?? t.start_date).filter((d): d is string => !!d);
+      // Leads of the owner team (permission role), active only, for the portfolio card.
+      const leads = await tx.query<{ id: number; display_name: string; active: number }>(
+        sql(
+          "SELECT u.id,u.display_name,u.active FROM dbo.projects p JOIN dbo.team_members m ON m.team_id=p.owner_team_id AND m.team_role='lead' JOIN dbo.users u ON u.id=m.user_id AND u.active=1 WHERE p.id=@project ORDER BY u.display_name,u.id",
+          { project: id },
+        ),
+      );
       return {
         project_id: id,
         bangkok_today: today,
+        start_date: firsts.length ? firsts.sort()[0]! : null,
+        end_date: lasts.length ? lasts.sort().at(-1)! : null,
+        leads: leads
+          .slice(0, 10)
+          .map((u) => ({ id: u.id, display_name: u.display_name, active: !!u.active })),
         total,
         done: by_status.done,
         progress_percent: total ? Math.round((by_status.done / total) * 100) : 0,

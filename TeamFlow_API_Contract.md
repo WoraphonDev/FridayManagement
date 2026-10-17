@@ -1,10 +1,14 @@
-# TeamFlow — API/DTO contract 1.14.0
+# TeamFlow — API/DTO contract 1.15.0
 
 วันที่: 5 ตุลาคม 2026 · Task: T-003 · Business baseline1.1 + RD-01–RD-08
 
 Machine contract: [contracts/openapi.json](contracts/openapi.json) (OpenAPI3.1.1/JSON Schema2020-12). Authoring source: [scripts/build-contract.mjs](scripts/build-contract.mjs). Contract tests: [tests/contracts/contract.test.mjs](tests/contracts/contract.test.mjs).
 
 เอกสารนี้ล็อกสัญญา frontend/backend สำหรับ Node22 + SQLite local และ SQL2022 ปลายทางร่วมกัน ไม่ใช่ HTTP server, authorization implementation หรือหลักฐานว่า database transactions ผ่าน หากเปลี่ยน field/status/policy ต้องแก้ SRS/contract/tests พร้อมกัน และ regenerate JSON ก่อนปิดงาน
+
+## API1.15.0 - Project overview planned span and leads (owner request, 17 October 2026)
+
+89 routes / 120 schemas unchanged. ProjectOverview now requires `start_date` and `end_date` (Date or null): the earliest Start Plan (falling back to End Plan) and the latest End Plan (falling back to Start Plan) across the project's tasks visible to the caller; null when no task has a date. It also requires `leads` (Person[], ≤10): active users with team_role lead in the project's owner team, ordered by display name. Permissions, visibility and the other overview fields are unchanged. No database migration. Native SQL2022/PostgreSQL/Windows/UAT NOT_RUN.
 
 ## API1.14.0 - Workload overdue column (owner request, 17 October 2026)
 
