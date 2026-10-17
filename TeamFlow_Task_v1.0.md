@@ -11,7 +11,7 @@ Registration email is a normalized, unique, immutable login identifier independe
 Backend rechecks Admin/CSRF/current account and registration version. Approve/reject require Idempotency-Key; signup follows the credential-route exception without persisting password-derived idempotency fingerprints. Registration is limited to10 attempts/15minutes/IP before hashing; same-origin is mandatory and maintenance blocks writes. Account, request, view revision and redacted audit are atomic. Provider-specific0017 migrations add registrations without changing legacy user rows. API1.13.0 has89routes/120schemas. Trace: FR-02/03/05, BR-01/02/05, TC-004/005/007/012/014, AT-02/03/04; partial checks do not close full AT/UAT. Evidence: docs/reports/TeamFlow_Email_Registration_Report.md.
 
 
-**Version:** 1.90 · **วันที่:** 17 ตุลาคม 2026\
+**Version:** 1.91 · **วันที่:** 18 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
 **จำนวน:** 96 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 89 API routes ที่ล็อก (contract 1.15.0) + planned routes SRS §12.6
 **ADR-0001 (2026-10-11, เจ้าของยืนยันอีกครั้ง 2026-10-17):** PostgreSQL บน Linux + Docker แทน SQL Server 2022 บน Windows — หลักฐาน SQL2022/Windows ในงานเดิมถือว่า superseded (ไม่ต้องใช้ปิดงาน); ใช้หลักฐาน PostgreSQL/Docker (T-095/T-096) แทน
@@ -428,7 +428,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-093 | OWASP Top 10 verification release 1.0 (tickets/T-093-owasp-verification.md) | T-091, T-092 | High | TODO | ยังไม่มอบหมาย | docs/security/OWASP-1.0.md NOT_RUN |
 | T-094 | Pen-Test + remediation/retest (tickets/T-094-pentest.md) | T-093 | High | TODO | ยังไม่มอบหมาย | docs/security/PENTEST-1.0.md plan only |
 | T-095 | PostgreSQL provider: adapter, migrations, provider suites (ADR-0001) | — | High | DONE | Claude / 2026-10-11 | docs/adr/ADR-0001-postgresql-linux-docker.md; src/repository/postgres; migrations/postgres 0000–0015; tests/postgres 184/184 PASS (PostgreSQL 17 Docker); SQLite npm test unchanged PASS; 2026-10-17 rerun after migration 0017 registrations + API1.14/1.15: tests/postgres 191/191 PASS on fresh PostgreSQL 17.11 Docker (schema FK count 51→53 for registrations); full Playwright Chromium 90/90 local |
-| T-096 | Linux + Docker deployment, HTTPS proxy, pg_dump backup/restore (ADR-0001) | T-095 | High | IN_PROGRESS | Claude / 2026-10-11 | Dockerfile, deploy/ (compose, Caddyfile, .env.example), src/operations/pg-restore.ts, docs/deploy-linux-docker.md; local rehearsal PASS (HTTPS headers, setup→Kanban, backup→verify→isolated restore); real Linux server/DNS/Let's Encrypt/cron/UAT NOT_RUN |
+| T-096 | Linux + Docker deployment, HTTPS proxy, pg_dump backup/restore (ADR-0001) | T-095 | High | IN_PROGRESS | Claude / 2026-10-11 | Dockerfile, deploy/ (compose, Caddyfile, .env.example), src/operations/pg-restore.ts, docs/deploy-linux-docker.md; local rehearsal PASS (HTTPS headers, setup→Kanban, backup→verify→isolated restore); real Linux server/DNS/Let's Encrypt/cron/UAT NOT_RUN; 2026-10-18 least-privilege DB roles (postgres-init/00-roles.sh + apply-grants; owner=migrate/restore, app=runtime/admin, backup=ops) and RV-18 runner scripts/rv18 — macOS/colima rehearsal roles + TC-075/076/077/078 PASS (not evidence); real Linux RV-18 NOT_RUN |
 
 ## 5. Phase 00: Baseline และสัญญาการพัฒนา
 

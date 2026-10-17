@@ -22,7 +22,7 @@ DC=(docker compose -p "$PROJECT" --env-file "$ENV_FILE")
 BACKUP_MOUNT="$ROOT/deploy/backups"
 if [ "$REHEARSAL" = 1 ] && [ "$(uname -s)" != Linux ]; then
   # macOS bind mounts do not keep the node owner the snapshot code requires; rehearse with a named volume.
-  printf 'services:\n  ops:\n    volumes: [appdata:/data, applogs:/logs, backups:/backups]\nvolumes:\n  backups: {}\n' >"$ROOT/deploy/.rv18-rehearsal.override.yml"
+  printf 'services:\n  ops:\n    volumes: [appdata:/data, applogs:/logs, backups:/backups]\n  restore:\n    volumes: [applogs:/logs, backups:/backups]\nvolumes:\n  backups: {}\n' >"$ROOT/deploy/.rv18-rehearsal.override.yml"
   DC+=(-f docker-compose.yml -f .rv18-rehearsal.override.yml)
   BACKUP_MOUNT="${PROJECT}_backups"
 fi
@@ -34,10 +34,12 @@ OUT="$OUT_BASE/${RV18_RUN_ID:-$(date -u +%Y%m%dT%H%M%SZ)}"
 mkdir -p "$OUT" && chmod 700 "$OUT"
 SUMMARY="$OUT/summary.tsv"
 touch "$SUMMARY"
+trap 'echo "STOPPED at line $LINENO: $BASH_COMMAND" | tee -a "$OUT/run.log" >&2' ERR
 
 log() { printf '%s %s\n' "$(date -u +%H:%M:%S)" "$*" | tee -a "$OUT/run.log"; }
 record() { printf '%s\t%s\t%s\n' "$1" "$2" "$3" >>"$SUMMARY"; log "[$2] $1 — $3"; }
-psql_db() { "${DC[@]}" exec -T db psql -U "$DB_USER" -d "${2:-$DB_NAME}" -AtX -v ON_ERROR_STOP=1 -c "$1"; }
+psql_db() { "${DC[@]}" exec -T db psql -U postgres -d "${2:-$DB_NAME}" -AtX -v ON_ERROR_STOP=1 -c "$1"; }
+grants() { "${DC[@]}" exec -T db /docker-entrypoint-initdb.d/apply-grants "$1" >>"$OUT/run.log" 2>&1; }
 harness() { # harness <command> [arg] [url] [origin]
   docker run --rm --user "$(id -u):$(id -g)" --network "${PROJECT}_internal" \
     --add-host "$FRIDAY_HOST:172.30.0.10" \
@@ -82,10 +84,11 @@ deploy() {
   "${DC[@]}" build app >>"$OUT/run.log" 2>&1
   "${DC[@]}" up -d db >>"$OUT/run.log" 2>&1
   "${DC[@]}" run --rm -T migrate >"$OUT/migrate-1.json" 2>&1
+  grants "$DB_NAME"
   "${DC[@]}" up -d app proxy >>"$OUT/run.log" 2>&1
   wait_healthy || { record deploy FAIL "app did not become healthy"; exit 4; }
   {
-    echo "image_id=$(docker image inspect -f '{{.Id}}' friday-app:local)"
+    echo "image_id=$(docker image inspect -f '{{.Id}}' "friday-app:${FRIDAY_IMAGE_TAG:-local}")"
     echo "postgres=$(psql_db 'SHOW server_version')"
     echo "ledger_sha256=$(psql_db 'SELECT string_agg(id||sha256, chr(10) ORDER BY id) FROM schema_migrations' | sha256sum | cut -d' ' -f1)"
   } >>"$OUT/environment.txt"
@@ -93,19 +96,27 @@ deploy() {
 }
 
 roles_and_permissions() {
-  local q
-  q=$(psql_db "SELECT rolsuper, rolcreatedb, rolcreaterole FROM pg_roles WHERE rolname = current_user")
-  echo "runtime_role_flags(super,createdb,createrole)=$q" >>"$OUT/roles.txt"
-  local owns create
-  owns=$(psql_db "SELECT count(*) FROM pg_tables WHERE schemaname='public' AND tableowner = current_user")
-  create=$(psql_db "SELECT has_schema_privilege(current_user, 'public', 'CREATE')")
-  echo "runtime_role_owned_tables=$owns schema_create=$create" >>"$OUT/roles.txt"
   local app_user; app_user=$(docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' "$("${DC[@]}" ps -q app)" | sed -n 's/^DB_USER=//p')
-  echo "app_db_user=$app_user migrate_db_user=$DB_USER" >>"$OUT/roles.txt"
-  if [ "$q" = "f|f|f" ] && [ "$owns" = 0 ] && [ "$create" = f ]; then
-    record roles PASS "runtime role cannot create/own schema objects"
+  local q
+  q=$(psql_db "SELECT rolname, rolsuper, rolcreatedb, rolcreaterole FROM pg_roles WHERE rolname IN ('$app_user', '$DB_OWNER_USER', '$DB_BACKUP_USER') ORDER BY rolname" | tr '\n' ' ')
+  local owns create backup_write app_ddl
+  owns=$(psql_db "SELECT count(*) FROM pg_tables WHERE schemaname='public' AND tableowner = '$app_user'")
+  create=$(psql_db "SELECT has_schema_privilege('$app_user', 'public', 'CREATE')")
+  backup_write=$(psql_db "SELECT has_table_privilege('$DB_BACKUP_USER', 'public.tasks', 'INSERT')")
+  app_ddl=$(docker exec "$("${DC[@]}" ps -q db)" psql -U postgres -d "$DB_NAME" -AtX -c "SET ROLE \"$app_user\"; CREATE TABLE rv18_probe(i int)" 2>&1 | grep -m1 -E 'ERROR|CREATE' || true)
+  {
+    echo "app_db_user=$app_user owner=$DB_OWNER_USER backup=$DB_BACKUP_USER"
+    echo "roles(name,super,createdb,createrole)=$q"
+    echo "app_owned_tables=$owns app_schema_create=$create backup_can_insert_tasks=$backup_write"
+    echo "app_create_table_attempt=$app_ddl"
+  } >"$OUT/roles.txt"
+  local leaked=0
+  docker inspect -f '{{range .Config.Env}}{{println .}}{{end}}' "$("${DC[@]}" ps -q app)" | grep -qE "^(DB_OWNER_PASSWORD|DB_BACKUP_PASSWORD|POSTGRES_PASSWORD)=|=($DB_OWNER_PASSWORD|$DB_BACKUP_PASSWORD|$DB_ADMIN_PASSWORD)$" && leaked=1
+  if [ "$app_user" != "$DB_OWNER_USER" ] && [ "$app_user" != postgres ] && ! grep -q '|t' <<<"$q" \
+    && [ "$owns" = 0 ] && [ "$create" = f ] && [ "$backup_write" = f ] && grep -q 'permission denied' <<<"$app_ddl" && [ $leaked = 0 ]; then
+    record roles PASS "app=$app_user cannot create/own objects (CREATE TABLE denied); backup read-only on tasks; no role is superuser; app env holds no owner/backup/admin secret"
   else
-    record roles FAIL "runtime DB role can migrate (flags=$q owned_tables=$owns schema_create=$create); separate runtime/migration/backup roles are required"
+    record roles FAIL "see roles.txt (super flags: $q; owned=$owns create=$create backup_insert=$backup_write secrets_in_app_env=$leaked)"
   fi
   local appid; appid=$("${DC[@]}" ps -q app)
   docker inspect -f '{{range .Mounts}}{{.Destination}} {{end}}' "$appid" >"$OUT/app-mounts.txt"
@@ -153,11 +164,13 @@ tc077() {
   local snap; snap=$(cat "$OUT/snapshot-name.txt")
   psql_db "DROP DATABASE IF EXISTS friday_restore" >/dev/null
   psql_db "CREATE DATABASE friday_restore" >/dev/null
+  grants friday_restore
   "${DC[@]}" run --rm -T --user root --entrypoint sh ops -c "rm -rf /backups/restore-data /backups/restore-logs && install -d -o node -g node -m 700 /backups/restore-data /backups/restore-logs"
   local start end rc=0
   start=$(date +%s)
   "${DC[@]}" run --rm -T -e DB_NAME=friday_restore -e DATA_DIR=/backups/restore-data \
-    -e FRIDAY_RESTORE_SOURCE="/backups/$snap" ops restore-postgres /backups/restore-data "$CONFIRM" >"$OUT/restore.json" 2>&1 || rc=$?
+    -e FRIDAY_RESTORE_SOURCE="/backups/$snap" restore restore-postgres /backups/restore-data "$CONFIRM" >"$OUT/restore.json" 2>&1 || rc=$?
+  grants friday_restore
   end=$(date +%s)
   [ $rc -eq 0 ] || { record TC-077 FAIL "restore rc=$rc"; return; }
   docker rm -f rv18-restore >/dev/null 2>&1 || true
@@ -166,7 +179,7 @@ tc077() {
     -e NODE_ENV=test -e HOST=0.0.0.0 -e PORT=3000 -e APP_ORIGIN=http://rv18-restore:3000 -e COOKIE_SECURE=false \
     -e DATA_DIR=/backups/restore-data -e LOG_DIR=/backups/restore-logs -e DB_PROVIDER=postgres -e DB_SERVER=db \
     -e DB_PORT=5432 -e DB_NAME=friday_restore -e DB_USER="$DB_USER" -e DB_PASSWORD="$DB_PASSWORD" -e DB_ENCRYPT=false \
-    friday-app:local >/dev/null
+    "friday-app:${FRIDAY_IMAGE_TAG:-local}" >/dev/null
   for _ in $(seq 1 40); do docker exec rv18-restore node -e "fetch('http://127.0.0.1:3000/health/live').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))" 2>/dev/null && break; sleep 2; done
   if harness check-restored "" http://rv18-restore:3000 http://rv18-restore:3000; then
     record TC-077 PASS "restore in $((end - start))s; rows/bytes match; pre-backup sessions 401 (RPO/RTO under real schedule still to be recorded by the owner)"
@@ -178,10 +191,12 @@ tc078() {
   local before after rc=0
   before=$(psql_db 'SELECT string_agg(id||sha256, chr(10) ORDER BY id) FROM schema_migrations' | sha256sum | cut -d' ' -f1)
   "${DC[@]}" run --rm -T migrate >"$OUT/migrate-2.json" 2>&1 || rc=$?
+  grants "$DB_NAME"
   after=$(psql_db 'SELECT string_agg(id||sha256, chr(10) ORDER BY id) FROM schema_migrations' | sha256sum | cut -d' ' -f1)
   psql_db "DROP DATABASE IF EXISTS friday_migcopy" >/dev/null
   psql_db "CREATE DATABASE friday_migcopy" >/dev/null
-  "${DC[@]}" exec -T db sh -c "pg_dump -U '$DB_USER' '$DB_NAME' | psql -q -U '$DB_USER' friday_migcopy" >>"$OUT/run.log" 2>&1
+  grants friday_migcopy
+  "${DC[@]}" exec -T db sh -c "pg_dump -U postgres --no-owner --no-privileges '$DB_NAME' | psql -q -U '$DB_OWNER_USER' friday_migcopy" >>"$OUT/run.log" 2>&1
   # Control: the untouched copy must migrate cleanly, so a later failure is attributable to the checksum change.
   local crc=0
   "${DC[@]}" run --rm -T -e DB_NAME=friday_migcopy migrate >"$OUT/migrate-copy-control.json" 2>&1 || crc=$?

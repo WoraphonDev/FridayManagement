@@ -11,7 +11,7 @@ ROOT_FILES = {'.env.example', '.gitignore', '.npmrc', '.nvmrc', '.prettierignore
               '.prettierrc.json', 'package.json', 'package-lock.json', 'eslint.config.mjs',
               'vite.config.ts', 'vitest.config.ts', 'playwright.config.ts',
               'tsconfig.json', 'tsconfig.frontend.json', 'tsconfig.tools.json'}
-ROOTS = {'src', 'frontend', 'migrations', 'scripts', 'tests', 'contracts', 'dependencies', 'reports', 'docs'}
+ROOTS = {'src', 'frontend', 'migrations', 'scripts', 'tests', 'contracts', 'dependencies', 'reports', 'docs', 'deploy'}
 EXCLUDED_PARTS = {'.git', 'node_modules', 'dist', '__pycache__',
                   'test-results', 'playwright-report', '.DS_Store'}
 RUNTIME_PARTS = {'uploads', 'logs', 'backups', 'sessions'}
@@ -31,7 +31,7 @@ def allowed(name):
         return False
     if str(path) != name or any(part in EXCLUDED_PARTS for part in path.parts):
         return False
-    if any(part.startswith('.env') for part in path.parts) and name != '.env.example':
+    if any(part.startswith('.env') for part in path.parts) and name not in ('.env.example', 'deploy/.env.example'):
         return False
     if any(part in RUNTIME_PARTS for part in path.parts):
         if path.parts[0] not in {'src', 'frontend', 'tests', 'scripts', 'migrations', 'contracts'} or path.suffix not in SOURCE_CODE_SUFFIXES:

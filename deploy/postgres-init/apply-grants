@@ -1,0 +1,32 @@
+#!/bin/bash
+# Usage (inside the db container, as the superuser): apply-grants <database>
+# Run after creating a database, after every `migrate`, and after every `restore`. Safe to repeat.
+# No .sh suffix on purpose: docker-entrypoint-initdb.d must not run this on its own.
+set -euo pipefail
+DB=${1:?database name required}
+: "${DB_OWNER_USER:?}" "${DB_USER:?}" "${DB_BACKUP_USER:?}"
+psql -v ON_ERROR_STOP=1 -X --username "${POSTGRES_USER:-postgres}" --dbname "$DB" \
+  -v db="$DB" -v owner="$DB_OWNER_USER" -v app="$DB_USER" -v backup="$DB_BACKUP_USER" <<'SQL'
+REVOKE ALL ON DATABASE :"db" FROM PUBLIC;
+GRANT CONNECT, TEMPORARY ON DATABASE :"db" TO :"owner";
+GRANT CONNECT ON DATABASE :"db" TO :"app", :"backup";
+ALTER DATABASE :"db" OWNER TO :"owner";
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+ALTER SCHEMA public OWNER TO :"owner";
+GRANT USAGE ON SCHEMA public TO :"app", :"backup";
+-- Existing objects (after migrate/restore). Tables owned by anyone else move to the owner (with their identity sequences).
+SELECT format('ALTER TABLE public.%I OWNER TO %I', tablename, :'owner') FROM pg_tables
+ WHERE schemaname = 'public' AND tableowner <> :'owner' \gexec
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA public TO :"app";
+GRANT USAGE, SELECT, UPDATE ON ALL SEQUENCES IN SCHEMA public TO :"app";
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO :"backup";
+GRANT SELECT ON ALL SEQUENCES IN SCHEMA public TO :"backup";
+SELECT format('GRANT INSERT, UPDATE, DELETE ON public.maintenance_state TO %I', :'backup')
+ WHERE to_regclass('public.maintenance_state') IS NOT NULL \gexec
+-- Future objects created by the owner (new migrations, pg_restore --no-owner as the owner).
+ALTER DEFAULT PRIVILEGES FOR ROLE :"owner" IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO :"app";
+ALTER DEFAULT PRIVILEGES FOR ROLE :"owner" IN SCHEMA public GRANT USAGE, SELECT, UPDATE ON SEQUENCES TO :"app";
+ALTER DEFAULT PRIVILEGES FOR ROLE :"owner" IN SCHEMA public GRANT SELECT ON TABLES TO :"backup";
+ALTER DEFAULT PRIVILEGES FOR ROLE :"owner" IN SCHEMA public GRANT SELECT ON SEQUENCES TO :"backup";
+SQL
+echo "apply-grants: $DB ok"

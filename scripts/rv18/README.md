@@ -2,7 +2,7 @@
 
 RV-18 เป็นหลักฐานที่ต้องได้จากเครื่อง Linux จริง เพื่อปิด T-006, T-007, T-019, T-062–T-065 และ T-096 (TC-075/076/077/078/080/081 ตาม ADR-0001) ผลที่ได้จาก Mac หรือจากการซ้อมใช้ปิดเกณฑ์ไม่ได้
 
-> **ต้องแก้ก่อนรันจริง:** ตอนนี้แอปเชื่อมฐานข้อมูลด้วย `POSTGRES_USER` ซึ่งเป็น superuser และเป็นเจ้าของทุกตาราง ถ้ารันตอนนี้ ข้อ `roles` จะ FAIL และ RV-18 จะไม่ผ่าน ต้องแยก role ของ runtime, migration และ backup ใน `deploy/` ก่อน (ดูหัวข้อ "ผลซ้อม" ด้านล่าง)
+> `deploy/.env` ต้องมีครบทั้ง 4 role (`DB_ADMIN_PASSWORD`, `DB_OWNER_USER/PASSWORD`, `DB_USER/PASSWORD`, `DB_BACKUP_USER/PASSWORD`) ตาม `deploy/.env.example`
 
 ## สิ่งที่ต้องมี
 
@@ -30,9 +30,8 @@ RV-18 เป็นหลักฐานที่ต้องได้จาก�
    ```bash
    cd deploy
    docker compose stop app
-   ADMIN_ID=$(docker compose exec -T db psql -U "$DB_USER" -d "$DB_NAME" -Atc "select id from users where username='rv18.admin'")
-   docker compose run --rm --entrypoint node ops dist/server/cli/main.js recover-admin \
-     --user-id "$ADMIN_ID" --confirm-user rv18.admin --confirm-local-maintenance
+   ADMIN_ID=$(docker compose exec -T db psql -U postgres -d "$(grep ^DB_NAME= .env | cut -d= -f2)" -Atc "select id from users where username='rv18.admin'")
+   docker compose run --rm admin recover-admin --user-id "$ADMIN_ID" --confirm-user rv18.admin --confirm-local-maintenance
    docker compose start app
    ```
    จากนั้นเปิด `https://<โดเมน>` แล้วล็อกอิน `rv18.admin` ด้วยรหัสผ่านใหม่ให้ได้ แล้วรัน:
@@ -58,7 +57,7 @@ RV-18 เป็นหลักฐานที่ต้องได้จาก�
 
 | รายการ | วิธีตรวจ |
 |---|---|
-| roles | role ที่แอปใช้ต้องไม่เป็น superuser, ต้องสร้าง DB/role ไม่ได้, ต้องไม่เป็นเจ้าของตาราง และต้องไม่มีสิทธิ์ CREATE ใน schema |
+| roles | ทั้ง 3 role ต้องไม่เป็น superuser; role ของแอปต้องไม่เป็นเจ้าของตาราง, ไม่มีสิทธิ์ CREATE ใน schema และการสั่ง `CREATE TABLE` ต้องถูกปฏิเสธจริง; role backup ต้อง INSERT ลง `tasks` ไม่ได้; และ environment ของ container แอปต้องไม่มีรหัสผ่านของ owner/backup/admin |
 | app-backup-isolation / app-nonroot / restart-policy | container แอปต้องไม่ mount `/backups`, ต้องรันด้วย uid ที่ไม่ใช่ 0 โดย `/data` และ `/logs` เป็นสิทธิ์ 700 และทุก service ต้องตั้ง `unless-stopped` |
 | TC-075 | หลัง restart แอปและทั้ง stack ชื่องานภาษาไทย ความคิดเห็น และไฟล์แนบ (เทียบ sha256) ต้องยังอยู่ครบ, Member ต้องได้ 403 เมื่อพยายามแก้ชื่อองค์กร และ `/health/live` ต้องไม่เผย path |
 | TC-076 | backup ระหว่างมีคนเขียนข้อมูลต่อเนื่อง (ยอมรับได้เฉพาะ 503 ช่วง freeze), `verify` ต้องผ่าน, backup ลง tmpfs ขนาด 64 KiB ต้องจบด้วย exit ไม่เป็น 0 และหลังจากนั้นยังต้องเขียนข้อมูลได้ |
@@ -71,10 +70,10 @@ RV-18 เป็นหลักฐานที่ต้องได้จาก�
 
 ## ผลซ้อม 2026-10-18 (macOS + colima, `RV18_REHEARSAL=1`; ไม่นับเป็นหลักฐาน)
 
-commit 1e48785 และสคริปต์ชุดนี้ ซ้อมรอบที่ 3:
+รอบ `roles-2` หลังแยก role ใน `deploy/`:
 
-- **ผ่าน:** deploy, app-backup-isolation, app-nonroot, restart-policy, seed, TC-075, TC-076 (writer เขียนสำเร็จ 172 ครั้ง ได้ 503 หนึ่งครั้งช่วง freeze), TC-077, TC-078 และ TC-081-probe
-- **FAIL ที่ต้องแก้ก่อนรันจริง:** `roles` เพราะแอปใช้ superuser (`t|t|t`) และเป็นเจ้าของทั้ง 36 ตาราง
-- **post-reboot (รันโดยไม่ได้ reboot):** autostart, persist, HSTS และ redirect 308 ผ่าน ส่วน cron กับ scheduled-backup FAIL ตามคาด เพราะเครื่องซ้อมไม่ได้ตั้งไว้ และอ่านผู้ออกใบรับรองไม่ได้ เพราะ openssl หาที่อยู่ `*.localhost` ไม่เจอ
-- **ยังไม่ได้ซ้อม:** recovery ผ่าน TTY (ซ้อมได้แค่ `--help` ผ่าน service `ops`), reboot จริง และ Let's Encrypt
-- **ข้อจำกัดบน macOS:** bind mount ไม่เก็บ owner ที่ snapshot ต้องการ ตอนซ้อมจึงใช้ named volume แทน `./backups` บน Linux ใช้ `./backups` ตามปกติ
+- **ผ่าน:** deploy, roles, app-backup-isolation, app-nonroot, restart-policy, seed, TC-075, TC-076, TC-077, TC-078 และ TC-081-probe
+- **roles:** `friday_app` สั่ง `CREATE TABLE` แล้วได้ `permission denied for schema public`, ตารางทั้ง 36 ตัวเป็นของ `friday_owner`, `friday_backup` INSERT ลง `tasks` ไม่ได้ และไม่มี role ใดเป็น superuser
+- **admin CLI:** ทดลอง `force-logout` ผ่าน service `admin` (role app) แล้วสำเร็จ ส่วน `recover-admin` ต้องพิมพ์รหัสผ่านทาง TTY จึงซ้อมแบบอัตโนมัติไม่ได้
+- **post-reboot (ซ้อมรอบก่อนโดยไม่ได้ reboot):** autostart, persist, HSTS และ redirect ผ่าน ส่วน cron กับ scheduled-backup FAIL เพราะเครื่องซ้อมไม่ได้ตั้งไว้
+- **ข้อจำกัดบน macOS:** bind mount ไม่เก็บ owner ที่ snapshot ต้องการ ตอนซ้อมจึงใช้ named volume แทน `./backups` และใช้ `FRIDAY_IMAGE_TAG=rv18` เพื่อไม่ให้ทับ image ของ stack อื่น

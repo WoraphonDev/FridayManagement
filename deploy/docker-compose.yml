@@ -1,4 +1,7 @@
 # FridayManagement on Linux + Docker (ADR-0001). Copy deploy/.env.example to deploy/.env first.
+# Database roles (RV-18 least privilege, created by postgres-init/ on first start):
+#   superuser postgres → bootstrap/operator only · DB_OWNER_USER → migrate/restore · DB_USER → app · DB_BACKUP_USER → ops.
+# After every migrate or restore run: docker compose exec -T db /docker-entrypoint-initdb.d/apply-grants <database>
 # The app intentionally refuses NODE_ENV=production until release gates pass (T-091..T-094);
 # this stack runs NODE_ENV=test for rehearsal/UAT behind real HTTPS.
 name: friday
@@ -8,37 +11,45 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_NAME}
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_ADMIN_PASSWORD:?set DB_ADMIN_PASSWORD}
+      DB_OWNER_USER: ${DB_OWNER_USER:?set DB_OWNER_USER}
+      DB_OWNER_PASSWORD: ${DB_OWNER_PASSWORD:?set DB_OWNER_PASSWORD}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_BACKUP_USER: ${DB_BACKUP_USER:?set DB_BACKUP_USER}
+      DB_BACKUP_PASSWORD: ${DB_BACKUP_PASSWORD:?set DB_BACKUP_PASSWORD}
     volumes:
       - pgdata:/var/lib/postgresql/data
+      - ./postgres-init:/docker-entrypoint-initdb.d:ro
     networks: [internal]
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U "$${POSTGRES_USER}" -d "$${POSTGRES_DB}"']
+      test: ['CMD-SHELL', 'pg_isready -U postgres -d "$${POSTGRES_DB}"']
       interval: 5s
       retries: 20
   app:
     build: ..
-    image: friday-app:local
+    image: friday-app:${FRIDAY_IMAGE_TAG:-local}
     restart: unless-stopped
     depends_on:
       db: { condition: service_healthy }
-    environment: &app-env
-      NODE_ENV: test
-      HOST: 0.0.0.0
-      PORT: '3000'
-      APP_ORIGIN: ${FRIDAY_ORIGIN:-https://${FRIDAY_HOST}}
-      COOKIE_SECURE: 'true'
-      DATA_DIR: /data
-      LOG_DIR: /logs
-      TRUSTED_PROXY: 172.30.0.10
-      DB_PROVIDER: postgres
-      DB_SERVER: db
-      DB_PORT: '5432'
-      DB_NAME: ${DB_NAME}
+    environment:
+      <<: &app-env
+        NODE_ENV: test
+        HOST: 0.0.0.0
+        PORT: '3000'
+        APP_ORIGIN: ${FRIDAY_ORIGIN:-https://${FRIDAY_HOST}}
+        COOKIE_SECURE: 'true'
+        DATA_DIR: /data
+        LOG_DIR: /logs
+        TRUSTED_PROXY: 172.30.0.10
+        DB_PROVIDER: postgres
+        DB_SERVER: db
+        DB_PORT: '5432'
+        DB_NAME: ${DB_NAME}
+        DB_ENCRYPT: 'false'
       DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
-      DB_ENCRYPT: 'false'
     volumes:
       - appdata:/data
       - applogs:/logs
@@ -65,22 +76,58 @@ services:
     networks:
       internal: { ipv4_address: 172.30.0.10 }
   # One-off tools: `docker compose run --rm migrate` / `docker compose run --rm ops backup /backups/<name>`
+  # / `docker compose run --rm restore restore-postgres ...` (restore runs as the schema owner).
   migrate:
-    image: friday-app:local
+    image: friday-app:${FRIDAY_IMAGE_TAG:-local}
     profiles: [tools]
     depends_on:
       db: { condition: service_healthy }
-    environment: *app-env
+    environment:
+      <<: *app-env
+      DB_USER: ${DB_OWNER_USER}
+      DB_PASSWORD: ${DB_OWNER_PASSWORD}
     networks: [internal]
     command: ['node', 'scripts/migrate-dist.mjs']
   ops:
-    image: friday-app:local
+    image: friday-app:${FRIDAY_IMAGE_TAG:-local}
     profiles: [tools]
     depends_on:
       db: { condition: service_healthy }
-    environment: *app-env
+    environment:
+      <<: *app-env
+      DB_USER: ${DB_BACKUP_USER}
+      DB_PASSWORD: ${DB_BACKUP_PASSWORD}
     volumes:
       - appdata:/data
+      - applogs:/logs
+      - ./backups:/backups
+    networks: [internal]
+    entrypoint: ['node', 'dist/server/operations/main.js']
+  # Local Admin recovery (TC-081): stop app first, then `docker compose run --rm admin recover-admin ...` (TTY prompt).
+  admin:
+    image: friday-app:${FRIDAY_IMAGE_TAG:-local}
+    profiles: [tools]
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      <<: *app-env
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - appdata:/data
+      - applogs:/logs
+    networks: [internal]
+    entrypoint: ['node', 'dist/server/cli/main.js']
+  restore:
+    image: friday-app:${FRIDAY_IMAGE_TAG:-local}
+    profiles: [tools]
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      <<: *app-env
+      DB_USER: ${DB_OWNER_USER}
+      DB_PASSWORD: ${DB_OWNER_PASSWORD}
+    volumes:
       - applogs:/logs
       - ./backups:/backups
     networks: [internal]
