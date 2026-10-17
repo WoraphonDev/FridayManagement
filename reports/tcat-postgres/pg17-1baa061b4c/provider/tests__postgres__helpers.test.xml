@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: two-phase rank swap, canonical locks, one column version increment and reopen persistence" time="0.246609" classname="test"/>
+	<testcase name="PostgreSQL 17: effect failure rolls back ranks, versions and persisted audit/notification together" time="0.172651" classname="test"/>
+	<testcase name="PostgreSQL 17: stale/missing task and stale/incomplete/duplicate column orders cannot leave partial state" time="0.207895" classname="test"/>
+	<testcase name="PostgreSQL 17: source/target column versions, task status/version, audit and notification commit atomically" time="0.174324" classname="test"/>
+	<testcase name="PostgreSQL 17: legacy blocked upgrades to review with children, ledger, identity high-water and repeat/reopen intact" time="0.139318" classname="test"/>
+	<!-- tests 5 -->
+	<!-- suites 0 -->
+	<!-- pass 5 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 1059.206667 -->
+</testsuites>

@@ -56,3 +56,32 @@ expected results to be checked against what those tests assert, and AT items nee
    connection loss, unknown commit).
 3. Infrastructure cases, RV-18, UAT and REL-03/04 need the real Linux + Docker server (T-096) and
    people; TC-083/084 need the 30-user performance fixture.
+
+## Step 2 — per-case review and execution records (17 October 2026)
+
+Every one of the 99 cases was compared, step by step, with the assertions of its mapped tests
+(`tests/tcat-review.json`). Four cases had steps that no test exercised; tests were added and pass on
+PostgreSQL and SQLite:
+
+| Case | Added test |
+|---|---|
+| TC-006 | `tests/browser/tcat-gaps.spec.ts`: UI logout, Back cannot reopen the task, replayed pre-logout cookie 401 |
+| TC-012 | `tests/accounts/provider-suite.ts`: concurrent mutual demotion of the last two Admins keeps ≥1 active Admin |
+| TC-047 | `tests/browser/tcat-gaps.spec.ts`: date-only End Plan stays on its day in UTC−7 and UTC+14 browsers |
+| TC-082 | `tests/postgres/lock-timeout.test.ts`: real row lock past lock_timeout → 503 Retry-After, full rollback, single retry |
+
+**Run `pg17-1baa061b4c`** (clean commit 1baa061, PostgreSQL 17.11, Node 22.23.3, Playwright Chromium):
+provider 193, HTTP 57, Chromium 93 — **343/343 passed**.
+
+**Execution records:** `scripts/tcat-record.mjs` wrote **87 TC PASS records** for that build into
+`tests/execution-records.json` (profile `postgres17`, or `pure-node22` for UI-only cases); the
+T-004 checker validates them (`check:test-plan` evidence PASS).
+
+**Not covered (12 TC, still NOT_RUN):** TC-075–TC-081 operations and TC-083/084 performance (need the
+real Linux + Docker server / 30-user fixture), TC-071 (OS-level PWA install), TC-074 (Chrome/Edge/
+Firefox/Safari current+previous matrix), TC-098 (owner comparison with the T-079 mock and a
+performance trace review).
+
+**Release gate for this build:** 81 of 168 items pending — TC 12, AT 40 (each needs the owner's
+explicit sign-off after reviewing its mapped cases), RV 20 (variants not executed as such), UAT 5,
+REL 4. No task changes status: acceptance still needs AT sign-off, UAT and the Linux server.

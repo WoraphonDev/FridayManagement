@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: case-insensitive login creates independent256-bit tokens/hash-only sessions and minimal scoped Self" time="0.814947" classname="test"/>
+	<testcase name="PostgreSQL 17: wrong/unknown/inactive/corrupt and short CurrentPassword failures are generic; spaces are significant" time="0.839371" classname="test"/>
+	<testcase name="PostgreSQL 17: strict login allowlist and scalar CurrentPassword bounds validate before attempts or hashing" time="0.518575" classname="test"/>
+	<testcase name="PostgreSQL 17: username limit10 ignores case/IP; successes and restart preserve limits; exact15min boundary resets" time="0.790540" classname="test"/>
+	<testcase name="PostgreSQL 17: IP limit30 spans usernames and successful login; mapped IPv4 shares bucket; expired buckets reset" time="0.623547" classname="test"/>
+	<testcase name="PostgreSQL 17: reads do not renew idle; CSRF activity renews only before exact60min expiry" time="0.587939" classname="test"/>
+	<testcase name="PostgreSQL 17: activity never extends12h absolute expiry; lowered configured lifetimes and clock regression fail safely" time="0.668877" classname="test"/>
+	<testcase name="PostgreSQL 17: forced gate limits Self summaries; scoped grants are current, archived Lead survives; logout revokes one session" time="0.541636" classname="test"/>
+	<testcase name="PostgreSQL 17: auth-version/deactivation/role/reset revocation compose atomically and rollback preserves sessions" time="0.985055" classname="test"/>
+	<testcase name="PostgreSQL 17: login replaces presented old session without fixation; revocation race never creates a session" time="0.741993" classname="test"/>
+	<!-- tests 10 -->
+	<!-- suites 0 -->
+	<!-- pass 10 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 7456.111208 -->
+</testsuites>

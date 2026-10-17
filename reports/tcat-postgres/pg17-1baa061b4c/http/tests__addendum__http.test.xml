@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="AT-34 My overview numbers match My work scope and switch at Bangkok midnight" time="1.160121" classname="test"/>
+	<testcase name="AT-34 every Home widget equals the My work query it links to; assigned/created toggle" time="0.811590" classname="test"/>
+	<testcase name="AT-35 Docs: sanitize XSS, Viewer read-only, 409 + history, own/P-05 delete, restore, purge" time="0.788513" classname="test"/>
+	<testcase name="AT-35 Docs boundaries, concurrent save, manager P-05, 30-day window, archived, audit" time="1.491255" classname="test"/>
+	<testcase name="AT-36 Project files: upload with validation/quota, merged list, own/P-06 delete, restore, safe download" time="0.900371" classname="test"/>
+	<testcase name="AT-36 Files: Viewer, quota boundary, type filter, deleted task hidden, P-06, 30-day window, purge, audit" time="1.501542" classname="test"/>
+	<testcase name="AT-37 Workload weeks/threshold/P-09 scope and project overview numbers" time="0.982806" classname="test"/>
+	<testcase name="AT-40 Favorites are private, never widen access and vanish when access is revoked" time="1.153570" classname="test"/>
+	<testcase name="T-089 preferences: defaults, allowlisted merge, bounds, self only" time="0.654600" classname="test"/>
+	<testcase name="AT-38 batch: per-item outcomes without silent partial updates; @mention notifies only project users" time="0.707975" classname="test"/>
+	<!-- tests 10 -->
+	<!-- suites 0 -->
+	<!-- pass 10 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 10492.896458 -->
+</testsuites>

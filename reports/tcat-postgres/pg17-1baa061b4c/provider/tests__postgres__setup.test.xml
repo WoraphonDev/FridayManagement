@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: setup token is 256-bit, changes with service restart, never stored or exposed by meta" time="0.289408" classname="test"/>
+	<testcase name="PostgreSQL 17: valid setup creates one active Admin/organization/audit/revision; scrypt salt/cost/no-trim; safe DTO" time="0.499944" classname="test"/>
+	<testcase name="PostgreSQL 17: wrong token403 and strict field/password rules reject without business rows; configured setup409 even wrong token" time="0.304892" classname="test"/>
+	<testcase name="PostgreSQL 17: audit failure rolls back organization/user/revision; rate attempts survive business rollback" time="0.271689" classname="test"/>
+	<testcase name="PostgreSQL 17: parallel setup commands create exactly one complete set and the loser409" time="0.395659" classname="test"/>
+	<testcase name="PostgreSQL 17: persisted setup IP limit10/15min survives restart; equivalent mapped IPv4 buckets match; cutoff resets" time="0.230774" classname="test"/>
+	<testcase name="PostgreSQL 17: pre-existing organization without accounts updated atomically rather than duplicated" time="0.354299" classname="test"/>
+	<testcase name="PostgreSQL 17: simulated lost commit acknowledgement returns busy; authoritative meta false and further setup409" time="0.236121" classname="test"/>
+	<!-- tests 8 -->
+	<!-- suites 0 -->
+	<!-- pass 8 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 2877.775083 -->
+</testsuites>

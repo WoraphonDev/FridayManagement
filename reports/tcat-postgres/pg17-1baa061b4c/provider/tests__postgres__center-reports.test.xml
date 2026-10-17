@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: T050 own/current-parent scope, page50, unread independent of filter, no GET changes or idle renewal" time="0.321360" classname="test"/>
+	<testcase name="PostgreSQL 17: T050 read one/noop/read all persisted, only own visible rows, revoked parents hidden" time="0.220747" classname="test"/>
+	<testcase name="PostgreSQL 17: T050 90 UTC day cutoff, just-before retained, maintenance pauses actual cleanup function" time="0.197129" classname="test"/>
+	<testcase name="PostgreSQL 17: T052 totals/status6/overdue/unassigned/33.33%, owner team vs assignee team, zero and hidden/deleted/archived" time="0.264276" classname="test"/>
+	<testcase name="PostgreSQL 17: T052 Bangkok created/completed boundaries, due inclusive, default month, reopen clears done-period, inactive history" time="0.247379" classname="test"/>
+	<testcase name="PostgreSQL 17: T053 CSV120+ rows UTF8 BOM RFC4180, formula neutralization, all shared filters and no secret columns" time="0.386996" classname="test"/>
+	<testcase name="PostgreSQL 17: T053 cap50001 rejects before streaming; exactly50000 streams bounded batches, disconnect releases transaction" time="53.259236" classname="test"/>
+	<testcase name="PostgreSQL 17: T053 authorization rechecked before headers and export startup; changed access produces no CSV" time="0.218165" classname="test"/>
+	<!-- tests 8 -->
+	<!-- suites 0 -->
+	<!-- pass 8 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 55374.42875 -->
+</testsuites>
