@@ -31,12 +31,24 @@ export class PostgresDatabase implements Database {
   constructor(
     private readonly pool: pg.Pool,
     private readonly lockTimeoutMs = 5000,
-  ) {}
+  ) {
+    // An idle client whose backend dies (restart/failover/terminate) emits 'error'; without a
+    // listener Node would crash. The pool already discards that client, so nothing else to do.
+    pool.on('error', () => {});
+  }
 
   async transaction<T>(work: (transaction: Transaction) => Promise<T>): Promise<T> {
     const client = await this.pool.connect();
     let committing = false;
     let rolledBack = false;
+    // A checked-out client also emits 'error' when its connection is lost mid-transaction
+    // (RV-14). Keep it from crashing the process; the failing query rejects on its own, and the
+    // broken client is destroyed on release instead of returning to the pool.
+    let connectionLost = false;
+    const lost = () => {
+      connectionLost = true;
+    };
+    client.on('error', lost);
     const run = async (statement: Statement) => {
       const { text, values } = toPostgres(statement);
       // Parameterless text may hold several statements (migrations); that needs the simple protocol.
@@ -86,15 +98,18 @@ export class PostgresDatabase implements Database {
       const driverError = typeof code === 'string' && /^[0-9A-Z]{5}$/.test(code);
       // Match SQLite: a business error with a confirmed rollback propagates unchanged.
       if (!committing && rolledBack && !driverError) throw error;
+      // 57014: statement_timeout cancelled a slow statement — a bounded wait like lock_timeout,
+      // reported as DATABASE_BUSY rather than an internal error (RV-15).
       const mapped =
         code === '40001' || code === '40P01'
           ? Object.assign(error as object, { number: 1205 })
-          : code === '55P03'
+          : code === '55P03' || code === '57014'
             ? Object.assign(error as object, { number: 1222 })
             : error;
       throw new TransactionFailure(!committing && rolledBack ? 'rolled_back' : 'unknown', mapped);
     } finally {
-      client.release();
+      client.off('error', lost);
+      client.release(connectionLost || undefined);
     }
   }
   async close(): Promise<void> {

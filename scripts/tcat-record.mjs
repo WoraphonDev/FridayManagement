@@ -59,9 +59,32 @@ for (const tc of manifest.cases) {
     evidence,
   });
 }
+for (const v of manifest.variants) {
+  const r = review.variants?.[v.id];
+  if (r?.verdict !== 'covered') continue;
+  records.push({
+    id: v.id,
+    profile: 'postgres17',
+    status: 'PASS',
+    build: summary.build,
+    sourceSha256: summary.sourceSha256,
+    schemaVersion,
+    tester: review.reviewer,
+    role: 'developer (automated fault harness + variant step review)',
+    date: summary.date,
+    environment: {
+      node: summary.environment.node,
+      os: summary.environment.os,
+      osVersion: summary.environment.osVersion,
+      db: summary.environment.db,
+    },
+    actual: `Variant setup/steps/expected executed by passing tests on this build: ${r.evidence.join(' | ')}${r.notes ? ` | Note: ${r.notes}` : ''}`,
+    evidence,
+  });
+}
 const store = JSON.parse(readFileSync('tests/execution-records.json', 'utf8'));
 // Replace earlier records for this build; keep records of other builds untouched.
 store.records = [...store.records.filter((x) => x.build !== summary.build), ...records];
-store.note = `TC records from PostgreSQL run ${summary.build} after per-case review (tests/tcat-review.json). AT/RV/UAT/REL items remain NOT_RUN: AT needs owner sign-off; variants, operations, performance, browser matrix and UAT were not executed.`;
+store.note = `TC and RV records from PostgreSQL run ${summary.build} after per-item review (tests/tcat-review.json). Remaining items are NOT_RUN: AT needs owner sign-off; unreviewed variants, operations, performance, browser matrix, UAT and release reviews were not executed.`;
 writeFileSync('tests/execution-records.json', JSON.stringify(store, null, 2) + '\n');
 console.log(JSON.stringify({ build: summary.build, records: records.length }));

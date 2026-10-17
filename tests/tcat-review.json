@@ -685,5 +685,41 @@
         "tests/browser/favorites.spec.ts: starred project leads the sidebar and survives reload"
       ]
     }
+  },
+  "variants": {
+    "RV-12": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/postgres/fault-variants.test.ts RV-12: real row lock past lock_timeout (300 ms) → DATABASE_BUSY 503 Retry-After 5 within a bounded wait; counts [0,0,0,0]; after release the same key commits once and replays identically",
+        "tests/postgres/fault-http.test.ts RV-12: HTTP 503 with Retry-After: 5 and error code DATABASE_BUSY; /health/ready answers during the lock; same-key retry 201 then identical replay; one comment row"
+      ],
+      "notes": "Lock timeouts are not retried (bounded budget of one attempt), as designed; SQL error class is mapped, never returned."
+    },
+    "RV-13": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/postgres/fault-variants.test.ts RV-13: real PostgreSQL deadlock (row lock vs advisory lock) makes the command the 40P01 victim; attempts ['rolled_back:40P01','committed'] → one outcome; replay identical",
+        "tests/postgres/fault-variants.test.ts RV-13: a deadlock on every attempt exhausts the 3-attempt budget → 503 with no extra rows"
+      ],
+      "notes": "The application serializes its own transactions with one advisory lock, so victims come from external writers; the deadlock is real (PostgreSQL detector), not injected."
+    },
+    "RV-14": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/postgres/fault-variants.test.ts RV-14: pg_terminate_backend after writes, before COMMIT → 503 DATABASE_BUSY; a new connection sees [0,0,0,0]; same-key retry commits once and replays",
+        "src/repository/postgres/database.ts fix: a lost checked-out connection no longer crashes the process (client 'error' listener) and is destroyed on release",
+        "tests/files provider (PostgreSQL) T041/T042: failed finalize/metadata transactions and restart recovery leave no orphan reservation or bytes"
+      ],
+      "notes": "Defect found and fixed 2026-10-17: killing the database connection mid-transaction crashed the Node process (unhandled pg client error)."
+    },
+    "RV-15": {
+      "verdict": "covered",
+      "evidence": [
+        "tests/postgres/fault-variants.test.ts RV-15: statement_timeout cancels a slow statement → 503 DATABASE_BUSY, nothing committed, same-key retry once",
+        "tests/postgres/fault-variants.test.ts RV-15: COMMIT succeeds but the acknowledgement is lost → 503; authoritative rows show exactly one commit; same-key replay returns it; different body IDEMPOTENCY_CONFLICT; revoked access FORBIDDEN before replay",
+        "tests/postgres/fault-http.test.ts RV-15: HTTP response lost after commit → same-key replay returns the committed comment id; different body 409"
+      ],
+      "notes": "Defect found and fixed 2026-10-17: PostgreSQL statement timeout (57014) surfaced as an internal error instead of DATABASE_BUSY."
+    }
   }
 }

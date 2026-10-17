@@ -10,6 +10,8 @@ import { startApplication, safeStartupError } from '../../src/api/start.js';
 import { openDatabase } from '../../src/repository/open.js';
 import { parseConfiguration } from '../../src/config/config.js';
 import { createApp } from '../../src/api/app.js';
+import { localInstancePort } from '../../src/config/instance.js';
+import type { AppConfig } from '../../src/config/config.js';
 
 async function port() {
   const probe = createServer();
@@ -177,5 +179,16 @@ test('Kernel instance guard releases on process crash; no stale PID/lock file is
     }
     await app?.stop();
     await rm(f.root, { recursive: true, force: true });
+  }
+});
+test('Instance guard port stays below OS ephemeral ranges for SQLite and PostgreSQL identities', () => {
+  for (let i = 0; i < 2000; i++) {
+    const sqlite = localInstancePort({
+      database: { provider: 'sqlite', path: `/srv/friday/data/${i}.sqlite` },
+    } as unknown as AppConfig);
+    const postgres = localInstancePort({
+      database: { provider: 'postgres', server: 'db', port: 5432, name: `friday_${i}` },
+    } as unknown as AppConfig);
+    for (const port of [sqlite, postgres]) assert(port >= 20000 && port < 32000, String(port));
   }
 });
