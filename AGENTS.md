@@ -3,7 +3,7 @@
 ## Scope and source documents
 - Internal task-management web app for one organization, multiple teams, approximately 30 users.
 - Runtime: Node.js 22; do not change the shared runtime used by other projects.
-- SQLite is authorized for temporary local development. Windows deployment by the owner still targets SQL Server 2022. No email and no AI features.
+- SQLite is authorized for temporary local development. Production targets PostgreSQL 17 on Linux + Docker (ADR-0001, owner decision 2026-10-11, reaffirmed 2026-10-17); SQL Server 2022/Windows is retired from acceptance and release scope. No email delivery and no AI features (owner-approved email/password registration with Admin approval is allowed; it sends no email).
 - Read the relevant requirements, SRS, Task Register and test documents before a task.
 - Business baseline is 1.1 with the owner-approved Node.js 22/temporary SQLite local profile. Task document content is version 1.53; Requirements are content 1.8 and SRS is content 1.10; test documents are content 1.33 (Test Plan 1.34); filenames retain v1.0 for stable references.
 - Do not infer task completion from existing code. Check dependencies, implement acceptance criteria, and record evidence.
@@ -30,7 +30,7 @@
 - Report PASS/FAIL/BLOCKED/NOT_RUN accurately. Never mark a task DONE from code inspection alone.
 
 ## Implementation and handoff
-- Follow the stack and contracts in the SRS. Keep SQLite local and SQL Server adapters/migrations/test evidence separate. Real SQL Server integration and backup/restore evidence remain required for SQL Server acceptance; SQLite results cannot close those criteria.
+- Follow the stack and contracts in the SRS as amended by docs/adr/ADR-0001-postgresql-linux-docker.md. Keep SQLite local and PostgreSQL adapters/migrations/test evidence separate. Real PostgreSQL integration (tests/postgres, RUN_POSTGRES_TESTS=1) and Linux/Docker pg_dump backup/restore evidence are required for production acceptance; SQLite results cannot close those criteria. SQL Server adapter/migrations/tests stay in the repository for reference only; keep them compiling but do not require or claim SQL Server evidence.
 - Preserve the task dependencies, permission boundaries and business rules, including the owner-approved readiness decisions RD-01–RD-08 in SRS section 18.
 - API schemas, versions, errors, idempotency and wire format are locked in TeamFlow_API_Contract.md and contracts/openapi.json. Regenerate with build:contract and run check:contract/test:contract when changing them.
 - Update Task Register status/evidence for work actually completed.
@@ -38,4 +38,4 @@
 - Supply minimal provider-specific transaction fixtures plus atomic audit/notification persistence during foundation before feature sign-off. Partial T-016/T-027 acceptance stays IN_PROGRESS until cleanup/recurrence dependencies are verified; do not wait for T-067 to begin testing.
 - Owner approved Gantt and Monday-inspired design on 2026-10-06 for plan/mock first: FR-25/T-046 High/AT-19/TC-049; dependencies and automatic scheduling remain excluded.
 - Owner selected Vibe and an English-base compact Minimal preview on 2026-10-07. Preserve Thai/Unicode user data and Asia/Bangkok dates; application integration and specification alignment remain separate from mock evidence.
-- Do not add excluded features or mark UAT/Windows checks passed without running them.
+- Do not add excluded features or mark UAT/Linux server/Docker checks passed without running them.

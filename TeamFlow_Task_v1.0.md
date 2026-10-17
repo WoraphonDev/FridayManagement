@@ -14,7 +14,7 @@ Backend rechecks Admin/CSRF/current account and registration version. Approve/re
 **Version:** 1.88 · **วันที่:** 12 ตุลาคม 2026\
 **สถานะ:** แผนงานตาม Baseline 1.1 ที่ยืนยันแล้ว; coding/testing ยังไม่เสร็จ  
 **จำนวน:** 96 งานหลัก · 14 ช่วงงาน · 52 FR (+FR-42A; FR-46 deferred) · 9 NFR · 23 BR · 40 Acceptance Tests · 85 API routes ที่ล็อก (contract 1.11.0) + planned routes SRS §12.6
-**ADR-0001 (2026-10-11):** PostgreSQL บน Linux + Docker แทน SQL Server 2022 บน Windows — หลักฐาน SQL2022/Windows ในงานเดิมถือว่า superseded (ไม่ต้องใช้ปิดงาน); ใช้หลักฐาน PostgreSQL/Docker (T-095/T-096) แทน
+**ADR-0001 (2026-10-11, เจ้าของยืนยันอีกครั้ง 2026-10-17):** PostgreSQL บน Linux + Docker แทน SQL Server 2022 บน Windows — หลักฐาน SQL2022/Windows ในงานเดิมถือว่า superseded (ไม่ต้องใช้ปิดงาน); ใช้หลักฐาน PostgreSQL/Docker (T-095/T-096) แทน
 **ต้นทาง:** `TeamFlow_Requirements_v1.0.md` และ `TeamFlow_SRS_v1.0.md` รุ่นปัจจุบันที่อ่านเมื่อ 5 ตุลาคม 2026
 
 
@@ -426,7 +426,7 @@ G5 เป็นรายการให้ผู้ใช้ตรวจเม�
 | T-092 | Security Design + Threat model (tickets/T-092-security-design.md) | — | Medium | DONE | Claude / 2026-10-10 | docs/07-security.md 1.0 owner-approved 2026-10-10; Q-T-092-1 B, Q-T-092-2 A; document task only (controls verified in T-093/T-094) |
 | T-093 | OWASP Top 10 verification release 1.0 (tickets/T-093-owasp-verification.md) | T-091, T-092 | High | TODO | ยังไม่มอบหมาย | docs/security/OWASP-1.0.md NOT_RUN |
 | T-094 | Pen-Test + remediation/retest (tickets/T-094-pentest.md) | T-093 | High | TODO | ยังไม่มอบหมาย | docs/security/PENTEST-1.0.md plan only |
-| T-095 | PostgreSQL provider: adapter, migrations, provider suites (ADR-0001) | — | High | DONE | Claude / 2026-10-11 | docs/adr/ADR-0001-postgresql-linux-docker.md; src/repository/postgres; migrations/postgres 0000–0015; tests/postgres 184/184 PASS (PostgreSQL 17 Docker); SQLite npm test unchanged PASS |
+| T-095 | PostgreSQL provider: adapter, migrations, provider suites (ADR-0001) | — | High | DONE | Claude / 2026-10-11 | docs/adr/ADR-0001-postgresql-linux-docker.md; src/repository/postgres; migrations/postgres 0000–0015; tests/postgres 184/184 PASS (PostgreSQL 17 Docker); SQLite npm test unchanged PASS; 2026-10-17 rerun after migration 0017 registrations + API1.14/1.15: tests/postgres 191/191 PASS on fresh PostgreSQL 17.11 Docker (schema FK count 51→53 for registrations); full Playwright Chromium 90/90 local |
 | T-096 | Linux + Docker deployment, HTTPS proxy, pg_dump backup/restore (ADR-0001) | T-095 | High | IN_PROGRESS | Claude / 2026-10-11 | Dockerfile, deploy/ (compose, Caddyfile, .env.example), src/operations/pg-restore.ts, docs/deploy-linux-docker.md; local rehearsal PASS (HTTPS headers, setup→Kanban, backup→verify→isolated restore); real Linux server/DNS/Let's Encrypt/cron/UAT NOT_RUN |
 
 ## 5. Phase 00: Baseline และสัญญาการพัฒนา

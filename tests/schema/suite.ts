@@ -120,7 +120,8 @@ export function schemaAcceptance(
             'SELECT rc.delete_rule,rc.update_rule,CASE WHEN c.convalidated THEN 1 ELSE 0 END AS validated FROM information_schema.referential_constraints rc JOIN pg_constraint c ON c.conname=rc.constraint_name AND c.connamespace=current_schema()::regnamespace WHERE rc.constraint_schema=current_schema()',
           ),
         );
-        assert.equal(keys.length, 51);
+        // 51 business FKs + 2 on registrations (migration 0017).
+        assert.equal(keys.length, 53);
         for (const key of keys)
           assert.deepEqual(key, {
             delete_rule: 'NO ACTION',
@@ -170,7 +171,8 @@ export function schemaAcceptance(
             "SELECT is_disabled,is_not_trusted,delete_referential_action,update_referential_action FROM sys.foreign_keys WHERE schema_id=SCHEMA_ID(OBJECT_SCHEMA_NAME(OBJECT_ID(N'dbo.tasks')))",
           ),
         );
-        assert.equal(keys.length, 51);
+        // 51 business FKs + 2 on registrations (migration 0017).
+        assert.equal(keys.length, 53);
         for (const key of keys)
           assert.deepEqual(key, {
             is_disabled: 0,
