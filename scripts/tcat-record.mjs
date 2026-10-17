@@ -4,7 +4,7 @@
 // AT/RV/UAT/REL items are never written here: AT needs an explicit owner sign-off.
 //
 // Usage: node scripts/tcat-record.mjs reports/tcat-postgres/<build>
-import { readFileSync, writeFileSync, readdirSync } from 'node:fs';
+import { readFileSync, writeFileSync, readdirSync, copyFileSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import { chromium } from '@playwright/test';
@@ -25,7 +25,10 @@ const evidence = ['summary.json', 'coverage.json'].map((f) => ({
   path: join(dir, f),
   sha256: sha(join(dir, f)),
 }));
-evidence.push({ path: 'tests/tcat-review.json', sha256: sha('tests/tcat-review.json') });
+// Snapshot the review next to the run so evidence stays immutable while the ledger evolves.
+const reviewCopy = join(dir, 'tcat-review.json');
+copyFileSync('tests/tcat-review.json', reviewCopy);
+evidence.push({ path: reviewCopy, sha256: sha(reviewCopy) });
 const browser = await chromium.launch();
 const browserVersion = browser.version();
 await browser.close();

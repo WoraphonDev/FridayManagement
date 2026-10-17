@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="T035 HTTP move DTO/versions/CSRF/key/replay and recurrence3-column response persists actual restart" time="1.205587" classname="test"/>
+	<testcase name="T039 HTTP concurrent same-key comment/restart/plaintext/read scope/archive/current replay rights" time="0.802115" classname="test"/>
+	<!-- tests 2 -->
+	<!-- suites 0 -->
+	<!-- pass 2 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 2409.162833 -->
+</testsuites>

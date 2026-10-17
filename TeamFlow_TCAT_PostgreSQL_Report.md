@@ -85,3 +85,33 @@ performance trace review).
 **Release gate for this build:** 81 of 168 items pending — TC 12, AT 40 (each needs the owner's
 explicit sign-off after reviewing its mapped cases), RV 20 (variants not executed as such), UAT 5,
 REL 4. No task changes status: acceptance still needs AT sign-off, UAT and the Linux server.
+
+## Step 3 — database fault variants RV-12–RV-15 (17 October 2026)
+
+Real PostgreSQL 17 faults, each on the idempotent comment command (comment + task event +
+notification + idempotency key) so partial state and duplicates are visible:
+
+| Variant | Exercised | Result |
+|---|---|---|
+| RV-12 lock timeout | row lock held past `lock_timeout` (service + HTTP) | 503 `DATABASE_BUSY`, `Retry-After: 5`, bounded wait, no rows; readiness answers; same key commits once |
+| RV-13 deadlock victim | real deadlock (row lock vs advisory lock) | victim rolled back, retry commits one outcome; deadlock on every attempt exhausts 3 attempts → 503, no rows |
+| RV-14 connection loss | `pg_terminate_backend` after writes, before COMMIT | 503, nothing committed (fresh connection), same-key retry once |
+| RV-15 timeout / lost ack | `statement_timeout`; COMMIT succeeds but reply lost (service + HTTP) | timeout → 503 and uncommitted; lost ack → authoritative state shows one commit, replay returns it, different body 409, revoked access 403 |
+
+**Defects found and fixed** (commit 24e1f31):
+
+1. A database connection lost mid-transaction crashed the whole Node process (unhandled `pg`
+   client `error` event) — e.g. on PostgreSQL restart or failover. The adapter now handles errors
+   on checked-out and idle clients and destroys broken clients.
+2. PostgreSQL statement timeout (57014) surfaced as an internal error; it now maps to
+   `DATABASE_BUSY` 503 like lock timeout.
+3. The local instance-guard port (40000–59999) overlapped OS ephemeral port ranges, so an outbound
+   socket could randomly block startup with `INSTANCE_GUARD_UNAVAILABLE` (the earlier "flake"). It
+   now lies in 20000–31999 with a unit test.
+
+**Run `pg17-24e1f31cb8`** (clean commit 24e1f31): provider 199, HTTP 57, Chromium 93 — **349/349
+passed**; SQLite `npm test` 482 + frontend 50 passed. **Records:** 87 TC + 4 RV PASS for this build;
+earlier build records now reference immutable review snapshots in their run folders;
+`check:test-plan` evidence PASS (178 records).
+
+**Release gate for this build:** 77 of 168 pending — TC 12, AT 40, RV 16, UAT 5, REL 4.

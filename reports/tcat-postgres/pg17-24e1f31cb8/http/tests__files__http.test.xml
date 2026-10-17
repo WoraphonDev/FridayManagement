@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="T040–043 HTTP real multipart idempotent concurrent/restart/hash, authorized binary/safe headers, lifecycle and immutable scoped audit" time="1.137795" classname="test"/>
+	<testcase name="T041 HTTP no Origin/CSRF/session/key before temp creation; invalid multipart/UTF8/type boundaries" time="0.697819" classname="test"/>
+	<testcase name="T041 HTTP revoke current membership during actual streaming fails finalize and releases disk/reservation" time="0.653290" classname="test"/>
+	<testcase name="T041 real HTTP 10MiB streamed file accepted and max+1 refused without residual reservation" time="1.315106" classname="test"/>
+	<!-- tests 4 -->
+	<!-- suites 0 -->
+	<!-- pass 4 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 4139.09575 -->
+</testsuites>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17 T067 fixture roles/project topology, generated hashes, independent reset and Bangkok clock" time="1.635102" classname="test"/>
+	<testcase name="PostgreSQL 17 T068 real login hash-only sessions, polling idle boundary and absolute expiry despite activity" time="0.672309" classname="test"/>
+	<testcase name="PostgreSQL 17 T068 last Admin guard, role/deactivate revocation and history retention" time="0.794767" classname="test"/>
+	<testcase name="PostgreSQL 17 T068 password rotation/reset revokes old cookie and keeps audit secret-free" time="1.040437" classname="test"/>
+	<testcase name="PostgreSQL 17 T069 exact role/project read matrix and byte-authorized file IDOR" time="1.263962" classname="test"/>
+	<testcase name="PostgreSQL 17 T069 Viewer write matrix preserves DB/attachment bytes across all task actions" time="0.508912" classname="test"/>
+	<testcase name="PostgreSQL 17 T069 scope across search/count/report/CSV/notification and directory" time="0.614404" classname="test"/>
+	<testcase name="PostgreSQL 17 T069 revoke open detail prevents new reads/write/replay and cleans open assignment" time="0.581581" classname="test"/>
+	<testcase name="PostgreSQL 17 T069 archived project rejects normal writes, owner lifecycle exception and unarchive" time="0.686437" classname="test"/>
+	<testcase name="PostgreSQL 17 T069 CSRF/no Origin/spoofed proxy, parameterized SQLi and plaintext XSS" time="0.495926" classname="test"/>
+	<testcase name="PostgreSQL 17 T070 HTTP validation/checklist/leap monthly/concurrent same-key retry/reopen one successor" time="0.766106" classname="test"/>
+	<testcase name="PostgreSQL 17 T070 real HTTP trash/restore/cutoff/purge removes referenced bytes and keeps purge audit" time="0.626919" classname="test"/>
+	<testcase name="PostgreSQL 17 T071 HTTP >500 board fallback, complete paginated rows and Bangkok midnight/null dates" time="1.351553" classname="test"/>
+	<testcase name="PostgreSQL 17 T072 comment same-key concurrency immutable history, recipients/no-self/read scope and90day cutoff" time="0.701006" classname="test"/>
+	<testcase name="PostgreSQL 17 T072 real multipart10MiB/+1/invalid magic preserves quota and cleans reservations/temp" time="1.334122" classname="test"/>
+	<testcase name="PostgreSQL 17 T073 HTTP report owner-team/date/reopen and parsed Thai/formula/newline CSV all121rows" time="0.836991" classname="test"/>
+	<!-- tests 16 -->
+	<!-- suites 0 -->
+	<!-- pass 16 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 14246.747292 -->
+</testsuites>

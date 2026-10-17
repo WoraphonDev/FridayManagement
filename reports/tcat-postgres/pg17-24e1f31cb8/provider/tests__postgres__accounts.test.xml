@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: T016 member contacts and additive teams persist atomically without changing existing roles or sessions" time="0.903695" classname="test"/>
+	<testcase name="PostgreSQL 17: T015 rotates token/CSRF, revokes others, preserves absolute lifetime and clears forced gate" time="1.065364" classname="test"/>
+	<testcase name="PostgreSQL 17: T015 rejects wrong current, short/long passwords and client-controlled fields without mutation" time="0.832283" classname="test"/>
+	<testcase name="PostgreSQL 17: T015 credential attempt limit survives business rollback and expires at15min" time="1.432050" classname="test"/>
+	<testcase name="PostgreSQL 17: T015 prepared credentials recheck revocation before commit" time="0.646409" classname="test"/>
+	<testcase name="PostgreSQL 17: T016 create forces change, defaults member, username CI duplicate, immutable username and no secrets" time="0.732808" classname="test"/>
+	<testcase name="PostgreSQL 17: T016 search is literal, pages stable, active filter and no privileged member reads" time="0.563033" classname="test"/>
+	<testcase name="PostgreSQL 17: T016 optimistic version, no-op and last active Admin guard preserve state/audit" time="0.500979" classname="test"/>
+	<testcase name="PostgreSQL 17: TC-012 concurrent mutual demotion of the last two Admins keeps at least one active Admin" time="0.535066" classname="test"/>
+	<testcase name="PostgreSQL 17: T015/016 reset confirms actor password, rejects stale version, revokes and forces target only" time="1.282033" classname="test"/>
+	<testcase name="PostgreSQL 17: T016 deactivation cleans all unfinished including archived/deleted; done/history survive; notifications/revisions atomic" time="0.595297" classname="test"/>
+	<testcase name="PostgreSQL 17: T016 Admin demotion retains independent ownerLead/editor even archived; viewer/private loses assignee" time="0.470818" classname="test"/>
+	<testcase name="PostgreSQL 17: T016 demotion preserves explicit editor but removes viewer-only assignment and leaves unrelated revision private" time="0.478564" classname="test"/>
+	<testcase name="PostgreSQL 17: T015 exact12 scalars accepted, wrong-current request does not alter last-seen" time="0.699623" classname="test"/>
+	<testcase name="PostgreSQL 17: T016 rollback prevents partial account/task/audit/notification changes" time="0.421432" classname="test"/>
+	<!-- tests 15 -->
+	<!-- suites 0 -->
+	<!-- pass 15 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 11484.430333 -->
+</testsuites>

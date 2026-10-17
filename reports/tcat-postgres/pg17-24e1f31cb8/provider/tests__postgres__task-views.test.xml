@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: T030 delete excludes active queries/board/notifications/attachment scope; restore appends/version, children intact" time="0.742354" classname="test"/>
+	<testcase name="PostgreSQL 17: T030 creator Editor vs noncreator/Viewer; Admin/Lead archived deletion and read-only restore RD01" time="0.681755" classname="test"/>
+	<testcase name="PostgreSQL 17: T030 exact UTC 30-day cutoff; stale version first, no partial expired restore" time="0.582596" classname="test"/>
+	<testcase name="PostgreSQL 17: T030 restore current eligible assignee, done history retained, soft-delete series does not regenerate" time="0.677509" classname="test"/>
+	<testcase name="PostgreSQL 17: T030 managed trash only owning scopes, revoked read hidden and children blocked" time="0.563008" classname="test"/>
+	<testcase name="PostgreSQL 17: T030 deletion/restore effect failure rolls back task/ordering/column/events atomically" time="0.613809" classname="test"/>
+	<testcase name="PostgreSQL 17: T031 scoped count before pagination, hidden search and explicit archived project only" time="0.736673" classname="test"/>
+	<testcase name="PostgreSQL 17: T031 AND fields/OR values, assignee null vs omitted, creator/has_due and exact category" time="0.598369" classname="test"/>
+	<testcase name="PostgreSQL 17: T031 literal wildcard/Unicode case search in title/description/category and bound SQL injection" time="0.560006" classname="test"/>
+	<testcase name="PostgreSQL 17: T031 all seven sorts, due null-last both directions and ID ties" time="0.570967" classname="test"/>
+	<testcase name="PostgreSQL 17: T031 inclusive due and Bangkok timestamp [start,end), completed excludes reopened tasks" time="0.564884" classname="test"/>
+	<testcase name="PostgreSQL 17: T034 consistent four-column snapshot/versions persist after restart; corrupt rank fails closed" time="0.704217" classname="test"/>
+	<testcase name="PostgreSQL 17: T034 500 boundary vs501 list_required returns no partial array; pagination still complete" time="1.331442" classname="test"/>
+	<!-- tests 13 -->
+	<!-- suites 0 -->
+	<!-- pass 13 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 9203.228584 -->
+</testsuites>

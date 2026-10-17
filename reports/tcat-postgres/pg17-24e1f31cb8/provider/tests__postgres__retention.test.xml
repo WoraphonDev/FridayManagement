@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: cutoff purge is atomic with audit/bytes queue and retains recurrence tombstones" time="0.253967" classname="test"/>
+	<testcase name="PostgreSQL 17: maintenance blocks retention, drains admitted work and owner loss never unlocks" time="0.187178" classname="test"/>
+	<testcase name="PostgreSQL 17: a failed parent deletion rolls audit/child/byte-queue changes back" time="0.247344" classname="test"/>
+	<testcase name="PostgreSQL 17: expired sessions/idempotency/rate limits clean at the exact deadline" time="0.272002" classname="test"/>
+	<!-- tests 4 -->
+	<!-- suites 0 -->
+	<!-- pass 4 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 1274.567459 -->
+</testsuites>

@@ -37,7 +37,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -78,7 +78,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -119,7 +119,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -160,7 +160,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -201,7 +201,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -242,7 +242,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -283,7 +283,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -324,7 +324,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -365,7 +365,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -406,7 +406,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -447,7 +447,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -488,7 +488,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -529,7 +529,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -570,7 +570,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -611,7 +611,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -652,7 +652,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -693,7 +693,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -734,7 +734,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -775,7 +775,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -816,7 +816,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -857,7 +857,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -898,7 +898,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -939,7 +939,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -980,7 +980,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1021,7 +1021,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1062,7 +1062,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1103,7 +1103,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1144,7 +1144,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1185,7 +1185,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1226,7 +1226,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1267,7 +1267,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1308,7 +1308,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1349,7 +1349,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1390,7 +1390,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1431,7 +1431,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1472,7 +1472,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1513,7 +1513,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1554,7 +1554,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1595,7 +1595,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1636,7 +1636,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1677,7 +1677,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1718,7 +1718,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1756,7 +1756,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1797,7 +1797,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1838,7 +1838,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1879,7 +1879,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1920,7 +1920,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -1961,7 +1961,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2002,7 +2002,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2043,7 +2043,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2084,7 +2084,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2125,7 +2125,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2166,7 +2166,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2207,7 +2207,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2248,7 +2248,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2289,7 +2289,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2330,7 +2330,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2371,7 +2371,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2412,7 +2412,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2453,7 +2453,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2494,7 +2494,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2535,7 +2535,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2576,7 +2576,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2617,7 +2617,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2658,7 +2658,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2699,7 +2699,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2740,7 +2740,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2781,7 +2781,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2822,7 +2822,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2863,7 +2863,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2901,7 +2901,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2939,7 +2939,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -2980,7 +2980,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3021,7 +3021,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3062,7 +3062,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3103,7 +3103,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3144,7 +3144,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3185,7 +3185,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3226,7 +3226,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3267,7 +3267,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3308,7 +3308,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3349,7 +3349,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3390,7 +3390,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3431,7 +3431,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3472,7 +3472,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3513,7 +3513,7 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
         }
       ]
@@ -3554,12 +3554,3718 @@
           "sha256": "09eda548e1b0eb1aa65e4a177aeef6a84999ef0fb97cc6e638a095612376b777"
         },
         {
-          "path": "tests/tcat-review.json",
+          "path": "reports/tcat-postgres/pg17-1baa061b4c/tcat-review.json",
           "sha256": "043f6ee0020bcaaeaed196ff70bf748306c2321b21c47a7b5ae7746bdeb0ebad"
+        }
+      ]
+    },
+    {
+      "id": "TC-001",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/setup/provider-suite.ts: setup token 256-bit / wrong token INVALID_SETUP_TOKEN with zero business rows / valid setup one active Admin + organization + audit / configured setup SETUP_ALREADY_COMPLETED | tests/setup/http.test.ts: HTTP wrong token 403, create 201, duplicate 409; logs contain neither token nor password | tests/browser/setup.spec.ts: real setup form rejects wrong token, clears secrets, completes once | Note: No default account: a freshly migrated database has zero users (provider snapshot).",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-002",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/setup/provider-suite.ts: parallel setup commands create exactly one complete set and the loser 409; snapshot [1,1,1,1] | tests/setup/provider-suite.ts: audit failure rolls back organization/user/revision (no half set)",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-003",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/sessions/provider-suite: case-insensitive login creates independent hash-only sessions and scoped Self | tests/sessions/http.test.ts: real login cookie/Self/no-store and reload | tests/browser/accounts.spec.ts: actual login → profile → reload in browser",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-004",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/sessions/provider-suite: wrong/unknown/inactive/corrupt failures are generic; spaces are significant | tests/sessions/http.test.ts: generic login errors at HTTP",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-005",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/sessions/provider-suite: username limit 10 ignores case/IP, restart preserves, exact 15-minute boundary resets | tests/sessions/provider-suite: IP limit 30 spans usernames and survives a successful login | tests/browser/accounts.spec.ts: login 429 handling",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-006",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/sessions/http.test.ts: logout commit and old cookie 401 | tests/browser/sessions.spec.ts: logout clears cookie, reload shows sign-in | tests/browser/tcat-gaps.spec.ts: TC-006 UI logout, Back cannot reopen the task, replayed pre-logout cookie 401 on /api/me and the task | Note: Back-navigation step added 2026-10-17 (tcat-gaps.spec.ts).",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-007",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/accounts/provider-suite.ts: create forces change, no secrets | tests/accounts/http.test.ts: forced gate (PASSWORD_CHANGE_REQUIRED) and secret-free create | tests/browser/accounts.spec.ts: create → login → forced password → profile",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-008",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/accounts/provider-suite.ts: rejects wrong current, short/long passwords without mutation; exact 12 scalars accepted; rotates token/CSRF and revokes others | tests/accounts/http.test.ts: forced gate rotates cookie+CSRF after commit and revokes other sessions | tests/browser/accounts.spec.ts: rotates/revokes the other browser session",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-009",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/accounts/provider-suite.ts: reset confirms actor password (wrong → INVALID_CREDENTIALS, no change), revokes and forces target only | tests/regression (provider): reset revokes old cookie and keeps audit secret-free | tests/browser/accounts.spec.ts: reset confirmation dialog",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-010",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/sessions/provider-suite: reads do not renew idle; CSRF activity renews only before exact 60-minute expiry | tests/sessions/http.test.ts: polling idle cutoff | tests/browser/accounts.spec.ts: passive polling never renews idle; trusted interaction does",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-011",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/sessions/http.test.ts: Set-Cookie HttpOnly, SameSite=Strict, Secure, Path=/ with secure cookies | tests/sessions/provider-suite: activity never extends the 12-hour absolute expiry; hash-only session storage",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-012",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/accounts/provider-suite.ts: last active Admin guard for deactivate/demote; edit name; optimistic version | tests/accounts/provider-suite.ts: TC-012 concurrent mutual demotion of the last two Admins keeps at least one active Admin (added 2026-10-17, PostgreSQL) | tests/browser/accounts.spec.ts: edit/last-admin/deactivate/reactivate confirmations | Note: Concurrent step previously ran only on SQLite workers.",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-013",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/workspaces/provider-suite: team create UTF16/trim/case-insensitive uniqueness; positions never confer Lead rights; no unauthorized composite writes | tests/accounts/provider-suite.ts: additive teams and contacts persist atomically without changing roles/sessions | tests/schema (PostgreSQL): fresh/repeat/legacy upgrade preserves populated data | tests/browser/workspaces.spec.ts: team details, Dev/Lead position grants no access, 360px",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-014",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/workspaces/provider-suite: team-only membership excludes projects and totals | tests/regression (PostgreSQL) T069: scope across search/count/report/CSV/notification and file IDOR",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-015",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/authorization (PostgreSQL): foreign Lead does not grant project access | tests/workspaces/provider-suite: project metadata defaults/enums/reopen/audit rollback; owner team immutable | tests/workspaces/http.test.ts: project details persist, replay, validate | tests/browser/workspaces.spec.ts: project detail form defaults, Unicode and 360px",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-016",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/authorization (PostgreSQL): role matrix Editor/Viewer and no implicit team project access | tests/workspaces/http.test.ts: cross-team boundaries | tests/browser/workspaces.spec.ts: cross-team sharing reads only the shared project",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-017",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/regression (PostgreSQL) T069: Viewer write matrix preserves DB rows and attachment bytes across all task actions | tests/browser/tasks.spec.ts: Viewer detail read-only",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-018",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/regression (PostgreSQL) T069: revoke open detail prevents new reads/write/replay and cleans open assignment | tests/authorization (PostgreSQL): notification reads require current parent access | tests/browser/workspaces.spec.ts: revoke hides modal and list on next refresh",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-019",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/workspaces/provider-suite T022: Editor→Viewer unassigns open work, preserves done; reducing explicit Editor does not clean up an owner Lead",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-020",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/workspaces/provider-suite T022: removing/reducing Lead preserves explicit Editor and cleans up only lost effective write; done history kept",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-021",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/accounts/provider-suite.ts: deactivation cleans unfinished work, keeps done/history | tests/workspaces/provider-suite T022: deactivate revokes live sessions | tests/workspaces/provider-suite T021: directory is active-only (picker)",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-022",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/regression (PostgreSQL) T069: archived project rejects normal writes, owner lifecycle exception and unarchive | tests/authorization (PostgreSQL): RD-01 exceptions | tests/browser/tasks.spec.ts: archived Admin read-only; managed delete/restore via UI",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-023",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/workspaces/provider-suite: active-project archive guard; archived team cannot create/unarchive projects | tests/workspaces/provider-suite T021 + authorization: directory privacy",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-024",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/tasks/provider-suite T026: create defaults/nullable fields, merged patch, roles/assignee, atomic events | tests/browser/tasks.spec.ts: all task fields via UI and reload",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-025",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/tasks/provider-suite T026: every field rejects invalid lengths/enums/real dates/ranges/unknown/immutable fields; ineligible assignee; no partial record | tests/tasks/http.test.ts: validation has no partial effects",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-026",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/tasks/provider-suite T026: nullable assignee/dates | tests/task-views/provider-suite T031: assignee null vs omitted | tests/notifications/center (PostgreSQL): report unassigned | tests/browser/task-workspace.spec.ts: no-date lists in My tasks/Calendar/Gantt",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-027",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/tasks/provider-suite T028: checklist create/edit/toggle/delete, no auto-done, parent guard | tests/browser/checklist-table.spec.ts and cell-pickers.spec.ts (TC-027): inline add/edit/cancel, autosave and persistence",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-028",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/tasks/provider-suite T028: done parent guard; T027 reopen clears completed_at | tests/task-views/provider-suite T031: completed excludes reopened tasks",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-029",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/tasks/provider-suite T029: daily/weekly due+offset, copied fields, checklist reset, no comments/files/audit cloned, series link",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-030",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/tasks/provider-suite T029: monthly Jan31→Feb28→Mar31 and Jan31→Feb29→Mar31 keep the anchor",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-031",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/regression (PostgreSQL) T070: concurrent same-key retry, reopen → one successor | tests/tasks/http.test.ts: restart replays durable completion key without another successor",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-032",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/tasks/provider-suite T029: no overdue catch-up; none cancels; T026 recurrence without due rejected",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-033",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/tasks/provider-suite T027: rollback at every atomic effect; T029 successor atomicity | tests/helpers (PostgreSQL): effect failure rolls back ranks/versions/audit/notification",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-034",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/task-views/provider-suite T030: creator vs non-creator/Viewer, delete excludes active scopes, restore appends to column, 30-day cutoff | tests/browser/tasks.spec.ts: delete/restore through UI",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-035",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/tasks/provider-suite T026: conflict no overwrite | tests/browser/tasks.spec.ts: 409 draft review | tests/browser/task-workspace.spec.ts: version conflict keeps draft",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-036",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/boards/provider-suite T035: cross-column insertion and versions only on affected columns | tests/browser/boards.spec.ts T036: mouse drag persists after refresh and in a second tab",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-037",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/boards/provider-suite T035: same-column before/append stable contiguous ranks | tests/browser/boards.spec.ts T036: in-column drag",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-038",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/boards/provider-suite T035: checklist gate and recurrence on drag to Done | tests/browser/boards.spec.ts T038: validation rollback returns the card",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-039",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/browser/boards.spec.ts T036/T037/038: pending ack before saved, offline disables drag, demotion rolls stale move back | tests/boards/provider-suite T035: Viewer/hidden rights leave DB unchanged",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-040",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/boards/provider-suite + helpers (PostgreSQL): stale versions rejected, no duplicate ranks or lost tasks | tests/browser/boards.spec.ts T038: two-tab conflict then retry with fresh versions",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-041",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/browser/boards.spec.ts T038: lost response → authoritative GET → same-key replay | tests/boards/http.test.ts: key replay persists across restart",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-042",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/browser/boards.spec.ts T037: every filter disables reorder; clearing restores controls; status menu still available",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-043",
+      "profile": "pure-node22",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "none"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/browser/boards.spec.ts T037: keyboard status/up/down; touch scroll and long-press with menu alternative; Viewer has no write controls | tests/boards/provider-suite T035: Viewer moves blocked server-side",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-044",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/boards/provider-suite T035: wrong/self/missing/other-column anchors and stale versions leave the snapshot intact",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-045",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/task-views/provider-suite T034: 500 vs 501 list_required, complete pagination | tests/browser/boards.spec.ts T036: >500 fallback list and status menu",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-046",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/browser/task-workspace.spec.ts T045: My tasks default assignee, created view, Bangkok groups",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-047",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/helpers/dates.test.ts: Bangkok midnight boundaries (16:59Z/17:00Z) | tests/addendum/http.test.ts AT-34: overview switches at Bangkok midnight | tests/browser/tcat-gaps.spec.ts TC-047: date-only End Plan stays on its calendar day in UTC−7 and UTC+14 browsers | Note: Browser-timezone step added 2026-10-17.",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-048",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/task-views/provider-suite T031: scoped count, AND/OR filters, Thai/literal search, seven sorts with null-last and ID ties | tests/regression (PostgreSQL) T071: complete paginated rows | tests/browser/task-workspace.spec.ts T045: filters and debounce",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-049",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/browser/task-workspace.spec.ts T046: Gantt inclusive/one-day/due-only/no dates, Calendar month/filter/keyboard, 205 rows and paging | tests/browser/task-workspace.spec.ts T071: four views keep dates after restart",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-050",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/browser/task-workspace.spec.ts T047: second-tab edit refresh, dirty draft badge, 409, hidden/offline pause, focus refresh, polling leaves idle unchanged",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-051",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/boards/provider-suite T039: plaintext comments, validation, immutable history | tests/regression (PostgreSQL) T072: same-key concurrency stores one comment; different body rejected | tests/browser/files.spec.ts T044: comment renders as text, pagination, reload",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-052",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/files/provider-suite T040: paginated scoped history with actor/time/request and recursive redaction | tests/browser/task-history-group-order.spec.ts (TC-052): reorder/append history loads and Thai title save keeps history",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-053",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/files/provider-suite T041: streamed fingerprint, UUID storage name, exact bytes, private download DTO | tests/files/http.test.ts: authorized binary download with safe headers (attachment/nosniff) and hash | tests/browser/files.spec.ts T044: upload/download in UI",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-054",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/files/provider-suite T041: 1 byte / 10 MiB / max+1 / empty, temps released | tests/files/http.test.ts: real 10 MiB accepted, max+1 refused without residual reservation",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-055",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/files/provider-suite T041: extension allowlist, magic check, bounded ZIP/Office directory (no extraction), fatal UTF-8",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-056",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/files/provider-suite T041: UUID storage names (no client path) | tests/files/http.test.ts: /uploads static path not served | tests/regression (PostgreSQL) T069: byte-authorized file IDOR returns 404",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-057",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/files/provider-suite T042: concurrent quota reservation never exceeds remaining space; failure releases bytes",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-058",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/files/provider-suite T041/T042: failed metadata transaction leaves no effects; file move failure tracked; restart recovery keeps referenced files and releases reservations",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-059",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/files/provider-suite T043: uploader/owner Lead/Admin vs other Editor/Viewer, deleted scope, restore within exact 30-day cutoff, quota on purge",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-060",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/notifications/provider-suite T048: assignment/comment/status recipients deduped, self/inactive/no-access suppressed",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-061",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/notifications/provider-suite T049: tomorrow/today/overdue in Bangkok, repeated run and restart deduped, exclusions done/deleted/archived/unassigned/inactive/no access",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-062",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/notifications/center (PostgreSQL) T050: read one / read all persist, only own rows | tests/browser/reports-notifications.spec.ts T051: badge persists across reload",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-063",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/notifications/center (PostgreSQL) T050: revoked parents hidden; exact 90 UTC-day cutoff | tests/browser/reports-notifications.spec.ts T051: stale notification opens current detail; revocation hides list/detail/badge",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-064",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/notifications/center (PostgreSQL) T052: totals/status 6, overdue/unassigned, 33.33%, zero and hidden/deleted/archived | tests/browser/reports-notifications.spec.ts T054: dashboard metrics and zero/archive exclusion",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-065",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/notifications/center (PostgreSQL) T052: Bangkok created/completed boundaries, due inclusive, owner team vs assignee team, reopen clears done period",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-066",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/notifications/center (PostgreSQL) T053: 120+ rows UTF-8 BOM RFC 4180, formula neutralization, shared filters, no secret columns | tests/browser/reports-notifications.spec.ts T053/054: parsed download matches displayed filters | Note: Formula neutralization is asserted on the parsed CSV; opening it in Excel is not part of the automated run.",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-067",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/notifications/center (PostgreSQL) T053: 50,001 rejected before streaming; exactly 50,000 streams in bounded batches",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-068",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/api/http.test.ts: exact Origin, CSRF fail-closed | tests/regression (PostgreSQL) T069: missing Origin/CSRF and spoofed proxy rejected without mutation",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-069",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/regression (PostgreSQL) T069: parameterized SQL injection and plaintext XSS | tests/api/http.test.ts: malformed JSON/media/oversize/unknown fields rejected; safe redacted errors",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-070",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/api/http.test.ts: Origin independent of spoofed Host/forwarded headers; CSP/security headers; HSTS only via trusted proxy | tests/config/config.test.ts: production configuration with COOKIE_SECURE=false rejected",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-072",
+      "profile": "pure-node22",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "none"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/browser/pwa-operations.spec.ts T057: reconnect blocks writes until authoritative reads finish and keeps the dirty draft | tests/browser/pwa-update.spec.ts: service-worker update waits and preserves an open draft",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-073",
+      "profile": "pure-node22",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "none"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/browser/pwa-operations.spec.ts T055: main screens and four views reflow at mobile/tablet/desktop/200% zoom; dialog Escape restores the opener | tests/browser/shell.spec.ts: help dialog focus trap and return focus | tests/browser/boards.spec.ts T037: touch menu alternative; Viewer controls read-only",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-082",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/postgres/lock-timeout.test.ts (TC-082): real row lock past lock_timeout → 503 DATABASE_BUSY Retry-After 5, whole transaction rolled back, retry succeeds once (added 2026-10-17) | tests/idempotency (PostgreSQL): same-key replay does not duplicate | tests/browser/pwa-operations.spec.ts T059 + tests/config/sql-readiness.test.ts: readiness fails safely",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-085",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/permissions/http.test.ts AT-31: job title CRUD/audit, rights unchanged by title | tests/browser/management-visual.spec.ts: Admin job title tab",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-086",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/permissions/http.test.ts AT-31: title label in members/report/CSV and filters",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-087",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/permissions/matrix-suite (PostgreSQL): P-key per role grants only its endpoints | tests/permissions/http.test.ts AT-32: deny-by-default, per-key manager rights",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-088",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/permissions/http.test.ts AT-32: removal takes effect on the next request; BR-22 demotion | tests/permissions/matrix-suite (PostgreSQL): revoke-then-act 403, same-version race",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-089",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/permissions/http.test.ts AT-32/AT-33: non-Admin and self changes 403; manager appointment rules; unknown keys rejected",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-090",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/permissions/http.test.ts AT-33: Admin only, all-or-nothing, stale 409 per user | tests/browser/permission-matrix.spec.ts: vertical layout, frozen labels/headers, save and conflict",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-091",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/addendum/http.test.ts AT-34: every Home widget equals its My work query; Bangkok midnight switch; assigned/created toggle | tests/browser/my-overview.spec.ts: widgets open My work with the same filter",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-092",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/addendum/http.test.ts AT-35: Viewer read-only, 409 + history, own/P-05 delete, restore, 30-day window, boundaries, concurrent save | tests/browser/project-docs.spec.ts: conflict keeps text",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-093",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/addendum/sanitizer.test.ts + AT-35: server-side sanitizer corpus | tests/browser/project-docs.spec.ts: stored XSS stays inert in the browser",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-094",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/addendum/http.test.ts AT-36: upload validation/quota boundary, merged list, own/P-06 delete, restore, safe download | tests/browser/project-files.spec.ts: search/type filter, previews, delete/restore",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-095",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/addendum/http.test.ts AT-37: workload weeks/threshold/P-09 scope and overview numbers | tests/browser/workload-overview.spec.ts: threshold highlight, cell tasks, overdue column, team workload",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-096",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/addendum/http.test.ts AT-38: batch per-item outcomes without silent partial updates | tests/browser/main-table.spec.ts: inline F2 rename, batch with per-item 409, drag reorder/move, sticky columns, resize saved per user",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-097",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/browser/side-panel.spec.ts: Updates/Files/Activity/Details tabs, @mention limited to project members, Esc layering, deep link | tests/addendum/http.test.ts AT-38: @mention notifies only project users",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "TC-099",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated suite + per-case step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        },
+        "browser": {
+          "name": "Chromium (Playwright headless)",
+          "version": "153.0.8010.12"
+        }
+      },
+      "actual": "All steps/expected results asserted by passing automated tests on this build: tests/addendum/http.test.ts AT-40: favorites private, never widen access, vanish on revocation | tests/browser/favorites.spec.ts: starred project leads the sidebar and survives reload",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "RV-12",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated fault harness + variant step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        }
+      },
+      "actual": "Variant setup/steps/expected executed by passing tests on this build: tests/postgres/fault-variants.test.ts RV-12: real row lock past lock_timeout (300 ms) → DATABASE_BUSY 503 Retry-After 5 within a bounded wait; counts [0,0,0,0]; after release the same key commits once and replays identically | tests/postgres/fault-http.test.ts RV-12: HTTP 503 with Retry-After: 5 and error code DATABASE_BUSY; /health/ready answers during the lock; same-key retry 201 then identical replay; one comment row | Note: Lock timeouts are not retried (bounded budget of one attempt), as designed; SQL error class is mapped, never returned.",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "RV-13",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated fault harness + variant step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        }
+      },
+      "actual": "Variant setup/steps/expected executed by passing tests on this build: tests/postgres/fault-variants.test.ts RV-13: real PostgreSQL deadlock (row lock vs advisory lock) makes the command the 40P01 victim; attempts ['rolled_back:40P01','committed'] → one outcome; replay identical | tests/postgres/fault-variants.test.ts RV-13: a deadlock on every attempt exhausts the 3-attempt budget → 503 with no extra rows | Note: The application serializes its own transactions with one advisory lock, so victims come from external writers; the deadlock is real (PostgreSQL detector), not injected.",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "RV-14",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated fault harness + variant step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        }
+      },
+      "actual": "Variant setup/steps/expected executed by passing tests on this build: tests/postgres/fault-variants.test.ts RV-14: pg_terminate_backend after writes, before COMMIT → 503 DATABASE_BUSY; a new connection sees [0,0,0,0]; same-key retry commits once and replays | src/repository/postgres/database.ts fix: a lost checked-out connection no longer crashes the process (client 'error' listener) and is destroyed on release | tests/files provider (PostgreSQL) T041/T042: failed finalize/metadata transactions and restart recovery leave no orphan reservation or bytes | Note: Defect found and fixed 2026-10-17: killing the database connection mid-transaction crashed the Node process (unhandled pg client error).",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
+        }
+      ]
+    },
+    {
+      "id": "RV-15",
+      "profile": "postgres17",
+      "status": "PASS",
+      "build": "pg17-24e1f31cb8",
+      "sourceSha256": "9841563a067a0d84c3bfdb3b8c0da43073b24bca014d5f558f47300a602cbd1e",
+      "schemaVersion": "0017_email_registration",
+      "tester": "Claude (automated-suite review)",
+      "role": "developer (automated fault harness + variant step review)",
+      "date": "2026-10-17T13:37:24.652Z",
+      "environment": {
+        "node": "22.23.3",
+        "os": "macos",
+        "osVersion": "24.6.0",
+        "db": {
+          "provider": "postgres17",
+          "product": "PostgreSQL",
+          "version": "17.11 (Debian 17.11-1.pgdg13+2)",
+          "driver": "pg 8.23.1"
+        }
+      },
+      "actual": "Variant setup/steps/expected executed by passing tests on this build: tests/postgres/fault-variants.test.ts RV-15: statement_timeout cancels a slow statement → 503 DATABASE_BUSY, nothing committed, same-key retry once | tests/postgres/fault-variants.test.ts RV-15: COMMIT succeeds but the acknowledgement is lost → 503; authoritative rows show exactly one commit; same-key replay returns it; different body IDEMPOTENCY_CONFLICT; revoked access FORBIDDEN before replay | tests/postgres/fault-http.test.ts RV-15: HTTP response lost after commit → same-key replay returns the committed comment id; different body 409 | Note: Defect found and fixed 2026-10-17: PostgreSQL statement timeout (57014) surfaced as an internal error instead of DATABASE_BUSY.",
+      "evidence": [
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/summary.json",
+          "sha256": "ca8393f8905c73c3f64d99dfc4dbcb2a5aa58ece681b9a7866d8ceaa60c03534"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/coverage.json",
+          "sha256": "3f9cd471f3bc43296cb99461d954a699c5e7c0a041af3ed10424a33416890980"
+        },
+        {
+          "path": "reports/tcat-postgres/pg17-24e1f31cb8/tcat-review.json",
+          "sha256": "ed309ef4480d992431039f2c7edd4034864aa54f343c935490548d6352ec2f1f"
         }
       ]
     }
   ],
   "defects": [],
-  "note": "TC records from PostgreSQL run pg17-1baa061b4c after per-case review (tests/tcat-review.json). AT/RV/UAT/REL items remain NOT_RUN: AT needs owner sign-off; variants, operations, performance, browser matrix and UAT were not executed."
+  "note": "TC and RV records from PostgreSQL run pg17-24e1f31cb8 after per-item review (tests/tcat-review.json). Remaining items are NOT_RUN: AT needs owner sign-off; unreviewed variants, operations, performance, browser matrix, UAT and release reviews were not executed."
 }

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testsuites>
+	<testcase name="PostgreSQL 17: T025 organization admin-only, UTF16/trim/version, persisted reopen and atomic audit" time="0.687354" classname="test"/>
+	<testcase name="PostgreSQL 17: T026 create defaults/nullable fields/plain text DTO and atomic board/event" time="0.714849" classname="test"/>
+	<testcase name="PostgreSQL 17: T026 every field rejects invalid lengths/enums/real dates/ranges/unknown/immutable fields" time="0.680460" classname="test"/>
+	<testcase name="PostgreSQL 17: T026 merged patch preserves omitted fields/conflict no overwrite/updated timestamp" time="0.582157" classname="test"/>
+	<testcase name="PostgreSQL 17: T026 current roles/active assignee, cross-project invisibility, archived/deleted writes" time="0.529442" classname="test"/>
+	<testcase name="PostgreSQL 17: T027 all twelve transitions maintain completion/append board/version and noop" time="0.730074" classname="test"/>
+	<testcase name="PostgreSQL 17: T028 checklist create/edit/toggle/delete versions, no auto-done and parent guard" time="0.666235" classname="test"/>
+	<testcase name="PostgreSQL 17: Owner checklist remark preserves Unicode/whitespace, omission, clear, versions and audit" time="0.584560" classname="test"/>
+	<testcase name="PostgreSQL 17: T028 unknown child dates/invalid titles and viewer cannot mutate" time="0.543013" classname="test"/>
+	<testcase name="PostgreSQL 17: T029 daily/weekly uses old due + offset; no overdue catchup, defaults and copied eligible fields" time="0.607414" classname="test"/>
+	<testcase name="PostgreSQL 17: T029 monthly Jan31-Feb28-Mar31 retains anchor and checklist resets" time="0.586975" classname="test"/>
+	<testcase name="PostgreSQL 17: T029 monthly Jan31-Feb29-Mar31 retains anchor and checklist resets" time="0.609376" classname="test"/>
+	<testcase name="PostgreSQL 17: T029 due edit resets monthly anchor, leaving monthly clears; later source edits preserve successor" time="0.549639" classname="test"/>
+	<testcase name="PostgreSQL 17: T029 reopen/recomplete and purged successor tombstone do not regenerate; none cancels" time="0.637421" classname="test"/>
+	<testcase name="PostgreSQL 17: T029 does not clone comments/files/audit; recurrence successor has own creation event" time="0.577106" classname="test"/>
+	<testcase name="PostgreSQL 17: T016/022/027/029 member demotion and account deactivation preserve done history and unassign reopen/successor" time="0.724874" classname="test"/>
+	<testcase name="PostgreSQL 17: T027 notifications current recipients/dedupe/no-self, and rollback at every atomic effect" time="0.770114" classname="test"/>
+	<testcase name="PostgreSQL 17: T025/T028 rollback failed audit leaves organization/checklist/parent unchanged" time="0.532492" classname="test"/>
+	<testcase name="PostgreSQL 17: T026 owner Lead overrides explicit Viewer and eligible admin is assignable without membership" time="0.533386" classname="test"/>
+	<testcase name="PostgreSQL 17: Owner Vibe: multi-assignees, secondary filtering, independent Checklist, notifications and recurrence" time="0.612855" classname="test"/>
+	<testcase name="PostgreSQL 17: Owner 2026-10-09: drag order within a group, cross-group append, anchor validation and group_order sort" time="0.667367" classname="test"/>
+	<testcase name="PostgreSQL 17: Owner Vibe: persisted groups, cross-project rejection, versions and audit rollback" time="0.540130" classname="test"/>
+	<testcase name="PostgreSQL 17: Owner Vibe: removal cleans secondary and Checklist assignments without removing the primary" time="0.602632" classname="test"/>
+	<testcase name="PostgreSQL 17: Owner Vibe: secondary-assignee workload, CSV, reminders and pagination dedupe" time="0.615985" classname="test"/>
+	<testcase name="PostgreSQL 17: Owner Vibe: idempotent multi-assignee create replays reordered sets and preserves explicit alias conflicts" time="0.519239" classname="test"/>
+	<!-- tests 25 -->
+	<!-- suites 0 -->
+	<!-- pass 25 -->
+	<!-- fail 0 -->
+	<!-- cancelled 0 -->
+	<!-- skipped 0 -->
+	<!-- todo 0 -->
+	<!-- duration_ms 15662.884208 -->
+</testsuites>
