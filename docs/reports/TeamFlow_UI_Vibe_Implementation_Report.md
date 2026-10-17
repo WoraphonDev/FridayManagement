@@ -28,11 +28,11 @@ Earlier failures were corrected before final runs: schema table/FK inventory aft
 
 Dependency audit remains OPEN: production dependency tree has62findings (56moderate/6high/0critical), including Vibe transitive tooling. A non-breaking audit fix was attempted; findings remain. The audit's proposed major downgrade of Vibe/postcss was not applied. This is a remaining dependency/security review item, not a clean audit or production release approval. See `reports/vibe-implementation/dependency-audit.json`; historical preview audit files describe a different dependency tree.
 
-Machine results/traceability: [reports/UI-vibe-implementation-results.json](reports/UI-vibe-implementation-results.json). Source checksums: [reports/vibe-implementation/source-checksums.json](reports/vibe-implementation/source-checksums.json). Local evidence maps to TC025/027/028/029/031/033/035/036/046/060/061/063/073 without marking formal cases complete. Task Register: DONE6/77, IN_PROGRESS71, TODO0, remaining71. Next T006/T007 High native SQL2022; T076 Medium human UAT. Actual runtime model/effort NOT_VERIFIED; declared UI Medium and contract/schema/assignment/recurrence/motion High.
+Machine results/traceability: [reports/UI-vibe-implementation-results.json](../../reports/UI-vibe-implementation-results.json). Source checksums: [reports/vibe-implementation/source-checksums.json](../../reports/vibe-implementation/source-checksums.json). Local evidence maps to TC025/027/028/029/031/033/035/036/046/060/061/063/073 without marking formal cases complete. Task Register: DONE6/77, IN_PROGRESS71, TODO0, remaining71. Next T006/T007 High native SQL2022; T076 Medium human UAT. Actual runtime model/effort NOT_VERIFIED; declared UI Medium and contract/schema/assignment/recurrence/motion High.
 
 Temporary actual-app review: http://127.0.0.1:43193/projects — synthetic SQLite data outside the repository, owner can deploy source later. Existing candidate ZIPs predate this redesign and must be regenerated/revalidated for a future release.
 
-![Login](reports/UI-vibe-login.png)
-![Project table](reports/UI-vibe-project-table.png)
-![Task drawer](reports/UI-vibe-task-drawer.png)
-![Kanban](reports/UI-vibe-kanban.png)
+![Login](../../reports/UI-vibe-login.png)
+![Project table](../../reports/UI-vibe-project-table.png)
+![Task drawer](../../reports/UI-vibe-task-drawer.png)
+![Kanban](../../reports/UI-vibe-kanban.png)

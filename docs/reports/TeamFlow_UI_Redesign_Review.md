@@ -6,7 +6,7 @@
 
 ## เปิดดูและทดลอง
 
-เปิด `TeamFlow_UI_Vibe_Preview.html` โดยตรง (รุ่น Vibe ล่าสุด) หรือ [เปิด preview ที่กำลังรัน](http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html) โดยตรงใน browser ได้โดยไม่ต้องติดตั้ง dependency หรือเปิด backend กด **ทดลองใช้ข้อมูลตัวอย่าง** จากหน้า Login แล้วใช้ **แผนหน้าจอ / Process** ในแถบสีครีมเพื่อดูรายละเอียดและเปิดแต่ละหน้าจอ
+เปิด `docs/mocks/TeamFlow_UI_Vibe_Preview.html` โดยตรง (รุ่น Vibe ล่าสุด) หรือ [เปิด preview ที่กำลังรัน](http://127.0.0.1:43191/TeamFlow_UI_Vibe_Preview.html) โดยตรงใน browser ได้โดยไม่ต้องติดตั้ง dependency หรือเปิด backend กด **ทดลองใช้ข้อมูลตัวอย่าง** จากหน้า Login แล้วใช้ **แผนหน้าจอ / Process** ในแถบสีครีมเพื่อดูรายละเอียดและเปิดแต่ละหน้าจอ
 
 - แถบสีครีมเป็นเครื่องมือรีวิว แยกจาก UI ที่เสนอ: สลับบทบาท สภาวะ และ animation
 - ข้อมูลเก็บในหน่วยความจำของหน้าเท่านั้น ไม่มี API, database, cookie, localStorage หรือ sessionStorage สำหรับข้อมูลตัวอย่าง
@@ -14,7 +14,7 @@
 - ปุ่ม CSV ดาวน์โหลดข้อมูลสมมติจริง; ตัวกรองรายงานแสดง process ตัวอย่างและระบุชัดว่าชุดข้อมูลยังคงเดิม
 - การเลือกไฟล์อ่านเฉพาะ metadata ชื่อ/ขนาด ไม่อ่านเนื้อหาและไม่อัปโหลด
 - **เริ่มตัวอย่างใหม่** คืน tasks, Groups, directory, notifications และ trash เป็นข้อมูลตั้งต้น
-- ตัวอย่างเดิม `TeamFlow_Mock_UI.html` เก็บไว้; frontend/backend/contracts/runtime/deployment ไม่ถูกแก้ในรอบนี้
+- ตัวอย่างเดิม `docs/mocks/TeamFlow_Mock_UI.html` เก็บไว้; frontend/backend/contracts/runtime/deployment ไม่ถูกแก้ในรอบนี้
 
 ## แผนหน้าจอ
 
@@ -99,7 +99,7 @@ Task Register: DONE 6 / total 77 / remaining 71; IN_PROGRESS 71. ไม่มี
 
 เจ้าของเลือก [Vibe ของ Monday](https://github.com/mondaycom/vibe) วันที่ 7 ตุลาคม 2026 ใช้ `@vibe/core@4.5.34` จริงใน preview โดย pin lockfile แยกที่ `design-preview/vibe/` พร้อม React/ReactDOM19.3.0 และ Node22.23.3 ที่ตรวจแล้ว ใช้ Button, Dropdown, TextField, DatePicker, Avatar, LayerProvider และ design tokens ของ Vibe; core ใช้ MIT ตาม LICENSE ของแพ็กเกจที่ติดตั้ง ซึ่งเก็บสำเนาไว้ใน `design-preview/vibe/VIBE-LICENSE.txt` ไม่ได้เปลี่ยน dependency/runtime ของแอปจริง
 
-`TeamFlow_UI_Vibe_Preview.html` รวม React/Vibe/CSS ไว้ในไฟล์เดียว เปิดแบบ local โดยไม่มี CDN/API runtime requests ปุ่มและ fields เป็น React islands เชื่อม form/events ของ mock เดิม **bridge นี้ใช้กับ preview เท่านั้น** Production ต้อง render Vibe โดยตรงใน React tree ของแอป Table/Kanban/Calendar/Gantt และ native dialog/checkbox ยังคงเป็น UI ของโครงการ ไม่อ้างว่าเป็น Vibe components ทุกส่วน วิธีสร้างซ้ำอยู่ `design-preview/vibe/README.md`; SHA256, package/license inventory และ modules ที่ bundle อยู่ `design-preview/vibe/bundle-report.json`
+`docs/mocks/TeamFlow_UI_Vibe_Preview.html` รวม React/Vibe/CSS ไว้ในไฟล์เดียว เปิดแบบ local โดยไม่มี CDN/API runtime requests ปุ่มและ fields เป็น React islands เชื่อม form/events ของ mock เดิม **bridge นี้ใช้กับ preview เท่านั้น** Production ต้อง render Vibe โดยตรงใน React tree ของแอป Table/Kanban/Calendar/Gantt และ native dialog/checkbox ยังคงเป็น UI ของโครงการ ไม่อ้างว่าเป็น Vibe components ทุกส่วน วิธีสร้างซ้ำอยู่ `design-preview/vibe/README.md`; SHA256, package/license inventory และ modules ที่ bundle อยู่ `design-preview/vibe/bundle-report.json`
 
 ตาม feedback ของเจ้าของ เมนูซ้ายแบ่งหัวข้อภาษาไทย **ส่วนตัว / พื้นที่ทำงาน / โปรเจกต์ของคุณ / จัดการระบบ** พร้อมไอคอน ชื่อทีมใต้โปรเจกต์ และสถานะ **เปิดอยู่** ด้วยสีพื้น เส้นซ้าย และ `aria-current=page` แยกโปรเจกต์ทั้งหมดจากลิงก์เข้าแต่ละโปรเจกต์ เอาลูกศร workspace ที่ไม่มี action ออก เมนูระบบแสดงตาม role; การตั้งค่าและออกจากระบบอยู่ท้ายแผง Sidebar desktop อยู่กับที่เมื่อเลื่อน main และเลื่อนภายในได้ บนมือถือมี backdrop, close/Escape, focus wrap, inert main และคืน focus; เมื่อเลือกหน้าใหม่ focus ไปที่ heading และกลับด้านบนของหน้า ปุ่มเมนูจริงใช้ Vibe Button ทั้งหมด
 

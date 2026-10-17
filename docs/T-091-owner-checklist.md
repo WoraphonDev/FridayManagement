@@ -1,9 +1,9 @@
 # T-091 — Owner checklist (Windows native + UAT)
 
-**สร้าง:** 2026-10-10 · **Build:** commit ล่าสุดบน main · ส่วนที่ Agent รันได้บน macOS ผ่านแล้ว ([TeamFlow_T091_Test_Report.md](../TeamFlow_T091_Test_Report.md))
+**สร้าง:** 2026-10-10 · **Build:** commit ล่าสุดบน main · ส่วนที่ Agent รันได้บน macOS ผ่านแล้ว ([reports/TeamFlow_T091_Test_Report.md](reports/TeamFlow_T091_Test_Report.md))
 เหลือเฉพาะงานที่ต้องรันบนเครื่องจริงโดย owner; บันทึกผล PASS/FAIL/NOT_RUN ตามจริง ห้ามเก็บ setup token/cookie/password ใน evidence
 
-## 1. เตรียมเครื่อง (ตาม [Windows Installation](../TeamFlow_Windows_Installation.md) §Prepare)
+## 1. เตรียมเครื่อง (ตาม [Windows Installation](legacy/TeamFlow_Windows_Installation.md) §Prepare)
 - [ ] บันทึก Windows build, SQL Server 2022 version/edition/CU, Node 22.23.3/npm, service identity, commit hash
 - [ ] Extract source สะอาด → `npm ci`, `npm run typecheck`, `npm run build`, `npm run check:contract`
 - [ ] สร้าง DB ทดสอบ `*_test` + login แยก; ใส่ `.env.sqlserver-test` (ไม่ commit)

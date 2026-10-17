@@ -17,4 +17,4 @@ Before changing local5000, confirmed process identity/path/port, stopped it grac
 
 Provider-specific SQLServer2022 migration and shared provider tests are supplied; native SQL execution, Windows and owner UAT remain NOT_RUN. This SQLite result does not close those criteria. Parent task statuses/dependencies stay unchanged: DONE7/91, IN_PROGRESS82, IN_REVIEW1, TODO1, remaining84. Next formal task T-091 High.
 
-Evidence: [results](reports/checklist-table/results.json), [latest browser cases](reports/checklist-table/browser-cases.json), raw run logs in reports/checklist-table, synthetic [desktop](reports/UI-checklist-table-desktop.png) / [mobile](reports/UI-checklist-table-mobile.png).
+Evidence: [results](../../reports/checklist-table/results.json), [latest browser cases](../../reports/checklist-table/browser-cases.json), raw run logs in reports/checklist-table, synthetic [desktop](../../reports/UI-checklist-table-desktop.png) / [mobile](../../reports/UI-checklist-table-mobile.png).

@@ -4,7 +4,7 @@
 
 ## ผลงาน
 
-- `TeamFlow_UI_Monday_Mock.html` — standalone HTML ไฟล์เดียว, synthetic data, CSP `default-src 'none'`, ไม่มี network/API/CDN, ฟอนต์ระบบ
+- `docs/mocks/TeamFlow_UI_Monday_Mock.html` — standalone HTML ไฟล์เดียว, synthetic data, CSP `default-src 'none'`, ไม่มี network/API/CDN, ฟอนต์ระบบ
 - หน้า: Login (AN-13), Home/My overview, My work (grouped), All projects/Favorites/Your projects, Project header + แท็บ Main table/Kanban/Calendar/Gantt/Workload/Docs/Files/Overview (ซ่อน/แสดงแท็บ), Task side panel (Updates/@mention/Files/Activity), Admin (Members/Teams/Job titles/Permission matrix P-01–P-10 + preset PM/SM/Clear), Settings (Reduce animations, confetti toggle)
 - Motion AN-01–AN-13 ด้วย transform/opacity; `prefers-reduced-motion` + toggle ปิด motion; คีย์ลัด `N`, `/`, `Esc`
 - ใช้ token สี/ขนาดตาม V06 workspace-theme; **ไม่ได้ bundle `@vibe/core` จริง** ใน mock นี้ (UX-01 สำหรับแอปจริงยังคงใช้ Vibe)

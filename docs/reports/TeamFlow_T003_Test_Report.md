@@ -38,4 +38,4 @@ HTTP server/middleware/cookies/auth/permissions/scoping, SQLite/SQL2022transacti
 
 T-004ยังต้องสร้างfulltest/release manifestและgate evidence; T-005ยังต้องสร้างfullappfoundation/pinappdependencies; T-007/T-008/T-010ต้องimplementและพิสูจน์persistentstate/transactionsตามcontract
 
-Machine evidence: [reports/T-003-contract-results.json](reports/T-003-contract-results.json). ไม่มีcommit/deployในงานนี้; existingdocumentchangesก่อนเริ่มT-003ยังคงอยู่
+Machine evidence: [reports/T-003-contract-results.json](../../reports/T-003-contract-results.json). ไม่มีcommit/deployในงานนี้; existingdocumentchangesก่อนเริ่มT-003ยังคงอยู่

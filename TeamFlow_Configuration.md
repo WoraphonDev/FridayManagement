@@ -36,7 +36,7 @@ SQL provider เพิ่ม dedicated Tedious session ที่ใช้ bound 
 
 Config errors แสดง `CONFIGURATION_INVALID: KEY, KEY`; startup/connect/listen/guard errors เป็นรหัสคงที่ ไม่แสดง values/paths/password/driver error stack หรือ request headers SQL connect fail ไม่เปิด SQLite แทน migration/seed เป็น CLI explicit ไม่เปิด HTTP และไม่รันพร้อม live writes จน maintenance policy ใน tasks ถัดไปครบ
 
-Parser รองรับ production profile เพื่อทดสอบ config แต่ bootstrap ปฏิเสธ production ด้วย FOUNDATION_NOT_PRODUCTION_READY จน schema/auth/business tasks พร้อม; live200/ready503 ของ local shell ไม่ใช่ production sign-off SQL2022 integration, Windows TLS/proxy/ACL/service และ AT-28 ยังคง NOT_RUN ดู [รายงาน T-006](TeamFlow_T006_Test_Report.md)
+Parser รองรับ production profile เพื่อทดสอบ config แต่ bootstrap ปฏิเสธ production ด้วย FOUNDATION_NOT_PRODUCTION_READY จน schema/auth/business tasks พร้อม; live200/ready503 ของ local shell ไม่ใช่ production sign-off SQL2022 integration, Windows TLS/proxy/ACL/service และ AT-28 ยังคง NOT_RUN ดู [รายงาน T-006](docs/reports/TeamFlow_T006_Test_Report.md)
 # Local health and operational logs (T-059)
 
 `/health/live` is public and returns only `status`. `/health/ready` accepts direct loopback requests only, rejects forwarded requests without probing, and returns only `ok`/`not_ready` (503 with Retry-After5). Run readiness from the app host; do not publish this endpoint through the public reverse proxy. Production startup remains blocked by `FOUNDATION_NOT_PRODUCTION_READY`; local readiness is not release acceptance.
@@ -55,4 +55,4 @@ PWA installation requires HTTPS or localhost. Use the browser install/add-to-hom
 
 ## SQL test readiness — 8 October 2026
 
-Operator-only `RUN_SQLSERVER_TESTS=1` is not an app configuration key. `npm run check:sqlserver` requires test/sqlserver and an isolated ASCII database name ending `_test`, checks actual SQL2022/database identity and fixture permissions by SELECT only. It does not call preparePaths or modify server/schema/data; driver errors are redacted. Focused T-006/T-007 harness runs after preflight and with file concurrency1. See TeamFlow_SQLServer_Foundation_Runbook.md.
+Operator-only `RUN_SQLSERVER_TESTS=1` is not an app configuration key. `npm run check:sqlserver` requires test/sqlserver and an isolated ASCII database name ending `_test`, checks actual SQL2022/database identity and fixture permissions by SELECT only. It does not call preparePaths or modify server/schema/data; driver errors are redacted. Focused T-006/T-007 harness runs after preflight and with file concurrency1. See docs/legacy/TeamFlow_SQLServer_Foundation_Runbook.md.

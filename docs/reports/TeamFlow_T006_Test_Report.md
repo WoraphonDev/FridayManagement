@@ -2,7 +2,7 @@
 
 ## Follow-up — 8 October 2026
 
-Owner confirmed no SQL test environment and requested preparation. Read-only preflight and sequential13-case focused native command now available; see TeamFlow_SQLServer_Foundation_Runbook.md and reports/sql-foundation-preparation-results.json. New readiness5/5, combined config43/43 and schema13/13 PASS; type/lint PASS. Native13SKIP/0executed; command exits1 NOT_READY before native fixtures. T-006/T-007 remain IN_PROGRESS, native SQL/Windows/UAT NOT_RUN. Current counts DONE6/77, remaining71 supersede older counts below. Declared High; actual runtime model/effort NOT_VERIFIED; next native T006/T007 High.
+Owner confirmed no SQL test environment and requested preparation. Read-only preflight and sequential13-case focused native command now available; see docs/legacy/TeamFlow_SQLServer_Foundation_Runbook.md and reports/sql-foundation-preparation-results.json. New readiness5/5, combined config43/43 and schema13/13 PASS; type/lint PASS. Native13SKIP/0executed; command exits1 NOT_READY before native fixtures. T-006/T-007 remain IN_PROGRESS, native SQL/Windows/UAT NOT_RUN. Current counts DONE6/77, remaining71 supersede older counts below. Declared High; actual runtime model/effort NOT_VERIFIED; next native T006/T007 High.
 
 
 วันที่: 6 ตุลาคม 2026 (Asia/Bangkok) · Owner: Codex · **IN_PROGRESS: local/config ผ่าน; SQL2022 integration NOT_RUN**
@@ -45,6 +45,6 @@ T-006 คง **IN_PROGRESS** เพราะ checklist SQL2022 single-instance �
 
 ## หลักฐานและความคืบหน้า
 
-- [Configuration](TeamFlow_Configuration.md), [README](README.md), [machine results](reports/T-006-config-results.json), [fresh-copy results](reports/T-006-fresh-checkout.json)
+- [Configuration](../../TeamFlow_Configuration.md), [README](../../README.md), [machine results](../../reports/T-006-config-results.json), [fresh-copy results](../../reports/T-006-fresh-checkout.json)
 - **DONE5/77 · IN_PROGRESS1 · TODO71 · remaining72**; T-007 High และ T-012 Medium dependencies พร้อม; งานถัดไปตามลำดับ T-007 High
 - ไม่มี commit/deploy/DNS/server changes หรือเปลี่ยน process/runtime โปรเจกต์อื่น; รอ isolated SQL2022 integration เพื่อปิด T-006

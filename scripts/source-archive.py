@@ -11,7 +11,7 @@ ROOT_FILES = {'.env.example', '.gitignore', '.npmrc', '.nvmrc', '.prettierignore
               '.prettierrc.json', 'package.json', 'package-lock.json', 'eslint.config.mjs',
               'vite.config.ts', 'vitest.config.ts', 'playwright.config.ts',
               'tsconfig.json', 'tsconfig.frontend.json', 'tsconfig.tools.json'}
-ROOTS = {'src', 'frontend', 'migrations', 'scripts', 'tests', 'contracts', 'dependencies', 'reports'}
+ROOTS = {'src', 'frontend', 'migrations', 'scripts', 'tests', 'contracts', 'dependencies', 'reports', 'docs'}
 EXCLUDED_PARTS = {'.git', 'node_modules', 'dist', '__pycache__',
                   'test-results', 'playwright-report', '.DS_Store'}
 RUNTIME_PARTS = {'uploads', 'logs', 'backups', 'sessions'}

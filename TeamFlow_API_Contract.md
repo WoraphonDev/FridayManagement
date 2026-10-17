@@ -20,7 +20,7 @@ Machine contract: [contracts/openapi.json](contracts/openapi.json) (OpenAPI3.1.1
 
 ## API1.10.1 — Group-order history response correction (9 October 2026)
 
-85 routes / 115 schemas unchanged. EventChange.field now includes group_before_task_id, already documented and persisted by the API1.8 group-order feature. Before/after remain nullable scalar values; old records and null append anchors read without rewriting audit history. Frontend parser accepts the same field and Activity displays Before task in group. All unknown fields remain rejected. No database migration or permission/version/idempotency/mutation change. Regression and limits: TeamFlow_Task_History_Fix_Report.md; native SQL2022/Windows/UAT NOT_RUN.
+85 routes / 115 schemas unchanged. EventChange.field now includes group_before_task_id, already documented and persisted by the API1.8 group-order feature. Before/after remain nullable scalar values; old records and null append anchors read without rewriting audit history. Frontend parser accepts the same field and Activity displays Before task in group. All unknown fields remain rejected. No database migration or permission/version/idempotency/mutation change. Regression and limits: docs/reports/TeamFlow_Task_History_Fix_Report.md; native SQL2022/Windows/UAT NOT_RUN.
 
 
 ## Addendum API 1.10.0 — Team / Member details (owner request, 9 October 2026)
@@ -297,7 +297,7 @@ Node22; `npm ci --ignore-scripts`, `npm run check:contract`, `npm run test:contr
 
 ## T-009 runtime integration note - 2026-10-06
 
-Wire contract remains1.0.0 unchanged. The previous tooling-only dependency note is historical: pinned Ajv/ajv-formats now ship as runtime dependencies. Zod public parse boundaries delegate locked shape/Unicode/UTF16 rules to contracts/validate.mjs without coercion/defaulting/stripping. HTTP ingress/output schema checks and session/CSRF/authorization hooks are implemented; default feature routes stay503. Real session/ACL/SQL/HTTPS and transaction-state feature binding remain NOT_RUN. Evidence TeamFlow_T009_Test_Report.md.
+Wire contract remains1.0.0 unchanged. The previous tooling-only dependency note is historical: pinned Ajv/ajv-formats now ship as runtime dependencies. Zod public parse boundaries delegate locked shape/Unicode/UTF16 rules to contracts/validate.mjs without coercion/defaulting/stripping. HTTP ingress/output schema checks and session/CSRF/authorization hooks are implemented; default feature routes stay503. Real session/ACL/SQL/HTTPS and transaction-state feature binding remain NOT_RUN. Evidence docs/reports/TeamFlow_T009_Test_Report.md.
 
 ## Contract correction 1.0.1 — 2026-10-06 / T-035
 

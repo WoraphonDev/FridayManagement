@@ -28,7 +28,7 @@
 
 ## Evidence and trace
 
-[Machine results](reports/T-025-029-batch-results.json), [fresh source](reports/T-029-fresh-checkout.json), [settings360px](reports/T025-settings.png). Final logs in `reports/T-025-029-tests.log`, `reports/T-025-029-ui.log`, `reports/T-025-029-sqlserver.log`, `reports/T-025-029-checks.log`, `reports/T-025-029-fresh.log`; source SHA256 in machine results.
+[Machine results](../../reports/T-025-029-batch-results.json), [fresh source](../../reports/T-029-fresh-checkout.json), [settings360px](../../reports/T025-settings.png). Final logs in `reports/T-025-029-tests.log`, `reports/T-025-029-ui.log`, `reports/T-025-029-sqlserver.log`, `reports/T-025-029-checks.log`, `reports/T-025-029-fresh.log`; source SHA256 in machine results.
 
 Trace: FR-12–16/18/37, NFR-02–03, partial UT-01/02/03/06/07/08/09/18, TC-024–033/064/065/075 and AT-09–12/14/28. Provider fixtures use synthetic accounts/tasks/metadata; HTTP checks use actual login/cookie/CSRF/services; browser organization journeys use actual installer setup/Admin/Member/forced-password flow. Separate-process races cover completion/completion, edit/edit, completion/untick and completion/member demotion. Atomic fault injection covers task/board/audit/notification/recurrence persistence and organization/checklist audit failures; verified no partial mutation.
 

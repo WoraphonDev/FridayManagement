@@ -6,7 +6,7 @@ Effort ที่ Task Register กำหนด: **Medium**; model GPT-6.1 Sol / 
 
 ## ผลที่ส่งมอบ
 
-[TeamFlow_Test_Release_Manifest.md](TeamFlow_Test_Release_Manifest.md) และ [tests/test-manifest.json](tests/test-manifest.json) แยกระดับทดสอบ/ผู้รับผิดชอบ/fixtures/reset/clock/barriers/provider/หลักฐาน พร้อม AT↔Task↔Case, FR/NFR/BR owners, sequencing และ source candidate/final/production gates การแก้ครั้งนี้ไม่เปลี่ยน business baseline หรือ AT expected ให้ตรงกับโค้ด
+[TeamFlow_Test_Release_Manifest.md](../../TeamFlow_Test_Release_Manifest.md) และ [tests/test-manifest.json](../../tests/test-manifest.json) แยกระดับทดสอบ/ผู้รับผิดชอบ/fixtures/reset/clock/barriers/provider/หลักฐาน พร้อม AT↔Task↔Case, FR/NFR/BR owners, sequencing และ source candidate/final/production gates การแก้ครั้งนี้ไม่เปลี่ยน business baseline หรือ AT expected ให้ตรงกับโค้ด
 
 ## ผลตรวจที่รันจริง
 
@@ -27,4 +27,4 @@ T-004 checklist ทั้ง4ข้อครบ: แยก levels/Windows/UAT, r
 
 **NOT_RUN:** 84TC/30AT/20RV/5UAT/4release reviews เต็มกรณี, HTTP/security/SQLite/SQL2022 transactions/faults, browser, Windows, actual backup/RESTORE, performance และ UAT ไม่มีแอปที่เปิดใช้ได้หรือ source candidate ZIP ในงานนี้; candidate/final/production gate ยัง NOT_RUN ผล T-003 61/61 contract tests เดิมไม่ได้รันซ้ำหรือใช้แทน acceptance นี้
 
-Machine evidence: [reports/T-004-plan-results.json](reports/T-004-plan-results.json); full records: [tests/execution-records.json](tests/execution-records.json) ไม่มี commit/deploy/DNS/server changes
+Machine evidence: [reports/T-004-plan-results.json](../../reports/T-004-plan-results.json); full records: [tests/execution-records.json](../../tests/execution-records.json) ไม่มี commit/deploy/DNS/server changes

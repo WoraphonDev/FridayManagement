@@ -1,6 +1,6 @@
 # Approved V06 design fidelity correction — 7 October 2026
 
-The first production integration preserved too much of the old app structure. Functional integration evidence in TeamFlow_UI_Vibe_Implementation_Report.md does not establish fidelity to the approved mockup. This follow-up changes the actual React layout, using TeamFlow_UI_Vibe_Preview.html and design-preview/vibe styles as the reference.
+The first production integration preserved too much of the old app structure. Functional integration evidence in TeamFlow_UI_Vibe_Implementation_Report.md does not establish fidelity to the approved mockup. This follow-up changes the actual React layout, using docs/mocks/TeamFlow_UI_Vibe_Preview.html and design-preview/vibe styles as the reference.
 
 Projects now uses a compact card directory, with actual project names/team/access and permission-checked management controls. Sidebar separates Personal, Workspace, Your projects and role-based Manage; project links open the board directly and survive reload. Returning to Projects removes the board. Project board has one visible heading, view icons, compact toolbar/search/popover filters, New task, sort, Group by and New Group. Group tables have seven columns, date icons/short English dates, title/FR-id, colored group headings, bottom Add task rows and completion summaries. Group names/colors can be edited through the existing versioned PATCH API. Status grouping does not mutate a task’s group or status.
 
@@ -25,7 +25,7 @@ Existing dependency audit62 findings and bundle-size warning remain open; source
 
 Evidence: reports/UI-vibe-parity-results.json; reports/vibe-parity/*.txt; reports/vibe-parity/source-checksums.json.
 
-![Projects](reports/UI-vibe-parity-projects.png)
-![Main table](reports/UI-vibe-parity-table.png)
-![Task drawer](reports/UI-vibe-parity-drawer.png)
-![Kanban](reports/UI-vibe-parity-kanban.png)
+![Projects](../../reports/UI-vibe-parity-projects.png)
+![Main table](../../reports/UI-vibe-parity-table.png)
+![Task drawer](../../reports/UI-vibe-parity-drawer.png)
+![Kanban](../../reports/UI-vibe-parity-kanban.png)

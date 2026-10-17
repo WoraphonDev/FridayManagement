@@ -5,7 +5,7 @@
 
 ## งานที่ทำ
 
-- **T-079** — วาง `TeamFlow_UI_Monday_Mock.html` + รายงาน `TeamFlow_T079_Mock_Report.md`; แก้ bug ปุ่มลัด `N`
+- **T-079** — วาง `docs/mocks/TeamFlow_UI_Monday_Mock.html` + รายงาน `TeamFlow_T079_Mock_Report.md`; แก้ bug ปุ่มลัด `N`
 - **T-080 Job titles** — migration `0005_job_titles` (SQLite + SQL Server; seed PM/SM/BA/SA/Dev/Tester, `users.job_title_id`), API `GET/POST /api/job-titles`, `PATCH /api/job-titles/{id}`, `PatchUser.job_title_id`, ป้ายใน Members/Directory/Workload, filter users/tasks/reports, CSV `assignee_job_title`, audit; UI หน้า Users/Reports/Admin › Job titles
 - **T-081 Permissions/manager** — migration `0006_permissions` (`user_permissions`, `users.permissions_version`, role `manager`; SQLite rebuild ตาราง, SQL Server ขยายคอลัมน์ 7 ตัวอักษร), catalog + GET/PUT สิทธิ์รายคน (Admin ไม่ใช่ตนเอง, version 409), authorization อ่าน key ใหม่ทุก request (P-01/P-03/P-04/P-06/P-08), BR-22 demote manager→editor ใน transaction เดียว + audit
 - **T-082 Admin center** — แท็บ Members/Teams/Job titles/Permissions, matrix ติ๊กรายคน, เลือกหลายคน + preset PM/SM/Clear, สรุปก่อนบันทึก, `PUT /api/permissions/matrix` all-or-nothing + 409 ระบุผู้ใช้, Settings แสดงสิทธิ์ตนเองแบบอ่านอย่างเดียว

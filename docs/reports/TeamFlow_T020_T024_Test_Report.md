@@ -21,14 +21,14 @@
 | test:workspaces | PASS 17/17 | 12 provider fixtures, 3 actual HTTP/cookie/CSRF/DTO/idempotency checks, 2 real separate-process SQLite races |
 | npm test | PASS 305/305 | 284 Node + 21 frontend; all14 Node suites + frontend |
 | test:ui | PASS 17/17 | 3 new workspaces E2E + 14 existing browser tests; actual local backend, Chromium153; 360px emulation subset |
-| verify:checkout | PASS | Fresh source offline ci/typecheck/build/305 tests/migrate/seed/omit-dev install+compiled server/CLI help; [report](reports/T-024-fresh-checkout.json) |
+| verify:checkout | PASS | Fresh source offline ci/typecheck/build/305 tests/migrate/seed/omit-dev install+compiled server/CLI help; [report](../../reports/T-024-fresh-checkout.json) |
 | Real SQL Server2022 | NOT_RUN | SQL harness89 SKIP; includes12 new workspace fixtures ready for isolated native provider |
 | Windows / full browser-device matrix / UAT | NOT_RUN | Chromium macOS/emulation cannot close these |
 | Full TC/AT acceptance | NOT_RUN | No execution-records fabricated; future real feature workflows still pending |
 
 ## หลักฐานและ trace
 
-Machine results/source hashes: [reports/T-020-024-batch-results.json](reports/T-020-024-batch-results.json). Final logs: `reports/T-020-024-tests.log`, `reports/T-020-024-ui.log`, `reports/T-020-024-sqlserver.log`.
+Machine results/source hashes: [reports/T-020-024-batch-results.json](../../reports/T-020-024-batch-results.json). Final logs: `reports/T-020-024-tests.log`, `reports/T-020-024-ui.log`, `reports/T-020-024-sqlserver.log`.
 
 Trace: FR-05–11/FR-13, NFR-02–03, UT-03, partial TC-013–023 และ AT-05–08/29. Unit/provider fixtures seed synthetic tasks/assignments/deleted/done state; they do **not** execute future T-026/T-027/T-029 task/status/recurrence services or real file bytes/notification center. New browser journeys use real first-run setup, accounts, forced-password change and team/project APIs. Cleanup rollback injects notification/admin-audit persistence faults; actual two-process races cover same-version membership changes and team archive versus project creation. `tests/execution-records.json` remains unchanged; full case/AT not promoted to PASS.
 

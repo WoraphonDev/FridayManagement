@@ -1,7 +1,7 @@
 import { createServer } from 'node:http';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
-const file = fileURLToPath(new URL('../TeamFlow_UI_Vibe_Preview.html', import.meta.url));
+const file = fileURLToPath(new URL('../docs/mocks/TeamFlow_UI_Vibe_Preview.html', import.meta.url));
 const server = createServer(async (req, res) => {
   if (
     !['/', '/TeamFlow_UI_Vibe_Preview.html'].includes(req.url) ||

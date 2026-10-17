@@ -36,6 +36,6 @@ Scaffold bindloopbackและปฏิเสธ NODE_ENV=production; health rea
 
 ## หลักฐานและความคืบหน้า
 
-- [README](README.md), [fresh-copy results](reports/T-005-fresh-checkout.json), [machine results](reports/T-005-foundation-results.json), [license inventory](dependencies/license-inventory.json)
+- [README](../../README.md), [fresh-copy results](../../reports/T-005-fresh-checkout.json), [machine results](../../reports/T-005-foundation-results.json), [license inventory](../../dependencies/license-inventory.json)
 - DONE **5/77** tasks; เหลือ **72** TODO; READY: **T-006 High / T-007 High / T-012 Medium**; งานถัดไปตามลำดับ T-006
 - Task Registerอัปเดตตามผลจริง; tests/execution-records.jsonยังว่าง ไม่มี fullacceptancePASS ที่อนุมานจาก bootstrap ไม่มีcommit/deploy/DNS/serverchanges

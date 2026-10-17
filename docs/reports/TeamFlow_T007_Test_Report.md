@@ -2,7 +2,7 @@
 
 ## Follow-up — 8 October 2026
 
-Owner confirmed no SQL test environment and requested preparation. Read-only preflight and sequential13-case focused native command now available; see TeamFlow_SQLServer_Foundation_Runbook.md and reports/sql-foundation-preparation-results.json. New readiness5/5, combined config43/43 and schema13/13 PASS; type/lint PASS. Native13SKIP/0executed; command exits1 NOT_READY before native fixtures. T-006/T-007 remain IN_PROGRESS, native SQL/Windows/UAT NOT_RUN. Current counts DONE6/77, remaining71 supersede older counts below. Declared High; actual runtime model/effort NOT_VERIFIED; next native T006/T007 High.
+Owner confirmed no SQL test environment and requested preparation. Read-only preflight and sequential13-case focused native command now available; see docs/legacy/TeamFlow_SQLServer_Foundation_Runbook.md and reports/sql-foundation-preparation-results.json. New readiness5/5, combined config43/43 and schema13/13 PASS; type/lint PASS. Native13SKIP/0executed; command exits1 NOT_READY before native fixtures. T-006/T-007 remain IN_PROGRESS, native SQL/Windows/UAT NOT_RUN. Current counts DONE6/77, remaining71 supersede older counts below. Declared High; actual runtime model/effort NOT_VERIFIED; next native T006/T007 High.
 
 
 วันที่: 6 ตุลาคม 2026 (Asia/Bangkok) · Owner: Codex · **IN_PROGRESS: SQLite/pure checks PASS; SQL2022 NOT_RUN**
@@ -53,6 +53,6 @@ T-007 คง **IN_PROGRESS**; checklist SQL Serverตัวแรกยังค
 
 ## หลักฐานและความคืบหน้า
 
-- [Schema](TeamFlow_Database_Schema.md), [README](README.md), [machine results](reports/T-007-schema-results.json), [fresh-copy results](reports/T-007-fresh-checkout.json), migrations/sqlite และ migrations/sqlserver แยกไฟล์
+- [Schema](../../TeamFlow_Database_Schema.md), [README](../../README.md), [machine results](../../reports/T-007-schema-results.json), [fresh-copy results](../../reports/T-007-fresh-checkout.json), migrations/sqlite และ migrations/sqlserver แยกไฟล์
 - **DONE5/77 · IN_PROGRESS2 · TODO70 · remaining72**; งานใหม่ที่ READY คือ **T-012 Medium**; T-008 Highยัง WAIT_DEPENDENCY
 - ไม่มี commit/deploy/DNS/server changes หรือ credentials/dataจริงเพิ่มในsource; T-006/T-007รอ isolated SQL2022 evidence

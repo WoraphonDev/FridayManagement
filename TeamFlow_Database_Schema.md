@@ -47,13 +47,13 @@ Purgeต้องลบdependentrowsและnullpredecessor/successorliveFKก�
 
 `npm run test:schema` ใช้temporarySQLitefile/close-reopen/actualconstraints + purecodecs. `npm run test:sqlserver` defaultSKIP/NOT_RUN; enableเฉพาะisolatedSQL2022DB_NAME_testด้วยdedicatedoperatorcredentials. Sharedschemaacceptance11casesสร้างrandomizedschemaแยกต่อcaseแล้วcleanupFK/table/schemaในfinally ไม่แตะdbo. ต้องSQLversion16.xจริงและpermissionsCREATESCHEMA/tables/constraints; ไม่มีการสร้างDB/เปลี่ยนserver/DNSจากtests
 
-T-007คงIN_PROGRESS: SQL2022apply/enabledtrustedconstraints/nativecollation/serialization/queryplans/concurrencyยังNOT_RUN. SQLiteevidenceไม่ปิดTC-078/AT-25/28/Windows/UAT. ดู[รายงาน](TeamFlow_T007_Test_Report.md)
+T-007คงIN_PROGRESS: SQL2022apply/enabledtrustedconstraints/nativecollation/serialization/queryplans/concurrencyยังNOT_RUN. SQLiteevidenceไม่ปิดTC-078/AT-25/28/Windows/UAT. ดู[รายงาน](docs/reports/TeamFlow_T007_Test_Report.md)
 
 Technical references: [Microsoft FK/NO ACTION](https://learn.microsoft.com/en-us/sql/relational-databases/tables/primary-and-foreign-key-constraints?view=sql-server-ver16), [filtered indexes](https://learn.microsoft.com/en-us/sql/t-sql/statements/create-index-transact-sql?view=sql-server-ver16), [DATALENGTH](https://learn.microsoft.com/en-us/sql/t-sql/functions/datalength-transact-sql?view=sql-server-ver16), [collation/Unicode](https://learn.microsoft.com/en-us/sql/relational-databases/collations/collation-and-unicode-support?view=sql-server-ver16), [SQL2022 ISJSON container constraints](https://learn.microsoft.com/en-us/sql/t-sql/functions/isjson-transact-sql?view=sql-server-ver16), [SQLite STRICT](https://www.sqlite.org/stricttables.html), [SQLite FK](https://www.sqlite.org/foreignkeys.html)
 
 ## Corrective migration 0002 - 2026-10-06
 
-0000/0001 applied checksums are preserved. 0002_review_status.sql converts legacy blocked to locked review in tasks/board_columns/board_positions. SQLite rebuild preserves dependent rows/indexes/identity high-water; foreign_key_check assertion precedes reset of deferred counters. Populated upgrade/repeat/reopen/rollback verified in TeamFlow_T008_Test_Report.md. SQL recreates affected FK/CHECK WITH CHECK in one transaction; real SQL2022 evidence NOT_RUN.
+0000/0001 applied checksums are preserved. 0002_review_status.sql converts legacy blocked to locked review in tasks/board_columns/board_positions. SQLite rebuild preserves dependent rows/indexes/identity high-water; foreign_key_check assertion precedes reset of deferred counters. Populated upgrade/repeat/reopen/rollback verified in docs/reports/TeamFlow_T008_Test_Report.md. SQL recreates affected FK/CHECK WITH CHECK in one transaction; real SQL2022 evidence NOT_RUN.
 
 ## Owner-approved Vibe migrations — 7 October 2026
 

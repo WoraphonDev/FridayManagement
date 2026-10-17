@@ -24,7 +24,7 @@ const output = await build({
 });
 const js = output.outputFiles.find((f) => f.path.endsWith('.js')).text;
 const css = output.outputFiles.find((f) => f.path.endsWith('.css'))?.text || '';
-let html = readFileSync(resolve(repo, 'TeamFlow_UI_Redesign_Mockup.html'), 'utf8');
+let html = readFileSync(resolve(repo, 'docs/mocks/TeamFlow_UI_Redesign_Mockup.html'), 'utf8');
 html = html
   .replace('DESIGN PREVIEW · 03', 'DESIGN PREVIEW · 06 · VIBE')
   .replace('Friday · UI redesign studio', 'Friday · Vibe UI preview');
@@ -74,7 +74,7 @@ html = html
     '</body>',
     `<script data-vibe-bundle>${js.replaceAll('</script', '<\\/script')}</script></body>`,
   );
-writeFileSync(resolve(repo, 'TeamFlow_UI_Vibe_Preview.html'), html);
+writeFileSync(resolve(repo, 'docs/mocks/TeamFlow_UI_Vibe_Preview.html'), html);
 const lock = JSON.parse(readFileSync(resolve(here, 'package-lock.json'), 'utf8'));
 const packages = Object.entries(lock.packages)
   .filter(([p]) => p)

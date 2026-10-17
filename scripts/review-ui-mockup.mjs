@@ -6,9 +6,9 @@ import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
 
 const root = fileURLToPath(new URL('../', import.meta.url));
-const htmlPath = join(root, 'TeamFlow_UI_Redesign_Mockup.html');
+const htmlPath = join(root, 'docs/mocks/TeamFlow_UI_Redesign_Mockup.html');
 const reports = join(root, 'reports');
-const base = process.env.FRIDAY_MOCKUP_URL ?? new URL('../TeamFlow_UI_Redesign_Mockup.html', import.meta.url).href;
+const base = process.env.FRIDAY_MOCKUP_URL ?? new URL('../docs/mocks/TeamFlow_UI_Redesign_Mockup.html', import.meta.url).href;
 const browser = await chromium.launch();
 const page = await browser.newPage({ viewport: { width: 1440, height: 1000 } });
 const pageErrors = [];
@@ -391,7 +391,7 @@ try {
   const result = {
     date: '2026-10-07', scope: 'Standalone design prototype only',
     browser: await browser.version(), runtime: process.version,
-    source: 'TeamFlow_UI_Redesign_Mockup.html', sha256: createHash('sha256').update(html).digest('hex'),
+    source: 'docs/mocks/TeamFlow_UI_Redesign_Mockup.html', sha256: createHash('sha256').update(html).digest('hex'),
     summary: { pass: cases.filter(c=>c.result==='PASS').length, fail: cases.filter(c=>c.result==='FAIL').length, planned: 21 },
     cases: cases.sort((a,b)=>a.id.localeCompare(b.id)), pageErrors, privateApiRequests: requests.filter(url=>url.includes('/api/')),
     productionAcceptance: 'NOT_RUN', sqlServer: 'NOT_RUN', windows: 'NOT_RUN', uat: 'NOT_RUN',

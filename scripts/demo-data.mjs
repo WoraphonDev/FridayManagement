@@ -1,4 +1,4 @@
-// Local demo data shaped like TeamFlow_UI_Vibe_Preview.html, created through the public API.
+// Local demo data shaped like docs/mocks/TeamFlow_UI_Vibe_Preview.html, created through the public API.
 // Usage (fresh local SQLite instance only):
 //   DEMO_ORIGIN=http://127.0.0.1:5000 SETUP_TOKEN=<console token> DEMO_PASSWORD=<test password> node scripts/demo-data.mjs
 // Refuses non-local origins. Every demo account uses DEMO_PASSWORD; members must change it at first sign-in.

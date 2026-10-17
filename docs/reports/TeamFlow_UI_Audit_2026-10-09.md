@@ -1,6 +1,6 @@
 # UI Audit เทียบ Vibe Preview — 2026-10-09
 
-ต้นแบบ: `TeamFlow_UI_Vibe_Preview.html` (owner-approved). แอปจริง: build ปัจจุบัน (295ca55), SQLite local, 1440×900, ข้อมูลทดสอบแยกที่ `/private/tmp/friday-audit`.
+ต้นแบบ: `docs/mocks/TeamFlow_UI_Vibe_Preview.html` (owner-approved). แอปจริง: build ปัจจุบัน (295ca55), SQLite local, 1440×900, ข้อมูลทดสอบแยกที่ `/private/tmp/friday-audit`.
 ระดับ: **H** = โครงสร้าง/ใช้งานผิด, **M** = ต่างจาก mock ชัดเจน, **L** = ขัดเกลา
 
 ## ทุกหน้า (shell)

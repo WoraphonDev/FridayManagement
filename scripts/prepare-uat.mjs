@@ -50,7 +50,10 @@ const metadata = {
     signoff: null,
   })),
   defects: [],
-  localReferences: ['TeamFlow_T070_T074_Test_Report.md', 'TeamFlow_T075_T077_Test_Report.md'],
+  localReferences: [
+    'docs/reports/TeamFlow_T070_T074_Test_Report.md',
+    'docs/reports/TeamFlow_T075_T077_Test_Report.md',
+  ],
 };
 writeFileSync(target, JSON.stringify(metadata, null, 2) + '\n', { flag: 'wx' });
 const screens = [

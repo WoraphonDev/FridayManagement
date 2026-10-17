@@ -137,12 +137,12 @@ Task เพิ่มบันทึกอ้างรายงานนี้เ
 
 ## สถานะหลัง T-003
 
-T-003 DONEเฉพาะcontract/schema tests: 52routes/75schemasตรงSRS/owner inventoryและ61/61testsPASS ดูTeamFlow_T003_Test_Report.md; C-01–C-06/C-08–C-10ล็อกcontract/designที่ต้องใช้แล้ว แต่featureimplementation/DBevidenceยังต้องทำตามtasks; C-07/M-04fulltestsequencing/manifestต้องปิดในT-004; ไม่มีAT/TC/SQL2022/Windows/UATถูกเปลี่ยนเป็นPASS
+T-003 DONEเฉพาะcontract/schema tests: 52routes/75schemasตรงSRS/owner inventoryและ61/61testsPASS ดูdocs/reports/TeamFlow_T003_Test_Report.md; C-01–C-06/C-08–C-10ล็อกcontract/designที่ต้องใช้แล้ว แต่featureimplementation/DBevidenceยังต้องทำตามtasks; C-07/M-04fulltestsequencing/manifestต้องปิดในT-004; ไม่มีAT/TC/SQL2022/Windows/UATถูกเปลี่ยนเป็นPASS
 
 ## สถานะหลัง T-004
 
-T-004 DONEเฉพาะfulltest/release plan validation: 77tasks/20suites/84TC/30AT/20RV/5UAT/4reviews/30smokeและFR40/NFR8/BR18ครบ; 17/17policy testsPASSตามTeamFlow_T004_Test_Report.md. C-07/M-01/M-04ปิดด้านแผน/sequencing/evidence contracts; actual harness/primitive/variantsต้องทำและทดสอบในtasksที่รับผิดชอบ. G0ผ่านด้านเอกสาร; T-005 READY — Medium; candidate/final/productionและapplication/SQL2022/Windows/UATยังNOT_RUN
+T-004 DONEเฉพาะfulltest/release plan validation: 77tasks/20suites/84TC/30AT/20RV/5UAT/4reviews/30smokeและFR40/NFR8/BR18ครบ; 17/17policy testsPASSตามdocs/reports/TeamFlow_T004_Test_Report.md. C-07/M-01/M-04ปิดด้านแผน/sequencing/evidence contracts; actual harness/primitive/variantsต้องทำและทดสอบในtasksที่รับผิดชอบ. G0ผ่านด้านเอกสาร; T-005 READY — Medium; candidate/final/productionและapplication/SQL2022/Windows/UATยังNOT_RUN
 
 ## สถานะหลัง T-005
 
-T-005 DONEเฉพาะfoundationbootstrap/tooling/provider isolation; 84combinedtests + 1ChromiumshellPASS และfreshcopyci/build/migrate/seed/startPASSตามTeamFlow_T005_Test_Report.md. Node22.23.3คงเดิม; SQLitebuiltin experimentalใช้localเท่านั้น; SQL2022actual1caseSKIP/NOT_RUN ไม่ใช้ผลlocalแทน. Progress5/77DONE เหลือ72; T-006/T-007READY—High และT-012READY—Medium; ขั้นต่อไปT-006config/startupguard; ไม่deploy/เปลี่ยนruntimeหรือหยุดprojectอื่น
+T-005 DONEเฉพาะfoundationbootstrap/tooling/provider isolation; 84combinedtests + 1ChromiumshellPASS และfreshcopyci/build/migrate/seed/startPASSตามdocs/reports/TeamFlow_T005_Test_Report.md. Node22.23.3คงเดิม; SQLitebuiltin experimentalใช้localเท่านั้น; SQL2022actual1caseSKIP/NOT_RUN ไม่ใช้ผลlocalแทน. Progress5/77DONE เหลือ72; T-006/T-007READY—High และT-012READY—Medium; ขั้นต่อไปT-006config/startupguard; ไม่deploy/เปลี่ยนruntimeหรือหยุดprojectอื่น

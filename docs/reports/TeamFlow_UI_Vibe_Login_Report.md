@@ -24,6 +24,6 @@ One diagnostic Login selector omitted the accessible space at a line break; corr
 
 Traceability: partial T014/TC003/TC004/TC006 Login/logout; T055 responsive/keyboard/reduced-motion; T056 installation guidance only. Formal TC/AT records remain unchanged. Evidence reports/UI-vibe-login-results.json and reports/vibe-login/*.txt. Existing dependency audit62 and bundle warning remain open. DONE6/77, IN_PROGRESS71, TODO0, remaining71. Declared UI Medium; actual runtime model/effort NOT_VERIFIED. Next owner visual/UAT review T055/T076 Medium; native SQL T006/T007 High.
 
-![Login](reports/UI-vibe-login-final.png)
-![Install panel](reports/UI-vibe-install-panel.png)
-![Mobile Login](reports/UI-vibe-login-mobile.png)
+![Login](../../reports/UI-vibe-login-final.png)
+![Install panel](../../reports/UI-vibe-install-panel.png)
+![Mobile Login](../../reports/UI-vibe-login-mobile.png)

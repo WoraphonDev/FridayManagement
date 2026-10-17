@@ -27,7 +27,7 @@ Environment macOS arm64, Node22.23.3/npm10.9.9, temporary SQLite file fixtures a
 | Contract/test-plan | PASS | 52routes/75schemas; full test inventory/dependency graph unchanged |
 | Licenses | PASS | 390packages, missing0; versions unchanged, production scope flags updated |
 
-Fresh-copy evidence [reports/T-009-fresh-checkout.json](reports/T-009-fresh-checkout.json) verifies packaging/runtime before the final defensive uncataloged-error guard; that guard was separately retested on current source. Default npm cache missed wsl-utils; the existing project cache /private/tmp/friday-npm-cache completed offline validation. No new dependency download or shared runtime change
+Fresh-copy evidence [reports/T-009-fresh-checkout.json](../../reports/T-009-fresh-checkout.json) verifies packaging/runtime before the final defensive uncataloged-error guard; that guard was separately retested on current source. Default npm cache missed wsl-utils; the existing project cache /private/tmp/friday-npm-cache completed offline validation. No new dependency download or shared runtime change
 
 Early checks found a query schema $ref default-resolution bug and a test that treated health/live200 as503. Fixed schema dereferencing and separated health assertions; all affected tests PASS. Final error-code whitelist guard prevents internal programming mistakes from falling into Express HTML/stack errors
 

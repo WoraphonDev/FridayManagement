@@ -25,7 +25,7 @@
 | Windows DACL/console/SQL application lock on actual deployment | NOT_RUN |
 | browser | NOT_RUN this task: no UI changes; prior batch14 PASS retained |
 
-Initial test harness failures were Python filename shadowing stdlib pty, stderr SQLite warning mixed with JSON stdout, and TypeScript test inference; repaired and15/15 then compiled/regression288/288 rerun. No applied migration or locked API schema changed. See [machine evidence](reports/T-019-installer-results.json); no credential transcript/screenshots attached. README includes Thai operator instructions and Windows command examples without passwords.
+Initial test harness failures were Python filename shadowing stdlib pty, stderr SQLite warning mixed with JSON stdout, and TypeScript test inference; repaired and15/15 then compiled/regression288/288 rerun. No applied migration or locked API schema changed. See [machine evidence](../../reports/T-019-installer-results.json); no credential transcript/screenshots attached. README includes Thai operator instructions and Windows command examples without passwords.
 
 Partial TC-081/AT-28/AT-30 and FR-04/39/40/NFR-02/07 evidence only; tests/execution-records.json unchanged. Required native SQL/Windows/actualHTTPS/full release checks remain NOT_RUN. /health/ready503/production refusal retained. No commit/push/merge/deploy/shared Node runtime changes.
 
