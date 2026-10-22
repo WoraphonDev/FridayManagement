@@ -101,23 +101,23 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | @nodelib/fs.scandir | 2.1.5 | MIT | runtime |
 | @nodelib/fs.stat | 2.0.5 | MIT | runtime |
 | @nodelib/fs.walk | 1.2.8 | MIT | runtime |
-| @oxc-project/types | 0.152.0 | MIT | runtime |
+| @oxc-project/types | 0.155.0 | MIT | runtime |
 | @playwright/test | 1.63.0 | Apache-2.0 | dev |
-| @rolldown/binding-android-arm-eabi | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-android-arm64 | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-darwin-arm64 | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-darwin-x64 | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-freebsd-x64 | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-linux-arm-gnueabihf | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-linux-arm64-gnu | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-linux-arm64-musl | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-linux-ppc64-gnu | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-linux-s390x-gnu | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-linux-x64-gnu | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-linux-x64-musl | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-openharmony-arm64 | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-win32-arm64-msvc | 1.2.12 | MIT | runtime / optional |
-| @rolldown/binding-win32-x64-msvc | 1.2.12 | MIT | runtime / optional |
+| @rolldown/binding-android-arm-eabi | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-android-arm64 | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-darwin-arm64 | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-darwin-x64 | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-freebsd-x64 | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-linux-arm-gnueabihf | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-linux-arm64-gnu | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-linux-arm64-musl | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-linux-ppc64-gnu | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-linux-s390x-gnu | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-linux-x64-gnu | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-linux-x64-musl | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-openharmony-arm64 | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-win32-arm64-msvc | 1.2.15 | MIT | runtime / optional |
+| @rolldown/binding-win32-x64-msvc | 1.2.15 | MIT | runtime / optional |
 | @rolldown/pluginutils | 1.0.1 | MIT | runtime |
 | @tediousjs/connection-string | 1.1.0 | MIT | runtime |
 | @types/body-parser | 1.19.6 | MIT | dev |
@@ -206,7 +206,6 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | @vibe/slider | 4.0.6 | MIT | runtime |
 | @vibe/split-button | 4.0.6 | MIT | runtime |
 | @vibe/style | 4.1.0 | MIT | runtime |
-| postcss | 8.4.31 | MIT | runtime |
 | @vibe/table | 4.0.5 | MIT | runtime |
 | @vibe/tabs | 4.0.10 | MIT | runtime |
 | @vibe/text-inputs | 4.0.6 | MIT | runtime |
@@ -461,7 +460,7 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | minimist-options | 4.1.0 | MIT | runtime |
 | ms | 2.1.3 | MIT | runtime |
 | mssql | 12.7.3 | MIT | runtime |
-| nanoid | 3.3.19 | MIT | runtime |
+| nanoid | 3.3.20 | MIT | runtime |
 | native-duplexpair | 1.0.0 | MIT | runtime |
 | natural-compare | 1.4.0 | MIT | dev |
 | negotiator | 1.1.0 | MIT | runtime |
@@ -501,12 +500,12 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | picomatch | 4.0.7 | MIT | runtime |
 | playwright | 1.63.0 | Apache-2.0 | dev |
 | playwright-core | 1.63.0 | Apache-2.0 | dev |
-| postcss | 8.5.28 | MIT | runtime |
+| postcss | 8.5.31 | MIT | runtime |
 | postcss-media-query-parser | 0.2.3 | MIT | runtime |
 | postcss-resolve-nested-selector | 0.1.6 | MIT | runtime |
 | postcss-safe-parser | 6.0.0 | MIT | runtime |
 | postcss-scss | 4.0.9 | MIT | runtime |
-| postcss-selector-parser | 6.1.4 | MIT | runtime |
+| postcss-selector-parser | 6.1.5 | MIT | runtime |
 | postcss-value-parser | 4.2.0 | MIT | runtime |
 | postgres-array | 2.0.0 | MIT | runtime |
 | postgres-bytea | 1.0.1 | MIT | runtime |
@@ -561,7 +560,7 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | resolve-from | 5.0.0 | MIT | runtime |
 | reusify | 1.1.0 | MIT | runtime |
 | rimraf | 3.0.2 | ISC | runtime |
-| rolldown | 1.2.12 | MIT | runtime |
+| rolldown | 1.2.15 | MIT | runtime |
 | router | 2.2.0 | MIT | runtime |
 | run-applescript | 7.1.0 | MIT | runtime |
 | run-parallel | 1.2.0 | MIT | runtime |
@@ -588,7 +587,6 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | spdx-expression-parse | 3.0.1 | MIT | runtime |
 | spdx-license-ids | 3.0.24 | CC0-1.0 | runtime |
 | split2 | 4.2.0 | ISC | runtime |
-| sprintf-js | 1.1.3 | BSD-3-Clause | runtime |
 | statuses | 2.0.2 | MIT | runtime |
 | std-env | 4.3.0 | MIT | runtime |
 | streamsearch | 1.1.0 | MIT | runtime |
@@ -608,7 +606,7 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | svg-tags | 1.0.0 | MIT | runtime |
 | table | 6.9.0 | BSD-3-Clause | runtime |
 | tarn | 3.1.2 | MIT | runtime |
-| tedious | 20.3.3 | MIT | runtime |
+| tedious | 20.3.8 | MIT | runtime |
 | tinybench | 6.2.0 | MIT | runtime |
 | tinyexec | 1.3.1 | MIT | runtime |
 | tinyglobby | 0.2.17 | MIT | runtime |
@@ -634,7 +632,7 @@ Generated from pinned package-lock.json and installed package metadata. Includes
 | v8-compile-cache | 2.4.0 | MIT | runtime |
 | validate-npm-package-license | 3.0.4 | Apache-2.0 | runtime |
 | vary | 1.1.2 | MIT | runtime |
-| vite | 8.3.2 | MIT | runtime |
+| vite | 8.3.5 | MIT | runtime |
 | vitest | 5.0.3 | MIT | runtime |
 | which | 2.0.2 | ISC | dev |
 | why-is-node-running | 3.2.1 | MIT | runtime |

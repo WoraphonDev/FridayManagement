@@ -9,11 +9,14 @@ test('Work Calendar colorful: month navigation, undated separation, filters, tas
   try {
     const self = await page.evaluate(async () => await (await fetch('/api/me')).json());
     const today = self.bangkok_today as string;
+    // Keep all four due dates away from month edges: adjacent-month grid cells
+    // legitimately include late prior-month tasks and must not make this assertion date-dependent.
+    const firstDueDate = today.slice(0, 7) + '-10';
     for (const [i, status] of ['todo', 'doing', 'review', 'done'].entries()) {
       const task = await mutate(page, '/api/tasks', {
         project_id: f.project.id,
         title: `งาน ${status} · Work Calendar`,
-        due_date: dateAdd(today, i),
+        due_date: dateAdd(firstDueDate, i),
       });
       expect(task.status).toBe(201);
       if (status !== 'todo')
@@ -75,7 +78,7 @@ test('Work Calendar colorful: month navigation, undated separation, filters, tas
     await task.focus();
     await page.keyboard.press('Enter');
     const detail = page.getByRole('dialog', { name: 'Task details', exact: true });
-    await expect(detail.getByLabel('End Plan', { exact: true })).toHaveValue(today);
+    await expect(detail.getByLabel('End Plan', { exact: true })).toHaveValue(firstDueDate);
     await detail.getByRole('button', { name: 'Close dialog', exact: true }).click();
     await work.locator('summary').filter({ hasText: 'Filters' }).click();
     await work.getByLabel('Due date', { exact: true }).selectOption('false');

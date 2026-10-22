@@ -1,0 +1,18 @@
+# Private staging CA; operator explicitly distributes the root to test clients.
+# No public ACME/DNS integration, access log, or public HTTP listener.
+{
+    admin off
+    skip_install_trust
+    auto_https disable_redirects
+    persist_config off
+}
+https://friday.example.test {
+    bind 127.0.0.1
+    tls internal
+    reverse_proxy 127.0.0.1:3000 {
+        header_up -Forwarded
+        header_up X-Forwarded-For {remote_host}
+        header_up X-Forwarded-Proto https
+        header_up X-Forwarded-Host {host}
+    }
+}
