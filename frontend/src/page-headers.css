@@ -36,3 +36,23 @@
   font-size: 11px;
   color: #676879;
 }
+
+/* DEL-UX1: shell labels are controls, not prose. Keep the mobile row compact
+   without breaking the wordmark/Notify or hiding their accessible text. */
+.topbar > a,
+.topbar .friday-brand,
+.topbar .notify-link {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+@media (max-width: 760px) {
+  .app-layout > .topbar {
+    gap: 6px;
+  }
+  .topbar .topbar-actions {
+    gap: 6px;
+  }
+  .topbar .notify-link {
+    padding-inline: 6px;
+  }
+}

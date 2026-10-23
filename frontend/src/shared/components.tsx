@@ -11,7 +11,7 @@ import {
 } from 'react';
 import { useWritable } from './connection';
 import type { ApiError } from '../api';
-import { focusOpener } from './opener';
+import { restoreOpener } from './opener';
 import { Button, LayerProvider } from '@vibe/core';
 /** AN-08: shimmer skeleton; the text stays for screen readers and reduced motion. */
 export function Loading() {
@@ -215,7 +215,7 @@ export function Dialog({
   };
   const id = useId();
   useEffect(() => {
-    const previous = focusOpener();
+    const restoreFocus = restoreOpener();
     const node = dialog.current;
     node?.showModal();
     // Prefer a field the content asked to focus (autoFocus); otherwise the close button.
@@ -223,7 +223,13 @@ export function Dialog({
     (wanted ?? closeButton.current)?.focus();
     return () => {
       node?.close();
-      previous?.focus();
+      // Let mutation-triggered reader renders settle before resolving the live opener.
+      // One frame on close only: never poll or refocus during background refresh.
+      requestAnimationFrame(() => {
+        // StrictMode may immediately reopen this same node.
+        if (node?.open) return;
+        restoreFocus();
+      });
     };
   }, []);
   return (
@@ -318,9 +324,16 @@ export function Form({
   hideSubmit?: boolean;
 }) {
   const writable = useWritable();
+  const composing = useRef(false);
   return (
     <form
       id={formId}
+      onCompositionStart={() => { composing.current = true; }}
+      onCompositionEnd={() => { composing.current = false; }}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter' && (composing.current || event.nativeEvent.isComposing || event.keyCode === 229))
+          event.preventDefault();
+      }}
       onSubmit={(event) => {
         event.preventDefault();
         if (writable && !pending && !blocked && !offline && !submitDisabled) onSubmit(event);
