@@ -1,5 +1,9 @@
 # Tickets
 
+## Proposed delivery backlog (not allocated)
+
+[DEL-* cards](delivery/README.md) เป็นข้อยกเว้นเฉพาะ proposal ที่ยังไม่ adopt: ยังไม่ใช้เลข T-NNN และไม่รวมใน Task Register totals. หลัง adoption ต้อง allocate/map ตาม convention ด้านล่างพร้อมอัปเดต manifest และ evidence จริง; ห้ามเปลี่ยน task เดิมเป็น DONE จากการมี card.
+
 รูปแบบตาม PROJECT_TEMPLATE 1.0 หมวด 7.1–7.2 (YAML frontmatter + Context/References/Files/Tasks/Acceptance/Not Do/Verify/Questions/Evidence)
 
 - **Exception ID:** ใช้ `T-NNN` (3 หลัก) ต่อจาก Task Register เดิม แทน `T-0001` เพื่อไม่ให้ reference เดิมเสีย; Sub-Ticket ใช้ `T-NNN-01`

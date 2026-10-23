@@ -1,0 +1,198 @@
+{
+  "audit_baseline": "94282b6",
+  "delivery_spec_base": "4a0b76b",
+  "files": [
+    {
+      "file": "frontend/src/AdminCenter.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/App.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Auth.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/InitialTeamMembers.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Kanban.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/MotionSettings.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/MyOverview.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/NotificationBadge.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Notifications.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/NotifyPopover.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Organization.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/ProjectDocs.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/ProjectFiles.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/ProjectInsights.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Pwa.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Register.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Registrations.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Reports.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Setup.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/TaskCollaboration.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/TaskEditor.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/TaskViews.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/TaskWorkspace.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Trash.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Users.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/Workspaces.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/shared/CellPopover.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/shared/ChecklistStatusPicker.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/shared/PeoplePicker.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/shared/StatusPicker.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/shared/components.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    },
+    {
+      "file": "frontend/src/shared/confirm.tsx",
+      "audit_source_exists": true,
+      "main_source_exists": true,
+      "same_content": true
+    }
+  ]
+}
