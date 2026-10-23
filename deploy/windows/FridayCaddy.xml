@@ -1,0 +1,16 @@
+<!-- WinSW 2.12.0 x64; configure dedicated non-admin Log On identity before first start. -->
+<service>
+  <id>FridayCaddy</id>
+  <name>Friday staging HTTPS proxy</name>
+  <description>Loopback-only Caddy internal-CA staging proxy; no access logging.</description>
+  <executable>C:\FridayTools\caddy.exe</executable>
+  <arguments>run --config "C:\FridayStage\proxy\Caddyfile" --adapter caddyfile</arguments>
+  <workingdirectory>C:\FridayStage\proxy</workingdirectory>
+  <env name="XDG_DATA_HOME" value="C:\FridayStage\caddy-data" />
+  <env name="XDG_CONFIG_HOME" value="C:\FridayStage\caddy-config" />
+  <startmode>Manual</startmode>
+  <stoptimeout>60 sec</stoptimeout>
+  <onfailure action="none" />
+  <logpath>C:\FridayStage\proxy-wrapper-logs</logpath>
+  <log mode="none" />
+</service>

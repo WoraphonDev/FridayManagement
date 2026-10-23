@@ -1,0 +1,17 @@
+<!-- WinSW 2.12.0 x64: copy beside FridayStaging.exe OUTSIDE the source tree.
+     Operator installs explicitly, then changes Log On identity in services.msc before first start.
+     No passwords, download extensions, auto-restart or stdout/stderr capture. -->
+<service>
+  <id>FridayStaging</id>
+  <name>FridayManagement isolated staging</name>
+  <description>NODE_ENV=test PostgreSQL 17 HTTPS staging only; production is guarded.</description>
+  <executable>C:\FridayRuntime\node.exe</executable>
+  <arguments>--env-file="C:\FridayStage\private\app.env" scripts/windows/staging-entry.mjs "C:\FridayStage\private\app.env" "C:\Program Files\PostgreSQL\17\bin"</arguments>
+  <workingdirectory>C:\FridaySource</workingdirectory>
+  <env name="PATH" value="C:\Program Files\PostgreSQL\17\bin;%PATH%" />
+  <startmode>Manual</startmode>
+  <stoptimeout>60 sec</stoptimeout>
+  <onfailure action="none" />
+  <logpath>C:\FridayStage\wrapper-logs</logpath>
+  <log mode="none" />
+</service>

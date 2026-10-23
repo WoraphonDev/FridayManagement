@@ -1,5 +1,15 @@
 # TeamFlow — Task.md: แผนพัฒนาและตรวจความครบถ้วน
 
+## Windows-native staging source delivery (owner-authorized)
+
+Prepared PostgreSQL17/test-only HTTPS staging source with Caddy/WinSW, explicit
+bootstrap/grants, scheduled backup template and isolated restore runbook. Linux/Docker
+remains production target; no deployment/server/DNS/firewall action or acceptance closure.
+See docs/reports/Windows_Staging_Readiness.md for executed checks and native NOT_RUN.
+Task statuses remain unchanged: DONE9 / total96 / remaining87; IN_PROGRESS84,
+IN_REVIEW1, TODO2. Native staging is a separate owner-authorized rehearsal, not a
+replacement for T-096 Linux acceptance or human UAT.
+
 ## Owner-approved email registration — 12 October 2026
 
 Owner requested email registration and selected email/password with Admin approval in this chat. This supersedes the prior no-public-registration rule for this flow only; the application still has no email delivery. Declared effort T-016/T-014 High and T-018/T-017 Medium; actual model/effort NOT_VERIFIED.

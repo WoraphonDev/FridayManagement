@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import { projectFixture, mutate, tasks } from './task-workspace-fixtures.js';
 import { readFileSync } from 'node:fs';
 import { join } from 'node:path';
-import { signOut } from './ui-actions';
+import { signOut } from './ui-actions.js';
 for (const [name, width] of [
   ['mobile', 360],
   ['tablet', 768],

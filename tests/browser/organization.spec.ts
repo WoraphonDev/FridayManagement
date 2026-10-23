@@ -2,7 +2,7 @@ import { test, expect, type Page } from '@playwright/test';
 import { rmSync } from 'node:fs';
 import { startupFixture } from '../setup/fixtures.js';
 import { startApplication } from '../../src/api/start.js';
-import { openSettings } from './ui-actions';
+import { openSettings } from './ui-actions.js';
 const password = 'Workspace-admin-fixture-password';
 async function fixture(page: Page) {
   const f = await startupFixture();

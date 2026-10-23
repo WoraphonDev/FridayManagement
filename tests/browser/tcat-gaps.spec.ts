@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { projectFixture, mutate } from './task-workspace-fixtures.js';
-import { signOut } from './ui-actions';
+import { signOut } from './ui-actions.js';
 // Steps from TeamFlow_Test_Cases that no earlier spec exercised; titles carry the TC ID so the
 // TC/AT evidence map (scripts/tcat-map.mjs) links them explicitly.
 
