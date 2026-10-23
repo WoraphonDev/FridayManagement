@@ -1,5 +1,12 @@
 # TeamFlow — Business & Functional Requirements
 
+## Delivery specification addendum — 23 October 2026 (v1.0)
+
+[Delivery decisions D01–D12](docs/product/delivery-decisions.md), [testable rules / proposed defaults / pending questions](docs/product/delivery-rules.md), [rollout](docs/product/delivery-rollout.md) และ [ADR-0002](docs/adr/ADR-0002-delivery-first-specification.md) เป็นส่วนเพิ่มเติมที่มีผลเหนือข้อความเก่าเฉพาะ delivery scope ที่ขัดกัน ไม่ใช่ implementation หรือผล PASS. Multi-assignees คงอยู่พร้อม primary owner แยก; acceptor ต้องมีชื่อก่อนเริ่ม; เก็บ immutable starting plan เมื่อยืนยันเริ่ม; legacy ไม่ถูกบังคับ readiness ย้อนหลัง. Dependencies เดิม excluded ได้รับทิศทางใหม่เฉพาะระยะหลัง same-project warning-only ไม่รวม automatic scheduling/critical path; optional effort/weekly availability ไม่ใช่ time tracking. รายละเอียด authority/closure/reopen/adoption/effort ที่ยัง pending ต้อง block งานที่ขึ้นกับคำตอบ ไม่ถือว่าร่างทุก field อนุมัติแล้ว
+
+ฐาน docs คือ main `4a0b76b`; design source audit `94282b6` ของ Windows staging PR #1 ไม่ได้ merge เข้า main ดู [missing source / baseline boundary](docs/product/audit/README.md). Production target ยังตาม ADR-0001. [Delivery task cards](tickets/delivery/README.md) ใช้ proposed namespace `DEL-*` ยังไม่ allocate official IDs หรือรวมใน totals: Task Register เดิม 96 งาน DONE 9 เหลือ 87; ไม่เปลี่ยนสถานะ/evidence/locked API/test manifest จากเอกสารนี้. AGENTS.md ไม่ถูกแก้; file version เก่าใน instruction ไม่ใช่เหตุให้เขียน protected instructions
+
+
 ## Owner-approved email registration — 12 October 2026
 
 Owner requested email registration and selected email/password with Admin approval in this chat. This supersedes the prior no-public-registration rule for this flow only; the application still has no email delivery. Declared effort T-016/T-014 High and T-018/T-017 Medium; actual model/effort NOT_VERIFIED.
