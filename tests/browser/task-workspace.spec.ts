@@ -3,7 +3,7 @@ import { projectFixture, tasks, mutate } from './task-workspace-fixtures.js';
 import { insert } from '../schema/fixtures.js';
 import { sql } from '../../src/repository/access-scope.js';
 import { dateAdd } from '../../frontend/src/task-dates.js';
-import { signOut } from './ui-actions';
+import { signOut } from './ui-actions.js';
 import { fixtureDatabase } from '../setup/fixtures.js';
 import type { Database } from '../../src/domain/database.js';
 const detail = (page: Page) => page.getByRole('dialog', { name: /^Task details$/ });

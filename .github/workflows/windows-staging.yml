@@ -1,0 +1,24 @@
+name: Windows staging source validation
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  tooling:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.23.3
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - run: npm run typecheck
+      - run: npm run build
+      - run: npm run test:windows-staging
+      - name: Parse PowerShell and run isolated mocked SCM tests
+        shell: pwsh
+        run: |
+          ./tests/windows-staging/parse.ps1
+          ./tests/windows-staging/tooling.tests.ps1 -TemporaryRoot $env:RUNNER_TEMP
+# No deployment, credentials, service installation, DNS, firewall, or native acceptance claim.

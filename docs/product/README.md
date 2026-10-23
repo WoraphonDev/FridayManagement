@@ -1,5 +1,8 @@
 # Delivery specification v1.0
 
+> **Baseline sync update:** PR #1 merged into main at `710655a3f2288da13a00928fb2978cc5638c84cc`; PR #2 has now incorporated that main. References below to missing Windows files / unmerged PR #1 describe the original docs preparation at `4a0b76b`, not current source availability. Source-audit provenance remains `94282b6`; native acceptance remains NOT_RUN. This sync is not a deployment or production approval.
+
+
 เริ่มจาก [คำอนุมัติจริง D01–D12](delivery-decisions.md) → [กติกาที่ตรวจได้ / proposed defaults / pending questions](delivery-rules.md) → [ลำดับส่งมอบ](delivery-rollout.md) → [scoped task cards](../../tickets/delivery/README.md)
 
 - สถานะ: docs-only สำหรับ review ไม่มี implementation/deploy/merge approval เพิ่ม

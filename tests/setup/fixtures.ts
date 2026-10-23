@@ -109,7 +109,7 @@ export async function startupFixture(migrated = true) {
       HOST: '127.0.0.1',
       PORT: String(a.port),
       APP_ORIGIN: `http://127.0.0.1:${a.port}`,
-    } as Record<string, string>,
+    } satisfies Record<string, string>,
   };
 }
 /** Opens the fixture's own database for direct seeding/assertions, whichever provider it uses. */

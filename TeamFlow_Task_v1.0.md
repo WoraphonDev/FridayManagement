@@ -4,8 +4,17 @@
 
 [Delivery decisions D01–D12](docs/product/delivery-decisions.md), [testable rules / proposed defaults / pending questions](docs/product/delivery-rules.md), [rollout](docs/product/delivery-rollout.md) และ [ADR-0002](docs/adr/ADR-0002-delivery-first-specification.md) เป็นส่วนเพิ่มเติมที่มีผลเหนือข้อความเก่าเฉพาะ delivery scope ที่ขัดกัน ไม่ใช่ implementation หรือผล PASS. Multi-assignees คงอยู่พร้อม primary owner แยก; acceptor ต้องมีชื่อก่อนเริ่ม; เก็บ immutable starting plan เมื่อยืนยันเริ่ม; legacy ไม่ถูกบังคับ readiness ย้อนหลัง. Dependencies เดิม excluded ได้รับทิศทางใหม่เฉพาะระยะหลัง same-project warning-only ไม่รวม automatic scheduling/critical path; optional effort/weekly availability ไม่ใช่ time tracking. รายละเอียด authority/closure/reopen/adoption/effort ที่ยัง pending ต้อง block งานที่ขึ้นกับคำตอบ ไม่ถือว่าร่างทุก field อนุมัติแล้ว
 
-ฐาน docs คือ main `4a0b76b`; design source audit `94282b6` ของ Windows staging PR #1 ไม่ได้ merge เข้า main ดู [missing source / baseline boundary](docs/product/audit/README.md). Production target ยังตาม ADR-0001. [Delivery task cards](tickets/delivery/README.md) ใช้ proposed namespace `DEL-*` ยังไม่ allocate official IDs หรือรวมใน totals: Task Register เดิม 96 งาน DONE 9 เหลือ 87; ไม่เปลี่ยนสถานะ/evidence/locked API/test manifest จากเอกสารนี้. AGENTS.md ไม่ถูกแก้; file version เก่าใน instruction ไม่ใช่เหตุให้เขียน protected instructions
+ฐานเริ่มต้น docs คือ main `4a0b76b`; design source audit `94282b6` ของ Windows staging PR #1 ต่อมา PR #1 รวมเข้า main ที่ `710655a` และสาขาสเปก sync แล้ว โดยคง provenance ของ audit เดิม ดู [missing source / baseline boundary](docs/product/audit/README.md). Production target ยังตาม ADR-0001. [Delivery task cards](tickets/delivery/README.md) ใช้ proposed namespace `DEL-*` ยังไม่ allocate official IDs หรือรวมใน totals: Task Register เดิม 96 งาน DONE 9 เหลือ 87; ไม่เปลี่ยนสถานะ/evidence/locked API/test manifest จากเอกสารนี้. AGENTS.md ไม่ถูกแก้; file version เก่าใน instruction ไม่ใช่เหตุให้เขียน protected instructions
 
+## Windows-native staging source delivery (owner-authorized)
+
+Prepared PostgreSQL17/test-only HTTPS staging source with Caddy/WinSW, explicit
+bootstrap/grants, scheduled backup template and isolated restore runbook. Linux/Docker
+remains production target; no deployment/server/DNS/firewall action or acceptance closure.
+See docs/reports/Windows_Staging_Readiness.md for executed checks and native NOT_RUN.
+Task statuses remain unchanged: DONE9 / total96 / remaining87; IN_PROGRESS84,
+IN_REVIEW1, TODO2. Native staging is a separate owner-authorized rehearsal, not a
+replacement for T-096 Linux acceptance or human UAT.
 
 ## Owner-approved email registration — 12 October 2026
 

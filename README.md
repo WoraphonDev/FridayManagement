@@ -1,8 +1,23 @@
 # FridayManagement
 
-แอปภายใน React/TypeScript/Vite + Express5/TypeScript บน **Node.js22.23.3 / npm10.9.9** มี source และหลักฐาน local สำหรับ setup/login, ทีม/โปรเจกต์, งาน/Checklist/recurrence, Table/Gantt/Calendar/Kanban, ความคิดเห็น/ไฟล์/แจ้งเตือน, รายงาน/CSV และ backup/restore แล้ว ยังเป็น **candidate / IN_PROGRESS**: SQL Server2022/Windows/full acceptance/human UAT ยัง NOT_RUN และ production startup ยังปิด Fresh database ที่ยังไม่ setup คืน `/health/ready`503; ผล local ไม่ใช่ production sign-off
+> **Current deployment scope (supersedes historical snapshots below):** PostgreSQL 17
+> on Linux + Docker is the production target ([ADR-0001](docs/adr/ADR-0001-postgresql-linux-docker.md)).
+> Owner-authorized **Windows-native staging only** uses PostgreSQL17, Caddy and WinSW,
+> `NODE_ENV=test`, loopback bindings and HTTPS/Secure cookies. Production startup stays
+> blocked. SQL Server is retired, not a pending release requirement. Native Windows,
+> actual server/HTTPS/backup scheduler and human UAT results must be recorded separately.
+> Follow [Windows staging runbook](docs/operations/Windows_Staging_Runbook.md) and
+> [readiness/security report](docs/reports/Windows_Staging_Readiness.md); isolated example
+> configs live in `deploy/windows/`. No script downloads/installs software on the server,
+> changes DNS/firewall, deploys, or registers services/tasks automatically.
 
-SQLite เป็น local development ชั่วคราว; Windows ปลายทางยังใช้ SQL Server2022 เจ้าของติดตั้งเอง ไม่มี AI/อีเมล/cloud/CDN จำเป็น และไม่มีการ deploy/DNS/server changes
+แอปภายใน React/TypeScript/Vite + Express5/TypeScript บน **Node.js22.23.3 / npm10.9.9**.
+SQLite ใช้เฉพาะ local development; PostgreSQL17 ใช้ staging และ production target
+(Linux/Docker). ระบบยังเป็น candidate / IN_PROGRESS ไม่มี production sign-off.
+ไม่มี AI/อีเมล/cloud/CDN ที่จำเป็น; เก็บข้อมูลจริง/secret นอก checkout/webroot.
+
+ส่วน T-xxx ที่ลงวันที่ด้านล่างเป็น **ประวัติหลักฐาน ณ ตอนนั้น** ไม่ใช่สถานะรับงานล่าสุด;
+ข้อความ SQL2022/Windows เดิมถูก supersede โดย ADR-0001 และข้อยกเว้น staging ข้างต้น.
 
 ## เริ่มจาก source ใหม่
 
@@ -52,15 +67,22 @@ migration มี `0000_foundation.sql` (ledger เดิมไม่แก้ ch
 
 SQLite driver ใช้ `node:sqlite` ของ Node22.23.3 ที่ pin ไว้ เป็น experimental API และใช้ synchronous connection เฉพาะ local ชั่วคราว [Node22 documentation](https://nodejs.org/docs/latest-v22.x/api/sqlite.html) ผล local ไม่แทน SQL Server concurrency/backup/Windows acceptance
 
-## SQL Server แยกจาก local
+## PostgreSQL17 และ provider ที่ retired
 
-`npm run migrate:sqlserver` ใช้เฉพาะ provider sqlserver และ DB_SERVER/DB_PORT/DB_NAME/DB_USER/DB_PASSWORD จาก environment; ไม่ fallback SQLite ตั้ง encrypted connection และไม่ trust self-signed certificate โดยอัตโนมัติ T-006 ตรวจ config/TLS/timeouts/paths ก่อนเชื่อมต่อ; migration privilege/edition/build/schema ยังต้องตรวจบน SQL2022 จริงใน T-007; T-SQL business schema มีแล้วแต่ยังไม่รันบน SQL2022 จริง
+Linux/Docker source อยู่ใน `deploy/docker-compose.yml`; production acceptance ยังต้องมี
+หลักฐานจริงตาม ADR-0001. Windows-native staging ใช้ PostgreSQL17 เท่านั้น ดู
+[runbook](docs/operations/Windows_Staging_Runbook.md) สำหรับ private config, least-privilege
+bootstrap/grants, migration, Caddy/WinSW, daily task และ isolated restore ที่ใช้ CLI จริง.
+`npm run test:windows-staging` ตรวจ policy/negative preflight แบบไม่แตะ service/server;
+Docker PG17 rehearsal ต้อง opt in ตาม runbook และไม่แทน native Windows evidence.
 
-```sh
-npm run test:sqlserver
-```
+`npm run test:postgres` ต้องใช้ isolated test DB ลงท้าย `_test`, `RUN_POSTGRES_TESTS=1`,
+`NODE_ENV=test`, `DB_PROVIDER=postgres` และ DB credentials ของ fixture เท่านั้น;
+ถ้าไม่ตั้งจะ SKIP/NOT_RUN. เพิ่ม `FRIDAY_FIXTURE_PROVIDER=postgres` สำหรับ HTTP fault cases.
+ห้ามใช้ production/staging DB จริงกับ destructive test fixtures.
 
-ถ้ายังไม่ตั้ง isolated SQL2022 จะ SKIP พร้อม **NOT_RUN** และไม่อ้าง PASS ต้องกำหนด `RUN_SQLSERVER_TESTS=1`, `NODE_ENV=test`, `DB_PROVIDER=sqlserver`, DB_NAME ลงท้าย `_test` พร้อม credentials ของ fixture DB แยก จึงจะสร้าง/ลบเฉพาะ scratch tables แบบสุ่มและรัน commit/rollback จริง ห้ามใช้ production DB SQL2022 harness 18 กรณี (foundation1 + guard1 + schema11 + helpers5) ยัง NOT_RUN; ผล mock lifecycle ไม่แทนการเชื่อมต่อจริง
+SQL Server adapter/migrations/tests เก็บไว้เพื่ออ้างอิงและให้ compile ต่อได้เท่านั้น
+ไม่ใช่ปลายทาง Windows ใหม่ และไม่ใช้ผล SQLite แทน PostgreSQL acceptance.
 
 ## ตรวจคุณภาพ
 

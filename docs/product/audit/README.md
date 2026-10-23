@@ -1,5 +1,8 @@
 # Delivery audit provenance v1.0
 
+> **Baseline sync update:** PR #1 merged into main at `710655a3f2288da13a00928fb2978cc5638c84cc`; PR #2 has now incorporated that main. References below to missing Windows files / unmerged PR #1 describe the original docs preparation at `4a0b76b`, not current source availability. Source-audit provenance remains `94282b6`; native acceptance remains NOT_RUN. This sync is not a deployment or production approval.
+
+
 ## Baselines ต้องไม่สับสน
 
 - Design source audit: `94282b6c998be9b8306ead402b79f29b5ed6e0c7` บน Windows staging PR #1. เป็น source-read design เดิม ไม่ใช่ browser/test execution ของ PR นี้
