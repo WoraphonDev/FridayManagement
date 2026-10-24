@@ -1,8 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { apiClient, ApiError, type Self } from './api';
 import { trashPage, mutationReply, statusLabel } from './task-api';
 import { UiIcon } from './shared/UiIcon';
 import { DataTable, Dialog, EmptyState, ErrorNotice, Loading, Toast } from './shared/components';
+import { useSharedRefresh } from './shared/refresh';
+import { projectPage, teamPage, type Project, type Team } from './workspace-api';
 const client = apiClient();
 export function Trash({
   self,
@@ -26,37 +28,139 @@ export function Trash({
     [restore, setRestore] = useState<ReturnType<typeof trashPage.parse>['items'][number]>(),
     [pending, setPending] = useState(false),
     [notice, setNotice] = useState('');
+  const [restorable, setRestorable] = useState<Set<number>>(new Set());
+  const hasP04 = self.user.permission_keys.includes('P-04');
   const busy = useRef(false),
     keys = useRef(new Map<string, string>());
+  const epoch = useRef(0),
+    denied = useRef(false);
+  useEffect(
+    () => () => {
+      epoch.current++;
+    },
+    [],
+  );
+  const clearPrivate = useCallback(() => {
+    epoch.current++;
+    denied.current = true;
+    setData(undefined);
+    setRestore(undefined);
+    setRestorable(new Set());
+    setNotice('');
+    keys.current.clear();
+    setLoading(false);
+  }, []);
   const refresh = () => {
+    epoch.current++;
+    denied.current = false;
+    setRestore(undefined);
+    setData(undefined);
+    setRestorable(new Set());
     setLoading(true);
     setReload((n) => n + 1);
   };
-  useEffect(() => {
-    const controller = new AbortController();
-    client
-      .request(`/api/trash?page=${page}&pageSize=20`, {
-        signal: controller.signal,
-        parse: (v) => trashPage.parse(v),
-      })
-      .then((v) => {
-        if (!controller.signal.aborted) {
-          setData(v);
-          setLoading(false);
-          setError(undefined);
+  const read = useCallback(
+    async (signal: AbortSignal) => {
+      if (denied.current) return;
+      const requestEpoch = epoch.current;
+      try {
+        const v = await client.request(`/api/trash?page=${page}&pageSize=20`, {
+          signal,
+          parse: (v) => trashPage.parse(v),
+        });
+        const projects: Project[] = [],
+          teams: Team[] = [];
+        // Existing trash DTO has no parent lifecycle/capability flags. Read current, scoped
+        // metadata; never infer permissions from catalogue or creator/assignee identity.
+        for (let p = 1; ; p++) {
+          const list = await client.request(
+            `/api/projects?includeArchived=true&pageSize=100&page=${p}`,
+            {
+              signal,
+              parse: (v) => projectPage.parse(v),
+            },
+          );
+          projects.push(...list.items);
+          if (p * list.pageSize >= list.total) break;
         }
-      })
-      .catch((e: unknown) => {
-        if (!controller.signal.aborted && e instanceof ApiError) {
+        if (self.user.org_role !== 'admin') {
+          for (let p = 1; ; p++) {
+            const list = await client.request(
+              `/api/teams?includeArchived=true&pageSize=100&page=${p}`,
+              {
+                signal,
+                parse: (v) => teamPage.parse(v),
+              },
+            );
+            teams.push(...list.items);
+            if (p * list.pageSize >= list.total) break;
+          }
+        }
+        if (signal.aborted || requestEpoch !== epoch.current || denied.current) return;
+        const allowed = new Set(
+          v.items
+            .filter((task) => {
+              const project = projects.find((p) => p.id === task.project_id);
+              if (!project) return false;
+              if (['admin', 'lead'].includes(project.effective_access)) return true;
+              return (
+                project.effective_access === 'manager' &&
+                hasP04 &&
+                !project.archived_at &&
+                !teams.find((t) => t.id === project.owner_team_id)?.archived_at
+              );
+            })
+            .map((t) => t.id),
+        );
+        setData(v);
+        setRestorable(allowed);
+        setRestore((previous) => {
+          // A changed version needs a fresh explicit confirmation; never silently upgrade it.
+          const current = v.items.find((t) => t.id === previous?.id);
+          return previous && current?.version === previous.version && allowed.has(previous.id)
+            ? previous
+            : undefined;
+        });
+        setLoading(false);
+      } catch (e) {
+        if (signal.aborted || requestEpoch !== epoch.current) return;
+        setData(undefined);
+        setRestore(undefined);
+        setRestorable(new Set());
+        setLoading(false);
+        if (e instanceof ApiError) {
+          if ([401, 403, 404].includes(e.status)) clearPrivate();
           setError(e);
-          setLoading(false);
           onFailure(e);
         }
-      });
+      }
+    },
+    [page, self.user.org_role, hasP04, onFailure, clearPrivate],
+  );
+  useEffect(() => {
+    // Reject responses begun under an older authority snapshot.
+    epoch.current++;
+  }, [self.view_revision]);
+  useEffect(() => {
+    const controller = new AbortController();
+    void Promise.resolve().then(() => {
+      if (!controller.signal.aborted) return read(controller.signal);
+    });
     return () => controller.abort();
-  }, [page, reload, onFailure, self.view_revision]);
+  }, [read, reload, self.view_revision]);
+  useSharedRefresh(read, online, 'trash');
   const run = async () => {
-    if (!restore || busy.current || !online) return;
+    if (
+      !restore ||
+      denied.current ||
+      busy.current ||
+      !online ||
+      self.maintenance ||
+      !restorable.has(restore.id) ||
+      Date.now() >= Date.parse(restore.restore_before)
+    )
+      return;
+    const requestEpoch = epoch.current;
     busy.current = true;
     setPending(true);
     setError(undefined);
@@ -70,15 +174,24 @@ export function Trash({
         key: keys.current.get(identity),
         parse: (v) => mutationReply.parse(v),
       });
+      if (requestEpoch !== epoch.current || denied.current) return;
       setNotice(`Restore task #${r.item.id} complete`);
       setRestore(undefined);
       refresh();
     } catch (e) {
+      if (requestEpoch !== epoch.current) return;
       if (e instanceof ApiError) {
+        if ([401, 403, 404].includes(e.status)) clearPrivate();
+        else {
+          setRestore(undefined);
+          if (
+            e.kind === 'conflict' ||
+            ['PROJECT_ARCHIVED', 'TEAM_ARCHIVED', 'RETENTION_EXPIRED'].includes(e.code ?? '')
+          )
+            refresh();
+        }
         setError(e);
         onFailure(e);
-        setRestore(undefined);
-        if (e.kind === 'conflict' || e.kind === 'not-found') refresh();
       }
     } finally {
       busy.current = false;
@@ -131,7 +244,11 @@ export function Trash({
                     key={t.id}
                     className="restore-action"
                     disabled={
-                      !online || pending || self.maintenance || now >= Date.parse(t.restore_before)
+                      !online ||
+                      pending ||
+                      self.maintenance ||
+                      !restorable.has(t.id) ||
+                      now >= Date.parse(t.restore_before)
                     }
                     onClick={() => setRestore(t)}
                   >
@@ -173,8 +290,9 @@ export function Trash({
             {new Date(restore.restore_before).toLocaleString('en-GB', { timeZone: 'Asia/Bangkok' })}
           </p>
           <p>
-            The task returns to the end of its original status column. Archived projects remain read
-            only.
+            The task returns to the end of its original status column. Only an administrator or
+            owner-team access Lead can restore under archived parents. Current access and version
+            are checked by the server.
           </p>
           <div className="trash-confirm-actions">
             <button
@@ -186,7 +304,13 @@ export function Trash({
             </button>
             <button
               className="restore-action"
-              disabled={!online || pending || self.maintenance}
+              disabled={
+                !online ||
+                pending ||
+                self.maintenance ||
+                !restorable.has(restore.id) ||
+                now >= Date.parse(restore.restore_before)
+              }
               onClick={() => void run()}
             >
               Restore this task

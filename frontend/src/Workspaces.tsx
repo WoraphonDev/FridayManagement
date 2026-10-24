@@ -25,10 +25,11 @@ import { projectTypes, projectCategories } from '../../src/domain/project-metada
 import { InitialTeamMembers, type InitialTeamMember } from './InitialTeamMembers';
 const client = apiClient();
 type Entity = Team | Project;
+type DenialSurface = 'entity' | 'members';
 type Props = {
   self: Self;
   online: boolean;
-  onFailure: (e: ApiError) => void;
+  onFailure: (e: ApiError, surface?: DenialSurface) => void;
   onSelfChange: () => void;
   onBoardChange?: (project?: Project) => void;
 };
@@ -37,7 +38,7 @@ type Action = {
   entity?: Entity;
   view?: 'overview';
 };
-/** Card progress from the project overview API; hidden when the viewer lacks P-07. */
+/** Card progress uses existing project-read authority; P-07 is not an extra endpoint gate. */
 function CardProgress({ id, online }: { id: number; online: boolean }) {
   const [data, setData] = useState<ProjectOverviewData | null>();
   useEffect(() => {
@@ -83,6 +84,15 @@ function CardProgress({ id, online }: { id: number; online: boolean }) {
 const isProject = (e: Entity): e is Project => 'owner_team_id' in e;
 const manage = (e: Entity, self: Self) =>
   isProject(e) ? ['admin', 'lead'].includes(e.effective_access) : self.user.org_role === 'admin';
+const editMetadata = (e: Entity, self: Self) =>
+  isProject(e)
+    ? manage(e, self) ||
+      (!e.archived_at &&
+        e.effective_access === 'manager' &&
+        self.user.permission_keys.includes('P-01'))
+    : !e.archived_at && self.user.org_role === 'admin';
+const createInTeam = (t: Team, admin: boolean, hasP08: boolean) =>
+  !t.archived_at && (admin || t.own_role === 'lead' || (!!t.own_role && hasP08));
 const parsePage = (kind: 'teams' | 'projects', v: unknown) =>
   kind === 'teams' ? teamPage.parse(v) : projectPage.parse(v);
 const parseItem = (kind: 'teams' | 'projects', v: unknown) =>
@@ -94,7 +104,7 @@ export function Workspaces({
   kind,
   self,
   online,
-  onFailure,
+  onFailure: externalFailure,
   onSelfChange,
   onBoardChange,
 }: Props & { kind: 'teams' | 'projects' }) {
@@ -103,7 +113,11 @@ export function Workspaces({
   const selectedTeam = kind === 'teams' ? new URLSearchParams(location.search).get('team') : null;
   const selectedProject =
     kind === 'projects' ? new URLSearchParams(location.search).get('project') : null;
-  const [data, setData] = useState<{ items: Entity[]; total: number; pageSize: number }>(),
+  const [data, setData] = useState<{
+      items: Entity[];
+      total: number;
+      pageSize: number;
+    }>(),
     [page, setPage] = useState(1),
     [archived, setArchived] = useState(false),
     [reload, setReload] = useState(0),
@@ -113,19 +127,87 @@ export function Workspaces({
     [changed, setChanged] = useState(false),
     [action, setAction] = useState<Action>();
   const [projectDenial, setProjectDenial] = useState<ApiError>();
-  const reportProjectFailure = useCallback((failure: ApiError) => {
-    if ([401, 403, 404].includes(failure.status)) setProjectDenial(failure);
-    onFailure(failure);
-  }, [onFailure, setProjectDenial]);
+  const [scopeDenied, setScopeDenied] = useState(false);
+  const [deniedDialog, setDeniedDialog] = useState<DenialSurface>();
+  const accessEpoch = useRef(0);
+  const accessChecks = useRef(new Set<AbortController>());
+  const denied = useRef(false);
+  const onFailure = useCallback(
+    (failure: ApiError, surface?: DenialSurface) => {
+      if ([401, 403, 404].includes(failure.status)) {
+        accessEpoch.current++;
+        const alreadyDenied = denied.current;
+        denied.current = true;
+        setScopeDenied(true);
+        setData(undefined);
+        setAction(undefined);
+        setChanged(false);
+        setNotice('');
+        setLoading(false);
+        setProjectDenial((previous) => (alreadyDenied ? (previous ?? failure) : failure));
+        setDeniedDialog((previous) => surface ?? previous);
+      }
+      externalFailure(failure);
+    },
+    [
+      externalFailure,
+      setData,
+      setAction,
+      setChanged,
+      setNotice,
+      setLoading,
+      setProjectDenial,
+      setDeniedDialog,
+    ],
+  );
+  const reportProjectFailure = useCallback(
+    (failure: ApiError) => {
+      if (denied.current) return;
+      if (failure.status === 401) return onFailure(failure);
+      if (![403, 404].includes(failure.status)) return externalFailure(failure);
+      // Keep the safe notice if the child clears its own scope after a denied read.
+      // Remembering an error does not establish that project access was revoked.
+      setProjectDenial(failure);
+      // A missing child or lost mutation key does not establish lost project read access.
+      const id = Number(selectedProject);
+      if (!Number.isInteger(id) || id < 1) return onFailure(failure);
+      const epoch = accessEpoch.current;
+      const controller = new AbortController();
+      accessChecks.current.add(controller);
+      void latest('projects', id, controller.signal)
+        .then(
+          () => {
+            if (!controller.signal.aborted && epoch === accessEpoch.current && !denied.current)
+              externalFailure(failure);
+          },
+          () => {
+            if (!controller.signal.aborted && epoch === accessEpoch.current && !denied.current)
+              onFailure(failure);
+          },
+        )
+        .finally(() => accessChecks.current.delete(controller));
+    },
+    [onFailure, externalFailure, selectedProject],
+  );
   useEffect(() => {
+    accessEpoch.current++;
+    const checks = accessChecks.current;
+    return () => {
+      for (const controller of checks) controller.abort();
+      checks.clear();
+    };
+  }, [selectedProject, self.view_revision]);
+  useEffect(() => {
+    if (denied.current) return;
     const controller = new AbortController();
+    const epoch = accessEpoch.current;
     void client
       .request(`/api/${kind}?page=${page}&pageSize=10&includeArchived=${archived}`, {
         signal: controller.signal,
         parse: (v) => parsePage(kind, v),
       })
       .then((v) => {
-        if (!controller.signal.aborted) {
+        if (!controller.signal.aborted && epoch === accessEpoch.current) {
           setData(v);
 
           setLoading(false);
@@ -133,7 +215,7 @@ export function Workspaces({
         }
       })
       .catch((e: unknown) => {
-        if (!controller.signal.aborted) {
+        if (!controller.signal.aborted && epoch === accessEpoch.current) {
           setData(undefined);
           setLoading(false);
           setError(failureMessage(e));
@@ -144,6 +226,8 @@ export function Workspaces({
   }, [kind, page, archived, reload, self.view_revision, onFailure]);
   useSharedRefresh(
     async (signal) => {
+      if (denied.current) return;
+      const epoch = accessEpoch.current;
       try {
         const v = await client.request(
           `/api/${kind}?page=${page}&pageSize=10&includeArchived=${archived}`,
@@ -160,16 +244,20 @@ export function Workspaces({
             if (current || p * list.pageSize >= list.total) break;
           }
         }
-        if (signal.aborted) return;
+        if (signal.aborted || epoch !== accessEpoch.current) return;
         setData(v);
         if (action?.entity) {
-          if (!current || (action.kind !== 'tasks' && !manage(current, self))) {
+          if (
+            !current ||
+            (action.kind === 'edit' && !editMetadata(current, self)) ||
+            (action.kind === 'archive' && !manage(current, self))
+          ) {
             setAction(undefined);
             setChanged(false);
           } else setChanged(current.version !== action.entity.version);
         } else setChanged(false);
       } catch (e) {
-        if (!signal.aborted && e instanceof ApiError) {
+        if (!signal.aborted && epoch === accessEpoch.current && e instanceof ApiError) {
           onFailure(e);
           if ([401, 403, 404].includes(e.status)) {
             setData(undefined);
@@ -182,20 +270,31 @@ export function Workspaces({
     kind,
   );
   useEffect(() => {
+    if (denied.current) return;
     let stopped = false;
+    const epoch = accessEpoch.current;
     if (!selectedProject) return;
     if (!/^[1-9][0-9]*$/.test(selectedProject)) return;
     void latest('projects', Number(selectedProject))
       .then((entity) => {
-        if (!stopped) setAction({ kind: 'tasks', entity });
+        if (!stopped && epoch === accessEpoch.current) {
+          // Recheck access without replacing an open workspace's entry snapshot.
+          // TaskWorkspace refreshes live metadata; keep its background landmark and
+          // initial view stable while a task dialog owns focus.
+          setAction((current) =>
+            current?.kind === 'tasks' && current.entity?.id === entity.id
+              ? current
+              : { kind: 'tasks', entity },
+          );
+        }
       })
       .catch((e) => {
-        if (!stopped && e instanceof ApiError) onFailure(e);
+        if (!stopped && epoch === accessEpoch.current && e instanceof ApiError) onFailure(e);
       });
     return () => {
       stopped = true;
     };
-  }, [selectedProject, onFailure]);
+  }, [selectedProject, self.view_revision, onFailure]);
   const activeProject =
     selectedProject &&
     action?.kind === 'tasks' &&
@@ -210,7 +309,9 @@ export function Workspaces({
   }, [activeProject, onBoardChange]);
   const canCreate =
     self.user.org_role === 'admin' ||
-    (kind === 'projects' && self.effective_summary.lead_team_ids.length > 0);
+    (kind === 'projects' &&
+      (self.effective_summary.lead_team_ids.length > 0 ||
+        (self.user.teams.length > 0 && self.user.permission_keys.includes('P-08'))));
   const refresh = () => {
     setLoading(true);
     setData(undefined);
@@ -229,21 +330,21 @@ export function Workspaces({
           Tasks
         </button>
       )}
+      {editMetadata(e, self) && (
+        <button
+          disabled={!online || self.maintenance}
+          onClick={() => setAction({ kind: 'edit', entity: e })}
+        >
+          Edit
+        </button>
+      )}
       {manage(e, self) && (
-        <>
-          <button
-            disabled={!online || self.maintenance}
-            onClick={() => setAction({ kind: 'edit', entity: e })}
-          >
-            Edit
-          </button>
-          <button
-            disabled={!online || self.maintenance}
-            onClick={() => setAction({ kind: 'archive', entity: e })}
-          >
-            {e.archived_at ? 'Unarchive' : 'Archive'}
-          </button>
-        </>
+        <button
+          disabled={!online || self.maintenance}
+          onClick={() => setAction({ kind: 'archive', entity: e })}
+        >
+          {e.archived_at ? 'Unarchive' : 'Archive'}
+        </button>
       )}
       {(kind === 'projects' || self.user.org_role === 'admin') && (
         <button disabled={!online} onClick={() => setAction({ kind: 'members', entity: e })}>
@@ -261,6 +362,38 @@ export function Workspaces({
         )}
     </div>
   );
+  const dismissDenial = () => {
+    denied.current = false;
+    setScopeDenied(false);
+    setProjectDenial(undefined);
+    setDeniedDialog(undefined);
+    setAction(undefined);
+    navigate(`/${kind}`);
+    refresh();
+  };
+  if (scopeDenied && projectDenial && deniedDialog)
+    return (
+      <Dialog
+        title={deniedDialog === 'members' ? 'Member data not found' : 'Access no longer available'}
+        onClose={dismissDenial}
+      >
+        <p role="alert">
+          {failureMessage(projectDenial)}
+          {deniedDialog === 'entity' && <> Private draft cleared.</>}
+          {projectDenial.requestId && <> Reference ID: {projectDenial.requestId}</>}
+        </p>
+      </Dialog>
+    );
+  const accessNotice = projectDenial && (
+    <div role="alert">
+      <p>{failureMessage(projectDenial)}</p>
+      {projectDenial.requestId && <p>Reference ID: {projectDenial.requestId}</p>}
+      <button type="button" onClick={dismissDenial}>
+        Dismiss access notice
+      </button>
+    </div>
+  );
+  if (scopeDenied && projectDenial) return accessNotice;
   if (
     selectedProject &&
     action?.kind === 'tasks' &&
@@ -269,17 +402,24 @@ export function Workspaces({
     String(action.entity.id) === selectedProject
   )
     return (
-      <ProjectTasks
-        project={action.entity}
-        initialView={action.view}
-        self={self}
-        online={online}
-        onFailure={reportProjectFailure}
-        onClose={() => {
-          setAction(undefined);
-          navigate('/projects');
-        }}
-      />
+      <>
+        <ProjectTasks
+          project={action.entity}
+          initialView={action.view}
+          self={self}
+          online={online}
+          onFailure={reportProjectFailure}
+          onClose={() => {
+            setAction(undefined);
+            navigate('/projects');
+          }}
+        />
+        {projectDenial?.status === 403 && (
+          <button type="button" onClick={dismissDenial}>
+            Dismiss access notice
+          </button>
+        )}
+      </>
     );
   if (selectedTeam && /^[1-9][0-9]*$/.test(selectedTeam))
     return (
@@ -292,13 +432,7 @@ export function Workspaces({
     );
   return (
     <div className={`workspace-manager ${kind === 'projects' ? 'project-directory' : ''}`}>
-      {projectDenial && (
-        <div role="alert">
-          <p>{failureMessage(projectDenial)}</p>
-          {projectDenial.requestId && <p>Reference ID: {projectDenial.requestId}</p>}
-          <button type="button" onClick={() => setProjectDenial(undefined)}>Dismiss access notice</button>
-        </div>
-      )}
+      {accessNotice}
       {changed && (
         <Toast persist>
           Data changed. Your dialog draft is preserved. Saving checks the version.
@@ -359,7 +493,11 @@ export function Workspaces({
                               onClick={(ev) => {
                                 if (!online || (ev.target as Element).closest('.card-menu, button'))
                                   return;
-                                setAction({ kind: 'tasks', entity: e, view: 'overview' });
+                                setAction({
+                                  kind: 'tasks',
+                                  entity: e,
+                                  view: 'overview',
+                                });
                                 navigate(`/projects?project=${e.id}`);
                               }}
                             >
@@ -375,7 +513,11 @@ export function Workspaces({
                                 className="project-card-title"
                                 disabled={!online}
                                 onClick={() => {
-                                  setAction({ kind: 'tasks', entity: e, view: 'overview' });
+                                  setAction({
+                                    kind: 'tasks',
+                                    entity: e,
+                                    view: 'overview',
+                                  });
                                   navigate(`/projects?project=${e.id}`);
                                 }}
                               >
@@ -646,7 +788,9 @@ function TeamDetails({
                 }}
               >
                 {t.label}
-                {t.key === 'members' && <span className="team-tab-count">{members.length}</span>}
+                {t.key === 'members' && membersVisible && (
+                  <span className="team-tab-count">{members.length}</span>
+                )}
               </button>
             ))}
           </div>
@@ -839,8 +983,24 @@ function EntityDialog({
     [showReview, setShowReview] = useState(false),
     [unknown, setUnknown] = useState(false);
   const createIntent = useRef<{ signature: string; key: string }>(undefined);
+  const entityEpoch = useRef(0);
+  useEffect(
+    () => () => {
+      entityEpoch.current++;
+    },
+    [],
+  );
   const [denied, setDenied] = useState(false);
+  const actorId = self.user.id;
+  const admin = self.user.org_role === 'admin';
+  const hasP08 = self.user.permission_keys.includes('P-08');
+  const archivedEdit =
+    action.kind === 'edit' &&
+    entity !== undefined &&
+    !!entity.archived_at &&
+    !editMetadata(entity, self);
   const clearEntityDraft = () => {
+    entityEpoch.current++;
     setName('');
     setDescription('');
     setEntity(undefined);
@@ -866,8 +1026,9 @@ function EntityDialog({
     if (!pending && (!dirty || (await discardDraft()))) onClose();
   };
   useEffect(() => {
-    if (kind !== 'projects' || action.kind !== 'create') return;
+    if (kind !== 'projects' || action.kind !== 'create' || denied) return;
     const controller = new AbortController();
+    const epoch = entityEpoch.current;
     void (async () => {
       const all: Team[] = [];
       for (let p = 1; ; p++) {
@@ -875,42 +1036,50 @@ function EntityDialog({
           parse: (x) => teamPage.parse(x),
           signal: controller.signal,
         });
-        all.push(...v.items.filter((t) => self.user.org_role === 'admin' || t.own_role === 'lead'));
+        if (controller.signal.aborted || epoch !== entityEpoch.current) return;
+        all.push(...v.items.filter((t) => createInTeam(t, admin, hasP08)));
         if (p * v.pageSize >= v.total) break;
       }
-      if (!controller.signal.aborted) setTeams(all);
+      if (!controller.signal.aborted && epoch === entityEpoch.current) setTeams(all);
     })().catch((e: unknown) => {
-      if (!controller.signal.aborted) {
+      if (!controller.signal.aborted && epoch === entityEpoch.current) {
         setError(failureMessage(e));
-        if (e instanceof ApiError) onFailure(e);
+        if (e instanceof ApiError) onFailure(e, 'entity');
       }
     });
     return () => controller.abort();
-  }, [kind, action.kind, self.user.org_role, onFailure]);
+  }, [kind, action.kind, actorId, admin, hasP08, self.view_revision, denied, onFailure]);
   const load = async () => {
     if (!entity) return;
+    const epoch = entityEpoch.current;
     setPending(true);
     try {
-      setEntity(await latest(kind, entity.id));
+      const current = await latest(kind, entity.id);
+      if (epoch !== entityEpoch.current) return;
+      setEntity(current);
       setConflict(false);
       setReview(true);
       setShowReview(true);
       setError('Latest data loaded. Review your draft and the current data before confirming.');
     } catch (e) {
+      if (epoch !== entityEpoch.current) return;
       setError(failureMessage(e));
       if (e instanceof ApiError && [401, 403, 404].includes(e.status)) clearEntityDraft();
-      if (e instanceof ApiError) onFailure(e);
+      if (e instanceof ApiError) onFailure(e, 'entity');
     } finally {
       setPending(false);
     }
   };
   const submit = async () => {
-    if (pending || !online || self.maintenance || review || conflict) return;
+    if (denied || archivedEdit || pending || !online || self.maintenance || review || conflict)
+      return;
+    const epoch = entityEpoch.current;
     setPending(true);
     setError('');
     try {
       if (showReview && entity) {
         const current = await latest(kind, entity.id);
+        if (epoch !== entityEpoch.current) return;
         if (current.version !== entity.version) {
           setEntity(current);
           setReview(true);
@@ -956,8 +1125,10 @@ function EntityDialog({
         ...(create ? { key: createIntent.current!.key } : {}),
         parse: (v) => parseItem(kind, v),
       });
+      if (epoch !== entityEpoch.current) return;
       onDone();
     } catch (e) {
+      if (epoch !== entityEpoch.current) return;
       setError(failureMessage(e));
       if (e instanceof ApiError) {
         if (e.kind === 'conflict') {
@@ -970,7 +1141,7 @@ function EntityDialog({
           setUnknown(true);
           if (action.kind !== 'create') setConflict(true);
         }
-        onFailure(e);
+        onFailure(e, 'entity');
       }
     } finally {
       setPending(false);
@@ -1043,7 +1214,13 @@ function EntityDialog({
       )}
       <Form
         pending={pending}
-        blocked={self.maintenance || conflict || review || (unknown && action.kind === 'create')}
+        blocked={
+          self.maintenance ||
+          archivedEdit ||
+          conflict ||
+          review ||
+          (unknown && action.kind === 'create')
+        }
         offline={!online}
         submitLabel={action.kind === 'archive' ? 'Confirm' : 'Save'}
         onSubmit={() => void submit()}
@@ -1053,7 +1230,7 @@ function EntityDialog({
             Confirm{entity?.archived_at ? 'Unarchive' : 'Archive'} “{entity?.name}”
             {kind === 'teams'
               ? ' A team can be archived only when it has no active projects'
-              : ' Archived projects remain readable but cannot be edited'}
+              : ' Archived task content is read only; existing metadata and access authority remain'}
           </p>
         ) : (
           <>
@@ -1204,6 +1381,13 @@ function MembershipDialog({
   const [showMemberReview, setShowMemberReview] = useState(false);
   const [memberUnknown, setMemberUnknown] = useState(false);
   const [memberRead, setMemberRead] = useState(false);
+  const memberEpoch = useRef(0);
+  useEffect(
+    () => () => {
+      memberEpoch.current++;
+    },
+    [],
+  );
   const memberSnapshot = useRef({ version, reviewing: showMemberReview });
   useEffect(() => {
     memberSnapshot.current = { version, reviewing: showMemberReview };
@@ -1223,6 +1407,7 @@ function MembershipDialog({
     if (!closeEditor) onClose();
   };
   const clearPrivate = useCallback(() => {
+    memberEpoch.current++;
     setMembers([]);
     setDirectory(undefined);
     setSelected(undefined);
@@ -1230,6 +1415,7 @@ function MembershipDialog({
     setEditor(undefined);
     setQuery('');
     setSearch('');
+    setNotice('');
     setRevoked(true);
   }, []);
   // FR-42: a P-03 manager edits Editor/Viewer only; manager appointment stays Admin/Lead.
@@ -1239,19 +1425,24 @@ function MembershipDialog({
     isProject(entity) &&
     entity.effective_access === 'manager' &&
     self.user.permission_keys.includes('P-03');
+  // Keep baseline archived membership UI read-only pending the server/spec mismatch follow-up.
   const canManage = !initial.archived_at && !entity.archived_at && (leadOrAdmin || managerP03);
+  const canDirectory =
+    self.user.org_role === 'admin' || self.effective_summary.lead_team_ids.length > 0;
   useEffect(() => {
     if (revoked) return;
     const controller = new AbortController();
+    const epoch = memberEpoch.current;
     void (async () => {
       if (kind === 'projects') {
-        const current = await latest('projects', initial.id);
+        const current = await latest('projects', initial.id, controller.signal);
+        if (controller.signal.aborted || epoch !== memberEpoch.current) return;
         if (!controller.signal.aborted) setEntity(current);
         const v = await client.request(`/api/projects/${initial.id}/members`, {
           signal: controller.signal,
           parse: (x) => projectMembers.parse(x),
         });
-        if (!controller.signal.aborted) {
+        if (!controller.signal.aborted && epoch === memberEpoch.current) {
           setMembers(
             v.items.map((m) => ({
               user: m.user,
@@ -1268,8 +1459,8 @@ function MembershipDialog({
           setVersion(v.membership_version);
         }
       } else {
-        const current = await latest('teams', initial.id);
-        if (!controller.signal.aborted && !isProject(current)) {
+        const current = await latest('teams', initial.id, controller.signal);
+        if (!controller.signal.aborted && epoch === memberEpoch.current && !isProject(current)) {
           setEntity(current);
           if (
             memberSnapshot.current.reviewing &&
@@ -1287,42 +1478,43 @@ function MembershipDialog({
           );
         }
       }
-      if (!controller.signal.aborted) {
+      if (!controller.signal.aborted && epoch === memberEpoch.current) {
         setLoading(false);
         setMemberRead(true);
       }
     })().catch((e: unknown) => {
-      if (!controller.signal.aborted) {
+      if (!controller.signal.aborted && epoch === memberEpoch.current) {
         if (e instanceof ApiError && [401, 403, 404].includes(e.status)) clearPrivate();
         else setConflict(true);
         setMemberRead(false);
         setLoading(false);
         setError(failureMessage(e));
-        if (e instanceof ApiError) onFailure(e);
+        if (e instanceof ApiError) onFailure(e, 'members');
       }
     });
     return () => controller.abort();
   }, [initial.id, kind, reload, self.view_revision, onFailure, clearPrivate, revoked]);
   useEffect(() => {
-    if (!canManage) return;
+    if (!canManage || !canDirectory) return;
     const controller = new AbortController();
+    const epoch = memberEpoch.current;
     void client
       .request(`/api/directory?page=${page}&pageSize=10&q=${encodeURIComponent(search)}`, {
         signal: controller.signal,
         parse: (x) => directoryPage.parse(x),
       })
       .then((v) => {
-        if (!controller.signal.aborted) setDirectory(v);
+        if (!controller.signal.aborted && epoch === memberEpoch.current) setDirectory(v);
       })
       .catch((e: unknown) => {
-        if (!controller.signal.aborted) {
+        if (!controller.signal.aborted && epoch === memberEpoch.current) {
           setDirectory(undefined);
           setError(failureMessage(e));
-          if (e instanceof ApiError) onFailure(e);
+          if (e instanceof ApiError) onFailure(e, 'members');
         }
       });
     return () => controller.abort();
-  }, [canManage, page, search, directoryReload, onFailure]);
+  }, [canManage, canDirectory, page, search, directoryReload, onFailure]);
   const change = async () => {
     if (
       !confirm ||
@@ -1331,11 +1523,15 @@ function MembershipDialog({
       pending ||
       !online ||
       self.maintenance ||
-      !canManage
+      !canManage ||
+      (!leadOrAdmin &&
+        (confirm.role === 'manager' ||
+          members.some((m) => m.user.id === confirm.id && m.explicit === 'manager')))
     )
       return;
     setPending(true);
     setError('');
+    const epoch = memberEpoch.current;
     try {
       if (showMemberReview) {
         const currentVersion =
@@ -1346,6 +1542,7 @@ function MembershipDialog({
                 })
               ).membership_version
             : (await latest('teams', entity.id)).version;
+        if (epoch !== memberEpoch.current) return;
         if (currentVersion !== version) {
           setMemberReview(true);
           setLoading(true);
@@ -1370,6 +1567,7 @@ function MembershipDialog({
         csrf: self.csrf,
         parse: (v) => (kind === 'projects' ? projectMembers.parse(v) : parseItem('teams', v)),
       });
+      if (epoch !== memberEpoch.current) return;
       setConfirm(undefined);
       setEditor(undefined);
       onChanged?.();
@@ -1379,6 +1577,7 @@ function MembershipDialog({
       setLoading(true);
       setReload((n) => n + 1);
     } catch (e) {
+      if (epoch !== memberEpoch.current) return;
       setError(failureMessage(e));
       if (e instanceof ApiError) {
         if (e.kind === 'conflict' || e.status === 0 || e.kind === 'unavailable') {
@@ -1390,7 +1589,7 @@ function MembershipDialog({
         }
         if ([401, 403, 404].includes(e.status)) clearPrivate();
         if (e.requestId) setError(`${failureMessage(e)} Reference ID: ${e.requestId}`);
-        onFailure(e);
+        onFailure(e, 'members');
       }
     } finally {
       setPending(false);
@@ -1411,6 +1610,12 @@ function MembershipDialog({
     >
       {memberDirty && <DraftProtection />}
       {entity.archived_at && <p>Archived project or team · Read only</p>}
+      {managerP03 && !canDirectory && (
+        <p>
+          Change existing Editor/Viewer access below. Adding other users requires an administrator
+          or team Lead; the user directory is unavailable for this role.
+        </p>
+      )}
       {!canManage && !entity.archived_at && (
         <p>
           {kind === 'teams'
@@ -1564,7 +1769,7 @@ function MembershipDialog({
           ])}
         />
       )}
-      {canManage && (kind === 'projects' || editor) && (
+      {canManage && canDirectory && (kind === 'projects' || editor) && (
         <MembershipFrame
           embedded={kind === 'projects'}
           title={editor === 'edit' ? `Edit member · ${selected?.name}` : 'Add member'}
@@ -1633,11 +1838,17 @@ function MembershipDialog({
                       <option value="">
                         {directory.items.length ? 'Choose user' : 'No active users found'}
                       </option>
-                      {directory.items.map((u) => (
-                        <option key={u.id} value={u.id}>
-                          {u.display_name} · {u.teams.map((t) => t.name).join(', ') || 'No team'}
-                        </option>
-                      ))}
+                      {directory.items
+                        .filter(
+                          (u) =>
+                            leadOrAdmin ||
+                            !members.some((m) => m.user.id === u.id && m.explicit === 'manager'),
+                        )
+                        .map((u) => (
+                          <option key={u.id} value={u.id}>
+                            {u.display_name} · {u.teams.map((t) => t.name).join(', ') || 'No team'}
+                          </option>
+                        ))}
                     </select>
                   </label>
                   <div className="toolbar">
