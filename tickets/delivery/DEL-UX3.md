@@ -5,7 +5,7 @@ type: fix
 priority: P0
 relates: { prd_ac: [], fr: [], security: [], permissions: [], api_operations: [], ui_pages: [], db_tables: [] }
 owner: "unassigned"
-status: draft
+status: in_progress
 proposal: true
 effort: High
 parent: null
@@ -25,16 +25,16 @@ allowed_paths:
 # DEL-UX3 — Title-first Docs and editor recovery
 
 ## Context
-One coherent proposed PR. Declared effort **High**; actual runtime model/effort NOT_VERIFIED. Status is planning only, not official Task Register state. No runtime execution authorized by this card.
+One coherent proposed PR. Declared effort **High**; actual runtime model/effort NOT_VERIFIED. Adopted for implementation by owner instruction on 2026-10-24; DEL-UX2 is merged at base `03cc589`. This delivery status does not change the official Task Register.
 
 ## References
 [Rules](../../docs/product/delivery-rules.md) · [Decisions](../../docs/product/delivery-decisions.md) · [Rollout / common gates](../../docs/product/delivery-rollout.md) · D10; Doc fields; collaboration chapter
 
 ## Files
-`allowed_paths` above is a future PR ceiling, not permission for this docs-only PR. New filenames/globs are proposed; resolve exact migration numbers against target main before coding, never overwrite existing migration. Out-of-scope dependency changes need a separate reviewed card.
+`allowed_paths` above is the implementation ceiling authorized by the owner. No migration/API/server/dependency changes are in scope. Out-of-scope dependency changes need a separate reviewed card.
 
 ## Tasks
-- [ ] Resolve listed dependencies/questions and adopt this card before coding.
+- [x] Resolve listed dependencies/questions and adopt this card before coding.
 - [ ] Reproduce applicable failing behavior test (RED), implement scoped GREEN, refactor without weakening assertions.
 - [ ] Record command, commit/build/provider, actual expected/outcome and independent review.
 
@@ -48,7 +48,7 @@ One coherent proposed PR. Declared effort **High**; actual runtime model/effort 
 No AGENTS.md edits, grants/role auto-changes, unrelated cleanup, dependency/lockfile updates, live-data writes, deployment, production-guard removal or closing old tasks. Existing contracts remain unchanged; no server sanitizer weakening.
 
 ## Verify
-Commands below are exact acceptance targets; new named test files do not exist yet and must be authored in the implementation PR. Results **NOT_RUN**, except DEL-SPEC actual docs checks in verification report.
+Owner-scoped gates and actual results are recorded in [DEL-UX3 evidence](../../docs/product/evidence/DEL-UX3.md). Browser scenarios require execution before acceptance; status remains in_progress.
 
 ```sh
 npm run test:frontend
@@ -56,10 +56,10 @@ npm run test:addendum
 npx playwright test tests/browser/project-docs.spec.ts tests/browser/delivery-doc-recovery.spec.ts
 ```
 
-Also run common runtime gates from rollout: typecheck/lint/build/contract/test-plan and relevant full regression; build before browser tests using a disposable fixture and free port. Real PostgreSQL results must report nonzero executed tests (SKIP is not PASS). SQLite/browser mocks cannot close PG/production/UAT.
+Per owner instruction run only typecheck/lint/build and the focused gates above; build before browser tests using a disposable fixture and free port. Real PostgreSQL results must report nonzero executed tests (SKIP is not PASS). SQLite/browser mocks cannot close PG/production/UAT.
 
 ## Questions
 No new business decision required by this scope; unresolved dependencies still apply.
 
 ## Evidence / Review
-NOT_RUN for future behavior. No fabricated PASS. Independent specification and code/security review required; do not mark done from document presence.
+See [DEL-UX3 evidence](../../docs/product/evidence/DEL-UX3.md) for RED/GREEN commands, limitations and NOT_RUN items. Independent review remains NOT_RUN; do not mark done from document presence.

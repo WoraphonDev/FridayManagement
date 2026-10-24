@@ -1,4 +1,12 @@
-import { confirmDialog } from './shared/confirm-bus';
+import { DraftProtection } from './shared/confirm';
+import {
+  restoreCaret,
+  rememberCaret,
+  createDocIntent,
+  hasDocChanges,
+  clearsPrivateDraft,
+} from './docs-editor';
+import { confirmDialog, discardDraft } from './shared/confirm-bus';
 import { useCallback, useEffect, useRef, useState, type MouseEvent } from 'react';
 import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';
@@ -96,6 +104,10 @@ export function ProjectDocs({
     [trash, setTrash] = useState(false),
     [selected, setSelected] = useState<Doc>(),
     [editing, setEditing] = useState(false),
+    [creating, setCreating] = useState(false),
+    [newTitle, setNewTitle] = useState(''),
+    [unknownCreate, setUnknownCreate] = useState(false),
+    [bodyChanged, setBodyChanged] = useState(false),
     [title, setTitle] = useState(''),
     [pending, setPending] = useState(false),
     [conflict, setConflict] = useState(false),
@@ -103,47 +115,96 @@ export function ProjectDocs({
     [notice, setNotice] = useState(''),
     [history, setHistory] = useState<z.infer<typeof versions>['items']>(),
     [images, setImages] = useState<z.infer<typeof imageFiles>['items']>(),
+    [pendingImage, setPendingImage] = useState<{ path: string; name: string }>(),
     [reload, setReload] = useState(0);
   const editor = useRef<HTMLDivElement>(null),
-    createKey = useRef(crypto.randomUUID());
+    readerHeading = useRef<HTMLHeadingElement>(null),
+    createIntent = useRef<{ key: string; title: string }>(undefined),
+    insertAt = useRef<Range>(undefined),
+    busy = useRef(false),
+    privateEpoch = useRef(0),
+    composing = useRef(false);
+  const dirty =
+    (editing && !!selected && (title !== selected.title || bodyChanged)) ||
+    (creating && (!!newTitle || unknownCreate)) ||
+    pending;
+  const mayLeave = async () => {
+    if (busy.current) return false;
+    const range = rememberCaret(editor.current);
+    if (!dirty || (await discardDraft())) return true;
+    // Dialog releases its focus trap on the next frame. Restore the live editor and caret.
+    requestAnimationFrame(() => requestAnimationFrame(() => restoreCaret(editor.current, range)));
+    return false;
+  };
   const writable =
     project.effective_access !== 'viewer' && !project.archived_at && !self.maintenance;
   const fail = useCallback(
     (e: unknown) => {
       if (e instanceof ApiError) {
         setError(e);
+        setNotice('');
+        if (clearsPrivateDraft(e.status)) {
+          privateEpoch.current++;
+          if (editor.current) editor.current.replaceChildren();
+          setSelected(undefined);
+          setItems([]);
+          setTitle('');
+          setNewTitle('');
+          setEditing(false);
+          setCreating(false);
+          setBodyChanged(false);
+          setUnknownCreate(false);
+          setHistory(undefined);
+          setImages(undefined);
+          setPendingImage(undefined);
+          insertAt.current = undefined;
+          createIntent.current = undefined;
+        }
         if (e.kind === 'conflict') setConflict(true);
         onFailure(e);
+      } else {
+        setError(new ApiError('request', 0));
+        setNotice('');
       }
     },
     [onFailure],
   );
   useEffect(() => {
     const c = new AbortController();
+    const epoch = privateEpoch.current;
     client
       .request(`/api/projects/${project.id}/docs?includeDeleted=${trash}`, {
         signal: c.signal,
         parse: (v) => docsPage.parse(v).items,
       })
-      .then((v) => !c.signal.aborted && setItems(v))
+      .then((v) => !c.signal.aborted && epoch === privateEpoch.current && setItems(v))
       .catch((e) => !c.signal.aborted && fail(e));
     return () => c.abort();
   }, [project.id, trash, reload, fail]);
   const open = async (docId: number) => {
-    setError(undefined);
-    setConflict(false);
-    setHistory(undefined);
+    if (!(await mayLeave())) return;
+    const epoch = privateEpoch.current;
     try {
       const d = await client.request(`/api/docs/${docId}`, { parse: (v) => docItem.parse(v).item });
+      if (epoch !== privateEpoch.current) return;
       setSelected(d);
       setTitle(d.title);
       setEditing(false);
+      setBodyChanged(false);
+      setError(undefined);
+      setConflict(false);
+      setHistory(undefined);
+      setNotice('');
     } catch (e) {
       fail(e);
     }
   };
   const save = async () => {
-    if (!selected || pending) return;
+    if (!selected || busy.current || !online || !writable || !title.trim()) return;
+    busy.current = true;
+    const epoch = privateEpoch.current;
+    const caret = rememberCaret(editor.current);
+    setNotice('');
     setPending(true);
     try {
       const d = await client.request(`/api/docs/${selected.id}`, {
@@ -156,40 +217,90 @@ export function ProjectDocs({
         },
         parse: (v) => docItem.parse(v).item,
       });
+      if (epoch !== privateEpoch.current) return;
       setSelected(d);
+      setTitle(d.title);
       setEditing(false);
+      setBodyChanged(false);
+      setError(undefined);
+      setConflict(false);
       setNotice('Doc saved');
       setReload((n) => n + 1);
     } catch (e) {
       fail(e);
+      requestAnimationFrame(() => restoreCaret(editor.current, caret));
     } finally {
+      busy.current = false;
       setPending(false);
     }
   };
   const create = async () => {
-    if (pending) return;
+    if (busy.current || !online || !writable || !newTitle.trim() || composing.current) return;
+    busy.current = true;
     setPending(true);
+    setNotice('');
+    const epoch = privateEpoch.current;
+    // An uncertain acknowledgement MUST replay the same key AND payload.
+    const intent = createDocIntent(newTitle, createIntent.current);
+    if (!intent) {
+      busy.current = false;
+      setPending(false);
+      return;
+    }
+    createIntent.current = intent;
     try {
       const d = await client.request(`/api/projects/${project.id}/docs`, {
         method: 'POST',
         csrf: self.csrf,
-        key: createKey.current,
-        body: { title: 'Untitled doc', body_html: '<p></p>' },
+        key: intent.key,
+        body: { title: intent.title, body_html: '<p></p>' },
         parse: (v) => docItem.parse(v).item,
       });
-      createKey.current = crypto.randomUUID();
+      if (epoch !== privateEpoch.current) return;
+      createIntent.current = undefined;
+      setUnknownCreate(false);
+      setCreating(false);
+      setNewTitle('');
+      setError(undefined);
+      setConflict(false);
       setSelected(d);
       setTitle(d.title);
+      setBodyChanged(false);
       setEditing(true);
       setReload((n) => n + 1);
     } catch (e) {
+      // Transport failures are wrapped as ApiError(status=0); invalid success
+      // responses also cannot prove that the server did not commit the create.
+      const uncertain =
+        !(e instanceof ApiError) || e.status === 0 || e.status >= 500 || e.kind === 'invalid';
+      setUnknownCreate(uncertain);
+      if (!uncertain) createIntent.current = undefined;
       fail(e);
     } finally {
+      busy.current = false;
       setPending(false);
     }
   };
+  const beginCreate = async () => {
+    if (!(await mayLeave())) return;
+    setEditing(false);
+    setBodyChanged(false);
+    setNewTitle('');
+    createIntent.current = undefined;
+    setUnknownCreate(false);
+    setError(undefined);
+    setNotice('');
+    setCreating(true);
+  };
+  const closeCreate = async () => {
+    if (!(await mayLeave())) return;
+    setCreating(false);
+    setNewTitle('');
+    setUnknownCreate(false);
+    createIntent.current = undefined;
+  };
   const lifecycle = async (restore: boolean) => {
-    if (!selected || pending) return;
+    if (!selected || busy.current) return;
     if (
       !restore &&
       !(await confirmDialog({
@@ -200,6 +311,8 @@ export function ProjectDocs({
       }))
     )
       return;
+    busy.current = true;
+    const epoch = privateEpoch.current;
     setPending(true);
     try {
       const d = await client.request(`/api/docs/${selected.id}${restore ? '/restore' : ''}`, {
@@ -208,37 +321,46 @@ export function ProjectDocs({
         body: { version: selected.version },
         parse: (v) => docItem.parse(v).item,
       });
+      if (epoch !== privateEpoch.current) return;
       setSelected(restore ? d : undefined);
+      setError(undefined);
       setNotice(restore ? 'Doc restored' : 'Doc moved to trash');
       setReload((n) => n + 1);
     } catch (e) {
       fail(e);
     } finally {
+      busy.current = false;
       setPending(false);
     }
   };
-  const command = (cmd: string, value?: string) => {
-    editor.current?.focus();
-    // execCommand is deprecated but dependency-free; the server sanitizer is the real boundary.
-    document.execCommand(cmd, false, value);
-  };
-  const insertAt = useRef<Range>(undefined);
+  const command = useCallback(
+    (cmd: string, value?: string) => {
+      editor.current?.focus();
+      // execCommand is deprecated but dependency-free; the server sanitizer is the real boundary.
+      document.execCommand(cmd, false, value);
+      setBodyChanged(
+        !!selected && hasDocChanges(selected, selected.title, editor.current?.innerHTML ?? ''),
+      );
+    },
+    [selected],
+  );
   const pickImage = async () => {
     const sel = window.getSelection();
     insertAt.current =
       sel?.rangeCount && editor.current?.contains(sel.anchorNode)
         ? sel.getRangeAt(0).cloneRange()
         : undefined;
+    const epoch = privateEpoch.current;
     try {
       const page = await client.request(`/api/projects/${project.id}/files?pageSize=100`, {
         parse: (v) => imageFiles.parse(v).items,
       });
+      if (epoch !== privateEpoch.current) return;
       setImages(page.filter((f) => !f.deleted_at && /^image\//.test(f.validated_type)));
     } catch (e) {
       fail(e);
     }
   };
-  const [pendingImage, setPendingImage] = useState<{ path: string; name: string }>();
   // Insert only after the modal picker has closed and released focus back to the page;
   // while it is open the editor is inert and execCommand would silently do nothing.
   useEffect(() => {
@@ -254,26 +376,40 @@ export function ProjectDocs({
       setPendingImage(undefined);
     });
     return () => clearTimeout(timer);
-  }, [pendingImage, images]);
+  }, [pendingImage, images, command]);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      (editing ? editor.current : readerHeading.current)?.focus({ preventScroll: true });
+    }, 50);
+    return () => clearTimeout(timer);
+  }, [editing, selected?.id]);
   const insertImage = (path: string, name: string) => {
     setPendingImage({ path, name });
     setImages(undefined);
   };
   /** Checklist items toggle when the box (left gutter) is clicked while editing. */
   const toggleCheck = (e: MouseEvent<HTMLDivElement>) => {
-    if (!editing) return;
+    if (!editing || pending) return;
     const li = (e.target as HTMLElement).closest('ul[data-type="checklist"] > li');
     if (!(li instanceof HTMLElement)) return;
     if (e.clientX - li.getBoundingClientRect().left > 24) return;
     e.preventDefault();
     li.dataset.checked = li.dataset.checked === 'true' ? 'false' : 'true';
+    setBodyChanged(
+      !!selected && hasDocChanges(selected, selected.title, editor.current?.innerHTML ?? ''),
+    );
   };
   return (
     <div className="project-docs">
+      {dirty && <DraftProtection />}
       <aside className="docs-list" aria-label="Docs">
         <div className="toolbar">
           {writable && (
-            <button className="primary" disabled={!online || pending} onClick={() => void create()}>
+            <button
+              className="primary"
+              disabled={!online || pending}
+              onClick={() => void beginCreate()}
+            >
               + New doc
             </button>
           )}
@@ -322,11 +458,14 @@ export function ProjectDocs({
                 <input
                   aria-label="Doc title"
                   maxLength={200}
+                  disabled={pending}
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
               ) : (
-                <h2>{selected.title}</h2>
+                <h2 ref={readerHeading} tabIndex={-1}>
+                  {selected.title}
+                </h2>
               )}
               <small>
                 v{selected.version} · {selected.updated_by.display_name} ·{' '}
@@ -336,7 +475,14 @@ export function ProjectDocs({
               </small>
               <div className="toolbar">
                 {selected.can_edit && !editing && (
-                  <button className="primary" disabled={!online} onClick={() => setEditing(true)}>
+                  <button
+                    className="primary"
+                    disabled={!online || !writable}
+                    onClick={() => {
+                      setNotice('');
+                      setEditing(true);
+                    }}
+                  >
                     Edit
                   </button>
                 )}
@@ -344,7 +490,7 @@ export function ProjectDocs({
                   <>
                     <button
                       className="primary"
-                      disabled={!online || pending || conflict || !title.trim()}
+                      disabled={!online || !writable || pending || conflict || !title.trim()}
                       onClick={() => void save()}
                     >
                       {pending ? 'Saving…' : 'Save'}
@@ -353,7 +499,6 @@ export function ProjectDocs({
                       className="permission-cancel"
                       disabled={pending}
                       onClick={() => {
-                        setEditing(false);
                         void open(selected.id);
                       }}
                     >
@@ -376,14 +521,17 @@ export function ProjectDocs({
                   </button>
                 )}
                 <button
-                  onClick={() =>
+                  onClick={() => {
+                    const epoch = privateEpoch.current;
                     void client
                       .request(`/api/docs/${selected.id}/versions`, {
                         parse: (v) => versions.parse(v).items,
                       })
-                      .then(setHistory)
-                      .catch(fail)
-                  }
+                      .then((value) => {
+                        if (epoch === privateEpoch.current) setHistory(value);
+                      })
+                      .catch(fail);
+                  }}
                 >
                   History
                 </button>
@@ -395,6 +543,7 @@ export function ProjectDocs({
                   <button
                     key={label}
                     type="button"
+                    disabled={pending}
                     onMouseDown={(e) => e.preventDefault()}
                     onClick={() => command(cmd, value)}
                   >
@@ -403,6 +552,7 @@ export function ProjectDocs({
                 ))}
                 <button
                   type="button"
+                  disabled={pending}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => command('insertHTML', docSnippets.checklist)}
                 >
@@ -410,6 +560,7 @@ export function ProjectDocs({
                 </button>
                 <button
                   type="button"
+                  disabled={pending}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => command('insertHTML', docSnippets.table)}
                 >
@@ -417,7 +568,7 @@ export function ProjectDocs({
                 </button>
                 <button
                   type="button"
-                  disabled={!online}
+                  disabled={!online || pending}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => void pickImage()}
                 >
@@ -425,6 +576,7 @@ export function ProjectDocs({
                 </button>
                 <button
                   type="button"
+                  disabled={pending}
                   onMouseDown={(e) => e.preventDefault()}
                   onClick={() => {
                     const url = window.prompt('Link (https:// or mailto:)');
@@ -440,11 +592,16 @@ export function ProjectDocs({
               key={`${selected.id}:${selected.version}:${editing}`}
               ref={editor}
               className={`doc-body ${editing ? 'editing' : ''}`}
-              contentEditable={editing}
+              contentEditable={editing && !pending}
               suppressContentEditableWarning
               role={editing ? 'textbox' : undefined}
               aria-multiline={editing || undefined}
               aria-label={editing ? 'Doc content' : undefined}
+              onInput={() =>
+                setBodyChanged(
+                  hasDocChanges(selected, selected.title, editor.current?.innerHTML ?? ''),
+                )
+              }
               onMouseDown={toggleCheck}
               // Server-sanitized allowlist HTML only (SRS §9.7); never raw user input.
               dangerouslySetInnerHTML={{ __html: selected.body_html }}
@@ -452,6 +609,48 @@ export function ProjectDocs({
           </>
         )}
       </article>
+      {creating && (
+        <Dialog title="New doc" onClose={() => void closeCreate()}>
+          <form
+            onSubmit={(event) => {
+              event.preventDefault();
+              void create();
+            }}
+          >
+            <label>
+              Doc title
+              <input
+                data-autofocus
+                aria-label="Doc title"
+                maxLength={200}
+                value={newTitle}
+                disabled={pending || unknownCreate}
+                onCompositionStart={() => {
+                  composing.current = true;
+                }}
+                onCompositionEnd={() => {
+                  composing.current = false;
+                }}
+                onChange={(event) => setNewTitle(event.target.value)}
+              />
+            </label>
+            {error && <ErrorNotice error={error} />}
+            {unknownCreate && (
+              <p>The result is unconfirmed. Retry the same request to recover this doc.</p>
+            )}
+            <button type="button" disabled={pending} onClick={() => void closeCreate()}>
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="primary"
+              disabled={pending || !newTitle.trim() || !online || !writable}
+            >
+              {pending ? 'Creating…' : unknownCreate ? 'Retry create' : 'Create'}
+            </button>
+          </form>
+        </Dialog>
+      )}
       {images && (
         <Dialog title="Insert image from project files" onClose={() => setImages(undefined)}>
           {images.length ? (
