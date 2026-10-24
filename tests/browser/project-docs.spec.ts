@@ -46,7 +46,14 @@ test('Docs editor tools, image from Files, stored XSS stays inert, conflict keep
     expect(await d.locator('.doc-body').innerHTML()).toBe('<p>Safe text</p><a>link</a>');
     // New doc with every FR-48 tool.
     await d.getByRole('button', { name: '+ New doc', exact: true }).click();
-    await d.getByLabel('Doc title', { exact: true }).fill('ข้อกำหนดโครงการ');
+    await page
+      .getByRole('dialog', { name: 'New doc', exact: true })
+      .getByLabel('Doc title', { exact: true })
+      .fill('ข้อกำหนดโครงการ');
+    await page
+      .getByRole('dialog', { name: 'New doc', exact: true })
+      .getByRole('button', { name: 'Create', exact: true })
+      .click();
     const body = d.getByRole('textbox', { name: 'Doc content', exact: true });
     await body.click();
     await page.keyboard.type('Intro');
@@ -104,6 +111,7 @@ test('Docs editor tools, image from Files, stored XSS stays inert, conflict keep
     );
     await other.close();
     await d.getByRole('button', { name: 'load the latest version' }).click();
+    await page.getByRole('button', { name: 'Discard draft', exact: true }).click();
     await expect(d.getByRole('heading', { name: 'Saved elsewhere' })).toBeVisible();
     await page.setViewportSize({ width: 375, height: 800 });
     await expect(d.locator('.doc-body img')).toBeVisible();
