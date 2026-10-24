@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { DraftProtection } from './shared/confirm';
+import { discardDraft, leaveDrafts } from './shared/confirm-bus';
 import { z } from 'zod';
 import {
   apiClient,
@@ -45,7 +47,9 @@ export function AdminCenter(props: Props) {
             role="tab"
             aria-selected={tab === t}
             className={tab === t ? 'active' : ''}
-            onClick={() => setTab(t)}
+            onClick={() => {
+              if (t !== tab) void leaveDrafts(() => setTab(t));
+            }}
           >
             {t}
           </button>
@@ -166,81 +170,200 @@ function JobTitleDialog({
     [pending, setPending] = useState(false),
     [errors, setErrors] = useState<Record<string, string>>({}),
     [failure, setFailure] = useState('');
-  const key = useRef(crypto.randomUUID());
+  const [unknown, setUnknown] = useState(false);
+  const [currentTitle, setCurrentTitle] = useState(title);
+  const [titleConflict, setTitleConflict] = useState(false);
+  const [titleReview, setTitleReview] = useState(false);
+  const [showTitleLatest, setShowTitleLatest] = useState(false);
+  const loadTitle = async () => {
+    if (!title) return;
+    setPending(true);
+    try {
+      const current = (await loadJobTitles(undefined, true)).find((t) => t.id === title.id);
+      if (!current) throw new ApiError('not-found', 404);
+      setCurrentTitle(current);
+      setTitleConflict(false);
+      setTitleReview(true);
+      setShowTitleLatest(true);
+      setUnknown(false);
+    } catch (e) {
+      setFailure(failureMessage(e));
+      if (e instanceof ApiError) {
+        if ([401, 403, 404].includes(e.status)) onClose();
+        onFailure(e);
+      }
+    } finally {
+      setPending(false);
+    }
+  };
+  const intent = useRef<{ signature: string; key: string }>(undefined);
+  const dirty =
+    unknown ||
+    name !== (title?.name ?? '') ||
+    color !== (title?.color ?? '#579bfc') ||
+    order !== String(title?.sort_order ?? 0) ||
+    active !== (title?.is_active ?? true);
+  const close = async () => {
+    if (!pending && (!dirty || (await discardDraft()))) onClose();
+  };
+  const form = useRef<HTMLDivElement>(null);
   return (
-    <Dialog title={title ? `Edit ${title.name}` : 'Add job title'} onClose={onClose}>
+    <Dialog title={title ? `Edit ${title.name}` : 'Add job title'} onClose={() => void close()}>
+      {dirty && <DraftProtection />}
       {failure && <p role="alert">{failure}</p>}
-      <Form
-        pending={pending}
-        offline={!online || self.maintenance}
-        submitLabel={title ? 'Save job title' : 'Create job title'}
-        onSubmit={() => {
-          const parsed = z
-            .object({
-              name: z.string().trim().min(1, 'Required').max(50, 'Up to 50 characters'),
-              color: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Use #RRGGBB'),
-              sort_order: z.number().int().min(0).max(10000),
-            })
-            .safeParse({ name, color, sort_order: Number(order) });
-          if (!parsed.success) {
-            setErrors(
-              Object.fromEntries(parsed.error.issues.map((i) => [String(i.path[0]), i.message])),
-            );
-            return;
-          }
-          setPending(true);
-          setErrors({});
-          void client
-            .request(title ? `/api/job-titles/${title.id}` : '/api/job-titles', {
-              method: title ? 'PATCH' : 'POST',
-              csrf: self.csrf,
-              ...(title ? {} : { key: key.current }),
-              body: title
-                ? { ...parsed.data, is_active: active, version: title.version }
-                : parsed.data,
-              parse: (v) => jobTitleItem.parse(v),
-            })
-            .then(() => onDone(title ? 'Job title saved' : 'Job title created'))
-            .catch((e: unknown) => {
-              setFailure(failureMessage(e));
-              if (e instanceof ApiError) {
-                setErrors(e.fieldErrors);
-                onFailure(e);
-              }
-            })
-            .finally(() => setPending(false));
-        }}
-      >
-        <Field
-          label="Title name"
-          value={name}
-          maxLength={50}
-          onChange={(e) => setName(e.target.value)}
-          error={errors.name}
-        />
-        <Field
-          label="Color"
-          type="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-          error={errors.color}
-        />
-        <Field
-          label="Sort order"
-          type="number"
-          min={0}
-          max={10000}
-          value={order}
-          onChange={(e) => setOrder(e.target.value)}
-          error={errors.sort_order}
-        />
-        {title && (
+      {unknown && !title && (
+        <button
+          disabled={pending || !online || self.maintenance}
+          onClick={() => {
+            form.current?.querySelector<HTMLFormElement>('form')?.requestSubmit();
+          }}
+        >
+          Reconcile same request
+        </button>
+      )}
+      {(titleConflict || (unknown && title)) && (
+        <button disabled={pending || !online} onClick={() => void loadTitle()}>
+          Load latest title
+        </button>
+      )}
+      {showTitleLatest && (
+        <div>
+          <p>
+            Latest title: {currentTitle?.name} · {currentTitle?.color} · Order:{' '}
+            {currentTitle?.sort_order} · {currentTitle?.is_active ? 'Active' : 'Inactive'}
+          </p>
           <label>
-            <input type="checkbox" checked={active} onChange={(e) => setActive(e.target.checked)} />{' '}
-            Active (inactive titles stay on existing users but cannot be newly assigned)
+            <input
+              type="checkbox"
+              checked={!titleReview}
+              onChange={(e) => setTitleReview(!e.target.checked)}
+            />{' '}
+            I reviewed the latest title and my draft
           </label>
-        )}
-      </Form>
+        </div>
+      )}
+      <div ref={form}>
+        <Form
+          pending={pending}
+          offline={!online || self.maintenance}
+          blocked={titleConflict || titleReview || (!!title && unknown)}
+          hideSubmit={unknown && !title}
+          submitLabel={title ? 'Save job title' : 'Create job title'}
+          onSubmit={async () => {
+            const parsed = z
+              .object({
+                name: z.string().trim().min(1, 'Required').max(50, 'Up to 50 characters'),
+                color: z.string().regex(/^#[0-9a-fA-F]{6}$/, 'Use #RRGGBB'),
+                sort_order: z.number().int().min(0).max(10000),
+              })
+              .safeParse({ name, color, sort_order: Number(order) });
+            if (!parsed.success) {
+              setErrors(
+                Object.fromEntries(parsed.error.issues.map((i) => [String(i.path[0]), i.message])),
+              );
+              return;
+            }
+            setPending(true);
+            setErrors({});
+            if (showTitleLatest && currentTitle) {
+              try {
+                const latest = (await loadJobTitles(undefined, true)).find(
+                  (t) => t.id === currentTitle.id,
+                );
+                if (!latest) throw new ApiError('not-found', 404);
+                if (latest.version !== currentTitle.version) {
+                  setCurrentTitle(latest);
+                  setTitleReview(true);
+                  setPending(false);
+                  setFailure(
+                    'Latest title changed again. Review the latest data and your preserved draft.',
+                  );
+                  return;
+                }
+              } catch (e) {
+                setFailure(failureMessage(e));
+                setPending(false);
+                if (e instanceof ApiError) {
+                  if ([401, 403, 404].includes(e.status)) onClose();
+                  onFailure(e);
+                }
+                return;
+              }
+            }
+            const signature = JSON.stringify(parsed.data);
+            if (intent.current?.signature !== signature)
+              intent.current = { signature, key: crypto.randomUUID() };
+            void client
+              .request(title ? `/api/job-titles/${title.id}` : '/api/job-titles', {
+                method: title ? 'PATCH' : 'POST',
+                csrf: self.csrf,
+                ...(title ? {} : { key: intent.current.key }),
+                body: title
+                  ? { ...parsed.data, is_active: active, version: currentTitle!.version }
+                  : parsed.data,
+                parse: (v) => jobTitleItem.parse(v),
+              })
+              .then(() => onDone(title ? 'Job title saved' : 'Job title created'))
+              .catch((e: unknown) => {
+                setFailure(failureMessage(e));
+                if (e instanceof ApiError) {
+                  if (e.kind === 'conflict' && title) {
+                    setTitleConflict(true);
+                    setTitleReview(true);
+                  }
+                  if (e.status === 0 || e.kind === 'unavailable' || e.kind === 'invalid') {
+                    setUnknown(true);
+                    setFailure(
+                      'Result is unconfirmed. Reconcile the same request before starting another intent.',
+                    );
+                  }
+                  if ([401, 403, 404].includes(e.status)) onClose();
+                  if (e.requestId) setFailure((text) => `${text} Reference ID: ${e.requestId}`);
+                  setErrors(e.fieldErrors);
+                  onFailure(e);
+                }
+              })
+              .finally(() => setPending(false));
+          }}
+        >
+          <Field
+            label="Title name"
+            disabled={unknown}
+            value={name}
+            maxLength={50}
+            onChange={(e) => setName(e.target.value)}
+            error={errors.name}
+          />
+          <Field
+            label="Color"
+            disabled={unknown}
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            error={errors.color}
+          />
+          <Field
+            label="Sort order"
+            disabled={unknown}
+            type="number"
+            min={0}
+            max={10000}
+            value={order}
+            onChange={(e) => setOrder(e.target.value)}
+            error={errors.sort_order}
+          />
+          {title && (
+            <label>
+              <input
+                type="checkbox"
+                checked={active}
+                onChange={(e) => setActive(e.target.checked)}
+              />{' '}
+              Active (inactive titles stay on existing users but cannot be newly assigned)
+            </label>
+          )}
+        </Form>
+      </div>
     </Dialog>
   );
 }
@@ -276,6 +399,10 @@ async function allTeams(signal: AbortSignal) {
 
 /** FR-43/AT-33: permission rows × member columns; bulk preset; atomic save; stale 409. */
 function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
+  const [needsReview, setNeedsReview] = useState(false);
+  const [showLatest, setShowLatest] = useState(false);
+  const [unconfirmed, setUnconfirmed] = useState(false);
+  const [latestLoaded, setLatestLoaded] = useState(false);
   const [catalog, setCatalog] = useState<Catalog>(),
     [base, setBase] = useState<Row[]>(),
     [draft, setDraft] = useState<Map<number, Set<PermissionKey>>>(new Map()),
@@ -290,6 +417,18 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
     [notice, setNotice] = useState(''),
     [review, setReview] = useState(false),
     [pending, setPending] = useState(false);
+  const clearPrivate = useCallback(() => {
+    setBase(undefined);
+    setCatalog(undefined);
+    setDraft(new Map());
+    setTitles([]);
+    setTeams([]);
+    setSelected(new Set());
+    setReview(false);
+    setShowLatest(false);
+    setStale([]);
+    setNotice('');
+  }, []);
   useEffect(() => {
     const c = new AbortController();
     Promise.all([
@@ -301,20 +440,24 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
       .then(([cat, users, t, tm]) => {
         if (c.signal.aborted) return;
         setCatalog(cat);
+        setLatestLoaded(true);
         setBase(users.map((u) => ({ user: u, keys: new Set(u.permission_keys) })));
-        setDraft(new Map());
         setTitles(t);
         setTeams(tm);
         setStale([]);
-        setFailure('');
+        setFailure((previous) => (previous.startsWith('Result is unconfirmed') ? previous : ''));
       })
       .catch((e: unknown) => {
         if (c.signal.aborted) return;
-        setFailure(failureMessage(e));
+        setFailure(
+          failureMessage(e) +
+            (e instanceof ApiError && e.requestId ? ` Reference ID: ${e.requestId}` : ''),
+        );
+        if (e instanceof ApiError && [401, 403, 404].includes(e.status)) clearPrivate();
         if (e instanceof ApiError) onFailure(e);
       });
     return () => c.abort();
-  }, [reload, onFailure]);
+  }, [reload, onFailure, clearPrivate]);
   const keysOf = useCallback((row: Row) => draft.get(row.user.id) ?? row.keys, [draft]);
   const visible = useMemo(() => {
     const members = team
@@ -345,11 +488,40 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
     for (const r of base ?? [])
       if (selected.has(r.user.id) && r.user.id !== self.user.id) set(r, new Set(keys));
   };
-  const save = () => {
+  const save = async () => {
+    if (pending || !online || self.maintenance || needsReview || stale.length || !changes.length)
+      return;
     setPending(true);
     setFailure('');
     setNotice('');
     setStale([]);
+    if (showLatest) {
+      try {
+        const users = await allUsers(new AbortController().signal);
+        if (
+          changes.some(
+            (c) =>
+              users.find((u) => u.id === c.row.user.id)?.permissions_version !==
+              c.row.user.permissions_version,
+          )
+        ) {
+          setBase(users.map((u) => ({ user: u, keys: new Set(u.permission_keys) })));
+          setNeedsReview(true);
+          setReview(false);
+          setFailure(
+            'Latest permissions changed again. Review the latest keys and your preserved draft.',
+          );
+          setPending(false);
+          return;
+        }
+      } catch (e) {
+        setFailure(failureMessage(e));
+        setPending(false);
+        if (e instanceof ApiError && [401, 403, 404].includes(e.status)) clearPrivate();
+        if (e instanceof ApiError) onFailure(e);
+        return;
+      }
+    }
     void client
       .request('/api/permissions/matrix', {
         method: 'PUT',
@@ -365,6 +537,10 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
       })
       .then((r) => {
         setReview(false);
+        setDraft(new Map());
+        setShowLatest(false);
+        setNeedsReview(false);
+        setUnconfirmed(false);
         setNotice(`Saved permissions for ${r.items.length} user(s). Changes apply immediately.`);
         setSelected(new Set());
         setReload((n) => n + 1);
@@ -373,6 +549,9 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
       .catch((e: unknown) => {
         if (e instanceof ApiError && e.kind === 'conflict') {
           setReview(false);
+          setLatestLoaded(false);
+          setNeedsReview(true);
+          setShowLatest(true);
           // All-or-nothing: nothing was saved; name each stale user so the Admin reloads.
           setStale(
             Object.keys(e.fieldErrors)
@@ -380,7 +559,22 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
               .filter(Number.isInteger),
           );
           setFailure('No changes were saved. Some users changed meanwhile; reload them first.');
+        } else if (
+          e instanceof ApiError &&
+          (e.status === 0 || e.kind === 'unavailable' || e.kind === 'invalid')
+        ) {
+          setLatestLoaded(false);
+          setReview(false);
+          setUnconfirmed(true);
+          setNeedsReview(true);
+          setShowLatest(true);
+          setFailure(
+            'Result is unconfirmed. Reload matrix to compare the same requested permissions before another write.',
+          );
         } else setFailure(failureMessage(e));
+        if (e instanceof ApiError && [401, 403, 404].includes(e.status)) clearPrivate();
+        if (e instanceof ApiError && e.requestId)
+          setFailure((text) => `${text} Reference ID: ${e.requestId}`);
         if (e instanceof ApiError) onFailure(e);
       })
       .finally(() => setPending(false));
@@ -393,6 +587,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
   return (
     <section>
       <h3>Permission matrix</h3>
+      {changes.length > 0 && <DraftProtection />}
       <p className="hint">
         Admin ticks P-01–P-10 per person. Job titles never grant permissions (BR-21). You cannot
         change your own permissions. Admins and team Leads already have these rights.
@@ -404,6 +599,36 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
           Changed by someone else: {stale.map(nameOf).join(', ')}.{' '}
           <button onClick={() => setReload((n) => n + 1)}>Reload matrix</button>
         </p>
+      )}
+      {showLatest && (
+        <div>
+          {unconfirmed && (
+            <button disabled={pending || !online} onClick={() => setReload((n) => n + 1)}>
+              Reload matrix
+            </button>
+          )}
+          {unconfirmed && !changes.length && (
+            <p>
+              Latest permissions match the requested draft. The original acknowledgement was lost;
+              no additional write is needed.
+            </p>
+          )}
+          {changes.map(({ row, next }) => (
+            <p key={row.user.id}>
+              {row.user.display_name} · Latest keys: {[...row.keys].sort().join(', ') || 'None'} ·
+              Draft keys: {[...next].sort().join(', ') || 'None'}
+            </p>
+          ))}
+          <label>
+            <input
+              type="checkbox"
+              checked={!needsReview}
+              disabled={pending || stale.length > 0 || !latestLoaded}
+              onChange={(e) => setNeedsReview(!e.target.checked)}
+            />{' '}
+            I reviewed the latest permissions and my draft
+          </label>
+        </div>
       )}
       <div className="toolbar">
         <label>
@@ -444,7 +669,14 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
         </button>
         <button
           className="primary"
-          disabled={!changes.length || pending || !online || self.maintenance}
+          disabled={
+            !changes.length ||
+            needsReview ||
+            stale.length > 0 ||
+            pending ||
+            !online ||
+            self.maintenance
+          }
           onClick={() => setReview(true)}
         >
           Review &amp; Save {changes.length} change(s)
@@ -594,7 +826,11 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
               >
                 Cancel
               </button>
-              <button className="primary" disabled={pending || !online} onClick={save}>
+              <button
+                className="primary"
+                disabled={pending || !online || self.maintenance || needsReview || stale.length > 0}
+                onClick={() => void save()}
+              >
                 {pending ? 'Saving…' : `Save ${changes.length} change(s)`}
               </button>
             </div>
