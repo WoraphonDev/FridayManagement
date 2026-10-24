@@ -153,9 +153,26 @@ test('T082 vertical permissions: frozen labels/member headers, horizontal member
       page.getByText('No changes were saved. Some users changed meanwhile; reload them first.'),
     ).toBeVisible();
     await page.getByRole('button', { name: 'Reload matrix', exact: true }).click();
+    // Reload compares latest server state without silently replacing the unsaved draft.
+    await expect(
+      region.getByRole('checkbox', { name: 'P-08 Create projects for Member 2', exact: true }),
+    ).toBeChecked();
+    await expect(
+      region.getByRole('checkbox', { name: 'P-09 Team workload for Member 2', exact: true }),
+    ).toBeChecked();
     await expect(
       region.getByRole('checkbox', { name: 'P-10 Team reports for Member 2', exact: true }),
-    ).toBeChecked();
+    ).not.toBeChecked();
+    await expect(page.getByText('Latest keys: P-10', { exact: false })).toBeVisible();
+    await expect(
+      page.getByRole('button', { name: 'Review & Save 1 change(s)', exact: true }),
+    ).toBeDisabled();
+    await expect(
+      page.getByRole('checkbox', { name: 'I reviewed the latest permissions and my draft', exact: true }),
+    ).not.toBeChecked();
+    const serverAfterReload = await page.request.get(`${f.env.APP_ORIGIN}/api/users/2/permissions`);
+    expect(serverAfterReload.status()).toBe(200);
+    expect((await serverAfterReload.json()).keys).toEqual(['P-10']);
     await page.setViewportSize({ width: 360, height: 900 });
     await region.evaluate((node) => {
       node.scrollLeft = 468;

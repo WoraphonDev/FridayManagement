@@ -1,8 +1,10 @@
 import { useLocation, useNavigate } from 'react-router-dom';
+import { DraftProtection } from './shared/confirm';
+import { discardDraft } from './shared/confirm-bus';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { useSharedRefresh } from './shared/refresh';
 import { ProjectTasks } from './ProjectTasks';
-import { useCallback, useEffect, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';
 import {
@@ -110,6 +112,11 @@ export function Workspaces({
     [notice, setNotice] = useState(''),
     [changed, setChanged] = useState(false),
     [action, setAction] = useState<Action>();
+  const [projectDenial, setProjectDenial] = useState<ApiError>();
+  const reportProjectFailure = useCallback((failure: ApiError) => {
+    if ([401, 403, 404].includes(failure.status)) setProjectDenial(failure);
+    onFailure(failure);
+  }, [onFailure, setProjectDenial]);
   useEffect(() => {
     const controller = new AbortController();
     void client
@@ -265,7 +272,9 @@ export function Workspaces({
       <ProjectTasks
         project={action.entity}
         initialView={action.view}
-        {...{ self, online, onFailure }}
+        self={self}
+        online={online}
+        onFailure={reportProjectFailure}
         onClose={() => {
           setAction(undefined);
           navigate('/projects');
@@ -283,6 +292,13 @@ export function Workspaces({
     );
   return (
     <div className={`workspace-manager ${kind === 'projects' ? 'project-directory' : ''}`}>
+      {projectDenial && (
+        <div role="alert">
+          <p>{failureMessage(projectDenial)}</p>
+          {projectDenial.requestId && <p>Reference ID: {projectDenial.requestId}</p>}
+          <button type="button" onClick={() => setProjectDenial(undefined)}>Dismiss access notice</button>
+        </div>
+      )}
       {changed && (
         <Toast persist>
           Data changed. Your dialog draft is preserved. Saving checks the version.
@@ -821,8 +837,34 @@ function EntityDialog({
     [conflict, setConflict] = useState(false),
     [review, setReview] = useState(false),
     [showReview, setShowReview] = useState(false),
-    [unknown, setUnknown] = useState(false),
-    [key] = useState(() => crypto.randomUUID());
+    [unknown, setUnknown] = useState(false);
+  const createIntent = useRef<{ signature: string; key: string }>(undefined);
+  const [denied, setDenied] = useState(false);
+  const clearEntityDraft = () => {
+    setName('');
+    setDescription('');
+    setEntity(undefined);
+    setTeams([]);
+    setTeam('');
+    setInitialMembers([]);
+    createIntent.current = undefined;
+    setDenied(true);
+  };
+  const dirty =
+    name !== (action.entity?.name ?? '') ||
+    description !== (action.entity?.description ?? '') ||
+    projectType !==
+      (action.entity && isProject(action.entity) ? action.entity.project_type : 'internal') ||
+    projectCategory !==
+      (action.entity && isProject(action.entity)
+        ? action.entity.project_category
+        : 'development') ||
+    !!team ||
+    initialMembers.length > 0 ||
+    unknown;
+  const close = async () => {
+    if (!pending && (!dirty || (await discardDraft()))) onClose();
+  };
   useEffect(() => {
     if (kind !== 'projects' || action.kind !== 'create') return;
     const controller = new AbortController();
@@ -856,16 +898,26 @@ function EntityDialog({
       setError('Latest data loaded. Review your draft and the current data before confirming.');
     } catch (e) {
       setError(failureMessage(e));
+      if (e instanceof ApiError && [401, 403, 404].includes(e.status)) clearEntityDraft();
       if (e instanceof ApiError) onFailure(e);
     } finally {
       setPending(false);
     }
   };
   const submit = async () => {
-    if (review || conflict) return;
+    if (pending || !online || self.maintenance || review || conflict) return;
     setPending(true);
     setError('');
     try {
+      if (showReview && entity) {
+        const current = await latest(kind, entity.id);
+        if (current.version !== entity.version) {
+          setEntity(current);
+          setReview(true);
+          setError('Latest data changed again. Review the latest data and your preserved draft.');
+          return;
+        }
+      }
       const create = action.kind === 'create',
         archive = action.kind === 'archive';
       const value = archive
@@ -892,19 +944,29 @@ function EntityDialog({
         )
           throw new Error('Enter a valid name, team and description');
       }
+      if (create) {
+        const signature = JSON.stringify(value);
+        if (createIntent.current?.signature !== signature)
+          createIntent.current = { signature, key: crypto.randomUUID() };
+      }
       await client.request(`/api/${kind}${create ? '' : '/' + entity!.id}`, {
         method: create ? 'POST' : 'PATCH',
         body: value,
         csrf: self.csrf,
-        ...(create ? { key } : {}),
+        ...(create ? { key: createIntent.current!.key } : {}),
         parse: (v) => parseItem(kind, v),
       });
       onDone();
     } catch (e) {
       setError(failureMessage(e));
       if (e instanceof ApiError) {
-        if (e.kind === 'conflict') setConflict(true);
-        if (e.status === 0 || e.kind === 'unavailable') {
+        if (e.kind === 'conflict') {
+          setConflict(true);
+          setReview(true);
+        }
+        if ([401, 403, 404].includes(e.status)) clearEntityDraft();
+        if (e.requestId) setError(`${failureMessage(e)} Reference ID: ${e.requestId}`);
+        if (e.status === 0 || e.kind === 'unavailable' || e.kind === 'invalid') {
           setUnknown(true);
           if (action.kind !== 'create') setConflict(true);
         }
@@ -914,6 +976,15 @@ function EntityDialog({
       setPending(false);
     }
   };
+  if (denied)
+    return (
+      <Dialog title="Access no longer available" onClose={onClose}>
+        <p role="alert">
+          {error} Private draft cleared. Close this dialog and check your current access before
+          trying again.
+        </p>
+      </Dialog>
+    );
   return (
     <Dialog
       className={action.kind !== 'archive' ? 'project-details-dialog' : 'project-action-dialog'}
@@ -926,16 +997,22 @@ function EntityDialog({
               : 'Archive'
             : `Edit ${entity?.name}`
       }
-      onClose={() => {
-        if (!pending) onClose();
-      }}
+      onClose={() => void close()}
     >
+      {dirty && <DraftProtection />}
       {error && <p role="alert">{error}</p>}
       {unknown && (
-        <p>
-          Result is unconfirmed. Check the latest list before retrying. Creation uses the same
-          request ID.
-        </p>
+        <div>
+          <p>
+            Result is unconfirmed. Check the latest list before retrying. Creation uses the same
+            request ID.
+          </p>
+          {action.kind === 'create' && (
+            <button disabled={pending || !online || self.maintenance} onClick={() => void submit()}>
+              Reconcile same request
+            </button>
+          )}
+        </div>
       )}
       {conflict && (
         <button disabled={pending || !online} onClick={() => void load()}>
@@ -966,7 +1043,7 @@ function EntityDialog({
       )}
       <Form
         pending={pending}
-        blocked={self.maintenance || conflict || review}
+        blocked={self.maintenance || conflict || review || (unknown && action.kind === 'create')}
         offline={!online}
         submitLabel={action.kind === 'archive' ? 'Confirm' : 'Save'}
         onSubmit={() => void submit()}
@@ -1062,7 +1139,12 @@ function EntityDialog({
             )}
           </>
         )}
-        <button type="button" className="permission-cancel" disabled={pending} onClick={onClose}>
+        <button
+          type="button"
+          className="permission-cancel"
+          disabled={pending}
+          onClick={() => void close()}
+        >
           Cancel
         </button>
       </Form>
@@ -1118,6 +1200,38 @@ function MembershipDialog({
     [notice, setNotice] = useState(''),
     [revoked, setRevoked] = useState(false),
     [editor, setEditor] = useState<'add' | 'edit'>();
+  const [memberReview, setMemberReview] = useState(false);
+  const [showMemberReview, setShowMemberReview] = useState(false);
+  const [memberUnknown, setMemberUnknown] = useState(false);
+  const [memberRead, setMemberRead] = useState(false);
+  const memberSnapshot = useRef({ version, reviewing: showMemberReview });
+  useEffect(() => {
+    memberSnapshot.current = { version, reviewing: showMemberReview };
+  }, [version, showMemberReview]);
+  const memberDirty = !revoked && (!!selected || !!confirm);
+  const cancelReview = () => {
+    if (pending) return;
+    setConfirm(undefined);
+    if (kind === 'teams' && selected)
+      setEditor(members.some((m) => m.user.id === selected.id) ? 'edit' : 'add');
+  };
+  const closeMembers = async (closeEditor = false) => {
+    if (pending || (memberDirty && !(await discardDraft()))) return;
+    setSelected(undefined);
+    setConfirm(undefined);
+    setEditor(undefined);
+    if (!closeEditor) onClose();
+  };
+  const clearPrivate = useCallback(() => {
+    setMembers([]);
+    setDirectory(undefined);
+    setSelected(undefined);
+    setConfirm(undefined);
+    setEditor(undefined);
+    setQuery('');
+    setSearch('');
+    setRevoked(true);
+  }, []);
   // FR-42: a P-03 manager edits Editor/Viewer only; manager appointment stays Admin/Lead.
   const leadOrAdmin = !revoked && manage(entity, self);
   const managerP03 =
@@ -1127,6 +1241,7 @@ function MembershipDialog({
     self.user.permission_keys.includes('P-03');
   const canManage = !initial.archived_at && !entity.archived_at && (leadOrAdmin || managerP03);
   useEffect(() => {
+    if (revoked) return;
     const controller = new AbortController();
     void (async () => {
       if (kind === 'projects') {
@@ -1145,12 +1260,22 @@ function MembershipDialog({
               effective: m.effective_access,
             })),
           );
+          if (
+            memberSnapshot.current.reviewing &&
+            memberSnapshot.current.version !== v.membership_version
+          )
+            setMemberReview(true);
           setVersion(v.membership_version);
         }
       } else {
         const current = await latest('teams', initial.id);
         if (!controller.signal.aborted && !isProject(current)) {
           setEntity(current);
+          if (
+            memberSnapshot.current.reviewing &&
+            memberSnapshot.current.version !== current.version
+          )
+            setMemberReview(true);
           setVersion(current.version);
           setMembers(
             current.members?.map((m) => ({
@@ -1162,21 +1287,22 @@ function MembershipDialog({
           );
         }
       }
-      if (!controller.signal.aborted) setLoading(false);
+      if (!controller.signal.aborted) {
+        setLoading(false);
+        setMemberRead(true);
+      }
     })().catch((e: unknown) => {
       if (!controller.signal.aborted) {
-        setMembers([]);
-        setDirectory(undefined);
-        setSelected(undefined);
-        setConfirm(undefined);
-        setRevoked(true);
+        if (e instanceof ApiError && [401, 403, 404].includes(e.status)) clearPrivate();
+        else setConflict(true);
+        setMemberRead(false);
         setLoading(false);
         setError(failureMessage(e));
         if (e instanceof ApiError) onFailure(e);
       }
     });
     return () => controller.abort();
-  }, [initial.id, kind, reload, self.view_revision, onFailure]);
+  }, [initial.id, kind, reload, self.view_revision, onFailure, clearPrivate, revoked]);
   useEffect(() => {
     if (!canManage) return;
     const controller = new AbortController();
@@ -1198,10 +1324,36 @@ function MembershipDialog({
     return () => controller.abort();
   }, [canManage, page, search, directoryReload, onFailure]);
   const change = async () => {
-    if (!confirm || conflict) return;
+    if (
+      !confirm ||
+      conflict ||
+      memberReview ||
+      pending ||
+      !online ||
+      self.maintenance ||
+      !canManage
+    )
+      return;
     setPending(true);
     setError('');
     try {
+      if (showMemberReview) {
+        const currentVersion =
+          kind === 'projects'
+            ? (
+                await client.request(`/api/projects/${entity.id}/members`, {
+                  parse: (v) => projectMembers.parse(v),
+                })
+              ).membership_version
+            : (await latest('teams', entity.id)).version;
+        if (currentVersion !== version) {
+          setMemberReview(true);
+          setLoading(true);
+          setReload((n) => n + 1);
+          setError('Latest membership changed again. Review your preserved draft.');
+          return;
+        }
+      }
       await client.request(`/api/${kind}/${entity.id}/members/${confirm.id}`, {
         method: confirm.remove ? 'DELETE' : 'PUT',
         body: confirm.remove
@@ -1223,6 +1375,7 @@ function MembershipDialog({
       onChanged?.();
       setNotice('Members saved');
       setSelected(undefined);
+      setShowMemberReview(false);
       setLoading(true);
       setReload((n) => n + 1);
     } catch (e) {
@@ -1230,9 +1383,13 @@ function MembershipDialog({
       if (e instanceof ApiError) {
         if (e.kind === 'conflict' || e.status === 0 || e.kind === 'unavailable') {
           setConflict(true);
-          setEditor(undefined);
-          setConfirm(undefined);
+          setMemberReview(true);
+          setShowMemberReview(true);
+          setMemberRead(false);
+          if (e.status === 0 || e.kind === 'unavailable') setMemberUnknown(true);
         }
+        if ([401, 403, 404].includes(e.status)) clearPrivate();
+        if (e.requestId) setError(`${failureMessage(e)} Reference ID: ${e.requestId}`);
         onFailure(e);
       }
     } finally {
@@ -1250,10 +1407,9 @@ function MembershipDialog({
     <MembershipFrame
       embedded={embedded}
       title={revoked ? 'Member data not found' : `Members ${entity.name}`}
-      onClose={() => {
-        if (!pending) onClose();
-      }}
+      onClose={() => void closeMembers()}
     >
+      {memberDirty && <DraftProtection />}
       {entity.archived_at && <p>Archived project or team · Read only</p>}
       {!canManage && !entity.archived_at && (
         <p>
@@ -1297,15 +1453,16 @@ function MembershipDialog({
       )}
       {notice && <Toast>{notice}</Toast>}
       {error && <p role="alert">{error}</p>}
-      {conflict && (
+      {(conflict || showMemberReview) && (
         <div>
-          <p>Data changed or result is unconfirmed. Refresh and choose the action again.</p>
+          <p>
+            Data changed or result is unconfirmed. Refresh to compare your preserved draft with the
+            latest membership; do not retry blindly.
+          </p>
           <button
             disabled={!online || pending}
             onClick={() => {
               setConflict(false);
-              setConfirm(undefined);
-              setSelected(undefined);
               setLoading(true);
               setReload((n) => n + 1);
             }}
@@ -1411,8 +1568,9 @@ function MembershipDialog({
         <MembershipFrame
           embedded={kind === 'projects'}
           title={editor === 'edit' ? `Edit member · ${selected?.name}` : 'Add member'}
-          onClose={() => !pending && setEditor(undefined)}
+          onClose={() => void closeMembers(true)}
         >
+          {kind === 'teams' && error && <p role="alert">{error}</p>}
           {kind === 'projects' && <h3>Add or update member</h3>}
           {kind === 'teams' && (
             <p className="member-editor-intro">
@@ -1557,7 +1715,7 @@ function MembershipDialog({
             <button
               className="permission-cancel"
               disabled={pending}
-              onClick={() => setEditor(undefined)}
+              onClick={() => void closeMembers(true)}
             >
               Cancel
             </button>
@@ -1568,9 +1726,66 @@ function MembershipDialog({
         <MembershipFrame
           embedded={kind === 'projects'}
           title={confirm.remove ? 'Remove member' : 'Review member changes'}
-          onClose={() => !pending && setConfirm(undefined)}
+          onClose={cancelReview}
         >
           <div className="membership-confirm">
+            {kind === 'teams' && error && <p role="alert">{error}</p>}
+            {kind === 'teams' && (conflict || showMemberReview) && (
+              <button
+                disabled={pending || !online}
+                onClick={() => {
+                  setConflict(false);
+                  setMemberReview(true);
+                  setMemberRead(false);
+                  setLoading(true);
+                  setReload((n) => n + 1);
+                }}
+              >
+                Refresh members
+              </button>
+            )}
+            {showMemberReview && (
+              <div>
+                {memberUnknown &&
+                  memberRead &&
+                  (confirm.remove
+                    ? !members.some((m) => m.user.id === confirm.id && m.explicit)
+                    : members.some(
+                        (m) =>
+                          m.user.id === confirm.id &&
+                          m.explicit === confirm.role &&
+                          (kind !== 'teams' ||
+                            !confirm.position ||
+                            m.teamPosition === confirm.position),
+                      )) && (
+                    <p>
+                      Latest membership matches the requested draft. The original acknowledgement
+                      was lost; no additional write is needed.
+                    </p>
+                  )}
+                <p>
+                  Latest membership:{' '}
+                  {members.find((m) => m.user.id === confirm.id)?.explicit ?? 'None'}
+                  {kind === 'teams' && (
+                    <>
+                      {' '}
+                      · Position:{' '}
+                      {members.find((m) => m.user.id === confirm.id)?.teamPosition ?? 'None'}
+                    </>
+                  )}{' '}
+                  · Draft: {confirm.remove ? 'Remove' : confirm.role} {confirm.position}
+                </p>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={!memberReview}
+                    disabled={loading || conflict || !memberRead}
+                    onChange={(e) => setMemberReview(!e.target.checked)}
+                  />{' '}
+                  I reviewed the latest membership and my draft
+                </label>
+              </div>
+            )}
             <p>
               Confirm {confirm.remove ? 'Remove member' : `Set ${confirm.role}`} for {confirm.name}
               {kind === 'teams' &&
@@ -1582,7 +1797,9 @@ function MembershipDialog({
               history. Explicit project access survives team membership removal.
             </p>
             <button
-              disabled={pending || !online || conflict || self.maintenance}
+              disabled={
+                pending || loading || memberReview || !online || conflict || self.maintenance
+              }
               onClick={() => void change()}
               className={confirm.remove ? 'danger' : 'primary'}
             >
@@ -1592,11 +1809,7 @@ function MembershipDialog({
                   : 'Save'
                 : 'Confirm access change'}
             </button>
-            <button
-              className="permission-cancel"
-              disabled={pending}
-              onClick={() => setConfirm(undefined)}
-            >
+            <button className="permission-cancel" disabled={pending} onClick={cancelReview}>
               {kind === 'teams' ? 'Cancel' : 'Cancel action'}
             </button>
           </div>

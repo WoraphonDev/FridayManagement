@@ -1,5 +1,6 @@
 import { taskNumber } from './task-number';
-import { confirmDialog } from './shared/confirm-bus';
+import { confirmDialog, discardDraft, leaveDrafts } from './shared/confirm-bus';
+import { DraftProtection } from './shared/confirm';
 import { UiIcon } from './shared/UiIcon';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { StatusPicker } from './shared/StatusPicker';
@@ -84,7 +85,16 @@ const ProjectFiles = lazy(() =>
   import('./ProjectFiles').then((m) => ({ default: m.ProjectFiles })),
 );
 type ProjectMemberRow = z.infer<typeof projectMembers>['items'][number];
-type View = 'table' | 'calendar' | 'gantt' | 'kanban' | 'docs' | 'files' | 'workload' | 'overview' | 'members';
+type View =
+  | 'table'
+  | 'calendar'
+  | 'gantt'
+  | 'kanban'
+  | 'docs'
+  | 'files'
+  | 'workload'
+  | 'overview'
+  | 'members';
 /** Vibe date cell: shows "📅 1 Oct"; the native picker opens on click and stays keyboard-editable. */
 function PlanDateCell({
   label,
@@ -183,8 +193,16 @@ export function TaskWorkspace({
     [groupColor, setGroupColor] = useState('#579bfc'),
     [groupPending, setGroupPending] = useState(false);
   const [groupDialog, setGroupDialog] = useState(false);
+  const [groupError, setGroupError] = useState<ApiError>();
+  const [groupUnknown, setGroupUnknown] = useState(false);
+  const [groupConflict, setGroupConflict] = useState(false);
+  const [groupReview, setGroupReview] = useState(false);
+  const [groupLatest, setGroupLatest] = useState<ProjectGroup>();
   const [showMembers, setShowMembers] = useState(false);
   const [editingGroup, setEditingGroup] = useState<ProjectGroup>();
+  const groupDirty =
+    groupDialog &&
+    (groupName !== (editingGroup?.name ?? '') || groupColor !== (editingGroup?.color ?? '#579bfc'));
   const [groupBy, setGroupBy] = useState('groups');
   // FR-52 Main table state: selection/batch, inline edits, quick add, drag and column widths.
   const [selected, setSelected] = useState<number[]>([]),
@@ -295,6 +313,12 @@ export function TaskWorkspace({
     }
   };
   const startGroup = () => {
+    setGroupError(undefined);
+    setGroupUnknown(false);
+    setGroupConflict(false);
+    setGroupReview(false);
+    setGroupLatest(undefined);
+    groupIntent.current = undefined;
     setEditingGroup(undefined);
     setGroupName('');
     setGroupColor('#579bfc');
@@ -332,7 +356,16 @@ export function TaskWorkspace({
     }
   };
   const addGroup = async () => {
-    if (mutationBusy.current || !groupName.trim() || !project) return;
+    if (
+      mutationBusy.current ||
+      groupConflict ||
+      groupReview ||
+      !groupName.trim() ||
+      !project ||
+      !online ||
+      !writableProject
+    )
+      return;
     mutationBusy.current = true;
     setGroupPending(true);
     const signature = JSON.stringify({
@@ -345,6 +378,21 @@ export function TaskWorkspace({
     if (groupIntent.current?.signature !== signature)
       groupIntent.current = { signature, key: crypto.randomUUID() };
     try {
+      if (groupLatest && editingGroup && !groupUnknown) {
+        const current = (
+          await client.request(`/api/projects/${project.id}/groups`, {
+            parse: (v) => projectGroups.parse(v),
+          })
+        ).items.find((g) => g.id === editingGroup.id);
+        if (!current) throw new ApiError('not-found', 404);
+        if (current.version !== editingGroup.version) {
+          setEditingGroup(current);
+          setGroupLatest(current);
+          setGroupReview(true);
+          setGroupError(new ApiError('conflict', 409));
+          return;
+        }
+      }
       const r = await client.request(
         editingGroup ? `/api/groups/${editingGroup.id}` : `/api/projects/${project.id}/groups`,
         {
@@ -365,10 +413,29 @@ export function TaskWorkspace({
       setGroupName('');
       setGroupDialog(false);
       groupIntent.current = undefined;
+      setGroupUnknown(false);
+      setGroupError(undefined);
       setError(undefined);
     } catch (e) {
       if (e instanceof ApiError) {
-        setError(e);
+        setGroupError(e);
+        if ([401, 403, 404].includes(e.status)) {
+          setGroupDialog(false);
+          setGroupName('');
+          setGroupColor('#579bfc');
+          setEditingGroup(undefined);
+          setGroupLatest(undefined);
+          groupIntent.current = undefined;
+          setNamedGroups([]);
+          setPeople([]);
+          setMemberRows([]);
+        }
+        if (e.kind === 'conflict' && editingGroup) {
+          setGroupConflict(true);
+          setGroupReview(true);
+        }
+        if (e.status === 0 || e.kind === 'unavailable' || e.kind === 'invalid')
+          setGroupUnknown(true);
         onFailure(e);
       }
     } finally {
@@ -694,10 +761,13 @@ export function TaskWorkspace({
           <button
             key={v}
             aria-pressed={view === v}
-            onClick={() => {
-              setView(v);
-              setPage(1);
-            }}
+            onClick={() =>
+              void leaveDrafts(() => {
+                setGroupDialog(false);
+                setView(v);
+                setPage(1);
+              })
+            }
           >
             <UiIcon name={v === 'members' ? 'users' : v} />{' '}
             {
@@ -1059,6 +1129,7 @@ export function TaskWorkspace({
             </button>
           </div>
           {error && <ErrorNotice error={error} retry={refresh} />}
+          {groupError && !groupDialog && <ErrorNotice error={groupError} retry={refresh} />}
           {loading ? (
             <Loading />
           ) : (
@@ -1217,6 +1288,12 @@ export function TaskWorkspace({
                                     const item = namedGroups.find((item) => String(item.id) === g);
                                     if (!item) return;
                                     setEditingGroup(item);
+                                    setGroupError(undefined);
+                                    setGroupUnknown(false);
+                                    setGroupConflict(false);
+                                    setGroupReview(false);
+                                    setGroupLatest(undefined);
+                                    groupIntent.current = undefined;
                                     setGroupName(item.name);
                                     setGroupColor(item.color);
                                     setGroupDialog(true);
@@ -1547,8 +1624,14 @@ export function TaskWorkspace({
                         {groupDialog && (
                           <Dialog
                             title={editingGroup ? 'Edit group' : 'New Group'}
-                            onClose={() => !groupPending && setGroupDialog(false)}
+                            onClose={() => {
+                              if (!groupPending)
+                                void (async () => {
+                                  if (!groupDirty || (await discardDraft())) setGroupDialog(false);
+                                })();
+                            }}
                           >
+                            {groupDirty && <DraftProtection />}
                             <form
                               className="new-group-form"
                               onSubmit={(e) => {
@@ -1561,25 +1644,114 @@ export function TaskWorkspace({
                                 placeholder="New group name"
                                 maxLength={100}
                                 value={groupName}
-                                disabled={groupPending || !online || self.maintenance}
+                                disabled={
+                                  groupPending || groupUnknown || !online || self.maintenance
+                                }
                                 onChange={(e) => setGroupName(e.target.value)}
                               />
                               <input
                                 aria-label="Group color"
                                 type="color"
                                 value={groupColor}
+                                disabled={
+                                  groupPending || groupUnknown || !online || self.maintenance
+                                }
                                 onChange={(e) => setGroupColor(e.target.value)}
                               />
                               <button
                                 type="submit"
                                 disabled={
-                                  !groupName.trim() || groupPending || !online || self.maintenance
+                                  !groupName.trim() ||
+                                  groupPending ||
+                                  groupConflict ||
+                                  groupReview ||
+                                  !online ||
+                                  self.maintenance
                                 }
                               >
-                                {editingGroup ? 'Save group' : '+ New group'}
+                                {groupUnknown
+                                  ? 'Reconcile same request'
+                                  : editingGroup
+                                    ? 'Save group'
+                                    : '+ New group'}
                               </button>
                             </form>
-                            {error && <ErrorNotice error={error} />}
+                            {groupError && (
+                              <div role="alert">
+                                <p>{groupError.message}</p>
+                                {groupError.requestId && (
+                                  <p>Reference ID: {groupError.requestId}</p>
+                                )}
+                                {groupUnknown && (
+                                  <p>
+                                    Result is unconfirmed. Reconcile the same request before
+                                    starting another intent.
+                                  </p>
+                                )}
+                              </div>
+                            )}
+                            {groupConflict && editingGroup && (
+                              <button
+                                disabled={groupPending || !online}
+                                onClick={() => {
+                                  setGroupPending(true);
+                                  void client
+                                    .request(`/api/projects/${project!.id}/groups`, {
+                                      parse: (v) => projectGroups.parse(v),
+                                    })
+                                    .then((result) => {
+                                      const current = result.items.find(
+                                        (g) => g.id === editingGroup.id,
+                                      );
+                                      if (!current) throw new ApiError('not-found', 404);
+                                      setEditingGroup(current);
+                                      setGroupLatest(current);
+                                      setGroupReview(true);
+                                      setGroupConflict(false);
+                                    })
+                                    .catch((e: unknown) => {
+                                      if (e instanceof ApiError) {
+                                        setGroupError(e);
+                                        if ([401, 403, 404].includes(e.status)) {
+                                          setGroupDialog(false);
+                                          setGroupName('');
+                                          setGroupColor('#579bfc');
+                                          setEditingGroup(undefined);
+                                          setGroupLatest(undefined);
+                                          setGroupConflict(false);
+                                          setGroupReview(false);
+                                          setGroupUnknown(false);
+                                          groupIntent.current = undefined;
+                                          setNamedGroups([]);
+                                          setPeople([]);
+                                          setMemberRows([]);
+                                        }
+                                        onFailure(e);
+                                      }
+                                    })
+                                    .finally(() => setGroupPending(false));
+                                }}
+                              >
+                                Load latest group
+                              </button>
+                            )}
+                            {groupLatest && (
+                              <div>
+                                <p>
+                                  Latest group: {groupLatest.name} · {groupLatest.color} · Draft:{' '}
+                                  {groupName} · {groupColor}
+                                </p>
+                                <label>
+                                  <input
+                                    type="checkbox"
+                                    checked={!groupReview}
+                                    disabled={groupPending || groupConflict}
+                                    onChange={(e) => setGroupReview(!e.target.checked)}
+                                  />{' '}
+                                  I reviewed the latest group and my draft
+                                </label>
+                              </div>
+                            )}
                           </Dialog>
                         )}
                       </>
