@@ -38,6 +38,25 @@ type Tab = (typeof tabs)[number];
 /** FR-43 Admin center. Every control is advisory; the server rechecks Admin/not-self/version. */
 export function AdminCenter(props: Props) {
   const [tab, setTab] = useState<Tab>('Members');
+  const [denial, setDenial] = useState<ApiError>();
+  const externalFailure = props.onFailure;
+  const reportFailure = useCallback(
+    (error: ApiError) => {
+      if ([401, 403, 404].includes(error.status)) setDenial(error);
+      externalFailure(error);
+    },
+    [externalFailure],
+  );
+  if (props.self.user.org_role !== 'admin' || denial)
+    return (
+      <div className="admin-center">
+        <p role="alert" aria-label="Admin access notice">
+          {denial ? failureMessage(denial) : 'Only an administrator can access Admin controls.'}
+          {denial?.requestId && <> Reference ID: {denial.requestId}</>}
+        </p>
+      </div>
+    );
+  const authorizedProps = { ...props, onFailure: reportFailure };
   return (
     <div className="admin-center">
       <div role="tablist" aria-label="Admin sections" className="toolbar">
@@ -57,15 +76,15 @@ export function AdminCenter(props: Props) {
       </div>
       <div role="tabpanel" aria-label={tab}>
         {tab === 'Members' ? (
-          <Users {...props} onReviewRegistrations={() => setTab('Registrations')} />
+          <Users {...authorizedProps} onReviewRegistrations={() => setTab('Registrations')} />
         ) : tab === 'Teams' ? (
-          <Workspaces kind="teams" {...props} onBoardChange={() => undefined} />
+          <Workspaces kind="teams" {...authorizedProps} onBoardChange={() => undefined} />
         ) : tab === 'Job titles' ? (
-          <JobTitles {...props} />
+          <JobTitles {...authorizedProps} />
         ) : tab === 'Registrations' ? (
-          <Registrations {...props} />
+          <Registrations {...authorizedProps} />
         ) : (
-          <PermissionMatrix {...props} />
+          <PermissionMatrix {...authorizedProps} />
         )}
       </div>
     </div>
@@ -299,7 +318,11 @@ function JobTitleDialog({
                 csrf: self.csrf,
                 ...(title ? {} : { key: intent.current.key }),
                 body: title
-                  ? { ...parsed.data, is_active: active, version: currentTitle!.version }
+                  ? {
+                      ...parsed.data,
+                      is_active: active,
+                      version: currentTitle!.version,
+                    }
                   : parsed.data,
                 parse: (v) => jobTitleItem.parse(v),
               })
@@ -417,7 +440,15 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
     [notice, setNotice] = useState(''),
     [review, setReview] = useState(false),
     [pending, setPending] = useState(false);
+  const matrixEpoch = useRef(0);
+  useEffect(
+    () => () => {
+      matrixEpoch.current++;
+    },
+    [],
+  );
   const clearPrivate = useCallback(() => {
+    matrixEpoch.current++;
     setBase(undefined);
     setCatalog(undefined);
     setDraft(new Map());
@@ -431,6 +462,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
   }, []);
   useEffect(() => {
     const c = new AbortController();
+    const epoch = matrixEpoch.current;
     Promise.all([
       loadCatalog(c.signal),
       allUsers(c.signal),
@@ -438,7 +470,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
       allTeams(c.signal),
     ])
       .then(([cat, users, t, tm]) => {
-        if (c.signal.aborted) return;
+        if (c.signal.aborted || epoch !== matrixEpoch.current) return;
         setCatalog(cat);
         setLatestLoaded(true);
         setBase(users.map((u) => ({ user: u, keys: new Set(u.permission_keys) })));
@@ -448,7 +480,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
         setFailure((previous) => (previous.startsWith('Result is unconfirmed') ? previous : ''));
       })
       .catch((e: unknown) => {
-        if (c.signal.aborted) return;
+        if (c.signal.aborted || epoch !== matrixEpoch.current) return;
         setFailure(
           failureMessage(e) +
             (e instanceof ApiError && e.requestId ? ` Reference ID: ${e.requestId}` : ''),
@@ -457,7 +489,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
         if (e instanceof ApiError) onFailure(e);
       });
     return () => c.abort();
-  }, [reload, onFailure, clearPrivate]);
+  }, [reload, self.view_revision, onFailure, clearPrivate]);
   const keysOf = useCallback((row: Row) => draft.get(row.user.id) ?? row.keys, [draft]);
   const visible = useMemo(() => {
     const members = team
@@ -491,6 +523,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
   const save = async () => {
     if (pending || !online || self.maintenance || needsReview || stale.length || !changes.length)
       return;
+    const epoch = matrixEpoch.current;
     setPending(true);
     setFailure('');
     setNotice('');
@@ -498,6 +531,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
     if (showLatest) {
       try {
         const users = await allUsers(new AbortController().signal);
+        if (epoch !== matrixEpoch.current) return;
         if (
           changes.some(
             (c) =>
@@ -515,6 +549,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
           return;
         }
       } catch (e) {
+        if (epoch !== matrixEpoch.current) return;
         setFailure(failureMessage(e));
         setPending(false);
         if (e instanceof ApiError && [401, 403, 404].includes(e.status)) clearPrivate();
@@ -536,6 +571,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
         parse: (v) => matrixResult.parse(v),
       })
       .then((r) => {
+        if (epoch !== matrixEpoch.current) return;
         setReview(false);
         setDraft(new Map());
         setShowLatest(false);
@@ -547,6 +583,7 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
         onSelfChange();
       })
       .catch((e: unknown) => {
+        if (epoch !== matrixEpoch.current) return;
         if (e instanceof ApiError && e.kind === 'conflict') {
           setReview(false);
           setLatestLoaded(false);
@@ -590,7 +627,9 @@ function PermissionMatrix({ self, online, onFailure, onSelfChange }: Props) {
       {changes.length > 0 && <DraftProtection />}
       <p className="hint">
         Admin ticks P-01–P-10 per person. Job titles never grant permissions (BR-21). You cannot
-        change your own permissions. Admins and team Leads already have these rights.
+        change your own permissions. Admins have full authority; access Leads manage their
+        owner-team projects. Keys apply only with the endpoint's required project role or team
+        membership; catalogue text does not grant access.
       </p>
       {notice && <Toast>{notice}</Toast>}
       {failure && <p role="alert">{failure}</p>}
