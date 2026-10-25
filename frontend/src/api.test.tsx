@@ -113,3 +113,47 @@ test('Unknown or inactive identity exposes only public navigation', () => {
   self.user.active = false;
   expect(allowedPages(self).map((p) => p.path)).toEqual(['/']);
 });
+
+test('Plain P-04 manager uses a current scoped snapshot for Trash, including cold route callers', () => {
+  const self = selfFixture();
+  self.user.permission_keys = ['P-04'];
+  const scope = {
+    actorId: self.user.id,
+    session: self.csrf,
+    viewRevision: self.view_revision,
+    status: 'allowed' as const,
+  };
+  expect(allowedPages(self, scope).some((p) => p.path === '/trash')).toBe(true);
+  expect(allowedPages(self).some((p) => p.path === '/trash')).toBe(false);
+});
+
+test('Scoped navigation fails closed for stale, pending, denied, unknown and password-gated snapshots', () => {
+  const self = selfFixture();
+  self.user.permission_keys = ['P-04'];
+  const scope = {
+    actorId: self.user.id,
+    session: self.csrf,
+    viewRevision: self.view_revision,
+    status: 'allowed' as const,
+  };
+  for (const invalid of [
+    { ...scope, actorId: 2 },
+    { ...scope, session: 'old-session' },
+    { ...scope, viewRevision: '00000000-0000-4000-8000-000000000002' },
+    ...(['loading', 'denied', 'error'] as const).map((status) => ({ ...scope, status })),
+  ])
+    expect(allowedPages(self, invalid).some((p) => p.path === '/trash')).toBe(false);
+  expect(allowedPages(undefined, scope).map((p) => p.path)).toEqual(['/']);
+  self.user.permission_keys = [];
+  expect(allowedPages(self, scope).some((p) => p.path === '/trash')).toBe(false);
+  self.user.permission_keys = ['P-04'];
+  for (const field of ['self-password', 'user-password', 'inactive'] as const) {
+    const gated = structuredClone(self);
+    if (field === 'self-password') gated.must_change_password = true;
+    if (field === 'user-password') gated.user.must_change_password = true;
+    if (field === 'inactive') gated.user.active = false;
+    expect(allowedPages(gated, scope).map((p) => p.path)).toEqual(
+      field === 'inactive' ? ['/'] : ['/', '/settings'],
+    );
+  }
+});

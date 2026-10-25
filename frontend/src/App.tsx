@@ -22,7 +22,7 @@ import { apiClient, ApiError, selfSchema, metaSchema, type Self } from './api';
 import { Login, Password } from './Auth';
 import { AdminCenter, MyPermissions } from './AdminCenter';
 import { Setup } from './Setup';
-import { allowedPages, pages } from './navigation';
+import { allowedPages, currentTrashScope, pages, type TrashScope } from './navigation';
 import { Loading, ErrorNotice, EmptyState, Dialog, Toast } from './shared/components';
 const client = apiClient();
 const TaskWorkspace = lazy(() =>
@@ -39,6 +39,23 @@ export function App() {
   const boardChanged = useCallback((project?: Project) => setBoardProject(project), []);
   const [reconnecting, setReconnecting] = useState(false);
   const [self, setSelf] = useState<Self>();
+  const [trashScope, setTrashScope] = useState<
+    TrashScope & {
+      generation: number;
+      permissionsVersion?: number;
+      epoch: number;
+      reload: number;
+      error?: ApiError;
+    }
+  >();
+  const [trashReload, setTrashReload] = useState(0);
+  const trashGeneration = useRef(0),
+    trashController = useRef<AbortController | undefined>(undefined);
+  const invalidateTrashScope = useCallback(() => {
+    trashGeneration.current++;
+    trashController.current?.abort();
+    setTrashScope(undefined);
+  }, []);
   const [organizationName, setOrganizationName] = useState<string>();
   const [notifyOpen, setNotifyOpen] = useState(false);
   const [profileOpen, setProfileOpen] = useState(false);
@@ -74,15 +91,20 @@ export function App() {
     logoutBusy = useRef(false);
   const clear = useCallback(() => {
     generation.current++;
+    invalidateTrashScope();
     setReconnecting(false);
     setWritable(navigator.onLine !== false);
     setSelf(undefined);
+    setSidebarProjects([]);
+    setBoardProject(undefined);
+    setNotifyOpen(false);
+    setProfileOpen(false);
     setOrganizationName(undefined);
     setEpoch((n) => n + 1);
     setError(new ApiError('session', 401, undefined, {}, 'UNAUTHENTICATED'));
     setLoading(false);
     setHelp(false);
-  }, []);
+  }, [invalidateTrashScope]);
   const refresh = useCallback(async () => {
     const at = generation.current;
     try {
@@ -105,22 +127,44 @@ export function App() {
         e.code === 'INVALID_CSRF' ||
         e.code === 'PASSWORD_CHANGE_REQUIRED' ||
         e.code === 'FORBIDDEN'
-      )
+      ) {
         void refresh();
+      }
     },
     [clear, refresh],
   );
-  const authenticated = useCallback((value: Self) => {
-    generation.current++;
-    setReconnecting(false);
-    setWritable(true);
-    setSelf(value);
-    setError(undefined);
-    setLoading(false);
-    setEpoch((n) => n + 1);
-    setSetupComplete(undefined);
-    channel.current?.postMessage('changed');
-  }, []);
+  const trashFailure = useCallback(
+    (e: ApiError) => {
+      if ([401, 403, 404].includes(e.status)) {
+        // A resource denial invalidates even an unchanged /me snapshot. Require an
+        // explicit retry before mounting a fresh workspace and losing its denial latch.
+        trashGeneration.current++;
+        trashController.current?.abort();
+        setTrashScope((previous) => previous && { ...previous, status: 'error', error: e });
+      }
+      failure(e);
+    },
+    [failure],
+  );
+  const authenticated = useCallback(
+    (value: Self) => {
+      generation.current++;
+      invalidateTrashScope();
+      setReconnecting(false);
+      setWritable(true);
+      setSelf(value);
+      setSidebarProjects([]);
+      setBoardProject(undefined);
+      setNotifyOpen(false);
+      setProfileOpen(false);
+      setError(undefined);
+      setLoading(false);
+      setEpoch((n) => n + 1);
+      setSetupComplete(undefined);
+      channel.current?.postMessage('changed');
+    },
+    [invalidateTrashScope],
+  );
   // Popup menus built on <details> close when the user clicks or taps anywhere else.
   useEffect(() => {
     const close = (event: PointerEvent) => {
@@ -236,6 +280,7 @@ export function App() {
   };
   useEffect(() => {
     const change = () => {
+      invalidateTrashScope();
       setWritable(false);
       setOnline(navigator.onLine);
       setReconnecting(navigator.onLine);
@@ -246,7 +291,7 @@ export function App() {
       window.removeEventListener('online', change);
       window.removeEventListener('offline', change);
     };
-  }, []);
+  }, [invalidateTrashScope]);
   useEffect(() => {
     if (!online || !reconnecting) return;
     let stopped = false;
@@ -383,6 +428,94 @@ export function App() {
       });
     return () => controller.abort();
   }, [orgSession, online, self?.view_revision]);
+  // This lookup is independent of the active-only sidebar and Self's read memberships.
+  const scopeRequired =
+    !!self?.user.active &&
+    !self.must_change_password &&
+    !self.user.must_change_password &&
+    self.user.org_role !== 'admin' &&
+    !self.effective_summary.lead_team_ids.length &&
+    self.user.permission_keys.includes('P-04');
+  const scopeActor = self?.user.id,
+    scopeSession = self?.csrf,
+    scopeRevision = self?.view_revision;
+  const scopePermissions = self?.user.permissions_version;
+  // Discard a previous grant before committing a disabled account/password gate.
+  if (trashScope && !scopeRequired) setTrashScope(undefined);
+  useEffect(() => {
+    if (!scopeRequired) return;
+    const revalidate = () => {
+      invalidateTrashScope();
+      setTrashReload((n) => n + 1);
+    };
+    window.addEventListener('focus', revalidate);
+    return () => window.removeEventListener('focus', revalidate);
+  }, [scopeRequired, invalidateTrashScope]);
+  useEffect(() => {
+    if (!scopeRequired || !scopeActor || !scopeSession || !scopeRevision || !online || reconnecting)
+      return;
+    const controller = new AbortController();
+    trashController.current = controller;
+    const requestGeneration = ++trashGeneration.current;
+    const current = () =>
+      !controller.signal.aborted && requestGeneration === trashGeneration.current;
+    const snapshot = {
+      actorId: scopeActor,
+      session: scopeSession,
+      viewRevision: scopeRevision,
+      generation: requestGeneration,
+      permissionsVersion: scopePermissions,
+      epoch,
+      reload: trashReload,
+    };
+    setTrashScope({ ...snapshot, status: 'loading' });
+    const read = async () => {
+      for (let page = 1; current(); page++) {
+        const result = await client.request(
+          `/api/projects?includeArchived=true&pageSize=100&page=${page}`,
+          {
+            signal: controller.signal,
+            parse: (v) => projectPage.parse(v),
+          },
+        );
+        if (!current()) return;
+        const manager = result.items.some((p) => p.effective_access === 'manager');
+        if (manager || page * result.pageSize >= result.total) {
+          setTrashScope({ ...snapshot, status: manager ? 'allowed' : 'denied' });
+          return;
+        }
+      }
+    };
+    void read().catch((e: unknown) => {
+      if (!current()) return;
+      const error = e instanceof ApiError ? e : new ApiError('unavailable', 503);
+      setTrashScope({
+        ...snapshot,
+        status: [401, 403, 404].includes(error.status) ? 'denied' : 'error',
+        error,
+      });
+      if (error.status === 401) clear();
+      else if (error.code === 'PASSWORD_CHANGE_REQUIRED') void refresh();
+    });
+    return () => {
+      controller.abort();
+      if (trashController.current === controller) {
+        trashController.current = undefined;
+      }
+    };
+  }, [
+    scopeRequired,
+    scopeActor,
+    scopeSession,
+    scopeRevision,
+    scopePermissions,
+    epoch,
+    online,
+    reconnecting,
+    trashReload,
+    clear,
+    refresh,
+  ]);
   // Query changes select tabs/filters within the same page; keep the page stationary.
   useEffect(() => {
     if (!motionAllowed()) return;
@@ -406,7 +539,16 @@ export function App() {
     if (linkProject && linkTask)
       navigate(`/projects?project=${linkProject}&task=${linkTask}`, { replace: true });
   }, [linkProject, linkTask, navigate]);
-  const nav = allowedPages(self);
+  const currentScope =
+    online &&
+    !reconnecting &&
+    currentTrashScope(self, trashScope) &&
+    trashScope?.permissionsVersion === scopePermissions &&
+    trashScope?.epoch === epoch &&
+    trashScope.reload === trashReload
+      ? trashScope
+      : undefined;
+  const nav = allowedPages(self, currentScope);
   const isAdmin = self?.user.org_role === 'admin';
   const role: Role = isAdmin
     ? 'admin'
@@ -667,7 +809,9 @@ export function App() {
         {online && !writable && <Toast persist>Checking for updates before enabling changes</Toast>}
         <Pwa mode={self ? 'update-only' : 'floating'} />
         <ConfirmHost />
-        {self?.maintenance && <Toast persist>Maintenance in progress. Please try again later.</Toast>}
+        {self?.maintenance && (
+          <Toast persist>Maintenance in progress. Please try again later.</Toast>
+        )}
         {self && (self.must_change_password || self.user.must_change_password) && (
           <Toast persist>Change your password to continue</Toast>
         )}
@@ -722,6 +866,12 @@ export function App() {
                   setReload((n) => n + 1);
                 }}
               />
+            ) : page?.path === '/trash' &&
+              scopeRequired &&
+              (!currentScope || currentScope.status === 'loading') ? (
+              <Loading />
+            ) : page?.path === '/trash' && scopeRequired && currentScope?.status === 'error' ? (
+              <ErrorNotice error={currentScope.error!} retry={() => setTrashReload((n) => n + 1)} />
             ) : !allowed ? (
               <EmptyState title={page ? 'You do not have access to this page' : 'Page not found'} />
             ) : self && page?.path === '/' ? (
@@ -803,7 +953,11 @@ export function App() {
                 />
               </Suspense>
             ) : self && page?.path === '/trash' ? (
-              <Trash key={epoch + self.csrf} {...{ self, online }} onFailure={failure} />
+              <Trash
+                key={`${epoch}:${self.user.id}:${self.csrf}:${self.view_revision}`}
+                {...{ self, online }}
+                onFailure={trashFailure}
+              />
             ) : self && (page?.path === '/teams' || page?.path === '/projects') ? (
               <Workspaces
                 key={page.path + epoch + self.csrf}

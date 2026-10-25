@@ -131,3 +131,26 @@
     margin: 2px;
   }
 }
+
+/* DEL-ACCESS-NAV: zoom can leave less room than the unscaled media-query width.
+   Wrap whole controls, retaining the single compact row whenever it fits. */
+@media (max-width: 760px) {
+  .app-layout > .topbar {
+    flex-wrap: wrap;
+    anchor-name: --friday-topbar;
+  }
+  .topbar .topbar-actions {
+    min-width: 0;
+    max-width: 100%;
+    flex-wrap: wrap;
+  }
+  /* Follow the actual header height; a wrapped row must not cover the drawer.
+     Existing top:46px remains the fallback for browsers without CSS anchors. */
+  .sidebar.menu-open,
+  .menu-backdrop {
+    top: anchor(--friday-topbar bottom, 46px);
+  }
+  .sidebar.menu-open {
+    max-width: 100%;
+  }
+}
