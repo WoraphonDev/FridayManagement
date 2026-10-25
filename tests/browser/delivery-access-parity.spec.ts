@@ -12,7 +12,6 @@ async function accessFixture(
   browser: Browser,
   role: string,
   keys: string[] = [],
-  otherTeamLead = false,
 ) {
   const f = await projectFixture(page);
   const context = await browser.newContext();
@@ -72,15 +71,6 @@ async function accessFixture(
             sql(
               'INSERT INTO dbo.project_members(project_id,user_id,access,added_by) VALUES(@project,2,@role,1)',
               { project: f.project.id, role },
-            ),
-          );
-        if (otherTeamLead)
-          await tx.execute(
-            sql(
-              "INSERT INTO dbo.team_members(team_id,user_id,team_role) VALUES(@team,2,'lead')",
-              {
-                team: hiddenTeam.body.item.id,
-              },
             ),
           );
         for (const [id, access] of [
@@ -155,18 +145,22 @@ async function version(page: Page, origin: string, project: number) {
   ).version as number;
 }
 
-test.fixme('scope blocker: plain P-04 manager must be able to reach Trash in the shell', async ({
+test('plain P-04 manager reaches Trash from the shell and a cold direct route', async ({
   page,
   browser,
 }) => {
-  // navigation.ts excludes this actor and App.tsx also denies the direct route.
-  // Both paths are outside DEL-ACCESS. Keep the intended assertion for a separate scope;
-  // a skipped test is not acceptance evidence or a reason to grant a Lead role.
   const f = await accessFixture(page, browser, 'manager', ['P-04']);
   try {
     await expect(
       f.actor.getByRole('link', { name: 'Trash', exact: true }),
     ).toBeVisible();
+    await f.actor.getByRole('link', { name: 'Trash', exact: true }).click();
+    await expect(f.actor.getByText('Trash is empty', { exact: true })).toBeVisible();
+    await f.actor.goto(`${f.env.APP_ORIGIN}/trash`);
+    await expect(f.actor.getByText('Trash is empty', { exact: true })).toBeVisible();
+    const response = await f.actor.request.get(`${f.env.APP_ORIGIN}/api/trash`);
+    expect(response.status()).toBe(200);
+    expect((await response.json()).total).toBe(0);
   } finally {
     await f.close();
   }
@@ -404,11 +398,11 @@ test('metadata 409 preserves draft; actual access revocation clears dialog and p
   }
 });
 
-test('P-04 manager + unrelated-team Lead: trash denial clears rows/count/dialog and ignores late list', async ({
+test('plain P-04 manager: trash denial clears rows/count/dialog and ignores late list', async ({
   page,
   browser,
 }) => {
-  const f = await accessFixture(page, browser, 'manager', ['P-04'], true);
+  const f = await accessFixture(page, browser, 'manager', ['P-04']);
   let release: (() => void) | undefined;
   try {
     const task = await mutate(page, '/api/tasks', {
@@ -456,10 +450,8 @@ test('P-04 manager + unrelated-team Lead: trash denial clears rows/count/dialog 
         exact: true,
       })
       .click();
-    // This fixture also leads an unrelated team solely to reach the current Trash shell.
-    // A plain P-04 manager's missing navigation is a separately documented scope blocker.
-    // Start a background read while the restore confirmation is open.
-    await f.actor.evaluate(() => window.dispatchEvent(new Event('focus')));
+    // Observe the real shared poll while the confirmation stays open. Window focus
+    // now intentionally revalidates NAV scope and unmounts the old Trash workspace.
     await ready;
     const permissions = await page.request.get(
       `${f.env.APP_ORIGIN}/api/users/2/permissions`,
@@ -513,7 +505,6 @@ test('archived project keeps conservative metadata/member controls; P-04 manager
     browser,
     'manager',
     ['P-01', 'P-03', 'P-04'],
-    true,
   );
   try {
     const task = await mutate(page, '/api/tasks', {
@@ -748,4 +739,63 @@ test('archived team keeps baseline metadata and member controls read only', asyn
     await expect(page.getByRole('button', { name: 'Edit member', exact: true })).toHaveCount(0);
     await expect(page.getByRole('button', { name: 'Remove member', exact: true })).toHaveCount(0);
   } finally { await f.close(); }
+});
+
+test('existing unrelated-team access Lead fast path keeps Trash rows/counts and restores scoped to that team', async ({
+  page,
+  browser,
+}) => {
+  const f = await accessFixture(page, browser, 'cross-lead');
+  try {
+    const foreign = await mutate(page, '/api/tasks', {
+      project_id: f.project.id,
+      title: 'Foreign team deleted task',
+    });
+    expect(foreign.status).toBe(201);
+    const removed = await mutate(
+      page,
+      `/api/tasks/${foreign.body.item.id}`,
+      { version: foreign.body.item.version },
+      'DELETE',
+    );
+    expect(removed.status).toBe(200);
+    const projects = await f.actor.request.get(`${f.env.APP_ORIGIN}/api/projects`);
+    expect(projects.status()).toBe(200);
+    const own = (await projects.json()).items.find(
+      (p: { name: string }) => p.name === 'Hidden project name',
+    );
+    expect(own).toBeDefined();
+    const local = await mutate(page, '/api/tasks', {
+      project_id: own.id,
+      title: 'Own lead team deleted task',
+    });
+    expect(local.status).toBe(201);
+    expect(
+      (
+        await mutate(
+          page,
+          `/api/tasks/${local.body.item.id}`,
+          { version: local.body.item.version },
+          'DELETE',
+        )
+      ).status,
+    ).toBe(200);
+    await f.actor.getByRole('link', { name: 'Trash', exact: true }).click();
+    await expect(f.actor.getByText('Own lead team deleted task', { exact: true })).toBeVisible();
+    await expect(f.actor.getByText('Foreign team deleted task', { exact: true })).toHaveCount(0);
+    const trash = await f.actor.request.get(`${f.env.APP_ORIGIN}/api/trash`);
+    expect(trash.status()).toBe(200);
+    const body = await trash.json();
+    expect(body.total).toBe(1);
+    expect(body.items.map((t: { id: number }) => t.id)).toEqual([local.body.item.id]);
+    expect(
+      (
+        await mutate(f.actor, `/api/tasks/${foreign.body.item.id}/restore`, {
+          version: removed.body.item.version,
+        })
+      ).status,
+    ).toBe(404);
+  } finally {
+    await f.close();
+  }
 });
