@@ -260,12 +260,19 @@ for (const row of [
           }),
         ).toHaveCount(canMembers ? (row.role === 'manager' ? 1 : 2) : 0);
         if (row.role === 'manager' && row.keys.includes('P-03')) {
+          // DEL-ACCESS-DIRECTORY: manager+P-03 now gets the project-scoped, name-only picker.
+          const search = members.getByRole('textbox', {
+            name: 'Search active users',
+            exact: true,
+          });
+          await expect(search).toBeVisible();
+          await expect(search).toHaveAttribute('placeholder', 'Name');
+          // Pool excludes Admin and this project's explicit managers; no team affiliations shown.
           await expect(
-            members.getByRole('textbox', {
-              name: 'Search active users',
-              exact: true,
-            }),
-          ).toHaveCount(0);
+            members.getByLabel('Users', { exact: true }).locator('option'),
+          ).toHaveText(['Choose user', 'ExistingViewer']);
+          await expect(members.getByText('No team')).toHaveCount(0);
+          await expect(members.getByText('Hidden owner team')).toHaveCount(0);
           await expect(
             members
               .getByRole('row')

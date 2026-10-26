@@ -92,15 +92,32 @@ test('T023/024 actual create/edit/archive/project membership UI and active-proje
     await openCardMenu(page);
     await page.getByRole('button', { name: 'Members', exact: true }).click();
     dialog = page.getByRole('dialog');
+    // Implicit Admin stays an effective-admin member row; DEL-ACCESS-DIRECTORY keeps Admin out of
+    // the scoped Editor/Viewer candidate pool, so an ordinary candidate is added instead.
     await expect(dialog.getByRole('cell', { name: 'Workspace Admin', exact: true })).toBeVisible();
-    await dialog
-      .getByLabel('Users', { exact: true })
-      .selectOption({ label: 'Workspace Admin · No team' });
+    await expect(dialog.getByRole('cell', { name: 'admin', exact: true })).toBeVisible();
+    const users = dialog.getByLabel('Users', { exact: true });
+    await expect(users.locator('option')).toHaveText(['No active users found']);
+    expect(
+      (
+        await mutate(page, '/api/users', {
+          username: 'ProjectCandidate',
+          display_name: 'ผู้ใช้ทั่วไป',
+          temp_password: password,
+        })
+      ).status,
+    ).toBe(201);
+    await dialog.getByRole('button', { name: 'Search', exact: true }).click();
+    await expect(users.locator('option')).toHaveText(['Choose user', 'ผู้ใช้ทั่วไป']);
+    await users.selectOption({ label: 'ผู้ใช้ทั่วไป' });
     await dialog.getByLabel('Role', { exact: true }).selectOption('viewer');
     await dialog.getByRole('button', { name: 'Set membership', exact: true }).click();
     await dialog.getByRole('button', { name: 'Confirm access change', exact: true }).click();
-    await expect(dialog.getByRole('cell', { name: 'viewer', exact: true })).toBeVisible();
-    await expect(dialog.getByRole('cell', { name: 'admin', exact: true })).toBeVisible();
+    const added = dialog.getByRole('row').filter({ hasText: 'ผู้ใช้ทั่วไป' });
+    await expect(added.getByRole('cell', { name: 'viewer', exact: true })).toHaveCount(2);
+    await expect(
+      dialog.getByRole('row').filter({ hasText: 'Workspace Admin' }).getByRole('cell', { name: 'admin', exact: true }),
+    ).toBeVisible();
     await dialog.getByRole('button', { name: 'Close dialog' }).click();
     await page.getByRole('link', { name: /^(Your|All) teams$/ }).click();
     await openCardMenu(page);

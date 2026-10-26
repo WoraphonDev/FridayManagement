@@ -1,10 +1,20 @@
-# TeamFlow — API/DTO contract 1.15.0
+# TeamFlow — API/DTO contract 1.16.0
 
 วันที่: 5 ตุลาคม 2026 · Task: T-003 · Business baseline1.1 + RD-01–RD-08
 
 Machine contract: [contracts/openapi.json](contracts/openapi.json) (OpenAPI3.1.1/JSON Schema2020-12). Authoring source: [scripts/build-contract.mjs](scripts/build-contract.mjs). Contract tests: [tests/contracts/contract.test.mjs](tests/contracts/contract.test.mjs).
 
 เอกสารนี้ล็อกสัญญา frontend/backend สำหรับ Node22 + SQLite local และ SQL2022 ปลายทางร่วมกัน ไม่ใช่ HTTP server, authorization implementation หรือหลักฐานว่า database transactions ผ่าน หากเปลี่ยน field/status/policy ต้องแก้ SRS/contract/tests พร้อมกัน และ regenerate JSON ก่อนปิดงาน
+
+## API1.16.0 — scoped member candidates (adopted 26 October 2026)
+
+89 routes / 122 schemas. Existing GET /api/directory adds optional scalar project (Id); marker `project_scoped_candidates_or_legacy_directory` ships with runtime recognition. Present project uses current active Admin/owner-team access Lead or actual manager+P-03 of that project; absent project retains legacy permission/DirectoryPersonPage. Other-team Lead has no scoped bypass. Project visibility404 precedes insufficient visible authority403 after session401/password403; malformed query400 INVALID_QUERY still precedes session/password.
+
+project/page are canonical decimal1..2147483647 (no leading zero/sign/space/decimal/exponent/comma/brackets), pageSize1..100; defaults page1/pageSize50. All known scalar duplicates (including equal), unknown query fields and malformed/range violations400. q optional/empty, ≤100 Unicode scalars AND100 UTF16 units; whitespace literal, escaped SQL wildcard name-only search, no username/team matching. No invalid→legacy fallback.
+
+New strict ProjectMemberCandidate={id:Id,display_name:nonblank≤100 UTF16/scalars}; ProjectMemberCandidatePage={items:Candidate[≤100],page,pageSize,total:0..2147483647}. Eligible identity-distinct active pool excludes effective Admin/owner Lead for every actor and this project's explicit managers for delegated actors. Other-team Lead/other-project manager, active password-change users and existing Editor/Viewer remain eligible. Count+items same predicate, id ASC, beyond-tail empty retains total; no hidden affiliations/job/account fields or read domain writes. Success schema anyOf DirectoryPersonPage/ProjectMemberCandidatePage allows empty-page overlap; route validates exact branch bound to validated project presence; frontend uses distinct strict parsers without legacy retry. Compatible source/runtime rollout only.
+
+Delegated member PUT/DELETE target protection only !rights(access.role).manage: actor/visibility → requireVersion → targetUser(!remove) → old/requested manager403 → current effective Admin/ownerLead403 → appointment-key422 / ordinary DELETE missing-row404 → atomic effects. HTTP requested manager403 still precedes version, no target preflight. Authorized stale409 retains currentVersion before target checks; no version detail in denial. Ordinary inactive DELETE existing row remains allowed; PUT inactive422, ordinary absent active/inactive404 and protected absent DELETE403. Admin/owner Lead appointment/removal and existing successful version/audit/cleanup/notification/revision semantics unchanged; no new archive422.
 
 ## API1.15.0 - Project overview planned span and leads (owner request, 17 October 2026)
 
@@ -111,7 +121,7 @@ Subtask DTO adds required nullable `assignee_id`; Create/Patch may assign indepe
 | GET /api/teams | สมาชิกทั่วไป: paginated Teamของตนพร้อมown_role; Admin: AdminTeamพร้อมmembers[{user:Person,team_role,joined_at}]; ไม่มีteam rosterของคนอื่นให้Member/Viewer |
 | GET /api/projects/{id}/members | itemsรวม explicit members และ implicit active Admin/ownerLead; effective_access/assignee_eligible; `membership_version` คือproject.versionเดียวกัน ไม่ใช่clockใหม่; inactive explicit memberอ่านเป็นประวัติแต่eligible=false |
 | GET /api/tasks/{id} | `{item:TaskDetail}` พร้อมsubtasksทั้งหมดสำหรับchecklist ไม่คืนเพียงcounts; querylistsใช้Taskพร้อมcounts; count/DTOมาจากconsistent read |
-| GET /api/directory | Admin/Leadเท่านั้น; activeid/displayname/teamid/nameเพื่อแชร์ ไม่มีusername/privateaccountfields |
+| GET /api/directory | Absent project: legacy Admin/Lead; project present: Admin/owner Lead/actual manager+P-03, strict identity-only eligible candidates (API1.16) |
 | GET /api/projects/{id}/board | total≤500:mode=board/4completecolumns/fullorderedtasks; total>500:mode=list_required/tasks[]/columnscomplete=falseและtask_ids[]; UIใช้pagedlist/statusmenu |
 | GET /api/trash | Admin/ownerLeadเท่านั้น; Taskพร้อมrestore_before timestamp; active APIs/subresource/downloadไม่เปิดdeletedtask |
 | GET /api/tasks/{id}/attachments | paginatedmetadata; includeDeleted=trueคืนdeletedเฉพาะuploader/Admin/ownerLeadที่ยังมีสิทธิ์คืน; Viewerถูก403เมื่อขอdeleted; can_delete/can_restoreเป็นhintไม่แทนservercheck |
@@ -224,7 +234,7 @@ Node22; `npm ci --ignore-scripts`, `npm run check:contract`, `npm run test:contr
 | POST /api/users | CreateUser | 201 / inline | credential_exception | T-016, T-018, T-068 |
 | PATCH /api/users/{id} | PatchUser | 200 / inline | none | T-016, T-018, T-068 |
 | POST /api/users/{id}/reset-password | PasswordReset | 200 / inline | credential_exception | T-015, T-016, T-018, T-068 |
-| GET /api/directory | — | 200 / DirectoryPersonPage | none | T-021, T-024, T-069 |
+| GET /api/directory | — | 200 / anyOf DirectoryPersonPage, ProjectMemberCandidatePage (query-bound exact branch) | none | T-021, T-024, T-069 |
 | GET /api/teams | — | 200 / TeamsPage | none | T-020, T-023, T-069 |
 | POST /api/teams | CreateTeam | 201 / inline | required | T-020, T-023, T-069 |
 | PATCH /api/teams/{id} | PatchTeam | 200 / inline | none | T-020, T-023, T-069 |

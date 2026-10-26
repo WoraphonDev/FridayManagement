@@ -203,10 +203,19 @@ test('AT-32 permissions: deny-by-default, per-key manager rights, self/non-Admin
       (await call(base, member, '/api/projects/1', 'PATCH', { archived: true, version: v })).status,
       403,
     );
+    // DEL-ACCESS-DIRECTORY: delegated P-03 success needs an ordinary target (user 3); user 1 is an
+    // effective Admin and stays protected (explicit 403 below).
+    await f.db.transaction((tx) =>
+      tx.execute(
+        sql(
+          "INSERT INTO dbo.users(id,username,display_name,password_hash,org_role,must_change_password) SELECT 3,'Ordinary','สมาชิกทั่วไป',password_hash,'member',0 FROM dbo.users WHERE id=2",
+        ),
+      ),
+    );
     // P-03 not ticked: membership changes denied; P-04 not ticked: others' tasks protected.
     assert.equal(
       (
-        await call(base, member, '/api/projects/1/members/1', 'PUT', {
+        await call(base, member, '/api/projects/1/members/3', 'PUT', {
           access: 'viewer',
           version: v,
         })
@@ -223,14 +232,22 @@ test('AT-32 permissions: deny-by-default, per-key manager rights, self/non-Admin
     // Effective immediately, same session; P-03 never appoints a manager.
     assert.equal(
       (
-        await call(base, member, '/api/projects/1/members/1', 'PUT', {
+        await call(base, member, '/api/projects/1/members/3', 'PUT', {
           access: 'manager',
           version: v,
         })
       ).status,
       403,
     );
-    const viewer = await call(base, member, '/api/projects/1/members/1', 'PUT', {
+    // Protected effective Admin target: delegated PUT denied, no version detail, nothing written.
+    const protectedAdmin = await call(base, member, '/api/projects/1/members/1', 'PUT', {
+      access: 'viewer',
+      version: v,
+    });
+    assert.equal(protectedAdmin.status, 403);
+    assert.equal(protectedAdmin.body.error.currentVersion, undefined);
+    assert.equal(await projectVersion(f), v);
+    const viewer = await call(base, member, '/api/projects/1/members/3', 'PUT', {
       access: 'viewer',
       version: v,
     });
@@ -244,18 +261,18 @@ test('AT-32 permissions: deny-by-default, per-key manager rights, self/non-Admin
     );
     // Another manager cannot be demoted by a P-03 manager; only Admin/Lead.
     await f.db.transaction((tx) =>
-      tx.execute(sql("UPDATE dbo.project_members SET access='manager' WHERE user_id=1")),
+      tx.execute(sql("UPDATE dbo.project_members SET access='manager' WHERE user_id=3")),
     );
     assert.equal(
       (
-        await call(base, member, '/api/projects/1/members/1', 'DELETE', {
+        await call(base, member, '/api/projects/1/members/3', 'DELETE', {
           version: await projectVersion(f),
         })
       ).status,
       403,
     );
     await f.db.transaction((tx) =>
-      tx.execute(sql('DELETE FROM dbo.project_members WHERE user_id=1')),
+      tx.execute(sql('DELETE FROM dbo.project_members WHERE user_id=3')),
     );
     // BR-22: remove all project keys → manager → editor atomically with audit; rights drop at once.
     put = await call(base, admin, '/api/users/2/permissions', 'PUT', {
