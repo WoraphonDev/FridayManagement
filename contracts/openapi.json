@@ -3,7 +3,7 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "FridayManagement API",
-    "version": "1.15.0",
+    "version": "1.16.0",
     "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark; owner 2026-10-10 project code and task number; owner 2026-10-17 workload overdue column; project overview planned span and owner-team leads. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
   },
   "servers": [
@@ -2603,9 +2603,19 @@
               "maxLength": 100,
               "x-utf16MaxLength": 100
             }
+          },
+          {
+            "name": "project",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "$ref": "#/components/schemas/Id"
+            }
           }
         ],
-        "x-permission": "admin_or_any_active_lead",
+        "x-permission": "project_scoped_candidates_or_legacy_directory",
         "x-owner-tasks": [
           "T-021",
           "T-024",
@@ -2632,6 +2642,9 @@
               "minLength": 0,
               "maxLength": 100,
               "x-utf16MaxLength": 100
+            },
+            "project": {
+              "$ref": "#/components/schemas/Id"
             }
           },
           "required": [],
@@ -2659,7 +2672,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/DirectoryPersonPage"
+                  "anyOf": [
+                    {
+                      "$ref": "#/components/schemas/DirectoryPersonPage"
+                    },
+                    {
+                      "$ref": "#/components/schemas/ProjectMemberCandidatePage"
+                    }
+                  ]
                 }
               }
             }
@@ -12225,6 +12245,26 @@
         ],
         "additionalProperties": false
       },
+      "ProjectMemberCandidate": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "$ref": "#/components/schemas/Id"
+          },
+          "display_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "x-utf16MaxLength": 100,
+            "pattern": "\\S"
+          }
+        },
+        "required": [
+          "id",
+          "display_name"
+        ],
+        "additionalProperties": false
+      },
       "DirectoryPerson": {
         "type": "object",
         "properties": {
@@ -13977,6 +14017,40 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/AdminAudit"
+            },
+            "maxItems": 100
+          },
+          "page": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 2147483647
+          },
+          "pageSize": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100
+          },
+          "total": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647
+          }
+        },
+        "required": [
+          "items",
+          "page",
+          "pageSize",
+          "total"
+        ],
+        "additionalProperties": false
+      },
+      "ProjectMemberCandidatePage": {
+        "type": "object",
+        "properties": {
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProjectMemberCandidate"
             },
             "maxItems": 100
           },

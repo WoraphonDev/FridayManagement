@@ -1,0 +1,32 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import Ajv from 'ajv/dist/2020.js';
+import addFormats from 'ajv-formats';
+import { buildContract } from '../../scripts/build-contract.mjs';
+const contract=buildContract();
+const ajv=new Ajv({strict:true,allowUnionTypes:true}); addFormats(ajv);
+ajv.addKeyword({keyword:'x-utf16MaxLength',type:'string',schemaType:'number',validate:(max,s)=>s.length<=max});
+ajv.addFormat('binary',{type:'string',validate:()=>true});
+const bundle='urn:friday:directory-test';
+const rewrite=v=>Array.isArray(v)?v.map(rewrite):v&&typeof v==='object'?Object.fromEntries(Object.entries(v).map(([k,x])=>[k,k==='$ref'?x.replace('#/components/schemas/',bundle+'#/$defs/'):rewrite(x)])):v;
+ajv.addSchema({$id:bundle,$defs:rewrite(contract.components.schemas)});
+const validate=s=>ajv.compile({$ref:`urn:friday:directory-test#/$defs/${s}`});
+test('API1.16 scoped query marker and strict identity union',()=>{
+ assert.equal(contract.info.version,'1.16.0');
+ const op=contract.paths['/api/directory'].get;
+ // Planning-approved directory-only marker; runtime recognition ships in the same candidate.
+ assert.equal(op['x-permission'],'project_scoped_candidates_or_legacy_directory');
+ assert.deepEqual(op['x-owner-tasks'],['T-021','T-024','T-069']); assert.equal(op['x-idempotency'],'none');
+ const routes=Object.values(contract.paths).reduce((n,p)=>n+Object.keys(p).length,0);
+ assert.equal(routes,89); assert.equal(Object.keys(contract.components.schemas).length,122);
+ assert.deepEqual(op.responses['200'].content['application/json'].schema,{anyOf:[{$ref:'#/components/schemas/DirectoryPersonPage'},{$ref:'#/components/schemas/ProjectMemberCandidatePage'}]});
+ for(const other of Object.values(contract.paths).flatMap(p=>Object.values(p))) if(other!==op) assert.notEqual(other['x-permission'],'project_scoped_candidates_or_legacy_directory');
+ const candidate=validate('ProjectMemberCandidatePage');
+ const legacy=validate('DirectoryPersonPage');
+ const empty={items:[],page:1,pageSize:50,total:0}; assert(candidate(empty));assert(legacy(empty));
+ assert(candidate({...empty,items:[{id:4,display_name:'ไทย😀'}]}));
+ for(const extra of [{teams:[]},{job_title:null},{active:true},{username:'secret'}]) assert(!candidate({...empty,items:[{id:4,display_name:'Thai',...extra}]}));
+ const query=ajv.compile(rewrite(op['x-query-schema']));
+ assert(query({project:1})); assert(query({project:2147483647,q:'😀'.repeat(50)}));
+ for(const q of [{project:0},{project:2147483648},{project:'1'},{project:1,q:'😀'.repeat(51)},{project:1,q:'ก'.repeat(101)},{project:1,team:2}]) assert(!query(q));
+});

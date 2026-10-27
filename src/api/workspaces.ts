@@ -1,4 +1,5 @@
 import type { ApiContext, ApiHooks } from './middleware.js';
+import { parseSchema } from './contract.js';
 import { ApiFault } from './errors.js';
 import { workspaceService } from '../services/workspaces.js';
 import type { SessionProof } from '../services/authorization.js';
@@ -12,10 +13,12 @@ export function workspaceHandlers(
   };
   const request = (c: ApiContext) => c.request.res!.get('X-Request-Id')!;
   return {
-    get_api_directory: async (c) => ({
-      status: 200,
-      body: await service.directory(tx(c), proof(c), c.query),
-    }),
+    get_api_directory: async (c) => {
+      const body = await service.directory(tx(c), proof(c), c.query);
+      // anyOf intentionally overlaps for empty pages; enforce the requested branch here.
+      parseSchema({ $ref: `#/components/schemas/${Object.hasOwn(c.query, 'project') ? 'ProjectMemberCandidatePage' : 'DirectoryPersonPage'}` }, body);
+      return { status: 200, body };
+    },
     get_api_teams: async (c) => ({
       status: 200,
       body: await service.teams(tx(c), proof(c), c.query),

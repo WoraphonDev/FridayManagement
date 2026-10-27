@@ -281,7 +281,7 @@ Admin มีสิทธิ์ระดับองค์กร; Team Lead ผ�
 | ID | ความต้องการ | ผลลัพธ์ที่ต้องยอมรับได้ |
 |---|---|---|
 | FR-41 | ตำแหน่งงานของผู้ใช้ | Admin กำหนดตำแหน่งให้ผู้ใช้ในหน้า Users และจัดการรายการตำแหน่งได้; แสดงป้ายตำแหน่งถัดจากชื่อใน People picker, Members, Workload และรายงาน; กรองงาน/สมาชิกตามตำแหน่งได้; CSV มีคอลัมน์ตำแหน่ง; การเปลี่ยนบันทึก admin audit |
-| FR-42 | Project role `manager` | เพิ่ม role `manager` นอกจาก Editor/Viewer; แต่งตั้งได้เฉพาะผู้มี permission กลุ่มโปรเจกต์ P-01–P-07 อย่างน้อยหนึ่งข้อ; Manager ทำได้เฉพาะข้อที่ถูกติ๊กและเฉพาะโปรเจกต์ที่ตนเป็น manager; แต่งตั้ง/ถอดโดย Admin/Lead ทีมเจ้าของเท่านั้น (ผู้มี P-03 ตั้งได้แค่ Editor/Viewer); ตรวจสิทธิ์ที่ server ทุกช่องทาง |
+| FR-42 | Project role `manager` | เพิ่ม role `manager` นอกจาก Editor/Viewer; แต่งตั้งได้เฉพาะผู้มี permission กลุ่มโปรเจกต์ P-01–P-07 อย่างน้อยหนึ่งข้อ; Manager ทำได้เฉพาะข้อที่ถูกติ๊กและเฉพาะโปรเจกต์ที่ตนเป็น manager; แต่งตั้ง/ถอดโดย Admin/Lead ทีมเจ้าของเท่านั้น (ผู้มี P-03 ตั้งได้แค่ Editor/Viewer และค้น candidate แบบ project-scoped เฉพาะ id/display_name ตาม §7A.2); ตรวจสิทธิ์ที่ server ทุกช่องทาง |
 | FR-42A | Permission checkbox รายคน | Admin ติ๊ก P-01–P-10 (§7A.1) ทีละข้อในแท็บ Permissions ของผู้ใช้; preset “PM/SM” ติ๊ก P-01–P-10 และ “Clear”; มีคำอธิบายแต่ละข้อ; บันทึกแบบ version กันทับ; audit เก็บรายการเพิ่ม/เอาออก ผู้ทำ เวลา; มีผลทันทีไม่ต้อง login ใหม่; ไม่ขึ้นกับตำแหน่ง (UI แนะนำ preset ได้แต่ Admin ต้องยืนยันเอง); ข้อมูลยังจำกัดตาม BR-16 |
 | FR-43 | หน้า Admin รวมศูนย์ | เมนู Admin มี Members, Teams, Job titles และ Permission matrix (แถว P-01–P-10 × คอลัมน์สมาชิก ตามคำสั่งเจ้าของ 9 ต.ค. 2026); ตรึงคอลัมน์ Permission ซ้ายเมื่อเลื่อนสมาชิกแนวนอนและตรึงชื่อสมาชิกด้านบนเมื่อเลื่อนลง. ติ๊กได้เฉพาะ Admin, กรองตามทีม/ตำแหน่ง, เลือกหลายคนแล้วใช้ preset, สรุปการเปลี่ยนแปลงก่อนยืนยัน; ผู้ใช้ทั่วไปเห็นสิทธิ์ของตนใน Settings แบบอ่านอย่างเดียว |
 
@@ -368,6 +368,12 @@ FR-46 Updates feed **DEFERRED** ไปรอบถัดไปตามคำต
 | P-10 | ดู Reports ระดับทีม | ทีมที่ตนเป็นสมาชิก ตาม BR-16 | ✓ |
 
 สิทธิ์พื้นฐาน Editor/Viewer ยังมาจาก project membership เดิม; Team Lead และ Admin มีสิทธิ์ตามเดิมโดยไม่ต้องติ๊ก. ตำแหน่ง PM/SM เป็นกลุ่ม Management, BA/SA/Dev/Tester เป็นกลุ่ม Dev และเป็นป้ายเท่านั้น
+
+### 7A.2 Scoped member candidate discovery (DEL-ACCESS-DIRECTORY, adopted 2026-10-26)
+
+FR-42/42A และ BR-16/21–23: active actual manager ของโปรเจกต์ที่ยังมี P-03, Admin หรือ Lead ทีมเจ้าของ ใช้ GET /api/directory?project=<id> เพื่อเลือก Editor/Viewer ข้ามทีมได้ เปิดเฉพาะ id/display_name และ eligible matched total; ไม่เปิด affiliations/job title/account fields หรือให้ global directory grant. Candidate ต้อง active; ตัด effective Admin/owner-team Lead ทุก actor และ explicit manager ของโปรเจกต์สำหรับ delegated actor. Lead ทีมอื่น/manager โปรเจกต์อื่น, existing Editor/Viewer และผู้ต้องเปลี่ยนรหัสที่ active ยัง eligible. Omitted project คง legacy wire/สิทธิ์เดิม.
+
+Delegated PUT/DELETE ป้องกัน effective Admin/owner-team Lead และ explicit manager โดยตรวจ current actor/target ใน transaction. คง version ก่อน target; target missing404/PUT inactive422 ก่อน protected403; protected absent DELETE403, ordinary absent DELETE404 และ ordinary inactive DELETE ยังอนุญาตเมื่อมี row. Admin/owner Lead คง appointment authority เดิม. UI identity-only มี explicit review/save, ล้าง private selection เมื่อ actor/project/query/page/mode/authority/revision เปลี่ยน และ409 ต้อง review ใหม่. API1.16.0 ระบุ exact schema/query/error semantics; ไม่เปลี่ยน BR-22/23 หรือ archive server policy.
 
 ### 7A.2 UX/UI
 

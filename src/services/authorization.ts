@@ -230,6 +230,7 @@ export async function authorizeOperation(
     'authenticated_password_gate_exception',
     'own_password_gate_exception',
     'admin_or_any_active_lead',
+    'project_scoped_candidates_or_legacy_directory',
     'own_teams_or_admin',
     'project_read',
     'admin_or_owner_lead',
@@ -252,7 +253,10 @@ export async function authorizeOperation(
   let attachment:
     | (Row & { id: number; task_id: number; uploader_id: number; deleted_at: string | null })
     | undefined;
-  if (permission === 'team_workload') {
+  if (permission === 'project_scoped_candidates_or_legacy_directory' && Object.hasOwn(query, 'project')) {
+    project = await projectAccess(tx, actor, id(query.project));
+    if (!rights(project.role).manage && !can(project, 'P-03')) throw new ApiFault('FORBIDDEN');
+  } else if (permission === 'team_workload') {
     // FR-50: Admin, the team's Lead, or a team member holding P-09 (rows stay BR-16 scoped).
     const team = (
       await tx.query<{ lead: number }>(
@@ -288,7 +292,7 @@ export async function authorizeOperation(
       const team = await tx.query(sql('SELECT id FROM dbo.teams WHERE id=@id', { id: params.id }));
       if (!team[0]) throw new ApiFault('NOT_FOUND');
     }
-  } else if (permission === 'admin_or_any_active_lead' || request.path === '/api/trash') {
+  } else if (permission === 'admin_or_any_active_lead' || permission === 'project_scoped_candidates_or_legacy_directory' || request.path === '/api/trash') {
     if (actor.orgRole !== 'admin') {
       const leads = await tx.query(
         sql(

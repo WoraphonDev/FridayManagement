@@ -4,7 +4,7 @@ import { discardDraft } from './shared/confirm-bus';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { useSharedRefresh } from './shared/refresh';
 import { ProjectTasks } from './ProjectTasks';
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
 import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';
 import {
@@ -13,6 +13,7 @@ import {
   teamSchema,
   projectSchema,
   directoryPage,
+  projectMemberCandidatePage,
   projectMembers,
   type Team,
   type Project,
@@ -1336,7 +1337,7 @@ type Member = {
   explicit: string | null;
   effective: string;
 };
-function MembershipDialog({
+export function MembershipDialog({
   self,
   online,
   onFailure,
@@ -1354,7 +1355,7 @@ function MembershipDialog({
   const [entity, setEntity] = useState(initial),
     [members, setMembers] = useState<Member[]>([]),
     [version, setVersion] = useState(initial.version),
-    [directory, setDirectory] = useState<z.infer<typeof directoryPage>>(),
+    [directory, setDirectory] = useState<z.infer<typeof directoryPage> | z.infer<typeof projectMemberCandidatePage>>(),
     [page, setPage] = useState(1),
     [query, setQuery] = useState(''),
     [search, setSearch] = useState(''),
@@ -1382,9 +1383,23 @@ function MembershipDialog({
   const [memberUnknown, setMemberUnknown] = useState(false);
   const [memberRead, setMemberRead] = useState(false);
   const memberEpoch = useRef(0);
+  const directoryEpoch = useRef(0);
+  const directoryAbort = useRef<AbortController | undefined>(undefined);
+  // Candidate failures stay separate from member errors so a successful retry clears only them.
+  const [directoryError, setDirectoryError] = useState('');
+  const invalidateCandidates = useCallback(() => {
+    directoryEpoch.current++;
+    directoryAbort.current?.abort();
+    setDirectory(undefined);
+    setDirectoryError('');
+    setSelected(undefined);
+    setConfirm(undefined);
+  }, []);
   useEffect(
     () => () => {
       memberEpoch.current++;
+      directoryEpoch.current++;
+      directoryAbort.current?.abort();
     },
     [],
   );
@@ -1408,6 +1423,8 @@ function MembershipDialog({
   };
   const clearPrivate = useCallback(() => {
     memberEpoch.current++;
+    directoryEpoch.current++;
+    directoryAbort.current?.abort();
     setMembers([]);
     setDirectory(undefined);
     setSelected(undefined);
@@ -1427,10 +1444,58 @@ function MembershipDialog({
     self.user.permission_keys.includes('P-03');
   // Keep baseline archived membership UI read-only pending the server/spec mismatch follow-up.
   const canManage = !initial.archived_at && !entity.archived_at && (leadOrAdmin || managerP03);
-  const canDirectory =
-    self.user.org_role === 'admin' || self.effective_summary.lead_team_ids.length > 0;
+  const scopedDirectory = kind === 'projects' && role !== 'manager';
+  const canDirectory = managerP03 || self.user.org_role === 'admin' || self.effective_summary.lead_team_ids.length > 0;
+  // Actor/session/project/authority snapshot: any change is a new private-data scope.
+  // view_revision is deliberately excluded: every membership write rotates it, and treating that
+  // as a scope change would discard a retained 409 draft/review. It only re-reads members (below);
+  // real authority loss still surfaces as server 401/403/404 → clearPrivate.
+  const authority = JSON.stringify([self.user.id, self.csrf,
+    self.user.active, self.must_change_password, self.user.org_role,
+    self.user.permission_keys, self.effective_summary.lead_team_ids,
+    initial.id, kind, isProject(entity) ? entity.effective_access : entity.own_role,
+    online, self.maintenance]);
+  const candidateScope = `${authority}|${canManage}|${canDirectory}`;
+  // A confirmation is bound to the membership version it was drafted against. Background polls may
+  // refresh `version`, but outside an explicit latest-review the old intent is sent with its own
+  // base version, so a concurrent change yields 409 → review instead of a silent version upgrade.
+  const [seenConfirm, setSeenConfirm] = useState(confirm);
+  const [confirmVersion, setConfirmVersion] = useState<number>();
+  if (seenConfirm !== confirm) {
+    setSeenConfirm(confirm);
+    setConfirmVersion(confirm ? version : undefined);
+  }
+  const directoryWanted =
+    canManage && canDirectory && memberRead && online && !self.must_change_password && query === search;
+  const [seenAuthority, setSeenAuthority] = useState(authority);
+  const [seenCandidateScope, setSeenCandidateScope] = useState(candidateScope);
+  // Reset derived private state during render so no stale names/selection paint after a scope change.
+  if (seenCandidateScope !== candidateScope) {
+    setSeenCandidateScope(candidateScope);
+    setDirectory(undefined);
+    setDirectoryError('');
+    setSelected(undefined);
+    setConfirm(undefined);
+  }
+  if (seenAuthority !== authority) {
+    setSeenAuthority(authority);
+    setMembers([]);
+    setMemberRead(false);
+    setLoading(true);
+    setNotice('');
+    setEditor(undefined);
+  }
+  // Commit-phase (before any held promise can settle): retire replies from the old scope.
+  // Member reads restart on authority (their effect depends on it); candidates also on canManage.
+  useLayoutEffect(() => {
+    memberEpoch.current++;
+  }, [authority]);
+  useLayoutEffect(() => {
+    directoryEpoch.current++;
+    directoryAbort.current?.abort();
+  }, [candidateScope]);
   useEffect(() => {
-    if (revoked) return;
+    if (revoked || !online || self.must_change_password || !self.user.active) return;
     const controller = new AbortController();
     const epoch = memberEpoch.current;
     void (async () => {
@@ -1493,28 +1558,36 @@ function MembershipDialog({
       }
     });
     return () => controller.abort();
-  }, [initial.id, kind, reload, self.view_revision, onFailure, clearPrivate, revoked]);
+  }, [initial.id, kind, reload, authority, self.view_revision, onFailure, clearPrivate, revoked, online, self.must_change_password, self.user.active]);
   useEffect(() => {
-    if (!canManage || !canDirectory) return;
+    // Handlers/render-time reset already cleared candidates; an unsubmitted query edit fetches nothing.
+    if (!directoryWanted) return;
     const controller = new AbortController();
-    const epoch = memberEpoch.current;
+    directoryAbort.current = controller;
+    const epoch = directoryEpoch.current;
     void client
-      .request(`/api/directory?page=${page}&pageSize=10&q=${encodeURIComponent(search)}`, {
+      .request(`/api/directory?page=${page}&pageSize=10&q=${encodeURIComponent(search)}${scopedDirectory ? `&project=${initial.id}` : ''}`, {
         signal: controller.signal,
-        parse: (x) => directoryPage.parse(x),
+        parse: (x) => scopedDirectory ? projectMemberCandidatePage.parse(x) : directoryPage.parse(x),
       })
       .then((v) => {
-        if (!controller.signal.aborted && epoch === memberEpoch.current) setDirectory(v);
+        if (!controller.signal.aborted && epoch === directoryEpoch.current) {
+          setDirectory(v);
+          setDirectoryError('');
+        }
       })
       .catch((e: unknown) => {
-        if (!controller.signal.aborted && epoch === memberEpoch.current) {
-          setDirectory(undefined);
-          setError(failureMessage(e));
+        if (!controller.signal.aborted && epoch === directoryEpoch.current) {
+          invalidateCandidates();
+          if (e instanceof ApiError && [401, 403, 404].includes(e.status)) {
+            clearPrivate();
+            setError(failureMessage(e));
+          } else setDirectoryError(failureMessage(e));
           if (e instanceof ApiError) onFailure(e, 'members');
         }
       });
     return () => controller.abort();
-  }, [canManage, canDirectory, page, search, directoryReload, onFailure]);
+  }, [directoryWanted, page, search, directoryReload, scopedDirectory, initial.id, authority, onFailure, clearPrivate, invalidateCandidates]);
   const change = async () => {
     if (
       !confirm ||
@@ -1526,7 +1599,7 @@ function MembershipDialog({
       !canManage ||
       (!leadOrAdmin &&
         (confirm.role === 'manager' ||
-          members.some((m) => m.user.id === confirm.id && m.explicit === 'manager')))
+          members.some((m) => m.user.id === confirm.id && (m.explicit === 'manager' || m.effective === 'admin' || m.effective === 'lead'))))
     )
       return;
     setPending(true);
@@ -1551,12 +1624,14 @@ function MembershipDialog({
           return;
         }
       }
+      // Only an explicit latest-review (checked above) may advance the base version of this intent.
+      const sent = showMemberReview ? version : (confirmVersion ?? version);
       await client.request(`/api/${kind}/${entity.id}/members/${confirm.id}`, {
         method: confirm.remove ? 'DELETE' : 'PUT',
         body: confirm.remove
-          ? { version }
+          ? { version: sent }
           : {
-              version,
+              version: sent,
               ...(kind === 'teams'
                 ? {
                     team_role: confirm.role,
@@ -1734,7 +1809,7 @@ function MembershipDialog({
               {kind === 'projects' &&
                 canManage &&
                 m.explicit &&
-                (leadOrAdmin || m.explicit !== 'manager') && (
+                (leadOrAdmin || (m.explicit !== 'manager' && m.effective !== 'admin' && m.effective !== 'lead')) && (
                   <>
                     <button
                       disabled={!online || pending || conflict || self.maintenance}
@@ -1776,6 +1851,7 @@ function MembershipDialog({
           onClose={() => void closeMembers(true)}
         >
           {kind === 'teams' && error && <p role="alert">{error}</p>}
+          {kind === 'teams' && directoryError && <p role="alert">{directoryError}</p>}
           {kind === 'projects' && <h3>Add or update member</h3>}
           {kind === 'teams' && (
             <p className="member-editor-intro">
@@ -1788,7 +1864,7 @@ function MembershipDialog({
                 className="toolbar"
                 onSubmit={(e) => {
                   e.preventDefault();
-                  setDirectory(undefined);
+                  invalidateCandidates();
                   setSearch(query);
                   setPage(1);
                   setDirectoryReload((n) => n + 1);
@@ -1796,10 +1872,10 @@ function MembershipDialog({
               >
                 <Field
                   label="Search active users"
-                  placeholder="Name or username"
+                  placeholder={scopedDirectory ? "Name" : "Name or username"}
                   value={query}
                   maxLength={100}
-                  onChange={(e) => setQuery(e.target.value)}
+                  onChange={(e) => { invalidateCandidates(); setQuery(e.target.value); }}
                 />
                 <button disabled={!online}>Search</button>
               </form>
@@ -1808,10 +1884,16 @@ function MembershipDialog({
                   Users
                   <select aria-label="Users" disabled value="">
                     <option value="">
-                      {error ? 'Users unavailable — try Search' : 'Loading users…'}
+                      {error || directoryError ? 'Users unavailable — try Search' : 'Loading users…'}
                     </option>
                   </select>
                 </label>
+              )}
+              {kind === 'projects' && !directory && directoryError && (
+                <p role="alert">{directoryError} Users unavailable — try Search.</p>
+              )}
+              {kind === 'projects' && !directory && !directoryError && directoryWanted && (
+                <p role="status">Loading users…</p>
               )}
               {directory && (
                 <>
@@ -1828,6 +1910,7 @@ function MembershipDialog({
                       onChange={(e) => {
                         const u = directory.items.find((x) => x.id === Number(e.target.value));
                         setSelected(u ? { id: u.id, name: u.display_name } : undefined);
+                        setConfirm(undefined);
                         if (kind === 'teams') {
                           const existing = members.find((m) => m.user.id === u?.id);
                           setRole(existing?.explicit ?? 'member');
@@ -1846,7 +1929,10 @@ function MembershipDialog({
                         )
                         .map((u) => (
                           <option key={u.id} value={u.id}>
-                            {u.display_name} · {u.teams.map((t) => t.name).join(', ') || 'No team'}
+                            {/* Scoped candidates are identity-only: no teams[]/"No team" fallback. */}
+                            {'teams' in u && !scopedDirectory
+                              ? `${u.display_name} · ${(u as z.infer<typeof directoryPage>['items'][number]).teams.map((t) => t.name).join(', ') || 'No team'}`
+                              : u.display_name}
                           </option>
                         ))}
                     </select>
@@ -1855,7 +1941,7 @@ function MembershipDialog({
                     <button
                       disabled={page === 1 || !online}
                       onClick={() => {
-                        setDirectory(undefined);
+                        invalidateCandidates();
                         setPage((n) => n - 1);
                       }}
                     >
@@ -1867,7 +1953,7 @@ function MembershipDialog({
                     <button
                       disabled={page * directory.pageSize >= directory.total || !online}
                       onClick={() => {
-                        setDirectory(undefined);
+                        invalidateCandidates();
                         setPage((n) => n + 1);
                       }}
                     >
@@ -1898,7 +1984,12 @@ function MembershipDialog({
             <select
               aria-label={kind === 'teams' ? 'Team access' : 'Role'}
               value={role}
-              onChange={(e) => setRole(e.target.value)}
+              onChange={(e) => {
+                // Only a scoped↔legacy directory mode switch is new intent; Editor↔Viewer keeps selection.
+                if (kind === 'projects' && (e.target.value === 'manager') !== (role === 'manager'))
+                  invalidateCandidates();
+                setRole(e.target.value);
+              }}
             >
               {(kind === 'teams'
                 ? ['member', 'lead']

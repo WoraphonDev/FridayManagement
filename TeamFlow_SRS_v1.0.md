@@ -264,6 +264,10 @@ Pin versions/license inventory ใน code manifest; ข้อกำหนด ru
 
 Lead ดูรายชื่อผู้ใช้ active และชื่อทีมเพื่อเลือกเพิ่ม project member ได้ แต่ไม่เห็นงานหรือข้อมูลบัญชีส่วนตัวของทีมอื่น Member/Viewer เห็นชื่อผู้ร่วมโปรเจกต์ที่ตนเข้าถึง ไม่เห็นบัญชีทั้งหมดขององค์กร Username/active/role จัดการผ่าน Admin API เท่านั้น
 
+**Adopted scoped exception (2026-10-26 / DEL-ACCESS-DIRECTORY):** existing GET /api/directory เมื่อมี validated project ใช้ current active Admin/owner-team access Lead หรือ actual manager+current P-03 ของโปรเจกต์นั้น; unrelated Lead ไม่ fastpass, invisible404/visible forbidden403. ไม่มี project คง legacy. Candidate/page เป็น strict identity-only {items:[{id,display_name}],page,pageSize,total}, id ASC; eligible active users distinct, name-only literal escaped LIKE, exclude Admin/owner Lead และ delegated explicit manager; count/items ใช้ predicate เดียวและ recheck actor ก่อนทั้งสอง ไม่มี read domain effects. Privileged scoped actor เลือก explicit manager ได้ตาม appointment authority เดิม.
+
+API1.16.0: project optional canonical decimal1..2147483647; page1..2147483647 default1, pageSize1..100 default50. Unknown/duplicate scalar—even equal—หรือ bracket/comma/invalid numeric syntax400. q omitted/empty ได้, whitespace literal, ≤100 Unicode scalars และ UTF16 units. Malformed query400 ก่อน session/password; valid query401 → forced-password403 → resource404/authority403. Union anyOf legacy/new รองรับ empty overlap แต่ route และ frontend ต้องตรวจ exact requested branch; new client→old server400 ล้มเหลวอย่างปลอดภัย ไม่มี legacy retry.
+
 ### 4.4 Project manager และ permission catalog (addendum 1.11)
 
 ลำดับตรวจเพิ่มจาก §4.1: หลัง membership ให้อ่าน `user_permissions` ปัจจุบันของผู้ใช้ในทุก request (ไม่ cache ข้าม request) แล้วใช้กับ resource ในโปรเจกต์ที่ผู้ใช้เป็น `manager` (P-01–P-07) หรือทีมที่เป็นสมาชิก (P-08–P-10). Job title ไม่อยู่ในการคำนวณสิทธิ์ (BR-19/BR-21)
@@ -282,6 +286,8 @@ Lead ดูรายชื่อผู้ใช้ active และชื่อ�
 | Workload ระดับทีม | ได้ | ทีมตน | P-09 เฉพาะงานในโปรเจกต์ที่เข้าถึง | ไม่ได้ | ไม่ได้ | ไม่ได้ |
 | Reports กรองตามทีม | ได้ | ได้ | ได้ เฉพาะงานในโปรเจกต์ที่เข้าถึง (P-10 เป็นป้ายแสดงสิทธิ์) | ได้ เฉพาะงานในโปรเจกต์ที่เข้าถึง | ได้ เฉพาะงานในโปรเจกต์ที่เข้าถึง | ได้ เฉพาะงานในโปรเจกต์ที่เข้าถึง |
 | ติ๊ก/เอาออก permission, จัดการ job title | ได้ | ไม่ได้ | ไม่ได้ | ไม่ได้ | ไม่ได้ | ไม่ได้ |
+
+Delegated membership target protection applies only !rights(access.role).manage: preserve requireVersion → targetUser(!remove) → old/requested explicit-manager403 → current target Admin/owner-team access Lead403 → manager-key422 / DELETE absent404 → writes/effects. No target HTTP preflight; stale authorized409/currentVersion precedes target state, denied401/403/404/422 has no currentVersion. PUT inactive422 unchanged; ordinary inactive DELETE row allowed, ordinary active/inactive absent404, protected absent DELETE403 intentional. Privileged authority unchanged. Membership routes have no new archive422; UI remains conservative archived read-only. Actor/target current state and cleanup/audit/notification/view revisions remain one transaction. SQLite queue+BEGIN IMMEDIATE; PostgreSQL READ COMMITTED+application advisory lock serialize participating transactions, without external-writer guarantee.
 
 Owner decision 2026-10-11 (Q-T-081-1 = A): ตารางนี้ปรับให้ตรงกับพฤติกรรมที่ implement และทดสอบแล้ว — P-02, P-07 และ P-10 ไม่ให้สิทธิ์เพิ่มเกินสิทธิ์ write/read ของโปรเจกต์ (แสดงใน catalog เพื่ออ้างอิงเท่านั้น); ข้อมูลทุกแบบยังจำกัดตามโปรเจกต์ที่เข้าถึง (BR-16) ไม่มีการลดสิทธิ์ผู้ใช้ปัจจุบัน
 

@@ -561,7 +561,7 @@ export function workspaceService(options: AccessOptions = {}) {
       const b = body(remove ? 'DELETE' : 'PUT', '/api/projects/{id}/members/{userId}', input),
         p = await project(tx, id, proof),
         next = requireVersion(p.version, Number(b.version));
-      await targetUser(tx, userId, !remove);
+      const target = await targetUser(tx, userId, !remove);
       const old = (
         await tx.query<{ access: string }>(
           sql('SELECT access FROM dbo.project_members WHERE project_id=@id AND user_id=@userId', {
@@ -576,6 +576,15 @@ export function workspaceService(options: AccessOptions = {}) {
         (old?.access === 'manager' || (!remove && b.access === 'manager'))
       )
         throw new ApiFault('FORBIDDEN');
+      // Delegated P-03 cannot edit effective Admin/owner Lead, even redundant/absent rows.
+      // Version, target PUT activity and explicit-manager checks deliberately stay earlier.
+      if (!rights(access.role).manage) {
+        const ownerLead = await tx.query(sql(
+          "SELECT user_id FROM dbo.team_members WHERE team_id=@team AND user_id=@userId AND team_role='lead'",
+          { team: access.owner_team_id, userId },
+        ));
+        if (target.org_role === 'admin' || ownerLead.length) throw new ApiFault('FORBIDDEN');
+      }
       if (!remove && b.access === 'manager' && old?.access !== 'manager') {
         const keys = (await permissionKeysOf(tx, userId)).split(',');
         if (!managerKeys.some((k) => keys.includes(k)))
@@ -625,6 +634,27 @@ export function workspaceService(options: AccessOptions = {}) {
       return members(tx, id, proof);
     },
     async directory(tx: Transaction, proof: SessionProof, q: Record<string, unknown>) {
+      if (Object.hasOwn(q, 'project')) {
+        const authorize = async () => {
+          const a = await actor(tx, proof);
+          const access = await projectAccess(tx, a, Number(q.project));
+          if (!rights(access.role).manage && !can(access, 'P-03')) throw new ApiFault('FORBIDDEN');
+          return access;
+        };
+        const access = await authorize();
+        const search = q.q ? `%${String(q.q).replace(/[\\%_\[]/g, (c) => `\\${c}`)}%` : null;
+        const page = Number(q.page ?? 1), pageSize = Number(q.pageSize ?? 50);
+        const parameters = { search, team: access.owner_team_id, project: access.id, privileged: rights(access.role).manage ? 1 : 0 };
+        const where = "WHERE u.active=1 AND u.org_role<>'admin' AND NOT EXISTS(SELECT 1 FROM dbo.team_members tm WHERE tm.team_id=@team AND tm.user_id=u.id AND tm.team_role='lead') AND (@privileged=1 OR NOT EXISTS(SELECT 1 FROM dbo.project_members pm WHERE pm.project_id=@project AND pm.user_id=u.id AND pm.access='manager')) AND (@search IS NULL OR u.display_name LIKE @search ESCAPE '\\')";
+        const total = (await tx.query<{total:number}>(sql(`SELECT COUNT(*) AS total FROM dbo.users u ${where}`, parameters)))[0]!.total;
+        await authorize();
+        const items = await tx.query<{id:number;display_name:string}>({
+          sqlite: sql(`SELECT u.id,u.display_name FROM dbo.users u ${where} ORDER BY u.id LIMIT @size OFFSET @offset`).sqlite,
+          sqlserver: `SELECT u.id,u.display_name FROM dbo.users u ${where} ORDER BY u.id OFFSET @offset ROWS FETCH NEXT @size ROWS ONLY`,
+          parameters: {...parameters,size:pageSize,offset:(page-1)*pageSize},
+        });
+        return {items,page,pageSize,total};
+      }
       const a = await actor(tx, proof);
       if (
         a.orgRole !== 'admin' &&

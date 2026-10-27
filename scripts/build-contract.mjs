@@ -70,6 +70,7 @@ export function buildContract() {
     effective_access: enumeration(['admin', 'lead', 'manager', 'editor', 'viewer']),
   });
   schemas.ProjectMember = object({ user: ref('Person'), job_title: nullable(nonblank(50)), explicit_access: nullable(enumeration(['manager', 'editor', 'viewer'])), effective_access: enumeration(['admin', 'lead', 'manager', 'editor', 'viewer']), assignee_eligible: boolean });
+  schemas.ProjectMemberCandidate = object({ id: ref('Id'), display_name: nonblank(100) });
   schemas.DirectoryPerson = object({ id: ref('Id'), display_name: nonblank(100), job_title: nullable(nonblank(50)), teams: array(object({ id: ref('Id'), name: nonblank(100) }), 10000) });
   schemas.Subtask = object({ remark: text(2000), assignee_id: nullable(ref('Id')), id: ref('Id'), task_id: ref('Id'), title: nonblank(200), done: boolean, version: ref('Version'), created_at: ref('Timestamp') });
   schemas.Task = object({
@@ -109,6 +110,7 @@ export function buildContract() {
   const paginated = (item) => object({ items: array(item), page: integer(), pageSize: integer(1, 100), total: integer(0) });
   const item = (dto) => object({ item: ref(dto) });
   for (const name of ['AdminUser', 'Team', 'Project', 'Task', 'Comment', 'Attachment', 'TaskEvent', 'DirectoryPerson', 'AdminAudit']) schemas[`${name}Page`] = paginated(ref(name));
+  schemas.ProjectMemberCandidatePage = paginated(ref('ProjectMemberCandidate'));
   schemas.TeamsPage = { anyOf: [paginated(ref('Team')), paginated(ref('AdminTeam'))] };
   schemas.ProjectMembers = object({ items: array(ref('ProjectMember'), 10000), membership_version: ref('Version') });
   schemas.NotificationsPage = object({ ...paginated(ref('Notification')).properties, unread_count: integer(0) });
@@ -253,7 +255,7 @@ export function buildContract() {
   add('GET', '/api/job-titles', 'authenticated', 200, ref('JobTitles'), null, object({ includeInactive: { ...boolean, default: false } }, []));
   add('POST', '/api/job-titles', 'admin', 201, item('JobTitle'), ref('CreateJobTitle'), undefined, 'required');
   add('PATCH', '/api/job-titles/{id}', 'admin', 200, item('JobTitle'), ref('PatchJobTitle'));
-  add('GET', '/api/directory', 'admin_or_any_active_lead', 200, ref('DirectoryPersonPage'), null, object({ ...page, q: text(100) }, []));
+  add('GET', '/api/directory', 'project_scoped_candidates_or_legacy_directory', 200, { anyOf: [ref('DirectoryPersonPage'), ref('ProjectMemberCandidatePage')] }, null, object({ ...page, q: text(100), project: ref('Id') }, []));
   add('GET', '/api/teams', 'own_teams_or_admin', 200, ref('TeamsPage'), null, object({ ...page, includeArchived: { ...boolean, default: false } }, []));
   add('POST', '/api/teams', 'admin', 201, item('AdminTeam'), ref('CreateTeam'), undefined, 'required');
   add('PATCH', '/api/teams/{id}', 'admin', 200, item('AdminTeam'), ref('PatchTeam'));
@@ -333,7 +335,7 @@ export function buildContract() {
   for (const { method, path, op } of operations) paths[path] = { ...paths[path], [method]: op };
   return {
     openapi: '3.1.1', jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema',
-    info: { title: 'FridayManagement API', version: '1.15.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark; owner 2026-10-10 project code and task number; owner 2026-10-17 workload overdue column; project overview planned span and owner-team leads. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
+    info: { title: 'FridayManagement API', version: '1.16.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark; owner 2026-10-10 project code and task number; owner 2026-10-17 workload overdue column; project overview planned span and owner-team leads. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
     servers: [{ url: '/' }], paths,
     components: { securitySchemes: { cookieSession: { type: 'apiKey', in: 'cookie', name: 'friday_session' } }, schemas },
   };

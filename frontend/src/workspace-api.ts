@@ -70,6 +70,13 @@ export const directoryPage = z
       .max(100),
   })
   .strict();
+export const projectMemberCandidate = z.object({
+  id,
+  display_name: z.string().min(1).max(100).refine((s) => /\S/u.test(s) && s.length <= 100 && [...s].length <= 100),
+}).strict();
+export const projectMemberCandidatePage = z.object({
+  ...pageFields, items: z.array(projectMemberCandidate).max(100),
+}).strict();
 export const projectMembers = z
   .object({
     membership_version: id,
