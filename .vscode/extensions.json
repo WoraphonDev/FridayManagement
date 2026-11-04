@@ -1,0 +1,13 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "vitest.explorer",
+    "connor4312.nodejs-testing",
+    "ms-playwright.playwright",
+    "ms-ossdata.vscode-pgsql",
+    "ms-azuretools.vscode-containers",
+    "davidanson.vscode-markdownlint"
+  ],
+  "unwantedRecommendations": ["ms-mssql.mssql"]
+}
