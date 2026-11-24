@@ -12,6 +12,7 @@ import { z } from 'zod';
 import { apiClient, ApiError, type Self } from './api';
 import type { Project } from './workspace-api';
 import { Dialog, EmptyState, ErrorNotice, Loading, Toast } from './shared/components';
+import { lengthError, lengthHint, limitText } from './text-length';
 import { docSnippets } from './doc-snippets';
 const client = apiClient();
 const id = z.number().int().min(1),
@@ -116,7 +117,8 @@ export function ProjectDocs({
     [history, setHistory] = useState<z.infer<typeof versions>['items']>(),
     [images, setImages] = useState<z.infer<typeof imageFiles>['items']>(),
     [pendingImage, setPendingImage] = useState<{ path: string; name: string }>(),
-    [reload, setReload] = useState(0);
+    [reload, setReload] = useState(0),
+    [titleComposing, setTitleComposing] = useState(false);
   const editor = useRef<HTMLDivElement>(null),
     readerHeading = useRef<HTMLHeadingElement>(null),
     createIntent = useRef<{ key: string; title: string }>(undefined),
@@ -128,6 +130,10 @@ export function ProjectDocs({
     (editing && !!selected && (title !== selected.title || bodyChanged)) ||
     (creating && (!!newTitle || unknownCreate)) ||
     pending;
+  // Legacy over-limit titles are kept intact; save waits until shortened (not mid-IME).
+  const titleError = titleComposing
+    ? undefined
+    : lengthError('Doc title', title, 200, { trim: true });
   const mayLeave = async () => {
     if (busy.current) return false;
     const range = rememberCaret(editor.current);
@@ -200,7 +206,7 @@ export function ProjectDocs({
     }
   };
   const save = async () => {
-    if (!selected || busy.current || !online || !writable || !title.trim()) return;
+    if (!selected || busy.current || !online || !writable || !title.trim() || titleError) return;
     busy.current = true;
     const epoch = privateEpoch.current;
     const caret = rememberCaret(editor.current);
@@ -455,13 +461,33 @@ export function ProjectDocs({
           <>
             <header className="doc-head">
               {editing ? (
-                <input
-                  aria-label="Doc title"
-                  maxLength={200}
-                  disabled={pending}
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
-                />
+                <>
+                  <input
+                    aria-label="Doc title"
+                    aria-describedby="doc-title-detail"
+                    aria-invalid={!!titleError}
+                    disabled={pending}
+                    onCompositionStart={() => setTitleComposing(true)}
+                    onCompositionEnd={() => setTitleComposing(false)}
+                    value={title}
+                    onChange={(e) =>
+                      setTitle(
+                        limitText(
+                          title,
+                          e.target.value,
+                          200,
+                          (e.nativeEvent as InputEvent).isComposing,
+                          {
+                            trim: true,
+                          },
+                        ),
+                      )
+                    }
+                  />
+                  <small id="doc-title-detail" className={titleError ? 'field-error' : 'hint'}>
+                    {titleError ?? lengthHint(title, 200, { trim: true })}
+                  </small>
+                </>
               ) : (
                 <h2 ref={readerHeading} tabIndex={-1}>
                   {selected.title}
@@ -490,7 +516,9 @@ export function ProjectDocs({
                   <>
                     <button
                       className="primary"
-                      disabled={!online || !writable || pending || conflict || !title.trim()}
+                      disabled={
+                        !online || !writable || pending || conflict || !title.trim() || !!titleError
+                      }
                       onClick={() => void save()}
                     >
                       {pending ? 'Saving…' : 'Save'}
@@ -622,7 +650,7 @@ export function ProjectDocs({
               <input
                 data-autofocus
                 aria-label="Doc title"
-                maxLength={200}
+                aria-describedby="new-doc-title-detail"
                 value={newTitle}
                 disabled={pending || unknownCreate}
                 onCompositionStart={() => {
@@ -631,9 +659,22 @@ export function ProjectDocs({
                 onCompositionEnd={() => {
                   composing.current = false;
                 }}
-                onChange={(event) => setNewTitle(event.target.value)}
+                onChange={(event) =>
+                  setNewTitle(
+                    limitText(
+                      newTitle,
+                      event.target.value,
+                      200,
+                      (event.nativeEvent as InputEvent).isComposing,
+                      { trim: true },
+                    ),
+                  )
+                }
               />
             </label>
+            <small id="new-doc-title-detail" className="hint">
+              {lengthHint(newTitle, 200, { trim: true })}
+            </small>
             {error && <ErrorNotice error={error} />}
             {unknownCreate && (
               <p>The result is unconfirmed. Retry the same request to recover this doc.</p>

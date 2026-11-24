@@ -5,8 +5,8 @@ type: fix
 priority: P0
 relates: { prd_ac: [], fr: [], security: [], permissions: [], api_operations: [], ui_pages: [], db_tables: [] }
 owner: "unassigned"
-status: in_progress
-proposal: true
+status: done
+proposal: false
 effort: High
 parent: null
 children: []
@@ -64,3 +64,6 @@ No new business decision invented. Actual external scope blockers: plain P-04 ma
 
 ## Evidence / Review
 See [DEL-ACCESS evidence](../../docs/product/evidence/DEL-ACCESS.md). Independent Claude specification/code/security review **PERFORMED → CHANGES_REQUIRED → conditional CLEAN → final CLEAN for the scoped PARTIAL PR** after same-author corrections and final host affected PASS. The final read-only reviewer confirmed denial lifecycle, actual DELETE/PATCH404/project200/other-task200 race assertions and unchanged legacy tests; no substantive blocker or weakened assertion was found. Nonblocking generic-notice persistence and Dismiss UX follow-ups are retained in evidence, not silently expanded. F1–F5 archive/privacy/dependency/epoch corrections and conservative baseline archive restrictions remain. Parent rollout gate 7 **SATISFIED**: parent inspected the complete runtime/ticket diff, final independent review result, whitespace check and exact seven-path status, and approved only the scoped PARTIAL commit/push/PR, not full-card DONE. Host preserved generated report PNGs outside checkout and restored only those PNGs; seven-path source scope is clean. Authorized commit/push/partial PR/CI must follow parent review with exact-head readback; **no merge**. Keep **in_progress**, all three scope blockers open; PostgreSQL/production/UAT NOT_RUN; official register **9/96 completed, 87 remaining**.
+
+## Closure — 2026-11-24
+Owner Zo approved parent closure with the DEL-VALIDATION adoption PR. The three recorded scope blockers are resolved on main and re-read on branch `feat/del-validation` (base `8b55cd9`): plain P-04 manager Trash navigation — PR #10 DEL-ACCESS-NAV (`navigation.ts` `allowedPages` admits P-04 with an allowed Trash scope; no `test.fixme` remains under `tests/browser`); P-03 directory member addition — PR #13 DEL-ACCESS-DIRECTORY (`workspaces` directory service authorizes manage or P-03); invisible owner-team parent state — PR #17 DEL-ACCESS-PARENT-STATE (actor-scoped `can_restore` / `can_unarchive`). Status **done** for delivery scope only. Real PostgreSQL, production and UAT gates are **NOT_RUN** here and are carried by Task Register T-091 (regression + UAT on the VPS UAT); not claimed by this closure.

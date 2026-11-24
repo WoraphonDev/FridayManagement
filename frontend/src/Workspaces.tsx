@@ -24,6 +24,7 @@ import { WorkloadView } from './ProjectInsights';
 import { overviewSchema, type ProjectOverviewData } from './insights-api';
 import { projectTypes, projectCategories } from '../../src/domain/project-metadata';
 import { InitialTeamMembers, type InitialTeamMember } from './InitialTeamMembers';
+import { FieldErrorSummary, lengthError, lengthHint, limitText } from './text-length';
 const client = apiClient();
 type Entity = Team | Project;
 type DenialSurface = 'entity' | 'members';
@@ -994,7 +995,8 @@ function EntityDialog({
     [conflict, setConflict] = useState(false),
     [review, setReview] = useState(false),
     [showReview, setShowReview] = useState(false),
-    [unknown, setUnknown] = useState(false);
+    [unknown, setUnknown] = useState(false),
+    [composing, setComposing] = useState(false);
   const createIntent = useRef<{ signature: string; key: string }>(undefined);
   const entityEpoch = useRef(0);
   useEffect(
@@ -1131,8 +1133,7 @@ function EntityDialog({
       if (!archive) {
         if (
           !name.trim() ||
-          name.trim().length > 100 ||
-          description.length > (kind === 'teams' ? 1000 : 2000) ||
+          rawLengthIssues.length > 0 ||
           (create && kind === 'projects' && !team)
         )
           throw new Error('Enter a valid name, team and description');
@@ -1176,6 +1177,22 @@ function EntityDialog({
       setPending(false);
     }
   };
+  const descriptionMax = kind === 'teams' ? 1000 : 2000;
+  const nameLabel = kind === 'projects' ? 'Project Name' : 'Team Name',
+    descriptionLabel = kind === 'projects' ? 'Project Detail' : 'Team Description';
+  // Only over-limit text (legacy or post-IME) is summarized; never mid-composition.
+  // Save stays blocked by raw over-limit values even mid-composition; only display waits.
+  const rawLengthIssues =
+    action.kind === 'archive'
+      ? []
+      : [
+          { id: 'entity-name', message: lengthError(nameLabel, name, 100, { trim: true }) },
+          {
+            id: 'entity-description',
+            message: lengthError(descriptionLabel, description, descriptionMax),
+          },
+        ].flatMap((i) => (i.message ? [{ id: i.id, message: i.message }] : []));
+  const lengthIssues = composing ? [] : rawLengthIssues;
   if (denied)
     return (
       <Dialog title="Access no longer available" onClose={onClose}>
@@ -1264,11 +1281,23 @@ function EntityDialog({
           </p>
         ) : (
           <>
+            <FieldErrorSummary issues={lengthIssues} />
             <Field
-              label={kind === 'projects' ? 'Project Name' : 'Team Name'}
+              id="entity-name"
+              label={nameLabel}
               value={name}
-              maxLength={100}
-              onChange={(e) => setName(e.target.value)}
+              hint={lengthHint(name, 100, { trim: true })}
+              error={lengthIssues.find((i) => i.id === 'entity-name')?.message}
+              onCompositionStart={() => setComposing(true)}
+              onCompositionEnd={() => setComposing(false)}
+              onBlur={() => setComposing(false)}
+              onChange={(e) =>
+                setName(
+                  limitText(name, e.target.value, 100, (e.nativeEvent as InputEvent).isComposing, {
+                    trim: true,
+                  }),
+                )
+              }
               required
               data-autofocus
             />
@@ -1304,14 +1333,31 @@ function EntityDialog({
               </div>
             )}
             <label className="project-detail-field">
-              {kind === 'projects' ? 'Project Detail' : 'Team Description'}
+              {descriptionLabel}
               <textarea
+                id="entity-description"
                 rows={4}
                 value={description}
-                maxLength={kind === 'teams' ? 1000 : 2000}
-                onChange={(e) => setDescription(e.target.value)}
+                aria-describedby="entity-description-detail"
+                aria-invalid={lengthIssues.some((i) => i.id === 'entity-description')}
+                onCompositionStart={() => setComposing(true)}
+                onCompositionEnd={() => setComposing(false)}
+              onBlur={() => setComposing(false)}
+                onChange={(e) =>
+                  setDescription(
+                    limitText(
+                      description,
+                      e.target.value,
+                      descriptionMax,
+                      (e.nativeEvent as InputEvent).isComposing,
+                    ),
+                  )
+                }
               />
             </label>
+            <p id="entity-description-detail" className="hint">
+              {lengthHint(description, descriptionMax)}
+            </p>
             {kind === 'teams' && action.kind === 'create' && (
               <InitialTeamMembers value={initialMembers} onChange={setInitialMembers} />
             )}

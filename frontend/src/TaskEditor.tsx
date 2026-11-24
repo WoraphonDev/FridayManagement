@@ -9,6 +9,7 @@ import { StatusPicker } from './shared/StatusPicker';
 import { ChecklistStatusPicker } from './shared/ChecklistStatusPicker';
 import { useSharedRefresh } from './shared/refresh';
 import { TaskCollaboration } from './TaskCollaboration';
+import { FieldErrorSummary, lengthError, lengthHint, limitText } from './text-length';
 import { useEffect, useRef, useState } from 'react';
 import { useBlocker } from 'react-router-dom';
 import { apiClient, ApiError, type Self } from './api';
@@ -141,7 +142,8 @@ export function TaskEditor({
     [confirmDelete, setConfirmDelete] = useState(false),
     [deleteBefore, setDeleteBefore] = useState(0),
     [panelDirty, setPanelDirty] = useState(false),
-    [confirmChild, setConfirmChild] = useState<Subtask>();
+    [confirmChild, setConfirmChild] = useState<Subtask>(),
+    [composing, setComposing] = useState(false);
   const checklistDraftRow = useRef<HTMLTableRowElement>(null);
   const pressedInRow = useRef(false);
   const mutationEpoch = useRef(0);
@@ -515,11 +517,28 @@ export function TaskEditor({
       setConfirmDelete(false);
     }
   };
+  // Over-limit text (legacy or after IME) is summarized with links; never mid-composition.
+  // Save stays blocked by raw over-limit values even mid-composition; only display waits.
+  const rawLengthIssues = [
+    { id: 'task-title', message: lengthError('Task title', draft.title, 200, { trim: true }) },
+    { id: 'task-details', message: lengthError('Details', draft.description, 10000) },
+    {
+      id: 'task-category',
+      message: lengthError('Category', draft.category, 80, { trim: true }),
+    },
+  ].flatMap((i) => (i.message ? [{ id: i.id, message: i.message }] : []));
+  const lengthIssues = composing ? [] : rawLengthIssues;
+  const issue = (id: string) => lengthIssues.find((i) => i.id === id)?.message;
+  const typed = (e: { nativeEvent: Event }) => (e.nativeEvent as InputEvent).isComposing;
+  const ime = {
+    onCompositionStart: () => setComposing(true),
+    onCompositionEnd: () => setComposing(false),
+    // Some browsers drop compositionend on blur/focus change; never leave the flag stuck.
+    onBlur: () => setComposing(false),
+  };
   const invalid =
     !draft.title.trim() ||
-    draft.title.trim().length > 200 ||
-    draft.description.length > 10000 ||
-    draft.category.trim().length > 80 ||
+    rawLengthIssues.length > 0 ||
     (!!draft.start_date && !!draft.due_date && draft.start_date > draft.due_date) ||
     (draft.recurrence !== 'none' && !draft.due_date);
   const change = <K extends keyof Draft>(key: K, value: Draft[K]) => {
@@ -718,25 +737,45 @@ export function TaskEditor({
               formId="task-detail-form"
               hideSubmit
             >
+              <FieldErrorSummary issues={lengthIssues} />
               <Field
+                id="task-title"
                 label="Task title"
                 placeholder="What needs to get done?"
                 data-autofocus={!id ? true : undefined}
                 value={draft.title}
                 required
-                maxLength={200}
-                onChange={(e) => change('title', e.target.value)}
+                hint={lengthHint(draft.title, 200, { trim: true })}
+                error={issue('task-title')}
+                {...ime}
+                onChange={(e) =>
+                  change(
+                    'title',
+                    limitText(draft.title, e.target.value, 200, typed(e), { trim: true }),
+                  )
+                }
               />
               <label>
                 Details
                 <textarea
+                  id="task-details"
                   placeholder="Context, goals or anything your team should know"
                   aria-label="Details"
+                  aria-describedby="task-details-detail"
+                  aria-invalid={!!issue('task-details')}
                   value={draft.description}
-                  maxLength={10000}
-                  onChange={(e) => change('description', e.target.value)}
+                  {...ime}
+                  onChange={(e) =>
+                    change(
+                      'description',
+                      limitText(draft.description, e.target.value, 10000, typed(e)),
+                    )
+                  }
                 />
               </label>
+              <p id="task-details-detail" className="hint">
+                {lengthHint(draft.description, 10000)}
+              </p>
               <label>
                 Group
                 <select
@@ -801,9 +840,17 @@ export function TaskEditor({
                     label="Category"
                     placeholder="New category name"
                     autoFocus
+                    id="task-category"
                     value={draft.category}
-                    maxLength={80}
-                    onChange={(e) => change('category', e.target.value)}
+                    hint={lengthHint(draft.category, 80, { trim: true })}
+                    error={issue('task-category')}
+                    {...ime}
+                    onChange={(e) =>
+                      change(
+                        'category',
+                        limitText(draft.category, e.target.value, 80, typed(e), { trim: true }),
+                      )
+                    }
                   />
                   <button
                     type="button"
@@ -969,9 +1016,14 @@ export function TaskEditor({
                                   aria-label="New checklist item"
                                   value={childTitle}
                                   autoFocus={editingField === 'title'}
-                                  maxLength={200}
                                   disabled={pending || !write}
-                                  onChange={(e) => setChildTitle(e.target.value)}
+                                  onChange={(e) =>
+                                    setChildTitle(
+                                      limitText(childTitle, e.target.value, 200, typed(e), {
+                                        trim: true,
+                                      }),
+                                    )
+                                  }
                                 />
                               ) : write ? (
                                 <button
@@ -1056,10 +1108,13 @@ export function TaskEditor({
                                 aria-label="Edit checklist remark"
                                 value={childRemark}
                                 autoFocus={editingField === 'remark'}
-                                maxLength={2000}
                                 rows={1}
                                 disabled={pending || !write}
-                                onChange={(e) => setChildRemark(e.target.value)}
+                                onChange={(e) =>
+                                  setChildRemark(
+                                    limitText(childRemark, e.target.value, 2000, typed(e)),
+                                  )
+                                }
                               />
                             ) : write ? (
                               <button
@@ -1102,9 +1157,14 @@ export function TaskEditor({
                               autoFocus
                               placeholder="Add a checklist item…"
                               value={addTitle}
-                              maxLength={200}
                               disabled={pending || formDirty || !!editing}
-                              onChange={(e) => setAddTitle(e.target.value)}
+                              onChange={(e) =>
+                                setAddTitle(
+                                  limitText(addTitle, e.target.value, 200, typed(e), {
+                                    trim: true,
+                                  }),
+                                )
+                              }
                             />
                           </div>
                           <div className="checklist-row-actions">
@@ -1150,10 +1210,11 @@ export function TaskEditor({
                             aria-label="New checklist remark"
                             placeholder="Add remark…"
                             value={addRemark}
-                            maxLength={2000}
                             rows={1}
                             disabled={pending || formDirty || !!editing}
-                            onChange={(e) => setAddRemark(e.target.value)}
+                            onChange={(e) =>
+                              setAddRemark(limitText(addRemark, e.target.value, 2000, typed(e)))
+                            }
                           />
                         </td>
                       </tr>
