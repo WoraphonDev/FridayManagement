@@ -12,8 +12,8 @@ Official Task Register ยัง DONE 9 / total 96 / remaining 87; IN_PROGRESS 8
 | [DEL-UX1](DEL-UX1.md) | Medium | draft | Post-mutation focus and mobile shell; depends: DEL-SPEC |
 | [DEL-UX2](DEL-UX2.md) | High | draft | Entity draft protection and persistent mutation errors; depends: DEL-UX1 |
 | [DEL-UX3](DEL-UX3.md) | High | draft | Title-first Docs and editor recovery; depends: DEL-UX2 |
-| [DEL-ACCESS](DEL-ACCESS.md) | High | draft | UI and existing server permission parity; depends: DEL-UX3 |
-| [DEL-VALIDATION](DEL-VALIDATION.md) | High | draft | Thai emoji IME validation parity without limit migration; depends: DEL-ACCESS |
+| [DEL-ACCESS](DEL-ACCESS.md) | High | done | UI and existing server permission parity; depends: DEL-UX3 |
+| [DEL-VALIDATION](DEL-VALIDATION.md) | Medium | in_progress | Thai emoji IME validation parity without limit migration; depends: DEL-ACCESS |
 | [DEL-CONTRACT](DEL-CONTRACT.md) | High | blocked | Resolve dependent policy and draft delivery wire contracts; depends: DEL-VALIDATION |
 | [DEL-PROJECT](DEL-PROJECT.md) | High | blocked | Nullable project delivery metadata and explicit responsibility; depends: DEL-CONTRACT |
 | [DEL-TASK](DEL-TASK.md) | High | blocked | Primary task owner and new-task readiness across all mutations; depends: DEL-PROJECT |

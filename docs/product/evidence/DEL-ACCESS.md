@@ -212,3 +212,6 @@ Card remains **in_progress**: P-04 navigation, P-03 directory policy and invisib
 ### Parent precommit approval
 
 Parent rollout gate 7 **SATISFIED** after personal inspection of the full Workspaces/AdminCenter/Trash runtime diff, ticket diff, exact final independent Claude result (`is_error=false`, CLEAN scoped partial), `git diff --check` and seven-path status. Parent approved the scoped PARTIAL commit/push/PR only, with no substantive objections; full-card DONE and merge are not authorized. This supersedes the earlier pending-parent wording. Remote head, PR, attributed exact-head review and CI are verified in the PR delivery record rather than predicted here.
+
+## Closure — 2026-11-24
+Blockers resolved on main: P-04 Trash navigation (PR #10 DEL-ACCESS-NAV), P-03 directory member addition (PR #13 DEL-ACCESS-DIRECTORY), owner-team parent state via `can_restore` / `can_unarchive` (PR #17 DEL-ACCESS-PARENT-STATE). Verified by reading code/tests on `feat/del-validation` (base `8b55cd9`); `grep fixme tests/browser` returns none. Card set **done / proposal false** with owner Zo approval. No new test run is claimed by this closure; PostgreSQL / production / UAT remain **NOT_RUN** and are carried by Task Register T-091.

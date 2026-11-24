@@ -25,6 +25,7 @@ import { Registrations } from './Registrations';
 import './registrations.css';
 import { Workspaces } from './Workspaces';
 import { DataTable, Dialog, EmptyState, Field, Form, Loading, Toast } from './shared/components';
+import { FieldErrorSummary, lengthHint, limitText } from './text-length';
 const client = apiClient();
 type Props = {
   self: Self;
@@ -349,15 +350,32 @@ function JobTitleDialog({
               .finally(() => setPending(false));
           }}
         >
+          <FieldErrorSummary
+            issues={(
+              [
+                ['name', 'job-title-name'],
+                ['color', 'job-title-color'],
+                ['sort_order', 'job-title-order'],
+              ] as const
+            ).flatMap(([key, id]) => (errors[key] ? [{ id, message: errors[key] }] : []))}
+          />
           <Field
+            id="job-title-name"
             label="Title name"
             disabled={unknown}
             value={name}
-            maxLength={50}
-            onChange={(e) => setName(e.target.value)}
+            hint={lengthHint(name, 50, { trim: true })}
+            onChange={(e) =>
+              setName(
+                limitText(name, e.target.value, 50, (e.nativeEvent as InputEvent).isComposing, {
+                  trim: true,
+                }),
+              )
+            }
             error={errors.name}
           />
           <Field
+            id="job-title-color"
             label="Color"
             disabled={unknown}
             type="color"
@@ -366,6 +384,7 @@ function JobTitleDialog({
             error={errors.color}
           />
           <Field
+            id="job-title-order"
             label="Sort order"
             disabled={unknown}
             type="number"

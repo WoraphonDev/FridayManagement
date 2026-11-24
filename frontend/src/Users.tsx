@@ -11,6 +11,7 @@ import {
 import { currentPassword, newPassword, username, displayName, failureMessage } from './auth-policy';
 import { Field, Form, DataTable, Dialog, EmptyState, Loading, Toast } from './shared/components';
 import { loadJobTitles, type JobTitle } from './admin-api';
+import { FieldErrorSummary, lengthHint, limitText, passwordLength } from './text-length';
 import { teamPage, type Team } from './workspace-api';
 import { registrationsPage } from './registration-api';
 const client = apiClient();
@@ -526,8 +527,21 @@ function UserAction({
             });
         }}
       >
+        <FieldErrorSummary
+          issues={(
+            [
+              ['username', 'user-login'],
+              ['display_name', 'user-display-name'],
+              ['email', 'user-email'],
+              ['telephone', 'user-telephone'],
+              ['temp_password', 'user-temp-password'],
+              ['admin_password', 'user-admin-password'],
+            ] as const
+          ).flatMap(([key, id]) => (errors[key] ? [{ id, message: errors[key] }] : []))}
+        />
         {kind === 'create' && (
           <Field
+            id="user-login"
             label="New username"
             value={login}
             onChange={(e) => setLogin(e.target.value)}
@@ -538,26 +552,47 @@ function UserAction({
         {(kind === 'create' || kind === 'edit') && (
           <>
             <Field
+              id="user-display-name"
               label="Member Name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              hint={lengthHint(name, 100, { trim: true })}
+              onChange={(e) =>
+                setName(
+                  limitText(name, e.target.value, 100, (e.nativeEvent as InputEvent).isComposing, {
+                    trim: true,
+                  }),
+                )
+              }
               error={errors.display_name}
             />
             <Field
+              id="user-email"
               label="Email"
               type="email"
               value={email}
-              maxLength={254}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) =>
+                setEmail(
+                  limitText(email, e.target.value, 254, (e.nativeEvent as InputEvent).isComposing),
+                )
+              }
               error={errors.email}
               autoComplete="email"
             />
             <Field
+              id="user-telephone"
               label="Tel."
               type="tel"
               value={telephone}
-              maxLength={40}
-              onChange={(e) => setTelephone(e.target.value)}
+              onChange={(e) =>
+                setTelephone(
+                  limitText(
+                    telephone,
+                    e.target.value,
+                    40,
+                    (e.nativeEvent as InputEvent).isComposing,
+                  ),
+                )
+              }
               error={errors.telephone}
               autoComplete="tel"
             />
@@ -625,17 +660,19 @@ function UserAction({
         )}
         {(kind === 'create' || kind === 'reset') && (
           <Field
+            id="user-temp-password"
             label="Temporary password"
             type="password"
             value={temp}
             onChange={(e) => setTemp(e.target.value)}
             error={errors.temp_password}
             autoComplete="new-password"
-            hint="6–128 characters"
+            hint={`6–128 characters · ${passwordLength(temp)} entered (spaces count; each emoji counts 1)`}
           />
         )}
         {kind === 'reset' && (
           <Field
+            id="user-admin-password"
             label="Your administrator password"
             type="password"
             value={admin}
