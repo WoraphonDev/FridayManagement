@@ -1,3 +1,9 @@
+import { ProjectDeliveryPreview } from './DeliveryPreview';
+import {
+  emptyProjectDelivery,
+  hasProjectDeliveryDraft,
+  confirmPreviewDiscard,
+} from './delivery-preview';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { DraftProtection } from './shared/confirm';
 import { discardDraft } from './shared/confirm-bus';
@@ -983,6 +989,8 @@ function EntityDialog({
     [review, setReview] = useState(false),
     [showReview, setShowReview] = useState(false),
     [unknown, setUnknown] = useState(false);
+  const [deliveryDraft, setDeliveryDraft] = useState(emptyProjectDelivery);
+  const deliveryDirty = hasProjectDeliveryDraft(deliveryDraft);
   const createIntent = useRef<{ signature: string; key: string }>(undefined);
   const entityEpoch = useRef(0);
   useEffect(
@@ -1008,10 +1016,12 @@ function EntityDialog({
     setTeams([]);
     setTeam('');
     setInitialMembers([]);
+    setDeliveryDraft(emptyProjectDelivery());
     createIntent.current = undefined;
     setDenied(true);
   };
   const dirty =
+    deliveryDirty ||
     name !== (action.entity?.name ?? '') ||
     description !== (action.entity?.description ?? '') ||
     projectType !==
@@ -1078,6 +1088,7 @@ function EntityDialog({
     setPending(true);
     setError('');
     try {
+      if (deliveryDirty && !(await confirmPreviewDiscard())) return;
       if (showReview && entity) {
         const current = await latest(kind, entity.id);
         if (epoch !== entityEpoch.current) return;
@@ -1159,7 +1170,11 @@ function EntityDialog({
     );
   return (
     <Dialog
-      className={action.kind !== 'archive' ? 'project-details-dialog' : 'project-action-dialog'}
+      className={
+        action.kind !== 'archive'
+          ? `project-details-dialog${kind === 'projects' ? ' project-delivery-dialog' : ''}`
+          : 'project-action-dialog'
+      }
       title={
         action.kind === 'create'
           ? `Create ${kind === 'teams' ? 'team' : 'project'}`
@@ -1170,6 +1185,33 @@ function EntityDialog({
             : `Edit ${entity?.name}`
       }
       onClose={() => void close()}
+      footer={
+        kind === 'projects' && action.kind !== 'archive' ? (
+          <>
+            <span className="draft-label">{dirty ? 'Unsaved changes' : ''}</span>
+            <span className="footer-spacer" />
+            <button disabled={pending} onClick={() => void close()}>
+              Cancel
+            </button>
+            <button
+              className="primary"
+              type="submit"
+              form="project-metadata-form"
+              disabled={
+                pending ||
+                !online ||
+                self.maintenance ||
+                archivedEdit ||
+                conflict ||
+                review ||
+                (unknown && action.kind === 'create')
+              }
+            >
+              {pending ? 'Saving…' : 'Save'}
+            </button>
+          </>
+        ) : undefined
+      }
     >
       {dirty && <DraftProtection />}
       {error && <p role="alert">{error}</p>}
@@ -1223,6 +1265,10 @@ function EntityDialog({
           (unknown && action.kind === 'create')
         }
         offline={!online}
+        formId={
+          kind === 'projects' && action.kind !== 'archive' ? 'project-metadata-form' : undefined
+        }
+        hideSubmit={kind === 'projects' && action.kind !== 'archive'}
         submitLabel={action.kind === 'archive' ? 'Confirm' : 'Save'}
         onSubmit={() => void submit()}
       >
@@ -1315,16 +1361,21 @@ function EntityDialog({
                 change
               </p>
             )}
+            {kind === 'projects' && (
+              <ProjectDeliveryPreview value={deliveryDraft} onChange={setDeliveryDraft} />
+            )}
           </>
         )}
-        <button
-          type="button"
-          className="permission-cancel"
-          disabled={pending}
-          onClick={() => void close()}
-        >
-          Cancel
-        </button>
+        {(kind !== 'projects' || action.kind === 'archive') && (
+          <button
+            type="button"
+            className="permission-cancel"
+            disabled={pending}
+            onClick={() => void close()}
+          >
+            Cancel
+          </button>
+        )}
       </Form>
     </Dialog>
   );

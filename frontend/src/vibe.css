@@ -477,7 +477,7 @@ button.permission-cancel:hover:not(:disabled) {
 }
 dialog.task-editor {
   margin: 0 0 0 auto;
-  width: min(590px, 100vw);
+  width: min(1200px, 100vw);
   max-width: 100vw;
   height: 100dvh;
   max-height: 100dvh;

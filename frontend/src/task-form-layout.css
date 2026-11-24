@@ -1,0 +1,166 @@
+/* Task details only: wide workspace, consistent controls, unchanged popup behavior. */
+dialog.task-editor .dialog-content {
+  padding: 0 28px 24px;
+}
+dialog.task-editor .dialog-head {
+  padding: 20px 28px 16px;
+}
+dialog.task-editor .dialog-footer {
+  padding: 16px 28px;
+}
+#task-detail-form .task-form-layout {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  align-items: start;
+  gap: 24px;
+  min-width: 0;
+}
+#task-detail-form :is(.task-form-main, .task-form-side) {
+  display: grid;
+  align-content: start;
+  gap: 20px;
+  min-width: 0;
+}
+#task-detail-form .task-form-section {
+  display: grid;
+  align-content: start;
+  gap: 18px;
+  min-width: 0;
+  padding: 22px;
+  border: 1px solid #e2e7f1;
+  border-radius: 8px;
+  background: #fff;
+}
+#task-detail-form .task-form-section > h3 {
+  grid-column: 1 / -1;
+  margin: 0 0 2px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #edf0f6;
+  color: #34405c;
+  font-size: 14px;
+  font-weight: 700;
+}
+#task-detail-form .task-form-pairs {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+#task-detail-form
+  .task-form-pairs
+  > :is(
+    label:has([aria-label='Group']),
+    label:has([aria-label='Category']),
+    .category-new,
+    label:has([aria-label='Repeat']),
+    p
+  ) {
+  grid-column: 1 / -1;
+}
+#task-detail-form .task-form-section :is(label, .field) {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  min-width: 0;
+  margin: 0;
+  gap: 8px;
+}
+#task-detail-form .task-form-section label {
+  color: #4d5670;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.5;
+}
+#task-detail-form .task-form-section :is(input, textarea, select) {
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 40px;
+  margin: 0;
+  padding: 9px 12px;
+  border: 1px solid #d6ddea;
+  border-radius: 6px;
+  background: #fff;
+  color: #323b50;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 400;
+}
+#task-detail-form .task-form-section textarea {
+  min-height: 140px;
+  line-height: 1.7;
+  resize: vertical;
+}
+#task-detail-form .task-form-section :is(input, textarea, select):focus-visible {
+  outline: 2px solid #6989e9;
+  outline-offset: 2px;
+  border-color: #6989e9;
+}
+#task-detail-form .task-form-section :is(.people-picker, .status-picker) {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+}
+#task-detail-form .task-form-section .cell-picker-trigger {
+  min-height: 40px;
+  border-radius: 6px;
+}
+#task-detail-form .people-picker > .cell-picker > .cell-picker-trigger {
+  justify-content: flex-start;
+  padding: 9px 12px;
+  border-color: #d6ddea;
+  background: #fff;
+}
+#task-detail-form .people-picker .cell-picker-trigger .task-assignees {
+  justify-content: flex-start;
+}
+#task-detail-form .task-form-section .delivery-preview {
+  margin: 0;
+  padding: 16px 0 0;
+  border: 0;
+  border-top: 1px solid #e8edf5;
+  border-radius: 0;
+  background: transparent;
+}
+#task-detail-form .delivery-preview > h3 {
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+#task-detail-form .delivery-preview .delivery-preview-note {
+  padding: 8px 10px;
+  margin: 0 0 14px;
+  font-size: 11px;
+}
+#task-detail-form .task-form-section > p {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #657087;
+  overflow-wrap: anywhere;
+}
+@media (max-width: 820px) {
+  #task-detail-form .task-form-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 16px;
+  }
+}
+@media (max-width: 600px) {
+  dialog.task-editor .dialog-content {
+    padding: 0 14px 18px;
+  }
+  dialog.task-editor .dialog-head {
+    padding: 16px 18px 12px;
+  }
+  dialog.task-editor .dialog-footer {
+    padding: 12px 14px;
+  }
+  #task-detail-form .task-form-section {
+    padding: 16px;
+    gap: 16px;
+  }
+  #task-detail-form .task-form-pairs {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  #task-detail-form .task-form-section textarea {
+    min-height: 110px;
+  }
+}

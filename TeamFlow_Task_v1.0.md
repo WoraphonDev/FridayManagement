@@ -1,5 +1,38 @@
 # TeamFlow — Task.md: แผนพัฒนาและตรวจความครบถ้วน
 
+## Owner-authorized delivery UI preview — 4 November 2026
+
+Owner latest follow-up: Task drawer now1200px(max100vw), with responsive two-column
+Task brief/People/Organization/Schedule layout and consistent labels/input/select
+spacing and heights. Declared T-032/T-033 Medium; actual runtime effort NOT_VERIFIED.
+Typecheck/lint/build PASS; grouped Chromium6/6 PASS; final textarea-height visual
+follow-up recorded in DEL-UI-PREVIEW. No API/persistence change or task closure.
+
+
+Owner follow-up: expanded right-anchored Create/Edit Task drawer from590px to960px
+(max100vw), gaining370px toward the left on wide screens. Cosmetic declared Low;
+actual runtime effort NOT_VERIFIED. Build PASS; detailed browser outcome in the same
+evidence report. Local5010 serves rebuilt frontend on reload; no API/data change.
+
+
+Owner requested Project/Task UI fields first and API later. Parent DEL-PROJECT/DEL-TASK
+(proposed cards) declare High; actual runtime model/effort NOT_VERIFIED. Added grouped
+Project delivery draft fields and separate Task primary-owner draft, with explicit
+not-saved notices, draft guards and discard-preview confirmation before existing-only
+server saves. Project Save/Cancel stay visible while content scrolls on mobile.
+PASS: final typecheck/build/lint (0 warnings), frontend 100/100, Chromium 13/13,
+check:contract and check:test-plan (plan only). No delivery API/schema/migration/
+persistence or business-rule sign-off; pending decisions and provider acceptance
+remain open. Evidence and executed checks:
+[DEL-UI-PREVIEW](docs/product/evidence/DEL-UI-PREVIEW.md).
+Local review requested and started at http://127.0.0.1:5010 on Node22.23.3 with
+fresh isolated SQLite migrations0000–0017 and synthetic demo3projects/12tasks/4people
+PASS. Browser auto-open failed in connector/native fallback; owner link supplied,
+human visual acceptance NOT_RUN. No deployment or shared runtime change.
+Official status unchanged: DONE 9 / total 96 / remaining 87; IN_PROGRESS 84,
+IN_REVIEW 1, TODO 2. No official task allocated or closed by this UI-only preview.
+
+
 ## Delivery specification addendum — 23 October 2026 (v1.0)
 
 [Delivery decisions D01–D12](docs/product/delivery-decisions.md), [testable rules / proposed defaults / pending questions](docs/product/delivery-rules.md), [rollout](docs/product/delivery-rollout.md) และ [ADR-0002](docs/adr/ADR-0002-delivery-first-specification.md) เป็นส่วนเพิ่มเติมที่มีผลเหนือข้อความเก่าเฉพาะ delivery scope ที่ขัดกัน ไม่ใช่ implementation หรือผล PASS. Multi-assignees คงอยู่พร้อม primary owner แยก; acceptor ต้องมีชื่อก่อนเริ่ม; เก็บ immutable starting plan เมื่อยืนยันเริ่ม; legacy ไม่ถูกบังคับ readiness ย้อนหลัง. Dependencies เดิม excluded ได้รับทิศทางใหม่เฉพาะระยะหลัง same-project warning-only ไม่รวม automatic scheduling/critical path; optional effort/weekly availability ไม่ใช่ time tracking. รายละเอียด authority/closure/reopen/adoption/effort ที่ยัง pending ต้อง block งานที่ขึ้นกับคำตอบ ไม่ถือว่าร่างทุก field อนุมัติแล้ว

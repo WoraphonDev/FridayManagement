@@ -21,6 +21,7 @@ import './motion.css';
 import './cell-pickers.css';
 import './compact.css';
 import './responsive-fixes.css';
+import './task-form-layout.css';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

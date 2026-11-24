@@ -1,3 +1,5 @@
+import { TaskOwnerPreview } from './DeliveryPreview';
+import { confirmPreviewDiscard } from './delivery-preview';
 import { taskNumber } from './task-number';
 import { formatPlanDate } from './shared/formatPlanDate';
 import { confirmDialog } from './shared/confirm-bus';
@@ -142,6 +144,7 @@ export function TaskEditor({
     [deleteBefore, setDeleteBefore] = useState(0),
     [panelDirty, setPanelDirty] = useState(false),
     [confirmChild, setConfirmChild] = useState<Subtask>();
+  const [primaryOwnerDraft, setPrimaryOwnerDraft] = useState<number | null>(null);
   const checklistDraftRow = useRef<HTMLTableRowElement>(null);
   const pressedInRow = useRef(false);
   const mutationEpoch = useRef(0);
@@ -155,6 +158,7 @@ export function TaskEditor({
     JSON.stringify(base ? draftOf(base) : { ...draftOf(), group_id: initialGroup ?? null });
   const dirty =
     panelDirty ||
+    primaryOwnerDraft !== null ||
     formDirty ||
     !!addTitle ||
     addAssignee !== null ||
@@ -254,6 +258,7 @@ export function TaskEditor({
           if ([401, 403, 404].includes(e.status)) {
             setBase(undefined);
             setDraft(draftOf());
+            setPrimaryOwnerDraft(null);
             onDone();
             onClose();
           } else setError(e);
@@ -329,7 +334,7 @@ export function TaskEditor({
   const save = async () => {
     if (busy.current || !write) return;
     busy.current = true;
-    // Saving is routine and reversible (history + versions); only deletion asks to confirm.
+    // Preview-only ownership is explicitly discarded before saving existing fields.
     mutationEpoch.current++;
     setPending(true);
     setError(undefined);
@@ -360,6 +365,7 @@ export function TaskEditor({
     const json = JSON.stringify(payload);
     if (intent.current?.json !== json) intent.current = { json, key: crypto.randomUUID() };
     try {
+      if (primaryOwnerDraft !== null && !(await confirmPreviewDiscard())) return;
       const result = await client.request(id ? `/api/tasks/${id}` : '/api/tasks', {
         method: id ? 'PATCH' : 'POST',
         body: payload,
@@ -369,6 +375,7 @@ export function TaskEditor({
       });
       intent.current = undefined;
       setChanged(false);
+      setPrimaryOwnerDraft(null);
       setBase(result.item);
       setDraft(draftOf(result.item));
       setConflict(false);
@@ -718,164 +725,201 @@ export function TaskEditor({
               formId="task-detail-form"
               hideSubmit
             >
-              <Field
-                label="Task title"
-                placeholder="What needs to get done?"
-                data-autofocus={!id ? true : undefined}
-                value={draft.title}
-                required
-                maxLength={200}
-                onChange={(e) => change('title', e.target.value)}
-              />
-              <label>
-                Details
-                <textarea
-                  placeholder="Context, goals or anything your team should know"
-                  aria-label="Details"
-                  value={draft.description}
-                  maxLength={10000}
-                  onChange={(e) => change('description', e.target.value)}
-                />
-              </label>
-              <label>
-                Group
-                <select
-                  aria-label="Group"
-                  value={draft.group_id ?? ''}
-                  onChange={(e) =>
-                    change('group_id', e.target.value ? Number(e.target.value) : null)
-                  }
-                >
-                  <option value="">Tasks</option>
-                  {groups.map((g) => (
-                    <option key={g.id} value={g.id}>
-                      {g.name}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Assignees
-                <PeoplePicker
-                  label="Assignees"
-                  people={
-                    members?.items
-                      .filter((m) => m.assignee_eligible || draft.assignee_ids.includes(m.user.id))
-                      .map((m) => ({
-                        ...m.user,
-                        active: m.assignee_eligible,
-                        role: m.job_title ?? m.effective_access,
-                      })) ?? []
-                  }
-                  value={draft.assignee_ids}
-                  disabled={!write || pending || !online}
-                  onChange={(ids) => change('assignee_ids', ids)}
-                />
-              </label>
-              <label>
-                Priority
-                <select
-                  aria-label="Priority"
-                  value={draft.priority}
-                  onChange={(e) => change('priority', e.target.value as Draft['priority'])}
-                >
-                  {priorities.map((p) => (
-                    <option key={p} value={p}>
-                      {p.charAt(0).toUpperCase() + p.slice(1)}
-                    </option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                Status
-                <StatusPicker
-                  label="Status"
-                  disabled={!id || !write || pending || !online}
-                  value={draft.status}
-                  onChange={(status) => change('status', status)}
-                />
-              </label>
-              {newCategory ? (
-                <div className="category-new">
-                  <Field
-                    label="Category"
-                    placeholder="New category name"
-                    autoFocus
-                    value={draft.category}
-                    maxLength={80}
-                    onChange={(e) => change('category', e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    className="link-button"
-                    onClick={() => {
-                      setNewCategory(false);
-                      change('category', base?.category ?? '');
-                    }}
-                  >
-                    Choose existing
-                  </button>
+              <div className="task-form-layout">
+                <div className="task-form-main">
+                  <section className="task-form-section" aria-labelledby="task-brief-heading">
+                    <h3 id="task-brief-heading">Task brief</h3>
+                    <Field
+                      label="Task title"
+                      placeholder="What needs to get done?"
+                      data-autofocus={!id ? true : undefined}
+                      value={draft.title}
+                      required
+                      maxLength={200}
+                      onChange={(e) => change('title', e.target.value)}
+                    />
+                    <label>
+                      Details
+                      <textarea
+                        placeholder="Context, goals or anything your team should know"
+                        aria-label="Details"
+                        value={draft.description}
+                        maxLength={10000}
+                        onChange={(e) => change('description', e.target.value)}
+                      />
+                    </label>
+                  </section>
+                  <section className="task-form-section" aria-labelledby="task-people-heading">
+                    <h3 id="task-people-heading">People & responsibility</h3>
+                    <label>
+                      Assignees
+                      <PeoplePicker
+                        label="Assignees"
+                        people={
+                          members?.items
+                            .filter(
+                              (m) => m.assignee_eligible || draft.assignee_ids.includes(m.user.id),
+                            )
+                            .map((m) => ({
+                              ...m.user,
+                              active: m.assignee_eligible,
+                              role: m.job_title ?? m.effective_access,
+                            })) ?? []
+                        }
+                        value={draft.assignee_ids}
+                        disabled={!write || pending || !online}
+                        onChange={(ids) => change('assignee_ids', ids)}
+                      />
+                    </label>
+                    <TaskOwnerPreview
+                      people={
+                        members?.items.filter((m) => m.assignee_eligible).map((m) => m.user) ?? []
+                      }
+                      value={primaryOwnerDraft}
+                      onChange={setPrimaryOwnerDraft}
+                    />
+                  </section>
                 </div>
-              ) : (
-                <label>
-                  Category
-                  <select
-                    aria-label="Category"
-                    value={draft.category}
-                    onChange={(e) => {
-                      if (e.target.value === '__new') {
-                        setNewCategory(true);
-                        change('category', '');
-                      } else change('category', e.target.value);
-                    }}
+                <div className="task-form-side">
+                  <section
+                    className="task-form-section task-form-pairs"
+                    aria-labelledby="task-workflow-heading"
                   >
-                    <option value="">No category</option>
-                    {[...new Set([...categories, draft.category].filter(Boolean))].map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                    <option value="__new">+ New category…</option>
-                  </select>
-                </label>
-              )}
-              <Field
-                label="Start Plan"
-                type="date"
-                value={draft.start_date}
-                onChange={(e) => change('start_date', e.target.value)}
-              />
-              <Field
-                label="End Plan"
-                type="date"
-                value={draft.due_date}
-                required={draft.recurrence !== 'none'}
-                onChange={(e) => change('due_date', e.target.value)}
-              />
-              <label>
-                Repeat
-                <select
-                  aria-label="Repeat"
-                  value={draft.recurrence}
-                  onChange={(e) => change('recurrence', e.target.value as Draft['recurrence'])}
-                >
-                  <option value="none">Does not repeat</option>
-                  <option value="daily">Daily</option>
-                  <option value="weekly">Weekly</option>
-                  <option value="monthly">Monthly</option>
-                </select>
-              </label>
-              {draft.recurrence !== 'none' && (
-                <p>
-                  End Plan is required. The next occurrence is created only when this task is
-                  completed.
-                  {draft.recurrence === 'monthly' &&
-                    ' · Keeps the same day each month, or the last day of shorter months. Changing End Plan resets the anchor.'}
-                </p>
-              )}
-              {draft.start_date && draft.due_date && draft.start_date > draft.due_date && (
-                <p role="alert">Start Plan must be on or before End Plan</p>
-              )}
+                    <h3 id="task-workflow-heading">Organization & progress</h3>
+                    <label>
+                      Group
+                      <select
+                        aria-label="Group"
+                        value={draft.group_id ?? ''}
+                        onChange={(e) =>
+                          change('group_id', e.target.value ? Number(e.target.value) : null)
+                        }
+                      >
+                        <option value="">Tasks</option>
+                        {groups.map((g) => (
+                          <option key={g.id} value={g.id}>
+                            {g.name}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      Priority
+                      <select
+                        aria-label="Priority"
+                        value={draft.priority}
+                        onChange={(e) => change('priority', e.target.value as Draft['priority'])}
+                      >
+                        {priorities.map((p) => (
+                          <option key={p} value={p}>
+                            {p.charAt(0).toUpperCase() + p.slice(1)}
+                          </option>
+                        ))}
+                      </select>
+                    </label>
+                    <label>
+                      Status
+                      <StatusPicker
+                        label="Status"
+                        disabled={!id || !write || pending || !online}
+                        value={draft.status}
+                        onChange={(status) => change('status', status)}
+                      />
+                    </label>
+                    {newCategory ? (
+                      <div className="category-new">
+                        <Field
+                          label="Category"
+                          placeholder="New category name"
+                          autoFocus
+                          value={draft.category}
+                          maxLength={80}
+                          onChange={(e) => change('category', e.target.value)}
+                        />
+                        <button
+                          type="button"
+                          className="link-button"
+                          onClick={() => {
+                            setNewCategory(false);
+                            change('category', base?.category ?? '');
+                          }}
+                        >
+                          Choose existing
+                        </button>
+                      </div>
+                    ) : (
+                      <label>
+                        Category
+                        <select
+                          aria-label="Category"
+                          value={draft.category}
+                          onChange={(e) => {
+                            if (e.target.value === '__new') {
+                              setNewCategory(true);
+                              change('category', '');
+                            } else change('category', e.target.value);
+                          }}
+                        >
+                          <option value="">No category</option>
+                          {[...new Set([...categories, draft.category].filter(Boolean))].map(
+                            (c) => (
+                              <option key={c} value={c}>
+                                {c}
+                              </option>
+                            ),
+                          )}
+                          <option value="__new">+ New category…</option>
+                        </select>
+                      </label>
+                    )}
+                  </section>
+                  <section
+                    className="task-form-section task-form-pairs"
+                    aria-labelledby="task-schedule-heading"
+                  >
+                    <h3 id="task-schedule-heading">Schedule</h3>
+                    <Field
+                      label="Start Plan"
+                      type="date"
+                      value={draft.start_date}
+                      onChange={(e) => change('start_date', e.target.value)}
+                    />
+                    <Field
+                      label="End Plan"
+                      type="date"
+                      value={draft.due_date}
+                      required={draft.recurrence !== 'none'}
+                      onChange={(e) => change('due_date', e.target.value)}
+                    />
+                    <label>
+                      Repeat
+                      <select
+                        aria-label="Repeat"
+                        value={draft.recurrence}
+                        onChange={(e) =>
+                          change('recurrence', e.target.value as Draft['recurrence'])
+                        }
+                      >
+                        <option value="none">Does not repeat</option>
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="monthly">Monthly</option>
+                      </select>
+                    </label>
+                    {draft.recurrence !== 'none' && (
+                      <p>
+                        End Plan is required. The next occurrence is created only when this task is
+                        completed.
+                        {draft.recurrence === 'monthly' &&
+                          ' · Keeps the same day each month, or the last day of shorter months. Changing End Plan resets the anchor.'}
+                      </p>
+                    )}
+                    {draft.start_date && draft.due_date && draft.start_date > draft.due_date && (
+                      <p role="alert">Start Plan must be on or before End Plan</p>
+                    )}
+                  </section>
+                </div>
+              </div>
             </Form>
           </div>
           {base && (
