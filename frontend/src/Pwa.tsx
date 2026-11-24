@@ -3,10 +3,11 @@ import { UiIcon } from './shared/UiIcon';
 import { Brand } from './Brand';
 type InstallEvent = Event & { prompt(): Promise<void>; userChoice: Promise<{ outcome: string }> };
 /**
- * G5: the floating Install control shows only before sign-in; signed-in users install from
- * Settings › Appearance (`mode="settings"`). Waiting updates apply after all windows close.
+ * G5: Install is offered only from Settings › Appearance (`mode="settings"`); no floating
+ * control on any page. `update-only` just registers the service worker. Waiting updates apply
+ * after all windows close.
  */
-export function Pwa({ mode = 'floating' }: { mode?: 'floating' | 'update-only' | 'settings' }) {
+export function Pwa({ mode = 'update-only' }: { mode?: 'update-only' | 'settings' }) {
   const [install, setInstall] = useState<InstallEvent>();
   useEffect(() => {
     const offer = (event: Event) => {
@@ -61,17 +62,5 @@ export function Pwa({ mode = 'floating' }: { mode?: 'floating' | 'update-only' |
         {panel}
       </section>
     );
-  return (
-    <aside className="pwa-options" aria-label="Open as app">
-      {mode === 'floating' && (
-        <details className="pwa-install">
-          <summary aria-label="Install or add to home screen">
-            <UiIcon name="download" />
-            <span>Install app</span>
-          </summary>
-          {panel}
-        </details>
-      )}
-    </aside>
-  );
+  return null;
 }

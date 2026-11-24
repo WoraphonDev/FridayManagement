@@ -1,0 +1,105 @@
+/* Scoped to draft-only delivery controls; existing forms retain their contracts. */
+dialog .delivery-preview {
+  grid-column: 1 / -1;
+  min-width: 0;
+  margin: 12px 0;
+  padding: 16px;
+  border: 1px solid #dce3ef;
+  border-radius: 6px;
+  background: #fafbfe;
+}
+dialog .delivery-preview :is(summary, h3) {
+  margin: 0;
+  color: #34405c;
+  font-size: 14px;
+  font-weight: 700;
+}
+dialog .delivery-preview summary {
+  cursor: pointer;
+}
+dialog .delivery-preview :is(summary, h3) > span {
+  display: inline-block;
+  margin-left: 8px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  background: #edf1fa;
+  color: #536583;
+  font-size: 11px;
+  font-weight: 500;
+}
+dialog .delivery-preview-content {
+  display: grid;
+  gap: 14px;
+  padding-top: 14px;
+}
+dialog .delivery-preview .delivery-preview-note {
+  margin: 10px 0;
+  padding: 10px;
+  border-left: 3px solid #b88b35;
+  background: #fff8e9;
+  color: #70501f;
+  font-size: 12px;
+  line-height: 1.6;
+}
+dialog .delivery-preview label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+  margin: 0;
+}
+dialog .delivery-preview :is(input, textarea, select) {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+dialog .delivery-preview textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+dialog .delivery-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+dialog .delivery-preview .delivery-preview-hint {
+  margin: 4px 0;
+  font-size: 12px;
+  line-height: 1.6;
+  color: #657087;
+}
+dialog .delivery-preview-scope {
+  border-top: 1px solid #e2e7f1;
+  padding-top: 14px;
+}
+dialog .delivery-preview :is(p, summary, h3) {
+  overflow-wrap: anywhere;
+}
+@media (max-width: 600px) {
+  dialog .delivery-preview {
+    padding: 12px;
+  }
+  dialog .delivery-preview-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+/* Keep actions reachable while the expanded delivery form scrolls. */
+dialog.project-delivery-dialog[open] {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 32px);
+  overflow: hidden;
+}
+dialog.project-delivery-dialog > .dialog-head { flex-shrink: 0; }
+dialog.project-delivery-dialog .dialog-content {
+  display: block;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 2px;
+}
+dialog.project-delivery-dialog .dialog-footer {
+  flex-shrink: 0;
+  margin-top: 12px;
+  padding: 12px 0 0;
+}

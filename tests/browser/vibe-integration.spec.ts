@@ -338,16 +338,8 @@ test('Approved Login: larger logo, eye inside password, install panel, motion an
     await help.press('Escape');
     await expect(help).toBeHidden();
     await password.fill('');
-    await page.getByText('Install app', { exact: true }).click();
-    await expect(
-      page.getByRole('heading', { name: 'Your workspace, one click away', exact: true }),
-    ).toBeVisible();
-    await page.screenshot({
-      path: 'reports/UI-vibe-install-panel.png',
-      fullPage: true,
-      animations: 'allow',
-    });
-    await page.getByText('Install app', { exact: true }).click();
+    // G5: no floating Install control before sign-in; install lives in Settings only.
+    await expect(page.getByText('Install app', { exact: true })).toHaveCount(0);
     await page.getByLabel('Username', { exact: true }).fill('WorkspaceAdmin');
     await password.fill('Incorrect-fixture-password');
     await page.getByRole('button', { name: 'Sign in', exact: true }).click();

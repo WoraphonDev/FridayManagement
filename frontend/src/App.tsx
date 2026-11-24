@@ -171,7 +171,7 @@ export function App() {
       // Vibe dropdown lists render in a portal; picking an option there is still "inside".
       if ((event.target as Element).closest?.('[role="listbox"], [role="option"]')) return;
       for (const menu of document.querySelectorAll<HTMLDetailsElement>(
-        'details[open].card-menu, details[open].card-manage, details[open].popover-menu, details[open].pwa-install',
+        'details[open].card-menu, details[open].card-manage, details[open].popover-menu',
       ))
         if (!menu.contains(event.target as Node)) menu.open = false;
     };
@@ -807,7 +807,7 @@ export function App() {
         </header>
         {!online && <Toast persist>Connect to save changes. Offline saving is unavailable.</Toast>}
         {online && !writable && <Toast persist>Checking for updates before enabling changes</Toast>}
-        <Pwa mode={self ? 'update-only' : 'floating'} />
+        <Pwa mode="update-only" />
         <ConfirmHost />
         {self?.maintenance && (
           <Toast persist>Maintenance in progress. Please try again later.</Toast>
