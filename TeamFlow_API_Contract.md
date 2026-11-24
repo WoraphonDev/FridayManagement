@@ -1,10 +1,18 @@
-# TeamFlow — API/DTO contract 1.16.0
+# TeamFlow — API/DTO contract 1.17.0
 
 วันที่: 5 ตุลาคม 2026 · Task: T-003 · Business baseline1.1 + RD-01–RD-08
 
 Machine contract: [contracts/openapi.json](contracts/openapi.json) (OpenAPI3.1.1/JSON Schema2020-12). Authoring source: [scripts/build-contract.mjs](scripts/build-contract.mjs). Contract tests: [tests/contracts/contract.test.mjs](tests/contracts/contract.test.mjs).
 
 เอกสารนี้ล็อกสัญญา frontend/backend สำหรับ Node22 + SQLite local และ SQL2022 ปลายทางร่วมกัน ไม่ใช่ HTTP server, authorization implementation หรือหลักฐานว่า database transactions ผ่าน หากเปลี่ยน field/status/policy ต้องแก้ SRS/contract/tests พร้อมกัน และ regenerate JSON ก่อนปิดงาน
+
+## API1.17.0 — actor-scoped parent capabilities (Zo adopted 24 November 2026)
+
+89 routes / 122 schemas, unchanged route inventory. Coordinated server + strict client release: every Project (list, create and patch replies) requires boolean `can_unarchive`; every TrashPage row requires boolean `can_restore`. Missing/null/invalid/read error is unknown in UI and disables the action; never default true. Task/TaskPage/board/history do not gain these fields.
+
+Capabilities are read-only snapshots for currently readable resources, never authorization tokens or persisted project/task/audit state. No hidden owner-team archive flag/timestamp, roster, count or reason is disclosed; false displays generic “Unavailable”. Existing visible owner-team id/name grants no team read access. No new GET teams grant.
+
+`can_restore` = scoped Admin/owner-team access Lead or actual manager with P-04, before the exact UTC 30-day cutoff; manager additionally requires active project and owner team. Admin/owner Lead retain the archived-parent restore exception. `can_unarchive` = Admin/owner-team access Lead + archived project + active owner team; managers/P-01/P-04 cannot unarchive, and Admin cannot bypass TEAM_ARCHIVED. Online/maintenance are separate UI gates. Mutations recheck current authority, parents, retention and version with existing error precedence; stale positives may be denied. A changed snapshot/version invalidates confirmation and requires fresh user intent.
 
 ## API1.16.0 — scoped member candidates (adopted 26 October 2026)
 

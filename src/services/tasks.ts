@@ -957,11 +957,29 @@ export function taskService(options: AccessOptions = {}) {
       const q = taskQuery(a.id, input, trash);
       const total = (await tx.query<{ total: number }>(q.count))[0]!.total;
       const rows = await tx.query<Task>(q.rows);
-      const items = (await dtos(tx, rows)).map((item, n) =>
-        trash
-          ? { ...item, restore_before: retentionWindow(rows[n]!.deleted_at!, now()).cutoff }
-          : item,
-      );
+      const items = await dtos(tx, rows);
+      if (trash) {
+        // Only scoped Trash rows receive capabilities. Cache access per project for this read;
+        // never serialize hidden parent state, or persist this actor-specific snapshot.
+        const accesses = new Map<number, Awaited<ReturnType<typeof projectAccess>>>();
+        const timestamp = now();
+        const trashItems = [];
+        for (const item of items) {
+          let p = accesses.get(item.project_id);
+          if (!p) {
+            p = await projectAccess(tx, a, item.project_id);
+            accesses.set(item.project_id, p);
+          }
+          const retention = retentionWindow(item.deleted_at!, timestamp);
+          trashItems.push({
+            ...item,
+            restore_before: retention.cutoff,
+            can_restore: can(p, 'P-04') && retention.restorable &&
+              (rights(p.role).manage || (!p.team_archived_at && !p.archived_at)),
+          });
+        }
+        return { items: trashItems, total, page: q.page, pageSize: q.pageSize };
+      }
       return { items, total, page: q.page, pageSize: q.pageSize };
     },
     async trashMutation(

@@ -68,6 +68,7 @@ export function buildContract() {
     archived_at: nullable(ref('Timestamp')), version: ref('Version'), created_by: ref('Id'),
     created_at: ref('Timestamp'), updated_at: ref('Timestamp'),
     effective_access: enumeration(['admin', 'lead', 'manager', 'editor', 'viewer']),
+    can_unarchive: boolean,
   });
   schemas.ProjectMember = object({ user: ref('Person'), job_title: nullable(nonblank(50)), explicit_access: nullable(enumeration(['manager', 'editor', 'viewer'])), effective_access: enumeration(['admin', 'lead', 'manager', 'editor', 'viewer']), assignee_eligible: boolean });
   schemas.ProjectMemberCandidate = object({ id: ref('Id'), display_name: nonblank(100) });
@@ -114,7 +115,7 @@ export function buildContract() {
   schemas.TeamsPage = { anyOf: [paginated(ref('Team')), paginated(ref('AdminTeam'))] };
   schemas.ProjectMembers = object({ items: array(ref('ProjectMember'), 10000), membership_version: ref('Version') });
   schemas.NotificationsPage = object({ ...paginated(ref('Notification')).properties, unread_count: integer(0) });
-  schemas.TrashPage = paginated(object({ ...schemas.Task.properties, restore_before: ref('Timestamp') }));
+  schemas.TrashPage = paginated(object({ ...schemas.Task.properties, restore_before: ref('Timestamp'), can_restore: boolean }));
   schemas.Meta = object({ setupRequired: boolean, version: text(60, 1) });
   schemas.Health = object({ status: enumeration(['ok', 'not_ready']) });
   schemas.ProjectGroup = object({id: ref('Id'), project_id: ref('Id'), name: nonblank(100), color: text(7,7,{pattern:'^#[0-9a-fA-F]{6}$'}), position: integer(0), version:ref('Version'), created_at:ref('Timestamp')});
@@ -335,7 +336,7 @@ export function buildContract() {
   for (const { method, path, op } of operations) paths[path] = { ...paths[path], [method]: op };
   return {
     openapi: '3.1.1', jsonSchemaDialect: 'https://json-schema.org/draft/2020-12/schema',
-    info: { title: 'FridayManagement API', version: '1.16.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark; owner 2026-10-10 project code and task number; owner 2026-10-17 workload overdue column; project overview planned span and owner-team leads. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
+    info: { title: 'FridayManagement API', version: '1.17.0', description: 'T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark; owner 2026-10-10 project code and task number; owner 2026-10-17 workload overdue column; project overview planned span and owner-team leads. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation.' },
     servers: [{ url: '/' }], paths,
     components: { securitySchemes: { cookieSession: { type: 'apiKey', in: 'cookie', name: 'friday_session' } }, schemas },
   };

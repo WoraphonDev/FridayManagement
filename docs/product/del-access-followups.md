@@ -1,5 +1,9 @@
 # DEL-ACCESS follow-ups — adoption records and historical proposal appendix
 
+## Current PARENT adoption — 2026-11-24
+
+Zo accepted both recommended Q-DAF-PARENT decisions below. DEL-ACCESS-PARENT-STATE is in_progress / proposal false; adoption and implementation share one PR. This supersedes historical PARENT OPEN/proposed wording below; parent closure and independent review remain separate.
+
 ## Current DIRECTORY adoption — 2026-10-26
 
 Zo explicit approval, exact quote **“อนุมัติ bundle ทั้งชุด เริ่ม implementation ได้”**, approves the complete enumerated bundle at origin/main `91c25f4` and authorizes implementation. Historical provenance: an earlier continuation “ทำงานถัดไป” had been recorded as a host interpretation; it is superseded by this explicit quote and is not relied on. Merge alone is not authorization. PR12 merged `2026-10-25T17:37:32Z`, head `df2220f6010881d606e73d22e54de247332499f1`, fetched base `91c25f438053b1f3292e04d831b89c18006fa011`. DIRECTORY now **ADOPTED / ready / proposal false** at adoption boundary; see [current card record](../../tickets/delivery/DEL-ACCESS-DIRECTORY.md#current-adoption-record--2026-10-26-supersedes-historical-candidate-gates-below). Historical CANDIDATE/pending/current ceiling wording below is retained provenance, superseded by this record.
@@ -102,8 +106,8 @@ IDs นี้แยกจาก Q-DEL-01–11. Q-DAF-NAV-01 design decision ค�
 | Q-DAF-NAV-01 | **ANSWERED / ADOPTED by Zo (design decision only)** | Zo อนุมัติ “เริ่มเลย”: recommended frontend scoped-input + safe loading/retry เท่านั้น | Design decision complete; ไม่เพิ่ม business grant หรือ Self capability. Zo continuation 2026-10-25 adopt planning/mapping T-081 primary / T-091 regression และ formal card ready / proposal false; spec merge host verified. ณ adoption stage runtime NOT_RUN; current PR10 runtime MERGED ตาม host handoffด้านบน ไม่ใช่ DIRECTORY evidence |
 | Q-DAF-DIR-01 | **ANSWERED / APPROVED business direction** | Zo “อนุมัติแบบจำกัดตามข้อเสนอนี้”: active actual manager+P-03 ค้น active eligible cross-team identities เพื่อเพิ่ม Editor/Viewer; id/display_name + eligible total เท่านั้น, P-03 protected effective Admin/owner-team Lead/explicit manager | No global directory grant/hidden affiliations. Exact filter/protected PUT+DELETE guard with baseline ordinary inactive DELETE removal retained are in one human technical/adoption/implementation bundle; no business reopening |
 | Q-DAF-DIR-02 | **ANSWERED / APPROVED recommended route direction** | ใช้ existing GET /api/directory project-scoped mode, distinct identity-only response, omitted-project legacy behavior; ไม่เพิ่ม endpoint | Duplicate/unknown/empty/ID/paging/q/error/version/compatibility details เสนอชัดใน planning **ยังไม่ human-approved**; preserve locked error precedence/routes89. Human may approve enumerated technical/adoption/implementation scope together; actual compatible merge/runtime acceptance still need evidence |
-| Q-DAF-PARENT-01 | **OPEN / proposed** | ยอมรับ capability-only disclosure และ predicate/role exceptions ที่ระบุหรือไม่? | แนะนำ booleans + generic unavailable ไม่ raw team state; owner/security sign-off ก่อน DTO/UI เปลี่ยน |
-| Q-DAF-PARENT-02 | **OPEN / proposed** | ชื่อ field, requiredness, missing/null behavior และ contract compatibility/version rollout คืออะไร? | เสนอ required `can_restore` / `can_unarchive`, unknown disabled, coordinated server/client contract release; ยังไม่ใช่ locked schema |
+| Q-DAF-PARENT-01 | **ANSWERED / ACCEPTED recommended — Zo 2026-11-24** | Actor-scoped capability booleans only; false = generic Unavailable | No raw hidden team state or broad GET teams grant |
+| Q-DAF-PARENT-02 | **ANSWERED / ACCEPTED recommended — Zo 2026-11-24** | Required boolean `can_restore` on Trash rows / `can_unarchive` on all Project replies; missing/null/error = unknown disabled | Coordinated server/client API 1.17.0 minor release; route count unchanged |
 
 ## Adoption, implementation and merge gates
 

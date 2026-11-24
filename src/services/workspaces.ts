@@ -141,6 +141,7 @@ export function workspaceService(options: AccessOptions = {}) {
     return {
       ...rows[0]!,
       effective_access: access.role as 'admin' | 'lead' | 'manager' | 'editor' | 'viewer',
+      can_unarchive: rights(access.role).manage && !!access.archived_at && !access.team_archived_at,
     };
   };
   /** Admin/Lead, or a manager holding the given key (SRS §4.4); callers narrow the operation. */
@@ -447,10 +448,14 @@ export function workspaceService(options: AccessOptions = {}) {
       );
       return {
         ...page,
-        items: await inOrder(page.items, async (p) => ({
-          ...p,
-          effective_access: (await projectAccess(tx, a, p.id)).role,
-        })),
+        items: await inOrder(page.items, async (p) => {
+          const access = await projectAccess(tx, a, p.id);
+          return {
+            ...p,
+            effective_access: access.role,
+            can_unarchive: rights(access.role).manage && !!access.archived_at && !access.team_archived_at,
+          };
+        }),
       };
     },
     async createProject(tx: Transaction, proof: SessionProof, input: unknown, request: string) {
@@ -542,7 +547,7 @@ export function workspaceService(options: AccessOptions = {}) {
         'project',
         id,
         'project_updated',
-        { before: p, after: updated },
+        { before: { ...p, can_unarchive: undefined }, after: updated },
         request,
       );
       return { item: await project(tx, id, proof) };

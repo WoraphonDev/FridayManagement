@@ -3,7 +3,7 @@
   "jsonSchemaDialect": "https://json-schema.org/draft/2020-12/schema",
   "info": {
     "title": "FridayManagement API",
-    "version": "1.16.0",
+    "version": "1.17.0",
     "description": "T-003 contract; T-080–T-082 job titles/permissions; T-083–T-086 overview/docs/files/batch; T-088 workload/project overview; T-089 preferences; T-090 favorites; owner 2026-10-09 group order, project metadata and team/member contact details; group-order history response correction; owner checklist inline editing and remark; owner 2026-10-10 project code and task number; owner 2026-10-17 workload overdue column; project overview planned span and owner-team leads. Baseline1.1 + owner-approved RD01–08; Node22/SQLite local, SQL2022 target. Schemas are not authorization or transaction implementation."
   },
   "servers": [
@@ -12167,6 +12167,9 @@
               "editor",
               "viewer"
             ]
+          },
+          "can_unarchive": {
+            "type": "boolean"
           }
         },
         "required": [
@@ -12183,7 +12186,8 @@
           "created_by",
           "created_at",
           "updated_at",
-          "effective_access"
+          "effective_access",
+          "can_unarchive"
         ],
         "additionalProperties": false
       },
@@ -14436,6 +14440,9 @@
                 },
                 "restore_before": {
                   "$ref": "#/components/schemas/Timestamp"
+                },
+                "can_restore": {
+                  "type": "boolean"
                 }
               },
               "required": [
@@ -14471,7 +14478,8 @@
                 "subtask_count",
                 "subtask_done_count",
                 "overdue",
-                "restore_before"
+                "restore_before",
+                "can_restore"
               ],
               "additionalProperties": false
             },

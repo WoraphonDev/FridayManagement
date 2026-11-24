@@ -85,6 +85,8 @@ function CardProgress({ id, online }: { id: number; online: boolean }) {
 const isProject = (e: Entity): e is Project => 'owner_team_id' in e;
 const manage = (e: Entity, self: Self) =>
   isProject(e) ? ['admin', 'lead'].includes(e.effective_access) : self.user.org_role === 'admin';
+const archiveAvailable = (e: Entity, self: Self) =>
+  manage(e, self) && (!isProject(e) || !e.archived_at || e.can_unarchive === true);
 const editMetadata = (e: Entity, self: Self) =>
   isProject(e)
     ? manage(e, self) ||
@@ -190,12 +192,14 @@ export function Workspaces({
     },
     [onFailure, externalFailure, selectedProject],
   );
-  useEffect(() => {
+  useLayoutEffect(() => {
     accessEpoch.current++;
     const checks = accessChecks.current;
     return () => {
       for (const controller of checks) controller.abort();
       checks.clear();
+      // Project/view change invalidates any pending archive confirmation (fresh intent required).
+      setAction((previous) => (previous?.kind === 'archive' ? undefined : previous));
     };
   }, [selectedProject, self.view_revision]);
   useEffect(() => {
@@ -210,7 +214,6 @@ export function Workspaces({
       .then((v) => {
         if (!controller.signal.aborted && epoch === accessEpoch.current) {
           setData(v);
-
           setLoading(false);
           setError('');
         }
@@ -218,6 +221,7 @@ export function Workspaces({
       .catch((e: unknown) => {
         if (!controller.signal.aborted && epoch === accessEpoch.current) {
           setData(undefined);
+          setAction((previous) => previous?.kind === 'archive' ? undefined : previous);
           setLoading(false);
           setError(failureMessage(e));
           if (e instanceof ApiError) onFailure(e);
@@ -251,14 +255,19 @@ export function Workspaces({
           if (
             !current ||
             (action.kind === 'edit' && !editMetadata(current, self)) ||
-            (action.kind === 'archive' && !manage(current, self))
+            (action.kind === 'archive' &&
+              (!archiveAvailable(current, self) || current.version !== action.entity.version ||
+                current.archived_at !== action.entity.archived_at))
           ) {
             setAction(undefined);
             setChanged(false);
           } else setChanged(current.version !== action.entity.version);
         } else setChanged(false);
       } catch (e) {
-        if (!signal.aborted && epoch === accessEpoch.current && e instanceof ApiError) {
+        if (!signal.aborted && epoch === accessEpoch.current) {
+          setData(undefined);
+          setAction((previous) => previous?.kind === 'archive' ? undefined : previous);
+          if (!(e instanceof ApiError)) return;
           onFailure(e);
           if ([401, 403, 404].includes(e.status)) {
             setData(undefined);
@@ -314,6 +323,8 @@ export function Workspaces({
       (self.effective_summary.lead_team_ids.length > 0 ||
         (self.user.teams.length > 0 && self.user.permission_keys.includes('P-08'))));
   const refresh = () => {
+    accessEpoch.current++;
+    setAction((previous) => previous?.kind === 'archive' ? undefined : previous);
     setLoading(true);
     setData(undefined);
     setReload((n) => n + 1);
@@ -341,7 +352,8 @@ export function Workspaces({
       )}
       {manage(e, self) && (
         <button
-          disabled={!online || self.maintenance}
+          disabled={!online || self.maintenance || !archiveAvailable(e, self)}
+          title={archiveAvailable(e, self) ? undefined : 'Unavailable'}
           onClick={() => setAction({ kind: 'archive', entity: e })}
         >
           {e.archived_at ? 'Unarchive' : 'Archive'}
@@ -1000,6 +1012,8 @@ function EntityDialog({
     entity !== undefined &&
     !!entity.archived_at &&
     !editMetadata(entity, self);
+  const archiveBlocked = action.kind === 'archive' &&
+    (!entity || !archiveAvailable(entity, self));
   const clearEntityDraft = () => {
     entityEpoch.current++;
     setName('');
@@ -1072,12 +1086,21 @@ function EntityDialog({
     }
   };
   const submit = async () => {
-    if (denied || archivedEdit || pending || !online || self.maintenance || review || conflict)
+    if (denied || archivedEdit || archiveBlocked || pending || !online || self.maintenance || review || conflict)
       return;
     const epoch = entityEpoch.current;
     setPending(true);
     setError('');
     try {
+      if (entity && action.kind === 'archive') {
+        const current = await latest(kind, entity.id);
+        if (epoch !== entityEpoch.current) return;
+        if (!archiveAvailable(current, self) || current.version !== entity.version ||
+            current.archived_at !== entity.archived_at) {
+          onDone(); // Discard the old confirmation; the refreshed row needs a new explicit intent.
+          return;
+        }
+      }
       if (showReview && entity) {
         const current = await latest(kind, entity.id);
         if (epoch !== entityEpoch.current) return;
@@ -1132,6 +1155,11 @@ function EntityDialog({
       if (epoch !== entityEpoch.current) return;
       setError(failureMessage(e));
       if (e instanceof ApiError) {
+        if (action.kind === 'archive' &&
+          (e.kind === 'conflict' || ['TEAM_ARCHIVED', 'PROJECT_ARCHIVED'].includes(e.code ?? ''))) {
+          onDone();
+          return;
+        }
         if (e.kind === 'conflict') {
           setConflict(true);
           setReview(true);
@@ -1218,6 +1246,7 @@ function EntityDialog({
         blocked={
           self.maintenance ||
           archivedEdit ||
+          archiveBlocked ||
           conflict ||
           review ||
           (unknown && action.kind === 'create')

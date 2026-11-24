@@ -89,7 +89,7 @@ export const taskPage = z.object({ ...page, items: z.array(taskSchema).max(100) 
 export const trashPage = z
   .object({
     ...page,
-    items: z.array(taskSchema.extend({ restore_before: time }).strict()).max(100),
+    items: z.array(taskSchema.extend({ restore_before: time, can_restore: z.boolean() }).strict()).max(100),
   })
   .strict();
 export type Task = z.infer<typeof taskSchema>;

@@ -88,7 +88,7 @@ let reads:(url:URL)=>unknown|Promise<unknown>;
 beforeEach(()=>{
  h.slots=[];h.effects=[];h.index=0;h.dirty=false;online=true;onFailure.mockClear();
  self=selfFixture();self.user.id=2;self.user.permission_keys=['P-03'];
- entity={id:1,owner_team_id:1,owner_team_name:'Owner',name:'Project',description:'',project_type:'internal',project_category:'general',code:null,archived_at:null,version:1,created_by:1,created_at:'2026-10-01T00:00:00.000Z',updated_at:'2026-10-01T00:00:00.000Z',effective_access:'manager'};
+ entity={id:1,owner_team_id:1,owner_team_name:'Owner',name:'Project',description:'',project_type:'internal',project_category:'general',code:null,archived_at:null,version:1,created_by:1,created_at:'2026-10-01T00:00:00.000Z',updated_at:'2026-10-01T00:00:00.000Z',effective_access:'manager',can_unarchive:false};
  reads=url=>url.pathname==='/api/directory'?page([{id:4,display_name:'Private ไทย😀'}]):url.pathname.endsWith('/members')?{membership_version:1,items:[]}:page([entity]);
  h.fetch.mockReset();h.fetch.mockImplementation(async input=>new Response(JSON.stringify(await reads(new URL(String(input),'https://fixture.invalid'))),{status:200,headers:{'Content-Type':'application/json','X-Request-Id':'00000000-0000-4000-8000-000000000001'}}));
 });

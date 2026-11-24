@@ -42,6 +42,7 @@ export const projectSchema = z
     created_at: timestamp,
     updated_at: timestamp,
     effective_access: z.enum(['admin', 'lead', 'manager', 'editor', 'viewer']),
+    can_unarchive: z.boolean(),
   })
   .strict();
 const pageFields = {

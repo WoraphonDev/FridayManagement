@@ -4,7 +4,6 @@ import { trashPage, mutationReply, statusLabel } from './task-api';
 import { UiIcon } from './shared/UiIcon';
 import { DataTable, Dialog, EmptyState, ErrorNotice, Loading, Toast } from './shared/components';
 import { useSharedRefresh } from './shared/refresh';
-import { projectPage, teamPage, type Project, type Team } from './workspace-api';
 const client = apiClient();
 export function Trash({
   self,
@@ -29,7 +28,6 @@ export function Trash({
     [pending, setPending] = useState(false),
     [notice, setNotice] = useState('');
   const [restorable, setRestorable] = useState<Set<number>>(new Set());
-  const hasP04 = self.user.permission_keys.includes('P-04');
   const busy = useRef(false),
     keys = useRef(new Map<string, string>());
   const epoch = useRef(0),
@@ -62,62 +60,21 @@ export function Trash({
   const read = useCallback(
     async (signal: AbortSignal) => {
       if (denied.current) return;
-      const requestEpoch = epoch.current;
+      const requestEpoch = ++epoch.current;
       try {
         const v = await client.request(`/api/trash?page=${page}&pageSize=20`, {
           signal,
           parse: (v) => trashPage.parse(v),
         });
-        const projects: Project[] = [],
-          teams: Team[] = [];
-        // Existing trash DTO has no parent lifecycle/capability flags. Read current, scoped
-        // metadata; never infer permissions from catalogue or creator/assignee identity.
-        for (let p = 1; ; p++) {
-          const list = await client.request(
-            `/api/projects?includeArchived=true&pageSize=100&page=${p}`,
-            {
-              signal,
-              parse: (v) => projectPage.parse(v),
-            },
-          );
-          projects.push(...list.items);
-          if (p * list.pageSize >= list.total) break;
-        }
-        if (self.user.org_role !== 'admin') {
-          for (let p = 1; ; p++) {
-            const list = await client.request(
-              `/api/teams?includeArchived=true&pageSize=100&page=${p}`,
-              {
-                signal,
-                parse: (v) => teamPage.parse(v),
-              },
-            );
-            teams.push(...list.items);
-            if (p * list.pageSize >= list.total) break;
-          }
-        }
         if (signal.aborted || requestEpoch !== epoch.current || denied.current) return;
-        const allowed = new Set(
-          v.items
-            .filter((task) => {
-              const project = projects.find((p) => p.id === task.project_id);
-              if (!project) return false;
-              if (['admin', 'lead'].includes(project.effective_access)) return true;
-              return (
-                project.effective_access === 'manager' &&
-                hasP04 &&
-                !project.archived_at &&
-                !teams.find((t) => t.id === project.owner_team_id)?.archived_at
-              );
-            })
-            .map((t) => t.id),
-        );
+        const allowed = new Set(v.items.filter((task) => task.can_restore === true).map((t) => t.id));
         setData(v);
         setRestorable(allowed);
         setRestore((previous) => {
           // A changed version needs a fresh explicit confirmation; never silently upgrade it.
           const current = v.items.find((t) => t.id === previous?.id);
-          return previous && current?.version === previous.version && allowed.has(previous.id)
+          return previous && current?.version === previous.version &&
+            current.restore_before === previous.restore_before && allowed.has(previous.id)
             ? previous
             : undefined;
         });
@@ -135,11 +92,17 @@ export function Trash({
         }
       }
     },
-    [page, self.user.org_role, hasP04, onFailure, clearPrivate],
+    [page, onFailure, clearPrivate],
   );
   useEffect(() => {
     // Reject responses begun under an older authority snapshot.
     epoch.current++;
+    // Authority changed: a positive old snapshot must not keep a confirmation alive.
+    void Promise.resolve().then(() => {
+      setRestore(undefined);
+      setRestorable(new Set());
+      setData(undefined);
+    });
   }, [self.view_revision]);
   useEffect(() => {
     const controller = new AbortController();
@@ -179,9 +142,11 @@ export function Trash({
       setRestore(undefined);
       refresh();
     } catch (e) {
-      if (requestEpoch !== epoch.current) return;
+      // A denial always clears private state, even if a background read bumped the epoch.
+      const deniedNow = e instanceof ApiError && [401, 403, 404].includes(e.status);
+      if (requestEpoch !== epoch.current && !deniedNow) return;
       if (e instanceof ApiError) {
-        if ([401, 403, 404].includes(e.status)) clearPrivate();
+        if (deniedNow) clearPrivate();
         else {
           setRestore(undefined);
           if (
@@ -190,7 +155,9 @@ export function Trash({
           )
             refresh();
         }
-        setError(e);
+        setError(['PROJECT_ARCHIVED', 'TEAM_ARCHIVED'].includes(e.code ?? '')
+          ? new ApiError('unavailable', e.status)
+          : e);
         onFailure(e);
       }
     } finally {
@@ -243,6 +210,7 @@ export function Trash({
                   <button
                     key={t.id}
                     className="restore-action"
+                    title={t.can_restore === true ? undefined : 'Unavailable'}
                     disabled={
                       !online ||
                       pending ||
