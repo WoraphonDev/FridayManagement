@@ -71,7 +71,11 @@ test('Native help dialog traps focus, closes with Escape, returns focus; 200% te
     true,
   );
   await expect(page.getByRole('heading', { name: 'Welcome back' })).toBeVisible();
-  await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', '/favicon.svg');
+  await expect(page.locator('link[rel="icon"]').first()).toHaveAttribute('href', '/favicon.ico');
+  await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute(
+    'href',
+    '/apple-touch-icon.png',
+  );
 });
 test('Invalid Self and offline state never expose privileged navigation', async ({
   page,

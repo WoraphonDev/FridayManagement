@@ -18,6 +18,10 @@ export default defineConfig({
           'offline.html',
           'manifest.webmanifest',
           'favicon.svg',
+          'favicon.ico',
+          'favicon-16x16.png',
+          'favicon-32x32.png',
+          'apple-touch-icon.png',
           'icon-192.png',
           'icon-512.png',
         ])
