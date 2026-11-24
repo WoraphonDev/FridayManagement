@@ -56,7 +56,7 @@ git diff --check
 ```
 
 ## Questions
-Q-DEL-01, Q-DEL-02, Q-DEL-03, Q-DEL-04, Q-DEL-05, Q-DEL-06
+Q-DEL-01–06 **ANSWERED 2026-11-24** by owner Zo: 01 = B (acceptor needs effective project write, no Viewer), 02–06 = A (recommended). Exact text in `docs/product/delivery-rules.md`. Card can now be adopted; implementation not started.
 
 ## Evidence / Review
 NOT_RUN for future behavior. No fabricated PASS. Independent specification and code/security review required; do not mark done from document presence.
