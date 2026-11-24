@@ -12,7 +12,8 @@ const rewrite=v=>Array.isArray(v)?v.map(rewrite):v&&typeof v==='object'?Object.f
 ajv.addSchema({$id:bundle,$defs:rewrite(contract.components.schemas)});
 const validate=s=>ajv.compile({$ref:`urn:friday:directory-test#/$defs/${s}`});
 test('API1.16 scoped query marker and strict identity union',()=>{
- assert.equal(contract.info.version,'1.16.0');
+ // Directory shipped in 1.16.0; later minor releases must keep it.
+ assert.match(contract.info.version,/^1\.(1[6-9]|[2-9]\d)\.\d+$/);
  const op=contract.paths['/api/directory'].get;
  // Planning-approved directory-only marker; runtime recognition ships in the same candidate.
  assert.equal(op['x-permission'],'project_scoped_candidates_or_legacy_directory');

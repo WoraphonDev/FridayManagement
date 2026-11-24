@@ -116,7 +116,7 @@ export function taskViewAcceptance(
       const trash = await list(f, s, a, {}, true);
       assert.equal(trash.items[0]!.id, id);
       assert.equal(
-        (trash.items[0] as { restore_before: string }).restore_before,
+        (trash.items[0] as unknown as { restore_before: string }).restore_before,
         '2026-11-05T00:00:00.000Z',
       );
       const restored = await mutate(f, s, a, id, 2, true);
