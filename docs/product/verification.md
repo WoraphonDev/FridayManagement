@@ -25,6 +25,6 @@ Actual examples: `tests/browser/accounts.spec.ts(25,18)` TS2322 (`string | undef
 - Application runtime regression/build/lint/browser/provider migrations/PostgreSQL/Windows-native staging/UAT/deploy: NOT_RUN ใน docs-only task นี้ ไม่มี runtime feature implementation
 - New test filenames ใน cards เป็น planned acceptance artifacts ยังไม่มีผล RED/GREEN/PASS
 - Independent parent specification review: PENDING; ยังไม่ commit/push/open PR/merge
-- Q-DEL-01–11 เป็น pending policy details ที่ block cards ตาม rules ไม่ถือว่า owner อนุมัติ defaults แล้ว
+- Q-DEL-01–06 ANSWERED 2026-11-24 (01=B, 02–06=A ดู delivery-rules.md) · Q-DEL-07–11 ยังเป็น pending policy details ที่ block cards ตาม rules ไม่ถือว่า owner อนุมัติ defaults แล้ว
 
 Official register ตรวจจากแถวจริง: total 96, DONE 9, IN_PROGRESS 84, IN_REVIEW 1, TODO 2, remaining 87. New DEL-* cards 16 รายการยังไม่ถูกรวม. Protected AGENTS.md, source/tests/contracts/config/lockfiles และ worktrees อื่นไม่ถูกแก้; audit source `94282b6` ไม่ถูก merge/cherry-pick

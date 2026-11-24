@@ -40,12 +40,12 @@
 
 | Question | Business effect pending | Blocked card behavior |
 |---|---|---|
-| Q-DEL-01 | Lead/acceptor eligibility, Viewer acceptor, replace authority | Contract sign-off / project nominate / acceptance |
-| Q-DEL-02 | New-task post-revoke readiness, recurrence owner carry-forward | New-task readiness / recurrence changes |
-| Q-DEL-03 | Completion with open tasks / exception | Finite completion |
-| Q-DEL-04 | Reopen actor/effect, cancelled reopen | Lifecycle reopen |
-| Q-DEL-05 | Ongoing review cadence/authority/closure | Ongoing activation/review/completion |
-| Q-DEL-06 | Starting-plan payload and legacy adoption states | Baseline/adoption/activation |
+| Q-DEL-01 (ANSWERED 2026-11-24: B) | Lead/acceptor eligibility, Viewer acceptor, replace authority | Contract sign-off / project nominate / acceptance |
+| Q-DEL-02 (ANSWERED 2026-11-24: A) | New-task post-revoke readiness, recurrence owner carry-forward | New-task readiness / recurrence changes |
+| Q-DEL-03 (ANSWERED 2026-11-24: A) | Completion with open tasks / exception | Finite completion |
+| Q-DEL-04 (ANSWERED 2026-11-24: A) | Reopen actor/effect, cancelled reopen | Lifecycle reopen |
+| Q-DEL-05 (ANSWERED 2026-11-24: A) | Ongoing review cadence/authority/closure | Ongoing activation/review/completion |
+| Q-DEL-06 (ANSWERED 2026-11-24: A) | Starting-plan payload and legacy adoption states | Baseline/adoption/activation |
 | Q-DEL-07 | Health authority / stale interval | Health update/stale assessment |
 | Q-DEL-08 | Milestone accept/cancel/reopen authority | Milestone mutation |
 | Q-DEL-09 | Register triage / accepted-risk / resolve | Risk domain mutation |

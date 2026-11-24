@@ -44,7 +44,7 @@ Technical default ที่เข้มงวดเพื่อ review ไม่
 
 การเปลี่ยน acceptor ต้องระบุเหตุผล เก็บ previous/new/actor/time/version และไม่อนุมัติย้อนหลังแทนคนเก่า ปิดบัญชีหรือถอนสิทธิ์ไม่รอ replacement; acceptance หลัง revocation ต้องถูกปฏิเสธ แม้ client เก็บชื่อเดิมไว้ ประวัติการตรวจรับเก่ายังคงอยู่ ไม่ให้ผู้สูญเสียสิทธิ์เปิด evidence ผ่าน history ได้
 
-**PENDING Q-DEL-01:** owner/security owner รับรอง eligibility และ replacement matrix นี้ โดยเฉพาะ Viewer เป็น acceptor และ authority ของ P-01 manager. DEL-CONTRACT/DEL-PROJECT/DEL-LIFECYCLE ต้องไม่เปิดพฤติกรรมใหม่ก่อนข้อสรุป ไม่ขออนุมัติ D02/D03 ซ้ำ
+**ANSWERED Q-DEL-01 (2026-11-24, owner = B):** acceptor ต้องเป็น active user ที่มี effective project **write** (ไม่รวม Viewer) และถูกแต่งตั้งชื่อชัดเจน · ผู้แต่งตั้ง/เปลี่ยน = ผู้มี manage-metadata authority ตามแถวแรก · Admin ที่ไม่ใช่ named acceptor ไม่มี bypass · ข้อความเดิม (บันทึกไว้เพื่ออ้างอิง):  owner/security owner รับรอง eligibility และ replacement matrix นี้ โดยเฉพาะ Viewer เป็น acceptor และ authority ของ P-01 manager. DEL-CONTRACT/DEL-PROJECT/DEL-LIFECYCLE ต้องไม่เปิดพฤติกรรมใหม่ก่อนข้อสรุป ไม่ขออนุมัติ D02/D03 ซ้ำ
 
 ## 4. Proposed field contract C02
 
@@ -71,7 +71,7 @@ PATCH omission คงค่าเดิม; explicit null ล้าง optional 
 - ไม่เพิ่มสถานะ blocked; done ยังต้องผ่าน checklist/recurrence/version/idempotency เดิม
 - เสนอให้ทุก non-todo mutation ของงานใหม่ recheck owner eligibility หลัง revoke เพื่อไม่ข้าม readiness; งานเดิมเป็น advisory เท่านั้น การเปลี่ยน metadata ของงานเก่าไม่ทำให้กลายเป็นงานใหม่
 - migration ต้องระบุ legacy provenance อย่างคงที่ ไม่ใช้ heuristics จากวัน client และไม่เดา primary owner; successor ที่สร้างหลัง cutover เป็นงานใหม่ ควรเริ่ม todo/owner null หากคนเดิมหมดสิทธิ์ ไม่ auto-grant
-- **PENDING Q-DEL-02:** รับรอง post-revocation blocking ของงานใหม่และ recurrence owner carry-forward. ระหว่าง pending ต้องไม่เปลี่ยนการทำงาน legacy หรือสืบทอดคนโดยเดา
+- **ANSWERED Q-DEL-02 (2026-11-24, owner = A):** งานใหม่ที่ owner หมดสิทธิ์ ขยับออกจาก todo ไม่ได้จนตั้ง owner ใหม่ · recurrence successor เริ่ม todo + owner null · ข้อความเดิม:  รับรอง post-revocation blocking ของงานใหม่และ recurrence owner carry-forward. ระหว่าง pending ต้องไม่เปลี่ยนการทำงาน legacy หรือสืบทอดคนโดยเดา
 
 ## 6. Lifecycle / acceptance / ongoing — PROPOSED C04
 
@@ -88,11 +88,11 @@ Lifecycle labels ที่เสนอ: Draft, Planning, Active, On hold, Comple
 | Completed → Active | เสนอ metadata authority + reason + ready lead/acceptor; เก็บ acceptance เดิมเป็น historical และ current acceptance ไม่ใช่ active sign-off; ต้องตรวจรับใหม่เพื่อ complete รอบใหม่ |
 | Cancelled → Active | ไม่เปิดในรุ่นแรกจนมีคำตอบธุรกิจ; ห้ามลบ cancellation history |
 
-**PENDING Q-DEL-03:** การ complete ทั้งที่มี open tasks: default เสนอ block (ไม่ auto-close/move/drop task) แต่ธุรกิจอาจต้องการ explicit exception ต้องเลือกก่อนเปิด completion.
+**ANSWERED Q-DEL-03 (2026-11-24, owner = A):** block completion ถ้ายังมี non-deleted open tasks ไม่มี exception ในรุ่นแรก · ข้อความเดิม:  การ complete ทั้งที่มี open tasks: default เสนอ block (ไม่ auto-close/move/drop task) แต่ธุรกิจอาจต้องการ explicit exception ต้องเลือกก่อนเปิด completion.
 
-**PENDING Q-DEL-04:** ใคร reopen และ acceptance เก่ามีผลอย่างไร รวม cancelled reopen; default ข้างบนไม่ใช่สิ่งที่ owner อนุมัติแล้ว
+**ANSWERED Q-DEL-04 (2026-11-24, owner = A):** Completed → Active โดย metadata authority + reason; acceptance เดิมเป็น historical ต้องตรวจรับใหม่ · Cancelled → Active ไม่เปิดในรุ่นแรก · ข้อความเดิม:  ใคร reopen และ acceptance เก่ามีผลอย่างไร รวม cancelled reopen; default ข้างบนไม่ใช่สิ่งที่ owner อนุมัติแล้ว
 
-**PENDING Q-DEL-05:** ongoing review cadence, reviewer, missed review และ closure. เสนอ lead บันทึกผลทบทวน + next review_date > วันที่ทบทวน พร้อม history; overdue review เป็น attention ไม่ auto-complete ไม่สร้าง finite target. ยังไม่เปิด ongoing Completed จนกำหนด closure/acceptance policy. ห้ามใช้ finite rule บังคับ ongoing หรืออนุมานว่า ongoing ห้ามปิดตลอดไป
+**ANSWERED Q-DEL-05 (2026-11-24, owner = A):** lead บันทึกผลทบทวน + next review_date ที่เลือกเองทุกครั้ง · overdue = attention ไม่ auto-complete · ยังไม่เปิด ongoing Completed ในรุ่นแรก · ข้อความเดิม:  ongoing review cadence, reviewer, missed review และ closure. เสนอ lead บันทึกผลทบทวน + next review_date > วันที่ทบทวน พร้อม history; overdue review เป็น attention ไม่ auto-complete ไม่สร้าง finite target. ยังไม่เปิด ongoing Completed จนกำหนด closure/acceptance policy. ห้ามใช้ finite rule บังคับ ongoing หรืออนุมานว่า ongoing ห้ามปิดตลอดไป
 
 Archive/unarchive ใช้ authority เดิม แยกจาก lifecycle และไม่เพิ่ม completion prerequisite; archived เป็น read-only ตาม server เดิม ต้อง unarchive ก่อน mutation ใหม่ ไม่มี migration ปิดงานให้เอง
 
@@ -104,7 +104,7 @@ Archive/unarchive ใช้ authority เดิม แยกจาก lifecycle 
 - Snapshot ไม่แก้ตาม current plan หรือ reopen การแก้ health ไม่แก้ commitment และไม่ reset baseline; ห้าม endpoint update/delete snapshot ทั่วไป
 - Legacy adoption เป็น explicit action โดย metadata authority: เลือก mode/lifecycle/lead/acceptor/dates จากผู้ใช้ ไม่อนุมานจาก task counts หรือ archive; เสนอ initial adoption ได้ Draft/Planning/Active เท่านั้น ไม่ประกาศ historical Completed
 - หาก adopt เป็น Active ให้ snapshot_kind=adoption และ captured_at จริง ไม่แอบใส่วันเริ่มในอดีตเป็นเวลา capture; แสดงว่าไม่มี original activation baseline ส่วนงานเก่ายัง advisory
-- **PENDING Q-DEL-06:** รับรอง payload boundary, initial adoption states และการเก็บ current commitment เมื่อ adopt Active. DEL-BASELINE/DEL-PROJECT ต้อง block ส่วน adoption/activation จนตกลง; การเก็บ nullable metadata ไม่ควรต้อง invent historical plan
+- **ANSWERED Q-DEL-06 (2026-11-24, owner = A):** legacy คง null + unreviewed · adopt ทีละ project โดย metadata authority · adopt เป็น Active เก็บ snapshot_kind=adoption ณ เวลาที่ adopt จริง ไม่ย้อนแต่งแผน · ข้อความเดิม:  รับรอง payload boundary, initial adoption states และการเก็บ current commitment เมื่อ adopt Active. DEL-BASELINE/DEL-PROJECT ต้อง block ส่วน adoption/activation จนตกลง; การเก็บ nullable metadata ไม่ควรต้อง invent historical plan
 
 ## 8. Health — PROPOSED C06
 
