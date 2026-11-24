@@ -43,7 +43,9 @@ export function AdminCenter(props: Props) {
   const externalFailure = props.onFailure;
   const reportFailure = useCallback(
     (error: ApiError) => {
-      if ([401, 403, 404].includes(error.status)) setDenial(error);
+      // A wrong step-up admin password (401 INVALID_CREDENTIALS) is a form error, not lost access.
+      if ([401, 403, 404].includes(error.status) && error.code !== 'INVALID_CREDENTIALS')
+        setDenial(error);
       externalFailure(error);
     },
     [externalFailure],
