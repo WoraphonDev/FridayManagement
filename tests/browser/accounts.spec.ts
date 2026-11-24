@@ -162,6 +162,9 @@ test('owner team/member details: atomic initial members, contact/team persistenc
     expect(await dialog.evaluate((node) => node.scrollWidth <= node.clientWidth)).toBe(true);
     await page.screenshot({ path: 'reports/UI-team-details-mobile.png', animations: 'disabled' });
     await dialog.getByRole('button', { name: 'Close dialog' }).click();
+    // DEL-UX2: dirty close asks Stay/Discard; this unsaved team draft is explicitly discarded.
+    await page.getByRole('button', { name: 'Discard draft', exact: true }).click();
+    await expect(page.getByRole('dialog')).toHaveCount(0);
     await page.getByRole('tab', { name: 'Members', exact: true }).click();
     await page.getByRole('button', { name: 'Edit DetailsMember', exact: true }).click();
     dialog = page.getByRole('dialog');
